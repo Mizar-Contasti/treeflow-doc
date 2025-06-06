@@ -1,0 +1,35 @@
+/**
+ * Any CSS included here will be global. The classic template
+ * bundles Infima by default. Infima is a CSS framework designed to
+ * work well for content-centric websites.
+ */
+
+/* You can override the default Infima variables here. */
+:root {
+  --ifm-color-primary: #E4572E;         /* Primary main from TreeFlow */
+  --ifm-color-primary-dark: #D14420;    /* Darker version of primary */
+  --ifm-color-primary-darker: #C33D1B;  /* Even darker */
+  --ifm-color-primary-darkest: #A33316; /* Darkest version */
+  --ifm-color-primary-light: #E76A45;   /* Lighter version of primary */
+  --ifm-color-primary-lighter: #EA7D5C; /* Even lighter */
+  --ifm-color-primary-lightest: #EF9073; /* Lightest version */
+  --ifm-code-font-size: 95%;
+  --docusaurus-highlighted-code-line-bg: rgba(76, 47, 11, 0.1); /* Based on text primary */
+}
+
+/* For readability concerns, you should choose a lighter palette in dark mode. */
+[data-theme='dark'] {
+  --ifm-color-primary: #F78F1E;         /* Using primary light from TreeFlow as primary */
+  --ifm-color-primary-dark: #EC7F0E;    /* Darker version */
+  --ifm-color-primary-darker: #DE780D;  /* Even darker */
+  --ifm-color-primary-darkest: #B6630B; /* Darkest version */
+  --ifm-color-primary-light: #F89C39;   /* Lighter version */
+  --ifm-color-primary-lighter: #F9A954; /* Even lighter */
+  --ifm-color-primary-lightest: #FABC7F; /* Lightest version */
+  --docusaurus-highlighted-code-line-bg: rgba(246, 243, 236, 0.2); /* Based on background */
+  
+  /* Additional dark mode colors */
+  --ifm-background-color: #0a0a0a;      /* Dark brown background */
+  --ifm-background-surface-color: #100f0e; /* Slightly lighter for surfaces */
+  --ifm-text-color: #F6F3EC;            /* Light text color based on light mode background */
+}
