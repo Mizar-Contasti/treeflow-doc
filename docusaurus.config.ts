@@ -89,12 +89,12 @@ const config: Config = {
           title: 'Documentación',
           items: [
             {
-              label: 'App',
-              to: '/docs/app',
+              label: 'Introducción',
+              to: '/docs/intro',
             },
             {
-              label: 'Webhooks',
-              to: '/docs/webhooks',
+              label: 'Fundamentos',
+              to: '/docs/category/fundamentos',
             },
           ],
         },
