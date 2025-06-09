@@ -4,7 +4,7 @@ sidebar_position: 1
 
 # Webhooks y Integraciones
 
-Los **Webhooks** en Treeflow permiten conectar tu Tree (árbol) con servicios externos, ampliando significativamente las capacidades de tu chatbot determinista.
+Los **Webhooks** en TreeFlow permiten conectar tu Árbol con servicios externos, ampliando significativamente las capacidades de tu chatbot determinista.
 
 ## ¿Qué son los Webhooks?
 
@@ -25,7 +25,7 @@ Para habilitar un webhook en una Branch:
 2. Activa la opción "Usar Webhook"
 3. Guarda la Branch
 
-Cuando esta Branch se active durante una conversación, Treeflow enviará automáticamente una solicitud al endpoint configurado.
+Cuando esta Rama se active durante una conversación, TreeFlow enviará automáticamente una solicitud al endpoint configurado.
 
 ### Configuración del Endpoint
 
@@ -38,7 +38,7 @@ El endpoint del webhook debe ser configurado a nivel de Tree:
 
 ## Estructura de la Solicitud
 
-Cuando se activa un webhook, Treeflow envía una solicitud POST con el siguiente formato:
+Cuando se activa un webhook, TreeFlow envía una solicitud POST con el siguiente formato:
 
 ```json
 {
@@ -129,7 +129,7 @@ Para mantener tus integraciones seguras:
 1. **Autenticación**: Utiliza tokens de autenticación en las cabeceras HTTP
 2. **HTTPS**: Asegúrate de que todas las URLs de webhook utilicen HTTPS
 3. **Validación**: Verifica la integridad y origen de las solicitudes
-4. **Limitación de Acceso**: Restringe el acceso a tu endpoint solo a las IPs de Treeflow
+4. **Limitación de Acceso**: Restringe el acceso a tu endpoint solo a las IPs de TreeFlow
 
 ## Mejores Prácticas
 
@@ -145,7 +145,7 @@ Para desarrollo y pruebas, puedes utilizar servicios como Ngrok o Webhook.site p
 
 ## Ejemplo de Integración: Consulta de Productos
 
-### 1. Branch en Treeflow
+### 1. Rama en TreeFlow
 
 Configura una Branch "consultar_producto" con:
 - Patrones como "¿Tienen {'['}producto{']'} disponible?" o "Buscar {'['}producto{']'}"

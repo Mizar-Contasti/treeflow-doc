@@ -1,18 +1,20 @@
 ---
-sidebar_position: 0
+sidebar_position: 2
 ---
 
-# Primeros Pasos con Treeflow
+import AppUrl from '@site/src/components/AppUrl';
 
-Bienvenido a Treeflow, la plataforma para desarrollar chatbots deterministas potenciados por modelos generativos. Esta guía te ayudará a dar tus primeros pasos para crear tu primer Tree (árbol) conversacional.
+# Primeros Pasos con TreeFlow
 
-## ¿Qué es Treeflow?
+Bienvenido a TreeFlow, la plataforma para desarrollar chatbots deterministas potenciados por modelos generativos. Esta guía te ayudará a dar tus primeros pasos para crear tu primer Árbol conversacional.
 
-Treeflow es una WebApp para desarrollar chatbots deterministas enfocados en la efectividad a bajo costo. Combina el control preciso de los sistemas deterministas con la flexibilidad de los modelos generativos, permitiéndote aprovechar las ventajas de ambos mundos.
+## ¿Qué es TreeFlow?
+
+TreeFlow es una WebApp para desarrollar chatbots deterministas enfocados en la efectividad a bajo costo. Combina el control preciso de los sistemas deterministas con la flexibilidad de los modelos generativos, permitiéndote aprovechar las ventajas de ambos mundos.
 
 ### Conceptos Clave
 
-Antes de comenzar, es importante familiarizarse con la terminología específica de Treeflow:
+Antes de comenzar, es importante familiarizarse con la terminología específica de TreeFlow:
 
 - **Trees (Árboles)**: Son los chatbots completos, equivalentes a los "bots" en otras plataformas
 - **Branches (Ramas)**: Son las intenciones o patrones de conversación que tu Tree puede reconocer
@@ -20,16 +22,16 @@ Antes de comenzar, es importante familiarizarse con la terminología específica
 
 ## Requisitos Previos
 
-Para comenzar a utilizar Treeflow, necesitarás:
+Para comenzar a utilizar TreeFlow, necesitarás:
 
 - Navegador web moderno (Chrome, Firefox, Edge o Safari)
 - Conocimientos básicos sobre chatbots y flujos conversacionales
 
 ## Acceso a la Plataforma
 
-Ten en cuenta que Treeflow actualmente se encuentra en **fase beta**.
+Ten en cuenta que TreeFlow actualmente se encuentra en **fase beta**.
 
-- **Dominio**: [tf.botsmexico.com](https://tf.botsmexico.com)
+- **Dominio**: <AppUrl>Acceder a la plataforma</AppUrl>
 - **Cuenta predeterminada**: 
   - Usuario: `admin`
   - Contraseña: `admin`
@@ -38,34 +40,34 @@ Con esta cuenta podrás acceder y probar todas las características disponibles 
 
 ## Iniciar Sesión
 
-1. Accede a la plataforma Treeflow en [tf.botsmexico.com](https://tf.botsmexico.com) utilizando tu navegador
+1. Accede a la plataforma TreeFlow en [https://<AppUrl />](https://<AppUrl />) utilizando tu navegador
 2. Ingresa las credenciales predeterminadas (usuario: `admin`, contraseña: `admin`)
 3. Haz clic en "Iniciar Sesión"
 
-Una vez dentro, verás el dashboard principal con tus Trees existentes o la opción para crear uno nuevo.
+Una vez dentro, verás el dashboard principal con tus Árboles existentes o la opción para crear uno nuevo.
 
-## Crear tu Primer Tree
+## Crear tu Primer Árbol
 
-### Paso 1: Crear un Nuevo Tree
+### Paso 1: Crear un Nuevo Árbol
 
-1. En la página principal, haz clic en el botón "Nuevo Tree"
-2. Proporciona un nombre descriptivo para tu Tree (ej. "Asistente de Reservas")
-3. Opcionalmente, añade una descripción que explique el propósito del Tree
-4. Haz clic en "Crear" para generar tu nuevo Tree
+1. En la página principal, haz clic en el botón "Nuevo Árbol"
+2. Proporciona un nombre descriptivo para tu Árbol (ej. "Asistente de Reservas")
+3. Opcionalmente, añade una descripción que explique el propósito del Árbol
+4. Haz clic en "Crear" para generar tu nuevo Árbol
 
 ### Paso 2: Configurar las Propiedades Básicas
 
-1. En la página de configuración del Tree, establece:
-   - **Propósito**: Define claramente el objetivo de tu Tree
+1. En la página de configuración del Árbol, establece:
+   - **Propósito**: Define claramente el objetivo de tu Árbol
    - **Umbral de confianza ML**: Recomendamos comenzar con 0.7
    - **Umbral de confianza Fuzzy**: Recomendamos comenzar con 0.6
 
 2. Guarda los cambios
 
-### Paso 3: Crear tus Primeras Branches
+### Paso 3: Crear tus Primeras Ramas
 
-1. Navega a la sección "Branches" (Ramas)
-2. Haz clic en "Nueva Branch"
+1. Navega a la sección "Ramas"
+2. Haz clic en "Nueva Rama"
 3. Selecciona "Conversacional" como tipo
 4. Proporciona un nombre descriptivo (ej. "Saludo")
 5. Añade patrones de ejemplo:
@@ -75,11 +77,11 @@ Una vez dentro, verás el dashboard principal con tus Trees existentes o la opci
 6. Añade respuestas:
    - "¡Hola! ¿En qué puedo ayudarte hoy?"
    - "¡Bienvenido! Estoy aquí para asistirte."
-7. Guarda la Branch
+7. Guarda la Rama
 
-### Paso 4: Crear una Branch con Parámetros
+### Paso 4: Crear una Rama con Parámetros
 
-1. Crea una nueva Branch llamada "Consulta_Producto"
+1. Crea una nueva Rama llamada "Consulta_Producto"
 2. Añade patrones como:
    - "Quiero información sobre @producto"
    - "Háblame de @producto"
@@ -89,12 +91,12 @@ Una vez dentro, verás el dashboard principal con tus Trees existentes o la opci
    - **Prompt**: "¿Sobre qué producto necesitas información?"
 4. Añade respuestas:
    - "Aquí tienes información sobre {'{'}producto{'}'}..."
-5. Guarda la Branch
+5. Guarda la Rama
 
-### Paso 5: Crear tu Primera Leaf
+### Paso 5: Crear tu Primera Hoja
 
-1. Navega a la sección "Leaves" (Hojas)
-2. Haz clic en "Nueva Leaf"
+1. Navega a la sección "Hojas"
+2. Haz clic en "Nueva Hoja"
 3. Selecciona "Simple" como tipo
 4. Proporciona un nombre (ej. "producto")
 5. Añade valores y sinónimos:
@@ -102,12 +104,12 @@ Una vez dentro, verás el dashboard principal con tus Trees existentes o la opci
      - Sinónimos: "portátil", "notebook", "computadora portátil"
    - Valor: "smartphone"
      - Sinónimos: "celular", "teléfono", "móvil"
-6. Guarda la Leaf
+6. Guarda la Hoja
 
-### Paso 6: Probar tu Tree
+### Paso 6: Probar tu Árbol
 
 1. Navega a la sección "Conversaciones"
-2. Utiliza el panel de chat para interactuar con tu Tree
+2. Utiliza el panel de chat para interactuar con tu Árbol
 3. Prueba diferentes entradas:
    - "Hola"
    - "Quiero información sobre laptops"
@@ -115,52 +117,52 @@ Una vez dentro, verás el dashboard principal con tus Trees existentes o la opci
 
 ## Flujo de Trabajo Recomendado
 
-Para desarrollar Trees efectivos, recomendamos seguir este flujo de trabajo:
+Para desarrollar Árboles efectivos, recomendamos seguir este flujo de trabajo:
 
 1. **Planificación**:
-   - Define claramente el propósito del Tree
+   - Define claramente el propósito del Árbol
    - Identifica los principales flujos de conversación
    - Determina qué información necesitas extraer
 
 2. **Estructura Básica**:
-   - Crea las Branches principales
+   - Crea las Ramas principales
    - Configura las respuestas básicas
    - Establece los flujos de conversación con contextos
 
 3. **Enriquecimiento**:
-   - Añade más patrones a tus Branches
-   - Crea Leaves para extraer información
+   - Añade más patrones a tus Ramas
+   - Crea Hojas para extraer información
    - Implementa respuestas más detalladas
 
 4. **Pruebas y Refinamiento**:
-   - Prueba exhaustivamente tu Tree
+   - Prueba exhaustivamente tu Árbol
    - Identifica y corrige problemas
    - Añade más variaciones y mejoras
 
 5. **Implementación**:
-   - Integra tu Tree con los canales deseados
+   - Integra tu Árbol con los canales deseados
    - Monitorea el rendimiento
    - Realiza mejoras continuas
 
 ## Mejores Prácticas para Principiantes
 
-1. **Comienza Simple**: Crea un Tree con pocas Branches y ve expandiéndolo gradualmente
+1. **Comienza Simple**: Crea un Árbol con pocas Ramas y ve expandíéndolo gradualmente
 2. **Patrones Diversos**: Incluye múltiples formas en que los usuarios podrían expresar la misma intención
-3. **Prueba Regularmente**: Verifica que tu Tree responde correctamente en diferentes escenarios
+3. **Prueba Regularmente**: Verifica que tu Árbol responde correctamente en diferentes escenarios
 4. **Contextos Claros**: Utiliza contextos para guiar el flujo de la conversación
 5. **Respuestas Naturales**: Proporciona múltiples variaciones de respuestas para hacer la conversación más natural
 
 ## Siguientes Pasos
 
-Una vez que hayas creado tu primer Tree básico, puedes avanzar a características más avanzadas:
+Una vez que hayas creado tu primer Árbol básico, puedes avanzar a características más avanzadas:
 
-- [Contextos y flujos de conversación](./Contexts)
-- [Eventos y automatización](./Events)
-- [Pruebas y depuración](./Testing)
-- [Webhooks e integraciones](../Advanced/Webhooks)
-- [Integración con modelos generativos](../Advanced/GenerativeIntegration)
+- [Contextos y flujos de conversación](./Funciones)
+- [Eventos y automatización](./Eventos)
+- [Pruebas y depuración](./Testeo)
+- [Webhooks e integraciones](../Avanzado/Webhooks)
+- [Integración con modelos generativos](../Avanzado/IntegracionGenerativa)
 
-¡Felicidades! Has dado tus primeros pasos con Treeflow. A medida que te familiarices con la plataforma, podrás crear experiencias conversacionales cada vez más sofisticadas y efectivas.
+¡Felicidades! Has dado tus primeros pasos con TreeFlow. A medida que te familiarices con la plataforma, podrás crear experiencias conversacionales cada vez más sofisticadas y efectivas.
 
 :::tip Consejo
 Recuerda que la clave para un buen chatbot es entender las necesidades de tus usuarios y diseñar flujos de conversación que les permitan alcanzar sus objetivos de manera eficiente y natural.

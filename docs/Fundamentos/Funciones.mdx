@@ -2,151 +2,197 @@
 sidebar_position: 4
 ---
 
-# Markdown Features
+# Funciones de TreeFlow
 
-Docusaurus supports **[Markdown](https://daringfireball.net/projects/markdown/syntax)** and a few **additional features**.
+TreeFlow ofrece una variedad de funciones diseñadas para crear experiencias conversacionales efectivas y fáciles de mantener. Esta guía explora las principales funcionalidades disponibles en la plataforma.
 
-## Front Matter
+## Funciones Principales
 
-Markdown documents have metadata at the top called [Front Matter](https://jekyllrb.com/docs/front-matter/):
+### Gestión de Árboles
 
-```text title="my-doc.md"
-// highlight-start
----
-id: my-doc-id
-title: My document title
-description: My document description
-slug: /my-custom-url
----
-// highlight-end
+- **Creación y edición**: Interfaz intuitiva para crear y modificar Árboles
+- **Versionado**: Sistema de control de versiones para mantener un historial de cambios
+- **Exportación e importación**: Herramientas para compartir y respaldar tus Árboles
+- **Entornos**: Separación entre desarrollo, pruebas y producción
 
-## Markdown heading
+### Diseño Conversacional
 
-Markdown text with [links](./hello.md)
-```
+- **Editor de Ramas**: Herramientas visuales para crear patrones de conversación
+- **Gestión de Hojas**: Extracción de entidades y validación de datos
+- **Contextos**: Control del estado y flujo de la conversación
+- **Eventos**: Acciones basadas en eventos del sistema o del usuario
 
-## Links
+### Integraciones
 
-Regular Markdown links are supported, using url paths or relative file paths.
+- **Webhooks**: Conexión con servicios externos y APIs
+- **Canales de mensajería**: Integración con WhatsApp, Telegram, Facebook Messenger, etc.
+- **API REST**: Acceso programático a todas las funcionalidades
+- **Widgets web**: Componentes para integrar en sitios web
 
-```md
-Let's see how to .
-```
+### Análisis y Mejora
 
-```md
-Let's see how to .
-```
+- **Estadísticas de uso**: Métricas sobre conversaciones y usuarios
+- **Análisis de conversaciones**: Herramientas para identificar patrones y problemas
+- **Pruebas A/B**: Comparación de diferentes enfoques conversacionales
+- **Recomendaciones de mejora**: Sugerencias basadas en el análisis de datos
 
-**Result:** Let's see how to .
+## Funciones Avanzadas
 
-## Images
+### Procesamiento de Lenguaje Natural
 
-Regular Markdown images are supported.
+- **Reconocimiento de intenciones**: Identificación precisa de lo que el usuario quiere
+- **Extracción de entidades**: Reconocimiento de información relevante en los mensajes
+- **Análisis de sentimiento**: Detección de emociones y tono en los mensajes
+- **Resolución de referencias**: Manejo de pronombres y referencias anafóricas
 
-You can use absolute paths to reference images in the static directory (`static/img/docusaurus.png`):
+### Integración con IA Generativa
 
-```md
-![Docusaurus logo](/img/docusaurus.png)
-```
+- **Respuestas generativas**: Uso de modelos de lenguaje para crear respuestas naturales
+- **Generación controlada**: Combinación de determinismo y flexibilidad
+- **Personalización de respuestas**: Adaptación basada en el contexto y preferencias
+- **Fallbacks inteligentes**: Respuestas generativas cuando no hay coincidencia exacta
 
-![Docusaurus logo](/img/docusaurus.png)
+### Seguridad y Privacidad
 
-You can reference images relative to the current file as well. This is particularly useful to colocate images close to the Markdown files using them:
+- **Control de acceso**: Gestión de roles y permisos
+- **Encriptación**: Protección de datos sensibles
+- **Cumplimiento normativo**: Herramientas para cumplir con GDPR, CCPA, etc.
+- **Auditoría**: Registro de cambios y acciones para fines de seguridad
 
-```md
-![Docusaurus logo](./img/docusaurus.png)
-```
+## Herramientas de Desarrollo
 
-## Code Blocks
+### Entorno de Desarrollo
 
-Markdown code blocks are supported with Syntax highlighting.
+- **Editor visual**: Interfaz gráfica para diseñar conversaciones
+- **Modo código**: Acceso directo a la configuración JSON/YAML
+- **Depuración**: Herramientas para identificar y solucionar problemas
+- **Simulador de conversaciones**: Prueba de flujos conversacionales
 
-````md
-```jsx title="src/components/HelloDocusaurus.js"
-function HelloDocusaurus() {
-  return <h1>Hello, Docusaurus!</h1>;
+### Colaboración
+
+- **Control de versiones**: Historial de cambios con posibilidad de revertir
+- **Trabajo en equipo**: Edición colaborativa de Árboles
+- **Comentarios**: Anotaciones para mejorar la comunicación del equipo
+- **Entornos separados**: Desarrollo, pruebas y producción
+
+## Características Principales
+
+### Determinismo y Control
+
+TreeFlow te permite mantener control total sobre las conversaciones mientras aprovechas la flexibilidad de la IA:
+
+- **Flujos predecibles**: Define exactamente cómo debe comportarse tu chatbot
+- **Sin sorpresas**: Evita respuestas inesperadas o inapropiadas
+- **Validación de datos**: Asegura que la información recopilada cumpla con tus requisitos
+- **Lógica de negocio**: Implementa reglas específicas para tu caso de uso
+
+### Escalabilidad
+
+Diseñado para crecer con tu negocio:
+
+- **Alto rendimiento**: Maneja miles de conversaciones simultáneas
+- **Arquitectura distribuida**: Escala horizontalmente según la demanda
+- **Baja latencia**: Respuestas rápidas para una mejor experiencia de usuario
+- **Alta disponibilidad**: Diseño redundante para minimizar el tiempo de inactividad
+
+## Integración con Sistemas Existentes
+
+TreeFlow se integra fácilmente con tu infraestructura actual:
+
+### Conectores Nativos
+
+Conexiones predefinidas con plataformas populares:
+
+```json title="Ejemplo de configuración de conector"
+{
+  "connector_type": "crm",
+  "platform": "salesforce",
+  "authentication": {
+    "type": "oauth2",
+    "client_id": "YOUR_CLIENT_ID"
+  },
+  "sync_options": {
+    "contacts": true,
+    "opportunities": true
+  }
 }
 ```
-````
 
-```jsx title="src/components/HelloDocusaurus.js"
-function HelloDocusaurus() {
-  return <h1>Hello, Docusaurus!</h1>;
-}
-```
+### API Abierta
 
-## Admonitions
+Acceso completo a todas las funcionalidades mediante una API RESTful:
 
-Docusaurus has a special syntax to create admonitions and callouts:
+- **Gestión de Árboles**: Crear, modificar y eliminar Árboles programáticamente
+- **Gestión de conversaciones**: Enviar y recibir mensajes, gestionar sesiones
+- **Análisis de datos**: Acceder a estadísticas y reportes
+- **Administración**: Gestionar usuarios, roles y configuraciones
 
-```md
-:::tip My tip
+## Casos de Uso
 
-Use this awesome feature option
-
+:::tip Recomendación
+TreeFlow es especialmente efectivo para casos de uso donde se requiere un balance entre conversaciones estructuradas y flexibilidad.
 :::
 
-:::danger Take care
+### Atención al Cliente
 
-This action is dangerous
+- **Resolución de problemas comunes**: Guías paso a paso para solucionar problemas
+- **Gestión de tickets**: Creación y seguimiento de tickets de soporte
+- **Transferencia a agentes**: Derivación inteligente a agentes humanos cuando sea necesario
 
+### Ventas y Marketing
+
+- **Calificación de leads**: Identificación de prospectos con mayor potencial
+- **Recomendaciones de productos**: Sugerencias personalizadas basadas en preferencias
+- **Reservas y citas**: Programación de demostraciones o reuniones
+
+### Procesos Internos
+
+- **Recursos humanos**: Respuesta a preguntas frecuentes de empleados
+- **Onboarding**: Guías interactivas para nuevos empleados
+- **Acceso a información**: Búsqueda inteligente en documentación interna
+
+## Ventajas Competitivas
+
+:::info Diferenciadores
+TreeFlow combina lo mejor del enfoque determinista y generativo, ofreciendo un control preciso con la flexibilidad de la IA moderna.
 :::
-```
 
-:::tip My tip
+### Control y Flexibilidad
 
-Use this awesome feature option
+A diferencia de otras plataformas que te obligan a elegir entre determinismo o generatividad, TreeFlow te permite:
 
+- **Combinar ambos enfoques**: Usa Ramas deterministas para flujos críticos y generatividad para conversaciones naturales
+- **Transiciones fluidas**: Cambia entre modos determinista y generativo de forma transparente
+- **Control granular**: Define exactamente dónde y cómo se utiliza cada enfoque
+
+### Facilidad de Uso
+
+Diseñado para ser accesible tanto para desarrolladores como para usuarios no técnicos:
+
+- **Interfaz visual intuitiva**: Diseña conversaciones sin necesidad de programar
+- **Plantillas predefinidas**: Comienza rápidamente con flujos conversacionales comunes
+- **Documentación completa**: Guías detalladas y ejemplos para todos los niveles de experiencia
+
+## Conclusión
+
+TreeFlow ofrece un conjunto completo de funciones para crear experiencias conversacionales efectivas, combinando:
+
+1. **Control determinista**: Para flujos críticos y extracción precisa de datos
+2. **Flexibilidad generativa**: Para conversaciones naturales y manejo de casos inesperados
+3. **Integración sencilla**: Con sistemas existentes y canales de comunicación
+4. **Escalabilidad empresarial**: Para crecer con las necesidades de tu negocio
+
+Explora las secciones específicas de la documentación para aprender más sobre cada funcionalidad y cómo implementarla en tus proyectos.
+
+:::tip Próximos pasos
+Revisa las secciones de [Ramas](/docs/Fundamentos/Ramas) y [Hojas](/docs/Fundamentos/Hojas) para aprender a implementar estas funcionalidades en tus Árboles.
 :::
 
-:::danger Take care
+## Recursos Adicionales
 
-This action is dangerous
+import AppUrl from '@site/src/components/AppUrl';
 
-:::
+- **Documentación API**: Disponible en <AppUrl />
+- **Centro de Ayuda**: <AppUrl>Centro de Soporte</AppUrl>
+- **Comunidad de Desarrolladores**: <AppUrl>Foro de Desarrolladores</AppUrl>
 
-## MDX and React Components
-
-[MDX](https://mdxjs.com/) can make your documentation more **interactive** and allows using any **React components inside Markdown**:
-
-```jsx
-export const Highlight = ({children, color}) => (
-  <span
-    style={{
-      backgroundColor: color,
-      borderRadius: '20px',
-      color: '#fff',
-      padding: '10px',
-      cursor: 'pointer',
-    }}
-    onClick={() => {
-      alert(`You clicked the color ${color} with label ${children}`)
-    }}>
-    {children}
-  </span>
-);
-
-This is <Highlight color="#25c2a0">Docusaurus green</Highlight> !
-
-This is <Highlight color="#1877F2">Facebook blue</Highlight> !
-```
-
-export const Highlight = ({children, color}) => (
-  <span
-    style={{
-      backgroundColor: color,
-      borderRadius: '20px',
-      color: '#fff',
-      padding: '10px',
-      cursor: 'pointer',
-    }}
-    onClick={() => {
-      alert(`You clicked the color ${color} with label ${children}`);
-    }}>
-    {children}
-  </span>
-);
-
-This is <Highlight color="#25c2a0">Docusaurus green</Highlight> !
-
-This is <Highlight color="#1877F2">Facebook blue</Highlight> !

@@ -2,13 +2,16 @@
 sidebar_position: 1
 ---
 
-# Terminología de TreeFlow
+# Terminología
+
+import BrowserOnly from '@docusaurus/BrowserOnly';
+import React from 'react';
 
 En TreeFlow utilizamos una terminología específica basada en la metáfora de un árbol para representar los diferentes componentes de nuestro sistema conversacional. Esta guía te ayudará a entender los conceptos fundamentales y cómo se relacionan entre sí.
 
 ## Conceptos Principales
 
-### 🌳 Árboles (Trees)
+### 🌳 Árboles
 
 Un **Árbol** en TreeFlow representa un chatbot o agente conversacional completo. Cada Árbol contiene todas las configuraciones, intenciones, entidades y lógica necesarias para mantener conversaciones con los usuarios.
 
@@ -18,7 +21,7 @@ Un **Árbol** en TreeFlow representa un chatbot o agente conversacional completo
 - Propósito y descripción
 - Colección de Ramas y Hojas
 
-### 🌿 Ramas (Branches)
+### 🌿 Ramas
 
 Las **Ramas** representan las intenciones o propósitos que un usuario puede tener al interactuar con tu Árbol. Cada Rama contiene patrones de reconocimiento, respuestas, y lógica para manejar una intención específica.
 
@@ -33,7 +36,7 @@ Las **Ramas** representan las intenciones o propósitos que un usuario puede ten
 - Contextos de entrada/salida
 - Eventos
 
-### 🍃 Hojas (Leaves)
+### 🍃 Hojas
 
 Las **Hojas** son entidades o variables que tu Árbol puede extraer de los mensajes del usuario. Representan información específica que puede ser utilizada para personalizar respuestas o tomar decisiones.
 
@@ -47,20 +50,150 @@ Las **Hojas** son entidades o variables que tu Árbol puede extraer de los mensa
 
 La estructura jerárquica de TreeFlow sigue una lógica natural:
 
+<BrowserOnly>
+{() => {
+  const ImageSwitcher = () => {
+    const [currentImage, setCurrentImage] = React.useState('jerarquia');
+    
+    return (
+      <div style={{ textAlign: 'center', marginBottom: '2rem' }}>
+        <div style={{ marginBottom: '1rem' }}>
+          <button 
+            onClick={() => setCurrentImage('jerarquia')} 
+            style={{ 
+              backgroundColor: currentImage === 'jerarquia' ? '#4CAF50' : '#f0f0f0',
+              color: currentImage === 'jerarquia' ? 'white' : 'black',
+              border: 'none',
+              padding: '8px 16px',
+              margin: '0 5px',
+              borderRadius: '4px',
+              cursor: 'pointer'
+            }}
+          >
+            Vista Jerárquica
+          </button>
+          <button 
+            onClick={() => setCurrentImage('estructura')} 
+            style={{ 
+              backgroundColor: currentImage === 'estructura' ? '#4CAF50' : '#f0f0f0',
+              color: currentImage === 'estructura' ? 'white' : 'black',
+              border: 'none',
+              padding: '8px 16px',
+              margin: '0 5px',
+              borderRadius: '4px',
+              cursor: 'pointer'
+            }}
+          >
+            Vista de Árbol
+          </button>
+        </div>
+        
+        {currentImage === 'jerarquia' && (
+          <img 
+            src="/img/terminologia/jerarquia-componentes.svg" 
+            alt="Relación jerárquica entre componentes" 
+            style={{ maxWidth: '100%', height: 'auto' }} 
+          />
+        )}
+        
+        {currentImage === 'estructura' && (
+          <img 
+            src="/img/terminologia/estructura-treeflow.svg" 
+            alt="Estructura de componentes en TreeFlow" 
+            style={{ maxWidth: '100%', height: 'auto' }} 
+          />
+        )}
+      </div>
+    );
+  };
+  
+  return <ImageSwitcher />;
+}}
+</BrowserOnly>
+
 1. Un **Árbol** contiene múltiples **Ramas**
 2. Las **Ramas** pueden utilizar múltiples **Hojas**
 3. Las **Hojas** proporcionan datos estructurados a las **Ramas**
+
+## Ejemplos Prácticos
+
+Veamos ejemplos prácticos de cómo estos componentes trabajan juntos en conversaciones reales:
+
+<BrowserOnly>
+{() => {
+  const ConversationExamples = () => {
+    const [currentExample, setCurrentExample] = React.useState('consulta');
+    
+    const examples = [
+      { id: 'consulta', name: 'Consulta de Producto', image: '/img/terminologia/ejemplo-conversacion.svg' },
+      { id: 'reserva', name: 'Reserva de Cita', image: '/img/terminologia/ejemplo-reserva.svg' },
+      { id: 'soporte', name: 'Soporte Técnico', image: '/img/terminologia/ejemplo-soporte.svg' }
+    ];
+    
+    return (
+      <div style={{ textAlign: 'center', marginBottom: '2rem' }}>
+        <div style={{ marginBottom: '1rem' }}>
+          {examples.map(example => (
+            <button 
+              key={example.id}
+              onClick={() => setCurrentExample(example.id)} 
+              style={{ 
+                backgroundColor: currentExample === example.id ? '#4CAF50' : '#f0f0f0',
+                color: currentExample === example.id ? 'white' : 'black',
+                border: 'none',
+                padding: '8px 16px',
+                margin: '0 5px',
+                borderRadius: '4px',
+                cursor: 'pointer'
+              }}
+            >
+              {example.name}
+            </button>
+          ))}
+        </div>
+        
+        <img 
+          src={examples.find(e => e.id === currentExample).image} 
+          alt={`Ejemplo de ${examples.find(e => e.id === currentExample).name}`} 
+          style={{ maxWidth: '100%', height: 'auto' }} 
+        />
+      </div>
+    );
+  };
+  
+  return <ConversationExamples />;
+}}
+</BrowserOnly>
+
+En este ejemplo:
+
+1. El usuario envía un mensaje al **Árbol** de atención al cliente
+2. El sistema identifica la **Rama** "consulta_producto"
+3. Durante el procesamiento, extrae la **Hoja** "tipo_producto" con el valor "smartphone"
+4. El **Árbol** responde con la información solicitada basándose en la **Rama** y **Hoja** identificadas
 
 Esta organización permite crear flujos conversacionales complejos pero fáciles de entender y mantener.
 
 ## Ejemplos Prácticos
 
-### Ejemplo de Árbol: Asistente de Reservas
+### Ejemplo de Árbol: Restaurante
 
-Un Árbol para un asistente de reservas de restaurante tendría:
-- Configuración específica para reconocer intenciones relacionadas con reservas
-- Múltiples Ramas para diferentes intenciones de los usuarios
-- Hojas para extraer información relevante
+Un Árbol para un restaurante tendría:
+- Configuración específica para reconocer diversas intenciones de los clientes
+- Múltiples Ramas como:
+  - `reservar_mesa`: Para gestionar reservaciones
+  - `consultar_menu`: Para informar sobre platos disponibles
+  - `pedir_domicilio`: Para procesar pedidos a domicilio
+- Hojas para extraer información relevante como fechas, horas, platos, direcciones, etc.
+
+### Ejemplo de Árbol: Tienda Online
+
+Un Árbol para una tienda online incluiría:
+- Ramas para diferentes funcionalidades:
+  - `consulta_producto`: Para buscar y mostrar productos
+  - `proceso_compra`: Para guiar al usuario en el proceso de compra
+  - `seguimiento_pedido`: Para informar sobre el estado de un pedido
+- Hojas para capturar datos como productos, cantidades, métodos de pago, etc.
 
 ### Ejemplo de Rama: Hacer Reserva
 

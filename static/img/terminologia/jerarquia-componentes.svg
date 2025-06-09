@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="800" height="500" viewBox="0 0 800 500" xmlns="http://www.w3.org/2000/svg">
+  <!-- Fondo y título -->
+  <rect width="800" height="500" fill="#f8f9fa" rx="10" ry="10"/>
+  <text x="400" y="50" font-family="Arial, sans-serif" font-size="24" font-weight="bold" text-anchor="middle" fill="#333">Jerarquía de Componentes en TreeFlow</text>
+  
+  <!-- Estructura jerárquica -->
+  <g transform="translate(400, 150)">
+    <!-- Árbol -->
+    <rect x="-150" y="0" width="300" height="80" fill="#4CAF50" rx="10" ry="10"/>
+    <text x="0" y="45" font-family="Arial, sans-serif" font-size="24" font-weight="bold" text-anchor="middle" fill="#fff">ÁRBOL</text>
+    
+    <!-- Líneas de conexión a Ramas -->
+    <line x1="-100" y1="80" x2="-100" y2="120" stroke="#333" stroke-width="2"/>
+    <line x1="0" y1="80" x2="0" y2="120" stroke="#333" stroke-width="2"/>
+    <line x1="100" y1="80" x2="100" y2="120" stroke="#333" stroke-width="2"/>
+    
+    <!-- Ramas -->
+    <rect x="-140" y="120" width="80" height="60" fill="#8BC34A" rx="10" ry="10"/>
+    <text x="-100" y="155" font-family="Arial, sans-serif" font-size="18" font-weight="bold" text-anchor="middle" fill="#fff">RAMA</text>
+    
+    <rect x="-40" y="120" width="80" height="60" fill="#8BC34A" rx="10" ry="10"/>
+    <text x="0" y="155" font-family="Arial, sans-serif" font-size="18" font-weight="bold" text-anchor="middle" fill="#fff">RAMA</text>
+    
+    <rect x="60" y="120" width="80" height="60" fill="#8BC34A" rx="10" ry="10"/>
+    <text x="100" y="155" font-family="Arial, sans-serif" font-size="18" font-weight="bold" text-anchor="middle" fill="#fff">RAMA</text>
+    
+    <!-- Líneas de conexión a Hojas -->
+    <line x1="-120" y1="180" x2="-120" y2="220" stroke="#333" stroke-width="2"/>
+    <line x1="-80" y1="180" x2="-80" y2="220" stroke="#333" stroke-width="2"/>
+    
+    <line x1="0" y1="180" x2="0" y2="220" stroke="#333" stroke-width="2"/>
+    
+    <line x1="80" y1="180" x2="80" y2="220" stroke="#333" stroke-width="2"/>
+    <line x1="120" y1="180" x2="120" y2="220" stroke="#333" stroke-width="2"/>
+    
+    <!-- Hojas -->
+    <rect x="-140" y="220" width="40" height="40" fill="#CDDC39" rx="5" ry="5"/>
+    <text x="-120" y="245" font-family="Arial, sans-serif" font-size="14" font-weight="bold" text-anchor="middle" fill="#fff">HOJA</text>
+    
+    <rect x="-100" y="220" width="40" height="40" fill="#CDDC39" rx="5" ry="5"/>
+    <text x="-80" y="245" font-family="Arial, sans-serif" font-size="14" font-weight="bold" text-anchor="middle" fill="#fff">HOJA</text>
+    
+    <rect x="-20" y="220" width="40" height="40" fill="#CDDC39" rx="5" ry="5"/>
+    <text x="0" y="245" font-family="Arial, sans-serif" font-size="14" font-weight="bold" text-anchor="middle" fill="#fff">HOJA</text>
+    
+    <rect x="60" y="220" width="40" height="40" fill="#CDDC39" rx="5" ry="5"/>
+    <text x="80" y="245" font-family="Arial, sans-serif" font-size="14" font-weight="bold" text-anchor="middle" fill="#fff">HOJA</text>
+    
+    <rect x="100" y="220" width="40" height="40" fill="#CDDC39" rx="5" ry="5"/>
+    <text x="120" y="245" font-family="Arial, sans-serif" font-size="14" font-weight="bold" text-anchor="middle" fill="#fff">HOJA</text>
+  </g>
+  
+  <!-- Explicación -->
+  <g transform="translate(400, 350)">
+    <rect x="-300" y="0" width="600" height="100" fill="#fff" stroke="#ddd" stroke-width="1" rx="5" ry="5"/>
+    <text x="0" y="30" font-family="Arial, sans-serif" font-size="16" text-anchor="middle" fill="#333">Un Árbol contiene múltiples Ramas</text>
+    <text x="0" y="60" font-family="Arial, sans-serif" font-size="16" text-anchor="middle" fill="#333">Cada Rama puede utilizar múltiples Hojas para extraer información</text>
+    <text x="0" y="90" font-family="Arial, sans-serif" font-size="16" text-anchor="middle" fill="#333">Las Hojas proporcionan datos estructurados que las Ramas utilizan para tomar decisiones</text>
+  </g>
+</svg>

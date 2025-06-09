@@ -9,6 +9,11 @@ const config: Config = {
   tagline: 'Conversaciones que Generan Negocio',
   favicon: 'img/favicon.ico',
 
+  // Variables personalizadas que se pueden usar en toda la documentación
+  customFields: {
+    treeflowUrl: 'tf.botsmexico.com',
+  },
+
   // Future flags, see https://docusaurus.io/docs/api/docusaurus-config#future
   future: {
     v4: true, // Improve compatibility with the upcoming Docusaurus v4
