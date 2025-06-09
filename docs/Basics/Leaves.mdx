@@ -1,0 +1,174 @@
+---
+sidebar_position: 3
+---
+
+# Hojas (Leaves)
+
+Las **Hojas** en Treeflow son el equivalente a las entidades en otros sistemas de chatbots. Representan los tipos de datos que se pueden extraer de los mensajes del usuario.
+
+## ¿Qué es una Hoja?
+
+Una hoja define un tipo específico de información que tu árbol puede reconocer y extraer de los mensajes del usuario. Las hojas son fundamentales para:
+
+- Extraer información relevante de los mensajes
+- Personalizar las respuestas según los datos proporcionados
+- Permitir que el árbol tome decisiones basadas en valores específicos
+
+## Tipos de Hojas
+
+Treeflow soporta cuatro tipos principales de hojas:
+
+### 1. Hojas Simples
+
+Las hojas simples contienen una lista de valores y sus sinónimos. Son ideales para conjuntos finitos de opciones.
+
+**Ejemplo:** Una hoja "sabor_helado" podría contener valores como:
+- chocolate (sinónimos: choco, chocolatado)
+- vainilla (sinónimos: vanilla, vainiya)
+- fresa (sinónimos: frutilla, strawberry)
+
+### 2. Hojas Compuestas
+
+Las hojas compuestas combinan múltiples hojas simples para crear estructuras más complejas.
+
+**Ejemplo:** Una hoja "pedido_helado" podría combinar las hojas "sabor_helado" y "tamaño_helado".
+
+### 3. Hojas Regex
+
+Las hojas regex utilizan expresiones regulares para identificar patrones específicos en el texto.
+
+**Ejemplo:** Una hoja para reconocer códigos de producto con el formato "ABC-12345".
+
+### 4. Hojas Personalizadas
+
+Las hojas personalizadas permiten implementar lógica de extracción especializada para casos particulares.
+
+## Hojas del Sistema
+
+Treeflow incluye hojas del sistema predefinidas para tipos de datos comunes:
+
+- **sys.any**: Cualquier texto
+- **sys.number**: Números
+- **sys.currency**: Valores monetarios
+- **sys.date**: Fechas
+- **sys.time**: Horas
+- **sys.email**: Direcciones de correo electrónico
+- **sys.phone**: Números de teléfono
+- **sys.url**: URLs
+- **sys.percentage**: Porcentajes
+
+## Crear una Nueva Hoja
+
+Para crear una nueva hoja:
+
+1. Selecciona un árbol existente
+2. Navega a la sección "Hojas"
+3. Haz clic en "Nueva Hoja"
+4. Selecciona el tipo de hoja (simple, compuesta, regex o personalizada)
+5. Proporciona un nombre descriptivo para tu hoja
+6. Configura los valores según el tipo de hoja
+7. Guarda la hoja
+
+## Estructura de una Hoja
+
+### Identificador (ID)
+
+Identificador único de la hoja dentro del árbol.
+
+### Nombre
+
+Nombre descriptivo de la hoja. Es importante usar nombres claros que indiquen qué tipo de información extrae la hoja.
+
+### Valores
+
+Cada hoja contiene una lista de valores posibles:
+
+```typescript
+interface LeafValue {
+  key: string;      // Identificador único del valor
+  synonyms: string[]; // Lista de sinónimos para este valor
+}
+```
+
+## Uso de Hojas en Ramas
+
+Las hojas se utilizan en las ramas de dos maneras principales:
+
+### 1. En Patrones
+
+Puedes incluir referencias a hojas en los patrones de las ramas usando la sintaxis `@nombre_hoja`:
+
+```
+Quiero ordenar una @tipo_comida
+Me gustaría pedir @cantidad @tipo_comida
+```
+
+### 2. Como Parámetros
+
+Las hojas se utilizan para definir los parámetros que una rama puede extraer:
+
+```typescript
+interface BranchParameter {
+  name: string;       // Nombre de la hoja (para referencia)
+  key: string;        // ID único de la hoja
+  parameterName?: string; // Nombre personalizable del parámetro
+  default?: string;   // Valor por defecto
+  prompt?: string;    // Mensaje para solicitar el valor
+  fallback?: string;  // Mensaje cuando no se proporciona el valor
+  required?: boolean; // Si es obligatorio
+}
+```
+
+## Mejores Prácticas para Hojas
+
+1. **Nombres descriptivos**: Usa nombres que indiquen claramente qué tipo de información extrae la hoja
+2. **Sinónimos completos**: Incluye todas las variaciones posibles de cada valor
+3. **Organización adecuada**: Divide las hojas complejas en hojas más pequeñas y específicas
+4. **Reutilización**: Crea hojas genéricas que puedan ser reutilizadas en múltiples ramas
+5. **Prueba regularmente**: Verifica que tus hojas extraen correctamente la información en diferentes contextos
+
+:::tip Consejo
+Para mejorar la precisión de la extracción, proporciona ejemplos variados de cómo los usuarios podrían expresar los valores de la hoja.
+:::
+
+## Ejemplos de Uso
+
+### Hoja Simple para Tamaños
+
+```json
+{
+  "id": "tamaño_producto",
+  "name": "tamaño_producto",
+  "type": "simple",
+  "values": [
+    {
+      "key": "pequeño",
+      "synonyms": ["pequeño", "chico", "small", "s"]
+    },
+    {
+      "key": "mediano",
+      "synonyms": ["mediano", "medium", "m"]
+    },
+    {
+      "key": "grande",
+      "synonyms": ["grande", "big", "large", "l"]
+    }
+  ]
+}
+```
+
+### Hoja Regex para Códigos Postales
+
+```json
+{
+  "id": "codigo_postal",
+  "name": "codigo_postal",
+  "type": "regex",
+  "values": [
+    {
+      "key": "cp",
+      "synonyms": ["\\d{5}"]
+    }
+  ]
+}
+```

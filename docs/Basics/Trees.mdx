@@ -1,0 +1,68 @@
+---
+sidebar_position: 1
+---
+
+# Árboles (Trees)
+
+Un **Árbol** en Treeflow es el equivalente a un chatbot determinista. Cada árbol representa un agente conversacional completo con su propio conjunto de ramas (branches), hojas (leaves) y configuraciones.
+
+## ¿Qué es un Árbol?
+
+Los árboles son la unidad principal de organización en Treeflow. Cada árbol contiene:
+
+- **Ramas (Branches)**: Patrones de conversación que el árbol puede reconocer y responder
+- **Hojas (Leaves)**: Entidades que el árbol puede extraer de los mensajes del usuario
+- **Configuraciones**: Ajustes que determinan cómo funciona el árbol
+
+## Crear un Nuevo Árbol
+
+Para crear un nuevo árbol:
+
+1. Inicia sesión en tu cuenta de Treeflow
+2. Navega a la página principal donde se muestran tus árboles
+3. Haz clic en el botón "Nuevo Árbol"
+4. Proporciona un nombre descriptivo para tu árbol
+5. Opcionalmente, añade una descripción que explique el propósito del árbol
+6. Haz clic en "Crear" para generar tu nuevo árbol
+
+## Configuraciones del Árbol
+
+Cada árbol tiene configuraciones que determinan su comportamiento:
+
+### Configuraciones Básicas
+
+- **Nombre**: Identificador visible del árbol
+- **Descripción**: Explicación breve del propósito del árbol
+- **Propósito**: Descripción detallada de la función del árbol
+
+### Configuraciones Avanzadas
+
+- **Umbral de confianza ML**: Define el nivel mínimo de confianza requerido para que el modelo de machine learning considere una coincidencia válida (valor entre 0 y 1)
+- **Umbral de confianza Fuzzy**: Define el nivel mínimo de confianza para coincidencias aproximadas (valor entre 0 y 1)
+- **Orden de detección**: Determina la prioridad de los diferentes métodos de detección de intenciones
+- **Permitir edición de hojas del sistema**: Controla si las hojas del sistema pueden ser modificadas
+
+## Gestión de Árboles
+
+Desde la página principal de árboles puedes:
+
+- **Ver todos tus árboles**: Lista de todos los árboles creados
+- **Seleccionar un árbol**: Haz clic en cualquier árbol para acceder a su configuración y componentes
+- **Eliminar un árbol**: Elimina permanentemente un árbol y todos sus componentes
+
+:::caution Precaución
+La eliminación de un árbol es permanente y no se puede deshacer. Se perderán todas las ramas, hojas y configuraciones asociadas.
+:::
+
+## Mejores Prácticas
+
+Para crear árboles efectivos:
+
+1. **Define claramente el propósito**: Cada árbol debe tener un propósito específico y bien definido
+2. **Organiza tus ramas**: Agrupa las ramas relacionadas y asegúrate de que cubran todos los escenarios de conversación
+3. **Configura los umbrales adecuadamente**: Ajusta los umbrales de confianza según la complejidad de tu árbol
+4. **Prueba regularmente**: Utiliza la función de prueba para verificar que tu árbol responde correctamente
+
+:::tip Consejo
+Para chatbots complejos, considera crear múltiples árboles especializados en lugar de uno solo muy grande. Esto facilita la gestión y mejora el rendimiento.
+:::

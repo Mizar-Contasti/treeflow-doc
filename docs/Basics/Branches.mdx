@@ -1,0 +1,129 @@
+---
+sidebar_position: 2
+---
+
+# Ramas (Branches)
+
+Las **Ramas** en Treeflow son el equivalente a las intenciones (intents) en otros sistemas de chatbots. Representan los diferentes patrones de conversación que tu árbol puede reconocer y responder.
+
+## ¿Qué es una Rama?
+
+Una rama define:
+- Los patrones de texto que el usuario puede escribir
+- Las respuestas que el árbol debe proporcionar
+- Los parámetros que se deben extraer de la entrada del usuario
+- Los contextos de entrada y salida
+- Los eventos que se pueden activar
+
+## Tipos de Ramas
+
+Treeflow soporta dos tipos principales de ramas:
+
+### Ramas Conversacionales
+
+Son las ramas estándar que manejan la interacción directa con el usuario. Estas ramas:
+- Reconocen patrones específicos en los mensajes del usuario
+- Extraen información relevante usando hojas (entidades)
+- Proporcionan respuestas basadas en la entrada del usuario
+
+### Ramas de Sistema
+
+Son ramas especiales que no se activan directamente por la entrada del usuario, sino por eventos del sistema o por otras ramas. Estas ramas:
+- Se activan mediante eventos específicos
+- Realizan acciones en segundo plano
+- Pueden modificar el estado de la conversación
+
+## Crear una Nueva Rama
+
+Para crear una nueva rama:
+
+1. Selecciona un árbol existente
+2. Navega a la sección "Ramas"
+3. Haz clic en "Nueva Rama"
+4. Selecciona el tipo de rama (conversacional o sistema)
+5. Proporciona un nombre descriptivo para tu rama
+6. Configura los componentes necesarios (patrones, respuestas, parámetros, etc.)
+7. Guarda la rama
+
+## Componentes de una Rama
+
+### Nombre
+
+Identificador único y descriptivo de la rama. Es importante usar nombres claros que indiquen la función de la rama.
+
+### Patrones
+
+Los patrones son ejemplos de frases que el usuario podría escribir para activar esta rama. Cuantos más patrones proporciones, mejor será la capacidad del árbol para reconocer esta intención.
+
+Ejemplos de patrones:
+```
+Quiero ordenar una pizza
+Me gustaría pedir una pizza
+Tengo hambre, quiero una pizza
+```
+
+### Parámetros
+
+Los parámetros (anteriormente llamados entidades en la rama) son piezas de información que se extraen de la entrada del usuario. Cada parámetro está asociado a una hoja (entidad).
+
+Componentes de un parámetro:
+- **Nombre**: Identificador del parámetro
+- **Clave**: ID único del parámetro (generalmente el ID de la hoja asociada)
+- **Nombre del parámetro**: Nombre personalizable para la interfaz de usuario
+- **Valor por defecto**: Valor que se utilizará si no se proporciona uno
+- **Prompt**: Mensaje para solicitar el valor al usuario
+- **Fallback**: Mensaje cuando no se proporciona un valor requerido
+- **Requerido**: Indica si el parámetro es obligatorio
+
+### Respuestas
+
+Las respuestas son los mensajes que el árbol enviará al usuario cuando se active esta rama. Puedes configurar múltiples respuestas y el sistema elegirá una aleatoriamente.
+
+Tipos de respuestas:
+- **Texto**: Respuestas en formato de texto simple
+- **Payload**: Respuestas estructuradas para interfaces ricas (botones, carruseles, etc.)
+
+### Contextos
+
+Los contextos permiten controlar el flujo de la conversación:
+
+#### Contextos de Entrada
+Definen cuándo esta rama puede ser activada. La rama solo se considerará si los contextos especificados están activos en la conversación.
+
+#### Contextos de Salida
+Definen qué contextos estarán activos después de que esta rama se active. Cada contexto de salida tiene un "lifespan" que determina por cuántos turnos de conversación permanecerá activo.
+
+### Eventos
+
+Los eventos son acciones especiales que se pueden activar cuando se ejecuta la rama. Pueden ser utilizados para:
+- Activar ramas de sistema
+- Realizar acciones específicas en la aplicación
+- Modificar el estado de la conversación
+
+### Webhook
+
+Opción que permite llamar a un servicio externo cuando se activa la rama, útil para integrar funcionalidades avanzadas o sistemas externos.
+
+## Segmentos de Patrón
+
+Los patrones pueden incluir referencias a hojas (entidades) para hacer el reconocimiento más flexible:
+
+```
+Quiero ordenar una @tipo_comida
+Me gustaría pedir @cantidad @tipo_comida
+```
+
+Donde `@tipo_comida` y `@cantidad` son referencias a hojas que extraerán valores como "pizza" o "tres".
+
+## Mejores Prácticas para Ramas
+
+1. **Nombres claros**: Usa nombres descriptivos que indiquen la función de la rama
+2. **Patrones diversos**: Incluye variaciones naturales de cómo los usuarios podrían expresar la misma intención
+3. **Parámetros bien definidos**: Define claramente qué información necesitas extraer
+4. **Respuestas variadas**: Proporciona múltiples respuestas para hacer la conversación más natural
+5. **Contextos adecuados**: Utiliza contextos para guiar el flujo de la conversación
+6. **Prueba regularmente**: Verifica que tus ramas funcionan correctamente en diferentes escenarios
+
+:::tip Consejo
+Para ramas complejas, considera dividirlas en múltiples ramas más pequeñas conectadas por contextos. Esto hace que tu árbol sea más fácil de mantener y depurar.
+:::

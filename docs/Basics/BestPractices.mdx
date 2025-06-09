@@ -1,0 +1,201 @@
+---
+sidebar_position: 8
+---
+
+# Mejores Prácticas
+
+Esta guía recopila las mejores prácticas para diseñar y desarrollar Trees (árboles) efectivos en Treeflow. Seguir estas recomendaciones te ayudará a crear experiencias conversacionales más naturales, robustas y fáciles de mantener.
+
+## Diseño de Trees
+
+### Planificación Estratégica
+
+1. **Define claramente el propósito**: Cada Tree debe tener un objetivo específico y bien definido
+2. **Identifica los flujos principales**: Determina los caminos de conversación más importantes
+3. **Mapea la experiencia**: Crea diagramas de flujo para visualizar la estructura de la conversación
+4. **Considera el contexto de uso**: Adapta tu Tree al canal donde se utilizará (web, móvil, etc.)
+
+### Estructura Organizativa
+
+1. **Divide y conquista**: Para Trees complejos, considera crear múltiples Trees especializados
+2. **Agrupa Branches relacionadas**: Organiza tus Branches por funcionalidad o tema
+3. **Mantén una jerarquía clara**: Estructura tus Trees de manera lógica y fácil de navegar
+4. **Nombra con consistencia**: Utiliza convenciones de nomenclatura claras y consistentes
+
+## Diseño de Branches (Ramas)
+
+### Patrones Efectivos
+
+1. **Variedad de expresiones**: Incluye múltiples formas en que los usuarios podrían expresar la misma intención
+2. **Lenguaje natural**: Utiliza patrones que reflejen cómo hablan realmente los usuarios
+3. **Incluye variaciones comunes**: Considera errores tipográficos, abreviaturas y jerga
+4. **Evita patrones demasiado genéricos**: Los patrones muy generales pueden causar activaciones incorrectas
+
+### Respuestas Conversacionales
+
+1. **Múltiples variaciones**: Proporciona varias respuestas para la misma Branch para hacer la conversación más natural
+2. **Tono consistente**: Mantén un tono y estilo coherente en todas las respuestas
+3. **Respuestas concisas**: Mantén las respuestas breves y al punto, especialmente en canales móviles
+4. **Personalización**: Utiliza los parámetros extraídos para personalizar las respuestas
+
+### Parámetros y Validación
+
+1. **Prompts claros**: Cuando solicites información, sé específico sobre lo que necesitas
+2. **Mensajes de fallback útiles**: Proporciona orientación cuando el usuario no proporciona la información requerida
+3. **Valores por defecto sensatos**: Configura valores por defecto cuando sea apropiado
+4. **Validación adecuada**: Asegúrate de que los valores extraídos sean válidos y útiles
+
+## Diseño de Leaves (Hojas)
+
+### Organización de Entidades
+
+1. **Granularidad adecuada**: Crea Leaves específicas para cada tipo de información distinta
+2. **Reutilización**: Diseña Leaves que puedan ser utilizadas en múltiples Branches
+3. **Valores exhaustivos**: Incluye todos los valores posibles y sus variaciones
+4. **Sinónimos completos**: Añade todos los sinónimos relevantes para cada valor
+
+### Tipos de Leaves
+
+1. **Usa el tipo correcto**: Selecciona el tipo de Leaf más adecuado para cada caso de uso
+2. **Aprovecha las Leaves del sistema**: Utiliza las Leaves predefinidas para tipos de datos comunes
+3. **Combina cuando sea necesario**: Utiliza Leaves compuestas para estructuras de datos complejas
+4. **Regex para patrones específicos**: Utiliza expresiones regulares para formatos bien definidos
+
+## Flujos de Conversación
+
+### Contextos y Estado
+
+1. **Contextos específicos**: Utiliza nombres de contexto descriptivos y específicos
+2. **Tiempos de vida apropiados**: Configura tiempos de vida adecuados para cada contexto
+3. **Limpieza de contextos**: Elimina contextos cuando ya no sean relevantes
+4. **Diagrama de flujo**: Visualiza cómo los contextos guían el flujo de la conversación
+
+### Manejo de Errores
+
+1. **Fallbacks específicos**: Crea respuestas de fallback para diferentes contextos
+2. **Recuperación elegante**: Proporciona caminos para que el usuario vuelva al flujo principal
+3. **Ayuda proactiva**: Ofrece sugerencias cuando el usuario parece estar confundido
+4. **Límites de reintentos**: Establece un número máximo de reintentos antes de escalar o cambiar de tema
+
+## Pruebas y Optimización
+
+### Estrategias de Prueba
+
+1. **Prueba sistemáticamente**: Crea casos de prueba que cubran todos los flujos principales
+2. **Prueba los casos límite**: Verifica cómo responde tu Tree a entradas inesperadas
+3. **Prueba con usuarios reales**: Recopila feedback de usuarios que no estén familiarizados con el sistema
+4. **Prueba en diferentes canales**: Verifica que tu Tree funcione bien en todos los canales donde se utilizará
+
+### Análisis y Mejora Continua
+
+1. **Monitorea las conversaciones**: Analiza regularmente las conversaciones reales
+2. **Identifica patrones de fallo**: Busca situaciones donde el Tree no responde correctamente
+3. **Mejora iterativamente**: Añade nuevos patrones y respuestas basados en el uso real
+4. **A/B testing**: Prueba diferentes enfoques para ver cuál funciona mejor
+
+## Integración con Modelos Generativos
+
+### Balance entre Control y Flexibilidad
+
+1. **Determinismo para lo crítico**: Utiliza Branches deterministas para flujos críticos y extracción de datos
+2. **Generativo para lo conversacional**: Utiliza modelos generativos para respuestas más naturales y flexibles
+3. **Instrucciones claras**: Proporciona instrucciones específicas a los modelos generativos
+4. **Validación de salidas**: Verifica que las respuestas generativas sean apropiadas antes de mostrarlas
+
+### Personalización Generativa
+
+1. **Contexto completo**: Proporciona suficiente contexto al modelo generativo
+2. **Personalización basada en datos**: Utiliza los parámetros extraídos para personalizar las instrucciones
+3. **Tono consistente**: Asegúrate de que las respuestas generativas mantengan el tono de tu marca
+4. **Fallbacks deterministas**: Ten respuestas deterministas como respaldo
+
+## Seguridad y Privacidad
+
+### Protección de Datos
+
+1. **Minimiza la recolección de datos**: Solo recopila la información necesaria
+2. **Anonimiza cuando sea posible**: Evita almacenar datos personales identificables
+3. **Políticas claras**: Comunica claramente cómo se utilizarán los datos del usuario
+4. **Cumplimiento normativo**: Asegúrate de cumplir con las regulaciones aplicables (GDPR, CCPA, etc.)
+
+### Seguridad Conversacional
+
+1. **Validación de entradas**: Verifica que las entradas del usuario no contengan código malicioso
+2. **Límites de acceso**: Establece claramente qué acciones puede realizar el Tree
+3. **Autenticación cuando sea necesario**: Implementa mecanismos de autenticación para acciones sensibles
+4. **Monitoreo de abusos**: Implementa sistemas para detectar y prevenir el uso indebido
+
+## Escalabilidad y Mantenimiento
+
+### Código Limpio y Documentado
+
+1. **Documentación clara**: Documenta el propósito y funcionamiento de cada componente
+2. **Convenciones de nomenclatura**: Utiliza nombres descriptivos y consistentes
+3. **Modularidad**: Diseña componentes reutilizables y bien definidos
+4. **Control de versiones**: Utiliza sistemas de control de versiones para gestionar cambios
+
+### Preparación para el Crecimiento
+
+1. **Arquitectura escalable**: Diseña pensando en el crecimiento futuro
+2. **Monitoreo de rendimiento**: Implementa sistemas para monitorear el rendimiento
+3. **Optimización continua**: Mejora regularmente la eficiencia y efectividad
+4. **Planificación de capacidad**: Anticipa y prepárate para aumentos en el uso
+
+## Ejemplos de Mejores Prácticas
+
+### Ejemplo: Flujo de Reserva Bien Diseñado
+
+```
+1. Branch: Iniciar_Reserva
+   - Patrones variados: "Quiero hacer una reserva", "Necesito reservar", etc.
+   - Establece contexto: "reserva_en_proceso"
+   - Solicita fecha
+
+2. Branch: Proporcionar_Fecha
+   - Requiere contexto: "reserva_en_proceso"
+   - Extrae fecha usando sys.date
+   - Valida disponibilidad
+   - Establece contexto: "fecha_seleccionada"
+   - Solicita hora
+
+3. Branch: Proporcionar_Hora
+   - Requiere contextos: "reserva_en_proceso", "fecha_seleccionada"
+   - Extrae hora usando sys.time
+   - Valida disponibilidad
+   - Establece contexto: "hora_seleccionada"
+   - Solicita número de personas
+
+4. Branch: Confirmar_Reserva
+   - Resume todos los detalles
+   - Solicita confirmación
+   - Al confirmar, elimina todos los contextos de reserva
+   - Establece contexto: "reserva_completada"
+```
+
+### Ejemplo: Leaf Bien Diseñada
+
+```json
+{
+  "id": "tipo_habitacion",
+  "name": "tipo_habitacion",
+  "type": "simple",
+  "values": [
+    {
+      "key": "individual",
+      "synonyms": ["individual", "sencilla", "para una persona", "single"]
+    },
+    {
+      "key": "doble",
+      "synonyms": ["doble", "matrimonial", "para dos personas", "double", "queen"]
+    },
+    {
+      "key": "suite",
+      "synonyms": ["suite", "de lujo", "premium", "vip"]
+    }
+  ]
+}
+```
+
+:::tip Consejo Final
+Recuerda que el objetivo final es crear una experiencia conversacional que sea útil, natural y agradable para tus usuarios. Todas las decisiones técnicas deben estar orientadas a mejorar esta experiencia.
+:::

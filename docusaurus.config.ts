@@ -81,16 +81,20 @@ const config: Config = {
       style: 'dark',
       links: [
         {
-          title: 'Docs',
+          title: 'Documentación',
           items: [
             {
-              label: 'Tutorial',
-              to: '/docs/intro',
+              label: 'App',
+              to: '/docs/app',
+            },
+            {
+              label: 'Webhooks',
+              to: '/docs/webhooks',
             },
           ],
         },
         {
-          title: 'Community',
+          title: 'Comunidad',
           items: [
             {
               label: 'Stack Overflow',
@@ -107,20 +111,24 @@ const config: Config = {
           ],
         },
         {
-          title: 'More',
+          title: 'Mas',
           items: [
-            {
-              label: 'Blog',
-              to: '/',
+            // {
+            //   label: 'Docker Hub',
+            //   to: 'https://hub.docker.com/u/m1zar',
+            // },
+             {
+              label: 'Docker Hub',
+              href: 'https://hub.docker.com/u/m1zar',
             },
             {
-              label: 'GitHub',
-              href: 'https://github.com/facebook/docusaurus',
+              label: 'Github',
+              href: 'https://github.com/Mizar-Contasti/treeflow',
             },
           ],
         },
       ],
-      copyright: `Copyright © ${new Date().getFullYear()} BotsMexico, Inc. Built with Docusaurus.`,
+      copyright: `Copyright © ${new Date().getFullYear()} BotsMexico, Inc. Hecho con Docusaurus.`,
     },
     prism: {
       theme: prismThemes.github,

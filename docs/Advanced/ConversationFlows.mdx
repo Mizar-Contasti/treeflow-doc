@@ -1,0 +1,348 @@
+---
+sidebar_position: 6
+---
+
+# Flujos de Conversación Avanzados
+
+Los flujos de conversación avanzados en Treeflow permiten crear experiencias conversacionales complejas y naturales. Esta guía explora técnicas para diseñar, implementar y optimizar flujos de conversación sofisticados en tus Trees (árboles).
+
+## Fundamentos de Flujos Conversacionales
+
+### Componentes Clave
+
+Un flujo de conversación efectivo en Treeflow se compone de:
+
+- **Branches (Ramas)**: Definen los patrones de conversación y respuestas
+- **Contexts (Contextos)**: Controlan el estado y flujo de la conversación
+- **Events (Eventos)**: Desencadenan acciones basadas en condiciones específicas
+- **Parameters (Parámetros)**: Almacenan información extraída durante la conversación
+
+### Tipos de Flujos
+
+Treeflow soporta diferentes tipos de flujos conversacionales:
+
+1. **Flujos Lineales**: Secuencias predefinidas de pasos
+2. **Flujos Ramificados**: Múltiples caminos basados en las respuestas del usuario
+3. **Flujos Basados en Estado**: Utilizan contextos para mantener y cambiar el estado
+4. **Flujos Híbridos**: Combinan elementos deterministas y generativos
+
+## Diseño de Flujos Complejos
+
+### Mapeo de Conversaciones
+
+Para diseñar flujos complejos:
+
+1. **Identifica los Objetivos**: Define claramente qué debe lograr cada flujo
+2. **Mapea los Caminos Principales**: Establece las rutas principales que seguirá la conversación
+3. **Identifica Puntos de Decisión**: Determina dónde la conversación puede ramificarse
+4. **Planifica Recuperaciones**: Diseña estrategias para manejar desviaciones del flujo principal
+
+### Herramienta de Diseño Visual
+
+Treeflow ofrece una herramienta de diseño visual para flujos complejos:
+
+1. Navega a "Herramientas" > "Diseñador de Flujos"
+2. Crea un nuevo flujo o edita uno existente
+3. Utiliza la interfaz de arrastrar y soltar para:
+   - Añadir Branches
+   - Conectar Branches con líneas de flujo
+   - Configurar condiciones para las conexiones
+   - Definir contextos y eventos
+
+## Implementación de Flujos Avanzados
+
+### Contextos para Control de Estado
+
+Los contextos son fundamentales para flujos avanzados:
+
+```json
+// Ejemplo de Branch con configuración avanzada de contextos
+{
+  "id": "solicitar_informacion_pago",
+  "name": "Solicitar Información de Pago",
+  "input_contexts": ["pedido_confirmado", "datos_cliente_validados"],
+  "output_contexts": [
+    {"name": "esperando_pago", "lifespan": 5},
+    {"name": "metodo_pago_solicitado", "lifespan": 1}
+  ],
+  "events": ["enviar_recordatorio_pago"]
+}
+```
+
+#### Estrategias de Contexto
+
+1. **Contextos de Estado**: Representan el estado actual de la conversación
+   - `en_proceso_reserva`
+   - `esperando_confirmacion`
+   - `pago_pendiente`
+
+2. **Contextos de Datos**: Indican que cierta información ya ha sido recopilada
+   - `datos_personales_completos`
+   - `direccion_validada`
+   - `preferencias_guardadas`
+
+3. **Contextos de Flujo**: Controlan el camino de la conversación
+   - `flujo_onboarding`
+   - `flujo_recuperacion_cuenta`
+   - `flujo_reclamo`
+
+### Eventos para Automatización
+
+Los eventos permiten automatizar acciones en puntos específicos:
+
+```json
+// Configuración de evento con condiciones
+{
+  "name": "recordatorio_completar_perfil",
+  "conditions": [
+    {"parameter": "session_duration", "operator": ">=", "value": "5m"},
+    {"parameter": "perfil_completo", "operator": "==", "value": "false"}
+  ],
+  "target_branches": ["sugerir_completar_perfil"]
+}
+```
+
+#### Patrones de Eventos
+
+1. **Eventos Temporizados**: Se activan después de un período específico
+   - `recordatorio_carrito_abandonado`
+   - `seguimiento_post_compra`
+
+2. **Eventos Condicionales**: Se activan cuando se cumplen ciertas condiciones
+   - `detectar_frustacion_usuario`
+   - `ofrecer_descuento_indecision`
+
+3. **Eventos en Cadena**: Una serie de eventos que se activan secuencialmente
+   - `proceso_onboarding_paso1` → `proceso_onboarding_paso2` → `proceso_onboarding_completo`
+
+### Parámetros para Persistencia
+
+Los parámetros mantienen información a lo largo de la conversación:
+
+```json
+// Ejemplo de manejo avanzado de parámetros
+{
+  "parameters": [
+    {
+      "name": "producto_seleccionado",
+      "entity": "producto",
+      "required": true,
+      "prompts": [
+        "¿Qué producto te interesa?",
+        "¿Sobre qué producto necesitas información?"
+      ],
+      "default_value": "producto_mas_vendido",
+      "validation": {
+        "function": "validarDisponibilidadProducto",
+        "error_message": "Lo siento, ese producto no está disponible actualmente."
+      }
+    }
+  ]
+}
+```
+
+## Técnicas Avanzadas
+
+### Slots y Formularios
+
+Los slots permiten recopilar múltiples piezas de información de manera estructurada:
+
+1. Crea una Branch de tipo "Formulario"
+2. Define los slots necesarios:
+   ```json
+   {
+     "slots": [
+       {"name": "nombre", "entity": "sys.person", "required": true},
+       {"name": "email", "entity": "sys.email", "required": true},
+       {"name": "telefono", "entity": "sys.phone-number", "required": false},
+       {"name": "fecha_preferida", "entity": "sys.date", "required": true}
+     ]
+   }
+   ```
+3. Configura prompts específicos para cada slot
+4. Define el orden de recopilación o permite un orden flexible
+
+### Diálogos Anidados
+
+Los diálogos anidados permiten crear subconversaciones:
+
+1. Define un contexto principal para el diálogo principal
+2. Crea Branches para el subdiálogo con:
+   - Contexto de entrada que coincida con el diálogo principal
+   - Contexto de salida específico para el subdiálogo
+3. Implementa una Branch de "retorno" que devuelva al usuario al diálogo principal
+
+Ejemplo:
+```
+Diálogo Principal: Reserva de Vuelo
+  └── Subdiálogo: Selección de Asiento
+      └── Subdiálogo: Preferencias de Comida
+  └── Subdiálogo: Añadir Equipaje
+  └── Continuar Reserva de Vuelo
+```
+
+### Manejo de Interrupciones
+
+Para manejar cuando el usuario interrumpe un flujo:
+
+1. Crea Branches específicas para interrupciones comunes
+2. Configúralas con alta prioridad
+3. Implementa lógica para:
+   - Guardar el estado actual
+   - Manejar la interrupción
+   - Volver al flujo original
+
+```json
+{
+  "id": "interrumpir_ayuda",
+  "name": "Solicitud de Ayuda",
+  "patterns": ["ayuda", "necesito ayuda", "no entiendo", "estoy confundido"],
+  "priority": "high",
+  "actions": [
+    {"type": "save_state", "name": "estado_previo_interrupcion"},
+    {"type": "respond", "message": "Estoy aquí para ayudarte. ¿Qué necesitas?"},
+    {"type": "set_context", "name": "en_modo_ayuda", "lifespan": 3}
+  ]
+}
+```
+
+### Flujos Condicionales
+
+Para implementar lógica condicional avanzada:
+
+1. Utiliza parámetros para almacenar valores clave
+2. Crea Branches con condiciones basadas en estos parámetros
+3. Utiliza eventos para activar diferentes caminos basados en condiciones
+
+```json
+{
+  "conditions": [
+    {"parameter": "valor_carrito", "operator": ">", "value": "1000"},
+    {"parameter": "cliente_recurrente", "operator": "==", "value": "true"}
+  ],
+  "actions": [
+    {"type": "set_parameter", "name": "descuento_aplicable", "value": "true"},
+    {"type": "trigger_event", "name": "ofrecer_descuento_fidelidad"}
+  ]
+}
+```
+
+## Patrones de Diseño Efectivos
+
+### Patrón: Onboarding Progresivo
+
+Para guiar a nuevos usuarios paso a paso:
+
+1. Crea una secuencia de Branches conectadas por contextos
+2. Utiliza eventos para avanzar automáticamente
+3. Almacena el progreso en parámetros persistentes
+4. Permite saltar pasos para usuarios que regresan
+
+### Patrón: Recuperación de Conversación
+
+Para manejar cuando la conversación se desvía:
+
+1. Implementa Branches de "fallback" contextuales
+2. Utiliza prompts específicos basados en el contexto actual
+3. Ofrece opciones para volver al flujo principal
+4. Limita los reintentos antes de escalar o cambiar de tema
+
+### Patrón: Personalización Dinámica
+
+Para adaptar la conversación a cada usuario:
+
+1. Recopila preferencias del usuario durante la conversación
+2. Almacena esta información en parámetros persistentes
+3. Utiliza estos datos para personalizar futuras interacciones
+4. Implementa Branches específicas para diferentes segmentos de usuarios
+
+## Herramientas de Depuración y Optimización
+
+### Visualizador de Flujo
+
+Para entender y depurar flujos complejos:
+
+1. Navega a "Herramientas" > "Visualizador de Flujo"
+2. Selecciona una conversación específica
+3. Visualiza:
+   - El camino seguido por la conversación
+   - Branches activadas en cada paso
+   - Contextos activos a lo largo del flujo
+   - Parámetros extraídos y utilizados
+
+### Simulador de Conversación
+
+Para probar flujos antes de implementarlos:
+
+1. Navega a "Herramientas" > "Simulador"
+2. Configura condiciones iniciales:
+   - Contextos activos
+   - Parámetros predefinidos
+   - Eventos programados
+3. Simula la conversación paso a paso
+4. Analiza los resultados y refina el flujo
+
+## Casos de Uso Avanzados
+
+### Asistente de Compras Personalizado
+
+Un flujo que guía al usuario a través del proceso de compra:
+
+1. **Recopilación de Preferencias**:
+   - Branches para extraer preferencias (presupuesto, estilo, necesidades)
+   - Contextos para mantener estas preferencias activas
+
+2. **Recomendación Personalizada**:
+   - Branches condicionales basadas en preferencias
+   - Integración con API de productos mediante webhooks
+
+3. **Proceso de Compra**:
+   - Flujo guiado con confirmaciones en cada paso
+   - Manejo de interrupciones para preguntas frecuentes
+   - Eventos para seguimiento post-compra
+
+### Sistema de Soporte Técnico
+
+Un flujo para diagnosticar y resolver problemas técnicos:
+
+1. **Diagnóstico Inicial**:
+   - Branches para identificar la categoría del problema
+   - Formulario para recopilar información del dispositivo
+
+2. **Resolución Guiada**:
+   - Subdiálogos específicos para cada tipo de problema
+   - Branches condicionales basadas en respuestas del usuario
+
+3. **Escalamiento Inteligente**:
+   - Detección de frustración mediante análisis de sentimiento
+   - Eventos para escalar a soporte humano cuando sea necesario
+
+## Mejores Prácticas
+
+1. **Diseño Centrado en el Usuario**:
+   - Comienza con los objetivos del usuario, no con las capacidades técnicas
+   - Mapea los flujos basándote en conversaciones reales
+   - Prueba con usuarios reales y refina basándote en feedback
+
+2. **Simplicidad y Claridad**:
+   - Evita flujos excesivamente complejos
+   - Proporciona siempre un camino claro hacia adelante
+   - Ofrece opciones explícitas en puntos de decisión
+
+3. **Manejo de Errores Robusto**:
+   - Implementa recuperación para cada posible punto de fallo
+   - Proporciona mensajes de error útiles y específicos
+   - Ofrece múltiples caminos para volver al flujo principal
+
+4. **Optimización Continua**:
+   - Analiza regularmente las conversaciones reales
+   - Identifica puntos donde los usuarios se desvían o abandonan
+   - Refina los flujos basándote en datos de uso
+
+:::tip Consejo
+Recuerda que incluso los flujos más complejos deben sentirse naturales y simples para el usuario. La complejidad debe estar en el diseño, no en la experiencia.
+:::
+
+## Conclusión
+
+Los flujos de conversación avanzados son lo que diferencia a un chatbot básico de una experiencia conversacional verdaderamente efectiva. Con Treeflow, tienes todas las herramientas necesarias para diseñar, implementar y optimizar flujos que no solo cumplan con los objetivos funcionales, sino que también proporcionen una experiencia natural y agradable para tus usuarios.

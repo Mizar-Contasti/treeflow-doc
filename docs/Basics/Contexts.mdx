@@ -1,0 +1,126 @@
+---
+sidebar_position: 5
+---
+
+# Contextos
+
+Los **Contextos** en Treeflow son mecanismos que permiten controlar el flujo de la conversación y mantener el estado entre diferentes interacciones con el usuario.
+
+## ¿Qué son los Contextos?
+
+Los contextos son etiquetas que se aplican a la conversación para indicar en qué parte del flujo se encuentra el usuario. Permiten:
+
+- Controlar qué ramas (branches) pueden activarse en un momento dado
+- Mantener el estado de la conversación entre diferentes turnos
+- Crear flujos de conversación complejos y dirigidos
+
+## Funcionamiento de los Contextos
+
+Los contextos funcionan como un sistema de "memoria a corto plazo" para la conversación:
+
+1. Cada rama puede requerir ciertos contextos para ser activada (contextos de entrada)
+2. Cuando una rama se activa, puede establecer nuevos contextos (contextos de salida)
+3. Los contextos tienen un "tiempo de vida" (lifespan) que determina por cuántos turnos de conversación permanecerán activos
+
+## Contextos de Entrada
+
+Los contextos de entrada definen cuándo una rama puede ser considerada para su activación:
+
+- Una rama solo se considerará si todos sus contextos de entrada están activos
+- Si una rama no tiene contextos de entrada, siempre será considerada (dependiendo de la coincidencia de patrones)
+- Los contextos de entrada solo requieren un nombre, no necesitan un tiempo de vida
+
+Ejemplo de configuración de contextos de entrada:
+```json
+"inputContext": [
+  { "name": "esperando_tamaño" },
+  { "name": "pedido_activo" }
+]
+```
+
+## Contextos de Salida
+
+Los contextos de salida definen qué contextos estarán activos después de que una rama se active:
+
+- Cada contexto de salida tiene un nombre y un tiempo de vida (lifespan)
+- El tiempo de vida determina por cuántos turnos de conversación permanecerá activo el contexto
+- Un tiempo de vida de 0 elimina el contexto (útil para limpiar contextos anteriores)
+
+Ejemplo de configuración de contextos de salida:
+```json
+"outputContext": [
+  { "name": "esperando_sabor", "lifespan": 2 },
+  { "name": "pedido_activo", "lifespan": 5 },
+  { "name": "esperando_tamaño", "lifespan": 0 }
+]
+```
+
+## Casos de Uso Comunes
+
+### Conversaciones Multi-turno
+
+Los contextos permiten crear conversaciones que requieren múltiples interacciones:
+
+1. Una rama inicial establece un contexto de salida (ej. "esperando_respuesta")
+2. Ramas subsiguientes requieren ese contexto como entrada
+3. Esto asegura que solo las ramas relevantes se activen en cada etapa
+
+### Formularios y Recolección de Datos
+
+Los contextos facilitan la recolección estructurada de información:
+
+1. Una rama inicial establece un contexto (ej. "completando_formulario")
+2. Ramas específicas para cada campo requieren ese contexto
+3. La última rama elimina el contexto al completar el formulario
+
+### Manejo de Fallbacks Específicos
+
+Los contextos permiten crear respuestas de fallback específicas para diferentes partes de la conversación:
+
+1. Diferentes ramas de fallback requieren diferentes contextos
+2. Esto permite respuestas más precisas cuando el usuario dice algo inesperado
+
+## Mejores Prácticas para Contextos
+
+1. **Nombres descriptivos**: Usa nombres que indiquen claramente el propósito del contexto
+2. **Tiempos de vida adecuados**: Establece tiempos de vida apropiados para evitar que los contextos persistan demasiado
+3. **Limpieza de contextos**: Utiliza contextos con tiempo de vida 0 para eliminar contextos que ya no son relevantes
+4. **Diagrama de flujo**: Planifica tus contextos utilizando un diagrama de flujo para visualizar la conversación
+5. **Prueba diferentes caminos**: Verifica que tus contextos funcionen correctamente en diferentes escenarios de conversación
+
+:::tip Consejo
+Para conversaciones complejas, considera crear un diagrama de flujo que muestre cómo los contextos controlan el flujo entre diferentes ramas.
+:::
+
+## Ejemplo de Flujo con Contextos
+
+### Escenario: Pedido de Pizza
+
+1. **Rama: Iniciar_Pedido**
+   - Sin contextos de entrada (siempre disponible)
+   - Contextos de salida: 
+     - "pedido_activo" (lifespan: 10)
+     - "esperando_tamaño" (lifespan: 2)
+
+2. **Rama: Seleccionar_Tamaño**
+   - Contextos de entrada: "esperando_tamaño"
+   - Contextos de salida:
+     - "esperando_tamaño" (lifespan: 0) // Elimina este contexto
+     - "esperando_ingredientes" (lifespan: 2)
+     - "pedido_activo" (lifespan: 10) // Mantiene el pedido activo
+
+3. **Rama: Seleccionar_Ingredientes**
+   - Contextos de entrada: "esperando_ingredientes"
+   - Contextos de salida:
+     - "esperando_ingredientes" (lifespan: 0)
+     - "esperando_confirmacion" (lifespan: 2)
+     - "pedido_activo" (lifespan: 10)
+
+4. **Rama: Confirmar_Pedido**
+   - Contextos de entrada: "esperando_confirmacion"
+   - Contextos de salida:
+     - "esperando_confirmacion" (lifespan: 0)
+     - "pedido_activo" (lifespan: 0) // Finaliza el pedido
+     - "pedido_completado" (lifespan: 1)
+
+Este flujo asegura que el usuario complete cada paso en el orden correcto, y que solo las ramas relevantes estén disponibles en cada etapa de la conversación.

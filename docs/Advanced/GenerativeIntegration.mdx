@@ -1,0 +1,141 @@
+---
+sidebar_position: 2
+---
+
+# Integración con Modelos Generativos
+
+Treeflow combina lo mejor de dos mundos: el control preciso de los chatbots deterministas y la flexibilidad de los modelos generativos. Esta integración permite crear experiencias conversacionales más naturales y potentes sin perder el control sobre el flujo de la conversación.
+
+## El Enfoque Híbrido de Treeflow
+
+Treeflow utiliza un enfoque híbrido que aprovecha:
+
+- **Control Determinista**: Branches (ramas) y Leaves (hojas) para estructurar el flujo de conversación
+- **Flexibilidad Generativa**: Modelos de lenguaje para enriquecer respuestas y manejar casos no previstos
+
+## Casos de Uso para Modelos Generativos
+
+### 1. Enriquecimiento de Respuestas
+
+Los modelos generativos pueden enriquecer las respuestas predefinidas de tus Branches para hacerlas más naturales y contextuales.
+
+**Ejemplo**: En lugar de una respuesta fija como "Aquí está la información sobre nuestros planes", el modelo generativo puede crear: "Basado en tu interés en planes familiares, te recomiendo nuestro Plan Familiar Plus que incluye 4 líneas con datos ilimitados por $89.99 mensuales. ¿Te gustaría conocer más detalles sobre este plan?"
+
+### 2. Manejo de Fallbacks Inteligentes
+
+Cuando ninguna Branch coincide con la entrada del usuario, un modelo generativo puede proporcionar respuestas relevantes en lugar de mensajes genéricos de fallback.
+
+**Ejemplo**: En lugar de "No entendí lo que quieres decir", el modelo puede responder: "Parece que estás preguntando sobre nuestras políticas de devolución. Aunque no tengo información específica sobre ese tema, puedo conectarte con nuestro departamento de atención al cliente. ¿Te gustaría que lo haga?"
+
+### 3. Extracción Avanzada de Información
+
+Los modelos generativos pueden ayudar a extraer información compleja que las Leaves tradicionales podrían tener dificultades para identificar.
+
+**Ejemplo**: Extraer múltiples preferencias de una frase como "Busco un hotel céntrico, con piscina, que acepte mascotas y tenga disponibilidad para el próximo fin de semana".
+
+## Configuración de Integraciones Generativas
+
+### Configuración a Nivel de Tree
+
+Para habilitar capacidades generativas en tu Tree:
+
+1. Navega a la configuración del Tree
+2. En la sección "Configuración Avanzada", encuentra "Integración Generativa"
+3. Activa la opción "Habilitar asistencia generativa"
+4. Selecciona el modelo generativo a utilizar
+5. Configura el nivel de creatividad (temperatura)
+6. Guarda la configuración
+
+### Configuración a Nivel de Branch
+
+Puedes especificar cómo se utilizan los modelos generativos en cada Branch:
+
+1. Edita la Branch deseada
+2. En la sección "Respuestas", encuentra "Modo de Respuesta"
+3. Selecciona una de las siguientes opciones:
+   - **Determinista**: Usa solo las respuestas predefinidas
+   - **Generativo**: Usa el modelo generativo para crear respuestas
+   - **Híbrido**: Usa las respuestas predefinidas como base y permite que el modelo las enriquezca
+4. Si seleccionas "Generativo" o "Híbrido", puedes proporcionar instrucciones específicas para el modelo
+5. Guarda la Branch
+
+## Instrucciones para Modelos Generativos
+
+Las instrucciones ayudan a guiar al modelo generativo sobre cómo debe responder. Ejemplos:
+
+- "Responde como un asistente amigable especializado en productos electrónicos"
+- "Proporciona información concisa sobre el producto mencionado, incluyendo precio y características principales"
+- "Genera una respuesta empática que reconozca la frustración del cliente y ofrezca soluciones"
+
+## Control de Contexto
+
+Treeflow mantiene automáticamente el contexto de la conversación para el modelo generativo, incluyendo:
+
+- Historial de mensajes recientes
+- Parámetros extraídos
+- Contextos activos
+- Información del Tree y Branch actual
+
+Esto asegura que las respuestas generativas sean coherentes con el flujo de la conversación.
+
+## Mejores Prácticas
+
+### 1. Definir Claramente los Límites
+
+Decide qué partes de tu Tree deben ser deterministas y cuáles pueden beneficiarse de la flexibilidad generativa.
+
+### 2. Proporcionar Instrucciones Claras
+
+Las instrucciones específicas y detalladas ayudan al modelo generativo a producir respuestas más alineadas con tus objetivos.
+
+### 3. Revisar y Ajustar
+
+Monitorea regularmente las respuestas generativas y ajusta las instrucciones según sea necesario.
+
+### 4. Combinar con Validación
+
+Utiliza Branches deterministas para validar y procesar información crítica, y modelos generativos para enriquecer la experiencia.
+
+### 5. Mantener Fallbacks Deterministas
+
+Para casos críticos, mantén fallbacks deterministas como respaldo si la respuesta generativa no es adecuada.
+
+## Ejemplo de Integración Híbrida
+
+### Escenario: Asistente de Soporte Técnico
+
+1. **Branch Determinista para Clasificación**:
+   - Identifica el tipo de problema (conectividad, software, hardware)
+   - Extrae información esencial (dispositivo, versión)
+   - Establece el contexto apropiado
+
+2. **Respuesta Generativa para Solución**:
+   - Instrucción: "Proporciona una solución paso a paso para el problema de [tipo_problema] en [dispositivo] con [version], utilizando un tono amigable pero profesional. Limita la respuesta a máximo 3 pasos y ofrece una opción para escalamiento si el problema persiste."
+   - El modelo generativo crea una respuesta personalizada basada en los parámetros extraídos
+
+3. **Branch Determinista para Seguimiento**:
+   - Captura la respuesta del usuario sobre si el problema se resolvió
+   - Dirige el flujo a escalamiento o cierre según corresponda
+
+Este enfoque híbrido proporciona respuestas personalizadas y detalladas mientras mantiene un flujo de conversación controlado y estructurado.
+
+:::tip Consejo
+Comienza con un enfoque principalmente determinista e introduce gradualmente elementos generativos a medida que te sientas más cómodo con la tecnología y comprendas mejor dónde aporta más valor.
+:::
+
+## Limitaciones y Consideraciones
+
+- **Latencia**: Las respuestas generativas pueden tomar más tiempo que las deterministas
+- **Consistencia**: Los modelos generativos pueden producir respuestas variadas para entradas similares
+- **Control**: A mayor libertad generativa, menor control sobre el contenido exacto
+- **Costo**: El uso de modelos generativos puede tener costos adicionales según el proveedor
+
+## Monitoreo y Mejora Continua
+
+Treeflow proporciona herramientas para monitorear el rendimiento de tus integraciones generativas:
+
+- **Análisis de Respuestas**: Revisa las respuestas generadas y su efectividad
+- **Retroalimentación de Usuarios**: Recopila feedback sobre la calidad de las respuestas
+- **Ajuste de Instrucciones**: Refina las instrucciones basándote en el análisis de resultados
+
+La combinación de determinismo y generatividad en Treeflow te permite crear experiencias conversacionales que son tanto controladas como naturales, aprovechando lo mejor de ambos enfoques.

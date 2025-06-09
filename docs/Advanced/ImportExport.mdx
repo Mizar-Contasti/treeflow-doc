@@ -1,0 +1,324 @@
+---
+sidebar_position: 7
+---
+
+# Importación y Exportación de Datos
+
+Treeflow proporciona herramientas potentes para importar y exportar datos, permitiéndote respaldar tus Trees (árboles), compartirlos entre entornos, o migrar desde otras plataformas. Esta guía explica las diferentes opciones disponibles para la gestión de datos en Treeflow.
+
+## Exportación de Trees
+
+### Exportación Completa
+
+Para exportar un Tree completo con todas sus Branches (ramas), Leaves (hojas) y configuraciones:
+
+1. Navega a la página principal de Trees
+2. Selecciona el Tree que deseas exportar
+3. Haz clic en el menú de opciones (⋮) y selecciona "Exportar Tree"
+4. Elige "Exportación Completa"
+5. El sistema generará un archivo JSON con todos los componentes del Tree
+
+El archivo exportado contendrá:
+- Configuración del Tree
+- Todas las Branches
+- Todas las Leaves
+- Configuraciones de contextos
+- Configuraciones de eventos
+- Webhooks y configuraciones de integración
+
+### Exportación Selectiva
+
+Si solo necesitas exportar componentes específicos:
+
+1. Navega a la página principal de Trees
+2. Selecciona el Tree que deseas exportar
+3. Haz clic en el menú de opciones (⋮) y selecciona "Exportar Tree"
+4. Elige "Exportación Selectiva"
+5. Selecciona los componentes que deseas incluir:
+   - Branches específicas
+   - Leaves específicas
+   - Configuraciones específicas
+6. Haz clic en "Exportar Selección"
+
+## Importación de Trees
+
+### Importación de un Nuevo Tree
+
+Para importar un Tree completo:
+
+1. Navega a la página principal de Trees
+2. Haz clic en "Importar Tree"
+3. Selecciona el archivo JSON que contiene el Tree exportado
+4. Revisa los detalles del Tree a importar
+5. Haz clic en "Importar"
+
+El sistema creará un nuevo Tree con todos los componentes incluidos en el archivo.
+
+### Importación en un Tree Existente
+
+Para importar componentes en un Tree existente:
+
+1. Navega a la página principal de Trees
+2. Selecciona el Tree de destino
+3. Haz clic en el menú de opciones (⋮) y selecciona "Importar en este Tree"
+4. Selecciona el archivo JSON que contiene los componentes a importar
+5. Elige cómo manejar los conflictos:
+   - Sobrescribir componentes existentes
+   - Mantener componentes existentes
+   - Importar solo componentes nuevos
+6. Haz clic en "Importar"
+
+## Exportación de Componentes Específicos
+
+### Exportación de Branches
+
+Para exportar Branches específicas:
+
+1. Navega a la sección "Branches" del Tree
+2. Selecciona las Branches que deseas exportar (puedes seleccionar múltiples)
+3. Haz clic en "Exportar Seleccionadas"
+4. El sistema generará un archivo JSON con las Branches seleccionadas
+
+### Exportación de Leaves
+
+Para exportar Leaves específicas:
+
+1. Navega a la sección "Leaves" del Tree
+2. Selecciona las Leaves que deseas exportar (puedes seleccionar múltiples)
+3. Haz clic en "Exportar Seleccionadas"
+4. El sistema generará un archivo JSON con las Leaves seleccionadas
+
+## Importación de Componentes Específicos
+
+### Importación de Branches
+
+Para importar Branches específicas:
+
+1. Navega a la sección "Branches" del Tree
+2. Haz clic en "Importar Branches"
+3. Selecciona el archivo JSON que contiene las Branches
+4. Revisa las Branches a importar
+5. Configura cómo manejar las referencias a Leaves:
+   - Usar Leaves existentes con nombres coincidentes
+   - Importar también las Leaves referenciadas
+   - Ignorar referencias a Leaves no existentes
+6. Haz clic en "Importar"
+
+### Importación de Leaves
+
+Para importar Leaves específicas:
+
+1. Navega a la sección "Leaves" del Tree
+2. Haz clic en "Importar Leaves"
+3. Selecciona el archivo JSON que contiene las Leaves
+4. Revisa las Leaves a importar
+5. Haz clic en "Importar"
+
+## Migración desde Otras Plataformas
+
+Treeflow proporciona herramientas para migrar desde otras plataformas de chatbots:
+
+### Importación desde Dialogflow ES
+
+Para importar un agente de Dialogflow ES:
+
+1. Exporta tu agente desde Dialogflow ES (archivo ZIP)
+2. En Treeflow, navega a "Importar" > "Desde Dialogflow ES"
+3. Sube el archivo ZIP exportado
+4. Revisa la configuración de mapeo:
+   - Intents → Branches
+   - Entities → Leaves
+   - Contexts → Contexts
+   - Fulfillments → Webhooks
+5. Ajusta las configuraciones según sea necesario
+6. Haz clic en "Iniciar Migración"
+7. Revisa y corrige cualquier problema reportado durante la migración
+
+### Importación desde Rasa
+
+Para importar un proyecto de Rasa:
+
+1. Prepara los archivos de tu proyecto Rasa (domain.yml, nlu.yml, stories.yml)
+2. En Treeflow, navega a "Importar" > "Desde Rasa"
+3. Sube los archivos del proyecto
+4. Revisa la configuración de mapeo:
+   - Intents → Branches
+   - Entities → Leaves
+   - Slots → Parameters
+   - Responses → Branch Responses
+5. Ajusta las configuraciones según sea necesario
+6. Haz clic en "Iniciar Migración"
+7. Revisa y corrige cualquier problema reportado durante la migración
+
+## Formato de Datos
+
+### Estructura del Archivo JSON de Tree
+
+El archivo JSON de un Tree completo tiene la siguiente estructura:
+
+```json
+{
+  "tree_id": "12345",
+  "name": "Asistente de Ventas",
+  "description": "Asistente para consultas de productos y ventas",
+  "purpose": "Proporcionar información sobre productos y procesar pedidos",
+  "config": {
+    "ml_threshold": 0.7,
+    "fuzzy_threshold": 0.6,
+    "detection_order": ["ml", "fuzzy", "exact"],
+    "allow_system_leaf_editing": false
+  },
+  "branches": [
+    // Array de objetos Branch
+  ],
+  "leaves": [
+    // Array de objetos Leaf
+  ],
+  "webhooks": {
+    // Configuración de webhooks
+  },
+  "version": "1.0"
+}
+```
+
+### Estructura del Archivo JSON de Branches
+
+El archivo JSON de Branches tiene la siguiente estructura:
+
+```json
+{
+  "branches": [
+    {
+      "id": "saludo",
+      "name": "Saludo",
+      "type": "conversational",
+      "patterns": [
+        "Hola",
+        "Buenos días",
+        "Saludos"
+      ],
+      "responses": [
+        "¡Hola! ¿En qué puedo ayudarte hoy?",
+        "¡Bienvenido! Estoy aquí para asistirte."
+      ],
+      "parameters": [],
+      "input_contexts": [],
+      "output_contexts": [
+        {"name": "saludo_completado", "lifespan": 5}
+      ],
+      "events": []
+    }
+  ],
+  "version": "1.0"
+}
+```
+
+### Estructura del Archivo JSON de Leaves
+
+El archivo JSON de Leaves tiene la siguiente estructura:
+
+```json
+{
+  "leaves": [
+    {
+      "id": "producto",
+      "name": "producto",
+      "type": "simple",
+      "values": [
+        {
+          "key": "laptop",
+          "synonyms": ["portátil", "notebook", "computadora portátil"]
+        },
+        {
+          "key": "smartphone",
+          "synonyms": ["celular", "teléfono", "móvil"]
+        }
+      ]
+    }
+  ],
+  "version": "1.0"
+}
+```
+
+## Versionado y Control de Cambios
+
+### Exportación con Versionado
+
+Para mantener un historial de versiones de tus Trees:
+
+1. Al exportar un Tree, activa la opción "Incluir Metadatos de Versión"
+2. Proporciona información sobre la versión:
+   - Número de versión
+   - Descripción de cambios
+   - Autor
+3. Esta información se incluirá en el archivo exportado
+
+### Historial de Cambios
+
+Treeflow mantiene un historial de cambios para cada Tree:
+
+1. Navega a la configuración del Tree
+2. Selecciona "Historial de Versiones"
+3. Verás una lista de todas las versiones exportadas con sus metadatos
+4. Puedes descargar cualquier versión anterior
+
+## Mejores Prácticas
+
+### Respaldo Regular
+
+1. **Programa exportaciones periódicas**: Establece un calendario para exportar regularmente tus Trees
+2. **Almacenamiento seguro**: Guarda los archivos exportados en un lugar seguro y con respaldo
+3. **Documentación**: Incluye notas sobre los cambios en cada versión exportada
+
+### Migración entre Entornos
+
+1. **Entorno de desarrollo a producción**:
+   - Exporta desde el entorno de desarrollo
+   - Prueba en un entorno de staging
+   - Importa en el entorno de producción
+
+2. **Manejo de configuraciones específicas por entorno**:
+   - Utiliza la exportación selectiva para excluir configuraciones específicas del entorno
+   - Mantén archivos de configuración separados para cada entorno
+
+### Colaboración en Equipo
+
+1. **Compartir componentes**:
+   - Exporta Branches o Leaves específicas para compartir con otros miembros del equipo
+   - Establece convenciones de nomenclatura claras
+
+2. **Control de versiones**:
+   - Considera utilizar un sistema de control de versiones externo (como Git) para los archivos exportados
+   - Documenta los cambios en cada commit
+
+## Solución de Problemas
+
+### Problemas Comunes de Importación
+
+1. **Referencias a componentes inexistentes**:
+   - Error: "La Branch hace referencia a una Leaf que no existe"
+   - Solución: Importa primero las Leaves o utiliza la opción "Ignorar referencias no existentes"
+
+2. **Conflictos de ID**:
+   - Error: "Ya existe un componente con este ID"
+   - Solución: Utiliza la opción "Generar nuevos IDs" durante la importación
+
+3. **Versiones incompatibles**:
+   - Error: "El formato del archivo no es compatible con esta versión de Treeflow"
+   - Solución: Verifica que estás utilizando versiones compatibles o contacta con soporte
+
+### Verificación de Importación
+
+Después de importar un Tree o componentes:
+
+1. Revisa la sección "Registros de Importación" para ver advertencias o errores
+2. Prueba el Tree importado para verificar que funciona como se esperaba
+3. Verifica que todas las referencias entre componentes se hayan mantenido correctamente
+
+:::tip Consejo
+Antes de realizar una importación importante en un entorno de producción, realiza primero una prueba en un entorno de desarrollo para identificar y resolver cualquier problema.
+:::
+
+## Conclusión
+
+Las herramientas de importación y exportación de Treeflow te permiten gestionar eficientemente tus Trees, colaborar con otros desarrolladores y mantener un historial de versiones. Utilizando estas funcionalidades correctamente, puedes asegurar que tu trabajo esté siempre respaldado y sea fácil de transferir entre diferentes entornos.

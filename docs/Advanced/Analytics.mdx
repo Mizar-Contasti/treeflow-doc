@@ -1,0 +1,215 @@
+---
+sidebar_position: 3
+---
+
+# Analítica y Reportes
+
+Treeflow proporciona herramientas analíticas potentes para ayudarte a entender el rendimiento de tus Trees (árboles) y mejorar continuamente la experiencia conversacional. Esta sección explica cómo acceder y utilizar estas funcionalidades para optimizar tus chatbots deterministas.
+
+## Panel de Analítica
+
+El panel de analítica ofrece una visión general del rendimiento de tus Trees:
+
+### Acceso al Panel
+
+1. Inicia sesión en tu cuenta de Treeflow
+2. Navega al Tree deseado
+3. Selecciona la pestaña "Analítica" en el menú principal
+
+### Métricas Principales
+
+El panel muestra las siguientes métricas clave:
+
+- **Conversaciones totales**: Número de sesiones de conversación
+- **Usuarios únicos**: Número de usuarios distintos que han interactuado con el Tree
+- **Tasa de éxito**: Porcentaje de conversaciones que alcanzaron sus objetivos
+- **Tiempo promedio de conversación**: Duración media de las interacciones
+- **Branches más activadas**: Las Branches que más frecuentemente coinciden con las entradas de los usuarios
+- **Branches fallidas**: Branches que frecuentemente fallan en la extracción de parámetros
+- **Fallbacks**: Porcentaje de mensajes que no coinciden con ninguna Branch
+
+## Análisis de Conversaciones
+
+### Historial de Conversaciones
+
+La sección de historial te permite revisar conversaciones completas:
+
+1. Navega a "Conversaciones" en el menú principal
+2. Utiliza los filtros para buscar conversaciones específicas:
+   - Por fecha
+   - Por duración
+   - Por resultado (exitosa/fallida)
+   - Por Branch específica activada
+3. Selecciona cualquier conversación para ver el intercambio completo
+
+### Análisis Detallado
+
+Para cada conversación, puedes ver:
+
+- **Secuencia de mensajes**: Intercambio completo entre usuario y Tree
+- **Branches activadas**: Qué Branches se activaron en cada paso
+- **Parámetros extraídos**: Qué información se extrajo de los mensajes del usuario
+- **Contextos activos**: Qué contextos estaban activos en cada punto
+- **Eventos disparados**: Qué eventos se activaron durante la conversación
+- **Puntuaciones de confianza**: Nivel de confianza para cada coincidencia de Branch
+
+## Reportes Personalizados
+
+### Generación de Reportes
+
+Treeflow permite crear reportes personalizados:
+
+1. Navega a la sección "Reportes"
+2. Haz clic en "Nuevo Reporte"
+3. Selecciona el tipo de reporte:
+   - Rendimiento general
+   - Análisis de Branches
+   - Análisis de Leaves
+   - Patrones de conversación
+   - Análisis de fallbacks
+4. Configura los parámetros del reporte:
+   - Rango de fechas
+   - Trees incluidos
+   - Métricas específicas
+5. Haz clic en "Generar Reporte"
+
+### Exportación de Datos
+
+Los reportes pueden exportarse en varios formatos:
+
+- CSV para análisis en herramientas externas
+- PDF para presentaciones
+- JSON para integración con otros sistemas
+
+## Análisis de Patrones
+
+### Identificación de Patrones Faltantes
+
+Una funcionalidad clave es la identificación de patrones que no están cubiertos por tus Branches:
+
+1. Navega a "Analítica" > "Patrones Faltantes"
+2. Revisa los mensajes de usuario que no coincidieron con ninguna Branch
+3. Identifica patrones comunes en estos mensajes
+4. Utiliza esta información para crear nuevas Branches o mejorar las existentes
+
+### Sugerencias Automáticas
+
+Treeflow analiza automáticamente las conversaciones y sugiere mejoras:
+
+- Nuevos patrones para añadir a Branches existentes
+- Nuevas Branches para crear basadas en mensajes frecuentes
+- Nuevos valores para añadir a Leaves existentes
+- Ajustes recomendados para umbrales de confianza
+
+## Monitoreo en Tiempo Real
+
+### Panel en Vivo
+
+Para Trees con alto volumen, el panel en vivo muestra:
+
+1. Conversaciones activas en este momento
+2. Métricas en tiempo real (usuarios conectados, tasa de respuesta)
+3. Alertas sobre problemas potenciales (alto porcentaje de fallbacks, errores)
+
+### Alertas Configurables
+
+Configura alertas para recibir notificaciones cuando:
+
+- El porcentaje de fallbacks supere un umbral definido
+- Una Branch específica falle consistentemente
+- El tiempo de respuesta se degrade
+- El volumen de conversaciones cambie significativamente
+
+## Análisis de Rendimiento
+
+### Métricas de Eficiencia
+
+Evalúa la eficiencia de tu Tree con métricas como:
+
+- **Turnos por objetivo**: Número promedio de intercambios necesarios para completar una tarea
+- **Tasa de abandono**: Porcentaje de usuarios que abandonan la conversación antes de completar su objetivo
+- **Tasa de reintento**: Frecuencia con que los usuarios deben reformular sus mensajes
+- **Tiempo hasta resolución**: Tiempo promedio para resolver la consulta del usuario
+
+### Comparación entre Versiones
+
+Compara el rendimiento entre diferentes versiones de tu Tree:
+
+1. Selecciona dos versiones para comparar
+2. Visualiza las diferencias en métricas clave
+3. Identifica mejoras o retrocesos en el rendimiento
+
+## Visualización de Datos
+
+### Gráficos Interactivos
+
+Explora los datos a través de visualizaciones interactivas:
+
+- Gráficos de flujo de conversación
+- Mapas de calor de activación de Branches
+- Gráficos de tendencias temporales
+- Diagramas de dispersión para correlaciones
+
+### Mapas de Conversación
+
+Visualiza los caminos más comunes que siguen los usuarios:
+
+1. Identifica los puntos de entrada más frecuentes
+2. Observa las rutas de conversación más comunes
+3. Detecta puntos donde los usuarios suelen desviarse o abandonar
+
+## Mejores Prácticas para el Análisis
+
+1. **Revisión regular**: Establece un calendario para revisar las métricas y reportes
+2. **Análisis comparativo**: Compara el rendimiento con benchmarks y versiones anteriores
+3. **Mejora iterativa**: Utiliza los datos para mejorar continuamente tus Trees
+4. **Escucha cualitativa**: Combina el análisis cuantitativo con feedback cualitativo de los usuarios
+5. **Pruebas A/B**: Utiliza los datos para comparar diferentes enfoques y determinar cuál funciona mejor
+
+## Integración con Herramientas Externas
+
+Treeflow permite la integración con herramientas externas de analítica:
+
+- **Google Analytics**: Para análisis web más detallado
+- **Mixpanel/Amplitude**: Para análisis de comportamiento de usuario
+- **Tableau/Power BI**: Para visualizaciones avanzadas y business intelligence
+- **Sistemas CRM**: Para conectar conversaciones con datos de clientes
+
+### Configuración de Integraciones
+
+1. Navega a "Configuración" > "Integraciones"
+2. Selecciona la herramienta deseada
+3. Proporciona las credenciales necesarias
+4. Configura qué datos deseas compartir
+5. Guarda la configuración
+
+:::tip Consejo
+Utiliza la analítica no solo para detectar problemas, sino también para identificar oportunidades de expansión. Los temas frecuentes que no están cubiertos por tu Tree actual pueden indicar áreas para desarrollar nuevas funcionalidades.
+:::
+
+## Caso de Uso: Optimización Basada en Datos
+
+### Escenario
+
+Un Tree de atención al cliente muestra una alta tasa de abandono en un punto específico del flujo de conversación.
+
+### Análisis
+
+1. **Identificación del problema**: El reporte de "Puntos de Abandono" muestra que muchos usuarios abandonan después de la Branch "Verificar_Estado_Pedido"
+2. **Análisis de conversaciones**: La revisión de las conversaciones revela que los usuarios frecuentemente proporcionan números de pedido en formatos que la Leaf no reconoce
+3. **Análisis de patrones faltantes**: Se identifican varios formatos comunes que no están cubiertos
+
+### Solución
+
+1. **Mejora de la Leaf**: Se añaden nuevos formatos de número de pedido basados en los patrones identificados
+2. **Mejora de la Branch**: Se añaden más ejemplos de cómo los usuarios solicitan el estado de sus pedidos
+3. **Mejora de prompts**: Se clarifica el formato esperado para el número de pedido
+
+### Resultados
+
+Después de implementar estos cambios, el análisis muestra:
+- Reducción del 40% en la tasa de abandono
+- Aumento del 25% en la tasa de éxito para esta Branch
+- Reducción del 30% en el tiempo promedio para completar esta tarea
+
+Este ejemplo ilustra cómo el uso efectivo de las herramientas analíticas puede conducir a mejoras concretas y medibles en el rendimiento de tu Tree.

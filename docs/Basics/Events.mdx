@@ -1,0 +1,179 @@
+---
+sidebar_position: 6
+---
+
+# Eventos
+
+Los **Eventos** en Treeflow son mecanismos que permiten activar ramas (branches) específicas sin necesidad de una entrada directa del usuario. Son fundamentales para crear flujos conversacionales avanzados y automatizar acciones en tu Tree.
+
+## ¿Qué son los Eventos?
+
+Los eventos son señales que se pueden disparar durante una conversación para activar ramas específicas. A diferencia de la activación normal de ramas (que ocurre cuando el usuario escribe algo que coincide con un patrón), los eventos permiten:
+
+- Activar ramas de sistema automáticamente
+- Ejecutar acciones en momentos específicos de la conversación
+- Crear flujos complejos con transiciones automáticas
+
+## Tipos de Eventos
+
+En Treeflow, los eventos pueden ser:
+
+### 1. Eventos Definidos por el Usuario
+
+Son eventos personalizados que tú defines para tu Tree. Puedes nombrarlos según tus necesidades específicas.
+
+Ejemplos:
+- `pedido_completado`
+- `usuario_inactivo`
+- `datos_validados`
+
+### 2. Eventos del Sistema
+
+Son eventos predefinidos que se disparan automáticamente en situaciones específicas.
+
+Ejemplos:
+- `bienvenida`: Se dispara cuando un usuario inicia una nueva conversación
+- `fallback`: Se dispara cuando ninguna rama coincide con la entrada del usuario
+- `timeout`: Se dispara después de un período de inactividad
+
+## Configuración de Eventos
+
+### Configurar una Rama para Disparar Eventos
+
+Puedes configurar una rama para que dispare uno o más eventos cuando se active:
+
+```json
+{
+  "id": "confirmar_compra",
+  "name": "Confirmar Compra",
+  "events": ["compra_completada", "enviar_recibo"]
+}
+```
+
+Cuando la rama "Confirmar Compra" se active, disparará los eventos `compra_completada` y `enviar_recibo`, activando cualquier rama que esté configurada para responder a estos eventos.
+
+### Configurar una Rama para Responder a Eventos
+
+Para que una rama responda a eventos, debe ser una rama de tipo "sistema" y especificar los eventos a los que responde en sus patrones:
+
+```json
+{
+  "id": "procesar_compra",
+  "name": "Procesar Compra",
+  "type": "system",
+  "patterns": ["compra_completada"],
+  "responses": [
+    {
+      "type": "text",
+      "value": "Procesando tu compra..."
+    }
+  ]
+}
+```
+
+Esta rama se activará automáticamente cuando se dispare el evento `compra_completada`.
+
+## Casos de Uso Comunes
+
+### Bienvenida Automática
+
+Crear una rama de sistema que responda al evento `bienvenida` para saludar automáticamente a los usuarios cuando inician una conversación:
+
+```json
+{
+  "id": "bienvenida_usuario",
+  "name": "Bienvenida",
+  "type": "system",
+  "patterns": ["bienvenida"],
+  "responses": [
+    {
+      "type": "text",
+      "value": "¡Hola! ¿En qué puedo ayudarte hoy?"
+    }
+  ]
+}
+```
+
+### Fallback Personalizado
+
+Crear una rama de sistema que responda al evento `fallback` para manejar situaciones donde el Tree no entiende al usuario:
+
+```json
+{
+  "id": "fallback_personalizado",
+  "name": "Fallback",
+  "type": "system",
+  "patterns": ["fallback"],
+  "responses": [
+    {
+      "type": "text",
+      "value": "Lo siento, no entendí lo que quieres decir. ¿Podrías reformularlo?"
+    }
+  ]
+}
+```
+
+### Flujos Multi-paso Automatizados
+
+Usar eventos para crear secuencias automáticas de acciones:
+
+1. Una rama conversacional activa el evento `iniciar_proceso`
+2. Una rama de sistema responde a `iniciar_proceso` y activa `paso_1`
+3. Otra rama de sistema responde a `paso_1` y activa `paso_2`
+4. Y así sucesivamente...
+
+## Cadena de Eventos
+
+Los eventos pueden formar una cadena, donde un evento dispara una rama que a su vez dispara otro evento:
+
+1. Usuario: "Quiero confirmar mi compra"
+2. Se activa la rama "confirmar_compra" que dispara el evento `compra_confirmada`
+3. El evento `compra_confirmada` activa la rama "procesar_pago" que dispara el evento `pago_procesado`
+4. El evento `pago_procesado` activa la rama "enviar_recibo"
+
+Esta capacidad permite crear flujos complejos y automatizados sin necesidad de múltiples interacciones del usuario.
+
+## Eventos y Contextos
+
+Los eventos y contextos pueden trabajar juntos para crear flujos conversacionales sofisticados:
+
+- Los eventos pueden activar ramas que establecen contextos específicos
+- Los contextos pueden limitar qué ramas pueden ser activadas por eventos subsiguientes
+- Esta combinación permite un control preciso sobre el flujo de la conversación
+
+## Mejores Prácticas para Eventos
+
+1. **Nombres descriptivos**: Usa nombres de eventos que indiquen claramente su propósito
+2. **Documentación**: Mantén una lista de todos los eventos utilizados en tu Tree
+3. **Evita ciclos infinitos**: Ten cuidado de no crear ciclos donde los eventos se disparen mutuamente sin fin
+4. **Prueba los flujos**: Verifica que tus cadenas de eventos funcionan correctamente en diferentes escenarios
+5. **Combina con contextos**: Utiliza contextos para controlar cuándo pueden activarse las ramas por eventos
+
+:::tip Consejo
+Visualiza tus flujos de eventos como un diagrama para entender mejor cómo interactúan entre sí y con las entradas del usuario.
+:::
+
+## Ejemplo de Flujo con Eventos
+
+### Escenario: Proceso de Reserva
+
+1. **Rama Conversacional: Iniciar_Reserva**
+   - Activada por el usuario: "Quiero hacer una reserva"
+   - Dispara el evento: `iniciar_proceso_reserva`
+
+2. **Rama de Sistema: Solicitar_Fecha**
+   - Activada por el evento: `iniciar_proceso_reserva`
+   - Establece el contexto: "esperando_fecha"
+   - Responde: "¿Para qué fecha deseas hacer la reserva?"
+
+3. **Rama Conversacional: Proporcionar_Fecha**
+   - Requiere el contexto: "esperando_fecha"
+   - Extrae la fecha usando una hoja (leaf) de tipo fecha
+   - Dispara el evento: `fecha_proporcionada`
+
+4. **Rama de Sistema: Solicitar_Hora**
+   - Activada por el evento: `fecha_proporcionada`
+   - Establece el contexto: "esperando_hora"
+   - Responde: "¿A qué hora prefieres?"
+
+Este flujo combina eventos y contextos para guiar al usuario a través del proceso de reserva de manera estructurada y controlada.

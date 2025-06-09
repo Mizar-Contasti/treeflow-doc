@@ -1,0 +1,315 @@
+---
+sidebar_position: 5
+---
+
+# Técnicas Avanzadas de NLP
+
+Treeflow combina técnicas deterministas con procesamiento de lenguaje natural (NLP) avanzado para crear experiencias conversacionales más potentes y naturales. Esta guía explora cómo aprovechar estas capacidades para mejorar tus Trees (árboles).
+
+## Fundamentos de NLP en Treeflow
+
+Treeflow utiliza múltiples técnicas de NLP para comprender mejor las entradas de los usuarios:
+
+### Reconocimiento de Intenciones
+
+El sistema de reconocimiento de intenciones de Treeflow utiliza:
+
+1. **Coincidencia de Patrones**: Para identificar coincidencias exactas o aproximadas
+2. **Clasificación ML**: Para reconocer intenciones incluso cuando la formulación es diferente
+3. **Análisis Semántico**: Para entender el significado subyacente del mensaje
+
+### Extracción de Entidades
+
+Las Leaves (hojas) en Treeflow utilizan técnicas avanzadas para extraer información:
+
+1. **Reconocimiento de Entidades Nombradas (NER)**: Para identificar nombres, lugares, organizaciones, etc.
+2. **Coincidencia de Patrones**: Para extraer datos con formato específico
+3. **Análisis Contextual**: Para entender entidades basadas en el contexto de la conversación
+
+## Optimización del Reconocimiento de Intenciones
+
+### Mejora de Patrones
+
+Para mejorar el reconocimiento de intenciones:
+
+1. **Variedad de Expresiones**: Incluye múltiples formas en que los usuarios podrían expresar la misma intención
+2. **Patrones Semánticos**: Utiliza patrones que capturen el significado, no solo palabras específicas
+3. **Anotaciones**: Utiliza anotaciones especiales en tus patrones:
+   - `[opcional]`: Para palabras que pueden estar presentes o no
+   - `(alternativa1|alternativa2)`: Para especificar alternativas
+   - `~aproximado`: Para coincidencias aproximadas
+
+Ejemplo de patrones avanzados:
+
+```
+Quiero [reservar] (una mesa|una habitación) para @numero [personas] [para] @fecha [a las] @hora
+[Me gustaría] saber (el estado|la situación) de mi @tipo_documento [número] @numero_documento
+```
+
+### Entrenamiento del Modelo
+
+Para mejorar el modelo de clasificación ML:
+
+1. Navega a la sección "Entrenamiento" en el menú principal
+2. Revisa las conversaciones donde el modelo tuvo baja confianza
+3. Etiqueta manualmente las intenciones correctas
+4. Inicia un nuevo entrenamiento del modelo
+
+### Umbrales Dinámicos
+
+Configura umbrales de confianza dinámicos:
+
+1. En la configuración del Tree, activa "Umbrales Dinámicos"
+2. Configura reglas basadas en:
+   - Contexto actual
+   - Historial de la conversación
+   - Complejidad del mensaje
+
+## Técnicas Avanzadas de Extracción
+
+### Leaves Compuestas
+
+Para extraer información estructurada compleja:
+
+1. Crea una Leaf compuesta
+2. Define la estructura con sub-entidades
+3. Configura reglas de extracción para cada componente
+
+Ejemplo de Leaf compuesta para direcciones:
+
+```json
+{
+  "id": "direccion",
+  "name": "direccion",
+  "type": "composite",
+  "components": [
+    {
+      "name": "calle",
+      "type": "text",
+      "required": true
+    },
+    {
+      "name": "numero",
+      "type": "sys.number",
+      "required": true
+    },
+    {
+      "name": "ciudad",
+      "type": "leaf.ciudades",
+      "required": true
+    },
+    {
+      "name": "codigo_postal",
+      "type": "sys.zip-code",
+      "required": false
+    }
+  ]
+}
+```
+
+### Expresiones Regulares Avanzadas
+
+Para datos con formato específico, utiliza expresiones regulares potentes:
+
+1. Crea una Leaf de tipo regex
+2. Utiliza grupos de captura para extraer componentes específicos
+3. Añade anotaciones para mejorar la extracción
+
+Ejemplo de regex avanzada para números de referencia:
+
+```
+^(?<tipo>[A-Z]{2})-(?<año>\d{4})-(?<numero>\d{6})$
+```
+
+Esta expresión extraería componentes separados de un código como "IN-2023-123456".
+
+### Normalización de Entidades
+
+Para mejorar la calidad de los datos extraídos:
+
+1. Configura reglas de normalización en la Leaf
+2. Define transformaciones para valores extraídos
+3. Implementa validación post-extracción
+
+Ejemplo de normalización para fechas:
+
+```javascript
+function normalizarFecha(texto) {
+  // Convertir "mañana", "hoy", etc. a fechas específicas
+  if (texto.toLowerCase() === "hoy") {
+    return obtenerFechaActual();
+  } else if (texto.toLowerCase() === "mañana") {
+    return obtenerFechaSiguiente(1);
+  }
+  // Normalizar formatos de fecha
+  return formatearFecha(texto);
+}
+```
+
+## Análisis de Sentimiento y Emociones
+
+Treeflow puede analizar el sentimiento y las emociones en los mensajes del usuario:
+
+### Configuración del Análisis
+
+1. En la configuración del Tree, activa "Análisis de Sentimiento"
+2. Configura el nivel de detalle:
+   - Básico: Positivo, Negativo, Neutral
+   - Avanzado: Incluye emociones específicas (alegría, frustración, confusión, etc.)
+
+### Uso en Branches
+
+Para utilizar el análisis de sentimiento en tus Branches:
+
+1. Crea una Branch con condiciones basadas en sentimiento
+2. Utiliza la variable especial `{'{'}sentiment{'}'}` en tus condiciones
+3. Personaliza las respuestas según el sentimiento detectado
+
+Ejemplo:
+
+```
+Si {'{'}sentiment{'}'} == "negativo" entonces:
+  "Lamento que estés experimentando dificultades. Intentemos resolver esto juntos."
+Si {'{'}sentiment{'}'} == "positivo" entonces:
+  "¡Me alegra que estés satisfecho! ¿Hay algo más en lo que pueda ayudarte?"
+```
+
+## Procesamiento de Lenguaje Contextual
+
+### Resolución de Referencias
+
+Treeflow puede resolver referencias anafóricas (como "eso", "él", "ella", "ellos"):
+
+1. Activa "Resolución de Referencias" en la configuración del Tree
+2. El sistema automáticamente resolverá referencias a entidades mencionadas previamente
+
+Ejemplo:
+- Usuario: "¿Cuál es el precio del iPhone 14?"
+- Tree: "El iPhone 14 cuesta $799"
+- Usuario: "¿Y viene en color negro?"
+- Tree entiende que "viene" se refiere al "iPhone 14"
+
+### Memoria Conversacional
+
+Para mantener y utilizar información a lo largo de la conversación:
+
+1. Configura la "Memoria Conversacional" en la configuración del Tree
+2. Define qué información debe ser recordada automáticamente
+3. Utiliza la información almacenada en respuestas posteriores
+
+## Integración con Modelos de Lenguaje Avanzados
+
+### Configuración de Modelos Externos
+
+Para integrar modelos de lenguaje más potentes:
+
+1. Navega a "Configuración" > "Modelos de Lenguaje"
+2. Selecciona el modelo que deseas utilizar:
+   - Modelos internos de Treeflow
+   - OpenAI GPT
+   - Hugging Face Transformers
+   - Modelos personalizados
+3. Configura los parámetros del modelo:
+   - Temperatura
+   - Longitud máxima
+   - Tokens de parada
+
+### Uso Híbrido
+
+Implementa un enfoque híbrido:
+
+1. Utiliza el sistema determinista para:
+   - Extracción precisa de información
+   - Flujos de conversación críticos
+   - Validación de datos
+
+2. Utiliza modelos generativos para:
+   - Generación de respuestas naturales
+   - Manejo de consultas complejas
+   - Personalización avanzada
+
+## Técnicas de Preprocesamiento
+
+### Limpieza de Texto
+
+Configura reglas de limpieza para mejorar la comprensión:
+
+1. Navega a "Configuración" > "Preprocesamiento"
+2. Configura reglas para:
+   - Corrección ortográfica
+   - Normalización de caracteres especiales
+   - Manejo de emojis y emoticones
+   - Expansión de abreviaturas
+
+### Segmentación Avanzada
+
+Para mensajes complejos que contienen múltiples intenciones:
+
+1. Activa "Segmentación de Mensajes" en la configuración
+2. El sistema dividirá automáticamente mensajes complejos
+3. Procesará cada segmento como una intención separada
+
+## Análisis y Mejora Continua
+
+### Aprendizaje Activo
+
+Implementa un ciclo de aprendizaje activo:
+
+1. Revisa regularmente mensajes con baja confianza
+2. Etiqueta manualmente las intenciones correctas
+3. Añade nuevos patrones basados en mensajes reales
+4. Reentrenar el modelo con los nuevos datos
+
+### Análisis de Confusiones
+
+Para identificar y resolver confusiones entre Branches:
+
+1. Navega a "Analítica" > "Matriz de Confusión"
+2. Identifica Branches que se confunden frecuentemente
+3. Mejora la diferenciación entre estas Branches:
+   - Añade patrones más específicos
+   - Refina las entidades utilizadas
+   - Ajusta los umbrales de confianza
+
+## Ejemplo Práctico: Asistente de Reservas Avanzado
+
+### Escenario
+
+Un asistente para reservas de restaurantes que utiliza técnicas avanzadas de NLP.
+
+### Implementación
+
+1. **Branch de Reserva con Extracción Compleja**:
+   ```
+   Patrón: [Quiero|Me gustaría|Necesito] [hacer|realizar] una reserva [para|de] @numero [personas] [para|el] @fecha [a las|a la] @hora
+   ```
+
+2. **Resolución de Referencias**:
+   - Usuario: "¿Tienen mesa disponible para mañana a las 8?"
+   - Tree: "Sí, tenemos disponibilidad. ¿Para cuántas personas sería la reserva?"
+   - Usuario: "Para 4"
+   - Tree entiende que "4" se refiere al número de personas para la reserva mencionada
+
+3. **Análisis de Sentimiento para Personalización**:
+   - Si el usuario muestra entusiasmo: "¡Fantástico! Estamos emocionados de recibirlos mañana a las 8 PM."
+   - Si el usuario muestra duda: "Hemos reservado su mesa para mañana a las 8 PM. Puede modificar o cancelar su reserva hasta 2 horas antes sin cargo."
+
+4. **Normalización de Entidades**:
+   - Usuario: "Quiero reservar para el próximo viernes"
+   - El sistema normaliza "próximo viernes" a la fecha específica
+
+### Resultados
+
+Este enfoque avanzado permite:
+- Mayor precisión en la extracción de información
+- Conversaciones más naturales y fluidas
+- Mejor manejo de casos complejos
+- Personalización basada en el contexto y sentimiento
+
+## Conclusión
+
+Las técnicas avanzadas de NLP en Treeflow te permiten crear experiencias conversacionales más naturales, precisas y efectivas. Combinando el control determinista con la flexibilidad del procesamiento de lenguaje natural, puedes desarrollar Trees que realmente entiendan y respondan a las necesidades de tus usuarios.
+
+:::tip Consejo
+Comienza con técnicas básicas y ve incorporando gradualmente funcionalidades más avanzadas a medida que te familiarices con la plataforma y entiendas mejor las necesidades de tus usuarios.
+:::
