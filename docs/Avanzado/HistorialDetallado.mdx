@@ -1,0 +1,375 @@
+---
+sidebar_position: 9
+---
+
+# Historial de Cambios Detallado
+
+Este documento proporciona un historial detallado de todas las características, mejoras y correcciones implementadas en cada versión de Treeflow. Para una visión general más concisa, consulta el [Historial de Cambios general](/docs/changelog).
+
+## Versiones Futuras
+
+<details>
+<summary><strong>Versión 0.2 (Próximamente)</strong></summary>
+
+### Sistema de Cuentas Independientes
+> - ⌛ **Registro y gestión de usuarios**
+>   - Creación de cuentas personalizadas
+>   - Recuperación de contraseñas
+>   - Perfiles de usuario configurables
+>   - Gestión de información personal
+>
+> - ⌛ **Roles y permisos**
+>   - Administradores
+>   - Desarrolladores
+>   - Analistas
+>   - Visualizadores
+>   - Permisos granulares por función
+>
+> - ⌛ **Espacios de trabajo**
+>   - Separación de proyectos por cuenta
+>   - Compartición de recursos entre equipos
+>   - Gestión de acceso a Trees específicos
+>
+> - ⌛ **Panel de administración**
+>   - Gestión centralizada de usuarios
+>   - Monitoreo de actividad
+>   - Asignación de roles y permisos
+>   - Estadísticas de uso por cuenta
+
+### Mejoras en Integración con Webhooks
+> - ⌛ **Editor visual de configuración**
+>   - Interfaz gráfica para configurar endpoints
+>   - Validación en tiempo real de configuraciones
+>   - Previsualización de estructura de datos
+>
+> - ⌛ **Plantillas predefinidas**
+>   - Conectores para servicios populares
+>   - Configuraciones pre-optimizadas
+>   - Ejemplos de implementación
+>
+> - ⌛ **Monitoreo y depuración**
+>   - Historial de llamadas a webhooks
+>   - Visualización de respuestas
+>   - Herramientas de diagnóstico
+>   - Alertas de fallos
+>
+> - ⌛ **Manejo avanzado de errores**
+>   - Políticas de reintento configurables
+>   - Respuestas de fallback
+>   - Notificaciones de error
+>   - Registro detallado de problemas
+
+### Integraciones con Plataformas Externas
+> - ⌛ **Conectores para mensajería**
+>   - WhatsApp Business API
+>   - Facebook Messenger
+>   - Telegram
+>   - Instagram Direct
+>   - SMS
+>
+> - ⌛ **Plataformas de atención al cliente**
+>   - Zendesk
+>   - Freshdesk
+>   - Intercom
+>   - Salesforce Service Cloud
+>
+> - ⌛ **Widget web personalizable**
+>   - Personalización de apariencia
+>   - Opciones de comportamiento
+>   - Integración simple con cualquier sitio web
+>   - Soporte para móviles y escritorio
+>
+> - ⌛ **API mejorada**
+>   - Documentación interactiva
+>   - SDKs para lenguajes populares
+>   - Autenticación OAuth 2.0
+>   - Límites de tasa configurables
+
+### Automatización Avanzada con IA
+> - ⌛ **Generación automática de Branches**
+>   - Creación de patrones a partir de ejemplos
+>   - Sugerencias de respuestas
+>   - Identificación automática de parámetros
+>
+> - ⌛ **Sugerencias inteligentes**
+>   - Recomendaciones para mejorar patrones
+>   - Detección de patrones redundantes
+>   - Optimización de prompts
+>
+> - ⌛ **Detección de intenciones similares**
+>   - Identificación de Branches con solapamiento
+>   - Recomendaciones de fusión o separación
+>   - Visualización de similitud entre intenciones
+>
+> - ⌛ **Optimización de flujos**
+>   - Análisis de rutas de conversación
+>   - Identificación de cuellos de botella
+>   - Sugerencias para mejorar la experiencia del usuario
+>   - Predicción de próximos pasos del usuario
+
+### Herramientas de Desarrollo
+> - ⌛ **Videos tutoriales**
+>   - Guías paso a paso para principiantes
+>   - Técnicas avanzadas de diseño conversacional
+>   - Mejores prácticas de implementación
+>   - Casos de uso específicos
+
+</details>
+
+## Versiones Lanzadas
+
+<details open>
+<summary><strong>V-0.1 (06/2025) - Versión Actual</strong></summary>
+
+### Gestión de Trees (Chatbots)
+> - ✅ **Creación y configuración**
+>   - Interfaz intuitiva para crear Trees
+>   - Configuración de propósito y descripción
+>   - Opciones de personalización avanzadas
+>   - Duplicación y plantillas
+>
+> - ✅ **Umbrales de confianza**
+>   - Configuración de umbral ML (0.0-1.0)
+>   - Configuración de umbral Fuzzy (0.0-1.0)
+>   - Ajuste fino para reconocimiento de intenciones
+>
+> - ✅ **Orden de detección**
+>   - Configuración de prioridad: ML, Fuzzy, Exact
+>   - Personalización del pipeline de reconocimiento
+>   - Optimización para diferentes casos de uso
+>
+> - ✅ **Dashboard principal**
+>   - Listado de Trees disponibles
+>   - Estadísticas de uso
+>   - Acceso rápido a funciones principales
+>   - Filtros y búsqueda
+
+### Gestión de Branches (Intenciones)
+> - ✅ **Tipos de Branches**
+>   - Branches conversacionales (activadas por usuario)
+>   - Branches de sistema (activadas por eventos)
+>   - Configuración específica por tipo
+>
+> - ✅ **Patrones de reconocimiento**
+>   - Soporte para múltiples ejemplos por Branch
+>   - Patrones con variables (@entidad)
+>   - Reconocimiento basado en ML
+>   - Coincidencia fuzzy para errores tipográficos
+>
+> - ✅ **Sistema de respuestas**
+>   - Múltiples variaciones por Branch
+>   - Selección aleatoria para naturalidad
+>   - Respuestas con formato enriquecido
+>   - Personalización basada en parámetros
+>
+> - ✅ **Parámetros y prompts**
+>   - Extracción automática de parámetros
+>   - Prompts personalizados para solicitar información
+>   - Valores por defecto configurables
+>   - Validación de entradas
+>
+> - ✅ **Gestión de contextos**
+>   - Contextos de entrada para activación condicional
+>   - Contextos de salida para control de flujo
+>   - Configuración de tiempo de vida (lifespan)
+>
+> - ✅ **Sistema de eventos**
+>   - Activación de eventos personalizados
+>   - Encadenamiento de acciones
+>   - Automatización de flujos complejos
+
+### Gestión de Leaves (Entidades)
+> - ✅ **Tipos de Leaves**
+>   - Simple: valores discretos con sinónimos
+>   - Composite: entidades compuestas
+>   - Regex: patrones de expresiones regulares
+>   - Custom: entidades personalizadas
+>
+> - ✅ **Configuración de valores**
+>   - Gestión de valores principales
+>   - Sinónimos para cada valor
+>   - Importación y exportación de valores
+>
+> - ✅ **Extracción automática**
+>   - Identificación en tiempo real durante conversaciones
+>   - Normalización de valores extraídos
+>   - Resolución de ambigüedades
+
+### Gestión de Contextos
+> - ✅ **Contextos de entrada/salida**
+>   - Control de activación de Branches
+>   - Mantenimiento de estado conversacional
+>   - Gestión de flujos complejos
+>
+> - ✅ **Control de flujo**
+>   - Direccionamiento de la conversación
+>   - Manejo de sub-diálogos
+>   - Retorno a flujos anteriores
+>
+> - ✅ **Tiempo de vida (lifespan)**
+>   - Configuración de duración de contextos
+>   - Expiración automática
+>   - Reinicio de contextos
+
+### Gestión de Eventos
+> - ✅ **Eventos personalizados**
+>   - Creación de eventos específicos
+>   - Activación desde Branches
+>   - Encadenamiento de acciones
+>
+> - ✅ **Eventos del sistema**
+>   - Bienvenida: inicio de conversación
+>   - Fallback: cuando no hay coincidencia
+>   - Timeout: inactividad del usuario
+>
+> - ✅ **Activación automática**
+>   - Branches activadas por eventos
+>   - Ejecución de acciones en segundo plano
+>   - Automatización de flujos
+
+### Integración con Webhooks
+> - ✅ **Configuración por Branch**
+>   - Habilitación de webhooks específicos
+>   - Configuración de endpoints
+>   - Mapeo de parámetros
+>
+> - ✅ **Autenticación**
+>   - Soporte para tokens de autenticación
+>   - Headers personalizados
+>   - Seguridad en las comunicaciones
+>
+> - ✅ **Respuestas dinámicas**
+>   - Procesamiento de respuestas externas
+>   - Integración con sistemas backend
+>   - Personalización basada en datos en tiempo real
+
+### Integración con Modelos Generativos
+> - ✅ **Enfoque híbrido**
+>   - Control determinista con flexibilidad generativa
+>   - Transición fluida entre modos
+>   - Combinación de respuestas predefinidas y generadas
+>
+> - ✅ **Configuración de prompts**
+>   - Personalización de instrucciones para modelos
+>   - Control de tono y estilo
+>   - Restricciones de contenido
+>
+> - ✅ **Personalización de respuestas**
+>   - Ajuste de temperatura y creatividad
+>   - Inclusión de información contextual
+>   - Formateo de respuestas generadas
+
+### Herramientas de Prueba
+> - ✅ **Panel de conversaciones**
+>   - Interfaz de chat para pruebas
+>   - Simulación de interacciones de usuario
+>   - Historial de mensajes
+>
+> - ✅ **Visualización de contextos**
+>   - Monitoreo de contextos activos
+>   - Seguimiento de tiempo de vida
+>   - Depuración de flujos
+>
+> - ✅ **Depuración de reconocimiento**
+>   - Visualización de coincidencias de intenciones
+>   - Puntuaciones de confianza
+>   - Análisis de fallos de reconocimiento
+
+### Análisis y Reportes
+> - ✅ **Métricas básicas**
+>   - Uso y rendimiento
+>   - Tasas de reconocimiento
+>   - Duración de conversaciones
+>
+> - ✅ **Análisis de conversaciones**
+>   - Patrones comunes
+>   - Rutas de conversación
+>   - Puntos de abandono
+>
+> - ✅ **Identificación de problemas**
+>   - Patrones no reconocidos
+>   - Intenciones confundidas
+>   - Oportunidades de mejora
+
+### Interfaz de Usuario
+> - ✅ **Frontend React/TypeScript**
+>   - Componentes modernos
+>   - Estado gestionado eficientemente
+>   - Tipado estricto para robustez
+>
+> - ✅ **Diseño responsive**
+>   - Adaptación a diferentes dispositivos
+>   - Experiencia optimizada en móvil y escritorio
+>   - Accesibilidad mejorada
+>
+> - ✅ **Navegación intuitiva**
+>   - Estructura clara de secciones
+>   - Accesos directos a funciones comunes
+>   - Flujos de trabajo optimizados
+
+### Backend y API
+> - ✅ **API REST con FastAPI**
+>   - Endpoints bien documentados
+>   - Validación automática de datos
+>   - Rendimiento optimizado
+>
+> - ✅ **Gestión completa**
+>   - CRUD para Trees, Branches y Leaves
+>   - Operaciones por lotes
+>   - Versionado de recursos
+>
+> - ✅ **Procesamiento NLP**
+>   - Reconocimiento de intenciones
+>   - Extracción de entidades
+>   - Análisis contextual
+>   - Integración con modelos de ML
+
+### Arquitectura
+> - ✅ **Separación frontend/backend**
+>   - Arquitectura desacoplada
+>   - Comunicación vía API REST
+>   - Desarrollo independiente de componentes
+>
+> - ✅ **Modelo de datos estructurado**
+>   - Relaciones claras entre entidades
+>   - Normalización adecuada
+>   - Integridad referencial
+>
+> - ✅ **Sistema de procesamiento**
+>   - Pipeline de análisis de mensajes
+>   - Gestión de estado conversacional
+>   - Resolución de intenciones y entidades
+
+### Seguridad
+> - ✅ **Autenticación básica**
+>   - Sistema de login seguro
+>   - Gestión de sesiones
+>   - Protección contra ataques comunes
+>
+> - ✅ **Protección de endpoints**
+>   - Validación de tokens
+>   - Control de acceso
+>   - Limitación de tasa
+>
+> - ✅ **Validación de datos**
+>   - Sanitización de entradas
+>   - Prevención de inyecciones
+>   - Manejo seguro de datos sensibles
+
+### Rendimiento
+> - ✅ **Optimización de respuestas**
+>   - Tiempos de respuesta minimizados
+>   - Procesamiento asíncrono cuando es apropiado
+>   - Balanceo de carga
+>
+> - ✅ **Sistema de caché**
+>   - Almacenamiento en caché de resultados frecuentes
+>   - Invalidación inteligente
+>   - Reducción de latencia
+>
+> - ✅ **Procesamiento eficiente**
+>   - Algoritmos optimizados para patrones
+>   - Indexación para búsquedas rápidas
+>   - Uso eficiente de recursos
+
+</details>

@@ -1,0 +1,181 @@
+---
+sidebar_position: 5
+---
+
+# Contextos
+
+Los **Contextos** en TreeFlow son mecanismos que permiten controlar el flujo de la conversación y mantener el estado entre diferentes interacciones con el usuario.
+
+## ¿Qué son los Contextos?
+
+Los contextos son etiquetas que se aplican a la conversación para indicar en qué parte del flujo se encuentra el usuario. Permiten:
+
+- Controlar qué Ramas pueden activarse en un momento dado
+- Mantener información de estado durante la conversación
+- Crear flujos conversacionales complejos y estructurados
+- Gestionar sub-diálogos y conversaciones anidadas
+
+## Tipos de Contextos
+
+En TreeFlow, los contextos se utilizan de dos maneras principales:
+
+### Contextos de Entrada
+
+Los **contextos de entrada** determinan cuándo una Rama puede ser activada. Una Rama solo se activará si:
+
+1. El mensaje del usuario coincide con uno de sus patrones
+2. Todos los contextos de entrada requeridos están activos
+
+Esto permite crear flujos conversacionales específicos donde ciertas Ramas solo están disponibles en determinados momentos de la conversación.
+
+### Contextos de Salida
+
+Los **contextos de salida** son contextos que se activan cuando una Rama es ejecutada. Estos contextos pueden:
+
+- Establecerse por primera vez
+- Extender la duración de un contexto existente
+- Finalizar un contexto existente (estableciendo su lifespan a 0)
+
+## Lifespan (Tiempo de Vida)
+
+Cada contexto tiene un **lifespan** o tiempo de vida, que determina cuánto tiempo permanecerá activo:
+
+- **Lifespan > 0**: El contexto permanecerá activo durante ese número de turnos conversacionales
+- **Lifespan = 0**: El contexto se desactiva inmediatamente
+- **Lifespan = -1**: El contexto permanece activo indefinidamente hasta que se desactive explícitamente
+
+## Configuración de Contextos
+
+Los contextos se configuran a nivel de Rama:
+
+```jsx
+// Configuración de contextos en una Rama
+<BranchContexts>
+  <InputContexts>
+    <Context name="realizando_pedido" />
+    <Context name="seleccionando_producto" />
+  </InputContexts>
+  <OutputContexts>
+    <Context name="realizando_pedido" lifespan={5} />
+    <Context name="seleccionando_producto" lifespan={0} />
+    <Context name="confirmando_pedido" lifespan={2} />
+  </OutputContexts>
+</BranchContexts>
+```
+
+## Casos de Uso Avanzados
+
+### Control de Flujo Multi-turno
+
+Los contextos son esenciales para manejar conversaciones que requieren múltiples turnos:
+
+```jsx
+// Rama para iniciar un pedido
+<Branch
+  name="Iniciar_Pedido"
+  patterns={["quiero hacer un pedido", "ordenar algo"]}
+  outputContexts={[
+    { name: "realizando_pedido", lifespan: 5 }
+  ]}
+  response="¿Qué te gustaría ordenar?"
+/>
+
+// Rama para seleccionar un producto (requiere contexto)
+<Branch
+  name="Seleccionar_Producto"
+  patterns={["quiero un $producto", "me gustaría $producto"]}
+  inputContexts={["realizando_pedido"]}
+  outputContexts={[
+    { name: "realizando_pedido", lifespan: 5 },
+    { name: "producto_seleccionado", lifespan: 2 }
+  ]}
+  response="¿De qué tamaño quieres tu $producto?"
+/>
+```
+
+### Gestión de Sub-diálogos
+
+Los contextos permiten crear sub-diálogos que pueden interrumpir temporalmente el flujo principal:
+
+```jsx
+// Sub-diálogo para aclarar información
+<Branch
+  name="Solicitar_Aclaracion"
+  patterns={["no entendí", "puedes explicar"]}
+  outputContexts={[
+    { name: "solicitando_aclaracion", lifespan: 1 }
+  ]}
+  response="¿Qué parte necesitas que te explique?"
+/>
+
+// Rama para volver al flujo principal
+<Branch
+  name="Volver_Al_Flujo"
+  patterns={["ya entendí", "gracias por la explicación"]}
+  inputContexts={["solicitando_aclaracion"]}
+  outputContexts={[
+    { name: "solicitando_aclaracion", lifespan: 0 }
+  ]}
+  response="Perfecto, continuemos donde nos quedamos."
+/>
+```
+
+## Mejores Prácticas
+
+### Nomenclatura de Contextos
+
+Es recomendable seguir un patrón coherente para nombrar los contextos:
+
+- Usar verbos en gerundio para estados activos: "realizando_pedido", "seleccionando_producto"
+- Usar adjetivos para estados completados: "pedido_confirmado", "pago_procesado"
+- Mantener nombres descriptivos y específicos
+
+### Gestión de Lifespan
+
+- Utiliza lifespans cortos (1-3) para contextos temporales
+- Utiliza lifespans más largos (5-10) para flujos completos
+- Utiliza lifespan -1 con precaución, solo para estados persistentes
+- Siempre desactiva explícitamente los contextos cuando ya no sean necesarios
+
+### Depuración de Contextos
+
+TreeFlow proporciona herramientas para visualizar y depurar contextos activos:
+
+```jsx
+// Panel de depuración de contextos
+<ContextDebugger
+  activeContexts={[
+    { name: "realizando_pedido", lifespan: 3 },
+    { name: "producto_seleccionado", lifespan: 1 }
+  ]}
+  onReset={() => resetContexts()}
+/>
+```
+
+## Ejemplo Completo
+
+A continuación se muestra un ejemplo completo de un flujo de pedido utilizando contextos:
+
+1. **Rama: Iniciar_Pedido**
+   - Contextos de entrada: ninguno
+   - Contextos de salida: "realizando_pedido" (lifespan: 5)
+
+2. **Rama: Seleccionar_Producto**
+   - Contextos de entrada: "realizando_pedido"
+   - Contextos de salida:
+     - "realizando_pedido" (lifespan: 5) // Mantiene el contexto
+     - "producto_seleccionado" (lifespan: 2)
+
+3. **Rama: Confirmar_Cantidad**
+   - Contextos de entrada: "producto_seleccionado"
+   - Contextos de salida:
+     - "producto_seleccionado" (lifespan: 0) // Finaliza este contexto
+     - "esperando_confirmacion" (lifespan: 2)
+
+4. **Rama: Confirmar_Pedido**
+   - Contextos de entrada: "esperando_confirmacion"
+   - Contextos de salida:
+     - "esperando_confirmacion" (lifespan: 0)
+     - "pedido_activo" (lifespan: 0) // Finaliza el pedido
+
+Los contextos son una herramienta poderosa que permite crear conversaciones estructuradas y mantener el estado a lo largo de múltiples interacciones. Dominar su uso es esencial para crear experiencias conversacionales avanzadas con TreeFlow.

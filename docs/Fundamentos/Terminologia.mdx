@@ -1,0 +1,89 @@
+---
+sidebar_position: 1
+---
+
+# Terminología de TreeFlow
+
+En TreeFlow utilizamos una terminología específica basada en la metáfora de un árbol para representar los diferentes componentes de nuestro sistema conversacional. Esta guía te ayudará a entender los conceptos fundamentales y cómo se relacionan entre sí.
+
+## Conceptos Principales
+
+### 🌳 Árboles (Trees)
+
+Un **Árbol** en TreeFlow representa un chatbot o agente conversacional completo. Cada Árbol contiene todas las configuraciones, intenciones, entidades y lógica necesarias para mantener conversaciones con los usuarios.
+
+**Características principales:**
+- Configuración de umbrales de confianza
+- Orden de detección de intenciones
+- Propósito y descripción
+- Colección de Ramas y Hojas
+
+### 🌿 Ramas (Branches)
+
+Las **Ramas** representan las intenciones o propósitos que un usuario puede tener al interactuar con tu Árbol. Cada Rama contiene patrones de reconocimiento, respuestas, y lógica para manejar una intención específica.
+
+**Tipos de Ramas:**
+- **Ramas conversacionales**: Activadas por mensajes del usuario
+- **Ramas de sistema**: Activadas por eventos internos
+
+**Componentes de una Rama:**
+- Patrones de reconocimiento
+- Respuestas
+- Parámetros y prompts
+- Contextos de entrada/salida
+- Eventos
+
+### 🍃 Hojas (Leaves)
+
+Las **Hojas** son entidades o variables que tu Árbol puede extraer de los mensajes del usuario. Representan información específica que puede ser utilizada para personalizar respuestas o tomar decisiones.
+
+**Tipos de Hojas:**
+- **Simple**: Valores discretos con sinónimos
+- **Composite**: Entidades compuestas
+- **Regex**: Patrones de expresiones regulares
+- **Custom**: Entidades personalizadas
+
+## Relación Entre Componentes
+
+La estructura jerárquica de TreeFlow sigue una lógica natural:
+
+1. Un **Árbol** contiene múltiples **Ramas**
+2. Las **Ramas** pueden utilizar múltiples **Hojas**
+3. Las **Hojas** proporcionan datos estructurados a las **Ramas**
+
+Esta organización permite crear flujos conversacionales complejos pero fáciles de entender y mantener.
+
+## Ejemplos Prácticos
+
+### Ejemplo de Árbol: Asistente de Reservas
+
+Un Árbol para un asistente de reservas de restaurante tendría:
+- Configuración específica para reconocer intenciones relacionadas con reservas
+- Múltiples Ramas para diferentes intenciones de los usuarios
+- Hojas para extraer información relevante
+
+### Ejemplo de Rama: Hacer Reserva
+
+Una Rama para "hacer una reserva" incluiría:
+- Patrones como "Quiero reservar una mesa", "Hacer una reservación", etc.
+- Respuestas como "¿Para cuántas personas necesita la mesa?"
+- Parámetros como fecha, hora, número de personas
+- Contextos para mantener el estado de la reserva
+
+### Ejemplo de Hoja: Fecha
+
+Una Hoja para "fecha" podría:
+- Reconocer diferentes formatos de fecha
+- Incluir sinónimos como "hoy", "mañana", "próximo viernes"
+- Normalizar los valores a un formato estándar
+
+## Ventajas de Esta Terminología
+
+La terminología basada en árboles ofrece varias ventajas:
+
+1. **Intuitiva**: La metáfora del árbol facilita la comprensión de la estructura
+2. **Visual**: Permite visualizar claramente la jerarquía y relaciones
+3. **Escalable**: Facilita la organización a medida que el sistema crece
+4. **Memorable**: Los términos son fáciles de recordar y utilizar
+
+Al dominar esta terminología, podrás comunicarte eficientemente sobre tu proyecto y aprovechar al máximo las capacidades de TreeFlow para crear experiencias conversacionales efectivas.
