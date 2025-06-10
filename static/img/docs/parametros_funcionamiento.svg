@@ -1,0 +1,33 @@
+<svg width="600" height="400" xmlns="http://www.w3.org/2000/svg">
+  <!-- Fondo con borde redondeado -->
+  <rect x="10" y="10" width="580" height="380" rx="10" ry="10" fill="#f9f0e6" stroke="#d48c3d" stroke-width="2"/>
+  
+  <!-- Título -->
+  <text x="300" y="40" font-family="Arial" font-size="20" font-weight="bold" text-anchor="middle" fill="#8b4513">Funcionamiento de los Parámetros</text>
+  
+  <!-- Mensaje del usuario -->
+  <rect x="50" y="80" width="500" height="60" rx="20" ry="20" fill="#e6e6e6" stroke="#8b4513" stroke-width="2"/>
+  <text x="300" y="115" font-family="Arial" font-size="16" text-anchor="middle" fill="#333">
+    "Quiero una pizza <tspan fill="#a86032" font-weight="bold">grande</tspan> de <tspan fill="#a86032" font-weight="bold">pepperoni</tspan>"
+  </text>
+  
+  <!-- Flecha hacia abajo -->
+  <path d="M300,150 L300,180 L290,170 M300,180 L310,170" stroke="#8b4513" stroke-width="3" fill="none"/>
+  
+  <!-- Proceso de extracción -->
+  <rect x="100" y="190" width="400" height="80" rx="10" ry="10" fill="#d48c3d" stroke="#8b4513" stroke-width="2"/>
+  <text x="300" y="220" font-family="Arial" font-size="16" font-weight="bold" text-anchor="middle" fill="#fff">Proceso de extracción mediante Hojas</text>
+  <text x="300" y="245" font-family="Arial" font-size="14" text-anchor="middle" fill="#fff">Identificación de valores clave a través de sinónimos</text>
+  
+  <!-- Flecha hacia abajo -->
+  <path d="M300,280 L300,310 L290,300 M300,310 L310,300" stroke="#8b4513" stroke-width="3" fill="none"/>
+  
+  <!-- Parámetros extraídos -->
+  <rect x="50" y="320" width="230" height="60" rx="10" ry="10" fill="#f2d9c4" stroke="#a86032" stroke-width="2"/>
+  <text x="165" y="345" font-family="Arial" font-size="16" font-weight="bold" text-anchor="middle" fill="#8b4513">Parámetro: tamaño</text>
+  <text x="165" y="365" font-family="Arial" font-size="14" text-anchor="middle" fill="#8b4513">Valor: "grande"</text>
+  
+  <rect x="320" y="320" width="230" height="60" rx="10" ry="10" fill="#f2d9c4" stroke="#a86032" stroke-width="2"/>
+  <text x="435" y="345" font-family="Arial" font-size="16" font-weight="bold" text-anchor="middle" fill="#8b4513">Parámetro: ingrediente</text>
+  <text x="435" y="365" font-family="Arial" font-size="14" text-anchor="middle" fill="#8b4513">Valor: "pepperoni"</text>
+</svg>

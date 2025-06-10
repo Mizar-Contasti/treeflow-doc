@@ -1,173 +1,89 @@
 ---
-sidebar_position: 8
+sidebar_position: 6
 ---
 
-# Pruebas y Depuración
+# Probando tu Árbol
 
-La prueba y depuración de tus Árboles es una parte esencial del desarrollo de chatbots en TreeFlow. Esta sección te guiará a través de las herramientas y técnicas disponibles para asegurar que tu Árbol funcione correctamente.
+Una vez que has creado tu Árbol, configurado tus Hojas y diseñado tus Ramas, es hora de probar cómo funciona tu chatbot en una conversación real.
 
-## Consola de Pruebas
+## Consola de Conversación
 
-TreeFlow incluye una consola de pruebas integrada que te permite interactuar con tu Árbol en tiempo real y ver cómo responde a diferentes entradas.
+TreeFlow incluye una consola de conversación integrada que te permite interactuar con tu Árbol y ver cómo responde a diferentes entradas del usuario.
 
-### Acceder a la Consola de Pruebas
+![Consola de Conversación](/img/docs/consola_conversacion.svg)
 
-1. Selecciona un Tree existente
-2. Navega a la sección "Conversaciones"
-3. Utiliza el panel de chat para interactuar con tu Tree
+### Cómo acceder a la consola
 
-### Características de la Consola de Pruebas
+La consola de conversación se encuentra en la parte derecha de la aplicación. Para utilizarla:
 
-La consola de pruebas proporciona varias herramientas útiles:
+### Entrenamiento previo obligatorio
 
-- **Chat en tiempo real**: Interactúa con tu Tree como lo haría un usuario
-- **Visualización de Branches**: Ve qué rama (branch) se activó para cada mensaje
-- **Visualización de Leaves**: Ve qué hojas (leaves) se extrajeron y sus valores
-- **Visualización de Contextos**: Ve qué contextos están activos en cada momento
-- **Historial de conversación**: Revisa conversaciones anteriores para análisis
-
-## Depuración de Branches
-
-Cuando una rama no se activa como esperabas, puedes seguir estos pasos para depurarla:
-
-### 1. Verificar los Patrones
-
-- Asegúrate de que los patrones de la rama sean lo suficientemente diversos
-- Verifica que no haya errores tipográficos en los patrones
-- Comprueba que los patrones no sean demasiado específicos o restrictivos
-
-### 2. Verificar los Contextos
-
-- Asegúrate de que los contextos de entrada requeridos por la rama estén activos
-- Verifica que otras ramas estén estableciendo correctamente los contextos necesarios
-- Comprueba los tiempos de vida (lifespan) de los contextos
-
-### 3. Verificar la Prioridad
-
-- Recuerda que las ramas con contextos más específicos tienen mayor prioridad
-- Verifica que no haya otra rama con mayor prioridad capturando la entrada
-
-## Depuración de Leaves
-
-Cuando una hoja (leaf) no extrae correctamente los valores, puedes seguir estos pasos:
-
-### 1. Verificar la Definición de la Hoja
-
-- Asegúrate de que la hoja tenga todos los valores y sinónimos necesarios
-- Verifica que el tipo de hoja sea el adecuado para la información que quieres extraer
-- Comprueba que la hoja esté correctamente referenciada en los patrones de las ramas
-
-### 2. Verificar los Parámetros
-
-- Asegúrate de que los parámetros estén correctamente configurados en la rama
-- Verifica que los prompts y fallbacks sean claros para el usuario
-
-## Historial de Conversaciones
-
-TreeFlow guarda un historial de todas las conversaciones con tu Árbol, lo que te permite:
-
-1. Analizar cómo los usuarios interactúan con tu Tree
-2. Identificar patrones comunes de uso
-3. Descubrir problemas recurrentes
-4. Mejorar tu Tree basándote en datos reales
-
-### Acceder al Historial de Conversaciones
-
-1. Selecciona un Tree existente
-2. Navega a la sección "Conversaciones"
-3. Explora la lista de conversaciones anteriores
-4. Haz clic en cualquier conversación para ver los detalles
-
-## Mejores Prácticas para Pruebas
-
-### 1. Prueba Sistemáticamente
-
-- Crea un conjunto de casos de prueba que cubran todos los flujos de conversación
-- Prueba tanto los caminos felices (flujos ideales) como los casos de error
-- Verifica que todas las ramas y hojas funcionen correctamente
-
-### 2. Prueba con Variaciones
-
-- Prueba diferentes formas de expresar la misma intención
-- Incluye errores tipográficos comunes y variaciones de lenguaje
-- Verifica que tu Tree sea robusto ante diferentes estilos de escritura
-
-### 3. Prueba los Flujos Completos
-
-- Asegúrate de que los flujos de conversación completos funcionen de principio a fin
-- Verifica que los contextos y eventos se encadenen correctamente
-- Comprueba que los parámetros se extraigan y utilicen correctamente en todo el flujo
-
-### 4. Prueba con Usuarios Reales
-
-- Después de las pruebas iniciales, permite que usuarios reales interactúen con tu Tree
-- Recopila feedback y analiza las conversaciones
-- Identifica áreas de mejora basadas en el uso real
-
-## Solución de Problemas Comunes
-
-### La Rama No Se Activa
-
-**Posibles causas:**
-- Los patrones no coinciden con la entrada del usuario
-- Los contextos requeridos no están activos
-- Otra rama con mayor prioridad está capturando la entrada
-
-**Soluciones:**
-- Añade más variaciones a los patrones
-- Verifica la configuración de contextos
-- Revisa la prioridad de las ramas
-
-### La Hoja No Extrae Valores
-
-**Posibles causas:**
-- La definición de la hoja no incluye el valor o sinónimos
-- La referencia a la hoja en el patrón es incorrecta
-- El tipo de hoja no es adecuado para el valor
-
-**Soluciones:**
-- Añade más valores y sinónimos a la hoja
-- Verifica la sintaxis de referencia (@nombre_hoja)
-- Considera cambiar el tipo de hoja
-
-### Respuestas Incorrectas
-
-**Posibles causas:**
-- La rama incorrecta se está activando
-- Los parámetros no se están extrayendo correctamente
-- La lógica de respuesta tiene errores
-
-**Soluciones:**
-- Revisa qué rama se está activando y por qué
-- Verifica la extracción de parámetros
-- Ajusta las respuestas según sea necesario
-
-:::tip Consejo
-Utiliza la consola de pruebas regularmente durante el desarrollo para identificar y corregir problemas temprano en el proceso.
+:::caution Importante
+Antes de poder probar tu Árbol, es necesario entrenarlo con los últimos cambios que hayas realizado.
 :::
 
-## Herramientas Avanzadas de Depuración
+Para entrenar tu Árbol:
 
-### Visualización de Confianza
+1. Haz clic en el botón "Entrenar" en la consola
+2. Espera a que el proceso de entrenamiento se complete
+3. Una vez finalizado, se habilitará el campo de texto para que puedas interactuar con el bot
 
-Para cada entrada del usuario, puedes ver:
-- Qué ramas fueron consideradas
-- El nivel de confianza para cada coincidencia
-- Qué método de detección se utilizó (exacto, fuzzy, ML)
+:::note
+Si realizas cualquier cambio en tu Árbol, Ramas o Hojas, deberás volver a entrenar el bot antes de poder probar los cambios.
+:::
 
-Esta información te ayuda a entender por qué se seleccionó una rama específica y cómo ajustar los umbrales de confianza si es necesario.
+### Interactuando con tu Árbol
 
-### Exportación de Datos
+Una vez entrenado, simplemente escribe mensajes en la consola como si fueras un usuario real. El sistema:
 
-TreeFlow te permite exportar datos de conversación para un análisis más detallado:
-- Exporta conversaciones completas
-- Analiza patrones de uso
-- Identifica áreas de mejora
+1. Analizará tu mensaje
+2. Identificará la Rama más adecuada
+3. Extraerá parámetros mediante las Hojas configuradas
+4. Generará una respuesta según la configuración de la Rama activada
 
-### Ajuste de Umbrales
+## Panel de Información
 
-Si tu Tree tiene problemas para reconocer correctamente las intenciones, puedes ajustar:
-- **Umbral de confianza ML**: Para el reconocimiento basado en machine learning
-- **Umbral de confianza Fuzzy**: Para coincidencias aproximadas
+En la consola, podrás ver información detallada sobre cada interacción:
 
-Estos ajustes te permiten encontrar el equilibrio adecuado entre precisión y flexibilidad.
+![Panel de Información](/img/docs/panel_informacion.svg)
+
+### Información disponible
+
+La consola muestra:
+
+- Lo que dijo el usuario
+- La respuesta del bot
+- La intención (Rama) que se activó
+- Los parámetros extraídos relacionados con la intención
+
+### Información adicional
+
+Además, hay un botón que al hacer clic en él muestra información técnica adicional sobre:
+
+- La estructura completa de la petición
+- La estructura completa de la respuesta
+- Nivel de confianza de la intención detectada
+- Contextos activos
+- Eventos disparados
+
+:::tip Consejo
+Utiliza el panel de información para identificar problemas como:
+- Ramas que no se activan cuando deberían
+- Parámetros que no se extraen correctamente
+- Contextos que no funcionan como se esperaba
+:::
+
+## Pruebas Sistemáticas
+
+Para asegurar que tu Árbol funcione correctamente, es recomendable realizar pruebas sistemáticas:
+
+1. **Prueba los caminos felices**: Mensajes claros que deberían activar ramas específicas
+2. **Prueba variaciones**: Diferentes formas de expresar la misma intención
+3. **Prueba escenarios de error**: Mensajes ambiguos o fuera del alcance del bot
+4. **Prueba flujos completos**: Conversaciones multi-turno que utilizan contextos
+
+:::info Importante
+Recuerda que debes entrenar tu Árbol después de cada modificación significativa para que los cambios se reflejen en el comportamiento del chatbot.
+:::
+
+Para pruebas más avanzadas y herramientas de depuración, consulta la sección [Pruebas y Depuración](/docs/Avanzado/Testeo) en la documentación avanzada.

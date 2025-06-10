@@ -1,181 +1,124 @@
 ---
-sidebar_position: 5
+sidebar_position: 7
 ---
 
 # Contextos
 
-Los **Contextos** en TreeFlow son mecanismos que permiten controlar el flujo de la conversación y mantener el estado entre diferentes interacciones con el usuario.
+Los **Contextos** en TreeFlow son mecanismos que permiten controlar el flujo de la conversación y mantener el estado entre diferentes turnos de diálogo.
 
 ## ¿Qué son los Contextos?
 
-Los contextos son etiquetas que se aplican a la conversación para indicar en qué parte del flujo se encuentra el usuario. Permiten:
+Los contextos funcionan como la "memoria a corto plazo" del árbol, permitiendo:
 
-- Controlar qué Ramas pueden activarse en un momento dado
-- Mantener información de estado durante la conversación
-- Crear flujos conversacionales complejos y estructurados
-- Gestionar sub-diálogos y conversaciones anidadas
+- Determinar qué ramas pueden activarse en cada momento
+- Conectar diferentes partes de una conversación
+- Mantener información sobre el estado actual del diálogo
+- Crear flujos conversacionales complejos y naturales
 
 ## Tipos de Contextos
 
-En TreeFlow, los contextos se utilizan de dos maneras principales:
+En TreeFlow, cada rama puede tener dos tipos de contextos:
 
 ### Contextos de Entrada
 
-Los **contextos de entrada** determinan cuándo una Rama puede ser activada. Una Rama solo se activará si:
+Los contextos de entrada definen cuándo una rama puede ser activada. Una rama solo se considerará para su activación si:
 
-1. El mensaje del usuario coincide con uno de sus patrones
-2. Todos los contextos de entrada requeridos están activos
+- No tiene contextos de entrada definidos (es una rama general)
+- Todos sus contextos de entrada están activos en la conversación actual
 
-Esto permite crear flujos conversacionales específicos donde ciertas Ramas solo están disponibles en determinados momentos de la conversación.
+Esto permite crear ramas específicas que solo se activan en determinados momentos de la conversación.
 
 ### Contextos de Salida
 
-Los **contextos de salida** son contextos que se activan cuando una Rama es ejecutada. Estos contextos pueden:
+Los contextos de salida definen qué contextos estarán activos después de que una rama se active. Cada contexto de salida tiene:
 
-- Establecerse por primera vez
-- Extender la duración de un contexto existente
-- Finalizar un contexto existente (estableciendo su lifespan a 0)
+- Un nombre único que lo identifica
+- Un "lifespan" (tiempo de vida) que determina por cuántos turnos de conversación permanecerá activo
 
-## Lifespan (Tiempo de Vida)
+El lifespan se reduce en 1 con cada turno de conversación, y cuando llega a 0, el contexto expira.
 
-Cada contexto tiene un **lifespan** o tiempo de vida, que determina cuánto tiempo permanecerá activo:
+## Funcionamiento de los Contextos
 
-- **Lifespan > 0**: El contexto permanecerá activo durante ese número de turnos conversacionales
-- **Lifespan = 0**: El contexto se desactiva inmediatamente
-- **Lifespan = -1**: El contexto permanece activo indefinidamente hasta que se desactive explícitamente
+![Funcionamiento de los Contextos](/img/docs/contextos_funcionamiento.svg)
 
-## Configuración de Contextos
+*Diagrama: Flujo de activación de contextos en una conversación*
 
-Los contextos se configuran a nivel de Rama:
+1. Cuando una rama se activa, establece sus contextos de salida
+2. Estos contextos determinan qué ramas pueden activarse en los siguientes turnos
+3. A medida que avanza la conversación, algunos contextos expiran según su lifespan
+4. Esto permite que el árbol "recuerde" en qué parte del flujo conversacional se encuentra
 
-```jsx
-// Configuración de contextos en una Rama
-<BranchContexts>
-  <InputContexts>
-    <Context name="realizando_pedido" />
-    <Context name="seleccionando_producto" />
-  </InputContexts>
-  <OutputContexts>
-    <Context name="realizando_pedido" lifespan={5} />
-    <Context name="seleccionando_producto" lifespan={0} />
-    <Context name="confirmando_pedido" lifespan={2} />
-  </OutputContexts>
-</BranchContexts>
+## Casos de Uso
+
+### Conversaciones Multi-turno
+
+Los contextos permiten crear conversaciones que se extienden por varios turnos, donde cada respuesta del usuario se interpreta en el contexto adecuado.
+
+**Ejemplo:**
+```
+Usuario: "Quiero ordenar comida"
+Bot: "¿Qué te gustaría ordenar?" (Establece contexto: ordenando_comida)
+Usuario: "Una pizza" (Contexto activo: ordenando_comida)
+Bot: "¿De qué tamaño?" (Mantiene contexto: ordenando_comida)
 ```
 
-## Casos de Uso Avanzados
+### Flujos Conversacionales Ramificados
 
-### Control de Flujo Multi-turno
+Permiten crear diferentes caminos en la conversación basados en las respuestas del usuario.
 
-Los contextos son esenciales para manejar conversaciones que requieren múltiples turnos:
+### Manejo de Fallbacks Contextuales
 
-```jsx
-// Rama para iniciar un pedido
-<Branch
-  name="Iniciar_Pedido"
-  patterns={["quiero hacer un pedido", "ordenar algo"]}
-  outputContexts={[
-    { name: "realizando_pedido", lifespan: 5 }
-  ]}
-  response="¿Qué te gustaría ordenar?"
-/>
-
-// Rama para seleccionar un producto (requiere contexto)
-<Branch
-  name="Seleccionar_Producto"
-  patterns={["quiero un $producto", "me gustaría $producto"]}
-  inputContexts={["realizando_pedido"]}
-  outputContexts={[
-    { name: "realizando_pedido", lifespan: 5 },
-    { name: "producto_seleccionado", lifespan: 2 }
-  ]}
-  response="¿De qué tamaño quieres tu $producto?"
-/>
-```
-
-### Gestión de Sub-diálogos
-
-Los contextos permiten crear sub-diálogos que pueden interrumpir temporalmente el flujo principal:
-
-```jsx
-// Sub-diálogo para aclarar información
-<Branch
-  name="Solicitar_Aclaracion"
-  patterns={["no entendí", "puedes explicar"]}
-  outputContexts={[
-    { name: "solicitando_aclaracion", lifespan: 1 }
-  ]}
-  response="¿Qué parte necesitas que te explique?"
-/>
-
-// Rama para volver al flujo principal
-<Branch
-  name="Volver_Al_Flujo"
-  patterns={["ya entendí", "gracias por la explicación"]}
-  inputContexts={["solicitando_aclaracion"]}
-  outputContexts={[
-    { name: "solicitando_aclaracion", lifespan: 0 }
-  ]}
-  response="Perfecto, continuemos donde nos quedamos."
-/>
-```
+Cuando el usuario dice algo que no se entiende, el árbol puede proporcionar respuestas de fallback específicas al contexto actual.
 
 ## Mejores Prácticas
 
-### Nomenclatura de Contextos
+1. **Nombres descriptivos**: Utiliza nombres de contexto que describan claramente su propósito
+2. **Lifespans adecuados**: Configura lifespans apropiados para cada contexto:
+   - Valores más altos para conversaciones largas
+   - Valores más bajos para interacciones breves
+3. **Jerarquía de contextos**: Organiza tus contextos de manera jerárquica para flujos complejos
+4. **Contextos de salida claros**: Define claramente qué contextos deben estar activos después de cada rama
+5. **Prueba diferentes caminos**: Verifica que los contextos funcionen correctamente en diferentes escenarios de conversación
 
-Es recomendable seguir un patrón coherente para nombrar los contextos:
+:::tip Consejo
+Dibuja un diagrama de flujo de tus contextos antes de implementarlos para visualizar mejor cómo se conectarán las diferentes partes de la conversación.
+:::
 
-- Usar verbos en gerundio para estados activos: "realizando_pedido", "seleccionando_producto"
-- Usar adjetivos para estados completados: "pedido_confirmado", "pago_procesado"
-- Mantener nombres descriptivos y específicos
+## Limitaciones y Consideraciones
 
-### Gestión de Lifespan
+- Un contexto con lifespan 0 se elimina inmediatamente después de activar la rama
+- El lifespan máximo recomendado es 5 para evitar conflictos en conversaciones largas
+- Los contextos no persisten entre sesiones de usuario diferentes
+- Demasiados contextos activos simultáneamente pueden hacer que el árbol sea difícil de mantener
 
-- Utiliza lifespans cortos (1-3) para contextos temporales
-- Utiliza lifespans más largos (5-10) para flujos completos
-- Utiliza lifespan -1 con precaución, solo para estados persistentes
-- Siempre desactiva explícitamente los contextos cuando ya no sean necesarios
+## Ejemplos Prácticos
 
-### Depuración de Contextos
+### Formulario Simple
 
-TreeFlow proporciona herramientas para visualizar y depurar contextos activos:
+```
+Rama: iniciar_formulario
+  Contextos de Salida: recopilando_datos (lifespan: 3)
 
-```jsx
-// Panel de depuración de contextos
-<ContextDebugger
-  activeContexts={[
-    { name: "realizando_pedido", lifespan: 3 },
-    { name: "producto_seleccionado", lifespan: 1 }
-  ]}
-  onReset={() => resetContexts()}
-/>
+Rama: preguntar_nombre
+  Contextos de Entrada: recopilando_datos
+  Contextos de Salida: esperando_nombre (lifespan: 1)
+
+Rama: recibir_nombre
+  Contextos de Entrada: esperando_nombre
+  Contextos de Salida: recopilando_datos (lifespan: 2)
 ```
 
-## Ejemplo Completo
+### Conversación con Submenu
 
-A continuación se muestra un ejemplo completo de un flujo de pedido utilizando contextos:
+```
+Rama: menu_principal
+  Contextos de Salida: en_menu_principal (lifespan: 2)
 
-1. **Rama: Iniciar_Pedido**
-   - Contextos de entrada: ninguno
-   - Contextos de salida: "realizando_pedido" (lifespan: 5)
+Rama: submenu_configuracion
+  Contextos de Entrada: en_menu_principal
+  Contextos de Salida: en_configuracion (lifespan: 3)
 
-2. **Rama: Seleccionar_Producto**
-   - Contextos de entrada: "realizando_pedido"
-   - Contextos de salida:
-     - "realizando_pedido" (lifespan: 5) // Mantiene el contexto
-     - "producto_seleccionado" (lifespan: 2)
-
-3. **Rama: Confirmar_Cantidad**
-   - Contextos de entrada: "producto_seleccionado"
-   - Contextos de salida:
-     - "producto_seleccionado" (lifespan: 0) // Finaliza este contexto
-     - "esperando_confirmacion" (lifespan: 2)
-
-4. **Rama: Confirmar_Pedido**
-   - Contextos de entrada: "esperando_confirmacion"
-   - Contextos de salida:
-     - "esperando_confirmacion" (lifespan: 0)
-     - "pedido_activo" (lifespan: 0) // Finaliza el pedido
-
-Los contextos son una herramienta poderosa que permite crear conversaciones estructuradas y mantener el estado a lo largo de múltiples interacciones. Dominar su uso es esencial para crear experiencias conversacionales avanzadas con TreeFlow.
+Rama: volver_menu_principal
+  Contextos de Entrada: en_configuracion
+  Contextos de Salida: en_menu_principal (lifespan: 2)
+```

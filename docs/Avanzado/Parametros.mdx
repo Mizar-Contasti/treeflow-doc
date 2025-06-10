@@ -1,0 +1,102 @@
+---
+sidebar_position: 6
+---
+
+# Parámetros
+
+Los **Parámetros** en TreeFlow son elementos fundamentales que permiten extraer y almacenar información específica de los mensajes del usuario durante una conversación.
+
+## ¿Qué son los Parámetros?
+
+Los parámetros son contenedores de información que:
+
+- Se extraen de los mensajes del usuario mediante las hojas
+- Almacenan valores específicos para su uso en las respuestas y lógica del árbol
+- Permiten personalizar la experiencia conversacional
+
+![Funcionamiento de los Parámetros](/img/docs/parametros_funcionamiento.svg)
+
+*Diagrama: Los Parámetros extraen y almacenan información de los mensajes del usuario*
+
+## Creación de Parámetros
+
+Los parámetros se crean exclusivamente a través de hojas referenciadas en los patrones de una rama. Para crear un parámetro:
+
+1. Primero debes tener una hoja creada (por ejemplo, `@tamaño_pizza`)
+2. Luego, incluir esta hoja en un patrón de rama (por ejemplo, `"Quiero una pizza de tamaño @tamaño_pizza"`)
+3. Al guardar la rama, el sistema automáticamente creará un parámetro asociado a esa hoja
+
+## Componentes de un Parámetro
+
+Cada parámetro tiene varios componentes configurables:
+
+### Nombre
+
+Identificador único del parámetro dentro de la rama. Generalmente coincide con el nombre de la hoja asociada.
+
+### Clave
+
+ID único del parámetro, generalmente derivado del ID de la hoja asociada.
+
+### Nombre para mostrar
+
+Nombre personalizable que se utilizará en la interfaz de usuario y en las respuestas.
+
+### Valor por defecto
+
+Valor que se utilizará si el usuario no proporciona información para este parámetro.
+
+### Prompt
+
+Mensaje que el árbol enviará al usuario para solicitar el valor del parámetro cuando sea necesario.
+
+Ejemplo: "¿De qué tamaño quieres tu pizza?"
+
+### Fallback
+
+Mensaje que se mostrará cuando el usuario no proporcione un valor válido para un parámetro requerido después de varios intentos.
+
+Ejemplo: "Lo siento, necesito saber el tamaño de tu pizza para continuar. Por favor, elige entre pequeña, mediana o grande."
+
+### Requerido
+
+Indica si el parámetro es obligatorio para completar la rama. Si es requerido y no se proporciona, el árbol solicitará activamente este valor al usuario.
+
+## Uso de Parámetros
+
+Los parámetros se pueden utilizar de diversas formas:
+
+### En respuestas
+
+Puedes incluir el valor de un parámetro en las respuestas utilizando la sintaxis `$parametro`.
+
+Ejemplo: "Has pedido una pizza de tamaño $tamaño_pizza"
+
+### En condiciones
+
+Los parámetros pueden utilizarse para crear lógica condicional en las respuestas o para activar diferentes ramas.
+
+### En webhooks
+
+Los valores de los parámetros pueden enviarse a servicios externos a través de webhooks para procesar información o realizar acciones.
+
+## Ciclo de vida de los Parámetros
+
+Los parámetros tienen un ciclo de vida determinado por los contextos de la rama:
+
+1. Se crean cuando se activa la rama
+2. Permanecen disponibles mientras los contextos de salida estén activos
+3. Se pueden reutilizar en diferentes turnos de la conversación
+4. Expiran cuando los contextos asociados caducan
+
+## Mejores Prácticas
+
+1. **Nombres descriptivos**: Utiliza nombres claros que indiquen qué información contiene el parámetro
+2. **Prompts claros**: Escribe mensajes de solicitud precisos y fáciles de entender
+3. **Valores por defecto**: Proporciona valores por defecto sensatos cuando sea posible
+4. **Validación**: Asegúrate de que las hojas asociadas capturen correctamente los valores esperados
+5. **Reutilización**: Diseña tus parámetros pensando en su posible reutilización en diferentes ramas
+
+:::tip Consejo
+Para crear experiencias conversacionales más naturales, configura cuidadosamente los prompts de tus parámetros. Un buen prompt debe ser conversacional y claro sobre qué información se espera del usuario.
+:::

@@ -1,0 +1,173 @@
+---
+sidebar_position: 8
+---
+
+# Pruebas y Depuración
+
+La prueba y depuración de tus Árboles es una parte esencial del desarrollo de chatbots en TreeFlow. Esta sección te guiará a través de las herramientas y técnicas disponibles para asegurar que tu Árbol funcione correctamente.
+
+## Consola de Pruebas
+
+TreeFlow incluye una consola de pruebas integrada que te permite interactuar con tu Árbol en tiempo real y ver cómo responde a diferentes entradas.
+
+### Acceder a la Consola de Pruebas
+
+1. Selecciona un Tree existente
+2. Navega a la sección "Conversaciones"
+3. Utiliza el panel de chat para interactuar con tu Tree
+
+### Características de la Consola de Pruebas
+
+La consola de pruebas proporciona varias herramientas útiles:
+
+- **Chat en tiempo real**: Interactúa con tu Tree como lo haría un usuario
+- **Visualización de Branches**: Ve qué rama (branch) se activó para cada mensaje
+- **Visualización de Leaves**: Ve qué hojas (leaves) se extrajeron y sus valores
+- **Visualización de Contextos**: Ve qué contextos están activos en cada momento
+- **Historial de conversación**: Revisa conversaciones anteriores para análisis
+
+## Depuración de Branches
+
+Cuando una rama no se activa como esperabas, puedes seguir estos pasos para depurarla:
+
+### 1. Verificar los Patrones
+
+- Asegúrate de que los patrones de la rama sean lo suficientemente diversos
+- Verifica que no haya errores tipográficos en los patrones
+- Comprueba que los patrones no sean demasiado específicos o restrictivos
+
+### 2. Verificar los Contextos
+
+- Asegúrate de que los contextos de entrada requeridos por la rama estén activos
+- Verifica que otras ramas estén estableciendo correctamente los contextos necesarios
+- Comprueba los tiempos de vida (lifespan) de los contextos
+
+### 3. Verificar la Prioridad
+
+- Recuerda que las ramas con contextos más específicos tienen mayor prioridad
+- Verifica que no haya otra rama con mayor prioridad capturando la entrada
+
+## Depuración de Leaves
+
+Cuando una hoja (leaf) no extrae correctamente los valores, puedes seguir estos pasos:
+
+### 1. Verificar la Definición de la Hoja
+
+- Asegúrate de que la hoja tenga todos los valores y sinónimos necesarios
+- Verifica que el tipo de hoja sea el adecuado para la información que quieres extraer
+- Comprueba que la hoja esté correctamente referenciada en los patrones de las ramas
+
+### 2. Verificar los Parámetros
+
+- Asegúrate de que los parámetros estén correctamente configurados en la rama
+- Verifica que los prompts y fallbacks sean claros para el usuario
+
+## Historial de Conversaciones
+
+TreeFlow guarda un historial de todas las conversaciones con tu Árbol, lo que te permite:
+
+1. Analizar cómo los usuarios interactúan con tu Tree
+2. Identificar patrones comunes de uso
+3. Descubrir problemas recurrentes
+4. Mejorar tu Tree basándote en datos reales
+
+### Acceder al Historial de Conversaciones
+
+1. Selecciona un Tree existente
+2. Navega a la sección "Conversaciones"
+3. Explora la lista de conversaciones anteriores
+4. Haz clic en cualquier conversación para ver los detalles
+
+## Mejores Prácticas para Pruebas
+
+### 1. Prueba Sistemáticamente
+
+- Crea un conjunto de casos de prueba que cubran todos los flujos de conversación
+- Prueba tanto los caminos felices (flujos ideales) como los casos de error
+- Verifica que todas las ramas y hojas funcionen correctamente
+
+### 2. Prueba con Variaciones
+
+- Prueba diferentes formas de expresar la misma intención
+- Incluye errores tipográficos comunes y variaciones de lenguaje
+- Verifica que tu Tree sea robusto ante diferentes estilos de escritura
+
+### 3. Prueba los Flujos Completos
+
+- Asegúrate de que los flujos de conversación completos funcionen de principio a fin
+- Verifica que los contextos y eventos se encadenen correctamente
+- Comprueba que los parámetros se extraigan y utilicen correctamente en todo el flujo
+
+### 4. Prueba con Usuarios Reales
+
+- Después de las pruebas iniciales, permite que usuarios reales interactúen con tu Tree
+- Recopila feedback y analiza las conversaciones
+- Identifica áreas de mejora basadas en el uso real
+
+## Solución de Problemas Comunes
+
+### La Rama No Se Activa
+
+**Posibles causas:**
+- Los patrones no coinciden con la entrada del usuario
+- Los contextos requeridos no están activos
+- Otra rama con mayor prioridad está capturando la entrada
+
+**Soluciones:**
+- Añade más variaciones a los patrones
+- Verifica la configuración de contextos
+- Revisa la prioridad de las ramas
+
+### La Hoja No Extrae Valores
+
+**Posibles causas:**
+- La definición de la hoja no incluye el valor o sinónimos
+- La referencia a la hoja en el patrón es incorrecta
+- El tipo de hoja no es adecuado para el valor
+
+**Soluciones:**
+- Añade más valores y sinónimos a la hoja
+- Verifica la sintaxis de referencia (@nombre_hoja)
+- Considera cambiar el tipo de hoja
+
+### Respuestas Incorrectas
+
+**Posibles causas:**
+- La rama incorrecta se está activando
+- Los parámetros no se están extrayendo correctamente
+- La lógica de respuesta tiene errores
+
+**Soluciones:**
+- Revisa qué rama se está activando y por qué
+- Verifica la extracción de parámetros
+- Ajusta las respuestas según sea necesario
+
+:::tip Consejo
+Utiliza la consola de pruebas regularmente durante el desarrollo para identificar y corregir problemas temprano en el proceso.
+:::
+
+## Herramientas Avanzadas de Depuración
+
+### Visualización de Confianza
+
+Para cada entrada del usuario, puedes ver:
+- Qué ramas fueron consideradas
+- El nivel de confianza para cada coincidencia
+- Qué método de detección se utilizó (exacto, fuzzy, ML)
+
+Esta información te ayuda a entender por qué se seleccionó una rama específica y cómo ajustar los umbrales de confianza si es necesario.
+
+### Exportación de Datos
+
+TreeFlow te permite exportar datos de conversación para un análisis más detallado:
+- Exporta conversaciones completas
+- Analiza patrones de uso
+- Identifica áreas de mejora
+
+### Ajuste de Umbrales
+
+Si tu Tree tiene problemas para reconocer correctamente las intenciones, puedes ajustar:
+- **Umbral de confianza ML**: Para el reconocimiento basado en machine learning
+- **Umbral de confianza Fuzzy**: Para coincidencias aproximadas
+
+Estos ajustes te permiten encontrar el equilibrio adecuado entre precisión y flexibilidad.

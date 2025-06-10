@@ -19,19 +19,33 @@ Una rama define:
 
 TreeFlow soporta dos tipos principales de ramas:
 
-### Ramas Conversacionales
+import Tabs from '@theme/Tabs';
+import TabItem from '@theme/TabItem';
 
-Son las ramas estándar que manejan la interacción directa con el usuario. Estas ramas:
-- Reconocen patrones específicos en los mensajes del usuario
-- Extraen información relevante usando hojas (entidades)
-- Proporcionan respuestas basadas en la entrada del usuario
-
-### Ramas de Sistema
-
-Son ramas especiales que no se activan directamente por la entrada del usuario, sino por eventos del sistema o por otras ramas. Estas ramas:
-- Se activan mediante eventos específicos
-- Realizan acciones en segundo plano
-- Pueden modificar el estado de la conversación
+<Tabs>
+  <TabItem value="conversacionales" label="Ramas Conversacionales" default>
+    <p>Son las ramas estándar que manejan la interacción directa con el usuario. Estas ramas:</p>
+    <ul>
+      <li>Reconocen patrones específicos en los mensajes del usuario</li>
+      <li>Extraen información relevante usando hojas (entidades)</li>
+      <li>Proporcionan respuestas basadas en la entrada del usuario</li>
+      <li>Pueden ser creadas y modificadas libremente por el usuario</li>
+    </ul>
+  </TabItem>
+  <TabItem value="sistema" label="Ramas de Sistema">
+    <p>Son ramas especiales que no se activan directamente por la entrada del usuario, sino por eventos del sistema o por otras ramas. Estas ramas:</p>
+    <ul>
+      <li>Se activan mediante eventos específicos</li>
+      <li>Realizan acciones en segundo plano</li>
+      <li>Pueden modificar el estado de la conversación</li>
+    </ul>
+    <div className="alert alert--warning">
+      <p>
+        <strong>Importante:</strong> Las ramas de sistema son predefinidas y actualmente no pueden ser modificadas por el usuario. Se utilizan para manejar funcionalidades específicas de la plataforma.
+      </p>
+    </div>
+  </TabItem>
+</Tabs>
 
 ## Crear una Nueva Rama
 
@@ -40,10 +54,19 @@ Para crear una nueva rama:
 1. Selecciona un árbol existente
 2. Navega a la sección "Ramas"
 3. Haz clic en "Nueva Rama"
-4. Selecciona el tipo de rama (conversacional o sistema)
-5. Proporciona un nombre descriptivo para tu rama
-6. Configura los componentes necesarios (patrones, respuestas, parámetros, etc.)
-7. Guarda la rama
+4. Proporciona un nombre descriptivo para tu rama
+5. Haz clic en "Crear"
+
+Una vez creada la rama, deberás editarla para configurar sus componentes. Revisa la sección "Componentes de una Rama" más adelante para entender qué elementos puedes configurar.
+
+:::tip Recomendación importante
+Antes de crear tus ramas, es altamente recomendable tener ya definidos:
+
+1. El flujo conversacional completo (diseño de la conversación)
+2. Todas las hojas (entidades) necesarias para extraer información
+
+Esto facilitará enormemente el proceso de creación de ramas y evitará problemas posteriores de entrenamiento y entendimiento del árbol. Recuerda que las ramas dependen de las hojas para extraer información estructurada de las conversaciones.
+:::
 
 ## Componentes de una Rama
 
@@ -64,16 +87,9 @@ Tengo hambre, quiero una pizza
 
 ### Parámetros
 
-Los parámetros (anteriormente llamados entidades en la rama) son piezas de información que se extraen de la entrada del usuario. Cada parámetro está asociado a una hoja (entidad).
+Los parámetros son piezas de información que se extraen de la entrada del usuario. Estos solo pueden crearse mediante una hoja referenciada en un patrón y son los que guardan el valor de las palabras clave identificadas.
 
-Componentes de un parámetro:
-- **Nombre**: Identificador del parámetro
-- **Clave**: ID único del parámetro (generalmente el ID de la hoja asociada)
-- **Nombre del parámetro**: Nombre personalizable para la interfaz de usuario
-- **Valor por defecto**: Valor que se utilizará si no se proporciona uno
-- **Prompt**: Mensaje para solicitar el valor al usuario
-- **Fallback**: Mensaje cuando no se proporciona un valor requerido
-- **Requerido**: Indica si el parámetro es obligatorio
+[Leer más sobre Parámetros](/docs/Avanzado/Parametros)
 
 ### Respuestas
 
@@ -85,35 +101,25 @@ Tipos de respuestas:
 
 ### Contextos
 
-Los contextos permiten controlar el flujo de la conversación:
+Los contextos son mecanismos que permiten controlar el flujo de la conversación. Funcionan como la "memoria a corto plazo" del árbol, determinando qué ramas pueden activarse en cada momento y cómo se conectan las diferentes partes de una conversación.
 
-#### Contextos de Entrada
-Definen cuándo esta rama puede ser activada. La rama solo se considerará si los contextos especificados están activos en la conversación.
-
-#### Contextos de Salida
-Definen qué contextos estarán activos después de que esta rama se active. Cada contexto de salida tiene un "lifespan" que determina por cuántos turnos de conversación permanecerá activo.
+[Leer más sobre Contextos](/docs/Avanzado/Contextos)
 
 ### Eventos
 
-Los eventos son acciones especiales que se pueden activar cuando se ejecuta la rama. Pueden ser utilizados para:
-- Activar ramas de sistema
-- Realizar acciones específicas en la aplicación
-- Modificar el estado de la conversación
+Los eventos son acciones especiales que se activan cuando se ejecuta una rama. Permiten conectar diferentes partes del árbol, activar ramas de sistema y realizar acciones específicas sin necesidad de una entrada directa del usuario.
+
+[Leer más sobre Eventos](/docs/Avanzado/Eventos)
+
+### Metadata
+
+La metadata es información adicional que se asocia a una rama y que no tiene relación directa con la conversación o el procesamiento del agente. Permite almacenar datos personalizados que pueden ser útiles para la lógica de negocio o para el seguimiento de las interacciones.
 
 ### Webhook
 
-Opción que permite llamar a un servicio externo cuando se activa la rama, útil para integrar funcionalidades avanzadas o sistemas externos.
+Los webhooks permiten conectar tu árbol con servicios externos cuando se activa una rama. Son fundamentales para integrar funcionalidades avanzadas, procesar datos en tiempo real y comunicarse con sistemas externos.
 
-## Segmentos de Patrón
-
-Los patrones pueden incluir referencias a hojas (entidades) para hacer el reconocimiento más flexible:
-
-```
-Quiero ordenar una @tipo_comida
-Me gustaría pedir @cantidad @tipo_comida
-```
-
-Donde `@tipo_comida` y `@cantidad` son referencias a hojas que extraerán valores como "pizza" o "tres".
+[Leer más sobre Webhooks](/docs/Avanzado/Webhooks)
 
 ## Mejores Prácticas para Ramas
 

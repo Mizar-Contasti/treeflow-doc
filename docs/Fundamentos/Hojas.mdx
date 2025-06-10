@@ -22,6 +22,10 @@ Una hoja define un tipo específico de información que tu árbol puede reconoce
 
 Las hojas simples y compuestas en TreeFlow se basan en una estructura de **valores clave** y **sinónimos**. Esta estructura permite reconocer diferentes formas en que un usuario puede expresar el mismo concepto.
 
+![Estructura de una Hoja](/img/docs/estructura_hoja.svg)
+
+*Diagrama: Estructura de una hoja con valores clave y sus sinónimos asociados*
+
 ### Valores Clave
 
 Los valores clave representan los datos específicos que la hoja puede identificar y extraer. Cada valor clave:
@@ -46,7 +50,7 @@ Cuando un usuario escribe un mensaje, TreeFlow:
 2. Cuando encuentra una coincidencia, extrae el valor clave asociado
 3. Este valor clave se convierte en un parámetro estructurado que las ramas pueden utilizar
 
-:::note Importante
+:::info Importante
 Esta estructura de valores clave y sinónimos aplica principalmente a las hojas simples y compuestas. Las hojas regex funcionan con patrones de expresiones regulares en lugar de valores predefinidos.
 :::
 
