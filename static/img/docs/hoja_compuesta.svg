@@ -1,0 +1,44 @@
+<svg width="600" height="400" xmlns="http://www.w3.org/2000/svg">
+  <!-- Fondo con borde redondeado -->
+  <rect x="10" y="10" width="580" height="380" rx="10" ry="10" fill="#f8f9fa" stroke="#ddd" stroke-width="2"/>
+  
+  <!-- Título -->
+  <text x="300" y="40" font-family="Arial" font-size="18" font-weight="bold" text-anchor="middle">Hoja Compuesta: pedido_helado</text>
+  
+  <!-- Hoja compuesta -->
+  <rect x="150" y="60" width="300" height="80" rx="5" ry="5" fill="#f6ffed" stroke="#52c41a" stroke-width="2"/>
+  <text x="300" y="100" font-family="Arial" font-size="16" font-weight="bold" text-anchor="middle">pedido_helado</text>
+  <text x="300" y="120" font-family="Arial" font-size="12" text-anchor="middle">Hoja compuesta</text>
+  
+  <!-- Líneas de conexión -->
+  <line x1="300" y1="140" x2="200" y2="180" stroke="#666" stroke-width="2" stroke-dasharray="5,5"/>
+  <line x1="300" y1="140" x2="400" y2="180" stroke="#666" stroke-width="2" stroke-dasharray="5,5"/>
+  
+  <!-- Hojas simples -->
+  <rect x="50" y="180" width="300" height="180" rx="5" ry="5" fill="#e6f7ff" stroke="#1890ff" stroke-width="2"/>
+  <text x="200" y="205" font-family="Arial" font-size="16" font-weight="bold" text-anchor="middle">sabor_helado</text>
+  
+  <!-- Valores de sabor -->
+  <rect x="70" y="220" width="260" height="30" rx="5" ry="5" fill="#fff" stroke="#1890ff" stroke-width="1"/>
+  <text x="90" y="240" font-family="Arial" font-size="12">chocolate (choco, chocolatado)</text>
+  
+  <rect x="70" y="260" width="260" height="30" rx="5" ry="5" fill="#fff" stroke="#1890ff" stroke-width="1"/>
+  <text x="90" y="280" font-family="Arial" font-size="12">vainilla (vanilla, vainiya)</text>
+  
+  <rect x="70" y="300" width="260" height="30" rx="5" ry="5" fill="#fff" stroke="#1890ff" stroke-width="1"/>
+  <text x="90" y="320" font-family="Arial" font-size="12">fresa (frutilla, strawberry)</text>
+  
+  <!-- Hoja de tamaño -->
+  <rect x="370" y="180" width="180" height="180" rx="5" ry="5" fill="#fff0f6" stroke="#eb2f96" stroke-width="2"/>
+  <text x="460" y="205" font-family="Arial" font-size="16" font-weight="bold" text-anchor="middle">tamaño_helado</text>
+  
+  <!-- Valores de tamaño -->
+  <rect x="390" y="220" width="140" height="30" rx="5" ry="5" fill="#fff" stroke="#eb2f96" stroke-width="1"/>
+  <text x="410" y="240" font-family="Arial" font-size="12">pequeño (chico)</text>
+  
+  <rect x="390" y="260" width="140" height="30" rx="5" ry="5" fill="#fff" stroke="#eb2f96" stroke-width="1"/>
+  <text x="410" y="280" font-family="Arial" font-size="12">mediano (medio)</text>
+  
+  <rect x="390" y="300" width="140" height="30" rx="5" ry="5" fill="#fff" stroke="#eb2f96" stroke-width="1"/>
+  <text x="410" y="320" font-family="Arial" font-size="12">grande (large)</text>
+</svg>

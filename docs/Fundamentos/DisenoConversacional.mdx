@@ -1,0 +1,105 @@
+---
+sidebar_position: 9
+---
+
+# Diseño Conversacional
+
+El diseño conversacional es fundamental para crear experiencias efectivas con TreeFlow. Un buen diseño conversacional asegura que tus Árboles sean intuitivos, útiles y agradables para los usuarios.
+
+## Principios Básicos
+
+### 1. Claridad en el Propósito
+
+Cada Árbol debe tener un propósito claro y bien definido:
+
+- **Enfoque específico**: Define exactamente qué problemas resolverá tu Árbol
+- **Alcance limitado**: Es mejor tener varios Árboles especializados que uno que intente hacer demasiado
+- **Expectativas claras**: Los usuarios deben entender rápidamente para qué sirve el Árbol
+
+### 2. Flujo Natural
+
+Las conversaciones deben fluir de manera natural y lógica:
+
+- **Estructura coherente**: Organiza las Ramas en un orden que tenga sentido
+- **Transiciones suaves**: Asegura que el cambio entre temas sea fluido
+- **Contexto mantenido**: El Árbol debe "recordar" información relevante durante la conversación
+
+### 3. Personalidad Consistente
+
+Mantén un tono y estilo coherentes en todas las respuestas:
+
+- **Voz de marca**: Refleja los valores y personalidad de tu marca
+- **Consistencia**: Usa el mismo estilo en todas las Ramas
+- **Adecuación al público**: Adapta el lenguaje a tu audiencia objetivo
+
+## Diseñando el Flujo Conversacional
+
+### Mapeo de Conversaciones
+
+Antes de implementar tu Árbol en TreeFlow, es recomendable crear un mapa visual del flujo conversacional:
+
+1. **Identifica los escenarios principales**: ¿Qué quieren lograr los usuarios?
+2. **Define los caminos de conversación**: ¿Cómo fluirá el diálogo en cada escenario?
+3. **Anticipa variaciones**: ¿De qué diferentes maneras podrían expresarse los usuarios?
+4. **Planifica puntos de decisión**: ¿Dónde necesitarás recopilar información específica?
+
+### Ejemplo de Mapa Conversacional
+
+```
+Inicio
+├── Saludo
+│   ├── Respuesta: Bienvenida + Opciones
+│   └── Transición a: Información, Reserva o Soporte
+├── Información
+│   ├── Respuesta: Presentar categorías de información
+│   └── Transición a: Detalles específicos o Menú principal
+├── Reserva
+│   ├── Recopilar: Fecha (Hoja)
+│   ├── Recopilar: Hora (Hoja)
+│   ├── Recopilar: Personas (Hoja)
+│   ├── Respuesta: Confirmación de reserva
+│   └── Transición a: Menú principal o Finalizar
+└── Soporte
+    ├── Respuesta: Opciones de ayuda
+    └── Transición a: Preguntas frecuentes o Contacto humano
+```
+
+## Mejores Prácticas
+
+### Para Ramas Efectivas
+
+- **Patrones diversos**: Incluye múltiples formas en que los usuarios podrían expresar la misma intención
+- **Especificidad**: Evita patrones demasiado genéricos que podrían activarse incorrectamente
+- **Priorización**: Organiza las Ramas por importancia y frecuencia de uso
+
+### Para Hojas Útiles
+
+- **Extracción precisa**: Define claramente qué información debe capturar cada Hoja
+- **Validación**: Implementa verificaciones para asegurar que la información capturada es correcta
+- **Confirmación**: Confirma con el usuario que la información extraída es correcta
+- **Diseño anticipado**: Define tus Hojas antes de crear las Ramas, ya que TreeFlow capturará automáticamente como parámetros los valores clave que coincidan con tus Hojas
+
+### Para Respuestas Naturales
+
+- **Brevedad**: Mantén las respuestas concisas y al punto
+- **Claridad**: Evita ambigüedades y jerga técnica innecesaria
+- **Accionabilidad**: Incluye siempre un próximo paso claro o una pregunta
+
+## Pruebas y Refinamiento
+
+El diseño conversacional es un proceso iterativo:
+
+1. **Prueba con usuarios reales**: Observa cómo interactúan con tu Árbol
+2. **Identifica puntos de fricción**: ¿Dónde se confunden o frustran los usuarios?
+3. **Analiza conversaciones fallidas**: ¿Por qué no se activó la Rama correcta?
+4. **Refina continuamente**: Ajusta patrones, respuestas y flujos según los datos recopilados
+
+## Herramientas de Diseño
+
+Para crear mapas de flujo conversacional, puedes utilizar:
+
+- Herramientas de diagramación como Draw.io, Lucidchart o Miro
+- Documentos compartidos con esquemas anidados
+- Tarjetas físicas para sesiones de diseño colaborativo
+
+Recuerda que un buen diseño conversacional comienza antes de tocar TreeFlow, con una planificación cuidadosa de la experiencia que quieres crear para tus usuarios.

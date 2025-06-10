@@ -14,9 +14,45 @@ Una hoja define un tipo específico de información que tu árbol puede reconoce
 - Personalizar las respuestas según los datos proporcionados
 - Permitir que el árbol tome decisiones basadas en valores específicos
 
+![Funcionamiento de las Hojas](/img/docs/hojas_funcionamiento.svg)
+
+*Diagrama: Las Hojas extraen información estructurada de los mensajes del usuario*
+
+## Estructura de una Hoja
+
+Las hojas simples y compuestas en TreeFlow se basan en una estructura de **valores clave** y **sinónimos**. Esta estructura permite reconocer diferentes formas en que un usuario puede expresar el mismo concepto.
+
+### Valores Clave
+
+Los valores clave representan los datos específicos que la hoja puede identificar y extraer. Cada valor clave:
+
+- Es un identificador único dentro de la hoja
+- Representa un concepto o dato concreto
+- Se utiliza internamente para procesar la información
+
+### Sinónimos
+
+Los sinónimos son las diferentes formas en que un usuario puede expresar el mismo valor clave. Cada valor clave puede tener múltiples sinónimos:
+
+- Variaciones de escritura ("café", "cafe", "coffee")
+- Expresiones coloquiales ("grande", "enorme", "extra large")
+- Abreviaturas ("XL", "lg", "G")
+
+### Funcionamiento
+
+Cuando un usuario escribe un mensaje, TreeFlow:
+
+1. Analiza el texto buscando coincidencias con los sinónimos definidos en las hojas
+2. Cuando encuentra una coincidencia, extrae el valor clave asociado
+3. Este valor clave se convierte en un parámetro estructurado que las ramas pueden utilizar
+
+:::note Importante
+Esta estructura de valores clave y sinónimos aplica principalmente a las hojas simples y compuestas. Las hojas regex funcionan con patrones de expresiones regulares en lugar de valores predefinidos.
+:::
+
 ## Tipos de Hojas
 
-TreeFlow soporta cuatro tipos principales de hojas:
+TreeFlow soporta tres tipos principales de hojas:
 
 ### 1. Hojas Simples
 
@@ -27,11 +63,19 @@ Las hojas simples contienen una lista de valores y sus sinónimos. Son ideales p
 - vainilla (sinónimos: vanilla, vainiya)
 - fresa (sinónimos: frutilla, strawberry)
 
+![Hoja Simple](/img/docs/hoja_simple.svg)
+
+*Ejemplo: Estructura de una hoja simple con valores y sinónimos*
+
 ### 2. Hojas Compuestas
 
 Las hojas compuestas combinan múltiples hojas simples para crear estructuras más complejas.
 
 **Ejemplo:** Una hoja "pedido_helado" podría combinar las hojas "sabor_helado" y "tamaño_helado".
+
+![Hoja Compuesta](/img/docs/hoja_compuesta.svg)
+
+*Ejemplo: Estructura de una hoja compuesta que combina múltiples hojas*
 
 ### 3. Hojas Regex
 
@@ -39,23 +83,23 @@ Las hojas regex utilizan expresiones regulares para identificar patrones especí
 
 **Ejemplo:** Una hoja para reconocer códigos de producto con el formato "ABC-12345".
 
-### 4. Hojas Personalizadas
+![Hoja Regex](/img/docs/hoja_regex.svg)
 
-Las hojas personalizadas permiten implementar lógica de extracción especializada para casos particulares.
+*Ejemplo: Hoja regex para capturar patrones específicos*
 
 ## Hojas del Sistema
 
-TreeFlow incluye hojas del sistema predefinidas para tipos de datos comunes:
+TreeFlow incluye hojas del sistema predefinidas para tipos de datos comunes. Estas hojas están optimizadas para reconocer formatos específicos de información sin necesidad de configuración adicional.
 
-- **sys.any**: Cualquier texto
-- **sys.number**: Números
-- **sys.currency**: Valores monetarios
-- **sys.date**: Fechas
-- **sys.time**: Horas
-- **sys.email**: Direcciones de correo electrónico
-- **sys.phone**: Números de teléfono
-- **sys.url**: URLs
-- **sys.percentage**: Porcentajes
+![Hojas del Sistema](/img/docs/hojas_sistema.svg)
+
+*Diagrama: Las hojas del sistema están preconfiguradas para reconocer formatos comunes*
+
+:::tip Lista completa de Hojas del Sistema
+Para ver la lista completa de todas las Hojas del Sistema disponibles, con descripciones detalladas y ejemplos de los formatos que pueden capturar, consulta la [documentación de Hojas del Sistema](/Misc/HojasDelSistema).
+:::
+
+
 
 ## Crear una Nueva Hoja
 
@@ -69,55 +113,7 @@ Para crear una nueva hoja:
 6. Configura los valores según el tipo de hoja
 7. Guarda la hoja
 
-## Estructura de una Hoja
 
-### Identificador (ID)
-
-Identificador único de la hoja dentro del árbol.
-
-### Nombre
-
-Nombre descriptivo de la hoja. Es importante usar nombres claros que indiquen qué tipo de información extrae la hoja.
-
-### Valores
-
-Cada hoja contiene una lista de valores posibles:
-
-```typescript
-interface LeafValue {
-  key: string;      // Identificador único del valor
-  synonyms: string[]; // Lista de sinónimos para este valor
-}
-```
-
-## Uso de Hojas en Ramas
-
-Las hojas se utilizan en las ramas de dos maneras principales:
-
-### 1. En Patrones
-
-Puedes incluir referencias a hojas en los patrones de las ramas usando la sintaxis `@nombre_hoja`:
-
-```
-Quiero ordenar una @tipo_comida
-Me gustaría pedir @cantidad @tipo_comida
-```
-
-### 2. Como Parámetros
-
-Las hojas se utilizan para definir los parámetros que una rama puede extraer:
-
-```typescript
-interface BranchParameter {
-  name: string;       // Nombre de la hoja (para referencia)
-  key: string;        // ID único de la hoja
-  parameterName?: string; // Nombre personalizable del parámetro
-  default?: string;   // Valor por defecto
-  prompt?: string;    // Mensaje para solicitar el valor
-  fallback?: string;  // Mensaje cuando no se proporciona el valor
-  required?: boolean; // Si es obligatorio
-}
-```
 
 ## Mejores Prácticas para Hojas
 
@@ -131,44 +127,6 @@ interface BranchParameter {
 Para mejorar la precisión de la extracción, proporciona ejemplos variados de cómo los usuarios podrían expresar los valores de la hoja.
 :::
 
-## Ejemplos de Uso
 
-### Hoja Simple para Tamaños
 
-```json
-{
-  "id": "tamaño_producto",
-  "name": "tamaño_producto",
-  "type": "simple",
-  "values": [
-    {
-      "key": "pequeño",
-      "synonyms": ["pequeño", "chico", "small", "s"]
-    },
-    {
-      "key": "mediano",
-      "synonyms": ["mediano", "medium", "m"]
-    },
-    {
-      "key": "grande",
-      "synonyms": ["grande", "big", "large", "l"]
-    }
-  ]
-}
-```
 
-### Hoja Regex para Códigos Postales
-
-```json
-{
-  "id": "codigo_postal",
-  "name": "codigo_postal",
-  "type": "regex",
-  "values": [
-    {
-      "key": "cp",
-      "synonyms": ["\\d{5}"]
-    }
-  ]
-}
-```

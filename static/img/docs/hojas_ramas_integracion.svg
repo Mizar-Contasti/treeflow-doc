@@ -1,0 +1,45 @@
+<svg width="600" height="350" xmlns="http://www.w3.org/2000/svg">
+  <!-- Fondo con borde redondeado -->
+  <rect x="10" y="10" width="580" height="330" rx="10" ry="10" fill="#f8f9fa" stroke="#ddd" stroke-width="2"/>
+  
+  <!-- Título -->
+  <text x="300" y="40" font-family="Arial" font-size="18" font-weight="bold" text-anchor="middle">Integración entre Hojas y Ramas</text>
+  
+  <!-- Mensaje del usuario -->
+  <rect x="50" y="70" width="200" height="40" rx="5" ry="5" fill="#e6f7ff" stroke="#1890ff" stroke-width="2"/>
+  <text x="150" y="95" font-family="Arial" font-size="14" text-anchor="middle">"Quiero un helado de chocolate"</text>
+  
+  <!-- Flechas -->
+  <path d="M 260,90 L 340,90" stroke="#666" stroke-width="2" fill="none" marker-end="url(#arrowhead)"/>
+  <path d="M 150,110 L 150,160" stroke="#666" stroke-width="2" fill="none" marker-end="url(#arrowhead)"/>
+  <path d="M 450,110 L 450,160" stroke="#666" stroke-width="2" fill="none" marker-end="url(#arrowhead)"/>
+  
+  <!-- Definición de la flecha -->
+  <defs>
+    <marker id="arrowhead" markerWidth="10" markerHeight="7" refX="9" refY="3.5" orient="auto">
+      <polygon points="0 0, 10 3.5, 0 7" fill="#666"/>
+    </marker>
+  </defs>
+  
+  <!-- Hoja -->
+  <rect x="50" y="170" width="200" height="120" rx="5" ry="5" fill="#e6f7ff" stroke="#1890ff" stroke-width="2"/>
+  <text x="150" y="195" font-family="Arial" font-size="16" font-weight="bold" text-anchor="middle">Hoja: sabor_helado</text>
+  <rect x="70" y="210" width="160" height="30" rx="5" ry="5" fill="#fff" stroke="#1890ff" stroke-width="1"/>
+  <text x="150" y="230" font-family="Arial" font-size="14" text-anchor="middle">chocolate</text>
+  <rect x="70" y="250" width="160" height="30" rx="5" ry="5" fill="#fff" stroke="#1890ff" stroke-width="1"/>
+  <text x="150" y="270" font-family="Arial" font-size="14" text-anchor="middle">vainilla</text>
+  
+  <!-- Rama -->
+  <rect x="350" y="70" width="200" height="40" rx="5" ry="5" fill="#fff2e8" stroke="#fa8c16" stroke-width="2"/>
+  <text x="450" y="95" font-family="Arial" font-size="14" text-anchor="middle">Patrón: "Quiero un helado de @sabor_helado"</text>
+  
+  <!-- Rama con parámetro -->
+  <rect x="350" y="170" width="200" height="120" rx="5" ry="5" fill="#fff2e8" stroke="#fa8c16" stroke-width="2"/>
+  <text x="450" y="195" font-family="Arial" font-size="16" font-weight="bold" text-anchor="middle">Rama: pedir_helado</text>
+  <text x="450" y="220" font-family="Arial" font-size="14" text-anchor="middle">Parámetros extraídos:</text>
+  <rect x="370" y="230" width="160" height="50" rx="5" ry="5" fill="#fff" stroke="#fa8c16" stroke-width="1"/>
+  <text x="450" y="255" font-family="Arial" font-size="14" text-anchor="middle">sabor_helado: "chocolate"</text>
+  
+  <!-- Línea de conexión entre hoja y rama -->
+  <path d="M 250,230 L 350,230" stroke="#666" stroke-width="2" stroke-dasharray="5,5"/>
+</svg>

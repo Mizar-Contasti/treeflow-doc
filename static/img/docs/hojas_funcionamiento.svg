@@ -1,0 +1,34 @@
+<svg width="600" height="300" xmlns="http://www.w3.org/2000/svg">
+  <!-- Fondo con borde redondeado -->
+  <rect x="10" y="10" width="580" height="280" rx="10" ry="10" fill="#f8f9fa" stroke="#ddd" stroke-width="2"/>
+  
+  <!-- Título -->
+  <text x="300" y="40" font-family="Arial" font-size="18" font-weight="bold" text-anchor="middle">Funcionamiento de las Hojas</text>
+  
+  <!-- Mensaje del usuario -->
+  <rect x="50" y="70" width="200" height="60" rx="10" ry="10" fill="#e6f7ff" stroke="#1890ff" stroke-width="2"/>
+  <text x="150" y="95" font-family="Arial" font-size="14" text-anchor="middle">"Quiero reservar una mesa</text>
+  <text x="150" y="115" font-family="Arial" font-size="14" text-anchor="middle">para el viernes a las 8 PM"</text>
+  
+  <!-- Flechas -->
+  <path d="M 260,100 L 340,100" stroke="#666" stroke-width="2" fill="none" marker-end="url(#arrowhead)"/>
+  <path d="M 450,130 L 450,170" stroke="#666" stroke-width="2" fill="none" marker-end="url(#arrowhead)"/>
+  
+  <!-- Definición de la flecha -->
+  <defs>
+    <marker id="arrowhead" markerWidth="10" markerHeight="7" refX="9" refY="3.5" orient="auto">
+      <polygon points="0 0, 10 3.5, 0 7" fill="#666"/>
+    </marker>
+  </defs>
+  
+  <!-- Proceso de extracción -->
+  <rect x="350" y="70" width="200" height="60" rx="10" ry="10" fill="#f6ffed" stroke="#52c41a" stroke-width="2"/>
+  <text x="450" y="95" font-family="Arial" font-size="14" text-anchor="middle">Proceso de extracción</text>
+  <text x="450" y="115" font-family="Arial" font-size="14" text-anchor="middle">con Hojas</text>
+  
+  <!-- Resultado estructurado -->
+  <rect x="350" y="180" width="200" height="80" rx="10" ry="10" fill="#fff2e8" stroke="#fa8c16" stroke-width="2"/>
+  <text x="450" y="205" font-family="Arial" font-size="14" text-anchor="middle">Información estructurada:</text>
+  <text x="450" y="225" font-family="Arial" font-size="14" text-anchor="middle">fecha: "viernes"</text>
+  <text x="450" y="245" font-family="Arial" font-size="14" text-anchor="middle">hora: "8 PM"</text>
+</svg>

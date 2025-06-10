@@ -1,0 +1,27 @@
+<svg width="500" height="300" xmlns="http://www.w3.org/2000/svg">
+  <!-- Fondo con borde redondeado -->
+  <rect x="10" y="10" width="480" height="280" rx="10" ry="10" fill="#f8f9fa" stroke="#ddd" stroke-width="2"/>
+  
+  <!-- Título -->
+  <text x="250" y="40" font-family="Arial" font-size="18" font-weight="bold" text-anchor="middle">Hoja Regex: codigo_postal</text>
+  
+  <!-- Estructura de la hoja -->
+  <rect x="50" y="60" width="400" height="200" rx="5" ry="5" fill="#fff0f6" stroke="#eb2f96" stroke-width="2"/>
+  
+  <!-- Patrón regex -->
+  <rect x="70" y="90" width="360" height="60" rx="5" ry="5" fill="#fff" stroke="#eb2f96" stroke-width="1"/>
+  <text x="90" y="115" font-family="Arial" font-size="14" font-weight="bold">Patrón: \d{5}</text>
+  <text x="90" y="135" font-family="Arial" font-size="12" fill="#666">Captura códigos postales de 5 dígitos</text>
+  
+  <!-- Ejemplos -->
+  <text x="250" y="180" font-family="Arial" font-size="14" font-weight="bold" text-anchor="middle">Ejemplos de coincidencias:</text>
+  
+  <rect x="100" y="200" width="80" height="30" rx="5" ry="5" fill="#fff" stroke="#eb2f96" stroke-width="1"/>
+  <text x="140" y="220" font-family="Arial" font-size="14" text-anchor="middle">12345</text>
+  
+  <rect x="210" y="200" width="80" height="30" rx="5" ry="5" fill="#fff" stroke="#eb2f96" stroke-width="1"/>
+  <text x="250" y="220" font-family="Arial" font-size="14" text-anchor="middle">54321</text>
+  
+  <rect x="320" y="200" width="80" height="30" rx="5" ry="5" fill="#fff" stroke="#eb2f96" stroke-width="1"/>
+  <text x="360" y="220" font-family="Arial" font-size="14" text-anchor="middle">98765</text>
+</svg>
