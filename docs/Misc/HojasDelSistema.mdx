@@ -4,6 +4,10 @@ sidebar_position: 1
 
 # Hojas del Sistema
 
+import FutureFeatureNotice from '@site/src/components/FutureFeatureNotice.mdx';
+
+<FutureFeatureNotice version="v0.2" />
+
 Las Hojas del Sistema en TreeFlow son entidades predefinidas que están optimizadas para reconocer y extraer tipos de datos comunes sin necesidad de configuración adicional. Estas hojas facilitan la creación de experiencias conversacionales robustas al proporcionar extractores de información ya entrenados y listos para usar.
 
 ![Hojas del Sistema](/img/docs/hojas_sistema.svg)
@@ -12,21 +16,15 @@ Las Hojas del Sistema en TreeFlow son entidades predefinidas que están optimiza
 
 | Hoja | Descripción | Ejemplos de formato |
 |------|-------------|--------------------| 
-| **sys.any** | Captura cualquier texto o fragmento de información. Útil cuando necesitas extraer texto libre sin estructura específica. | "me gusta", "quiero información", "cualquier texto que el usuario escriba" |
-| **sys.number** | Reconoce números en diversos formatos, incluyendo números escritos como texto, decimales, y expresiones numéricas. | "42", "tres", "3.14", "mil doscientos", "un millón", "docena y media" |
-| **sys.currency** | Identifica valores monetarios, incluyendo el símbolo de la moneda y la cantidad. Compatible con múltiples divisas y formatos regionales. | "$100", "50 euros", "1,200.50 pesos", "medio millón de dólares" |
-| **sys.date** | Extrae fechas en múltiples formatos, incluyendo fechas absolutas, relativas y expresiones temporales. | "15 de marzo", "15/03/2025", "mañana", "próximo lunes", "en dos semanas", "a finales de mes" |
-| **sys.time** | Reconoce expresiones de tiempo, tanto específicas como relativas. | "3 PM", "15:30", "mediodía", "en 5 minutos", "a media tarde", "después de la cena" |
-| **sys.datetime** | Combina la funcionalidad de sys.date y sys.time para capturar fechas y horas juntas. | "mañana a las 3 PM", "15 de marzo a las 15:30", "próximo lunes por la tarde" |
-| **sys.email** | Identifica direcciones de correo electrónico con validación de formato. | "usuario@ejemplo.com", "nombre.apellido@dominio.co.uk" |
-| **sys.phone** | Captura números de teléfono en diversos formatos regionales, con o sin códigos de país. | "+1 555-123-4567", "555.123.4567", "(01) 234 5678" |
-| **sys.url** | Reconoce URLs completas o parciales, con o sin protocolo. | "https://ejemplo.com", "ejemplo.com/pagina", "www.sitio.net" |
-| **sys.percentage** | Identifica porcentajes expresados con símbolo o en texto. | "50%", "cincuenta por ciento", "mitad", "tres cuartos" |
-| **sys.age** | Reconoce expresiones de edad en años, meses o combinaciones. | "30 años", "18 meses", "año y medio", "veinticinco años" |
-| **sys.duration** | Captura períodos de tiempo o duraciones. | "2 horas", "30 minutos", "una semana", "tres días y medio" |
-| **sys.address** | Identifica direcciones postales completas o parciales. | "Calle Principal 123", "Avenida Central, Edificio Torre, Piso 5" |
-| **sys.name** | Reconoce nombres propios de personas. | "Juan Pérez", "María", "Dr. Rodríguez" |
-| **sys.color** | Captura nombres de colores y tonalidades. | "rojo", "azul marino", "verde claro", "magenta" |
+| **sys.any** | Acepta cualquier texto como entrada válida. | "me gusta", "quiero información", "cualquier texto que el usuario escriba" |
+| **sys.number** | Detecta números. | "42", "tres", "3.14", "mil doscientos" |
+| **sys.currency** | Detecta montos monetarios. | "$100", "50 euros", "1,200.50 pesos" |
+| **sys.date** | Detecta fechas en diversos formatos. | "15 de marzo", "15/03/2025", "mañana", "próximo lunes" |
+| **sys.time** | Detecta horas en diversos formatos. | "3 PM", "15:30", "mediodía" |
+| **sys.email** | Detecta direcciones de correo electrónico. | "usuario@ejemplo.com", "nombre.apellido@dominio.co.uk" |
+| **sys.phone** | Detecta números de teléfono. | "+52 123 456 7890", "4421234567" |
+| **sys.url** | Detecta URLs. | "https://ejemplo.com", "www.ejemplo.com" |
+| **sys.percentage** | Detecta porcentajes. | "25%", "25 por ciento" |
 
 ## Uso Recomendado
 
