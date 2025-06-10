@@ -1,0 +1,165 @@
+---
+sidebar_position: 1
+---
+
+# Crear un Chatbot Básico
+
+Este tutorial te guiará paso a paso en la creación de un chatbot básico utilizando TreeFlow, desde la configuración inicial hasta la implementación de un flujo conversacional simple.
+
+## Requisitos Previos
+
+Antes de comenzar, asegúrate de:
+
+- Tener una cuenta en TreeFlow
+- Haber revisado la [Terminología](/docs/Fundamentos/Terminologia) básica
+- Comprender los conceptos de [Árboles](/docs/Fundamentos/Arboles), [Ramas](/docs/Fundamentos/Ramas) y [Hojas](/docs/Fundamentos/Hojas)
+
+## Paso 1: Diseñar el Flujo Conversacional
+
+Antes de empezar a configurar tu chatbot en TreeFlow, es importante diseñar el flujo conversacional:
+
+1. Define el propósito principal del chatbot
+2. Identifica las intenciones (Ramas) principales que deberá manejar
+3. Determina qué información (Hojas) necesitarás extraer
+4. Diseña las respuestas para cada escenario
+
+Para este tutorial, crearemos un chatbot simple para una pizzería que pueda:
+- Saludar al usuario
+- Tomar pedidos de pizza
+- Informar sobre horarios
+- Proporcionar información de contacto
+
+## Paso 2: Crear un Nuevo Árbol
+
+1. Inicia sesión en TreeFlow
+2. Haz clic en "Crear Nuevo Árbol"
+3. Completa la información básica:
+   - Nombre: "Pizzería Virtual"
+   - Descripción: "Chatbot para tomar pedidos de pizza"
+   - Idioma: Español
+4. Haz clic en "Crear"
+
+## Paso 3: Configurar las Hojas
+
+Siguiendo el flujo de trabajo recomendado, primero configuraremos las Hojas que necesitaremos:
+
+### Hoja "tamaño_pizza"
+
+1. Ve a la sección "Hojas" y haz clic en "Nueva Hoja"
+2. Configura la Hoja:
+   - Nombre: tamaño_pizza
+   - Tipo: Simple
+   - Valores:
+     - **pequeña**: pequeña, chica, individual, personal
+     - **mediana**: mediana, media
+     - **grande**: grande, familiar, jumbo
+
+### Hoja "ingredientes_pizza"
+
+1. Crea otra Hoja nueva
+2. Configura la Hoja:
+   - Nombre: ingredientes_pizza
+   - Tipo: Simple
+   - Valores:
+     - **pepperoni**: pepperoni, salami, salchicha
+     - **jamón**: jamón, ham
+     - **piña**: piña, ananá, pineapple
+     - **champiñones**: champiñones, hongos, setas, mushrooms
+     - **aceitunas**: aceitunas, olivas, olives
+
+## Paso 4: Crear las Ramas
+
+Ahora crearemos las Ramas necesarias para nuestro chatbot:
+
+### Rama de Saludo
+
+1. Ve a la sección "Ramas" y haz clic en "Nueva Rama"
+2. Configura la Rama:
+   - Nombre: Saludo
+   - Patrones:
+     - "hola"
+     - "buenos días"
+     - "buenas tardes"
+     - "buenas noches"
+     - "saludos"
+   - Respuestas:
+     - "¡Hola! Bienvenido a Pizzería Virtual. ¿En qué puedo ayudarte hoy? Puedes pedir una pizza, consultar nuestros horarios o pedir información de contacto."
+
+### Rama de Pedido
+
+1. Crea otra Rama nueva
+2. Configura la Rama:
+   - Nombre: Pedido_Pizza
+   - Patrones:
+     - "quiero ordenar una pizza"
+     - "quiero una pizza de @ingredientes_pizza"
+     - "me gustaría pedir una pizza @tamaño_pizza"
+     - "pizza @tamaño_pizza con @ingredientes_pizza"
+   - Parámetros:
+     - tamaño_pizza
+     - ingredientes_pizza
+   - Respuestas:
+     - Si ambos parámetros están presentes: "¡Perfecto! Has pedido una pizza {tamaño_pizza} con {ingredientes_pizza}. ¿Algo más que desees agregar?"
+     - Si falta tamaño_pizza: "¿De qué tamaño quieres tu pizza con {ingredientes_pizza}? Tenemos pequeña, mediana y grande."
+     - Si faltan ingredientes_pizza: "¿Qué ingredientes te gustaría en tu pizza {tamaño_pizza}? Tenemos pepperoni, jamón, piña, champiñones y aceitunas."
+     - Si faltan ambos: "¿De qué tamaño y con qué ingredientes te gustaría tu pizza?"
+
+### Rama de Horarios
+
+1. Crea otra Rama nueva
+2. Configura la Rama:
+   - Nombre: Horarios
+   - Patrones:
+     - "¿cuál es su horario?"
+     - "¿a qué hora abren?"
+     - "¿a qué hora cierran?"
+     - "horario de atención"
+   - Respuestas:
+     - "Nuestro horario de atención es de lunes a viernes de 11:00 AM a 10:00 PM, y sábados y domingos de 12:00 PM a 11:00 PM."
+
+### Rama de Contacto
+
+1. Crea otra Rama nueva
+2. Configura la Rama:
+   - Nombre: Contacto
+   - Patrones:
+     - "¿cómo puedo contactarlos?"
+     - "información de contacto"
+     - "teléfono"
+     - "dirección"
+     - "ubicación"
+   - Respuestas:
+     - "Puedes contactarnos al teléfono (123) 456-7890. Nuestra dirección es Calle Principal #123, Ciudad. También puedes hacer pedidos en línea a través de nuestra página web www.pizzeriavirtual.com."
+
+## Paso 5: Entrenar el Árbol
+
+Una vez configuradas todas las Ramas y Hojas:
+
+1. Ve a la sección "Entrenamiento"
+2. Haz clic en "Entrenar Árbol"
+3. Espera a que el proceso de entrenamiento termine
+
+## Paso 6: Probar el Chatbot
+
+1. Ve a la sección "Pruebas"
+2. Interactúa con tu chatbot usando diferentes mensajes:
+   - "Hola"
+   - "Quiero ordenar una pizza"
+   - "¿Cuál es su horario?"
+   - "¿Cómo puedo contactarlos?"
+   - "Quiero una pizza grande con pepperoni"
+
+## Conclusión
+
+¡Felicidades! Has creado un chatbot básico para una pizzería utilizando TreeFlow. Este chatbot puede saludar a los usuarios, tomar pedidos de pizza, informar sobre horarios y proporcionar información de contacto.
+
+## Próximos Pasos
+
+Para mejorar tu chatbot, considera:
+
+1. Añadir más Ramas para manejar preguntas frecuentes
+2. Implementar Contextos para mantener el estado de la conversación
+3. Configurar Eventos para acciones específicas
+4. Integrar Webhooks para procesar pedidos en sistemas externos
+
+Consulta nuestros [tutoriales avanzados](/docs/Tutoriales) para aprender más sobre estas funcionalidades.

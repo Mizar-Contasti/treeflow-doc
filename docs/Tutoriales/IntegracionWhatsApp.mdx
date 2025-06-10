@@ -1,0 +1,245 @@
+---
+sidebar_position: 2
+---
+
+# Integración con WhatsApp
+
+Este tutorial te guiará paso a paso en el proceso de integrar tu Árbol de TreeFlow con WhatsApp Business API, permitiéndote ofrecer soporte automatizado y experiencias conversacionales a través de la plataforma de mensajería más popular del mundo.
+
+## Requisitos Previos
+
+Antes de comenzar, asegúrate de:
+
+- Tener un Árbol funcional y entrenado en TreeFlow
+- Contar con una cuenta aprobada de WhatsApp Business API (puedes obtenerla a través de proveedores oficiales como Twilio, MessageBird o directamente con Meta)
+- Tener acceso a las credenciales de API necesarias
+
+## Paso 1: Preparar tu Árbol para WhatsApp
+
+Antes de realizar la integración técnica, es importante adaptar tu Árbol para que funcione correctamente en WhatsApp:
+
+1. **Revisa las respuestas**: WhatsApp tiene limitaciones en cuanto a formato y longitud. Asegúrate de que tus respuestas:
+   - No sean demasiado largas (idealmente menos de 1000 caracteres)
+   - No dependan de HTML o elementos visuales complejos
+   - Utilicen el formato de texto enriquecido de WhatsApp (negrita, cursiva, etc.)
+
+2. **Adapta los patrones**: Considera cómo los usuarios interactúan en WhatsApp:
+   - Mensajes más cortos y conversacionales
+   - Mayor uso de emojis y lenguaje informal
+   - Posible uso de notas de voz (que se transcribirán a texto)
+
+3. **Configura respuestas específicas para WhatsApp**:
+   - En cada Rama, ve a "Respuestas"
+   - Haz clic en "Añadir variante de canal"
+   - Selecciona "WhatsApp"
+   - Personaliza la respuesta para este canal
+
+## Paso 2: Configurar la Integración en TreeFlow
+
+1. Inicia sesión en tu cuenta de TreeFlow
+2. Navega a "Canales" > "WhatsApp" en el menú principal
+3. Haz clic en "Configurar WhatsApp"
+4. Completa los siguientes campos:
+   - **Nombre de la integración**: Un nombre descriptivo (ej. "WhatsApp Principal")
+   - **Proveedor de WhatsApp Business API**: Selecciona tu proveedor de la lista
+   - **Número de teléfono**: El número aprobado para WhatsApp Business
+   - **Token de acceso**: El token proporcionado por tu proveedor
+   - **Webhook URL**: Copia esta URL para configurarla en tu proveedor
+   - **Webhook Secret**: Una clave secreta para verificar las solicitudes
+
+5. Haz clic en "Guardar configuración"
+
+## Paso 3: Configurar el Webhook en tu Proveedor
+
+Dependiendo de tu proveedor de WhatsApp Business API, el proceso puede variar. Aquí te mostramos los pasos generales:
+
+### Para Twilio:
+
+1. Inicia sesión en tu cuenta de Twilio
+2. Navega a "Programmable Messaging" > "Settings" > "WhatsApp Sandbox"
+3. En "Webhook URL", pega la URL que copiaste de TreeFlow
+4. Selecciona "HTTP POST" como método
+5. Guarda los cambios
+
+### Para MessageBird:
+
+1. Inicia sesión en tu cuenta de MessageBird
+2. Ve a "Developers" > "Webhooks"
+3. Crea un nuevo webhook
+4. Pega la URL de TreeFlow
+5. Selecciona los eventos relevantes (mensajes entrantes)
+6. Guarda la configuración
+
+## Paso 4: Configurar Opciones Avanzadas
+
+Una vez establecida la conexión básica, configura opciones avanzadas para optimizar la experiencia:
+
+1. En TreeFlow, ve a "Canales" > "WhatsApp" > "Configuración avanzada"
+2. Configura:
+   - **Mensaje de bienvenida**: El mensaje que se enviará cuando un usuario inicie una conversación por primera vez
+   - **Duración de la sesión**: Tiempo de inactividad antes de considerar una sesión como terminada (recomendado: 24 horas)
+   - **Mensaje de reactivación**: Mensaje a enviar cuando un usuario regresa después de que la sesión ha expirado
+   - **Manejo de archivos multimedia**: Cómo procesar imágenes, audio, video y documentos recibidos
+
+3. Haz clic en "Guardar configuración avanzada"
+
+## Paso 5: Configurar Plantillas de Mensaje
+
+Las plantillas son necesarias para iniciar conversaciones o reactivar sesiones expiradas:
+
+1. Ve a "Canales" > "WhatsApp" > "Plantillas"
+2. Haz clic en "Añadir plantilla"
+3. Completa:
+   - **Nombre**: Un identificador único para la plantilla
+   - **Categoría**: El tipo de mensaje (transaccional, marketing, etc.)
+   - **Idioma**: El idioma principal de la plantilla
+   - **Contenido**: El texto de la plantilla, utilizando variables entre llaves `{{1}}` para elementos personalizables
+   - **Ejemplo de variables**: Ejemplos para cada variable en tu plantilla
+
+4. Haz clic en "Guardar plantilla"
+5. Espera la aprobación de WhatsApp (puede tomar entre 24-72 horas)
+
+## Paso 6: Probar la Integración
+
+Una vez configurada la integración, es importante probarla:
+
+1. Ve a "Canales" > "WhatsApp" > "Pruebas"
+2. Utiliza el simulador para enviar mensajes de prueba
+3. Verifica:
+   - Que los mensajes se reciban correctamente
+   - Que las respuestas se envíen con el formato adecuado
+   - Que las plantillas funcionen correctamente
+   - Que los archivos multimedia se procesen adecuadamente
+
+4. Realiza una prueba real enviando un mensaje al número de WhatsApp desde un teléfono
+
+## Paso 7: Monitoreo y Análisis
+
+Una vez que tu integración esté funcionando, configura el monitoreo:
+
+1. Ve a "Análisis" > "Canales" > "WhatsApp"
+2. Revisa métricas clave:
+   - Volumen de mensajes
+   - Tasa de respuesta
+   - Tiempo de respuesta
+   - Tasa de resolución
+   - Uso de plantillas
+
+3. Configura alertas para problemas potenciales:
+   - Errores de entrega
+   - Tiempos de respuesta elevados
+   - Caídas en la tasa de resolución
+
+## Funcionalidades Avanzadas
+
+### Botones de Respuesta Rápida
+
+WhatsApp permite incluir hasta 3 botones de respuesta rápida:
+
+1. En la respuesta específica para WhatsApp, utiliza el siguiente formato:
+
+```
+¿Qué te gustaría hacer a continuación?
+
+[buttons]
+Ver productos|ver_productos
+Hacer pedido|hacer_pedido
+Contactar soporte|contactar_soporte
+[/buttons]
+```
+
+2. TreeFlow convertirá esto en botones interactivos en WhatsApp
+
+### Listas de Opciones
+
+Para presentar múltiples opciones, puedes utilizar listas:
+
+```
+Selecciona una categoría:
+
+[list:Categorías]
+Electrónica|electronica
+Ropa|ropa
+Hogar|hogar
+Deportes|deportes
+[/list]
+```
+
+### Envío de Archivos Multimedia
+
+Para enviar imágenes, documentos u otros archivos multimedia:
+
+```
+¡Aquí tienes nuestro catálogo!
+
+[image:https://ejemplo.com/catalogo.jpg]
+
+También puedes descargar nuestra lista de precios:
+
+[document:https://ejemplo.com/precios.pdf:Lista de Precios 2025]
+```
+
+## Solución de Problemas Comunes
+
+### Mensajes no Entregados
+
+Si los mensajes no se entregan:
+
+1. Verifica que el número de teléfono esté aprobado para WhatsApp Business
+2. Asegúrate de que las plantillas estén aprobadas para mensajes iniciales
+3. Confirma que el token de acceso sea válido y no haya expirado
+4. Revisa los logs de error en "Canales" > "WhatsApp" > "Logs"
+
+### Formato Incorrecto
+
+Si las respuestas no se muestran correctamente:
+
+1. Verifica que estés utilizando el formato compatible con WhatsApp
+2. Asegúrate de no exceder los límites de caracteres
+3. Comprueba que los elementos interactivos (botones, listas) estén configurados correctamente
+
+### Problemas de Webhook
+
+Si el webhook no funciona:
+
+1. Verifica que la URL sea accesible desde internet
+2. Confirma que el secret esté configurado correctamente
+3. Revisa los logs de webhook en tu proveedor de WhatsApp Business API
+4. Asegúrate de que los eventos correctos estén configurados
+
+## Mejores Prácticas
+
+### 1. Respeta las Políticas de WhatsApp
+
+- No envíes mensajes no solicitados
+- Utiliza plantillas aprobadas para iniciar conversaciones
+- Respeta los tiempos de la ventana de servicio (24 horas)
+
+### 2. Optimiza para la Experiencia Móvil
+
+- Mantén los mensajes concisos
+- Utiliza formato que sea fácil de leer en pantallas pequeñas
+- Considera el uso de datos móviles al enviar multimedia
+
+### 3. Personaliza la Experiencia
+
+- Utiliza el nombre del usuario cuando sea apropiado
+- Adapta el tono y estilo a WhatsApp
+- Aprovecha las capacidades únicas como botones y listas
+
+### 4. Implementa Transferencia a Humano
+
+- Configura una opción clara para hablar con un agente humano
+- Integra con sistemas de atención al cliente como Zendesk o Freshdesk
+- Define reglas claras para cuándo escalar una conversación
+
+## Conclusión
+
+¡Felicidades! Has integrado exitosamente tu Árbol de TreeFlow con WhatsApp Business API. Esta integración te permite ofrecer soporte automatizado, información y servicios a través de la plataforma de mensajería más utilizada del mundo.
+
+## Recursos Adicionales
+
+- [Documentación oficial de WhatsApp Business API](https://developers.facebook.com/docs/whatsapp)
+- [Guía de formato de mensajes en WhatsApp](/docs/Integraciones/CanalesDeComunicacion#whatsapp)
+- [Mejores prácticas para chatbots en WhatsApp](/docs/Fundamentos/MejoresPracticas)
+- [Configuración avanzada de Webhooks](/docs/Webhooks/ConfiguracionWebhooks)

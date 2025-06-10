@@ -11,6 +11,11 @@ Esta guía recopila las mejores prácticas para diseñar y desarrollar Árboles 
 
 ![Mejores Prácticas](/img/docs/mejores_practicas.svg)
 
+# Diseño
+
+<Tabs>
+  <TabItem value="arboles" label="Diseño de Árboles" default>
+
 ## Diseño de Árboles
 
 ### Planificación Estratégica
@@ -26,6 +31,9 @@ Esta guía recopila las mejores prácticas para diseñar y desarrollar Árboles 
 2. **Agrupa Branches relacionadas**: Organiza tus Branches por funcionalidad o tema
 3. **Mantén una jerarquía clara**: Estructura tus Árboles de manera lógica y fácil de navegar
 4. **Nombra con consistencia**: Utiliza convenciones de nomenclatura claras y consistentes
+  </TabItem>
+  
+  <TabItem value="branches" label="Diseño de Ramas">
 
 ## Diseño de Branches (Ramas)
 
@@ -49,6 +57,9 @@ Esta guía recopila las mejores prácticas para diseñar y desarrollar Árboles 
 2. **Mensajes de fallback útiles**: Proporciona orientación cuando el usuario no proporciona la información requerida
 3. **Valores por defecto sensatos**: Configura valores por defecto cuando sea apropiado
 4. **Validación adecuada**: Asegúrate de que los valores extraídos sean válidos y útiles
+  </TabItem>
+  
+  <TabItem value="leaves" label="Diseño de Hojas">
 
 ## Diseño de Leaves (Hojas)
 
@@ -65,6 +76,13 @@ Esta guía recopila las mejores prácticas para diseñar y desarrollar Árboles 
 2. **Aprovecha las Leaves del sistema**: Utiliza las Leaves predefinidas para tipos de datos comunes
 3. **Combina cuando sea necesario**: Utiliza Leaves compuestas para estructuras de datos complejas
 4. **Regex para patrones específicos**: Utiliza expresiones regulares para formatos bien definidos
+  </TabItem>
+</Tabs>
+
+# Optimización
+
+<Tabs>  
+  <TabItem value="flujos" label="Flujos de Conversación" default>
 
 ## Flujos de Conversación
 
@@ -81,6 +99,9 @@ Esta guía recopila las mejores prácticas para diseñar y desarrollar Árboles 
 2. **Recuperación elegante**: Proporciona caminos para que el usuario vuelva al flujo principal
 3. **Ayuda proactiva**: Ofrece sugerencias cuando el usuario parece estar confundido
 4. **Límites de reintentos**: Establece un número máximo de reintentos antes de escalar o cambiar de tema
+  </TabItem>
+  
+  <TabItem value="pruebas" label="Pruebas y Optimización">
 
 ## Pruebas y Optimización
 
@@ -97,54 +118,10 @@ Esta guía recopila las mejores prácticas para diseñar y desarrollar Árboles 
 2. **Identifica patrones de fallo**: Busca situaciones donde el Árbol no responde correctamente
 3. **Mejora iterativamente**: Añade nuevos patrones y respuestas basados en el uso real
 4. **A/B testing**: Prueba diferentes enfoques para ver cuál funciona mejor
+  </TabItem>
 
-## Integración con Modelos Generativos
 
-### Balance entre Control y Flexibilidad
-
-1. **Determinismo para lo crítico**: Utiliza Branches deterministas para flujos críticos y extracción de datos
-2. **Generativo para lo conversacional**: Utiliza modelos generativos para respuestas más naturales y flexibles
-3. **Instrucciones claras**: Proporciona instrucciones específicas a los modelos generativos
-4. **Validación de salidas**: Verifica que las respuestas generativas sean apropiadas antes de mostrarlas
-
-### Personalización Generativa
-
-1. **Contexto completo**: Proporciona suficiente contexto al modelo generativo
-2. **Personalización basada en datos**: Utiliza los parámetros extraídos para personalizar las instrucciones
-3. **Tono consistente**: Asegúrate de que las respuestas generativas mantengan el tono de tu marca
-4. **Fallbacks deterministas**: Ten respuestas deterministas como respaldo
-
-## Seguridad y Privacidad
-
-### Protección de Datos
-
-1. **Minimiza la recolección de datos**: Solo recopila la información necesaria
-2. **Anonimiza cuando sea posible**: Evita almacenar datos personales identificables
-3. **Políticas claras**: Comunica claramente cómo se utilizarán los datos del usuario
-4. **Cumplimiento normativo**: Asegúrate de cumplir con las regulaciones aplicables (GDPR, CCPA, etc.)
-
-### Seguridad Conversacional
-
-1. **Validación de entradas**: Verifica que las entradas del usuario no contengan código malicioso
-2. **Límites de acceso**: Establece claramente qué acciones puede realizar el Tree
-3. **Autenticación cuando sea necesario**: Implementa mecanismos de autenticación para acciones sensibles
-4. **Monitoreo de abusos**: Implementa sistemas para detectar y prevenir el uso indebido
-
-## Escalabilidad y Mantenimiento
-
-### Código Limpio y Documentado
-
-1. **Documentación clara**: Documenta el propósito y funcionamiento de cada componente
-2. **Convenciones de nomenclatura**: Utiliza nombres descriptivos y consistentes
-3. **Modularidad**: Diseña componentes reutilizables y bien definidos
-4. **Control de versiones**: Utiliza sistemas de control de versiones para gestionar cambios
-
-### Preparación para el Crecimiento
-
-1. **Arquitectura escalable**: Diseña pensando en el crecimiento futuro
-2. **Monitoreo de rendimiento**: Implementa sistemas para monitorear el rendimiento
-3. **Optimización continua**: Mejora regularmente la eficiencia y efectividad
-4. **Planificación de capacidad**: Anticipa y prepárate para aumentos en el uso
+  <TabItem value="ejemplos" label="Ejemplos Prácticos">
 
 ## Ejemplos de Mejores Prácticas
 
@@ -204,3 +181,73 @@ Esta guía recopila las mejores prácticas para diseñar y desarrollar Árboles 
 :::tip Consejo Final
 Recuerda que el objetivo final es crear una experiencia conversacional que sea útil, natural y agradable para tus usuarios. Todas las decisiones técnicas deben estar orientadas a mejorar esta experiencia.
 :::
+</TabItem>
+
+
+  </Tabs>
+
+  # Escalabilidad
+
+
+<Tabs>
+  
+  <TabItem value="generativos" label="Modelos Generativos" default>
+
+## Integración con Modelos Generativos
+
+### Balance entre Control y Flexibilidad
+
+1. **Determinismo para lo crítico**: Utiliza Branches deterministas para flujos críticos y extracción de datos
+2. **Generativo para lo conversacional**: Utiliza modelos generativos para respuestas más naturales y flexibles
+3. **Instrucciones claras**: Proporciona instrucciones específicas a los modelos generativos
+4. **Validación de salidas**: Verifica que las respuestas generativas sean apropiadas antes de mostrarlas
+
+### Personalización Generativa
+
+1. **Contexto completo**: Proporciona suficiente contexto al modelo generativo
+2. **Personalización basada en datos**: Utiliza los parámetros extraídos para personalizar las instrucciones
+3. **Tono consistente**: Asegúrate de que las respuestas generativas mantengan el tono de tu marca
+4. **Fallbacks deterministas**: Ten respuestas deterministas como respaldo
+  </TabItem>
+  
+  <TabItem value="seguridad" label="Seguridad y Privacidad">
+
+## Seguridad y Privacidad
+
+### Protección de Datos
+
+1. **Minimiza la recolección de datos**: Solo recopila la información necesaria
+2. **Anonimiza cuando sea posible**: Evita almacenar datos personales identificables
+3. **Políticas claras**: Comunica claramente cómo se utilizarán los datos del usuario
+4. **Cumplimiento normativo**: Asegúrate de cumplir con las regulaciones aplicables (GDPR, CCPA, etc.)
+
+### Seguridad Conversacional
+
+1. **Validación de entradas**: Verifica que las entradas del usuario no contengan código malicioso
+2. **Límites de acceso**: Establece claramente qué acciones puede realizar el Tree
+3. **Autenticación cuando sea necesario**: Implementa mecanismos de autenticación para acciones sensibles
+4. **Monitoreo de abusos**: Implementa sistemas para detectar y prevenir el uso indebido
+  </TabItem>
+  
+  <TabItem value="escalabilidad" label="Escalabilidad y Mantenimiento">
+
+## Escalabilidad y Mantenimiento
+
+### Código Limpio y Documentado
+
+1. **Documentación clara**: Documenta el propósito y funcionamiento de cada componente
+2. **Convenciones de nomenclatura**: Utiliza nombres descriptivos y consistentes
+3. **Modularidad**: Diseña componentes reutilizables y bien definidos
+4. **Control de versiones**: Utiliza sistemas de control de versiones para gestionar cambios
+
+### Preparación para el Crecimiento
+
+1. **Arquitectura escalable**: Diseña pensando en el crecimiento futuro
+2. **Monitoreo de rendimiento**: Implementa sistemas para monitorear el rendimiento
+3. **Optimización continua**: Mejora regularmente la eficiencia y efectividad
+4. **Planificación de capacidad**: Anticipa y prepárate para aumentos en el uso
+  </TabItem>
+  
+
+</Tabs>
+ 

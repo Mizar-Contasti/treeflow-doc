@@ -1,0 +1,156 @@
+---
+sidebar_position: 1
+---
+
+# Modelos Generativos en TreeFlow
+
+TreeFlow permite integrar modelos generativos de lenguaje para potenciar tus Árboles conversacionales, combinando el control determinista con la flexibilidad y naturalidad de la IA generativa.
+
+## ¿Qué son los Modelos Generativos?
+
+Los modelos generativos de lenguaje son sistemas de inteligencia artificial entrenados para comprender y generar texto similar al humano. Estos modelos pueden:
+
+- Producir respuestas naturales y contextuales
+- Adaptarse a diferentes estilos y tonos
+- Manejar situaciones imprevistas con mayor flexibilidad
+- Proporcionar información detallada y personalizada
+
+## Beneficios de los Modelos Generativos en TreeFlow
+
+La integración de modelos generativos en TreeFlow ofrece numerosas ventajas:
+
+### 1. Experiencias Conversacionales Mejoradas
+
+- Respuestas más naturales y fluidas
+- Mayor capacidad para mantener el contexto de la conversación
+- Adaptación dinámica al tono y necesidades del usuario
+
+### 2. Desarrollo Más Eficiente
+
+- Reducción del tiempo necesario para definir todas las posibles respuestas
+- Menor necesidad de anticipar cada variación de las preguntas del usuario
+- Adaptación más rápida a nuevos casos de uso
+
+### 3. Manejo Inteligente de Casos No Previstos
+
+- Respuestas razonables incluso para consultas no contempladas en el diseño original
+- Redirección elegante hacia los flujos conversacionales definidos
+- Reducción de la frustración del usuario ante limitaciones del chatbot
+
+## Modelos Disponibles en TreeFlow
+
+TreeFlow ofrece integración con varios modelos generativos:
+
+### Modelos de OpenAI
+
+- **GPT-4**: El modelo más avanzado, ideal para tareas complejas y respuestas detalladas
+- **GPT-3.5 Turbo**: Equilibrio entre rendimiento y costo, adecuado para la mayoría de los casos de uso
+
+### Modelos de Anthropic
+
+- **Claude 2**: Excelente para respuestas detalladas y seguras, con fuerte adherencia a instrucciones
+- **Claude Instant**: Versión más rápida y económica, ideal para respuestas cortas
+
+### Modelos Abiertos
+
+- **Llama 2**: Modelo de código abierto con buen rendimiento en múltiples tareas
+- **Mistral**: Modelo eficiente con excelente rendimiento en relación a su tamaño
+
+## Configuración de Modelos Generativos
+
+Para configurar un modelo generativo en tu Árbol:
+
+1. Navega a la configuración del Árbol
+2. En la sección "Configuración Avanzada", encuentra "Integración Generativa"
+3. Activa la opción "Habilitar asistencia generativa"
+4. Selecciona el modelo generativo a utilizar
+5. Configura los parámetros del modelo:
+   - **Temperatura**: Controla la creatividad y aleatoriedad (0.0-1.0)
+   - **Máxima longitud**: Limita la extensión de las respuestas
+   - **Presencia de penalización**: Evita repeticiones
+6. Guarda la configuración
+
+## Parámetros Avanzados
+
+### Temperatura
+
+La temperatura controla la aleatoriedad de las respuestas:
+
+- **Temperatura baja (0.1-0.3)**: Respuestas más deterministas y consistentes
+- **Temperatura media (0.4-0.7)**: Balance entre creatividad y coherencia
+- **Temperatura alta (0.8-1.0)**: Mayor creatividad pero potencialmente menos precisión
+
+### Instrucciones del Sistema
+
+Las instrucciones del sistema guían el comportamiento general del modelo:
+
+```
+Eres un asistente amable y profesional para una tienda de electrónica.
+Proporciona respuestas concisas y precisas sobre productos tecnológicos.
+Si no conoces la respuesta, indícalo claramente y ofrece alternativas.
+Mantén un tono cordial pero técnicamente informado.
+```
+
+## Mejores Prácticas
+
+### 1. Combinar Determinismo y Generatividad
+
+Utiliza un enfoque híbrido:
+- Ramas deterministas para flujos críticos (pagos, confirmaciones, validaciones)
+- Asistencia generativa para enriquecer respuestas y manejar consultas abiertas
+
+### 2. Proporcionar Contexto Suficiente
+
+Los modelos generativos funcionan mejor cuando tienen contexto:
+- Incluye información relevante del usuario en las instrucciones
+- Proporciona el historial de conversación reciente
+- Especifica el propósito y limitaciones del Árbol
+
+### 3. Establecer Límites Claros
+
+Define claramente qué puede y qué no puede hacer el modelo:
+- Especifica temas fuera del alcance
+- Establece el formato esperado para las respuestas
+- Define cómo manejar solicitudes inapropiadas
+
+### 4. Iterar y Refinar
+
+La integración generativa requiere ajustes continuos:
+- Revisa regularmente las conversaciones generadas
+- Ajusta las instrucciones basándote en los resultados
+- Modifica la temperatura según sea necesario
+
+## Casos de Uso Recomendados
+
+### Servicio al Cliente Avanzado
+
+Combina Ramas específicas para problemas comunes con respuestas generativas para casos únicos.
+
+### Asistentes de Ventas
+
+Utiliza modelos generativos para proporcionar recomendaciones personalizadas basadas en las preferencias del usuario.
+
+### Educación y Formación
+
+Crea experiencias de aprendizaje adaptativas que respondan a las preguntas específicas de cada estudiante.
+
+### Asistentes de Productividad
+
+Desarrolla Árboles que ayuden con tareas como resúmenes, generación de ideas o planificación.
+
+## Consideraciones Éticas
+
+Al implementar modelos generativos, considera:
+
+- **Transparencia**: Informa a los usuarios cuando están interactuando con IA
+- **Privacidad**: Asegúrate de manejar adecuadamente los datos sensibles
+- **Sesgo**: Monitorea y mitiga posibles sesgos en las respuestas generadas
+- **Supervisión humana**: Mantén un proceso de revisión para casos críticos
+
+## Recursos Adicionales
+
+- [Integración Generativa Avanzada](/docs/InteligenciaArtificial/IntegracionGenerativa)
+- [Técnicas de NLP](/docs/InteligenciaArtificial/NLP)
+- [Mejores Prácticas para IA Conversacional](/docs/Fundamentos/MejoresPracticas)
+
+La combinación de la estructura determinista de TreeFlow con la flexibilidad de los modelos generativos te permite crear experiencias conversacionales que son tanto controladas como naturales, aprovechando lo mejor de ambos enfoques.

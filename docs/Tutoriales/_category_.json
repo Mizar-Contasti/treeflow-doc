@@ -1,0 +1,8 @@
+{
+  "label": "Tutoriales",
+  "position": 4,
+  "link": {
+    "type": "generated-index",
+    "description": "Guías paso a paso para implementar casos de uso comunes en TreeFlow."
+  }
+}

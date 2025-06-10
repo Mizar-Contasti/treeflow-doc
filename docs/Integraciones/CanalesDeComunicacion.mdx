@@ -1,0 +1,254 @@
+---
+sidebar_position: 2
+---
+
+# Canales de Comunicación
+
+TreeFlow permite integrar tus Árboles con múltiples canales de comunicación, permitiendo que tus usuarios interactúen con ellos a través de diferentes plataformas y medios.
+
+## Canales Disponibles
+
+TreeFlow ofrece integración nativa con los siguientes canales:
+
+### Canales de Mensajería
+
+- **WhatsApp Business API**: Conecta tu Árbol con la API oficial de WhatsApp Business
+- **Facebook Messenger**: Integración con Facebook Messenger para páginas de Facebook
+- **Telegram**: Bots de Telegram completamente integrados con TreeFlow
+- **Instagram Direct**: Mensajería directa en Instagram
+- **Twitter DM**: Mensajes directos en Twitter
+
+### Canales Web
+
+- **Widget Web**: Widget personalizable para integrar en tu sitio web
+- **Chat Iframe**: Solución de chat embebible en cualquier página web
+- **REST API**: API para integrar TreeFlow en cualquier aplicación
+
+### Canales de Voz
+
+- **Telefonía IP**: Integración con sistemas de telefonía IP
+- **Google Assistant**: Conecta tu Árbol con Google Assistant
+- **Amazon Alexa**: Crea skills de Alexa basadas en tus Árboles
+
+## Configuración de Canales
+
+### Widget Web
+
+El Widget Web es la forma más sencilla de integrar TreeFlow en tu sitio web:
+
+1. En el panel de TreeFlow, ve a "Canales" > "Widget Web"
+2. Personaliza la apariencia:
+   - Colores
+   - Posición
+   - Mensaje de bienvenida
+   - Avatar
+3. Copia el código de integración:
+
+```html
+<script>
+  window.treeflowSettings = {
+    treeId: "tu_tree_id",
+    position: "bottom-right",
+    primaryColor: "#4CAF50",
+    welcomeMessage: "¡Hola! ¿En qué puedo ayudarte hoy?",
+    language: "es"
+  };
+</script>
+<script src="https://cdn.treeflow.ai/widget.js" async></script>
+```
+
+4. Pega este código en el HTML de tu sitio web, justo antes del cierre de la etiqueta `</body>`
+
+### WhatsApp Business API
+
+Para integrar con WhatsApp Business API:
+
+1. Debes tener una cuenta aprobada de WhatsApp Business API
+2. En TreeFlow, ve a "Canales" > "WhatsApp"
+3. Configura la integración:
+   - Introduce el token de acceso
+   - Configura el webhook URL en tu proveedor de WhatsApp Business API
+   - Verifica la conexión
+4. Personaliza las opciones:
+   - Mensaje de bienvenida
+   - Comportamiento de sesión
+   - Manejo de archivos multimedia
+
+### REST API
+
+La REST API te permite integrar TreeFlow en cualquier aplicación:
+
+1. Ve a "Canales" > "API"
+2. Genera una API Key
+3. Utiliza los endpoints para interactuar con tu Árbol:
+
+```bash
+# Ejemplo de solicitud
+curl -X POST https://api.treeflow.ai/v1/conversation \
+  -H "Authorization: Bearer tu_api_key" \
+  -H "Content-Type: application/json" \
+  -d '{
+    "tree_id": "tu_tree_id",
+    "session_id": "usuario_123",
+    "message": "Hola, ¿cómo puedo hacer un pedido?"
+  }'
+```
+
+## Personalización por Canal
+
+TreeFlow permite personalizar el comportamiento de tu Árbol según el canal:
+
+### Respuestas Específicas por Canal
+
+Puedes definir respuestas diferentes para cada canal en tus Ramas:
+
+1. En la configuración de la Rama, ve a "Respuestas"
+2. Haz clic en "Añadir variante de canal"
+3. Selecciona el canal (ej. WhatsApp)
+4. Define la respuesta específica para ese canal
+
+Esto es útil cuando necesitas:
+- Incluir elementos específicos del canal (como botones en Messenger)
+- Adaptar el formato (mensajes más cortos para SMS)
+- Utilizar capacidades únicas de cada plataforma
+
+### Ejemplo de Respuesta Multicanal
+
+```
+# Respuesta predeterminada
+Gracias por tu pedido. Tu número de seguimiento es {tracking_number}.
+
+# Variante para WhatsApp
+Gracias por tu pedido. 📦
+*Número de seguimiento:* {tracking_number}
+Puedes revisar el estado en tiempo real aquí: https://tracking.com/{tracking_number}
+
+# Variante para Widget Web
+<div class="order-confirmation">
+  <h3>¡Pedido confirmado!</h3>
+  <p>Tu número de seguimiento es: <strong>{tracking_number}</strong></p>
+  <button onclick="trackOrder('{tracking_number}')">Seguir pedido</button>
+</div>
+```
+
+## Capacidades Específicas por Canal
+
+### WhatsApp
+
+- **Listas**: Menús desplegables para opciones
+- **Botones de respuesta rápida**: Hasta 3 botones por mensaje
+- **Plantillas**: Mensajes pre-aprobados para iniciar conversaciones
+- **Multimedia**: Imágenes, audio, video y documentos
+
+### Widget Web
+
+- **HTML enriquecido**: Formato completo con CSS
+- **Componentes interactivos**: Botones, formularios, carruseles
+- **Persistencia de sesión**: Mantener conversaciones entre visitas
+- **Personalización visual**: Adaptación completa a tu marca
+
+### Facebook Messenger
+
+- **Botones persistentes**: Menú persistente en la conversación
+- **Webviews**: Páginas web embebidas en la conversación
+- **Quick replies**: Botones de respuesta rápida
+- **Templates**: Plantillas para productos, recibos, etc.
+
+## Configuración Avanzada
+
+### Manejo de Sesiones
+
+Configura cómo se manejan las sesiones en cada canal:
+
+1. Ve a "Configuración" > "Canales" > [Selecciona el canal]
+2. Configura:
+   - **Duración de sesión**: Tiempo de inactividad antes de considerar una sesión como terminada
+   - **Mensaje de reactivación**: Mensaje a enviar cuando un usuario regresa después de que la sesión ha expirado
+   - **Contextos persistentes**: Contextos que se mantienen entre sesiones
+
+### Fallbacks Específicos por Canal
+
+Configura respuestas de fallback diferentes para cada canal:
+
+1. Ve a "Configuración" > "Fallbacks"
+2. Haz clic en "Añadir fallback específico por canal"
+3. Selecciona el canal y configura:
+   - Mensaje de fallback
+   - Número de intentos antes de escalar
+   - Acciones de escalamiento (ej. transferir a agente humano)
+
+## Integración con Sistemas de Atención al Cliente
+
+TreeFlow se integra con sistemas de atención al cliente para permitir una transferencia fluida a agentes humanos:
+
+### Plataformas Soportadas
+
+- **Zendesk**: Integración bidireccional con Zendesk Chat
+- **Intercom**: Transferencia de conversaciones a Intercom
+- **Freshdesk**: Creación de tickets y transferencia de chat
+- **Salesforce Service Cloud**: Integración completa con Service Cloud
+- **API personalizada**: Integración con cualquier sistema mediante API
+
+### Configuración de Transferencia a Humano
+
+1. Ve a "Integraciones" > "Atención al Cliente"
+2. Selecciona tu plataforma
+3. Configura:
+   - Credenciales de API
+   - Reglas de transferencia
+   - Datos a enviar al agente
+   - Comportamiento post-transferencia
+
+## Análisis por Canal
+
+TreeFlow proporciona análisis detallados por canal:
+
+1. Ve a "Análisis" > "Canales"
+2. Visualiza métricas como:
+   - Volumen de conversaciones por canal
+   - Tasa de resolución
+   - Tiempo promedio de conversación
+   - Tasa de transferencia a humano
+   - Satisfacción del usuario
+
+Esto te permite optimizar la experiencia en cada canal y tomar decisiones basadas en datos.
+
+## Mejores Prácticas
+
+### 1. Adaptar el Contenido al Canal
+
+- **Mensajes cortos para SMS y WhatsApp**
+- **Contenido visual para canales que lo soportan**
+- **Instrucciones claras para canales de voz**
+
+### 2. Aprovechar las Capacidades Únicas
+
+- Utiliza las características específicas de cada canal
+- No fuerces el mismo formato en todos los canales
+- Considera la experiencia de usuario en cada plataforma
+
+### 3. Mantener Consistencia
+
+- Asegura que la personalidad del Árbol sea consistente
+- Mantén la información actualizada en todos los canales
+- Sincroniza el contexto entre canales cuando sea posible
+
+### 4. Probar Exhaustivamente
+
+- Prueba cada integración de canal por separado
+- Verifica el comportamiento en diferentes dispositivos
+- Simula escenarios de error y recuperación
+
+## Ejemplo: Estrategia Omnicanal
+
+Una estrategia omnicanal efectiva con TreeFlow podría incluir:
+
+1. **Widget Web** para soporte en tiempo real en tu sitio web
+2. **WhatsApp** para comunicación asíncrona y notificaciones
+3. **Messenger** para campañas de marketing y engagement
+4. **API REST** para integración con tu aplicación móvil
+5. **Integración con Zendesk** para escalamiento a agentes humanos
+
+Con esta configuración, tus usuarios pueden interactuar con tu Árbol a través de su canal preferido, mientras mantienes una experiencia coherente y personalizada.
+
+La capacidad de TreeFlow para integrarse con múltiples canales te permite crear una experiencia conversacional verdaderamente omnicanal, llegando a tus usuarios donde ellos prefieren interactuar.

@@ -1,0 +1,298 @@
+---
+sidebar_position: 1
+---
+
+# Configuración de Webhooks
+
+Los Webhooks en TreeFlow permiten conectar tu Árbol con servicios externos cuando se activa una Rama específica. Esta funcionalidad es fundamental para integrar capacidades avanzadas, procesar datos en tiempo real y comunicarse con sistemas externos.
+
+## ¿Qué son los Webhooks?
+
+Un Webhook es un mecanismo que permite a TreeFlow enviar información a un servicio externo (como una API) cuando ocurre un evento específico, como la activación de una Rama. Esto permite que tu Árbol interactúe con otros sistemas, bases de datos o servicios.
+
+## Casos de Uso Comunes
+
+Los Webhooks son útiles para:
+
+- Consultar información en bases de datos externas
+- Registrar pedidos en sistemas de gestión
+- Verificar disponibilidad de productos o servicios
+- Autenticar usuarios contra sistemas existentes
+- Enviar notificaciones a otros canales
+- Procesar pagos
+- Actualizar registros de cliente
+
+## Configuración Básica de Webhooks
+
+### Paso 1: Crear un Endpoint
+
+Antes de configurar un Webhook en TreeFlow, necesitas tener un endpoint (URL) que pueda recibir y procesar las solicitudes. Este endpoint debe:
+
+- Estar accesible desde internet
+- Aceptar solicitudes POST
+- Procesar datos en formato JSON
+- Devolver respuestas en formato JSON
+
+Ejemplo de un endpoint simple en Python usando FastAPI:
+
+```python
+from fastapi import FastAPI, Request
+from pydantic import BaseModel
+
+app = FastAPI()
+
+class WebhookData(BaseModel):
+    branch_name: str
+    parameters: dict
+    user_message: str
+
+@app.post("/webhook/process")
+async def process_webhook(data: WebhookData):
+    # Procesar los datos recibidos
+    response_data = {
+        "success": True,
+        "message": f"Procesado correctamente para rama: {data.branch_name}",
+        "additional_data": {
+            "product_available": True,
+            "price": 299.99
+        }
+    }
+    return response_data
+```
+
+### Paso 2: Configurar el Webhook en TreeFlow
+
+Para configurar un Webhook en una Rama:
+
+1. Navega a la sección de Ramas
+2. Selecciona la Rama donde deseas añadir el Webhook
+3. Ve a la sección "Webhook"
+4. Haz clic en "Añadir Webhook"
+5. Completa la configuración:
+   - **URL**: La dirección del endpoint (ej. https://api.miservicio.com/webhook)
+   - **Método**: POST (predeterminado)
+   - **Headers**: Configura cabeceras HTTP si son necesarias (ej. autorización)
+   - **Timeout**: Tiempo máximo de espera para la respuesta (en segundos)
+6. Guarda la configuración
+
+## Estructura de la Solicitud
+
+Cuando se activa una Rama con un Webhook configurado, TreeFlow envía una solicitud POST con la siguiente estructura:
+
+```json
+{
+  "tree_id": "123456",
+  "branch_id": "branch_789",
+  "branch_name": "Consultar_Producto",
+  "session_id": "user_session_456",
+  "user_id": "user_123",
+  "timestamp": "2025-06-10T13:45:30Z",
+  "user_message": "Quiero saber el precio del iPhone 14",
+  "parameters": {
+    "producto": "iPhone 14",
+    "color": "negro"
+  },
+  "contexts": ["productos_activos", "consulta_precio"],
+  "metadata": {
+    "source": "web",
+    "custom_data": {
+      "priority": "high"
+    }
+  }
+}
+```
+
+## Estructura de la Respuesta
+
+El endpoint debe devolver una respuesta en formato JSON. TreeFlow procesará esta respuesta y la utilizará según la configuración de la Rama. La estructura recomendada es:
+
+```json
+{
+  "success": true,
+  "message": "Información procesada correctamente",
+  "data": {
+    "producto": "iPhone 14",
+    "precio": 799.99,
+    "disponibilidad": true,
+    "tiendas_cercanas": ["Centro Comercial Norte", "Plaza Central"]
+  },
+  "parameters": {
+    "precio_formateado": "$799.99",
+    "tiempo_entrega": "24 horas"
+  },
+  "contexts": [
+    {
+      "name": "producto_consultado",
+      "lifespan": 5
+    }
+  ],
+  "events": ["enviar_catalogo"]
+}
+```
+
+### Campos de Respuesta
+
+- **success**: Booleano que indica si la operación fue exitosa
+- **message**: Mensaje informativo (no se muestra al usuario)
+- **data**: Objeto con información general (uso interno)
+- **parameters**: Parámetros que se añadirán a la sesión del usuario
+- **contexts**: Contextos que se activarán
+- **events**: Eventos que se dispararán
+
+## Manejo de Respuestas en Ramas
+
+Puedes utilizar la información devuelta por el Webhook en las respuestas de tu Rama:
+
+```
+El precio del {producto} es {precio_formateado}.
+{#if disponibilidad}
+¡Buenas noticias! El producto está disponible para entrega en {tiempo_entrega}.
+{#else}
+Lo sentimos, el producto no está disponible actualmente.
+{/if}
+```
+
+## Webhooks Condicionales
+
+Puedes configurar condiciones para la ejecución de Webhooks:
+
+1. En la configuración del Webhook, ve a "Condiciones"
+2. Añade condiciones basadas en parámetros o contextos
+3. El Webhook solo se ejecutará si se cumplen las condiciones
+
+Ejemplo:
+- Ejecutar solo si `{producto}` está presente
+- Ejecutar solo si el contexto `usuario_autenticado` está activo
+
+## Seguridad en Webhooks
+
+### Autenticación
+
+Para proteger tu endpoint, implementa algún método de autenticación:
+
+1. **Token en Header**:
+   - En TreeFlow, añade un header `Authorization: Bearer tu_token_secreto`
+   - En tu endpoint, verifica este token antes de procesar la solicitud
+
+2. **Firma HMAC**:
+   - TreeFlow puede incluir una firma basada en el contenido y una clave secreta
+   - Tu endpoint verifica esta firma para asegurar que la solicitud es legítima
+
+### Ejemplo de Verificación de Firma
+
+```python
+import hmac
+import hashlib
+
+def verify_signature(payload, signature, secret):
+    computed_signature = hmac.new(
+        secret.encode(),
+        payload.encode(),
+        hashlib.sha256
+    ).hexdigest()
+    return hmac.compare_digest(computed_signature, signature)
+
+@app.post("/webhook/secure")
+async def secure_webhook(request: Request):
+    body = await request.body()
+    signature = request.headers.get("X-TreeFlow-Signature")
+    
+    if not verify_signature(body.decode(), signature, "tu_clave_secreta"):
+        return {"error": "Firma inválida"}, 401
+    
+    # Procesar la solicitud...
+```
+
+## Manejo de Errores
+
+TreeFlow maneja los errores de Webhook de la siguiente manera:
+
+1. **Timeout**: Si el endpoint no responde en el tiempo configurado, se considera un error
+2. **Error HTTP**: Códigos de respuesta 4xx o 5xx se consideran errores
+3. **Formato inválido**: Si la respuesta no es JSON válido, se considera un error
+
+Puedes configurar respuestas alternativas en caso de error:
+
+1. En la configuración del Webhook, ve a "Manejo de Errores"
+2. Define respuestas específicas para diferentes tipos de error
+3. Configura si deseas continuar con el flujo normal o activar un evento específico
+
+## Webhooks Asíncronos
+
+Para operaciones que pueden tomar tiempo, TreeFlow ofrece Webhooks asíncronos:
+
+1. En la configuración del Webhook, activa "Modo Asíncrono"
+2. TreeFlow enviará la solicitud pero no esperará una respuesta inmediata
+3. Configura un "Callback URL" que tu servicio pueda usar para enviar la respuesta cuando esté lista
+
+## Monitoreo y Depuración
+
+TreeFlow proporciona herramientas para monitorear tus Webhooks:
+
+1. **Logs de Webhook**: Accede al historial completo de solicitudes y respuestas
+2. **Estadísticas**: Visualiza el rendimiento y tasa de éxito de tus Webhooks
+3. **Simulador**: Prueba tus Webhooks con datos simulados antes de implementarlos
+
+Para acceder a estas herramientas:
+1. Ve a "Configuración" > "Webhooks"
+2. Selecciona "Monitoreo" o "Simulador" según necesites
+
+## Mejores Prácticas
+
+1. **Implementa timeouts adecuados**: Configura timeouts razonables para evitar bloquear la conversación
+2. **Maneja errores graciosamente**: Proporciona respuestas útiles incluso cuando el Webhook falla
+3. **Limita la información**: Envía solo los datos necesarios para la operación
+4. **Implementa reintentos**: Configura reintentos automáticos para errores temporales
+5. **Monitorea el rendimiento**: Revisa regularmente los logs para identificar problemas
+6. **Prueba exhaustivamente**: Utiliza el simulador para probar diferentes escenarios
+7. **Documenta tus Webhooks**: Mantén documentación clara sobre el propósito y funcionamiento de cada Webhook
+
+## Ejemplos Prácticos
+
+### Ejemplo 1: Verificación de Inventario
+
+```python
+@app.post("/webhook/inventario")
+async def verificar_inventario(data: dict):
+    producto = data.get("parameters", {}).get("producto")
+    
+    # Consultar base de datos de inventario
+    inventario = consultar_inventario(producto)
+    
+    return {
+        "success": True,
+        "parameters": {
+            "disponible": inventario["disponible"],
+            "cantidad": inventario["cantidad"],
+            "tiempo_entrega": inventario["tiempo_entrega"]
+        }
+    }
+```
+
+### Ejemplo 2: Procesamiento de Pedido
+
+```python
+@app.post("/webhook/pedido")
+async def procesar_pedido(data: dict):
+    parametros = data.get("parameters", {})
+    
+    # Crear pedido en el sistema
+    pedido = crear_pedido(
+        producto=parametros.get("producto"),
+        cantidad=parametros.get("cantidad"),
+        direccion=parametros.get("direccion"),
+        usuario=data.get("user_id")
+    )
+    
+    return {
+        "success": True,
+        "parameters": {
+            "numero_pedido": pedido["id"],
+            "total": pedido["total"],
+            "fecha_entrega": pedido["fecha_entrega"]
+        },
+        "events": ["enviar_confirmacion_email"]
+    }
+```
+
+Los Webhooks son una herramienta poderosa que permite expandir significativamente las capacidades de tus Árboles en TreeFlow, conectándolos con sistemas externos y habilitando flujos de trabajo complejos que van más allá de simples conversaciones.

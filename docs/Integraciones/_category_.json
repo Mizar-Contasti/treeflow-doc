@@ -1,0 +1,8 @@
+{
+  "label": "Integraciones",
+  "position": 5,
+  "link": {
+    "type": "generated-index",
+    "description": "Guías para integrar TreeFlow con sistemas externos y otras plataformas."
+  }
+}
