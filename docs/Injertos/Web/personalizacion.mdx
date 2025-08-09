@@ -1,0 +1,348 @@
+---
+sidebar_position: 2
+---
+
+# Personalización del Widget
+
+El Widget Web de TreeFlow ofrece múltiples opciones de personalización para adaptarse perfectamente a la identidad visual de tu sitio web.
+
+
+
+## Variables CSS
+
+### Colores Principales
+
+```css
+:root {
+  /* Colores del tema */
+  --tfw-primary-color: #007bff;        /* Color principal del widget */
+  --tfw-secondary-color: #6c757d;      /* Color secundario */
+  --tfw-background-color: #ffffff;     /* Fondo del widget */
+  --tfw-text-color: #333333;          /* Color del texto */
+  --tfw-border-color: #dee2e6;        /* Color de bordes */
+  
+  /* Colores de estado */
+  --tfw-success-color: #28a745;       /* Color de éxito */
+  --tfw-error-color: #dc3545;         /* Color de error */
+  --tfw-warning-color: #ffc107;       /* Color de advertencia */
+}
+```
+
+### Mensajes
+
+```css
+:root {
+  /* Mensajes del usuario */
+  --tfw-user-message-bg: #007bff;
+  --tfw-user-message-color: #ffffff;
+  --tfw-user-message-border-radius: 18px 18px 4px 18px;
+  
+  /* Mensajes del bot */
+  --tfw-bot-message-bg: #f8f9fa;
+  --tfw-bot-message-color: #333333;
+  --tfw-bot-message-border-radius: 18px 18px 18px 4px;
+  
+  /* Sugerencias (chips) */
+  --tfw-suggestion-bg: #ffffff;
+  --tfw-suggestion-color: #007bff;
+  --tfw-suggestion-border: 1px solid #007bff;
+  --tfw-suggestion-hover-bg: #007bff;
+  --tfw-suggestion-hover-color: #ffffff;
+}
+```
+
+### Header y Layout
+
+```css
+:root {
+  /* Header del widget */
+  --tfw-header-bg: #007bff;
+  --tfw-header-color: #ffffff;
+  --tfw-header-height: 60px;
+  
+  /* Dimensiones del widget */
+  --tfw-widget-width: 350px;
+  --tfw-widget-height: 500px;
+  --tfw-widget-max-width: 90vw;
+  --tfw-widget-max-height: 80vh;
+  
+  /* Botón flotante */
+  --tfw-widget-button-size: 60px;
+  --tfw-widget-button-bg: #007bff;
+  --tfw-widget-button-color: #ffffff;
+  --tfw-widget-button-shadow: 0 4px 12px rgba(0,0,0,0.15);
+}
+```
+
+### Tipografía y Espaciado
+
+```css
+:root {
+  /* Fuentes */
+  --tfw-font-family: 'Open Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+  --tfw-font-size: 14px;
+  --tfw-font-size-small: 12px;
+  --tfw-font-size-large: 16px;
+  
+  /* Espaciado */
+  --tfw-padding: 16px;
+  --tfw-padding-small: 8px;
+  --tfw-padding-large: 24px;
+  --tfw-border-radius: 8px;
+  --tfw-border-radius-small: 4px;
+  --tfw-border-radius-large: 12px;
+  
+  /* Sombras */
+  --tfw-shadow: 0 4px 12px rgba(0,0,0,0.15);
+  --tfw-shadow-large: 0 8px 24px rgba(0,0,0,0.15);
+}
+```
+
+### Input y Controles
+
+```css
+:root {
+  /* Área de input */
+  --tfw-input-bg: #ffffff;
+  --tfw-input-color: #333333;
+  --tfw-input-border: 1px solid #dee2e6;
+  --tfw-input-border-focus: 1px solid #007bff;
+  --tfw-input-border-radius: 20px;
+  --tfw-input-padding: 12px 16px;
+  
+  /* Botón de enviar */
+  --tfw-send-button-bg: #007bff;
+  --tfw-send-button-color: #ffffff;
+  --tfw-send-button-size: 36px;
+  --tfw-send-button-border-radius: 50%;
+  
+  /* Botones de acción */
+  --tfw-action-button-size: 32px;
+  --tfw-action-button-color: #6c757d;
+  --tfw-action-button-hover-color: #007bff;
+}
+```
+
+## Ejemplos de Personalización
+
+### Tema Oscuro
+
+```css
+:root {
+  --tfw-primary-color: #0d6efd;
+  --tfw-background-color: #212529;
+  --tfw-text-color: #ffffff;
+  --tfw-border-color: #495057;
+  
+  --tfw-header-bg: #343a40;
+  --tfw-header-color: #ffffff;
+  
+  --tfw-user-message-bg: #0d6efd;
+  --tfw-user-message-color: #ffffff;
+  
+  --tfw-bot-message-bg: #343a40;
+  --tfw-bot-message-color: #ffffff;
+  
+  --tfw-input-bg: #343a40;
+  --tfw-input-color: #ffffff;
+  --tfw-input-border: 1px solid #495057;
+}
+```
+
+### Tema Corporativo
+
+```css
+:root {
+  --tfw-primary-color: #2c3e50;
+  --tfw-secondary-color: #34495e;
+  --tfw-background-color: #ecf0f1;
+  
+  --tfw-header-bg: linear-gradient(135deg, #2c3e50 0%, #34495e 100%);
+  --tfw-header-color: #ffffff;
+  
+  --tfw-user-message-bg: #3498db;
+  --tfw-bot-message-bg: #ffffff;
+  
+  --tfw-widget-width: 400px;
+  --tfw-widget-height: 550px;
+  --tfw-border-radius: 12px;
+  
+  --tfw-font-family: 'Roboto', sans-serif;
+}
+```
+
+### Tema Minimalista
+
+```css
+:root {
+  --tfw-primary-color: #000000;
+  --tfw-background-color: #ffffff;
+  --tfw-text-color: #333333;
+  --tfw-border-color: #e0e0e0;
+  
+  --tfw-header-bg: #ffffff;
+  --tfw-header-color: #333333;
+  
+  --tfw-user-message-bg: #000000;
+  --tfw-user-message-color: #ffffff;
+  --tfw-user-message-border-radius: 4px;
+  
+  --tfw-bot-message-bg: #f5f5f5;
+  --tfw-bot-message-color: #333333;
+  --tfw-bot-message-border-radius: 4px;
+  
+  --tfw-border-radius: 0px;
+  --tfw-shadow: 0 1px 3px rgba(0,0,0,0.1);
+}
+```
+
+## Configuración de Iconos
+
+### Icono del Widget
+
+```html
+<treeflow-widget 
+  tree-id="tu-tree-id"
+  widget-icon="https://tu-sitio.com/icono-personalizado.svg">
+</treeflow-widget>
+```
+
+### Icono del Bot en el Header
+
+```html
+<treeflow-widget 
+  tree-id="tu-tree-id"
+  bot-image="https://tu-sitio.com/avatar-bot.png">
+</treeflow-widget>
+```
+
+### Configuración Avanzada de Iconos
+
+```javascript
+window.treeflowConfig = {
+  treeId: 'tu-tree-id',
+  icons: {
+    widget: 'https://tu-sitio.com/widget-icon.svg',
+    bot: 'https://tu-sitio.com/bot-avatar.png',
+    microphone: 'custom-mic-icon',
+    attachment: 'custom-attach-icon',
+    send: 'custom-send-icon'
+  }
+};
+```
+
+## Responsive Design
+
+### Configuración para Móviles
+
+```css
+@media (max-width: 768px) {
+  :root {
+    --tfw-widget-width: 100vw;
+    --tfw-widget-height: 100vh;
+    --tfw-widget-max-width: 100vw;
+    --tfw-widget-max-height: 100vh;
+    --tfw-border-radius: 0px;
+  }
+}
+```
+
+### Configuración para Tablets
+
+```css
+@media (min-width: 769px) and (max-width: 1024px) {
+  :root {
+    --tfw-widget-width: 380px;
+    --tfw-widget-height: 520px;
+  }
+}
+```
+
+## Animaciones y Transiciones
+
+### Configuración de Animaciones
+
+```css
+:root {
+  /* Duraciones de transición */
+  --tfw-transition-fast: 0.15s;
+  --tfw-transition-normal: 0.3s;
+  --tfw-transition-slow: 0.5s;
+  
+  /* Easing functions */
+  --tfw-ease-in-out: cubic-bezier(0.4, 0, 0.2, 1);
+  --tfw-ease-out: cubic-bezier(0, 0, 0.2, 1);
+  --tfw-ease-in: cubic-bezier(0.4, 0, 1, 1);
+}
+```
+
+### Desactivar Animaciones
+
+```css
+:root {
+  --tfw-transition-fast: 0s;
+  --tfw-transition-normal: 0s;
+  --tfw-transition-slow: 0s;
+}
+```
+
+## Integración con Frameworks CSS
+
+### Bootstrap
+
+```html
+<style>
+:root {
+  --tfw-primary-color: var(--bs-primary);
+  --tfw-secondary-color: var(--bs-secondary);
+  --tfw-success-color: var(--bs-success);
+  --tfw-font-family: var(--bs-font-sans-serif);
+  --tfw-border-radius: var(--bs-border-radius);
+}
+</style>
+```
+
+### Tailwind CSS
+
+```html
+<style>
+:root {
+  --tfw-primary-color: theme('colors.blue.500');
+  --tfw-background-color: theme('colors.white');
+  --tfw-text-color: theme('colors.gray.900');
+  --tfw-font-family: theme('fontFamily.sans');
+  --tfw-border-radius: theme('borderRadius.lg');
+}
+</style>
+```
+
+## Mejores Prácticas
+
+### Performance
+
+- **Usa variables CSS** en lugar de estilos inline
+- **Minimiza el número de colores** personalizados
+- **Aprovecha la caché del navegador** para iconos y fuentes
+- **Evita animaciones complejas** en dispositivos móviles
+
+### Accesibilidad
+
+- **Mantén contraste adecuado** entre texto y fondo
+- **Usa tamaños de fuente legibles** (mínimo 14px)
+- **Asegura que los botones sean táctiles** (mínimo 44px)
+- **Proporciona indicadores visuales** claros para estados
+
+### Consistencia
+
+- **Alinea con tu marca** usando colores corporativos
+- **Mantén coherencia** con el resto de tu sitio
+- **Usa la misma tipografía** que tu sitio principal
+- **Respeta las convenciones** de UX de tu plataforma
+
+---
+
+:::tip Herramienta de Personalización
+
+Usa el widget de prueba en el panel de Injertos para ver los cambios en tiempo real mientras personalizas tu widget. Puedes copiar y pegar las variables CSS directamente desde allí.
+
+:::

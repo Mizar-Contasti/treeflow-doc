@@ -1,0 +1,88 @@
+---
+sidebar_position: 1
+---
+
+# Fertilizantes
+
+Los **Fertilizantes** en TreeFlow hacen referencia a webhooks que se ejecutan cuando tu árbol conversacional procesa mensajes, permitiendo integrar sistemas externos y enriquecer las conversaciones.
+
+## Introducción
+
+Los Fertilizantes te permiten conectar tu árbol con APIs y servicios externos para:
+
+- **Obtener información** de bases de datos
+- **Procesar datos** del usuario
+- **Integrar con CRM** y sistemas empresariales
+- **Enviar notificaciones** a otros servicios
+- **Validar información** en tiempo real
+
+## Tipos de Fertilizantes
+
+### Fertilizante Principal
+
+El **Fertilizante Principal** es el webhook primario que procesará **todas** las respuestas de tu árbol:
+
+- **Único por workspace**: Solo puedes tener uno activo
+- **Procesamiento global**: Se ejecuta en cada interacción
+- **Toggle de activación**: Puedes habilitarlo/deshabilitarlo fácilmente
+- **Autenticación Basic Auth**: Soporte para credenciales
+- **Timeout configurable**: Control del tiempo límite de respuesta
+
+### Fertilizantes Secundarios
+
+Los **Fertilizantes Secundarios** son webhooks especializados para integraciones específicas:
+
+- **Múltiples endpoints**: Puedes crear tantos como necesites
+- **Métodos HTTP flexibles**: GET, POST, PUT, PATCH, DELETE
+- **Configuración individual**: Cada uno con su propia configuración
+- **Testing independiente**: Prueba cada uno por separado
+
+## Configuración
+
+### Acceder a la Configuración
+
+1. En tu workspace, ve a **"Fertilizantes"** en el menú lateral
+2. Verás dos secciones principales:
+   - **Fertilizante Principal** (único por workspace)
+   - **Fertilizantes Secundarios** (múltiples permitidos)
+
+### Fertilizante Principal
+
+**Configuración:**
+- **URL**: Endpoint de tu webhook
+- **Usuario/Contraseña**: Autenticación Basic Auth (opcional)
+- **Timeout**: Tiempo límite en milisegundos
+- **Toggle**: Activar/desactivar el fertilizante
+
+**Pasos:**
+1. Activa el toggle para habilitar
+2. Completa la URL del webhook
+3. Configura autenticación si es necesaria
+4. Establece el timeout (por defecto 30000ms)
+5. Guarda la configuración
+
+### Fertilizantes Secundarios
+
+**Configuración:**
+- **Nombre**: Identificador del fertilizante
+- **Descripción**: Propósito del webhook
+- **URL**: Endpoint del webhook
+- **Método HTTP**: GET, POST, PUT, PATCH, DELETE
+- **Timeout**: Tiempo límite en milisegundos
+
+**Pasos:**
+1. Haz clic en "Crear Fertilizante"
+2. Completa nombre y descripción
+3. Configura URL y método HTTP
+4. Establece el timeout
+5. Guarda la configuración
+6. Usa el botón "Test" para probar individualmente
+
+
+
+
+
+
+
+
+

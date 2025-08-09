@@ -1,0 +1,184 @@
+---
+sidebar_position: 3
+---
+
+# Funcionalidades del Widget
+
+El Widget Web de TreeFlow soporta múltiples funcionalidades avanzadas para crear experiencias conversacionales más ricas e interactivas.
+
+
+
+## Evento de Inicio
+
+### Start Event
+
+El **Start Event** es un evento único que se dispara automáticamente cuando el widget se inicializa, activando una intención específica en tu árbol conversacional.
+
+```javascript
+window.treeflowConfig = {
+  treeId: 'tu-tree-id',
+  startEvent: 'sys.welcome'  // Solo se acepta un evento
+};
+```
+
+**Funcionamiento:**
+- Solo se puede configurar **un evento de inicio**
+- El evento activa una **intención con el mismo nombre** en tu árbol
+- Se dispara automáticamente al inicializar el widget
+
+#### Ejemplos de Eventos Comunes
+
+| Evento | Intención Activada | Descripción |
+|--------|-------------------|-------------|
+| `sys.welcome` | `sys.welcome` | Mensaje de bienvenida del sistema |
+| `user.first_visit` | `user.first_visit` | Primera visita del usuario |
+| `page.product` | `page.product` | Usuario en página de producto |
+| `support.help` | `support.help` | Solicitud de ayuda |
+
+#### Configuración en el Árbol
+
+Para que el evento funcione, debes crear una **Rama** en tu árbol con el mismo nombre:
+
+1. Ve a tu árbol en TreeFlow
+2. Crea una nueva Rama llamada exactamente igual al evento (ej: `sys.welcome`)
+3. Configura la respuesta que quieres mostrar
+4. El widget activará automáticamente esta rama al iniciar
+
+## Funcionalidades Avanzadas
+
+### Micrófono (Voice Input)
+
+Permite a los usuarios enviar mensajes de voz:
+
+```html
+<treeflow-widget 
+  tree-id="tu-tree-id"
+  microphone="true">
+</treeflow-widget>
+```
+
+#### Configuración Avanzada del Micrófono
+
+```javascript
+window.treeflowConfig = {
+  treeId: 'tu-tree-id',
+  features: {
+    microphone: {
+      enabled: true,
+      language: 'es-ES',
+      continuous: false,
+      interimResults: true,
+      maxAlternatives: 1
+    }
+  }
+};
+```
+
+### Adjuntar Archivos
+
+Permite el envío de archivos e imágenes:
+
+```html
+<treeflow-widget 
+  tree-id="tu-tree-id"
+  file-upload="true">
+</treeflow-widget>
+```
+
+#### Configuración de Archivos
+
+```javascript
+window.treeflowConfig = {
+  treeId: 'tu-tree-id',
+  features: {
+    fileUpload: {
+      enabled: true,
+      maxSize: 5242880, // 5MB en bytes
+      allowedTypes: ['image/*', '.pdf', '.doc', '.docx'],
+      multiple: false
+    }
+  }
+};
+```
+
+### Response Delay
+
+Simula tiempo de "escritura" del bot para una experiencia más natural:
+
+```html
+<treeflow-widget 
+  tree-id="tu-tree-id"
+  response-delay="true"
+  response-delay-seconds="1500">
+</treeflow-widget>
+```
+
+#### Configuración Dinámica del Delay
+
+```javascript
+window.treeflowConfig = {
+  treeId: 'tu-tree-id',
+  responseDelay: {
+    enabled: true,
+    baseDelay: 1000,
+    perCharacter: 50, // ms adicionales por carácter
+    maxDelay: 3000,
+    minDelay: 500
+  }
+};
+```
+
+## Modo Debug
+
+### Activación del Modo Debug
+
+```html
+<treeflow-widget 
+  tree-id="tu-tree-id"
+  debug="true">
+</treeflow-widget>
+```
+
+### Características del Modo Debug
+
+- **Vista completa**: El widget ocupa toda la pantalla
+- **Botón debug por mensaje**: Cada respuesta del bot incluye un botón 🐞
+- **Modal de información**: Muestra request/response completo
+- **Datos técnicos**: Información sin filtrar del backend
+
+### Información Disponible en Debug
+
+```json
+{
+  "request": {
+    "type": "text",
+    "value": "mensaje del usuario",
+    "tree_id": "6c295eca-5a9f-4588-b1db-1cf5c05f05ee",
+    "session_id": "uuid-de-sesion",
+    "timestamp": "2024-01-15T10:30:00Z"
+  },
+  "response": {
+    "response": "respuesta del bot",
+    "suggestions": ["opción 1", "opción 2"],
+    "metadata": {
+      "branch_activated": "consulta_producto",
+      "confidence": 0.95,
+      "parameters": {
+        "producto": "laptop"
+      },
+      "contexts": ["shopping", "electronics"],
+      "events": ["product.inquiry"]
+    }
+  }
+}
+```
+
+
+
+---
+
+:::tip Desarrollo y Testing
+
+Usa el modo debug durante el desarrollo para entender cómo interactúa el widget con tu backend. Los eventos personalizados son especialmente útiles para crear experiencias contextuales basadas en el comportamiento del usuario en tu sitio.
+
+:::

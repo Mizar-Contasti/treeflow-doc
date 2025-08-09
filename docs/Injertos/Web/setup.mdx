@@ -1,0 +1,287 @@
+---
+sidebar_position: 1
+---
+
+# Setup del Widget Web
+
+El **Widget Web de TreeFlow** es un componente embebible que permite integrar tu chatbot en cualquier sitio web con solo 2 líneas de código.
+
+
+
+## Requisitos Previos
+
+- Un árbol conversacional creado y configurado en TreeFlow
+- Acceso al código HTML de tu sitio web
+- Conocimientos básicos de HTML/CSS (opcional para personalización)
+
+## Instalación Básica
+
+### Paso 1: Obtener el Código de Integración
+
+1. Ve a tu workspace en TreeFlow
+2. Navega a **Injertos** → **Integración Web**
+3. Selecciona tu árbol conversacional
+4. Copia el código de integración generado
+
+### Paso 2: Integrar en tu Sitio Web
+
+Pega el siguiente código en tu página HTML, preferiblemente antes del cierre de la etiqueta `</body>`:
+
+```html
+<!-- TreeFlow Widget -->
+<script src="https://cdn.jsdelivr.net/gh/Mizar-Contasti/treeflow-web-widget@main/dist/treeflow-widget.js"></script>
+<treeflow-widget 
+  tree-id="TU_TREE_ID_AQUI"
+  title="Mi Asistente">
+</treeflow-widget>
+```
+
+### Paso 3: Configurar el Tree ID
+
+Reemplaza `TU_TREE_ID_AQUI` con el ID real de tu árbol conversacional. Puedes encontrarlo en:
+- Panel de Injertos → Integración Web
+- URL del árbol en el dashboard
+- Configuración del árbol
+
+## Configuración Avanzada
+
+### Atributos del Widget
+
+El widget acepta múltiples atributos para personalización:
+
+```html
+<treeflow-widget 
+  tree-id="6c295eca-5a9f-4588-b1db-1cf5c05f05ee"
+  title="Asistente Virtual"
+  endpoint="https://tu-servidor.com/message"
+  position="bottom-right"
+  open-by-default="false"
+  debug="false"
+  response-delay="true"
+  response-delay-seconds="1500">
+</treeflow-widget>
+```
+
+#### Atributos Disponibles
+
+| Atributo | Tipo | Por Defecto | Descripción |
+|----------|------|-------------|-------------|
+| `tree-id` | string | **Requerido** | ID del árbol conversacional |
+| `title` | string | "TreeFlow Chat" | Título del widget |
+| `endpoint` | string | "http://localhost:8000/message" | URL del backend |
+| `position` | string | "bottom-right" | Posición del widget |
+| `open-by-default` | boolean | false | Abrir widget al cargar |
+| `debug` | boolean | false | Modo debug activado |
+| `response-delay` | boolean | false | Activar delay de respuesta |
+| `response-delay-seconds` | number | 1000 | Tiempo de delay en ms |
+
+### Configuración JavaScript
+
+Para configuraciones más avanzadas, puedes usar el objeto global `window.treeflowConfig`:
+
+```html
+<script>
+window.treeflowConfig = {
+  treeId: '6c295eca-5a9f-4588-b1db-1cf5c05f05ee',
+  title: 'Mi Asistente Personalizado',
+  endpoint: 'https://mi-servidor.com/message',
+  position: 'bottom-left',
+  openByDefault: false,
+  debug: false,
+  responseDelay: true,
+  responseDelaySeconds: 2000,
+  startEvents: ['sys.welcome'],
+  // Configuraciones adicionales
+  features: {
+    microphone: true,
+    fileUpload: true,
+    typing: true
+  }
+};
+</script>
+```
+
+## Personalización Visual
+
+### Variables CSS
+
+El widget utiliza variables CSS para personalización completa:
+
+```css
+:root {
+  /* Colores principales */
+  --tfw-primary-color: #007bff;
+  --tfw-secondary-color: #6c757d;
+  --tfw-background-color: #ffffff;
+  --tfw-text-color: #333333;
+  
+  /* Tamaños y fuentes */
+  --tfw-font-size: 14px;
+  --tfw-border-radius: 8px;
+  --tfw-shadow: 0 4px 12px rgba(0,0,0,0.15);
+  
+  /* Widget específico */
+  --tfw-widget-width: 350px;
+  --tfw-widget-height: 500px;
+  --tfw-widget-button-size: 60px;
+  
+  /* Colores de mensajes */
+  --tfw-user-message-bg: #007bff;
+  --tfw-user-message-color: #ffffff;
+  --tfw-bot-message-bg: #f8f9fa;
+  --tfw-bot-message-color: #333333;
+  
+  /* Header */
+  --tfw-header-bg: #007bff;
+  --tfw-header-color: #ffffff;
+  
+  /* Input */
+  --tfw-input-border: #dee2e6;
+  --tfw-input-focus: #007bff;
+  --tfw-send-button-bg: #007bff;
+}
+```
+
+### Ejemplo de Personalización
+
+```html
+<!DOCTYPE html>
+<html>
+<head>
+  <style>
+    /* Personalización del widget */
+    :root {
+      --tfw-primary-color: #28a745;
+      --tfw-widget-width: 400px;
+      --tfw-widget-height: 600px;
+      --tfw-border-radius: 12px;
+      --tfw-font-size: 16px;
+    }
+  </style>
+</head>
+<body>
+  <!-- Tu contenido web -->
+  <h1>Mi Sitio Web</h1>
+  
+  <!-- Widget TreeFlow -->
+  <script src="https://cdn.jsdelivr.net/gh/Mizar-Contasti/treeflow-web-widget@main/dist/treeflow-widget.js"></script>
+  <treeflow-widget 
+    tree-id="tu-tree-id"
+    title="Soporte Verde">
+  </treeflow-widget>
+</body>
+</html>
+```
+
+## Configuración del Backend
+
+### Endpoint por Defecto
+
+El widget está configurado para conectarse a `http://localhost:8000/message` por defecto, ideal para desarrollo local.
+
+### Configuración para Producción
+
+Para producción, configura tu propio endpoint:
+
+```html
+<treeflow-widget 
+  tree-id="tu-tree-id"
+  endpoint="https://tu-dominio.com/api/message"
+  title="Mi Asistente">
+</treeflow-widget>
+```
+
+### Estructura de la API
+
+El widget envía peticiones POST con la siguiente estructura:
+
+```json
+{
+  "type": "text",
+  "value": "Mensaje del usuario",
+  "tree_id": "6c295eca-5a9f-4588-b1db-1cf5c05f05ee",
+  "session_id": "uuid-generado-automaticamente"
+}
+```
+
+Y espera respuestas en formato:
+
+```json
+{
+  "response": "Respuesta del bot",
+  "suggestions": ["Opción 1", "Opción 2", "Opción 3"]
+}
+```
+
+## Testing y Validación
+
+### Widget de Prueba Integrado
+
+TreeFlow incluye un widget de prueba en el panel de Injertos que te permite:
+
+- Probar el widget en tiempo real
+- Validar la configuración
+- Ver requests y responses en modo debug
+- Simular diferentes escenarios
+
+### Modo Debug
+
+Activa el modo debug para troubleshooting:
+
+```html
+<treeflow-widget 
+  tree-id="tu-tree-id"
+  debug="true">
+</treeflow-widget>
+```
+
+En modo debug:
+- El widget ocupa toda la pantalla para mejor visualización
+- Cada mensaje del bot incluye un botón de debug (🐞)
+- Puedes ver el request y response completo en un modal
+- Se muestran todos los datos técnicos sin filtrar
+
+## Solución de Problemas
+
+### Problemas Comunes
+
+#### El widget no aparece
+- ✅ Verifica que el script se carga correctamente
+- ✅ Confirma que el `tree-id` es válido
+- ✅ Revisa la consola del navegador por errores
+
+#### No se conecta al backend
+- ✅ Verifica que el endpoint esté disponible
+- ✅ Confirma la configuración de CORS
+- ✅ Revisa que el backend esté ejecutándose
+
+#### Problemas de estilos
+- ✅ Verifica que no hay conflictos CSS
+- ✅ Usa las variables CSS para personalización
+- ✅ El widget usa Shadow DOM para aislamiento
+
+### Logs y Debugging
+
+Abre las herramientas de desarrollador del navegador (F12) y revisa:
+
+- **Console**: Errores de JavaScript y logs del widget
+- **Network**: Peticiones HTTP al backend
+- **Elements**: DOM del widget (dentro del Shadow DOM)
+
+## Próximos Pasos
+
+Una vez que tengas el widget funcionando:
+
+1. **Personaliza la apariencia** usando variables CSS
+2. **Configura eventos automáticos** con `startEvents`
+3. **Implementa fertilizantes** para funcionalidades avanzadas
+4. **Monitorea el rendimiento** en producción
+5. **Recopila feedback** de los usuarios
+
+---
+
+:::tip ¿Necesitas ayuda?
+
+Si tienes problemas con la integración, usa el widget de prueba en el panel de Injertos para validar tu configuración, o activa el modo debug para obtener información técnica detallada.
+
+:::

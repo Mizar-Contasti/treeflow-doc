@@ -62,92 +62,173 @@ Este documento proporciona un historial detallado de todas las características,
 
 </details>
 
-<details>
-<summary><strong>Versión 0.2 (Próximamente)</strong></summary>
+## Versiones Lanzadas
 
-### Sistema de Cuentas Independientes
-> - ⌛ **Registro y gestión de usuarios**
->   - Creación de cuentas personalizadas
->   - Recuperación de contraseñas
->   - Perfiles de usuario configurables
->   - Gestión de información personal
->
-> - ⌛ **Roles y permisos**
->   - Administradores
->   - Desarrolladores
->   - Analistas
->   - Visualizadores
->   - Permisos granulares por función
->
-> - ⌛ **Espacios de trabajo**
->   - Separación de proyectos por cuenta
->   - Compartición de recursos entre equipos
->   - Gestión de acceso a Trees específicos
->
-> - ⌛ **Panel de administración**
->   - Gestión centralizada de usuarios
->   - Monitoreo de actividad
->   - Asignación de roles y permisos
->   - Estadísticas de uso por cuenta
+<details open>
+<summary><strong>Versión 0.2 (01/2025) - Versión Actual</strong></summary>
 
-### Mejoras en Integración con Webhooks
-> - ⌛ **Editor visual de configuración**
->   - Interfaz gráfica para configurar endpoints
+### 🏢 Sistema de Workspaces
+> - ✅ **Cuentas Independientes**
+>   - Sistema completo de workspaces para separación de proyectos
+>   - Aislamiento total de datos entre workspaces
+>   - Cada workspace mantiene sus árboles, configuraciones y datos independientes
+>   - Gestión de múltiples proyectos desde una sola cuenta
+>
+> - ✅ **Gestión Multi-Workspace**
+>   - Creación y administración de espacios de trabajo
+>   - Selector intuitivo para cambiar entre workspaces
+>   - Configuraciones independientes por workspace
+>   - Organización por cliente, proyecto o departamento
+>
+> - ✅ **Interfaz de Gestión**
+>   - Panel de control centralizado
+>   - Navegación fluida entre workspaces
+>   - Indicadores visuales del workspace activo
+>   - Gestión de configuraciones por workspace
+
+### 🌿 Sistema de Fertilizantes (Webhooks Avanzados)
+> - ✅ **Fertilizante Principal**
+>   - Webhook único por workspace para procesamiento global
+>   - Toggle de activación/desactivación
+>   - Configuración de URL, autenticación Basic Auth y timeout
+>   - Procesamiento automático de todas las respuestas del árbol
+>
+> - ✅ **Fertilizantes Secundarios**
+>   - Múltiples webhooks especializados por integración
+>   - Configuración individual con nombre y descripción
+>   - Soporte completo para métodos HTTP (GET, POST, PUT, PATCH, DELETE)
+>   - Timeouts configurables por fertilizante
+>
+> - ✅ **Testing Individual en Tiempo Real**
+>   - Modal de pruebas especializado para cada fertilizante
+>   - Peticiones HTTP reales a endpoints configurados
+>   - Visualización completa de request y response
+>   - Botón de test individual por fertilizante secundario
+>
+> - ✅ **Configuración Avanzada**
+>   - Campo body condicional para métodos POST, PUT, PATCH
+>   - Autenticación Basic Auth opcional
+>   - Control granular de timeouts
 >   - Validación en tiempo real de configuraciones
->   - Previsualización de estructura de datos
 >
-> - ⌛ **Plantillas predefinidas**
->   - Conectores para servicios populares
->   - Configuraciones pre-optimizadas
->   - Ejemplos de implementación
->
-> - ⌛ **Monitoreo y depuración**
->   - Historial de llamadas a webhooks
->   - Visualización de respuestas
->   - Herramientas de diagnóstico
->   - Alertas de fallos
->
-> - ⌛ **Manejo avanzado de errores**
->   - Políticas de reintento configurables
->   - Respuestas de fallback
->   - Notificaciones de error
->   - Registro detallado de problemas
+> - ✅ **Debugging y Monitoreo**
+>   - Información completa de respuestas HTTP
+>   - Manejo automático de errores (timeout, conexión, JSON inválido)
+>   - Headers de respuesta para debugging
+>   - Datos exactos devueltos por APIs externas
 
-### Integraciones con Plataformas Externas
-> - ⌛ **Conectores para mensajería**
->   - WhatsApp Business API
->   - Facebook Messenger
->   - Telegram
->   - Instagram Direct
->   - SMS
+### 🌱 Sistema de Injertos (Integraciones)
+> - ✅ **Injerto Web - Widget Embebible**
+>   - Widget de chat completamente funcional para sitios web
+>   - Integración súper simple en 2 líneas de código
+>   - Web Component personalizado con Shadow DOM
+>   - Disponible globalmente vía CDN (jsDelivr)
 >
-> - ⌛ **Plataformas de atención al cliente**
->   - Zendesk
->   - Freshdesk
->   - Intercom
->   - Salesforce Service Cloud
+> - ✅ **Personalización Avanzada**
+>   - Sistema completo de variables CSS (custom properties)
+>   - Configuración de colores, iconos y comportamiento
+>   - Personalización visual sin modificar código
+>   - Soporte para temas personalizados
 >
-> - ⌛ **Widget web personalizable**
->   - Personalización de apariencia
->   - Opciones de comportamiento
->   - Integración simple con cualquier sitio web
->   - Soporte para móviles y escritorio
+> - ✅ **Funcionalidades Avanzadas**
+>   - Micrófono para entrada de voz
+>   - Adjuntar archivos e imágenes
+>   - Response delay para experiencia natural
+>   - Eventos de inicio (startEvent) configurables
 >
-> - ⌛ **API mejorada**
->   - Documentación interactiva
->   - SDKs para lenguajes populares
->   - Autenticación OAuth 2.0
->   - Límites de tasa configurables
+> - ✅ **Modo Debug para Desarrolladores**
+>   - Widget en pantalla completa para debugging
+>   - Modal con información técnica detallada
+>   - Visualización de request/response por mensaje
+>   - Herramientas de troubleshooting integradas
+>
+> - ✅ **Características Técnicas**
+>   - Aislamiento completo de estilos (Shadow DOM)
+>   - Diseño responsive para móviles y escritorio
+>   - Sesiones persistentes con session_id
+>   - API compatible con TreeFlow nativo
+>
+> - ✅ **Widget de Prueba Integrado**
+>   - Testing en tiempo real desde la interfaz
+>   - Configuración visual del tree-id
+>   - Debugging avanzado con información técnica
+>   - Validación de integración antes del despliegue
 
-### Automatización Avanzada con IA
-> - ⌛ **Generación automática de Branches**
->   - Creación de patrones a partir de ejemplos
->   - Sugerencias de respuestas
->   - Identificación automática de parámetros
+### 📊 Herramientas de Análisis
+> - ✅ **Análisis de Conversaciones**
+>   - Herramientas para revisar y analizar interacciones
+>   - Seguimiento de patrones de uso
+>   - Identificación de rutas conversacionales más utilizadas
 >
-> - ⌛ **Sugerencias inteligentes**
->   - Recomendaciones para mejorar patrones
->   - Detección de patrones redundantes
+> - ✅ **Métricas de Rendimiento**
+>   - Seguimiento de respuestas y tiempos de procesamiento
+>   - Estadísticas de uso por workspace
+>   - Análisis de efectividad de ramas y hojas
+>
+> - ✅ **Reportes de Uso**
+>   - Estadísticas detalladas de utilización por workspace
+>   - Historial completo de conversaciones
+>   - Métricas de engagement y satisfacción
+
+### 🧪 Consola de Pruebas
+> - ✅ **Testing Integrado de Árboles**
+>   - Consola especializada para probar conversaciones
+>   - Simulación de diferentes escenarios de usuario
+>   - Validación de flujos conversacionales completos
+>
+> - ✅ **Debugging Avanzado**
+>   - Información técnica detallada de cada interacción
+>   - Visualización de activación de ramas y contextos
+>   - Seguimiento de parámetros extraídos
+>
+> - ✅ **Herramientas de Validación**
+>   - Verificación de rutas conversacionales
+>   - Testing de respuestas y sugerencias
+>   - Validación de integración con fertilizantes
+
+### 🎨 Mejoras de Interfaz y Experiencia
+> - ✅ **Diseño Renovado**
+>   - Interfaz moderna y responsive
+>   - Navegación optimizada y más intuitiva
+>   - Estructura organizada por funcionalidades
+>
+> - ✅ **Terminología Unificada**
+>   - Uso consistente de "Injertos" para integraciones
+>   - "Fertilizantes" para webhooks y APIs externas
+>   - Documentación alineada con conceptos de TreeFlow
+>
+> - ✅ **Experiencia de Usuario Mejorada**
+>   - Flujos optimizados para tareas comunes
+>   - Feedback visual mejorado
+>   - Reducción de pasos para configuraciones
+
+### 📚 Documentación Completa
+> - ✅ **Reestructuración Total**
+>   - Organización por Injertos y Fertilizantes
+>   - Estructura modular y fácil navegación
+>   - Terminología consistente en toda la documentación
+>
+> - ✅ **Guías de Integración**
+>   - Documentación completa del Widget Web
+>   - Tutoriales paso a paso para configuración
+>   - Ejemplos prácticos de implementación
+>
+> - ✅ **Documentación Técnica**
+>   - Guías detalladas de fertilizantes
+>   - Configuración avanzada de injertos
+>   - Mejores prácticas y solución de problemas
+>
+> - ✅ **Terminología Avanzada**
+>   - Explicación detallada de conceptos de TreeFlow
+>   - Analogías y ejemplos para facilitar comprensión
+>   - Sección de Misceláneos con información de referencia
+
+</details>
+
+## Versiones Anteriores
+
+<details>
+<summary><strong>Versión 0.1 (06/2024) - Versión Inicial</strong></summary>
 >   - Optimización de prompts
 >
 > - ⌛ **Detección de intenciones similares**

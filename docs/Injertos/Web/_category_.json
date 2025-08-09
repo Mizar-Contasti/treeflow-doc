@@ -1,0 +1,8 @@
+{
+  "label": "Web",
+  "position": 2,
+  "link": {
+    "type": "generated-index",
+    "description": "Widget de chat embebible para sitios web con personalización completa."
+  }
+}

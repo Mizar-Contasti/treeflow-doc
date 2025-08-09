@@ -1,0 +1,8 @@
+{
+  "label": "Injertos",
+  "position": 5,
+  "link": {
+    "type": "generated-index",
+    "description": "Guías para conectar TreeFlow con diferentes canales de comunicación y plataformas."
+  }
+}

@@ -1,0 +1,8 @@
+{
+  "label": "WhatsApp",
+  "position": 3,
+  "link": {
+    "type": "generated-index",
+    "description": "Integración con WhatsApp Business API para comunicación directa con tus usuarios."
+  }
+}

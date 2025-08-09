@@ -18,17 +18,45 @@ import AppUrl from '@site/src/components/AppUrl';
 
 ![Pantalla de Inicio de Sesión](/img/login-placeholder.svg)
 
+### Servidor Público (Beta)
+
+:::warning Servidor en Desarrollo
+
+Actualmente estamos trabajando en un servidor público que aún presenta algunos bugs y limitaciones. Es funcional para pruebas, pero recomendamos usar Docker para entornos de producción.
+
+:::
+
 - **URL**: <AppUrl>TreeFlow</AppUrl>
-- **Cuenta de prueba**: 
+- **Workspace de prueba**: `botsmexico`
+- **Credenciales**: 
   - Usuario: `admin`
   - Contraseña: `admin`
+
+### Despliegue con Docker (Recomendado)
+
+:::tip Opción Estable
+
+Para una experiencia más estable y completa, recomendamos desplegar TreeFlow usando Docker. Esta opción incluye toda la aplicación con todas sus funcionalidades.
+
+:::
+
+- **Repositorio**: [TreeFlow Docker](https://github.com/tu-usuario/treeflow-docker)
+- **URL de ejemplo**: `http://localhost:3000` (después del despliegue)
+- **Documentación**: Incluye guía completa de instalación
+- **Ventajas**: 
+  - Sin bugs del servidor público
+  - Control total sobre el entorno
+  - Datos privados y seguros
+  - Rendimiento optimizado
 
 ## Primeros Pasos
 
 1. **Familiarízate con la terminología** - Comprende los [conceptos básicos](/docs/Fundamentos/Terminologia) de TreeFlow
-2. **Crea tu primer Árbol** - Sigue nuestra guía de [primeros pasos](/docs/Fundamentos/Empezando)
-3. **Diseña Ramas efectivas** - Aprende a crear [patrones de conversación](/docs/Fundamentos/Ramas) que capturen las intenciones de tus usuarios
-4. **Define Hojas útiles** - Configura [entidades](/docs/Fundamentos/Hojas) para extraer información valiosa
+2. **Configura tu Workspace** - Aprende sobre [espacios de trabajo](/docs/Fundamentos/Workspaces) para organizar tus proyectos
+3. **Crea tu primer Árbol** - Sigue nuestra guía de [primeros pasos](/docs/Fundamentos/Empezando)
+4. **Diseña Ramas efectivas** - Aprende a crear [patrones de conversación](/docs/Fundamentos/Ramas) que capturen las intenciones de tus usuarios
+5. **Define Hojas útiles** - Configura [entidades](/docs/Fundamentos/Hojas) para extraer información valiosa
+6. **Integra con el mundo** - Conecta tu chatbot usando [Injertos](/docs/Integraciones/Injertos) y [Fertilizantes](/docs/Webhooks/Fertilizantes)
 
 ## Características Principales
 
@@ -48,6 +76,12 @@ import AppUrl from '@site/src/components/AppUrl';
 - Diseñado para generar resultados de negocio
 - Integración con sistemas existentes vía webhooks
 - Análisis de rendimiento y optimización
+
+### Gestión Avanzada
+- **Workspaces**: Organiza proyectos en espacios de trabajo independientes
+- **Injertos**: Gestiona integraciones web, canales y APIs desde un centro de control
+- **Fertilizantes**: Webhooks avanzados con testing en tiempo real y debugging
+- **Widget Web**: Integración embebible con 2 líneas de código
 
 ## Recursos Adicionales
 

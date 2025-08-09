@@ -1,0 +1,8 @@
+{
+  "label": "Telefonía",
+  "position": 5,
+  "link": {
+    "type": "generated-index",
+    "description": "Integración con sistemas de telefonía para experiencias de voz automatizadas."
+  }
+}

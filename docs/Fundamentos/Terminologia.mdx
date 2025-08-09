@@ -227,3 +227,116 @@ La terminología basada en árboles ofrece varias ventajas:
 4. **Memorable**: Los términos son fáciles de recordar y utilizar
 
 Al dominar esta terminología, podrás comunicarte eficientemente sobre tu proyecto y aprovechar al máximo las capacidades de TreeFlow para crear experiencias conversacionales efectivas.
+
+## Conceptos Avanzados
+
+:::info Conceptos Avanzados
+
+Una vez que domines los conceptos básicos de Árboles, Ramas y Hojas, estos términos avanzados te ayudarán a entender las funcionalidades de integración y conexión con sistemas externos.
+
+:::
+
+### 🏢 Workspaces
+
+**Definición**: Un Workspace es un entorno independiente que contiene todos tus árboles conversacionales, configuraciones e integraciones para un proyecto específico.
+
+**Analogía**: Si TreeFlow fuera una oficina, cada Workspace sería una oficina separada con su propio equipo, proyectos y recursos.
+
+**Características**:
+- Aislamiento completo entre workspaces
+- Configuraciones independientes
+- Usuarios y permisos específicos
+- Organización por cliente, proyecto o departamento
+
+**Ejemplo**: Una agencia podría tener workspaces separados para "Cliente A - E-commerce", "Cliente B - Soporte", y "Desarrollo Interno".
+
+### 🔌 Injertos
+
+**Definición**: Los Injertos son las **integraciones de canales** que permiten que tu chatbot se comunique a través de diferentes plataformas y interfaces.
+
+**Analogía**: Si tu árbol conversacional es el cerebro, los Injertos son las "bocas" y "oídos" que le permiten hablar y escuchar en diferentes canales.
+
+**Tipos de Injertos**:
+- **Widget Web**: Integración embebible para sitios web
+- **WhatsApp**: Canal de mensajería móvil
+- **Telegram**: Bot de Telegram
+- **Facebook Messenger**: Integración con páginas de Facebook
+- **Interfaces personalizadas**: Componentes visuales específicos
+
+**Lo que NO son Injertos**: APIs externas, CRM, analytics, webhooks (esos son Fertilizantes)
+
+**Ejemplo**: Un restaurante podría tener injertos para su sitio web (widget), WhatsApp para pedidos, y Facebook Messenger para consultas.
+
+### 🌿 Fertilizantes
+
+**Definición**: Los Fertilizantes son **webhooks especializados** que conectan tu chatbot con APIs y sistemas externos para enriquecer las conversaciones con datos y funcionalidades adicionales.
+
+**Analogía**: Si tu árbol conversacional necesita "nutrientes" externos (datos de CRM, validaciones, notificaciones), los Fertilizantes son los que los proporcionan.
+
+**Tipos de Fertilizantes**:
+- **Fertilizante Principal**: Webhook único que procesa todas las respuestas
+- **Fertilizantes Adicionales**: Webhooks específicos para integraciones particulares
+
+**Funcionalidades**:
+- Testing individual en tiempo real
+- Configuración flexible por método HTTP
+- Manejo robusto de errores
+- Debugging avanzado
+
+**Ejemplos de uso**:
+- **CRM**: Enviar leads a Salesforce
+- **Validación**: Verificar datos del usuario
+- **Notificaciones**: Alertas por email o Slack
+- **Analytics**: Tracking de conversaciones
+
+:::tip Dominando la Terminología Avanzada
+
+Estos conceptos avanzados trabajan en conjunto con los básicos (Árboles, Ramas, Hojas) para crear experiencias conversacionales completas y conectadas. Dominar esta terminología te permitirá aprovechar al máximo las capacidades de integración de TreeFlow.
+
+:::
+
+## Relación entre Conceptos Avanzados
+
+```
+Workspace "E-commerce Bot"
+├── Árbol "Atención al Cliente"
+│   ├── Rama "consulta_producto"
+│   └── Hoja "nombre_producto"
+├── Injertos (Canales)
+│   ├── Widget Web
+│   ├── WhatsApp Business
+│   └── Facebook Messenger
+└── Fertilizantes (APIs)
+    ├── Fertilizante Principal → CRM
+    ├── Validador de Stock → API Inventario
+    └── Notificaciones → Email Service
+```
+
+### Flujo Completo de Integración
+
+1. **Usuario** envía mensaje a través de un **Injerto** (ej: Widget Web)
+2. **Árbol** procesa el mensaje usando **Ramas** y **Hojas**
+3. **Fertilizantes** enriquecen la respuesta con datos externos
+4. Respuesta final se envía de vuelta a través del mismo **Injerto**
+5. Todo ocurre dentro del contexto de un **Workspace** específico
+
+### Cuándo Usar Cada Concepto
+
+#### Usa **Injertos** cuando:
+- Quieras agregar un nuevo canal de comunicación
+- Necesites embeber el chatbot en una plataforma
+- Quieras una interfaz visual específica
+
+#### Usa **Fertilizantes** cuando:
+- Necesites datos de sistemas externos
+- Quieras enviar información a APIs
+- Requieras validaciones en tiempo real
+- Necesites notificaciones automáticas
+
+#### Usa **Workspaces** cuando:
+- Tengas múltiples proyectos o clientes
+- Necesites separar entornos (dev, test, prod)
+- Quieras organizar por departamentos
+- Requieras configuraciones independientes
+
+

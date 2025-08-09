@@ -1,0 +1,8 @@
+{
+  "label": "Email",
+  "position": 7,
+  "link": {
+    "type": "generated-index",
+    "description": "Integración con sistemas de correo electrónico para automatizar respuestas por email."
+  }
+}
