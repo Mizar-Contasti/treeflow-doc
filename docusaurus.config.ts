@@ -101,44 +101,48 @@ const config: Config = {
               label: 'Fundamentos',
               to: '/docs/category/fundamentos',
             },
-          ],
-        },
-        {
-          title: 'Comunidad',
-          items: [
             {
-              label: 'Stack Overflow',
-              href: 'https://stackoverflow.com/questions/tagged/docusaurus',
-            },
-            {
-              label: 'Discord',
-              href: 'https://discordapp.com/invite/docusaurus',
-            },
-            {
-              label: 'X',
-              href: 'https://x.com/docusaurus',
+              label: 'Historial de Cambios',
+              to: '/docs/changelog',
             },
           ],
         },
         {
-          title: 'Mas',
+          title: 'Comunidad y Soporte',
           items: [
+            {
+              label: 'Email',
+              href: 'mailto:contasti.mizar@gmail.com',
+            },
+            {
+              label: 'Youtube',
+              href: 'https://www.youtube.com/@botsmexico',
+            },
             // {
-            //   label: 'Docker Hub',
-            //   to: 'https://hub.docker.com/u/m1zar',
+            //   label: 'X',
+            //   href: 'https://x.com/docusaurus',
             // },
-             {
-              label: 'Docker Hub',
+          ],
+        },
+        {
+          title: 'Links',
+          items: [
+            {
+              label: 'Curso de Treeflow',
+              href: 'https://www.youtube.com/@botsmexico',
+            },
+            {
+              label: 'Repo Docker',
               href: 'https://hub.docker.com/u/m1zar',
             },
             {
-              label: 'Github',
+              label: 'Repo Github',
               href: 'https://github.com/Mizar-Contasti/treeflow',
             },
           ],
         },
-      ],
-      copyright: `Copyright © ${new Date().getFullYear()} BotsMexico, Inc. Hecho con Docusaurus.`,
+      ],  
+      copyright: `Copyright © ${new Date().getFullYear()} BotsMexico. Hecho con Docusaurus.`,
     },
     prism: {
       theme: prismThemes.github,

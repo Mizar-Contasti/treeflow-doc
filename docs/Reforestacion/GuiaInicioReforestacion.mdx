@@ -1,0 +1,233 @@
+---
+sidebar_position: 2
+---
+
+# 🚀 Guía de Inicio Rápido: Reforestación
+
+Esta guía te llevará paso a paso para usar la funcionalidad de Reforestación por primera vez y generar tu primer conjunto de Hojas e Intenciones con IA.
+
+## Prerrequisitos
+
+Antes de comenzar, asegúrate de tener:
+- ✅ Un Árbol creado en TreeFlow
+- ✅ Acceso a TreeFlow v0.3 o superior
+- ✅ Conexión a internet (para el modelo de IA)
+
+## Paso 1: Acceder a Reforestación
+
+1. **Inicia sesión** en TreeFlow
+2. **Selecciona tu Workspace** si tienes múltiples
+3. **Abre tu Árbol** desde el dashboard
+4. **Navega a "Reforestación"** en el menú lateral izquierdo
+
+## Paso 2: Tu Primer Prompt
+
+Para tu primera experiencia, te recomendamos comenzar con un prompt simple pero específico:
+
+### Ejemplo Recomendado
+```
+"Sistema básico de gestión de citas médicas para una clínica"
+```
+
+### ¿Por qué este prompt funciona bien?
+- **Específico**: Define claramente el dominio (citas médicas)
+- **Contextual**: Menciona el tipo de negocio (clínica)
+- **Accionable**: Implica acciones claras (gestión de citas)
+
+## Paso 3: Generar Contenido
+
+1. **Escribe tu prompt** en el campo de texto
+2. **Haz clic en "Generar"** y espera unos segundos
+3. **Revisa el análisis** que aparece en la parte superior
+
+### Qué Esperar
+La IA analizará tu prompt y generará:
+
+#### **Hojas (Entidades) Típicas**
+- `agendar`: ["agendar", "programar", "reservar", "solicitar"]
+- `cancelar`: ["cancelar", "anular", "eliminar", "borrar"]
+- `cita`: ["cita", "consulta", "turno", "hora"]
+- `medico`: ["médico", "doctor", "especialista"]
+
+#### **Intenciones Típicas**
+- `agendar_cita`: Patrones para solicitar nuevas citas
+- `cancelar_cita`: Patrones para cancelar citas existentes
+- `consultar_cita`: Patrones para verificar información de citas
+
+## Paso 4: Revisar la Vista Previa
+
+### Elementos a Verificar
+
+#### **En las Hojas**
+- ✅ **Nombres apropiados**: ¿Los nombres de entidades tienen sentido?
+- ✅ **Sinónimos relevantes**: ¿Los sinónimos cubren variaciones comunes?
+- ✅ **Cobertura completa**: ¿Están todas las entidades necesarias?
+
+#### **En las Intenciones**
+- ✅ **Patrones naturales**: ¿Los patrones suenan como conversaciones reales?
+- ✅ **Respuestas apropiadas**: ¿Las respuestas son profesionales y útiles?
+- ✅ **Variables dinámicas**: ¿Las respuestas usan variables como `{agendar}` y `{cita}`?
+
+### Ejemplo de Vista Previa
+```json
+// Hoja generada
+{
+  "name": "agendar",
+  "values": [
+    {
+      "key": "agendar",
+      "synonyms": ["agendar", "programar", "reservar", "solicitar", "pedir"]
+    }
+  ]
+}
+
+// Intención generada
+{
+  "name": "agendar_cita",
+  "patterns": ["quiero @agendar una @cita", "necesito @agendar mi @cita"],
+  "responses": [
+    {
+      "type": "text",
+      "value": "Perfecto, voy a {agendar} tu {cita}. ¿Qué fecha prefieres?"
+    }
+  ]
+}
+```
+
+## Paso 5: Aplicar Cambios
+
+Si estás satisfecho con la vista previa:
+
+1. **Haz clic en "Aplicar Cambios"**
+2. **Espera la confirmación** de que los cambios se aplicaron
+3. **Observa el mensaje de éxito** con el resumen de elementos creados
+
+### Qué Sucede Internamente
+- Las nuevas Hojas se agregan a tu colección de entidades
+- Las nuevas Intenciones se integran con tus Ramas existentes
+- Se generan automáticamente IDs únicos para todos los elementos
+- Se valida la compatibilidad con tu Árbol actual
+
+## Paso 6: Verificar los Resultados
+
+### En la Sección Hojas
+1. **Ve a "Hojas"** en el menú lateral
+2. **Busca las nuevas entidades** que se generaron
+3. **Verifica los sinónimos** haciendo clic en cada entidad
+
+### En la Sección Ramas
+1. **Ve a "Ramas"** en el menú lateral
+2. **Encuentra las nuevas intenciones** en la lista
+3. **Revisa los patrones y respuestas** de cada intención
+
+## Paso 7: Probar en el Chat
+
+### Testing Básico
+1. **Ve al chat de prueba** de tu Árbol
+2. **Prueba frases como**:
+   - "quiero agendar una cita"
+   - "necesito programar una consulta"
+   - "quiero cancelar mi turno"
+
+### Qué Observar
+- ✅ **Reconocimiento correcto**: ¿El bot identifica la intención correcta?
+- ✅ **Variables dinámicas**: ¿Las respuestas muestran las variables capturadas?
+- ✅ **Flujo natural**: ¿La conversación se siente natural?
+
+## Prompts de Ejemplo para Practicar
+
+### Para Diferentes Industrias
+
+#### **E-commerce**
+```
+"Sistema de gestión de pedidos para tienda online con productos y envíos"
+```
+
+#### **Educación**
+```
+"Bot de información académica para universidad con cursos y inscripciones"
+```
+
+#### **Restaurante**
+```
+"Sistema de reservas para restaurante con mesas y horarios"
+```
+
+#### **Soporte Técnico**
+```
+"Bot de soporte técnico para software con tickets y resoluciones"
+```
+
+## Consejos para Mejores Resultados
+
+### ✅ Prompts Efectivos
+- **Sé específico sobre el dominio**: "gestión de inventario" vs "gestión general"
+- **Menciona acciones clave**: "crear, editar, eliminar productos"
+- **Incluye contexto**: "para almacén de ropa" vs "para almacén"
+- **Define objetos principales**: "productos, categorías, proveedores"
+
+### ❌ Prompts a Evitar
+- **Demasiado genéricos**: "hacer un chatbot"
+- **Sin contexto**: "ayuda con preguntas"
+- **Muy vagos**: "conversación básica"
+- **Sin acciones**: "información general"
+
+## Solución de Problemas Comunes
+
+### Problema: "No se generó nada"
+**Posibles causas**:
+- Prompt demasiado vago
+- Conexión a internet interrumpida
+- Servicio de IA temporalmente no disponible
+
+**Solución**:
+- Intenta con un prompt más específico
+- Verifica tu conexión a internet
+- Espera unos minutos y vuelve a intentar
+
+### Problema: "Las entidades no tienen sentido"
+**Posibles causas**:
+- Prompt ambiguo o confuso
+- Dominio muy complejo para un solo prompt
+
+**Solución**:
+- Divide en prompts más pequeños y específicos
+- Usa ejemplos concretos en tu prompt
+- Refina iterativamente
+
+### Problema: "Las respuestas son muy genéricas"
+**Posibles causas**:
+- Falta de contexto específico en el prompt
+- Dominio no claramente definido
+
+**Solución**:
+- Agrega más contexto sobre tu negocio
+- Especifica el tono de comunicación deseado
+- Menciona el tipo de usuarios objetivo
+
+## Próximos Pasos
+
+Una vez que domines lo básico:
+
+1. **Experimenta con prompts más complejos**
+2. **Combina múltiples sesiones** para funcionalidades específicas
+3. **Refina manualmente** los elementos generados si es necesario
+4. **Explora el historial** para aprender de sesiones anteriores
+
+### Funcionalidades Avanzadas
+- **Prompts iterativos**: Construye funcionalidad paso a paso
+- **Refinamiento específico**: Ajusta entidades o intenciones particulares
+- **Integración con Fertilizantes**: Conecta las nuevas intenciones con webhooks
+
+## Recursos Adicionales
+
+- [Documentación completa de Reforestación](/docs/InteligenciaArtificial/Reforestacion)
+- [Mejores prácticas para prompts](/docs/InteligenciaArtificial/MejoresPracticas)
+- [Casos de uso por industria](/docs/InteligenciaArtificial/CasosDeUso)
+- [Solución de problemas](/docs/InteligenciaArtificial/SolucionProblemas)
+
+---
+
+¡Felicidades! 🎉 Has completado tu primera experiencia con Reforestación. Ahora tienes las herramientas para expandir automáticamente las capacidades conversacionales de tu Árbol usando IA.
+
+**¿Listo para el siguiente nivel?** Explora prompts más complejos y descubre todo el potencial de la generación automática de contenido conversacional.
