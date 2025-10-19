@@ -6,8 +6,8 @@ sidebar_position: 0
 
 TreeFlow integra capacidades avanzadas de Inteligencia Artificial para potenciar tus experiencias conversacionales, combinando lo mejor de los enfoques deterministas y generativos.
 
-:::info Versión 0.3 Disponible
-La funcionalidad de **Reforestación** ya está disponible en TreeFlow v0.3, permitiendo generar automáticamente Hojas e Intenciones usando IA.
+:::tip Versión 0.4 Disponible
+La funcionalidad de **Reforestación** ha sido mejorada significativamente en TreeFlow v0.4, con un pipeline de 6 fases para mayor precisión y control en la generación automática de contenido conversacional.
 :::
 
 ## El Enfoque Híbrido de TreeFlow
@@ -23,14 +23,24 @@ Esta combinación te permite crear Árboles que son tanto predecibles y confiabl
 
 TreeFlow ofrece múltiples capacidades de IA que puedes aprovechar:
 
-### 🌱 Reforestación (Nuevo en v0.3)
+### 🌱 Reforestación (Mejorado en v0.4)
 
-Sistema de generación automática de contenido conversacional:
-- **Generación automática de Hojas**: Crea entidades con sinónimos inteligentes
-- **Creación de Intenciones**: Genera patrones y respuestas contextuales
-- **Adaptación universal**: Se ajusta a cualquier dominio o industria
-- **Vista previa de cambios**: Revisa antes de aplicar modificaciones
-- **Historial completo**: Registro de todas las sesiones generativas
+Sistema avanzado de generación automática de contenido conversacional con pipeline de 6 fases:
+
+**Características principales:**
+- **Pipeline de 6 Fases**: Proceso progresivo y refinado de generación
+- **Formato Estándar**: Consistencia en todas las fases con `generated_text` + metadata
+- **Modelos Actualizados**: Groq con modelos activos (llama-3.1-8b-instant, mixtral-8x7b-32768)
+- **Frameworks Modulares**: Sistema extensible (no_framework, langgraph)
+- **Contexto Inteligente**: Considera intents y entities existentes del bot
+
+**Fases del Pipeline:**
+1. **Abonar**: Expansión conversacional del prompt (temp 0.8)
+2. **Análisis**: Identificación de patrones e intenciones (temp 0.4)
+3. **Estructura**: Construcción básica de componentes (temp 0.2)
+4. **Enriquecimiento**: Generación de sinónimos 5-8 por valor (temp 0.5)
+5. **Serialización**: Estructuración semántica avanzada (temp 0.5)
+6. **Aplicación**: Conversión a JSON y aplicación al bot (temp 0.1)
 
 [Más información sobre Reforestación](/docs/InteligenciaArtificial/Reforestacion)
 

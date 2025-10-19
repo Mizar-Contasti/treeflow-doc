@@ -1,0 +1,358 @@
+---
+sidebar_position: 6
+---
+
+# 🌐 LocalTunnel para Desarrollo
+
+LocalTunnel es una herramienta que permite exponer tu aplicación TreeFlow local a internet con URLs públicas, ideal para demos, testing y desarrollo colaborativo.
+
+{/* ![LocalTunnel Diagram](/img/localtunnel-diagram-placeholder.svg) */}
+
+## ¿Qué es LocalTunnel?
+
+LocalTunnel crea un túnel seguro entre tu máquina local y un servidor público, permitiendo que cualquier persona con la URL pueda acceder a tu aplicación sin necesidad de configurar routers, firewalls o servicios en la nube.
+
+### Características Principales
+
+- ✅ **100% Gratuito**: Sin límites de tráfico o tiempo
+- ✅ **HTTPS Automático**: Certificados SSL incluidos
+- ✅ **Subdominios Personalizados**: Elige tu propio nombre
+- ✅ **Múltiples Túneles**: Expone varios servicios simultáneamente
+- ✅ **Sin Configuración**: Funciona sin abrir puertos en tu router
+
+## Instalación
+
+LocalTunnel requiere Node.js instalado en tu sistema.
+
+```bash
+# Instalar globalmente
+npm install -g localtunnel
+```
+
+## Uso Básico
+
+### Exponer un Solo Servicio
+
+```bash
+# Exponer puerto 3000 (frontend)
+lt --port 3000
+
+# Con subdominio personalizado
+lt --port 3000 --subdomain treeflow-app
+```
+
+Resultado:
+```
+your url is: https://treeflow-app.loca.lt
+```
+
+## Configuración para TreeFlow
+
+TreeFlow tiene 3 servicios que necesitan ser expuestos:
+
+### 1. Frontend (Puerto 3000)
+
+```bash
+# Terminal 1
+lt --port 3000 --subdomain treeflow-app
+```
+
+**URL resultante**: `https://treeflow-app.loca.lt`
+
+### 2. Backend (Puerto 8000)
+
+```bash
+# Terminal 2
+lt --port 8000 --subdomain treeflow-api
+```
+
+**URL resultante**: `https://treeflow-api.loca.lt`
+
+### 3. Generative AI (Puerto 8001)
+
+```bash
+# Terminal 3
+lt --port 8001 --subdomain treeflow-ai
+```
+
+**URL resultante**: `https://treeflow-ai.loca.lt`
+
+## Configuración del Frontend
+
+Una vez que tengas las URLs de LocalTunnel, necesitas configurar el frontend para que apunte a ellas.
+
+### Actualizar docker-compose.yml
+
+```yaml
+frontend:
+  build:
+    context: .
+    dockerfile: Dockerfile.frontend
+    args:
+      - VITE_API_URL=https://treeflow-api.loca.lt
+      - VITE_GENERATIVE_API_URL=https://treeflow-ai.loca.lt
+  ports:
+    - "3000:80"
+```
+
+### Rebuild el Frontend
+
+```bash
+# Rebuild solo el frontend
+docker-compose build --no-cache frontend
+
+# Reiniciar el contenedor
+docker-compose up -d frontend
+```
+
+## Bypass de Autenticación
+
+LocalTunnel muestra una página de advertencia la primera vez que alguien accede. TreeFlow v0.4 incluye bypass automático mediante headers.
+
+### Implementación Automática
+
+El bypass está implementado en:
+
+**Frontend (client.ts)**:
+```typescript
+client.interceptors.request.use((config) => {
+  // Bypass LocalTunnel reminder page
+  if (config.headers) {
+    config.headers['Bypass-Tunnel-Reminder'] = 'true';
+  }
+  return config;
+});
+```
+
+**Generative (useReforestacion.ts)**:
+```typescript
+const response = await fetch(`${API_BASE_URL}/api/reforestacion/preview`, {
+  headers: {
+    'Bypass-Tunnel-Reminder': 'true'
+  }
+});
+```
+
+:::tip Bypass Automático
+Con TreeFlow v0.4, el bypass está configurado automáticamente. No necesitas hacer nada adicional.
+:::
+
+## Flujo Completo
+
+### 1. Iniciar TreeFlow
+
+```bash
+# En el directorio de TreeFlow
+docker-compose up
+```
+
+### 2. Iniciar Túneles
+
+Abre 3 terminales y ejecuta:
+
+```bash
+# Terminal 1: Frontend
+lt --port 3000 --subdomain treeflow-app
+
+# Terminal 2: Backend
+lt --port 8000 --subdomain treeflow-api
+
+# Terminal 3: Generative
+lt --port 8001 --subdomain treeflow-ai
+```
+
+### 3. Configurar URLs
+
+Actualiza `docker-compose.yml` con las URLs de LocalTunnel y rebuild el frontend.
+
+### 4. Acceder
+
+Abre tu navegador y visita:
+```
+https://treeflow-app.loca.lt
+```
+
+{/* ![LocalTunnel Flow](/img/localtunnel-flow-placeholder.svg) */}
+
+## Casos de Uso
+
+### 🎯 Demos y Presentaciones
+
+Muestra tu bot a clientes o stakeholders sin necesidad de desplegar en producción.
+
+```bash
+# Túnel temporal para demo
+lt --port 3000 --subdomain demo-cliente-xyz
+```
+
+### 👥 Desarrollo Colaborativo
+
+Permite que tu equipo pruebe cambios en tiempo real.
+
+```bash
+# Túnel para equipo de QA
+lt --port 3000 --subdomain treeflow-qa
+```
+
+### 📱 Testing en Dispositivos Móviles
+
+Prueba tu bot en diferentes dispositivos sin configuración adicional.
+
+```bash
+# Accede desde tu móvil
+https://treeflow-app.loca.lt
+```
+
+### 🔗 Webhooks y Integraciones
+
+Prueba webhooks que requieren URLs públicas.
+
+```bash
+# URL para webhook
+https://treeflow-api.loca.lt/webhooks/callback
+```
+
+## Consideraciones
+
+### ⚠️ Seguridad
+
+- LocalTunnel expone tu aplicación local a internet
+- Cualquiera con la URL puede acceder
+- Usa subdominios únicos para evitar colisiones
+- No uses en producción
+
+### 💻 Rendimiento
+
+- La velocidad depende de tu conexión a internet
+- El upload de tu internet afecta la experiencia del usuario
+- LocalTunnel agrega latencia adicional (~50-200ms)
+
+### 🔌 Disponibilidad
+
+- Tu PC debe estar encendido y conectado
+- Si cierras la terminal, el túnel se cierra
+- Si tu internet se cae, el túnel se desconecta
+
+## Alternativas
+
+Si LocalTunnel no funciona para tu caso de uso, considera:
+
+### ngrok (Más Estable)
+
+```bash
+# Instalar ngrok
+# https://ngrok.com/download
+
+# Exponer puerto
+ngrok http 3000
+```
+
+**Ventajas**:
+- Más estable
+- Dashboard con analytics
+- Replay de requests
+
+**Desventajas**:
+- Solo 1 túnel gratis
+- Límite de 40 req/min
+
+### Serveo (SSH)
+
+```bash
+# Sin instalación (usa SSH)
+ssh -R treeflow:80:localhost:3000 serveo.net
+```
+
+**Ventajas**:
+- Sin instalación
+- Usa SSH nativo
+
+**Desventajas**:
+- Menos estable
+- Sin dashboard
+
+## Troubleshooting
+
+### Problema: "Subdomain already in use"
+
+**Solución**: Usa un subdominio diferente
+
+```bash
+lt --port 3000 --subdomain treeflow-app-2024
+```
+
+### Problema: "Connection refused"
+
+**Solución**: Verifica que Docker esté corriendo
+
+```bash
+docker-compose ps
+```
+
+### Problema: "Tunnel closed"
+
+**Solución**: Reinicia el túnel
+
+```bash
+# Ctrl+C para cerrar
+# Volver a ejecutar
+lt --port 3000 --subdomain treeflow-app
+```
+
+### Problema: "502 Bad Gateway"
+
+**Solución**: Verifica que el servicio esté respondiendo
+
+```bash
+# Probar localmente primero
+curl http://localhost:3000
+```
+
+## Mejores Prácticas
+
+### ✅ Usa Subdominios Descriptivos
+
+```bash
+# ❌ Evita
+lt --port 3000
+
+# ✅ Mejor
+lt --port 3000 --subdomain treeflow-demo-cliente
+```
+
+### ✅ Mantén las Terminales Organizadas
+
+Usa nombres claros en tus terminales:
+- Terminal 1: "LocalTunnel - Frontend"
+- Terminal 2: "LocalTunnel - Backend"
+- Terminal 3: "LocalTunnel - Generative"
+
+### ✅ Documenta las URLs
+
+Guarda las URLs en un archivo para referencia:
+
+```bash
+# urls.txt
+Frontend:   https://treeflow-app.loca.lt
+Backend:    https://treeflow-api.loca.lt
+Generative: https://treeflow-ai.loca.lt
+```
+
+### ✅ Cierra los Túneles Cuando No los Uses
+
+```bash
+# Ctrl+C en cada terminal
+# O cierra las terminales
+```
+
+## Recursos Adicionales
+
+- [Sitio Oficial de LocalTunnel](https://localtunnel.github.io/www/)
+- [Repositorio en GitHub](https://github.com/localtunnel/localtunnel)
+- [Documentación de ngrok](https://ngrok.com/docs) (alternativa)
+
+---
+
+:::info Versión
+Esta documentación es para TreeFlow v0.4 con bypass automático de LocalTunnel.
+:::

@@ -1,0 +1,709 @@
+---
+sidebar_position: 4
+---
+
+# 🔄 Pipeline de 6 Fases
+
+TreeFlow v0.4 introduce un pipeline de generación de 6 fases que proporciona mayor precisión y control en la creación de contenido conversacional.
+
+{/* ![Pipeline 6 Fases](/img/pipeline-6-fases-placeholder.svg) */}
+
+## Visión General
+
+El pipeline transforma un prompt simple en contenido TreeFlow completo a través de 6 fases progresivas, cada una refinando el output de la anterior.
+
+```mermaid
+graph LR
+    A[Prompt Usuario] --> B[Fase 1: Abonar]
+    B --> C[Fase 2: Análisis]
+    C --> D[Fase 3: Estructura]
+    D --> E[Fase 4: Enriquecimiento]
+    E --> F[Fase 5: Serialización]
+    F --> G[Fase 6: Aplicación]
+    G --> H[Bot Actualizado]
+```
+
+## Formato Estándar
+
+Todas las fases (1-5) usan el mismo formato de respuesta:
+
+```json
+{
+  "generated_text": "contenido generado...",
+  "metadata": {
+    "phase": "nombre_fase",
+    "model_info": {
+      "model": "llama-3.1-8b-instant",
+      "temperature": 0.8
+    },
+    "validation_passed": true,
+    "phase_stats": {
+      "text_length": 1250,
+      "tree_id": "abc-123",
+      "workspace_id": "botsmexico"
+    }
+  },
+  "success": true
+}
+```
+
+## Fase 1: Abonar (Expansión Conversacional)
+
+### Objetivo
+Expandir el prompt base del usuario en un flujo conversacional completo y creativo.
+
+### Configuración
+- **Temperatura**: 0.8 (alta creatividad)
+- **Modelo**: Configurable (por defecto: llama-3.1-8b-instant)
+- **Framework**: Configurable (por defecto: no_framework)
+
+### Input
+```json
+{
+  "prompt": "Quiero un bot para reservar citas médicas",
+  "tree_id": "abc-123",
+  "workspace_id": "botsmexico",
+  "model": "llama-3.1-8b-instant",
+  "framework": "no_framework"
+}
+```
+
+### Proceso
+1. Recibe el prompt del usuario
+2. Analiza la intención general
+3. Expande en un flujo conversacional natural
+4. Identifica puntos clave de interacción
+
+### Output
+```
+Flujo conversacional expandido:
+
+Usuario: Hola, quiero agendar una cita
+Bot: ¡Hola! Con gusto te ayudo a agendar tu cita médica. 
+     ¿Para qué especialidad necesitas la cita?
+
+Usuario: Necesito un dentista
+Bot: Perfecto, tenemos disponibilidad con dentistas. 
+     ¿Qué día prefieres para tu cita?
+
+Usuario: El próximo martes
+Bot: Excelente. ¿En qué horario te viene mejor? 
+     Tenemos disponibilidad en la mañana (9am-12pm) 
+     o en la tarde (2pm-6pm)
+
+...
+```
+
+{/* ![Fase 1 Abonar](/img/fase1-abonar-placeholder.svg) */}
+
+## Fase 2: Análisis Conversacional
+
+### Objetivo
+Analizar el flujo expandido e identificar patrones, intenciones y entidades necesarias.
+
+### Configuración
+- **Temperatura**: 0.4 (análisis balanceado)
+- **Input Adicional**: Intents y entities existentes del bot
+
+### Input
+```json
+{
+  "expanded_flow": "output de Fase 1...",
+  "existing_intents": [...],
+  "existing_entities": [...],
+  "tree_id": "abc-123"
+}
+```
+
+### Proceso
+1. Analiza el flujo conversacional expandido
+2. Identifica patrones de interacción
+3. Detecta entidades necesarias (especialidad, fecha, horario)
+4. Reconoce intenciones del usuario
+5. Considera intents/entities existentes para evitar duplicación
+
+### Output
+```
+Análisis Conversacional:
+
+INTERACCIONES IDENTIFICADAS:
+1. Saludo inicial
+2. Solicitud de especialidad médica
+3. Selección de fecha
+4. Selección de horario
+5. Confirmación de datos
+6. Finalización de reserva
+
+ENTIDADES NECESARIAS:
+- especialidad_medica: dentista, cardiólogo, pediatra
+- fecha_cita: fechas futuras
+- horario_cita: mañana, tarde, específico
+
+INTENCIONES DETECTADAS:
+- agendar_cita
+- consultar_disponibilidad
+- modificar_cita
+- cancelar_cita
+
+...
+```
+
+{/* ![Fase 2 Análisis](/img/fase2-analisis-placeholder.svg) */}
+
+## Fase 3: Estructura Básica
+
+### Objetivo
+Construir la estructura básica de intenciones y entidades con formato clave-valor.
+
+### Configuración
+- **Temperatura**: 0.2 (precisión estructural)
+
+### Input
+```json
+{
+  "conversational_analysis": "output de Fase 2...",
+  "tree_id": "abc-123"
+}
+```
+
+### Proceso
+1. Extrae entidades del análisis
+2. Define estructura clave-valor para cada entidad
+3. Crea intenciones básicas
+4. Establece patrones iniciales
+
+### Output
+```
+ESTRUCTURA BÁSICA:
+
+ENTIDADES:
+1. especialidad_medica
+   - Tipo: clave-valor
+   - Valores: dentista, cardiólogo, pediatra
+
+2. fecha_cita
+   - Tipo: clave-valor
+   - Valores: hoy, mañana, próximo_lunes
+
+3. horario_cita
+   - Tipo: clave-valor
+   - Valores: mañana, tarde, noche
+
+INTENCIONES:
+1. agendar_cita
+   - Patrón básico: "quiero agendar una cita"
+   - Respuesta: "Con gusto te ayudo..."
+
+2. consultar_disponibilidad
+   - Patrón básico: "hay disponibilidad"
+   - Respuesta: "Déjame verificar..."
+
+...
+```
+
+{/* ![Fase 3 Estructura](/img/fase3-estructura-placeholder.svg) */}
+
+## Fase 4: Enriquecimiento
+
+### Objetivo
+Generar sinónimos abundantes (5-8 por valor) y enriquecer con parámetros y contextos.
+
+### Configuración
+- **Temperatura**: 0.5 (creatividad para sinónimos)
+
+### Input
+```json
+{
+  "basic_structure": "output de Fase 3...",
+  "tree_id": "abc-123"
+}
+```
+
+### Proceso
+1. Para cada valor de entidad, genera 5-8 sinónimos
+2. Agrega variaciones lingüísticas
+3. Define parámetros requeridos
+4. Establece contextos de entrada/salida
+
+### Output
+```
+ESTRUCTURA ENRIQUECIDA:
+
+ENTIDADES:
+1. especialidad_medica
+   Valor: dentista
+   Sinónimos:
+   - dentista
+   - odontólogo
+   - doctor de dientes
+   - especialista dental
+   - odontología
+   - dentista general
+   - doctor dental
+
+   Valor: cardiólogo
+   Sinónimos:
+   - cardiólogo
+   - especialista del corazón
+   - doctor del corazón
+   - médico cardiólogo
+   - cardiología
+   - especialista cardiovascular
+
+INTENCIONES:
+1. agendar_cita
+   Patrones enriquecidos:
+   - "quiero agendar una cita"
+   - "necesito una cita"
+   - "quisiera reservar"
+   - "me gustaría agendar"
+   - "quiero hacer una reserva"
+   
+   Parámetros requeridos:
+   - especialidad_medica (prompt: "¿Para qué especialidad?")
+   - fecha_cita (prompt: "¿Qué día prefieres?")
+   - horario_cita (prompt: "¿En qué horario?")
+
+...
+```
+
+{/* ![Fase 4 Enriquecimiento](/img/fase4-enriquecimiento-placeholder.svg) */}
+
+## Fase 5: Estructuración Semántica
+
+### Objetivo
+Organizar componentes con estructura semántica avanzada y formato TreeFlow completo.
+
+### Configuración
+- **Temperatura**: 0.5 (análisis estructural)
+
+### Input
+```json
+{
+  "enriched_structure": "output de Fase 4...",
+  "tree_id": "abc-123"
+}
+```
+
+### Proceso
+1. Organiza entidades con UUIDs
+2. Estructura intenciones con referencias por ID
+3. Agrega displayPatterns
+4. Define parámetros con prompt/fallback/default
+5. Crea respuestas con variables {parameter_name}
+
+### Output
+```json
+{
+  "entities": [
+    {
+      "id": "uuid-123",
+      "name": "especialidad_medica",
+      "values": [
+        {
+          "value": "dentista",
+          "synonyms": ["dentista", "odontólogo", "doctor de dientes", ...]
+        }
+      ]
+    }
+  ],
+  "intents": [
+    {
+      "id": "uuid-456",
+      "name": "agendar_cita",
+      "patterns": [
+        "quiero agendar una cita",
+        "necesito una cita",
+        ...
+      ],
+      "displayPatterns": [
+        "Agendar cita con @especialidad_medica",
+        "Reservar cita para @fecha_cita"
+      ],
+      "parameters": [
+        {
+          "entity_id": "uuid-123",
+          "required": true,
+          "prompt": "¿Para qué especialidad necesitas la cita?",
+          "fallback": "No entendí la especialidad",
+          "default": null
+        }
+      ],
+      "responses": [
+        "Perfecto, agendé tu cita con {especialidad_medica} para {fecha_cita} a las {horario_cita}"
+      ]
+    }
+  ]
+}
+```
+
+{/* ![Fase 5 Serialización](/img/fase5-serializacion-placeholder.svg) */}
+
+## Fase 6: Aplicación
+
+### Objetivo
+Serializar a JSON final y aplicar cambios al bot.
+
+### Configuración
+- **Temperatura**: 0.1 (precisión JSON)
+
+### Input
+```json
+{
+  "semantic_structure": "output de Fase 5...",
+  "tree_id": "abc-123"
+}
+```
+
+### Proceso
+1. Valida estructura TreeFlow
+2. Serializa a JSON final
+3. Compara con datos existentes
+4. Identifica cambios (nuevos, modificados)
+5. Aplica cambios al bot mediante endpoints
+
+### Output
+```json
+{
+  "success": true,
+  "changes_applied": {
+    "new_entities": 3,
+    "new_intents": 4,
+    "modified_entities": 0,
+    "modified_intents": 0
+  },
+  "summary": "Se aplicaron 7 cambios al bot exitosamente"
+}
+```
+
+{/* ![Fase 6 Aplicación](/img/fase6-aplicacion-placeholder.svg) */}
+
+## Ventajas del Pipeline de 6 Fases
+
+### ✅ Mayor Precisión
+Cada fase refina el output de la anterior, resultando en contenido más preciso.
+
+### ✅ Control Granular
+Puedes inspeccionar y ajustar el output en cada fase.
+
+### ✅ Debugging Facilitado
+Logs detallados en cada fase permiten identificar problemas rápidamente.
+
+### ✅ Consistencia
+Formato estándar en todas las fases facilita el mantenimiento.
+
+### ✅ Extensibilidad
+Fácil agregar nuevas fases o modificar existentes.
+
+### ✅ Contexto Inteligente
+Considera el estado actual del bot para evitar duplicación.
+
+## Comparación con Pipeline de 3 Fases (v0.3)
+
+| Aspecto | v0.3 (3 Fases) | v0.4 (6 Fases) |
+|---------|----------------|----------------|
+| **Fases** | 3 | 6 |
+| **Formato** | Inconsistente | Estándar |
+| **Sinónimos** | Básicos | 5-8 por valor |
+| **Contexto** | Limitado | Completo |
+| **Debugging** | Difícil | Facilitado |
+| **Precisión** | Buena | Excelente |
+
+## Configuración Avanzada
+
+### Modelos por Fase
+
+Puedes usar diferentes modelos para diferentes fases:
+
+```json
+{
+  "phase1_model": "llama-3.1-8b-instant",
+  "phase2_model": "mixtral-8x7b-32768",
+  "phase3_model": "llama3-70b-8192",
+  "phase4_model": "llama-3.1-8b-instant",
+  "phase5_model": "mixtral-8x7b-32768",
+  "phase6_model": "llama-3.1-8b-instant"
+}
+```
+
+### Frameworks Personalizados
+
+```json
+{
+  "framework": "no_framework",  // Método estándar
+  // "framework": "langgraph"   // Futuro
+}
+```
+
+## Cómo Funciona Detrás
+
+### Arquitectura del Pipeline
+
+El pipeline está implementado en el backend generativo (puerto 8001) con la siguiente estructura:
+
+```
+generative/
+├── phases/
+│   ├── phase_1_expansion/
+│   │   ├── processor.py      # Lógica de expansión
+│   │   ├── config.py          # Configuración de fase
+│   │   └── prompts.py         # Templates de prompts
+│   ├── phase_2_conversational_analysis/
+│   ├── phase_3_basic_structure/
+│   ├── phase_4_enrichment/
+│   ├── phase_5_serialization/
+│   └── phase_6_application/
+├── frameworks/
+│   ├── no_framework/          # Framework estándar
+│   └── langgraph/             # Framework LangGraph (futuro)
+├── pipeline_manager.py        # Orquestador de fases
+└── llm_client.py             # Cliente Groq
+```
+
+### Flujo de Ejecución
+
+#### 1. Frontend Inicia Request
+
+```typescript
+// useReforestacion.ts
+const response = await fetch('/api/reforestacion/phase1', {
+  method: 'POST',
+  body: JSON.stringify({
+    prompt: "Quiero un bot para reservas",
+    tree_id: "abc-123",
+    model: "llama-3.1-8b-instant",
+    framework: "no_framework"
+  })
+});
+```
+
+#### 2. Backend Recibe y Valida
+
+```python
+# pipeline.py
+@router.post("/phase1")
+async def execute_phase1(request: Phase1Request):
+    # Validación de request
+    if not request.prompt:
+        raise HTTPException(400, "Prompt requerido")
+    
+    # Ejecutar fase
+    result = await pipeline_manager.execute_phase1(
+        prompt=request.prompt,
+        tree_id=request.tree_id,
+        model=request.model
+    )
+    
+    return result
+```
+
+#### 3. Pipeline Manager Orquesta
+
+```python
+# pipeline_manager.py
+class PipelineManager:
+    async def execute_phase1(self, prompt, tree_id, model):
+        # 1. Obtener procesador de fase
+        processor = Phase1Processor()
+        
+        # 2. Cargar configuración
+        config = processor.get_config()
+        
+        # 3. Ejecutar procesamiento
+        result = await processor.process(
+            prompt=prompt,
+            tree_id=tree_id,
+            model=model,
+            temperature=config.temperature
+        )
+        
+        # 4. Validar resultado
+        if not processor.validate(result):
+            raise ValidationError("Output inválido")
+        
+        # 5. Logging
+        logger.info(f"Fase 1 completada: {len(result['generated_text'])} chars")
+        
+        return result
+```
+
+#### 4. Procesador Ejecuta Lógica
+
+```python
+# phase_1_expansion/processor.py
+class Phase1Processor:
+    async def process(self, prompt, tree_id, model, temperature):
+        # 1. Construir prompt con template
+        full_prompt = self._build_prompt(prompt)
+        
+        # 2. Llamar a LLM
+        response = await llm_client.generate(
+            prompt=full_prompt,
+            model=model,
+            temperature=temperature
+        )
+        
+        # 3. Extraer texto generado
+        generated_text = response.choices[0].message.content
+        
+        # 4. Construir respuesta estándar
+        return {
+            "generated_text": generated_text,
+            "metadata": {
+                "phase": "phase_1_expansion",
+                "model_info": {
+                    "model": model,
+                    "temperature": temperature
+                },
+                "validation_passed": True,
+                "phase_stats": {
+                    "text_length": len(generated_text),
+                    "tree_id": tree_id
+                }
+            },
+            "success": True
+        }
+```
+
+#### 5. LLM Client Comunica con Groq
+
+```python
+# llm_client.py
+class GroqClient:
+    async def generate(self, prompt, model, temperature):
+        # 1. Preparar request
+        request = {
+            "model": model,
+            "messages": [
+                {"role": "system", "content": SYSTEM_PROMPT},
+                {"role": "user", "content": prompt}
+            ],
+            "temperature": temperature,
+            "max_tokens": 4096
+        }
+        
+        # 2. Llamar API de Groq
+        response = await groq_api.chat.completions.create(**request)
+        
+        # 3. Logging
+        logger.info(f"Tokens usados: {response.usage.total_tokens}")
+        
+        return response
+```
+
+#### 6. Response Regresa al Frontend
+
+```typescript
+// useReforestacion.ts
+const data = await response.json();
+
+// Actualizar estado
+setState({
+  phase1: {
+    output: data.generated_text,
+    metadata: data.metadata,
+    completed: true
+  }
+});
+
+// Mostrar en UI
+console.log("Fase 1 completada:", data.generated_text.substring(0, 100));
+```
+
+### Validación en Cada Fase
+
+Cada fase valida su output antes de retornar:
+
+```python
+def validate(self, result):
+    # 1. Verificar estructura
+    if "generated_text" not in result:
+        return False
+    
+    # 2. Verificar contenido
+    if len(result["generated_text"]) < 100:
+        return False
+    
+    # 3. Verificar metadata
+    if "metadata" not in result:
+        return False
+    
+    return True
+```
+
+### Logging Detallado
+
+Cada fase genera logs para debugging:
+
+```
+[2025-10-18 21:00:00] INFO: Iniciando Fase 1 - Abonar
+[2025-10-18 21:00:00] INFO: Prompt: "Quiero un bot para reservas"
+[2025-10-18 21:00:00] INFO: Modelo: llama-3.1-8b-instant
+[2025-10-18 21:00:00] INFO: Temperatura: 0.8
+[2025-10-18 21:00:05] INFO: LLM response recibida (1250 chars)
+[2025-10-18 21:00:05] INFO: Validación: PASSED
+[2025-10-18 21:00:05] INFO: Fase 1 completada exitosamente
+[2025-10-18 21:00:05] INFO: Output preview: "Flujo conversacional expandido..."
+```
+
+### Manejo de Errores
+
+```python
+try:
+    result = await processor.process(...)
+except GroqAPIError as e:
+    logger.error(f"Error de Groq API: {e}")
+    return {"success": False, "error": "Error al comunicar con LLM"}
+except ValidationError as e:
+    logger.error(f"Validación falló: {e}")
+    return {"success": False, "error": "Output no válido"}
+except Exception as e:
+    logger.error(f"Error inesperado: {e}")
+    return {"success": False, "error": "Error interno"}
+```
+
+## Mejores Prácticas
+
+### ✅ Revisa el Output de Cada Fase
+
+Inspecciona el texto generado en cada fase para detectar problemas temprano.
+
+### ✅ Usa Modelos Apropiados
+
+- Fases creativas (1, 4): Modelos rápidos (llama-3.1-8b-instant)
+- Fases analíticas (2, 5): Modelos potentes (mixtral-8x7b-32768)
+- Fases precisas (3, 6): Modelos con baja temperatura
+
+### ✅ Aprovecha el Contexto
+
+El pipeline considera intents/entities existentes. Úsalo para expansión incremental.
+
+### ✅ Monitorea los Logs
+
+Los logs detallados te ayudan a entender qué está pasando en cada fase.
+
+## Troubleshooting
+
+### Problema: "Fase X falló"
+
+**Solución**: Revisa los logs de la fase anterior. El output puede no ser válido.
+
+### Problema: "Sinónimos insuficientes"
+
+**Solución**: Ajusta la temperatura de Fase 4 o usa un modelo más creativo.
+
+### Problema: "Duplicación de contenido"
+
+**Solución**: Verifica que se estén pasando correctamente los intents/entities existentes.
+
+## Recursos Adicionales
+
+- [Arquitectura del Sistema Generativo](/docs/Reforestacion/ArquitecturaGenerativa)
+- [Modelos Generativos](/docs/Reforestacion/ModelosGenerativos)
+- [Guía de Inicio Rápido](/docs/Reforestacion/GuiaInicioReforestacion)
+
+---
+
+:::tip Versión
+Esta documentación es para TreeFlow v0.4 con pipeline de 6 fases.
+:::

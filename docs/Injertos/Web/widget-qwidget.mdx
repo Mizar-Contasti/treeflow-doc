@@ -1,0 +1,559 @@
+---
+sidebar_position: 1
+---
+
+# 🎨 Widget Web (QWidget)
+
+El Widget Web de TreeFlow, también conocido como **QWidget**, es un componente embebible que permite integrar tu chatbot en cualquier sitio web con solo 2 líneas de código.
+
+{/* ![QWidget Demo](/img/qwidget-demo-placeholder.svg) */}
+
+## Características Principales
+
+### ✅ Integración Ultra Simple
+Solo 2 líneas de código HTML para integrar el widget completo.
+
+### ✅ Web Component Nativo
+Construido como Web Component con Shadow DOM para aislamiento de estilos.
+
+### ✅ CDN Global
+Disponible vía jsdelivr sin necesidad de descargar archivos.
+
+### ✅ Totalmente Responsive
+Se adapta automáticamente a dispositivos móviles y desktop.
+
+### ✅ Personalizable
+Configura colores, título, posición y más mediante atributos HTML.
+
+### ✅ Ligero
+Solo 20KB optimizado para carga rápida.
+
+## Instalación Rápida
+
+### Paso 1: Agregar el Script
+
+Agrega esta línea en el `<head>` o antes del cierre de `</body>`:
+
+```html
+<script src="https://cdn.jsdelivr.net/gh/Mizar-Contasti/treeflow-web-widget@main/dist/treeflow-widget.js"></script>
+```
+
+### Paso 2: Agregar el Widget
+
+Agrega el componente donde quieras que aparezca:
+
+```html
+<treeflow-widget 
+  endpoint="https://tu-backend.com/message"
+  tree-id="tu-tree-id"
+  title="Mi Asistente">
+</treeflow-widget>
+```
+
+¡Listo! Tu chatbot está funcionando.
+
+{/* ![QWidget Setup](/img/qwidget-setup-placeholder.svg) */}
+
+## Ejemplo Completo
+
+```html
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Mi Sitio con TreeFlow</title>
+  
+  <!-- TreeFlow Widget -->
+  <script src="https://cdn.jsdelivr.net/gh/Mizar-Contasti/treeflow-web-widget@main/dist/treeflow-widget.js"></script>
+</head>
+<body>
+  <h1>Bienvenido a mi sitio</h1>
+  <p>Contenido de tu página...</p>
+  
+  <!-- Widget de TreeFlow -->
+  <treeflow-widget 
+    endpoint="https://api.mibot.com/message"
+    tree-id="6c295eca-5a9f-4588-b1db-1cf5c05f05ee"
+    title="Asistente Virtual"
+    primary-color="#E4572E"
+    position="bottom-right">
+  </treeflow-widget>
+</body>
+</html>
+```
+
+## Configuración
+
+### Atributos Disponibles
+
+#### `endpoint` (Requerido)
+URL del endpoint de tu backend TreeFlow.
+
+```html
+<treeflow-widget 
+  endpoint="https://api.mibot.com/message">
+</treeflow-widget>
+```
+
+#### `tree-id` (Requerido)
+ID del árbol (bot) que quieres usar.
+
+```html
+<treeflow-widget 
+  tree-id="6c295eca-5a9f-4588-b1db-1cf5c05f05ee">
+</treeflow-widget>
+```
+
+#### `title` (Opcional)
+Título que aparece en el header del chat.
+
+```html
+<treeflow-widget 
+  title="Soporte Técnico">
+</treeflow-widget>
+```
+
+**Por defecto**: "Asistente Virtual"
+
+#### `primary-color` (Opcional)
+Color principal del widget (botón y header).
+
+```html
+<treeflow-widget 
+  primary-color="#E4572E">
+</treeflow-widget>
+```
+
+**Por defecto**: "#E4572E" (naranja TreeFlow)
+
+#### `position` (Opcional)
+Posición del botón flotante.
+
+```html
+<treeflow-widget 
+  position="bottom-right">
+</treeflow-widget>
+```
+
+**Opciones**:
+- `bottom-right` (por defecto)
+- `bottom-left`
+- `top-right`
+- `top-left`
+
+#### `welcome-message` (Opcional)
+Mensaje de bienvenida inicial.
+
+```html
+<treeflow-widget 
+  welcome-message="¡Hola! ¿En qué puedo ayudarte hoy?">
+</treeflow-widget>
+```
+
+**Por defecto**: "¡Hola! ¿En qué puedo ayudarte?"
+
+#### `placeholder` (Opcional)
+Placeholder del input de texto.
+
+```html
+<treeflow-widget 
+  placeholder="Escribe tu mensaje aquí...">
+</treeflow-widget>
+```
+
+**Por defecto**: "Escribe un mensaje..."
+
+### Ejemplo con Todas las Opciones
+
+```html
+<treeflow-widget 
+  endpoint="https://api.mibot.com/message"
+  tree-id="6c295eca-5a9f-4588-b1db-1cf5c05f05ee"
+  title="Soporte 24/7"
+  primary-color="#2563EB"
+  position="bottom-left"
+  welcome-message="¡Bienvenido! Estoy aquí para ayudarte."
+  placeholder="¿Cómo puedo ayudarte?">
+</treeflow-widget>
+```
+
+## API del Backend
+
+El widget se comunica con tu backend mediante el endpoint `/message`.
+
+### Request
+
+```json
+POST /message
+Content-Type: application/json
+
+{
+  "type": "text",
+  "value": "Hola, necesito ayuda",
+  "tree_id": "6c295eca-5a9f-4588-b1db-1cf5c05f05ee",
+  "session_id": "uuid-generado-automaticamente"
+}
+```
+
+### Response
+
+```json
+{
+  "response": "¡Hola! Con gusto te ayudo. ¿Qué necesitas?",
+  "suggestions": ["Ver productos", "Hablar con soporte", "Rastrear pedido"],
+  "session_id": "uuid-generado-automaticamente"
+}
+```
+
+### Campos de Response
+
+#### `response` (Requerido)
+Texto de respuesta del bot.
+
+#### `suggestions` (Opcional)
+Array de sugerencias que se muestran como chips interactivos.
+
+#### `session_id` (Opcional)
+ID de sesión para mantener el contexto de la conversación.
+
+## Características Avanzadas
+
+### Sugerencias Interactivas
+
+El widget muestra sugerencias como chips clicables:
+
+```json
+{
+  "response": "¿En qué puedo ayudarte?",
+  "suggestions": [
+    "Ver productos",
+    "Hablar con soporte",
+    "Rastrear mi pedido"
+  ]
+}
+```
+
+{/* ![QWidget Suggestions](/img/qwidget-suggestions-placeholder.svg) */}
+
+### Indicador de Escritura
+
+Muestra automáticamente "Escribiendo..." mientras espera respuesta del backend.
+
+### Sesiones Persistentes
+
+El widget genera y mantiene un `session_id` único por usuario para mantener el contexto.
+
+### Scroll Automático
+
+Se desplaza automáticamente al último mensaje.
+
+### Responsive Design
+
+Se adapta automáticamente a:
+- Desktop (ventana completa)
+- Tablet (ventana mediana)
+- Móvil (pantalla completa)
+
+## Control Programático
+
+### Abrir/Cerrar el Widget
+
+```javascript
+// Obtener referencia al widget
+const widget = document.querySelector('treeflow-widget');
+
+// Abrir el chat
+widget.open();
+
+// Cerrar el chat
+widget.close();
+
+// Toggle (abrir/cerrar)
+widget.toggle();
+```
+
+### Enviar Mensaje Programáticamente
+
+```javascript
+const widget = document.querySelector('treeflow-widget');
+
+// Enviar mensaje
+widget.sendMessage('Hola desde JavaScript');
+```
+
+### Escuchar Eventos
+
+```javascript
+const widget = document.querySelector('treeflow-widget');
+
+// Evento cuando se abre el chat
+widget.addEventListener('open', () => {
+  console.log('Chat abierto');
+});
+
+// Evento cuando se cierra el chat
+widget.addEventListener('close', () => {
+  console.log('Chat cerrado');
+});
+
+// Evento cuando se envía un mensaje
+widget.addEventListener('message-sent', (event) => {
+  console.log('Mensaje enviado:', event.detail.message);
+});
+
+// Evento cuando se recibe una respuesta
+widget.addEventListener('message-received', (event) => {
+  console.log('Respuesta recibida:', event.detail.response);
+});
+```
+
+## Personalización Avanzada
+
+### CSS Custom Properties
+
+Puedes personalizar aún más el widget con CSS:
+
+```css
+treeflow-widget {
+  --primary-color: #E4572E;
+  --text-color: #333333;
+  --background-color: #FFFFFF;
+  --user-message-bg: #E4572E;
+  --bot-message-bg: #F3F4F6;
+  --border-radius: 12px;
+  --font-family: 'Inter', sans-serif;
+}
+```
+
+### Ejemplo de Personalización
+
+```html
+<style>
+  treeflow-widget {
+    --primary-color: #2563EB;
+    --user-message-bg: #2563EB;
+    --bot-message-bg: #EFF6FF;
+    --border-radius: 16px;
+    --font-family: 'Poppins', sans-serif;
+  }
+</style>
+
+<treeflow-widget 
+  endpoint="https://api.mibot.com/message"
+  tree-id="6c295eca-5a9f-4588-b1db-1cf5c05f05ee">
+</treeflow-widget>
+```
+
+## Integración con Frameworks
+
+### React
+
+```jsx
+import { useEffect, useRef } from 'react';
+
+function App() {
+  const widgetRef = useRef(null);
+  
+  useEffect(() => {
+    // Cargar el script
+    const script = document.createElement('script');
+    script.src = 'https://cdn.jsdelivr.net/gh/Mizar-Contasti/treeflow-web-widget@main/dist/treeflow-widget.js';
+    document.head.appendChild(script);
+    
+    return () => {
+      document.head.removeChild(script);
+    };
+  }, []);
+  
+  return (
+    <div>
+      <h1>Mi App React</h1>
+      <treeflow-widget 
+        ref={widgetRef}
+        endpoint="https://api.mibot.com/message"
+        tree-id="6c295eca-5a9f-4588-b1db-1cf5c05f05ee"
+        title="Asistente">
+      </treeflow-widget>
+    </div>
+  );
+}
+```
+
+### Vue.js
+
+```vue
+<template>
+  <div>
+    <h1>Mi App Vue</h1>
+    <treeflow-widget 
+      ref="widget"
+      endpoint="https://api.mibot.com/message"
+      tree-id="6c295eca-5a9f-4588-b1db-1cf5c05f05ee"
+      title="Asistente">
+    </treeflow-widget>
+  </div>
+</template>
+
+<script>
+export default {
+  mounted() {
+    // Cargar el script
+    const script = document.createElement('script');
+    script.src = 'https://cdn.jsdelivr.net/gh/Mizar-Contasti/treeflow-web-widget@main/dist/treeflow-widget.js';
+    document.head.appendChild(script);
+  }
+}
+</script>
+```
+
+### Angular
+
+```typescript
+import { Component, OnInit } from '@angular/core';
+
+@Component({
+  selector: 'app-root',
+  template: `
+    <h1>Mi App Angular</h1>
+    <treeflow-widget 
+      endpoint="https://api.mibot.com/message"
+      tree-id="6c295eca-5a9f-4588-b1db-1cf5c05f05ee"
+      title="Asistente">
+    </treeflow-widget>
+  `
+})
+export class AppComponent implements OnInit {
+  ngOnInit() {
+    // Cargar el script
+    const script = document.createElement('script');
+    script.src = 'https://cdn.jsdelivr.net/gh/Mizar-Contasti/treeflow-web-widget@main/dist/treeflow-widget.js';
+    document.head.appendChild(script);
+  }
+}
+```
+
+## Troubleshooting
+
+### Problema: Widget no aparece
+
+**Solución**: Verifica que el script esté cargado correctamente.
+
+```javascript
+// Verificar en consola
+console.log(customElements.get('treeflow-widget'));
+// Debe retornar la clase del componente
+```
+
+### Problema: Error de CORS
+
+**Solución**: Configura CORS en tu backend.
+
+```python
+# FastAPI
+from fastapi.middleware.cors import CORSMiddleware
+
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=["*"],  # En producción, especifica dominios
+    allow_methods=["*"],
+    allow_headers=["*"],
+)
+```
+
+### Problema: Sesiones no persisten
+
+**Solución**: Verifica que tu backend retorne el mismo `session_id`.
+
+```json
+{
+  "response": "Respuesta del bot",
+  "session_id": "mismo-id-recibido"
+}
+```
+
+### Problema: Estilos no se aplican
+
+**Solución**: Usa CSS Custom Properties dentro del Shadow DOM.
+
+```css
+/* ❌ No funciona */
+.chat-message {
+  color: red;
+}
+
+/* ✅ Funciona */
+treeflow-widget {
+  --text-color: red;
+}
+```
+
+## Mejores Prácticas
+
+### ✅ Usa HTTPS
+
+Siempre usa HTTPS para tu endpoint en producción.
+
+```html
+<!-- ❌ Evita -->
+<treeflow-widget endpoint="http://api.mibot.com/message">
+
+<!-- ✅ Mejor -->
+<treeflow-widget endpoint="https://api.mibot.com/message">
+```
+
+### ✅ Maneja Errores
+
+Implementa manejo de errores en tu backend.
+
+```python
+@app.post("/message")
+async def handle_message(request: MessageRequest):
+    try:
+        response = process_message(request)
+        return response
+    except Exception as e:
+        return {
+            "response": "Lo siento, ocurrió un error. Por favor intenta de nuevo.",
+            "error": str(e)
+        }
+```
+
+### ✅ Optimiza Respuestas
+
+Mantén las respuestas concisas y claras.
+
+```json
+{
+  "response": "Tu pedido #12345 está en camino. Llegará mañana entre 9am-5pm.",
+  "suggestions": ["Rastrear pedido", "Cambiar dirección", "Hablar con soporte"]
+}
+```
+
+### ✅ Usa Sugerencias
+
+Guía al usuario con sugerencias relevantes.
+
+```json
+{
+  "response": "¿En qué más puedo ayudarte?",
+  "suggestions": [
+    "Ver productos",
+    "Estado de mi pedido",
+    "Política de devoluciones"
+  ]
+}
+```
+
+## Recursos Adicionales
+
+- [Repositorio en GitHub](https://github.com/Mizar-Contasti/treeflow-web-widget)
+- [Setup Web](/docs/Injertos/Web/setup)
+- [Personalización](/docs/Injertos/Web/personalizacion)
+- [Eventos](/docs/Injertos/Web/eventos)
+
+---
+
+:::tip Versión
+Esta documentación es para TreeFlow v0.4 con QWidget mejorado.
+:::

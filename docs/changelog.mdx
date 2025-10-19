@@ -7,33 +7,128 @@ sidebar_position: 12
 > Para una versión más detallada del historial de cambios con todas las características y mejoras, consulta el [Historial de Cambios Detallado](/docs/Misc/HistorialDetallado).
 
 
-## 📌 Cambios Pendientes
+## 🎉 Versión Actual
 
-<details>
-<summary><strong>Versión 0.4 (Futuro)</strong></summary>
+<details open>
+<summary><strong>V-0.4 (10/2025)</strong></summary>
 
-> -  **Técnicas Avanzadas de NLP para Trackeo**
-> -  **Mejoras a la UI**
-> -  **Poder acceder al panel sin necesidad de tener agente, un agente no quita la visibilidad al panel**
-> -  **Despliegue a produccion estable para pruebas**
-> -  **Secciones de videos para la primera iteracion en produccion**
-> -  **Poder seleccionar entre varios modelos para la reforestacion**
-> -  **Poder meter tus propias api keys para el modelo de reforestacion**
-> -  **Injertos Adicionales** (WhatsApp, Telegram, Telefonía, SMS, Email, Facebook)
-> -  **Análisis de Sentimientos**
-> -  **Métricas Avanzadas y Analytics**
-> -  **Importacion, exportacion y restauracion de arboles**
-> -  **Migracion de esquemas json a bases de datos (pendiente discutir)**
-> -  **Anadir imagenes para la documentacion en secciones donde se muestra la plataforma**
-> -  **Otros idiomas para la plataforma**
-> -  **Otros idiomas para los modelos de nlp ner**
+### 🤖 Reforestación Mejorada (IA Generativa)
+> -  **Pipeline de 6 Fases**: Proceso más granular y preciso para generación de contenido
+>    - Fase 1: Abonar (Expansión Conversacional)
+>    - Fase 2: Análisis Conversacional
+>    - Fase 3: Estructura Básica
+>    - Fase 4: Enriquecimiento con Sinónimos
+>    - Fase 5: Estructuración Semántica
+>    - Fase 6: Aplicación al Bot
+> -  **Formato Estándar**: Consistencia en todas las fases con `generated_text` + metadata
+> -  **Modelos Actualizados**: Groq con modelos activos (llama-3.1-8b-instant, mixtral-8x7b-32768, etc.)
+> -  **Frameworks Modulares**: Sistema extensible de generación (no_framework, langgraph)
+> -  **Contexto Inteligente**: Considera intents y entities existentes del bot antes de generar
+> -  **Funcionamiento Interno**: Procesamiento por fases con validación y logging detallado
+
+### 🎨 Experiencia de Usuario
+> -  **Modo Oscuro**: Tema dark mode completo en toda la aplicación
+> -  **Dashboard Mejorado**: Vista general con métricas y accesos rápidos
+> -  **UI con Tabs**: Navegación por pestañas para mejor organización
+> -  **Sistema de Caché**: Navegación sin parpadeos con caché inteligente de 60 segundos
+> -  **Precarga Automática**: Datos de workspace y usuarios disponibles instantáneamente
+> -  **Invalidación Selectiva**: Refresco inteligente solo de datos modificados
+> -  **Permisos Granulares**: Control de acceso por rol (admin, desarrollador, viewer)
+> -  **Navegación Fluida**: Sin necesidad de recargar página (F5)
+
+### 🌿 Entidades del Sistema (Hojas)
+> -  **@sys.any**: Captura cualquier texto
+> -  **@sys.number**: Números enteros y decimales
+> -  **@sys.date**: Fechas en múltiples formatos
+> -  **@sys.time**: Horas y tiempos
+> -  **@sys.email**: Direcciones de correo electrónico
+> -  **@sys.phone**: Números telefónicos
+> -  **@sys.url**: URLs y enlaces web
+> -  **@sys.currency**: Monedas y cantidades monetarias
+> -  **@sys.percentage**: Porcentajes
+> -  **@sys.ordinal**: Números ordinales (primero, segundo, etc.)
+
+### 🧪 Fertilizantes (Webhooks)
+> -  **Webhooks Avanzados**: Sistema completo de webhooks con testing en tiempo real
+> -  **Tools Integration**: Herramientas integradas para debugging y monitoreo
+> -  **Testing en Vivo**: Prueba webhooks directamente desde la interfaz
+> -  **Logs Detallados**: Registro completo de requests y responses
+> -  **Retry Logic**: Reintentos automáticos en caso de fallo
+
+### 🔌 Integraciones
+> -  **Widget Web (QWidget)**: Integración embebible en 2 líneas de código
+> -  **CDN Global**: Disponible vía jsdelivr para uso inmediato
+> -  **Web Component**: Shadow DOM con estilos aislados
+> -  **API Nativa**: Endpoint `/message` compatible con TreeFlow
+
+### 🛠️ Desarrollo
+> -  **LocalTunnel**: Exposición de desarrollo local a internet con URLs públicas
+> -  **Bypass Automático**: Headers para evitar páginas de autenticación
+> -  **Docker Optimizado**: Configuración mejorada para desarrollo
 
 </details>
 
-## 🎉 Versiones Lanzadas
+## 📌 Cambios Pendientes
 
-<details open>
-<summary><strong>V-0.3 (08/2025) - Versión Actual</strong></summary>
+<details>
+<summary><strong>Versión 0.5 (Futuro)</strong></summary>
+
+### 📊 Analítica y Monitoreo
+> -  **Analítica de Flujos Conversacionales**: Visualización de patrones de conversación
+> -  **Análisis de Sentimientos**: Detección automática de emociones en conversaciones
+> -  **Métricas Avanzadas**: Dashboard con KPIs y estadísticas detalladas
+> -  **Logs de Fertilizantes**: Historial completo de webhooks ejecutados
+
+### 📤 Importación y Exportación
+> -  **Exportación de Agentes**: Descarga completa de configuración del bot
+> -  **Importación de Agentes**: Carga de bots desde archivos
+> -  **Backup Automático**: Respaldos programados de árboles
+
+### 🔌 Integraciones
+> -  **WhatsApp Business API**: Integración nativa con WhatsApp
+> -  **Telegram Bot API**: Soporte completo para Telegram
+> -  **Telefonía (VoIP)**: Integración con sistemas de telefonía
+> -  **SMS/MMS**: Envío y recepción de mensajes de texto
+> -  **Email Automatizado**: Respuestas automáticas por correo
+
+### 🎓 Recursos Educativos
+> -  **Secciones de Videos**: Tutoriales en video para cada funcionalidad
+> -  **Ejemplos Interactivos**: Demos en vivo de casos de uso
+> -  **Plantillas de Bots**: Bots pre-configurados para diferentes industrias
+
+</details>
+
+<details>
+<summary><strong>Versión 0.6 (Futuro)</strong></summary>
+
+### 🌍 Multilenguaje
+> -  **Interfaz en Múltiples Idiomas**: Soporte para inglés, portugués, italiano y francés
+> -  **Modelos NLP Multilenguaje**: Procesamiento en diferentes idiomas
+> -  **Traducción Automática**: Traducción de respuestas del bot
+
+### 📜 Historial y Versionado
+> -  **Historial de Cambios**: Registro completo de modificaciones al bot
+> -  **Control de Versiones**: Versionado de árboles con rollback
+> -  **Comparación de Versiones**: Diff visual entre versiones
+
+### 🔄 Reforestación Avanzada
+> -  **Particiones en Aplicaciones**: Aplicar cambios de forma incremental
+> -  **Preview por Sección**: Vista previa de cambios específicos
+> -  **Rollback Selectivo**: Deshacer cambios específicos sin afectar otros
+
+### 🔐 Seguridad y Compliance
+> -  **Autenticación de Dos Factores**: 2FA para mayor seguridad
+> -  **Auditoría Completa**: Logs de todas las acciones de usuarios
+> -  **GDPR Compliance**: Herramientas para cumplimiento de privacidad
+
+</details>
+
+## 📋 Versiones Anteriores
+
+> Para información detallada de cada versión, consulta el [Historial de Cambios Detallado](/docs/Misc/HistorialDetallado).
+
+<details>
+<summary><strong>V-0.3 (08/2025)</strong></summary>
 
 > -  **Inteligencia Artificial Generativa**: Sistema de Reforestación para generación automática de Hojas e Intenciones
 > -  **Backend Generativo**: Servicio independiente con integración Groq (llama-3.3-70b-versatile)
@@ -42,10 +137,6 @@ sidebar_position: 12
 > -  **Historial Completo**: Registro de todas las sesiones de cambios generativos
 
 </details>
-
-## 📋 Versiones Anteriores
-
-> Para información detallada de cada versión, consulta el [Historial de Cambios Detallado](/docs/Misc/HistorialDetallado).
 
 - **V-0.2 (07/2025)**: Sistema de Workspaces, Fertilizantes, Injertos, Herramientas de Análisis
 - **V-0.1 (06/2025)**: Versión inicial con funcionalidades básicas de gestión conversacional

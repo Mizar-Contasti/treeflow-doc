@@ -2,40 +2,173 @@
 sidebar_position: 1
 ---
 
-# Fertilizantes
+# 🧪 Fertilizantes
 
-Los **Fertilizantes** en TreeFlow hacen referencia a webhooks que se ejecutan cuando tu árbol conversacional procesa mensajes, permitiendo integrar sistemas externos y enriquecer las conversaciones.
+Los **Fertilizantes** en TreeFlow son webhooks especializados que se ejecutan cuando tu árbol conversacional procesa mensajes, permitiendo integrar sistemas externos y enriquecer las conversaciones con datos y funcionalidades adicionales.
 
-## Introducción
+## ¿Qué son los Fertilizantes?
 
-Los Fertilizantes te permiten conectar tu árbol con APIs y servicios externos para:
+Los Fertilizantes son el mecanismo de TreeFlow para conectar tu chatbot con el mundo exterior. Funcionan como "nutrientes" que enriquecen las conversaciones con:
 
-- **Obtener información** de bases de datos
-- **Procesar datos** del usuario
-- **Integrar con CRM** y sistemas empresariales
-- **Enviar notificaciones** a otros servicios
-- **Validar información** en tiempo real
+- **Datos externos**: Información de CRM, bases de datos, APIs
+- **Validaciones**: Verificación de datos en tiempo real
+- **Acciones**: Envío de notificaciones, creación de tickets, etc.
+- **Integraciones**: Conexión con servicios empresariales
+
+### Diferencia con Injertos
+
+Es importante entender la diferencia:
+
+| Concepto | Propósito | Ejemplo |
+|----------|-----------|---------|
+| **Injertos** | Canales de comunicación | Widget Web, WhatsApp, Telegram |
+| **Fertilizantes** | Integraciones con APIs | CRM, validadores, notificaciones |
+
+**Analogía**: Los Injertos son las "bocas y oídos" del bot (cómo habla con usuarios), los Fertilizantes son el "cerebro externo" (cómo obtiene información y ejecuta acciones).
 
 ## Tipos de Fertilizantes
 
-### Fertilizante Principal
+TreeFlow ofrece dos tipos de Fertilizantes con propósitos diferentes:
 
-El **Fertilizante Principal** es el webhook primario que procesará **todas** las respuestas de tu árbol:
+### 🌟 Fertilizante Principal
 
-- **Único por workspace**: Solo puedes tener uno activo
-- **Procesamiento global**: Se ejecuta en cada interacción
-- **Toggle de activación**: Puedes habilitarlo/deshabilitarlo fácilmente
-- **Autenticación Basic Auth**: Soporte para credenciales
-- **Timeout configurable**: Control del tiempo límite de respuesta
+El **Fertilizante Principal** es el webhook global que procesa **todas** las interacciones del workspace.
 
-### Fertilizantes Secundarios
+#### Características:
+- **Único por workspace**: Solo uno puede estar activo
+- **Procesamiento global**: Se ejecuta en cada respuesta del bot
+- **Toggle de activación**: Habilitar/deshabilitar fácilmente
+- **Autenticación Basic Auth**: Soporte para usuario/contraseña
+- **Timeout configurable**: Control del tiempo límite (default: 30000ms)
 
-Los **Fertilizantes Secundarios** son webhooks especializados para integraciones específicas:
+#### Cuándo usar:
+- Logging centralizado de todas las conversaciones
+- Analytics global del workspace
+- Integración con CRM para todas las interacciones
+- Procesamiento uniforme de respuestas
 
-- **Múltiples endpoints**: Puedes crear tantos como necesites
+#### Fases de Ejecución:
+
+El Fertilizante Principal se ejecuta en **2 fases** durante el procesamiento de un mensaje:
+
+**Fase 1 - Pre-procesamiento**:
+- Se ejecuta **antes** de que el bot genere la respuesta
+- Recibe el mensaje del usuario y contexto
+- Puede modificar o enriquecer el contexto
+- Útil para validaciones previas
+
+**Fase 2 - Post-procesamiento**:
+- Se ejecuta **después** de que el bot genera la respuesta
+- Recibe la respuesta completa del bot
+- Puede modificar la respuesta antes de enviarla al usuario
+- Útil para logging y analytics
+
+#### Estructura del Request:
+
+```json
+{
+  "phase": "pre" | "post",
+  "message": {
+    "type": "text",
+    "value": "Mensaje del usuario",
+    "session_id": "abc-123"
+  },
+  "tree_id": "tree-uuid",
+  "workspace_id": "workspace-uuid",
+  "context": {
+    "active_contexts": ["contexto1"],
+    "parameters": {"param1": "valor1"}
+  },
+  "response": {
+    // Solo en fase "post"
+    "text": "Respuesta del bot",
+    "branch_id": "branch-uuid",
+    "confidence": 0.95
+  }
+}
+```
+
+#### Estructura del Response Esperado:
+
+```json
+{
+  "success": true,
+  "modified_response": "Respuesta modificada (opcional)",
+  "additional_context": {
+    "key": "value"
+  },
+  "metadata": {
+    "processed_at": "2025-10-18T22:00:00Z"
+  }
+}
+```
+
+### 🔧 Fertilizantes Adicionales
+
+Los **Fertilizantes Adicionales** son webhooks especializados para integraciones específicas que se ejecutan **bajo demanda** desde las Ramas.
+
+#### Características:
+- **Múltiples endpoints**: Crea tantos como necesites
 - **Métodos HTTP flexibles**: GET, POST, PUT, PATCH, DELETE
-- **Configuración individual**: Cada uno con su propia configuración
+- **Configuración individual**: Cada uno con su propia config
 - **Testing independiente**: Prueba cada uno por separado
+- **Headers personalizados**: Agrega headers HTTP específicos
+- **Body templates**: Usa variables dinámicas en el body
+
+#### Cuándo usar:
+- Validación de datos específicos (email, teléfono, etc.)
+- Consulta de información externa (stock, precios, disponibilidad)
+- Acciones específicas (crear ticket, enviar email, etc.)
+- Integraciones con APIs de terceros
+
+#### Ejecución desde Ramas:
+
+Los Fertilizantes Adicionales se ejecutan cuando una Rama los invoca explícitamente:
+
+```json
+{
+  "branch": {
+    "name": "consultar_stock",
+    "webhook": {
+      "fertilizer_id": "fertilizer-uuid",
+      "execute_on": "match",
+      "parameters": {
+        "product_id": "{producto}",
+        "quantity": "{cantidad}"
+      }
+    }
+  }
+}
+```
+
+#### Estructura del Request:
+
+```json
+{
+  "fertilizer_id": "fertilizer-uuid",
+  "branch_id": "branch-uuid",
+  "parameters": {
+    "producto": "laptop-123",
+    "cantidad": "2"
+  },
+  "user_message": "Quiero 2 laptops",
+  "session_id": "abc-123"
+}
+```
+
+#### Estructura del Response Esperado:
+
+```json
+{
+  "success": true,
+  "data": {
+    "stock_available": true,
+    "quantity": 15,
+    "price": 999.99
+  },
+  "message": "Hay 15 unidades disponibles"
+}
+```
 
 ## Configuración
 
@@ -61,22 +194,232 @@ Los **Fertilizantes Secundarios** son webhooks especializados para integraciones
 4. Establece el timeout (por defecto 30000ms)
 5. Guarda la configuración
 
-### Fertilizantes Secundarios
+### Fertilizantes Adicionales
 
 **Configuración:**
 - **Nombre**: Identificador del fertilizante
 - **Descripción**: Propósito del webhook
 - **URL**: Endpoint del webhook
 - **Método HTTP**: GET, POST, PUT, PATCH, DELETE
+- **Headers**: Headers HTTP personalizados (opcional)
+- **Body Template**: Template del body con variables (opcional)
 - **Timeout**: Tiempo límite en milisegundos
 
 **Pasos:**
 1. Haz clic en "Crear Fertilizante"
 2. Completa nombre y descripción
 3. Configura URL y método HTTP
-4. Establece el timeout
-5. Guarda la configuración
-6. Usa el botón "Test" para probar individualmente
+4. Agrega headers si es necesario
+5. Define body template con variables
+6. Establece el timeout
+7. Guarda la configuración
+8. Usa el botón "Test" para probar individualmente
+
+## Herramientas de Testing y Debugging
+
+TreeFlow incluye herramientas avanzadas para facilitar el desarrollo y debugging de Fertilizantes:
+
+### 🧪 Testing en Vivo
+
+Cada Fertilizante Adicional tiene un botón "Test" que permite:
+
+- **Simulación de datos**: Prueba con datos de ejemplo
+- **Vista previa del request**: Ve exactamente qué se enviará
+- **Respuesta en tiempo real**: Observa la respuesta del webhook
+- **Validación de estructura**: Verifica que el formato sea correcto
+- **Códigos de estado HTTP**: Identifica errores rápidamente
+
+### 📊 Logs Detallados
+
+El sistema registra automáticamente:
+
+- **Timestamp preciso**: Cuándo se ejecutó el webhook
+- **Request completo**: Headers, body, método
+- **Response completo**: Status code, headers, body
+- **Tiempo de respuesta**: Duración de la ejecución
+- **Errores capturados**: Stack traces y mensajes de error
+
+### 🔄 Retry Logic
+
+Sistema de reintentos automáticos:
+
+- **Backoff exponencial**: Espera progresivamente mayor entre reintentos
+- **Máximo configurable**: Define cuántos reintentos permitir
+- **Circuit breaker**: Protección contra servicios caídos
+- **Notificaciones**: Alertas cuando fallan persistentemente
+
+## Casos de Uso Comunes
+
+### 📈 CRM Integration
+
+**Fertilizante Principal** para enviar todos los leads:
+
+```json
+{
+  "name": "CRM Sync",
+  "url": "https://api.crm.com/leads",
+  "method": "POST",
+  "headers": {
+    "Authorization": "Bearer YOUR_TOKEN",
+    "Content-Type": "application/json"
+  },
+  "body_template": {
+    "lead": {
+      "name": "{nombre}",
+      "email": "{email}",
+      "phone": "{telefono}",
+      "source": "chatbot",
+      "conversation_id": "{session_id}"
+    }
+  }
+}
+```
+
+### ✅ Validación de Email
+
+**Fertilizante Adicional** para validar emails:
+
+```json
+{
+  "name": "Email Validator",
+  "url": "https://api.emailvalidator.com/validate",
+  "method": "GET",
+  "parameters": {
+    "email": "{email}"
+  }
+}
+```
+
+### 📦 Consulta de Stock
+
+**Fertilizante Adicional** para verificar disponibilidad:
+
+```json
+{
+  "name": "Stock Checker",
+  "url": "https://api.inventory.com/stock/{product_id}",
+  "method": "GET",
+  "headers": {
+    "X-API-Key": "YOUR_API_KEY"
+  }
+}
+```
+
+### 📧 Notificaciones por Email
+
+**Fertilizante Adicional** para enviar emails:
+
+```json
+{
+  "name": "Email Notifier",
+  "url": "https://api.sendgrid.com/v3/mail/send",
+  "method": "POST",
+  "headers": {
+    "Authorization": "Bearer YOUR_SENDGRID_KEY",
+    "Content-Type": "application/json"
+  },
+  "body_template": {
+    "personalizations": [{
+      "to": [{"email": "{email_destino}"}],
+      "subject": "Nueva consulta desde chatbot"
+    }],
+    "from": {"email": "bot@tuempresa.com"},
+    "content": [{
+      "type": "text/plain",
+      "value": "{mensaje}"
+    }]
+  }
+}
+```
+
+## Mejores Prácticas
+
+### ✅ Seguridad
+
+- **Usa HTTPS**: Siempre endpoints seguros
+- **Autenticación**: Implementa API keys o tokens
+- **Validación**: Verifica datos antes de enviar
+- **Rate limiting**: Protege tus APIs de sobrecarga
+
+### ✅ Performance
+
+- **Timeouts razonables**: No más de 30 segundos
+- **Respuestas ligeras**: Solo datos necesarios
+- **Caché cuando sea posible**: Reduce llamadas repetidas
+- **Async cuando sea apropiado**: No bloquees la conversación
+
+### ✅ Mantenibilidad
+
+- **Nombres descriptivos**: Identifica fácilmente cada fertilizante
+- **Documentación**: Describe el propósito de cada uno
+- **Versionado**: Mantén versiones de tus APIs
+- **Monitoreo**: Revisa logs regularmente
+
+### ✅ Testing
+
+- **Prueba en desarrollo**: Usa el botón Test antes de producción
+- **Datos de ejemplo**: Ten casos de prueba preparados
+- **Manejo de errores**: Verifica qué pasa cuando falla
+- **Validación de respuestas**: Asegura que el formato sea correcto
+
+## Troubleshooting
+
+### Problema: Timeout constante
+
+**Causas posibles:**
+- API externa muy lenta
+- Timeout configurado muy bajo
+- Problemas de red
+
+**Soluciones:**
+- Aumenta el timeout
+- Optimiza la API externa
+- Implementa caché
+- Considera hacer la llamada async
+
+### Problema: Errores 401/403
+
+**Causas posibles:**
+- Credenciales incorrectas
+- Token expirado
+- Permisos insuficientes
+
+**Soluciones:**
+- Verifica usuario/contraseña
+- Renueva el token
+- Revisa permisos en la API externa
+
+### Problema: Response inválido
+
+**Causas posibles:**
+- Formato JSON incorrecto
+- Campos faltantes
+- Tipos de datos incorrectos
+
+**Soluciones:**
+- Valida el JSON con un linter
+- Revisa la documentación de la API
+- Usa el testing en vivo para depurar
+
+## Comparación: Principal vs Adicionales
+
+| Característica | Fertilizante Principal | Fertilizantes Adicionales |
+|----------------|------------------------|---------------------------|
+| **Cantidad** | Único por workspace | Múltiples permitidos |
+| **Ejecución** | Automática (todas las interacciones) | Bajo demanda (desde Ramas) |
+| **Fases** | Pre y Post procesamiento | Una sola ejecución |
+| **Uso principal** | Logging, analytics global | Integraciones específicas |
+| **Configuración** | Toggle on/off | Individual por fertilizante |
+| **Testing** | En producción | Botón Test individual |
+
+## Próximos Pasos
+
+Una vez que domines los Fertilizantes, puedes:
+
+1. **Explorar Injertos**: Aprende a conectar diferentes canales
+2. **Configurar Ramas**: Invoca Fertilizantes desde tus intenciones
+3. **Implementar Analytics**: Usa el Fertilizante Principal para tracking
+4. **Integrar CRM**: Conecta con Salesforce, HubSpot, etc.
 
 
 

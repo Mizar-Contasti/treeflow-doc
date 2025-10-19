@@ -289,6 +289,34 @@ Una vez que domines los conceptos básicos de Árboles, Ramas y Hojas, estos té
 - **Notificaciones**: Alertas por email o Slack
 - **Analytics**: Tracking de conversaciones
 
+### 🤖 Reforestación
+
+**Definición**: La Reforestación es el **sistema de IA generativa** que permite crear y expandir automáticamente Ramas (intenciones) y Hojas (entidades) usando inteligencia artificial.
+
+**Analogía**: Si crear un árbol manualmente es como plantar semillas una por una, la Reforestación es como usar un dron que planta cientos de semillas inteligentemente en minutos.
+
+**Características principales**:
+- **Pipeline de 6 Fases**: Proceso progresivo de generación
+- **Modelos LLM**: Powered by Groq (llama-3.1-8b-instant, mixtral-8x7b-32768)
+- **Contexto Inteligente**: Considera el contenido existente del bot
+- **Frameworks Modulares**: Extensible con diferentes métodos de generación
+
+**Fases del Pipeline**:
+1. **Abonar**: Expansión conversacional del prompt
+2. **Análisis**: Identificación de patrones e intenciones
+3. **Estructura**: Construcción básica de componentes
+4. **Enriquecimiento**: Generación de sinónimos (5-8 por valor)
+5. **Serialización**: Estructuración semántica avanzada
+6. **Aplicación**: Conversión a JSON y aplicación al bot
+
+**Cuándo usar Reforestación**:
+- Crear un bot nuevo desde cero
+- Expandir funcionalidades existentes
+- Generar variaciones de frases rápidamente
+- Acelerar el desarrollo conversacional
+
+**Ejemplo**: En lugar de crear manualmente 10 intenciones con 50 variaciones cada una, describes el flujo conversacional en lenguaje natural y la Reforestación genera todo automáticamente en minutos.
+
 :::tip Dominando la Terminología Avanzada
 
 Estos conceptos avanzados trabajan en conjunto con los básicos (Árboles, Ramas, Hojas) para crear experiencias conversacionales completas y conectadas. Dominar esta terminología te permitirá aprovechar al máximo las capacidades de integración de TreeFlow.
@@ -302,6 +330,8 @@ Workspace "E-commerce Bot"
 ├── Árbol "Atención al Cliente"
 │   ├── Rama "consulta_producto"
 │   └── Hoja "nombre_producto"
+├── Reforestación (IA Generativa)
+│   └── Pipeline de 6 Fases → Genera Ramas y Hojas automáticamente
 ├── Injertos (Canales)
 │   ├── Widget Web
 │   ├── WhatsApp Business

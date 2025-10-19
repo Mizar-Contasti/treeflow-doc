@@ -6,63 +6,283 @@ sidebar_position: 99
 
 Este documento proporciona un historial detallado de todas las características, mejoras y correcciones implementadas en cada versión de TreeFlow. Para una visión general más concisa, consulta el [Historial de Cambios general](/docs/changelog).
 
-## Versiones Futuras
-
-<details>
-<summary>
-
-### <strong>Versión 0.4 (Futuro)</strong>   
-
-
-</summary>
-
-#### Técnicas Avanzadas de NLP para Trackeo
-> - ⌛ **Análisis de Sentimientos**
->   - Detección automática de emociones en conversaciones
->   - Clasificación de estado de ánimo del usuario
->   - Adaptación de respuestas según el sentimiento detectado
->
-> - ⌛ **Métricas Avanzadas**
->   - Dashboard de analytics conversacionales
->   - Análisis de patrones de uso
->   - Identificación de puntos de abandono
->   - Métricas de satisfacción del usuario
-
-#### Injertos Adicionales
-> - ⌛ **Canales de Comunicación**
->   - WhatsApp Business API
->   - Telegram Bot API
->   - Telefonía (VoIP)
->   - SMS/MMS
->   - Email automatizado
->   - Facebook Messenger
->
-> - ⌛ **Integraciones Empresariales**
->   - CRM (Salesforce, HubSpot)
->   - Sistemas de tickets (Zendesk, Freshdesk)
->   - Plataformas de e-commerce (Shopify, WooCommerce)
-
-#### Técnicas Avanzadas de NLP para Trackeo
-> - ⌛ **Análisis semántico profundo**
->   - Comprensión avanzada de intenciones
->   - Reconocimiento de entidades complejas
->   - Análisis de sentimiento y emociones
->
-> - ⌛ **Aprendizaje continuo**
->   - Mejora automática basada en interacciones
->   - Adaptación a patrones de usuario
->   - Refinamiento de modelos en tiempo real
-
-</details>
-
 ## Versiones Lanzadas
 
 <details open>
 
+<summary>
+
+### <strong>Versión 0.4 (10/2025) - Versión Actual</strong>
+
+</summary>
+
+#### 🤖 Reforestación Mejorada (IA Generativa)
+
+> - ✅ **Pipeline de 6 Fases**
+>   - **Fase 1 - Abonar**: Expansión conversacional creativa del prompt base (temperatura 0.8)
+>   - **Fase 2 - Análisis Conversacional**: Análisis detallado del flujo con contexto del bot (temperatura 0.4)
+>   - **Fase 3 - Estructura Básica**: Construcción de intenciones y entidades clave-valor (temperatura 0.2)
+>   - **Fase 4 - Enriquecimiento**: Generación de 5-8 sinónimos por entidad (temperatura 0.5)
+>   - **Fase 5 - Estructuración Semántica**: Organización avanzada de componentes (temperatura 0.5)
+>   - **Fase 6 - Aplicación**: Serialización JSON y aplicación al bot (temperatura 0.1)
+>   - Cada fase recibe el output de la anterior para refinamiento progresivo
+>   - Logging detallado en cada fase para debugging
+>
+> - ✅ **Formato Estándar Unificado**
+>   - Campo `generated_text` consistente en todas las fases
+>   - Metadata estructurada con información de fase, modelo y estadísticas
+>   - Validación automática de estructura en cada fase
+>   - Logs consistentes mostrando primeros 300 caracteres del texto generado
+>
+> - ✅ **Modelos Groq Actualizados**
+>   - **llama-3.1-8b-instant**: Modelo por defecto (rápido y eficiente)
+>   - **mixtral-8x7b-32768**: Excelente calidad y balance
+>   - **llama3-70b-8192**: Potente para tareas complejas
+>   - **llama3-8b-8192**: Rápido y eficiente
+>   - **gemma2-9b-it**: Modelo nuevo de Google
+>   - **gemma-7b-it**: Básico pero funcional
+>   - Removido llama-3.1-70b-versatile (descontinuado)
+>
+> - ✅ **Sistema de Frameworks Modulares**
+>   - Arquitectura de plugins para diferentes métodos de generación
+>   - Framework `no_framework`: Método estándar con LLM directo
+>   - Framework `langgraph`: Placeholder para implementación futura
+>   - Registro centralizado de frameworks disponibles
+>   - Validación de requests específica por framework
+>   - Interfaz común para todos los frameworks
+>
+> - ✅ **Contexto Inteligente del Bot**
+>   - Carga automática de intents existentes antes de generar
+>   - Carga automática de entities existentes antes de generar
+>   - Análisis considera el estado actual del bot
+>   - Evita duplicación de contenido existente
+>   - Generación complementaria al contenido actual
+
+#### 🎨 Experiencia de Usuario
+
+> - ✅ **Modo Oscuro Completo**
+>   - Tema dark mode en toda la aplicación
+>   - Paleta de colores optimizada para reducir fatiga visual
+>   - Transición suave entre temas claro y oscuro
+>   - Preferencia guardada por usuario
+>   - Respeta configuración del sistema operativo
+>
+> - ✅ **Dashboard Mejorado**
+>   - Vista general con métricas clave
+>   - Accesos rápidos a funciones principales
+>   - Gráficos de actividad reciente
+>   - Resumen de árboles activos
+>   - Notificaciones y alertas importantes
+>
+> - ✅ **UI con Tabs (Pestañas)**
+>   - Navegación por pestañas para mejor organización
+>   - Tabs para Hojas, Ramas, Funciones, etc.
+>   - Estado persistente de tabs entre navegaciones
+>   - Indicadores visuales de tabs activas
+>   - Mejor aprovechamiento del espacio
+>
+> - ✅ **Sistema de Caché en TreeContext**
+>   - Caché inteligente de 60 segundos para trees, branches y leaves
+>   - Navegación sin parpadeos entre páginas
+>   - Timestamps para control de expiración
+>   - Estados de loading/error por tipo de dato
+>   - Carga automática de branches y leaves al seleccionar árbol
+>
+> - ✅ **Precarga Automática en AuthContext**
+>   - Carga automática de workspaceData después del login
+>   - Carga automática de workspaceUsers después del login
+>   - Datos disponibles instantáneamente al navegar
+>   - Funciones públicas para refrescar datos manualmente
+>   - Consistente con patrón de TreeContext
+>
+> - ✅ **Invalidación Selectiva**
+>   - `invalidateAll()`: Refresca todos los datos del árbol
+>   - `invalidateBranches()`: Refresca solo intenciones
+>   - `invalidateLeaves()`: Refresca solo entidades
+>   - Llamadas automáticas después de crear/editar/eliminar
+>   - Integración con useReforestacion para refrescar después de aplicar cambios
+>
+> - ✅ **Control de Permisos Granular**
+>   - Roles: admin, desarrollador, viewer
+>   - Verificación de permisos en cada página
+>   - Campos deshabilitados para usuarios sin permisos
+>   - Alertas visuales indicando restricciones
+>   - Helper text explicando limitaciones por rol
+>
+> - ✅ **Navegación Fluida**
+>   - Sin necesidad de recargar página (F5)
+>   - Datos persisten en memoria durante navegación
+>   - Transiciones suaves entre páginas
+>   - Estados de loading consistentes
+>   - Manejo de errores robusto
+
+#### 🌿 Entidades del Sistema (Hojas)
+
+> - ✅ **@sys.any**
+>   - Captura cualquier texto sin validación específica
+>   - Útil para respuestas abiertas
+>   - Sin restricciones de formato
+>
+> - ✅ **@sys.number**
+>   - Números enteros y decimales
+>   - Formatos: 123, 123.45, -123
+>   - Validación automática de formato numérico
+>
+> - ✅ **@sys.date**
+>   - Fechas en múltiples formatos
+>   - Formatos: DD/MM/YYYY, YYYY-MM-DD, "mañana", "próximo lunes"
+>   - Parsing inteligente de fechas relativas
+>
+> - ✅ **@sys.time**
+>   - Horas y tiempos
+>   - Formatos: 14:30, 2:30 PM, "en la tarde"
+>   - Conversión automática a formato estándar
+>
+> - ✅ **@sys.email**
+>   - Direcciones de correo electrónico
+>   - Validación de formato RFC 5322
+>   - Detección automática en texto
+>
+> - ✅ **@sys.phone**
+>   - Números telefónicos
+>   - Múltiples formatos internacionales
+>   - Validación de longitud y formato
+>
+> - ✅ **@sys.url**
+>   - URLs y enlaces web
+>   - Validación de protocolo (http, https)
+>   - Detección automática de dominios
+>
+> - ✅ **@sys.currency**
+>   - Monedas y cantidades monetarias
+>   - Formatos: $100, 100 USD, 100 pesos
+>   - Conversión a formato estándar
+>
+> - ✅ **@sys.percentage**
+>   - Porcentajes
+>   - Formatos: 50%, 0.5, "cincuenta por ciento"
+>   - Normalización automática
+>
+> - ✅ **@sys.ordinal**
+>   - Números ordinales
+>   - Formatos: "primero", "segundo", "1ro", "2do"
+>   - Conversión a número cardinal
+
+#### 🧪 Fertilizantes (Webhooks)
+
+> - ✅ **Webhooks Avanzados**
+>   - Sistema completo de webhooks HTTP
+>   - Métodos: GET, POST, PUT, DELETE, PATCH
+>   - Headers personalizados
+>   - Body con templates dinámicos
+>   - Timeout configurable
+>
+> - ✅ **Tools Integration**
+>   - Herramientas integradas para debugging
+>   - Inspector de requests/responses
+>   - Editor de JSON con validación
+>   - Generador de payloads de prueba
+>   - Historial de ejecuciones
+>
+> - ✅ **Testing en Vivo**
+>   - Prueba webhooks directamente desde la interfaz
+>   - Simulación de datos de conversación
+>   - Vista previa de request antes de enviar
+>   - Respuesta en tiempo real
+>   - Validación de estructura
+>
+> - ✅ **Logs Detallados**
+>   - Registro completo de requests y responses
+>   - Timestamps precisos
+>   - Códigos de estado HTTP
+>   - Tiempo de respuesta
+>   - Errores y excepciones capturadas
+>
+> - ✅ **Retry Logic**
+>   - Reintentos automáticos en caso de fallo
+>   - Backoff exponencial configurable
+>   - Máximo de reintentos configurable
+>   - Notificaciones de fallos persistentes
+>   - Circuit breaker para protección
+
+#### 🔌 Integraciones
+
+> - ✅ **Widget Web (QWidget)**
+>   - Web Component personalizado con Shadow DOM
+>   - Integración en 2 líneas de código HTML
+>   - Botón flotante con animaciones suaves
+>   - Ventana de chat responsive
+>   - Configuración flexible vía atributos HTML
+>   - Sugerencias interactivas (chips)
+>   - Indicador de escritura
+>   - Sesiones persistentes
+>   - Build optimizado (20KB)
+>
+> - ✅ **CDN Global**
+>   - Disponible vía jsdelivr
+>   - URL: `https://cdn.jsdelivr.net/gh/Mizar-Contasti/treeflow-web-widget@main/dist/treeflow-widget.js`
+>   - Sin necesidad de descargar archivos
+>   - Actualizaciones automáticas
+>   - Alta disponibilidad global
+>
+> - ✅ **API Nativa Compatible**
+>   - Endpoint `/message` (POST)
+>   - Estructura: `{type, value, tree_id, session_id}`
+>   - Compatible con API nativa de TreeFlow
+>   - Manejo de sesiones automático
+>   - Respuestas con formato TreeFlow
+
+#### 🛠️ Desarrollo
+
+> - ✅ **LocalTunnel para Desarrollo**
+>   - Exposición de localhost a internet con URLs públicas
+>   - Subdominios personalizados (ej: `treeflow-app.loca.lt`)
+>   - Múltiples túneles simultáneos (frontend, backend, generative)
+>   - HTTPS automático
+>   - Sin límites de tráfico
+>   - Ideal para demos y testing
+>
+> - ✅ **Bypass Automático de Autenticación**
+>   - Header `Bypass-Tunnel-Reminder: true` en todas las peticiones
+>   - Evita página de autenticación de LocalTunnel
+>   - Implementado en axios interceptor (client.ts)
+>   - Implementado en todas las llamadas fetch del generativo
+>   - Experiencia fluida sin interrupciones
+>
+> - ✅ **Docker Optimizado**
+>   - Variables de entorno configurables en docker-compose.yml
+>   - Build args para URLs de API
+>   - Configuración separada para desarrollo y producción
+>   - Nginx optimizado para SPA
+>   - Hot reload en desarrollo
+
+#### 🔧 Correcciones y Mejoras Técnicas
+
+> - ✅ **AuthContext Corregido**
+>   - LoginPage usa AuthContext correcto (no hook directo)
+>   - Estado global consistente después del login
+>   - Sin duplicación de código en localStorage
+>   - Navegación funciona correctamente sin F5
+>
+> - ✅ **Fase 2 del Pipeline Corregida**
+>   - Validación de campos corregida
+>   - Extracción de interacciones con patrones flexibles
+>   - Mapeo correcto de campos en API
+>   - Considera datos existentes del bot
+>
+> - ✅ **WorkspaceConfigPage Mejorado**
+>   - Integración con AuthContext
+>   - Verificación de permisos de administrador
+>   - Campos deshabilitados para no-admin
+>   - Manejo de errores robusto
+
+</details>
+
+<details>
 
 <summary>
 
-### <strong>Versión 0.3 (08/2025) - Versión Actual</strong>
+### <strong>Versión 0.3 (08/2025)</strong>
 
 </summary>
 
