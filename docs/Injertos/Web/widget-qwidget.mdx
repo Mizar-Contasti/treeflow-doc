@@ -164,6 +164,47 @@ Placeholder del input de texto.
 
 **Por defecto**: "Escribe un mensaje..."
 
+#### `bot-image` (Opcional)
+URL de la imagen del avatar del bot.
+
+```html
+<treeflow-widget 
+  bot-image="https://mi-cdn.com/bot-avatar.png">
+</treeflow-widget>
+```
+
+#### `z-index` (Opcional)
+Controla el apilamiento CSS del widget.
+
+**Por defecto**: "10000"
+
+#### `file-upload` (Opcional)
+Habilita o deshabilita la subida de archivos.
+
+**Por defecto**: "true"
+
+#### `microphone` (Opcional)
+Habilita o deshabilita la entrada de voz (STT).
+
+**Por defecto**: "true"
+
+#### `debug` (Opcional)
+Activa el modo de depuración para ver logs en consola.
+
+**Por defecto**: "false"
+
+#### `start-event` (Opcional)
+Evento que se envía automáticamente al abrir el widget por primera vez.
+
+```html
+<treeflow-widget start-event="WELCOME_EVENT"></treeflow-widget>
+```
+
+#### `enable-maximize` (Opcional)
+Permite al usuario maximizar el widget a pantalla completa.
+
+**Por defecto**: "false"
+
 ### Ejemplo con Todas las Opciones
 
 ```html
@@ -176,6 +217,114 @@ Placeholder del input de texto.
   welcome-message="¡Bienvenido! Estoy aquí para ayudarte."
   placeholder="¿Cómo puedo ayudarte?">
 </treeflow-widget>
+```
+
+## Referencia de Bloques JSON
+
+El widget renderiza diferentes tipos de contenido basado en la respuesta del backend. Aquí están los formatos soportados:
+
+### Texto Simple
+```json
+{
+  "type": "text",
+  "text": "Hola, ¿cómo estás?"
+}
+```
+
+### Tarjeta (Card)
+```json
+{
+  "type": "card",
+  "title": "Título de la Tarjeta",
+  "subtitle": "Subtítulo opcional",
+  "text": "Descripción detallada...",
+  "image": "https://ejemplo.com/imagen.jpg",
+  "actions": [
+    { "label": "Ver más", "payload": "VER_MAS" }
+  ]
+}
+```
+
+### Carrusel
+```json
+{
+  "type": "carousel",
+  "items": [
+    {
+      "type": "card",
+      "title": "Opción 1",
+      "image": "https://...",
+      "actions": [...]
+    },
+    {
+      "type": "card",
+      "title": "Opción 2",
+      "image": "https://...",
+      "actions": [...]
+    }
+  ]
+}
+```
+
+### Imagen
+```json
+{
+  "type": "image",
+  "url": "https://ejemplo.com/foto.jpg",
+  "title": "Texto alternativo"
+}
+```
+
+### Video
+Soporta YouTube, Vimeo y archivos directos (mp4).
+```json
+{
+  "type": "video",
+  "url": "https://www.youtube.com/watch?v=dQw4w9WgXcQ"
+}
+```
+
+### Audio
+```json
+{
+  "type": "audio",
+  "url": "https://ejemplo.com/audio.mp3",
+  "title": "Podcast Episodio 1"
+}
+```
+
+### Archivo
+```json
+{
+  "type": "file",
+  "url": "https://ejemplo.com/documento.pdf",
+  "title": "Manual de Usuario.pdf",
+  "size": "2.5 MB"
+}
+```
+
+### Ubicación
+Puede mostrar una ubicación o solicitarla.
+```json
+{
+  "type": "location",
+  "latitude": 40.416775,
+  "longitude": -3.703790,
+  "title": "Nuestra Oficina",
+  "address": "Calle Principal 123"
+}
+```
+
+### Respuestas Rápidas (Chips)
+```json
+{
+  "type": "quick_replies",
+  "items": [
+    { "label": "Sí", "payload": "YES" },
+    { "label": "No", "payload": "NO" },
+    { "label": "Quizás", "payload": "MAYBE", "icon": "help" }
+  ]
+}
 ```
 
 ## API del Backend
