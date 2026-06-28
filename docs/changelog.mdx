@@ -4,166 +4,135 @@ sidebar_position: 12
 
 # 📜 Historial de Cambios
 
-> Para una versión más detallada del historial de cambios con todas las características y mejoras, consulta el [Historial de Cambios Detallado](/docs/Misc/HistorialDetallado).
+> Para una versión más detallada del historial de cambios con todas las características y mejoras técnicas (incluyendo las arquitecturas internas de IA y Componentes Web), consulta el [Historial de Cambios Detallado](/docs/Misc/HistorialDetallado).
 
-
-## 🎉 Versión Actual
+## 🎉 Versiones Recientes (2026)
 
 <details open>
-<summary><strong>V-0.4 (10/2025)</strong></summary>
+<summary><strong>V-0.5.0 (Junio 2026) - Plantillas, Telegram y Bloques Ricos</strong></summary>
 
-### 🤖 Reforestación Mejorada (IA Generativa)
-> -  **Pipeline de 6 Fases**: Proceso más granular y preciso para generación de contenido
->    - Fase 1: Abonar (Expansión Conversacional)
->    - Fase 2: Análisis Conversacional
->    - Fase 3: Estructura Básica
->    - Fase 4: Enriquecimiento con Sinónimos
->    - Fase 5: Estructuración Semántica
->    - Fase 6: Aplicación al Bot
-> -  **Formato Estándar**: Consistencia en todas las fases con `generated_text` + metadata
-> -  **Modelos Actualizados**: Groq con modelos activos (llama-3.1-8b-instant, mixtral-8x7b-32768, etc.)
-> -  **Frameworks Modulares**: Sistema extensible de generación (no_framework, langgraph)
-> -  **Contexto Inteligente**: Considera intents y entities existentes del bot antes de generar
-> -  **Funcionamiento Interno**: Procesamiento por fases con validación y logging detallado
+### 🔌 Integraciones y Webhooks Avanzados
+> - **Telegram Oficial**: Conexión nativa con Telegram, renderizado de 14 bloques ricos (carruseles, botones, multimedia) con pruebas End-to-End.
+> - **Webhooks de Terceros**: Soporte y estabilidad de webhooks (`Fertilizantes`).
 
-### 🎨 Experiencia de Usuario
-> -  **Modo Oscuro**: Tema dark mode completo en toda la aplicación
-> -  **Dashboard Mejorado**: Vista general con métricas y accesos rápidos
-> -  **UI con Tabs**: Navegación por pestañas para mejor organización
-> -  **Sistema de Caché**: Navegación sin parpadeos con caché inteligente de 60 segundos
-> -  **Precarga Automática**: Datos de workspace y usuarios disponibles instantáneamente
-> -  **Invalidación Selectiva**: Refresco inteligente solo de datos modificados
-> -  **Permisos Granulares**: Control de acceso por rol (admin, desarrollador, viewer)
-> -  **Navegación Fluida**: Sin necesidad de recargar página (F5)
-
-### 🌿 Entidades del Sistema (Hojas)
-> -  **@sys.any**: Captura cualquier texto
-> -  **@sys.number**: Números enteros y decimales
-> -  **@sys.date**: Fechas en múltiples formatos
-> -  **@sys.time**: Horas y tiempos
-> -  **@sys.email**: Direcciones de correo electrónico
-> -  **@sys.phone**: Números telefónicos
-> -  **@sys.url**: URLs y enlaces web
-> -  **@sys.currency**: Monedas y cantidades monetarias
-> -  **@sys.percentage**: Porcentajes
-> -  **@sys.ordinal**: Números ordinales (primero, segundo, etc.)
-
-### 🧪 Fertilizantes (Webhooks)
-> -  **Webhooks Avanzados**: Sistema completo de webhooks con testing en tiempo real
-> -  **Tools Integration**: Herramientas integradas para debugging y monitoreo
-> -  **Testing en Vivo**: Prueba webhooks directamente desde la interfaz
-> -  **Logs Detallados**: Registro completo de requests y responses
-> -  **Retry Logic**: Reintentos automáticos en caso de fallo
-
-### 🔌 Integraciones
-> -  **Widget Web (QWidget)**: Integración embebible en 2 líneas de código
-> -  **CDN Global**: Disponible vía jsdelivr para uso inmediato
-> -  **Web Component**: Shadow DOM con estilos aislados
-> -  **API Nativa**: Endpoint `/message` compatible con TreeFlow
-
-### 🎨 Widget Web 2.0 (Mejoras Visuales y Funcionales)
-> -  **Carrusel Interactivo**:
->    -  **Drag-to-Scroll**: Navegación natural arrastrando el carrusel (mouse/touch)
->    -  **Snap-to-Card**: Alineación automática a la tarjeta más cercana al soltar
->    -  **Cursores Dinámicos**: Indicadores visuales de agarre (`grab`/`grabbing`)
-> -  **Componente de Archivos**:
->    -  **Rediseño Visual**: Estilo unificado con iconos, nombre y peso del archivo
->    -  **Descarga Robusta**: Fetch de blobs para forzar descarga real (evita abrir en nueva pestaña)
-> -  **Componente de Audio**:
->    -  **Visualización**: Onda de audio (waveform) visual
->    -  **Controles**: Botón de reproducción/pausa y duración
-> -  **Respuestas Rápidas (Chips)**:
->    -  **Estilo Moderno**: Diseño tipo "píldora" (chips) en lugar de botones apilados
->    -  **Soporte Multimedia**: Iconos e imágenes dentro de los chips
-> -  **Refinamientos UI**:
->    -  **Alineación**: Corrección de márgenes y paddings verticales
->    -  **Imágenes**: Relación de aspecto optimizada para tarjetas y mensajes sueltos
-
-### 🛠️ Desarrollo
-> -  **LocalTunnel**: Exposición de desarrollo local a internet con URLs públicas
-> -  **Bypass Automático**: Headers para evitar páginas de autenticación
-> -  **Docker Optimizado**: Configuración mejorada para desarrollo
-
-</details>
-
-## 📌 Cambios Pendientes
-
-<details>
-<summary><strong>Versión 0.5 (Futuro)</strong></summary>
-
-### 📊 Analítica y Monitoreo
-> -  **Analítica de Flujos Conversacionales**: Visualización de patrones de conversación
-> -  **Análisis de Sentimientos**: Detección automática de emociones en conversaciones
-> -  **Métricas Avanzadas**: Dashboard con KPIs y estadísticas detalladas
-> -  **Logs de Fertilizantes**: Historial completo de webhooks ejecutados
-
-### 📤 Importación y Exportación
-> -  **Exportación de Agentes**: Descarga completa de configuración del bot
-> -  **Importación de Agentes**: Carga de bots desde archivos
-> -  **Backup Automático**: Respaldos programados de árboles
-
-### 🔌 Integraciones
-> -  **WhatsApp Business API**: Integración nativa con WhatsApp
-> -  **Telegram Bot API**: Soporte completo para Telegram
-> -  **Telefonía (VoIP)**: Integración con sistemas de telefonía
-> -  **SMS/MMS**: Envío y recepción de mensajes de texto
-> -  **Email Automatizado**: Respuestas automáticas por correo
-
-### 🎓 Recursos Educativos
-> -  **Secciones de Videos**: Tutoriales en video para cada funcionalidad
-> -  **Ejemplos Interactivos**: Demos en vivo de casos de uso
-> -  **Plantillas de Bots**: Bots pre-configurados para diferentes industrias
-
+### 🤖 Generación y Plantillas
+> - **Modelos Industriales**: Refactorización profunda de plantillas.
+> - **Reforestación Compleja**: Modificaciones y mejoras al parseo natural y resaltado en el editor.
+> - **Soporte de Entidades Relativas**: Captura de fechas dinámicas y nombres propios complejos en plantillas.
 </details>
 
 <details>
-<summary><strong>Versión 0.6 (Futuro)</strong></summary>
+<summary><strong>V-0.4.2 (Mayo 2026) - Estabilidad UI y Pruebas</strong></summary>
 
-### 🌍 Multilenguaje
-> -  **Interfaz en Múltiples Idiomas**: Soporte para inglés, portugués, italiano y francés
-> -  **Modelos NLP Multilenguaje**: Procesamiento en diferentes idiomas
-> -  **Traducción Automática**: Traducción de respuestas del bot
-
-### 📜 Historial y Versionado
-> -  **Historial de Cambios**: Registro completo de modificaciones al bot
-> -  **Control de Versiones**: Versionado de árboles con rollback
-> -  **Comparación de Versiones**: Diff visual entre versiones
-
-### 🔄 Reforestación Avanzada
-> -  **Particiones en Aplicaciones**: Aplicar cambios de forma incremental
-> -  **Preview por Sección**: Vista previa de cambios específicos
-> -  **Rollback Selectivo**: Deshacer cambios específicos sin afectar otros
-
-### 🔐 Seguridad y Compliance
-> -  **Autenticación de Dos Factores**: 2FA para mayor seguridad
-> -  **Auditoría Completa**: Logs de todas las acciones de usuarios
-> -  **GDPR Compliance**: Herramientas para cumplimiento de privacidad
-
+### 🎨 Experiencia y QA
+> - **Responsividad Total**: Ajustes completos para que TreeFlow funcione en todos los tamaños de pantalla.
+> - **Agentes Predeterminados**: Adición de bots y agentes pre-cargados para iniciar rápido.
+> - **Testing Automatizado**: Integración con Playwright para pruebas E2E robustas.
 </details>
-
-## 📋 Versiones Anteriores
-
-> Para información detallada de cada versión, consulta el [Historial de Cambios Detallado](/docs/Misc/HistorialDetallado).
 
 <details>
-<summary><strong>V-0.3 (08/2025)</strong></summary>
+<summary><strong>V-0.4.1 (Abril 2026) - Estabilización de Motor</strong></summary>
 
-> -  **Inteligencia Artificial Generativa**: Sistema de Reforestación para generación automática de Hojas e Intenciones
-> -  **Backend Generativo**: Servicio independiente con integración Groq (llama-3.3-70b-versatile)
-> -  **Motor Universal**: Adaptable a cualquier dominio o industria
-> -  **Vista Previa**: Flujo completo de previsualización antes de aplicar cambios
-> -  **Historial Completo**: Registro de todas las sesiones de cambios generativos
-
+### 🛠️ Mejoras de Core
+> - Fix global para guardado de ramas y estado.
+> - Corrección en la habilitación e inhabilitación de parámetros (slot-filling).
+> - Traducciones finales de la interfaz.
 </details>
 
-- **V-0.2 (07/2025)**: Sistema de Workspaces, Fertilizantes, Injertos, Herramientas de Análisis
-- **V-0.1 (06/2025)**: Versión inicial con funcionalidades básicas de gestión conversacional
+<details>
+<summary><strong>V-0.4.0 (Marzo 2026) - IA Generativa Aplicada e Infraestructura</strong></summary>
+
+### 🤖 GenAI y UI
+> - **Herramientas de IA (Tools)**: Motor generativo capaz de usar herramientas externas en tiempo real.
+> - **Modo Principiante**: Introducción de tutoriales interactivos y modos simplificados.
+
+### 🚀 Despliegue y DevOps
+> - **Entorno Staging**: Configuración de URLs dinámicas a través de Cloudflared.
+> - **CORS Dinámico**: Solución para convivencia de Frontend, Backend y Grafana en puertos separados.
+</details>
+
+<details>
+<summary><strong>V-0.3.2 (Febrero 2026) - Arquitectura y Seguridad</strong></summary>
+
+### 🛡️ Seguridad
+> - Corrección profunda a políticas de inicio de sesión (Login) y propiedades de seguridad.
+> - Arquitectura técnica documentada.
+</details>
+
+<details>
+<summary><strong>V-0.3.1 (Enero 2026) - Slotfilling y Variables Dinámicas</strong></summary>
+
+### 💬 Respuestas Inteligentes
+> - Soporte para inyectar y utilizar variables de parámetros directamente en los mensajes de texto (`{variable}`).
+> - Multi-parámetros (Slotfilling) optimizado para múltiples entidades en una misma intención.
+</details>
 
 
-## **🙌 Colaboraciones y Soporte**
+## 📜 Histórico Base (2025)
 
-### 🎁 Como Colaborar, Solicitar Características y Cambios?
+<details>
+<summary><strong>V-0.3.0 (Diciembre 2025) - El Lienzo Conversacional (Canvas)</strong></summary>
 
-> - Comunicate conmigo, cuentame en que quisieras apoyar.
-> - Mandame un correo [AQUI](mailto:contasti.mizar@gmail.com)
+### 🎨 Canvas Engine
+> - **Lanzamiento del Editor Visual (Canvas)**: Interfaz gráfica de arrastrar y soltar funcional con el Matcher.
+> - **Sistema de Mensajes Integrado**: Las intenciones ahora renderizan contenido directamente en el nodo.
+</details>
 
+<details>
+<summary><strong>V-0.2.3 (Noviembre 2025) - Analítica y STT</strong></summary>
+
+### 📊 Monitoreo
+> - Dashboard operativo de **Grafana y Prometheus** integrado.
+> - Historial conversacional completo con **Análisis de Sentimientos**.
+> - Inserción de logs de Speech-to-Text (STT).
+</details>
+
+<details>
+<summary><strong>V-0.2.2 (Octubre 2025) - Generación de IA por Fases</strong></summary>
+
+### 🤖 Reforestación y Resaltado
+> - **Pipeline de IA de 6 fases**: Análisis conversacional, estructuración semántica, sinónimos y aplicación (Groq Models).
+> - **Modo Oscuro**: Implementación nativa y caché inteligente.
+> - Resaltado visual interactivo (`Highlight`) de entidades reconocidas en los cuadros de texto.
+</details>
+
+<details>
+<summary><strong>V-0.2.1 (Septiembre 2025) - Base Generativa</strong></summary>
+
+### 🧠 Modelos Fundacionales
+> - Modificación de endpoints para modelos NER (Named Entity Recognition).
+> - Refactorización de Prompts base del sistema generativo.
+</details>
+
+<details>
+<summary><strong>V-0.2.0 (Agosto 2025) - IA Multimodal y Web Widgets</strong></summary>
+
+### 🎨 Diseño y Widget
+> - **Widget Web V2**: Lanzamiento del Widget Web interactivo y embebible (Shadow DOM).
+> - Backend Generativo asilado y Panel de Control de usuarios.
+</details>
+
+<details>
+<summary><strong>V-0.1.0 (Julio 2025) - Workspaces y Fertilizantes</strong></summary>
+
+### 🏢 Estructura Multi-Entorno
+> - Lanzamiento oficial del sistema de **Workspaces** (Cuentas independientes y segregación de usuarios).
+> - Implementación del modal interactivo de Testing en Vivo para **Webhooks**.
+</details>
+
+<details>
+<summary><strong>V-0.0.2 (Junio 2025) - Metadatos Avanzados</strong></summary>
+
+### ⚙️ Parámetros y Contextos
+> - Manejo global de Metadatos de usuario (sys variables) y contextos funcionales de entrada y salida.
+> - Requerimiento lógico de parámetros del usuario para validación.
+</details>
+
+<details>
+<summary><strong>V-0.0.1 (Mayo 2025) - Lanzamiento Inicial</strong></summary>
+
+### 🌱 La Semilla de TreeFlow
+> - Base arquitectónica de Trees, Branches y Leaves.
+> - Implementación nativa de entidades `@sys` base y detectores lógicos con FastApi + React.
+> - Ajustes de Umbrales Machine Learning vs Fuzzy Logic.
+</details>

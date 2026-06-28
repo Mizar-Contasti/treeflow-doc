@@ -1,0 +1,27 @@
+---
+sidebar_position: 3
+---
+
+# Editor Visual (Canvas Engine)
+
+El **Editor Visual (Canvas Engine)** es el corazón de la interfaz de diseño conversacional en TreeFlow. Implementado en Diciembre de 2025, transformó la experiencia de desarrollo permitiendo diseñar, conectar y probar flujos lógicos con una interfaz interactiva de *Drag & Drop*.
+
+## Componentes del Lienzo
+
+### Nodos Conversacionales
+Cada nodo en el Canvas representa una **Intención (Branch)**. Estos nodos son objetos gráficos interactivos que puedes arrastrar libremente por el lienzo. 
+
+- **Tidy Up**: El Canvas incluye herramientas de auto-organización (alineamiento automático) para mantener tus flujos ordenados visualmente.
+- **Conexionado Relacional**: Arrastrando los puntos de los nodos, puedes establecer los "Contextos de Salida" y "Contextos de Entrada", lo que indica a TreeFlow qué nodo sigue después del otro, condicionando el flujo de la charla.
+
+### Gestor de Mensajes Integrado
+A partir del Canvas Engine, no necesitas abrir pestañas separadas para escribir las respuestas. 
+Al hacer clic en un nodo de intención, se despliega una ventana lateral o modal que alberga el **Gestor de Mensajes**. Desde allí mismo puedes inyectar los bloques visuales (texto, imágenes, carruseles) que se renderizarán si la inteligencia artificial empareja ese nodo.
+
+## Machine Matcher
+El poder detrás de lo que dibujas en el Canvas es el **Machine Matcher**. 
+Este motor algorítmico traduce la representación visual de tu árbol a la base de datos PostgreSQL, convirtiendo las flechas y las conexiones en reglas lógicas precisas de *Context-In / Context-Out* que luego evalúa la API de procesamiento conversacional en milisegundos.
+
+:::info Rendimiento
+El Editor Visual guarda tu progreso a medida que modificas los nodos y se integra con un sistema de caché de 60 segundos que previene recargas innecesarias al navegar, haciéndolo extremadamente fluido.
+:::

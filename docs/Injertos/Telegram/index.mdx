@@ -2,22 +2,43 @@
 sidebar_position: 1
 ---
 
-# Telegram
+# Telegram (Oficial)
 
-Conecta tu árbol conversacional con Telegram para llegar a millones de usuarios en una de las plataformas de mensajería más populares del mundo.
+Conecta tu árbol conversacional con Telegram para llegar a millones de usuarios en una de las plataformas de mensajería más populares del mundo. TreeFlow cuenta con integración **nativa y oficial** para Telegram, sin necesidad de middlewares ni puentes de terceros.
 
-## Características
+## Características Soportadas
 
-- **Mensajes de texto** con formato enriquecido
-- **Botones inline** para respuestas rápidas
-- **Comandos personalizados** (/start, /help, etc.)
-- **Multimedia** (imágenes, videos, documentos)
-- **Grupos y canales** para comunicación masiva
+- **Comunicación Directa**: Conexión nativa mediante la API oficial de Telegram.
+- **Renderizado Nativo de Respuestas**: Parseo de los nodos conversacionales del motor directamente hacia formatos de Telegram.
 
-## Configuración
+### 14 Bloques Visuales Ricos (Soporte End-to-End)
+
+TreeFlow transforma automáticamente los bloques visuales que configuras en tu Canvas a componentes interactivos en Telegram:
+
+1. **Párrafo**: Mensajes de texto simple con soporte de Markdown.
+2. **Imagen**: Envío de imágenes y fotografías nativas.
+3. **Video**: Envío de video nativo en línea.
+4. **Audio**: Notas de voz y clips de audio.
+5. **Archivos**: Transferencia de documentos pesados (PDFs, docx, etc).
+6. **Botones Inline**: Botones de acción incrustados debajo de los mensajes.
+7. **Respuestas Rápidas**: Teclados personalizados (Custom Keyboards) al pie del chat.
+8. **Acordeón**: Agrupación lógica de texto extenso (parseo de texto compuesto).
+9. **Lista Desplegable**: Parseo a botoneras de selección múltiple.
+10. **Dar Ubicación**: Envío de mapas (latitud/longitud) estáticos.
+11. **Pedir Ubicación**: Botón especial que extrae el GPS del teléfono del usuario.
+12. **Divisor**: Elementos visuales de separación.
+13. **Tarjeta**: Mensaje compuesto con Título, Subtítulo y botones.
+14. **Carrusel**: Lista horizontal de tarjetas (renderizado optimizado secuencial).
+
+:::tip Pruebas Automatizadas
+La integración de Telegram está respaldada por una robusta suite de pruebas End-to-End (con Playwright). Garantizamos que los 14 bloques ricos funcionen con paridad exacta respecto a la versión web.
+:::
+
+## Configuración y Activación
 
 La configuración de Telegram se realiza desde el panel de Injertos en TreeFlow.
 
-:::info Próximamente
-La integración con Telegram está en desarrollo. Pronto estará disponible para conectar tus árboles conversacionales.
-:::
+1. Ve a BotFather en Telegram y crea un nuevo bot.
+2. Copia el **Token HTTP**.
+3. Pega el Token en la pestaña **Telegram** dentro de la ventana de Injertos de tu árbol en TreeFlow y presiona **Conectar**.
+4. ¡Listo! TreeFlow enganchará automáticamente el Webhook.

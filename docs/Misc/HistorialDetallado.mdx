@@ -6,18 +6,151 @@ sidebar_position: 99
 
 Este documento proporciona un historial detallado de todas las características, mejoras y correcciones implementadas en cada versión de TreeFlow. Para una visión general más concisa, consulta el [Historial de Cambios general](/docs/changelog).
 
-## Versiones Lanzadas
+## 2026
 
 <details open>
-
 <summary>
+### <strong>V-0.5.0 (06/2026) - Plantillas, Telegram y Bloques Ricos</strong>
+</summary>
 
-### <strong>Versión 0.4 (10/2025) - Versión Actual</strong>
+#### 🔌 Integración Nativa con Telegram
+> - ✅ **Soporte Oficial de Telegram**
+>   - Conexión nativa mediante API de Telegram sin middlewares adicionales.
+>   - Parseo y renderizado de respuestas estructuradas directamente hacia el chat del usuario final.
+> - ✅ **Soporte de 14 Bloques Visuales Ricos**
+>   - Renderizado End-to-End de carruseles, acordeones, respuestas rápidas, reproductores de audio, video, envío de archivos, y ubicación.
+> - ✅ **Pruebas Masivas E2E (Playwright)**
+>   - Inyección masiva simultánea de bloques visuales en canales Web y Telegram en los entornos de pruebas automáticas para asegurar paridad.
+> - ✅ **Estabilidad de Fertilizantes**
+>   - Mejoras en la estabilidad de disparo para llamadas asíncronas de Webhooks de terceros.
 
+#### 🤖 Generación y Plantillas Industriales
+> - ✅ **Refactorización de Plantillas**
+>   - Migración de plantillas industriales (Reforestación, Fertilizantes) al sistema Core Backend, eliminando duplicidad.
+> - ✅ **Soporte de Entidades Relativas**
+>   - Inyección inteligente de validadores `@sys.date` (para expresiones como "mañana" o "el próximo lunes") y `@horario` directamente desde los blueprints de intenciones de plantilla.
+> - ✅ **Parseo Visual en Node Editor**
+>   - Corrección profunda al motor gráfico del Canvas: las plantillas ahora muestran frases naturales legibles y subrayan automáticamente las entidades extraídas durante el diseño.
+</details>
+
+<details>
+<summary>
+### <strong>V-0.4.2 (05/2026) - Calidad y Responsividad</strong>
+</summary>
+
+#### 🎨 Experiencia de Usuario y UI
+> - ✅ **Responsividad Completa**
+>   - Adaptación milimétrica de todos los paneles de control (Canvas visual, menús de configuraciones, página de Login) para uso en dispositivos móviles e interfaces estrechas sin romper layouts de Flexbox.
+> - ✅ **Agentes Predeterminados**
+>   - Inserción de "bots semilla" (modelos pre-creados) para que los nuevos espacios de trabajo nazcan con árboles base listos para probarse.
+
+#### 🛠️ Testing Automatizado
+> - ✅ **Playwright Integrado**
+>   - Instanciación de la suite de pruebas End-to-End (E2E) en el pipeline local.
+>   - Verificación automatizada de navegación, edición, guardado y creación de entidades complejas por bots virtuales de prueba.
+</details>
+
+<details>
+<summary>
+### <strong>V-0.4.1 (04/2026) - Estabilización de Motor</strong>
+</summary>
+
+#### 🔧 Correcciones Críticas
+> - ✅ **Guardado de Ramas (Branches)**
+>   - Corrección profunda en la sincronización del estado al modificar intenciones en el backend.
+> - ✅ **Habilitación de Parámetros**
+>   - Fix en el componente de Slot-filling para asegurar habilitación/inhabilitación perfecta de parámetros dinámicos sin desfasar el árbol relacional de base de datos.
+> - ✅ **Traducciones**
+>   - Ajustes lingüísticos finales para las cadenas duras de la interfaz en español.
+</details>
+
+<details>
+<summary>
+### <strong>V-0.4.0 (03/2026) - IA Generativa Aplicada e Infraestructura</strong>
+</summary>
+
+#### 🤖 GenAI Tools y Experiencia
+> - ✅ **Soporte de Herramientas (Tools)**
+>   - Integración de "capabilities" funcionales al motor generativo, permitiéndole accionar herramientas en tiempo real para flujos conversacionales dinámicos.
+> - ✅ **Modos de Usuario**
+>   - Implementación del Modo Principiante con tutoriales y experiencias guiadas para reducir la curva de aprendizaje inicial.
+
+#### 🚀 Infraestructura y DevOps
+> - ✅ **Entorno de Staging (Cloudflared)**
+>   - Automatización de túneles dinámicos vía Cloudflare, exponiendo URLs públicas de forma robusta.
+> - ✅ **Manejo Dinámico de CORS**
+>   - Resolución definitiva a las colisiones de puertos entre frontend, backend y grafana implementando redes asiladas (isolated ports 3001/8001) y configuraciones de variables de entorno estables (`.env`).
+> - ✅ **CI/CD Pipeline**
+>   - Adición y restauración de los flujos automáticos de Github Actions.
+</details>
+
+<details>
+<summary>
+### <strong>V-0.3.2 (02/2026) - Arquitectura y Seguridad</strong>
+</summary>
+
+#### 🛡️ Autenticación y Seguridad
+> - ✅ **Propiedades de Seguridad Modificadas**
+>   - Solución a las vulnerabilidades de la sesión local. Mayor rigor en la autenticación del login.
+> - ✅ **Consistencia del Entorno de Red**
+>   - Se estabilizaron los puentes entre backend y frontend para evitar reinicios por timeouts asíncronos.
+
+#### 📚 Documentación
+> - ✅ **Arquitectura Documentada**
+>   - Inclusión formal del *Architecture Overview* para explicar cómo fluyen los datos a través del sistema Pydantic hacia PostgreSQL.
+</details>
+
+<details>
+<summary>
+### <strong>V-0.3.1 (01/2026) - Slotfilling y Variables Dinámicas</strong>
+</summary>
+
+#### 💬 Motor de Conversación (Slotfilling)
+> - ✅ **Variables Dinámicas Inyectadas**
+>   - Introducción del soporte de parámetros de inserción dinámica en bloques de mensaje (`{variable}`).
+>   - Resolución asíncrona de contextos para poblar respuestas pre-grabadas con datos en vivo.
+> - ✅ **Slotfilling Multi-entidad**
+>   - Optimización de los flujos de "llenado de huecos" (slotfilling) para manejar requerimientos secuenciales de múltiples variables en un mismo intento (ej. pedir correo y luego pedir teléfono sin perder contexto).
+</details>
+
+
+## 2025
+
+<details>
+<summary>
+### <strong>V-0.3.0 (12/2025) - El Lienzo Conversacional (Canvas)</strong>
+</summary>
+
+#### 🎨 Canvas Engine (Motor Gráfico)
+> - ✅ **Editor Visual Interactivo**
+>   - Lanzamiento del nodo visual conversacional interactivo. Funciones de reposicionamiento libre (drag & drop), alineamiento (tidy up) y conexionado relacional.
+> - ✅ **Machine Matcher**
+>   - Enlace directo de la interfaz gráfica a la máquina de estados.
+> - ✅ **Gestor de Mensajes Integrado**
+>   - Las intenciones (branches) ahora se vinculan directamente al sistema visual y renderizan sus respuestas (texto, imágenes) desde el editor gráfico de los flujos.
+</details>
+
+<details>
+<summary>
+### <strong>V-0.2.3 (11/2025) - Analítica y Monitoreo</strong>
+</summary>
+
+#### 📊 Observabilidad Integral
+> - ✅ **Grafana y Prometheus**
+>   - Contenedores Docker pre-configurados añadidos a la suite.
+>   - Captura de métricas de servidor (RPS, Latencia) y volumetría de base de datos.
+> - ✅ **STT (Speech-to-Text) Logs**
+>   - Historial de captura y conversión de notas de voz enviadas por los usuarios.
+> - ✅ **Análisis de Sentimientos**
+>   - Historial de chat integrado con un medidor algorítmico para clasificar si las entradas del usuario final tienen sentimiento positivo, negativo o neutral.
+</details>
+
+<details>
+<summary>
+### <strong>V-0.2.2 (10/2025) - Reforestación Generativa Avanzada</strong>
 </summary>
 
 #### 🤖 Reforestación Mejorada (IA Generativa)
-
 > - ✅ **Pipeline de 6 Fases**
 >   - **Fase 1 - Abonar**: Expansión conversacional creativa del prompt base (temperatura 0.8)
 >   - **Fase 2 - Análisis Conversacional**: Análisis detallado del flujo con contexto del bot (temperatura 0.4)
@@ -25,676 +158,160 @@ Este documento proporciona un historial detallado de todas las características,
 >   - **Fase 4 - Enriquecimiento**: Generación de 5-8 sinónimos por entidad (temperatura 0.5)
 >   - **Fase 5 - Estructuración Semántica**: Organización avanzada de componentes (temperatura 0.5)
 >   - **Fase 6 - Aplicación**: Serialización JSON y aplicación al bot (temperatura 0.1)
->   - Cada fase recibe el output de la anterior para refinamiento progresivo
->   - Logging detallado en cada fase para debugging
->
 > - ✅ **Formato Estándar Unificado**
->   - Campo `generated_text` consistente en todas las fases
 >   - Metadata estructurada con información de fase, modelo y estadísticas
 >   - Validación automática de estructura en cada fase
->   - Logs consistentes mostrando primeros 300 caracteres del texto generado
->
 > - ✅ **Modelos Groq Actualizados**
 >   - **llama-3.1-8b-instant**: Modelo por defecto (rápido y eficiente)
 >   - **mixtral-8x7b-32768**: Excelente calidad y balance
->   - **llama3-70b-8192**: Potente para tareas complejas
->   - **llama3-8b-8192**: Rápido y eficiente
->   - **gemma2-9b-it**: Modelo nuevo de Google
->   - **gemma-7b-it**: Básico pero funcional
->   - Removido llama-3.1-70b-versatile (descontinuado)
->
 > - ✅ **Sistema de Frameworks Modulares**
 >   - Arquitectura de plugins para diferentes métodos de generación
 >   - Framework `no_framework`: Método estándar con LLM directo
 >   - Framework `langgraph`: Placeholder para implementación futura
->   - Registro centralizado de frameworks disponibles
->   - Validación de requests específica por framework
->   - Interfaz común para todos los frameworks
->
 > - ✅ **Contexto Inteligente del Bot**
->   - Carga automática de intents existentes antes de generar
->   - Carga automática de entities existentes antes de generar
->   - Análisis considera el estado actual del bot
->   - Evita duplicación de contenido existente
->   - Generación complementaria al contenido actual
+>   - Carga automática de intents y entities existentes antes de generar para evitar duplicación.
 
 #### 🎨 Experiencia de Usuario
-
 > - ✅ **Modo Oscuro Completo**
->   - Tema dark mode en toda la aplicación
->   - Paleta de colores optimizada para reducir fatiga visual
->   - Transición suave entre temas claro y oscuro
->   - Preferencia guardada por usuario
->   - Respeta configuración del sistema operativo
->
+>   - Tema dark mode en toda la aplicación, reduciendo fatiga visual.
 > - ✅ **Dashboard Mejorado**
->   - Vista general con métricas clave
->   - Accesos rápidos a funciones principales
->   - Gráficos de actividad reciente
->   - Resumen de árboles activos
->   - Notificaciones y alertas importantes
->
+>   - Vista general con métricas clave, gráficos de actividad, resumen de árboles.
 > - ✅ **UI con Tabs (Pestañas)**
->   - Navegación por pestañas para mejor organización
->   - Tabs para Hojas, Ramas, Funciones, etc.
->   - Estado persistente de tabs entre navegaciones
->   - Indicadores visuales de tabs activas
->   - Mejor aprovechamiento del espacio
->
-> - ✅ **Sistema de Caché en TreeContext**
->   - Caché inteligente de 60 segundos para trees, branches y leaves
->   - Navegación sin parpadeos entre páginas
->   - Timestamps para control de expiración
->   - Estados de loading/error por tipo de dato
->   - Carga automática de branches y leaves al seleccionar árbol
->
-> - ✅ **Precarga Automática en AuthContext**
->   - Carga automática de workspaceData después del login
->   - Carga automática de workspaceUsers después del login
->   - Datos disponibles instantáneamente al navegar
->   - Funciones públicas para refrescar datos manualmente
->   - Consistente con patrón de TreeContext
->
-> - ✅ **Invalidación Selectiva**
->   - `invalidateAll()`: Refresca todos los datos del árbol
->   - `invalidateBranches()`: Refresca solo intenciones
->   - `invalidateLeaves()`: Refresca solo entidades
->   - Llamadas automáticas después de crear/editar/eliminar
->   - Integración con useReforestacion para refrescar después de aplicar cambios
->
+>   - Estado persistente de tabs (Hojas, Ramas, Funciones).
+> - ✅ **Caché y Rendimiento**
+>   - Caché inteligente de 60 segundos en TreeContext (navegación sin parpadeos).
+>   - Precarga automática de WorkspaceData y WorkspaceUsers en AuthContext.
+>   - Invalidación Selectiva (`invalidateBranches`, `invalidateLeaves`) tras ediciones.
 > - ✅ **Control de Permisos Granular**
->   - Roles: admin, desarrollador, viewer
->   - Verificación de permisos en cada página
->   - Campos deshabilitados para usuarios sin permisos
->   - Alertas visuales indicando restricciones
->   - Helper text explicando limitaciones por rol
->
-> - ✅ **Navegación Fluida**
->   - Sin necesidad de recargar página (F5)
->   - Datos persisten en memoria durante navegación
->   - Transiciones suaves entre páginas
->   - Estados de loading consistentes
->   - Manejo de errores robusto
+>   - Roles (admin, desarrollador, viewer) limitando funcionalidades de forma visual (campos deshabilitados y notificaciones).
+> - ✅ **Highlighting Dinámico**
+>   - Palabras coincidentes se cortan y subrayan visualmente durante la escritura y lectura.
 
-#### 🌿 Entidades del Sistema (Hojas)
-
-> - ✅ **@sys.any**
->   - Captura cualquier texto sin validación específica
->   - Útil para respuestas abiertas
->   - Sin restricciones de formato
->
-> - ✅ **@sys.number**
->   - Números enteros y decimales
->   - Formatos: 123, 123.45, -123
->   - Validación automática de formato numérico
->
-> - ✅ **@sys.date**
->   - Fechas en múltiples formatos
->   - Formatos: DD/MM/YYYY, YYYY-MM-DD, "mañana", "próximo lunes"
->   - Parsing inteligente de fechas relativas
->
-> - ✅ **@sys.time**
->   - Horas y tiempos
->   - Formatos: 14:30, 2:30 PM, "en la tarde"
->   - Conversión automática a formato estándar
->
-> - ✅ **@sys.email**
->   - Direcciones de correo electrónico
->   - Validación de formato RFC 5322
->   - Detección automática en texto
->
-> - ✅ **@sys.phone**
->   - Números telefónicos
->   - Múltiples formatos internacionales
->   - Validación de longitud y formato
->
-> - ✅ **@sys.url**
->   - URLs y enlaces web
->   - Validación de protocolo (http, https)
->   - Detección automática de dominios
->
-> - ✅ **@sys.currency**
->   - Monedas y cantidades monetarias
->   - Formatos: $100, 100 USD, 100 pesos
->   - Conversión a formato estándar
->
-> - ✅ **@sys.percentage**
->   - Porcentajes
->   - Formatos: 50%, 0.5, "cincuenta por ciento"
->   - Normalización automática
->
-> - ✅ **@sys.ordinal**
->   - Números ordinales
->   - Formatos: "primero", "segundo", "1ro", "2do"
->   - Conversión a número cardinal
-
-#### 🧪 Fertilizantes (Webhooks)
-
-> - ✅ **Webhooks Avanzados**
->   - Sistema completo de webhooks HTTP
->   - Métodos: GET, POST, PUT, DELETE, PATCH
->   - Headers personalizados
->   - Body con templates dinámicos
->   - Timeout configurable
->
-> - ✅ **Tools Integration**
->   - Herramientas integradas para debugging
->   - Inspector de requests/responses
->   - Editor de JSON con validación
->   - Generador de payloads de prueba
->   - Historial de ejecuciones
->
-> - ✅ **Testing en Vivo**
->   - Prueba webhooks directamente desde la interfaz
->   - Simulación de datos de conversación
->   - Vista previa de request antes de enviar
->   - Respuesta en tiempo real
->   - Validación de estructura
->
-> - ✅ **Logs Detallados**
->   - Registro completo de requests y responses
->   - Timestamps precisos
->   - Códigos de estado HTTP
->   - Tiempo de respuesta
->   - Errores y excepciones capturadas
->
-> - ✅ **Retry Logic**
->   - Reintentos automáticos en caso de fallo
->   - Backoff exponencial configurable
->   - Máximo de reintentos configurable
->   - Notificaciones de fallos persistentes
->   - Circuit breaker para protección
-
-#### 🔌 Integraciones
-
-> - ✅ **Widget Web (QWidget)**
->   - Web Component personalizado con Shadow DOM
->   - Integración en 2 líneas de código HTML
->   - Botón flotante con animaciones suaves
->   - Ventana de chat responsive
->   - Configuración flexible vía atributos HTML
->   - Sugerencias interactivas (chips)
->   - Indicador de escritura
->   - Sesiones persistentes
->   - Build optimizado (20KB)
->
-> - ✅ **CDN Global**
->   - Disponible vía jsdelivr
->   - URL: `https://cdn.jsdelivr.net/gh/Mizar-Contasti/treeflow-web-widget@main/dist/treeflow-widget.js`
->   - Sin necesidad de descargar archivos
->   - Actualizaciones automáticas
->   - Alta disponibilidad global
->
-> - ✅ **API Nativa Compatible**
->   - Endpoint `/message` (POST)
->   - Estructura: `{type, value, tree_id, session_id}`
->   - Compatible con API nativa de TreeFlow
->   - Manejo de sesiones automático
->   - Respuestas con formato TreeFlow
-
-#### 🛠️ Desarrollo
-
+#### 🛠️ Desarrollo e Infraestructura
 > - ✅ **LocalTunnel para Desarrollo**
->   - Exposición de localhost a internet con URLs públicas
->   - Subdominios personalizados (ej: `treeflow-app.loca.lt`)
->   - Múltiples túneles simultáneos (frontend, backend, generative)
->   - HTTPS automático
->   - Sin límites de tráfico
->   - Ideal para demos y testing
->
-> - ✅ **Bypass Automático de Autenticación**
->   - Header `Bypass-Tunnel-Reminder: true` en todas las peticiones
->   - Evita página de autenticación de LocalTunnel
->   - Implementado en axios interceptor (client.ts)
->   - Implementado en todas las llamadas fetch del generativo
->   - Experiencia fluida sin interrupciones
->
+>   - Exposición de localhost a internet con URLs públicas (`treeflow-app.loca.lt`).
+>   - Header `Bypass-Tunnel-Reminder: true` en todas las peticiones (evita página auth).
 > - ✅ **Docker Optimizado**
->   - Variables de entorno configurables en docker-compose.yml
->   - Build args para URLs de API
->   - Configuración separada para desarrollo y producción
->   - Nginx optimizado para SPA
->   - Hot reload en desarrollo
+>   - Build args para URLs, Nginx para SPA y hot-reload.
 
-#### 🔧 Correcciones y Mejoras Técnicas
-
+#### 🔧 Correcciones Críticas
 > - ✅ **AuthContext Corregido**
->   - LoginPage usa AuthContext correcto (no hook directo)
->   - Estado global consistente después del login
->   - Sin duplicación de código en localStorage
->   - Navegación funciona correctamente sin F5
->
+>   - LoginPage ahora usa el estado global sin duplicación de código localStorage.
 > - ✅ **Fase 2 del Pipeline Corregida**
->   - Validación de campos corregida
->   - Extracción de interacciones con patrones flexibles
->   - Mapeo correcto de campos en API
->   - Considera datos existentes del bot
->
-> - ✅ **WorkspaceConfigPage Mejorado**
->   - Integración con AuthContext
->   - Verificación de permisos de administrador
->   - Campos deshabilitados para no-admin
->   - Manejo de errores robusto
-
+>   - Extracción de interacciones con patrones flexibles.
+> - ✅ **WorkspaceConfigPage**
+>   - Verificación de administrador blindada.
 </details>
 
 <details>
-
 <summary>
-
-### <strong>Versión 0.3 (08/2025)</strong>
-
+### <strong>V-0.2.1 (09/2025) - Refactorización de IA</strong>
 </summary>
 
-#### Inteligencia Artificial Generativa
+#### 🧠 Modelos Fundacionales
+> - ✅ **Modelos NER**
+>   - Modificación profunda de los endpoints de invocación y serialización para el Named Entity Recognition.
+> - ✅ **Prompts Base**
+>   - Reescritura fundacional de los meta-prompts del sistema para asentar la base estructural de lo que sería el Pipeline de 6 Fases futuro.
+</details>
 
+<details>
+<summary>
+### <strong>V-0.2.0 (08/2025) - Inteligencia Artificial y Web Widgets</strong>
+</summary>
+
+#### 🤖 Inteligencia Artificial Generativa Inicial
 > - ✅ **Sistema de Reforestación**
->   - Generación automática de Hojas (entidades) usando IA
->   - Creación automática de Intenciones (intents) con patrones naturales
->   - Motor generativo universal adaptable a cualquier dominio o industria
->   - Integración con modelo Groq llama-3.3-70b-versatile
->   - Análisis contextual del Árbol existente antes de generar contenido
->
+>   - Generación automática de Hojas (entidades) usando IA.
+>   - Creación automática de Intenciones (intents) con patrones naturales.
+>   - Motor generativo universal adaptable a cualquier dominio.
 > - ✅ **Estrategia de Entidades Inteligente**
->   - Separación automática entre entidades de acciones (verbos) y objetos (sustantivos)
->   - Generación de sinónimos inteligentes para cada entidad
->   - Nombres de entidades naturales sin prefijos artificiales
->   - Cobertura completa de variaciones lingüísticas
->
-> - ✅ **Variables Dinámicas en Respuestas**
->   - Formato `{variable}` para personalización automática
->   - Variables que coinciden con nombres de entidades capturadas
->   - Respuestas contextuales adaptadas al dominio específico
->   - Sustitución automática en tiempo real durante conversaciones
->
-> - ✅ **Flujo de Previsualización Completo**
->   - Vista previa de todos los cambios antes de aplicar
->   - Revisión detallada de entidades y patrones generados
->   - Opción de cancelar o aplicar modificaciones
->   - Validación automática de estructura TreeFlow
->
-> - ✅ **Historial de Sesiones Generativas**
->   - Registro completo de todos los prompts utilizados
->   - Tracking de cambios generados y aplicados
->   - Información de fecha, hora y usuario para cada sesión
->   - Posibilidad de revisar y aprender de sesiones anteriores
+>   - Separación automática entre entidades de acciones (verbos) y objetos (sustantivos).
+>   - Nombres naturales sin prefijos artificiales.
+> - ✅ **Flujo de Previsualización y Sesiones**
+>   - Vista previa de todos los cambios antes de aplicar, con validación de estructura.
+>   - Registro completo de todos los prompts utilizados y tracking de cambios.
 
-#### Arquitectura y Mejoras Técnicas
-
+#### ⚙️ Arquitectura Generativa
 > - ✅ **Backend Generativo Independiente**
->   - Servicio separado ejecutándose en puerto 8001
->   - Arquitectura de microservicios para escalabilidad
->   - Comunicación API entre backend principal y generativo
->   - Aislamiento de dependencias de IA del sistema principal
->
-> - ✅ **Integración con Groq**
->   - Modelo llama-3.3-70b-versatile para generación de alta calidad
->   - Configuración optimizada de temperatura y parámetros
->   - Manejo robusto de errores y timeouts
->   - Respuestas en formato JSON estructurado
->
+>   - Servicio separado ejecutándose en puerto aislado para garantizar resiliencia.
 > - ✅ **Endpoints de Sobreescritura Simplificados**
->   - API optimizada para aplicación masiva de cambios
->   - Endpoints `/entities/{tree_id}/overwrite` y `/intents/{tree_id}/overwrite`
->   - Validación automática contra modelos Pydantic
->   - Transacciones atómicas para consistencia de datos
->
+>   - `/entities/{tree_id}/overwrite` y `/intents/{tree_id}/overwrite` con transacciones atómicas.
 > - ✅ **Validación Automática Completa**
->   - Estructura EntityDef completa con todos los campos requeridos
->   - Generación automática de UUIDs únicos para todas las entidades
->   - Validación de compatibilidad con modelo Pydantic existente
->   - Normalización automática de estructura de datos
->
-> - ✅ **Logging y Trazabilidad Exhaustiva**
->   - Registro detallado de todo el flujo generativo
->   - Información de debugging para resolución de problemas
->   - Métricas de rendimiento y tiempo de respuesta
->   - Trazabilidad completa desde prompt hasta aplicación
->
-> - ✅ **Docker Compose Integrado**
->   - Despliegue unificado de todos los servicios
->   - Configuración de red interna entre contenedores
->   - Variables de entorno centralizadas
->   - Escalabilidad horizontal preparada
+>   - EntityDef completa con UUIDs únicos normalizados bajo esquema Pydantic.
 
+#### 💻 Sistema de Injertos (Integraciones Visuales)
+> - ✅ **Widget Web (QWidget) V2**
+>   - Widget de chat completamente funcional para sitios web (Web Component personalizado con Shadow DOM).
+>   - Botón flotante animado, ventana de chat responsive, e indicador de escritura.
+> - ✅ **CDN Global y Personalización**
+>   - Disponible vía jsdelivr sin descargas pesadas (build de 20KB).
+>   - Custom properties CSS para adaptar el tema sin tocar código fuente.
+> - ✅ **API Nativa Compatible**
+>   - Endpoint `/message` (POST) alineado al core engine de TreeFlow.
 </details>
-
-## Versiones Anteriores
 
 <details>
 <summary>
-
-### <strong>Versión 0.2 (07/2025)</strong>
-
+### <strong>V-0.1.0 (07/2025) - Workspaces y Fertilizantes</strong>
 </summary>
 
-#### Sistema de Workspaces
+#### 🏢 Sistema de Workspaces
 > - ✅ **Cuentas Independientes**
->   - Sistema completo de workspaces para separación de proyectos
->   - Aislamiento total de datos entre workspaces
->   - Cada workspace mantiene sus árboles, configuraciones y datos independientes
->   - Gestión de múltiples proyectos desde una sola cuenta
->
+>   - Sistema completo de workspaces para separación de proyectos (aislamiento total de datos).
 > - ✅ **Gestión Multi-Workspace**
->   - Creación y administración de espacios de trabajo
->   - Selector intuitivo para cambiar entre workspaces
->   - Configuraciones independientes por workspace
->   - Organización por cliente, proyecto o departamento
->
-> - ✅ **Interfaz de Gestión**
->   - Panel de control centralizado
->   - Navegación fluida entre workspaces
->   - Indicadores visuales del workspace activo
->   - Gestión de configuraciones por workspace
+>   - Creación y administración de espacios de trabajo por cliente, proyecto o departamento con panel centralizado.
+>   - Selector intuitivo y estados aislados de navegabilidad.
 
-#### Sistema de Fertilizantes (Webhooks Avanzados)
+#### 🧪 Sistema de Fertilizantes (Webhooks Avanzados)
 > - ✅ **Fertilizante Principal**
->   - Webhook único por workspace para procesamiento global
->   - Toggle de activación/desactivación
->   - Configuración de URL, autenticación Basic Auth y timeout
->   - Procesamiento automático de todas las respuestas del árbol
->
+>   - Webhook único por workspace para procesamiento global y captura de logs (Basic Auth y Timeout).
 > - ✅ **Fertilizantes Secundarios**
->   - Múltiples webhooks especializados por integración
->   - Configuración individual con nombre y descripción
->   - Soporte completo para métodos HTTP (GET, POST, PUT, PATCH, DELETE)
->   - Timeouts configurables por fertilizante
->
+>   - Múltiples webhooks especializados por integración (GET, POST, PUT, PATCH, DELETE).
 > - ✅ **Testing Individual en Tiempo Real**
->   - Modal de pruebas especializado para cada fertilizante
->   - Peticiones HTTP reales a endpoints configurados
->   - Visualización completa de request y response
->   - Botón de test individual por fertilizante secundario
-
-#### Sistema de Injertos (Integraciones)
-> - ✅ **Injerto Web - Widget Embebible**
->   - Widget de chat completamente funcional para sitios web
->   - Integración súper simple en 2 líneas de código
->   - Web Component personalizado con Shadow DOM
->   - Disponible globalmente vía CDN (jsDelivr)
->
-> - ✅ **Personalización Avanzada**
->   - Sistema completo de variables CSS (custom properties)
->   - Configuración de colores, iconos y comportamiento
->   - Personalización visual sin modificar código
->   - Soporte para temas personalizados
-
+>   - Modal de pruebas especializado para cada fertilizante con visor de headers y body en bruto.
+> - ✅ **Herramientas de Integración (Tools Integration)**
+>   - Inspector de requests/responses, editor de JSON con validación, circuito de backoff y retry logic (circuit breaker).
 </details>
 
 <details>
 <summary>
-
-### <strong>Versión 0.1 (06/2025)</strong>
-
+### <strong>V-0.0.2 (06/2025) - Metadatos Avanzados</strong>
 </summary>
 
-#### Integración con Webhooks
-> - ⌛ **Configuración por Rama**
->   - Habilitación de webhooks específicos
->   - Configuración de endpoints
->   - Mapeo de parámetros
->
-> - ⌛ **Autenticación**
->   - Soporte para tokens de autenticación
->   - Headers personalizados
->   - Seguridad en las comunicaciones
->
-> - ⌛ **Respuestas dinámicas**
->   - Procesamiento de respuestas externas
->   - Integración con sistemas backend
->   - Personalización basada en datos en tiempo real
->
-> - ⌛ **Editor visual de configuración**
->   - Interfaz gráfica para configurar endpoints
->   - Validación en tiempo real de configuraciones
->   - Previsualización de estructura de datos
->
-> - ⌛ **Plantillas predefinidas**
->   - Conectores para servicios populares
->   - Configuraciones pre-optimizadas
->   - Ejemplos de implementación
->
-> - ⌛ **Monitoreo y depuración**
->   - Historial de llamadas a webhooks
->   - Visualización de respuestas
->   - Herramientas de diagnóstico
->   - Alertas de fallos
->
-> - ⌛ **Manejo avanzado de errores**
->   - Políticas de reintento configurables
->   - Respuestas de fallback
->   - Notificaciones de error
->   - Registro detallado de problemas
+#### ⚙️ Parámetros y Contextos Avanzados
+> - ✅ **Metadatos de Usuario**
+>   - Inserción de variables de entorno (Sys variables) por cada usuario conectado.
+> - ✅ **Custom Parameters (Parámetros Requeridos)**
+>   - Adición de un gestor de estados para marcar entidades como obligatorias para avanzar a una intención.
+> - ✅ **Contextos de Sistema**
+>   - Capacidad funcional de inyectar y leer contextos de Input y Output a las intenciones para condicionar o encadenar flujos en red.
+</details>
 
-#### Analítica y Reportes
-> - ⌛ **Métricas básicas**
->   - Uso y rendimiento
->   - Tasas de reconocimiento
->   - Duración de conversaciones
->
-> - ⌛ **Análisis de conversaciones**
->   - Patrones comunes
->   - Rutas de conversación
->   - Puntos de abandono
->
-> - ⌛ **Identificación de problemas**
->   - Patrones no reconocidos
->   - Intenciones confundidas
->   - Oportunidades de mejora
->
-> - ⌛ **Dashboards personalizables**
->   - Visualización de métricas clave
->   - Filtros por período y segmento
->   - Exportación de datos
+<details>
+<summary>
+### <strong>V-0.0.1 (05/2025) - La Semilla de TreeFlow</strong>
+</summary>
 
-#### Herramientas de Desarrollo
-> - ⌛ **Videos tutoriales**
->   - Guías paso a paso para principiantes
->   - Técnicas avanzadas de diseño conversacional
->   - Mejores prácticas de implementación
->   - Casos de uso específicos
+#### 🌱 Entidades del Sistema y Base del Motor
+> - ✅ **@sys.any, @sys.number, @sys.date, @sys.time**
+>   - Captura y validación (formatos absolutos y relativos).
+> - ✅ **@sys.email, @sys.phone, @sys.url, @sys.currency, @sys.percentage, @sys.ordinal**
+>   - Parseadores internos de expresiones regulares e internacionalización (RFC, dominios HTTP, $).
 
-#### Gestión de Trees (Chatbots)
-> - ✅ **Creación y configuración**
->   - Interfaz intuitiva para crear Trees
->   - Configuración de propósito y descripción
->   - Opciones de personalización avanzadas
->   - Duplicación y plantillas
->
-> - ✅ **Umbrales de confianza**
->   - Configuración de umbral ML (0.0-1.0)
->   - Configuración de umbral Fuzzy (0.0-1.0)
->   - Ajuste fino para reconocimiento de intenciones
->
-> - ✅ **Orden de detección**
->   - Configuración de prioridad: ML, Fuzzy, Exact
->   - Personalización del pipeline de reconocimiento
->   - Optimización para diferentes casos de uso
->
-> - ✅ **Dashboard principal**
->   - Listado de Trees disponibles
->   - Estadísticas de uso
->   - Acceso rápido a funciones principales
->   - Filtros y búsqueda
-
-#### Gestión de Branches (Intenciones)
-> - ✅ **Tipos de Branches**
->   - Branches conversacionales (activadas por usuario)
->   - Branches de sistema (activadas por eventos)
->   - Configuración específica por tipo
->
-> - ✅ **Patrones de reconocimiento**
->   - Soporte para múltiples ejemplos por Branch
->   - Patrones con variables (@entidad)
->   - Reconocimiento basado en ML
->   - Coincidencia fuzzy para errores tipográficos
->
-> - ✅ **Sistema de respuestas**
->   - Múltiples variaciones por Branch
->   - Selección aleatoria para naturalidad
->   - Respuestas con formato enriquecido
->   - Personalización basada en parámetros
->
-> - ✅ **Parámetros y prompts**
->   - Extracción automática de parámetros
->   - Prompts personalizados para solicitar información
->   - Valores por defecto configurables
->   - Validación de entradas
->
-> - ✅ **Gestión de contextos**
->   - Contextos de entrada para activación condicional
->   - Contextos de salida para control de flujo
->   - Configuración de tiempo de vida (lifespan)
->
-> - ✅ **Sistema de eventos**
->   - Activación de eventos personalizados
->   - Encadenamiento de acciones
->   - Automatización de flujos complejos
-
-#### Gestión de Leaves (Entidades)
-> - ✅ **Tipos de Leaves**
->   - Simple: valores discretos con sinónimos
->   - Composite: entidades compuestas
->   - Regex: patrones de expresiones regulares
->   - Custom: entidades personalizadas
->
-> - ✅ **Configuración de valores**
->   - Gestión de valores principales
->   - Sinónimos para cada valor
->   - Importación y exportación de valores
->
-> - ✅ **Extracción automática**
->   - Identificación en tiempo real durante conversaciones
->   - Normalización de valores extraídos
->   - Resolución de ambigüedades
-
-#### Gestión de Contextos
-> - ✅ **Contextos de entrada/salida**
->   - Control de activación de Branches
->   - Mantenimiento de estado conversacional
->   - Gestión de flujos complejos
->
-> - ✅ **Control de flujo**
->   - Direccionamiento de la conversación
->   - Manejo de sub-diálogos
->   - Retorno a flujos anteriores
->
-> - ✅ **Tiempo de vida (lifespan)**
->   - Configuración de duración de contextos
->   - Expiración automática
->   - Reinicio de contextos
-
-#### Gestión de Eventos
-> - ✅ **Eventos personalizados**
->   - Creación de eventos específicos
->   - Activación desde Branches
->   - Encadenamiento de acciones
->
-> - ✅ **Eventos del sistema**
->   - Bienvenida: inicio de conversación
->   - Fallback: cuando no hay coincidencia
->   - Timeout: inactividad del usuario
->
-> - ✅ **Activación automática**
->   - Branches activadas por eventos
->   - Ejecución de acciones en segundo plano
->   - Automatización de flujos
-
-#### Herramientas Básicas de Prueba
-> - ✅ **Panel de conversaciones**
->   - Interfaz de chat para pruebas
->   - Simulación de interacciones de usuario
->   - Historial de mensajes
->
-> - ✅ **Visualización de contextos**
->   - Monitoreo de contextos activos
->   - Seguimiento de tiempo de vida
->   - Depuración de flujos
->
-> - ✅ **Depuración de reconocimiento**
->   - Visualización de coincidencias de intenciones
->   - Puntuaciones de confianza
->   - Análisis de fallos de reconocimiento
-
-#### Interfaz de Usuario
-> - ✅ **Frontend React/TypeScript**
->   - Componentes modernos
->   - Estado gestionado eficientemente
->   - Tipado estricto para robustez
->
-> - ✅ **Diseño responsive**
->   - Adaptación a diferentes dispositivos
->   - Experiencia optimizada en móvil y escritorio
->   - Accesibilidad mejorada
->
-> - ✅ **Navegación intuitiva**
->   - Estructura clara de secciones
->   - Accesos directos a funciones comunes
->   - Flujos de trabajo optimizados
-
-#### Backend y API
-> - ✅ **API REST con FastAPI**
->   - Endpoints bien documentados
->   - Validación automática de datos
->   - Rendimiento optimizado
->
-> - ✅ **Gestión completa**
->   - CRUD para Trees, Branches y Leaves
->   - Operaciones por lotes
->   - Versionado de recursos
->
-> - ✅ **Procesamiento NLP**
->   - Reconocimiento de intenciones
->   - Extracción de entidades
->   - Análisis contextual
->   - Integración con modelos de ML
-
-#### Arquitectura
-> - ✅ **Separación frontend/backend**
->   - Arquitectura desacoplada
->   - Comunicación vía API REST
->   - Desarrollo independiente de componentes
->
-> - ✅ **Modelo de datos estructurado**
->   - Relaciones claras entre entidades
->   - Normalización adecuada
->   - Integridad referencial
->
-> - ✅ **Sistema de procesamiento**
->   - Pipeline de análisis de mensajes
->   - Gestión de estado conversacional
->   - Resolución de intenciones y entidades
-
-#### Seguridad
-> - ✅ **Autenticación básica**
->   - Sistema de login seguro
->   - Gestión de sesiones
->   - Protección contra ataques comunes
->
-> - ✅ **Protección de endpoints**
->   - Validación de tokens
->   - Control de acceso
->   - Limitación de tasa
->
-> - ✅ **Validación de datos**
->   - Sanitización de entradas
->   - Prevención de inyecciones
->   - Manejo seguro de datos sensibles
-
-#### Rendimiento
-> - ✅ **Optimización de respuestas**
->   - Tiempos de respuesta minimizados
->   - Procesamiento asíncrono cuando es apropiado
->   - Balanceo de carga
->
-> - ✅ **Sistema de caché**
->   - Almacenamiento en caché de resultados frecuentes
->   - Invalidación inteligente
->   - Reducción de latencia
->
-> - ✅ **Procesamiento eficiente**
->   - Algoritmos optimizados para patrones
->   - Indexación para búsquedas rápidas
->   - Uso eficiente de recursos
-
+#### 🛠️ Gestión Completa
+> - ✅ **Trees (Chatbots)**
+>   - Configuración de propósito, dashboard general, duplicación de plantillas.
+>   - Umbrales de confianza ML (Machine Learning) y Fuzzy Logic (0.0-1.0).
+>   - Prioridad de pipeline: Exact, ML, Fuzzy.
+> - ✅ **Branches (Intenciones)**
+>   - Eventos de activación de usuario y eventos de sistema (Welcome, Fallback).
+>   - Múltiples variaciones de respuesta con selección aleatoria natural.
+>   - Extracción automática de parámetros y prompts por defecto.
+> - ✅ **Leaves (Entidades)**
+>   - Simples, compuestas, regulares (Regex) y personalizadas. Resolutor de sinónimos automático.
+> - ✅ **Herramientas Básicas**
+>   - Panel de chat de simulación interactiva, depuración de reconocimiento (Confidence score monitor).
+> - ✅ **Backend FastAPI y UI React**
+>   - Desarrollo de los Endpoints CRUD, desacoplamiento completo y base de datos con SQLAlchemy (PostgreSQL). Seguridad con JWT Token limits.
 </details>

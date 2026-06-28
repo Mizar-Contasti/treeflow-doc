@@ -18,49 +18,30 @@ import AppUrl from '@site/src/components/AppUrl';
 
 ![Pantalla de Inicio de Sesión](/img/login-placeholder.svg)
 
-### Servidor Público (Beta)
+### Entornos y Despliegue
 
-:::warning Servidor en Desarrollo
+TreeFlow cuenta con una arquitectura de despliegue madura para adaptarse a tus necesidades.
 
-Actualmente estamos trabajando en un servidor público que aún presenta algunos bugs y limitaciones. Es funcional para pruebas, pero recomendamos usar Docker para entornos de producción.
-
-:::
-
-- **URL**: <AppUrl>TreeFlow</AppUrl>
-- **Workspace de prueba**: `botsmexico`
-- **Credenciales**: 
-  - Usuario: `admin`
-  - Contraseña: `admin`
-
-### Despliegue con Docker (Recomendado)
-
-:::tip Opción Estable
-
-Para una experiencia más estable y completa, recomendamos desplegar TreeFlow usando Docker. Esta opción incluye toda la aplicación con todas sus funcionalidades.
-
-:::
-
-- **Repositorio**: [TreeFlow Docker](https://github.com/tu-usuario/treeflow-docker)
-- **URL de ejemplo**: `http://localhost:3000` (después del despliegue)
-- **Documentación**: Incluye guía completa de instalación
-- **Ventajas**: 
-  - Sin bugs del servidor público
-  - Control total sobre el entorno
-  - Datos privados y seguros
-  - Rendimiento optimizado
+- **Servidor Staging (Pruebas)**: Túneles automatizados con Cloudflared y resolución dinámica de CORS para que pruebes tus integraciones y widgets en vivo desde internet.
+- **Producción con Docker**: Sistema orquestado y estable para desplegar TreeFlow con todas sus funcionalidades y bases de datos aisladas.
 
 ## Primeros Pasos
 
 1. **Familiarízate con la terminología** - Comprende los [conceptos básicos](/docs/Fundamentos/Terminologia) de TreeFlow
 2. **Configura tu Workspace** - Aprende sobre [espacios de trabajo](/docs/Avanzado/Workspaces) para organizar tus proyectos
 3. **Crea tu primer Árbol** - Sigue nuestra guía de [primeros pasos](/docs/Fundamentos/Empezando)
-4. **Diseña Ramas efectivas** - Aprende a crear [patrones de conversación](/docs/Fundamentos/Ramas) que capturen las intenciones de tus usuarios
+4. **Diseña Ramas efectivas** - Aprende a crear [patrones de conversación](/docs/Fundamentos/Ramas) usando el **Canvas Engine**
 5. **Define Hojas útiles** - Configura [entidades](/docs/Fundamentos/Hojas) para extraer información valiosa
-6. **Integra con el mundo** - Conecta tu chatbot usando [Injertos](/docs/Injertos/CanalesDeComunicacion) y [Fertilizantes](/docs/Fertilizantes)
+6. **Integra con el mundo** - Conecta tu chatbot usando **Telegram**, [Injertos Web](/docs/Injertos/CanalesDeComunicacion) y [Fertilizantes](/docs/Fertilizantes)
 
 ## Características Principales
 
 ![Características de TreeFlow](/img/features-placeholder.svg)
+
+### 🎨 Editor Visual (Canvas Engine)
+- Interfaz gráfica *Drag & Drop* para diseñar los flujos.
+- Conexión matemática directa a la máquina de estados.
+- Inyección de Mensajes y bloques ricos en la misma pantalla.
 
 ### Control Determinista
 - Flujos de conversación predecibles y confiables
@@ -69,25 +50,15 @@ Para una experiencia más estable y completa, recomendamos desplegar TreeFlow us
 
 ### Potencia Generativa
 - **Reforestación con Pipeline de 6 Fases**: Generación precisa y controlada de contenido
+- **GenAI Tools**: Capacidades inyectadas para interactuar con herramientas externas.
 - **Contexto Inteligente**: Considera el estado actual del bot antes de generar
 - **Modelos Actualizados**: Groq con múltiples opciones (llama, mixtral, gemma)
-- **Frameworks Modulares**: Sistema extensible para diferentes métodos de generación
-- Enriquecimiento automático con sinónimos y variaciones
-
-### Enfoque Empresarial
-- Diseñado para generar resultados de negocio
-- Integración con sistemas existentes vía webhooks
-- Análisis de rendimiento y optimización
-- Control de permisos granular por rol
 
 ### Gestión Avanzada
 - **Workspaces**: Organiza proyectos en espacios de trabajo independientes
-- **Reforestación Mejorada**: Pipeline de 6 fases con formato estándar
-- **Injertos**: Gestiona integraciones web, canales y APIs desde un centro de control
+- **Telegram Oficial**: Conexión nativa con soporte para 14 bloques ricos (carruseles, botones).
 - **Fertilizantes**: Webhooks avanzados con testing en tiempo real y debugging
 - **Widget Web (QWidget)**: Integración embebible en 2 líneas de código con CDN global
-- **Sistema de Caché**: Navegación fluida sin parpadeos
-- **LocalTunnel**: Desarrollo local con URLs públicas para demos y testing
 
 ## Recursos Adicionales
 
