@@ -1,0 +1,46 @@
+---
+sidebar_position: 1
+---
+
+# Setup de Slack App (Events API & Block Kit)
+
+La integración de **Slack** en TreeFlow permite a tus asistentes responder directamente en canales públicos, privados y mensajes directos dentro de tu espacio de trabajo empresarial utilizando componentes interactivos nativos de **Slack Block Kit**.
+
+---
+
+## ⚡ Características Principales
+- **Events API Real-Time**: Despacho instantáneo al recibir mensajes `@mencionados` o directos.
+- **Slack Block Kit NATIVO**: Renderizado automático de párrafos (`section`), botones de acción (`actions`) e imágenes (`image`).
+- **Control ON/OFF Interno**: Activa o desactiva la conexión en vivo directamente desde el modal de Injertos.
+
+---
+
+## 🛠️ Requisitos y Credenciales necesarias
+
+1. **Slack Bot User OAuth Token**: Identificador `xoxb-...` generado desde la consola [Slack API](https://api.slack.com/apps).
+2. **Slack Signing Secret**: Secreto de firma para validar autenticidad de peticiones HTTP.
+3. **Webhook URL de TreeFlow**: `https://tu-dominio.com/integrations/slack/webhook`
+
+---
+
+## 📋 Proceso de Configuración
+
+1. **Crear App en Slack API**:
+   - Ingresa a `https://api.slack.com/apps` y selecciona **Create New App** -> **From scratch**.
+   - Asigna un nombre (ej. `TreeFlow Assistant`) y selecciona tu Workspace.
+
+2. **Configurar Event Subscriptions**:
+   - Activa **Enable Events**.
+   - Pega tu Webhook URL de TreeFlow: `https://tu-dominio.com/integrations/slack/webhook`.
+   - En **Subscribe to bot events**, agrega: `message.channels`, `message.im`, `app_mention`.
+
+3. **Copiar Credenciales a TreeFlow**:
+   - Ve a **Injertos** -> **Slack App** en TreeFlow.
+   - Ingresa tu **Bot User OAuth Token** (`xoxb-...`) y el **Signing Secret**.
+   - Presiona **Guardar y Verificar**.
+
+---
+
+:::tip Bloques Enriquecidos
+Puedes diseñar respuestas enriquecidas para Slack en la pestaña **Slack** de la sección de Respuestas de tu editor de intenciones. TreeFlow las convertirá automáticamente a objetos **Block Kit**.
+:::

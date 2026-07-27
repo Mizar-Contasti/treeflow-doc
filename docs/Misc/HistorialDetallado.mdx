@@ -10,6 +10,40 @@ Este documento proporciona un historial detallado de todas las características,
 
 <details open>
 <summary>
+### <strong>V-0.6.0 (07/2026) - AI Builder Agent, Seguridad Multitenant y Optimización de Producción</strong>
+</summary>
+
+#### 🤖 Treeflow AI Builder Agent
+> - ✅ **Consola Asistida de IA**
+>   - Creación, modificación, consulta y eliminación en tiempo real de ramas, nodos (leaves), intenciones, entidades, plantillas de mensajes, fertilizantes y usuarios.
+> - ✅ **Protocolo Anti-Duplicados de 2 Capas**
+>   - Regla explícita en System Prompt y guards backend en `create_branch`, `create_leaf`, `create_intent`, `create_entity`, `create_message_template` y `create_fertilizer` para prevenir nombres duplicados.
+> - ✅ **Savepoints Transaccionales (`db.begin_nested()`)**
+>   - Ejecución atómica de herramientas con rollback automático en caso de fallo intermedio.
+> - ✅ **Historial de Sesiones Persistente**
+>   - Guardado automático de sesiones de chat del agente en base de datos con capacidad de listar, renombrar y eliminar.
+
+#### 🛡️ Seguridad e Aislamiento Multitenant
+> - ✅ **Verificación de Propiedad (`verify_tree_ownership`)**
+>   - Validación estricta de pertenencia del árbol al workspace (`tree.workspace_id == current_user.workspace_id`) en los endpoints `/chat`, `/confirm` y `/sessions`.
+> - ✅ **Sobrescritura Forzosa de Parámetros**
+>   - `tree_id` y `workspace_id` se fuerzan a nivel de backend al ejecutar herramientas del agente, blindando la app contra prompt injection u alucinaciones del LLM.
+> - ✅ **Filtros Joins en PostgreSQL**
+>   - Nodos y plantillas aislados por `Branch.tree_id == uid` y `MessageTemplate.tree_id == uid`.
+> - ✅ **Cabeceras de Seguridad HTTP Middleware**
+>   - Inyección de `X-Content-Type-Options`, `X-Frame-Options`, `X-XSS-Protection` y `Referrer-Policy`.
+
+#### ⚡ Rendimiento, Rate Limiting y Producción
+> - ✅ **Rate Limiting (120 req/min por tree_id)**
+>   - Algoritmo de ventana deslizante en el Motor Determinista (`/api/process-message`) y Webhooks (`/api/webhooks/telegram/{tree_id}`) contra ataques DoS/flooding.
+> - ✅ **Compresión GZip (`GZipMiddleware`)**
+>   - Reducción del tamaño de transferencia del 80-90% para payloads > 1KB.
+> - ✅ **Indexación PostgreSQL B-Tree**
+>   - Índices en `Leaf.branch_id` y `Branch.tree_id`.
+</details>
+
+<details>
+<summary>
 ### <strong>V-0.5.0 (06/2026) - Plantillas, Telegram y Bloques Ricos</strong>
 </summary>
 

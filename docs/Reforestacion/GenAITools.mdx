@@ -22,3 +22,18 @@ Esta característica utiliza activamente las *GenAI Tools*:
 3. **Tutorialización Dinámica**: Dependiendo de dónde te encuentres atascado, la IA usa sus herramientas para sugerirte el paso técnico exacto a seguir, ahorrándote minutos de lectura de manuales.
 
 En conjunto, el Pipeline de 6 Fases (Reforestación) apoyado por estas Herramientas Generativas, convierte a TreeFlow en uno de los diseñadores conversacionales más intuitivos del ecosistema.
+
+## Treeflow AI Builder Agent (V-0.6.0)
+
+En julio de 2026, Treeflow evolucionó el concepto de GenAI Tools lanzando el **Treeflow AI Builder Agent**, una consola conversacional integrada en el editor que permite construir, modificar y consultar cualquier componente del chatbot conversando directamente con el agente.
+
+### ⚙️ Capacidades del Agente
+- **Creación y Edición**: Ramas (`branches`), nodos (`leaves`), intenciones (`intents`), entidades simples y compuestas (`entities`), plantillas de mensajes, usuarios y fertilizantes.
+- **Consultas en Tiempo Real**: Inspección de la estructura actual del bot, estado del entrenamiento NLU y configuraciones de voz.
+- **Confirmación Interactiva**: Solicitud de aprobación gráfica al usuario antes de aplicar cambios estructurales o destructivos.
+
+### 🛡️ Seguridad, Aislamiento y Resiliencia
+1. **Protocolo Anti-Duplicados de 2 Capas**: Regla obligatoria en System Prompt y verificaciones backend en todas las herramientas de creación que evitan la duplicación accidental de recursos por nombre.
+2. **Aislamiento Multitenant Inviolable**: Validación de propiedad (`verify_tree_ownership`) y sobrescritura forzosa de los parámetros `tree_id` y `workspace_id` a nivel de backend, impidiendo prompt injections u alucinaciones del modelo hacia otros árboles o espacios de trabajo.
+3. **Savepoints Transaccionales (`db.begin_nested()`)**: Las acciones del agente se ejecutan en sub-transacciones atómicas. Si una herramienta falla en un turno de múltiples acciones, la base de datos realiza rollback automático garantizando la consistencia del chatbot.
+

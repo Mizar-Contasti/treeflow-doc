@@ -164,47 +164,6 @@ Placeholder del input de texto.
 
 **Por defecto**: "Escribe un mensaje..."
 
-#### `bot-image` (Opcional)
-URL de la imagen del avatar del bot.
-
-```html
-<treeflow-widget 
-  bot-image="https://mi-cdn.com/bot-avatar.png">
-</treeflow-widget>
-```
-
-#### `z-index` (Opcional)
-Controla el apilamiento CSS del widget.
-
-**Por defecto**: "10000"
-
-#### `file-upload` (Opcional)
-Habilita o deshabilita la subida de archivos.
-
-**Por defecto**: "true"
-
-#### `microphone` (Opcional)
-Habilita o deshabilita la entrada de voz (STT).
-
-**Por defecto**: "true"
-
-#### `debug` (Opcional)
-Activa el modo de depuración para ver logs en consola.
-
-**Por defecto**: "false"
-
-#### `start-event` (Opcional)
-Evento que se envía automáticamente al abrir el widget por primera vez.
-
-```html
-<treeflow-widget start-event="WELCOME_EVENT"></treeflow-widget>
-```
-
-#### `enable-maximize` (Opcional)
-Permite al usuario maximizar el widget a pantalla completa.
-
-**Por defecto**: "false"
-
 ### Ejemplo con Todas las Opciones
 
 ```html
@@ -658,6 +617,154 @@ treeflow-widget {
   --text-color: red;
 }
 ```
+
+## Funcionalidades Avanzadas
+
+### 🎤 Transcripción de Voz (STT)
+
+El widget soporta transcripción de voz mediante Speech-to-Text cuando el backend tiene configurado el servicio de voz.
+
+```html
+<treeflow-widget 
+  endpoint="https://api.mibot.com/message"
+  tree-id="tu-tree-id"
+  microphone="true">
+</treeflow-widget>
+```
+
+**Características**:
+- Grabación de audio con visualización de onda
+- Transcripción automática mediante servicio STT
+- Envío de metadata de transcripción al backend
+- Soporte para pausar y cancelar grabación
+
+**Metadata enviada al backend**:
+```json
+{
+  "type": "text",
+  "value": "texto transcrito",
+  "stt_info": {
+    "status": "enabled",
+    "audio_duration": 3.5,
+    "process_time": 0.8,
+    "model_used": "whisper-large-v3",
+    "realtime_factor": 4.375,
+    "confidence": 0.95
+  }
+}
+```
+
+### 😊 Análisis de Sentimientos
+
+El widget puede enviar información de sentimientos detectados en los mensajes del usuario.
+
+**Sentimientos detectados**:
+- `positive` - Mensajes positivos, agradecimientos
+- `negative` - Quejas, frustración
+- `neutral` - Mensajes informativos
+- `question` - Preguntas
+
+**Metadata enviada al backend**:
+```json
+{
+  "type": "text",
+  "value": "mensaje del usuario",
+  "sentiment": {
+    "type": "positive",
+    "confidence": 0.85
+  }
+}
+```
+
+### 🪟 Estados del Widget
+
+El widget tiene 3 estados visuales:
+
+#### 1. **Closed** (Cerrado)
+Círculo flotante en la esquina con ícono personalizable.
+
+```html
+<treeflow-widget 
+  widget-icon="https://mi-cdn.com/icono.svg">
+</treeflow-widget>
+```
+
+**Fallback automático**: Si el ícono falla al cargar, muestra emoji 🌙
+
+#### 2. **Open** (Abierto)
+Ventana de chat normal (350x500px por defecto).
+
+#### 3. **Maximized** (Maximizado)
+Pantalla completa para mejor experiencia en móviles.
+
+```html
+<treeflow-widget 
+  enable-maximize="true">
+</treeflow-widget>
+```
+
+### 🎛️ Controles del Widget
+
+El widget incluye 3 botones de control:
+
+- **Minimizar** (`−`): Reduce el widget al estado anterior
+  - Desde `maximized` → `open`
+  - Desde `open` → `closed`
+- **Maximizar** (`⛶`): Alterna entre ventana y pantalla completa
+  - Desde `open` → `maximized`
+  - Desde `maximized` → `open`
+- **Cerrar** (`×`): Cierra completamente el widget a `closed`
+
+```html
+<!-- Deshabilitar botón de maximizar -->
+<treeflow-widget 
+  enable-maximize="false">
+</treeflow-widget>
+```
+
+### 🎨 Ícono Personalizado
+
+Configura un ícono personalizado para el estado cerrado:
+
+```html
+<treeflow-widget 
+  widget-icon="https://cdn.miempresa.com/logo.svg">
+</treeflow-widget>
+```
+
+**Características**:
+- Soporte para SVG, PNG, JPG
+- Fallback automático a emoji si falla la carga
+- Tamaño recomendado: 32x32px o 512x512px (SVG)
+
+### ⏱️ Delay de Respuesta
+
+Simula tiempo de "pensamiento" del bot:
+
+```html
+<treeflow-widget 
+  response-delay="true"
+  response-delay-seconds="2000">
+</treeflow-widget>
+```
+
+**Uso**: Útil para dar sensación de procesamiento natural.
+
+### 🐛 Modo Debug
+
+Activa información de debugging en los mensajes:
+
+```html
+<treeflow-widget 
+  debug="true">
+</treeflow-widget>
+```
+
+**Muestra**:
+- Request completo enviado al backend
+- Response completo recibido
+- Metadata de STT (si aplica)
+- Información de sentimientos (si aplica)
 
 ## Mejores Prácticas
 

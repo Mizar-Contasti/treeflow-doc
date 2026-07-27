@@ -1,0 +1,8 @@
+{
+  "label": "Discord",
+  "position": 7,
+  "link": {
+    "type": "generated-index",
+    "description": "Integración con bots, Rich Embeds y componentes interactivos de Discord"
+  }
+}

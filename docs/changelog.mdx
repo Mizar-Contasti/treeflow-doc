@@ -9,6 +9,44 @@ sidebar_position: 12
 ## 🎉 Versiones Recientes (2026)
 
 <details open>
+<summary><strong>V-0.7.0 (Julio 2026) - Multicanalidad Avanzada, Modales Estandarizados y Payloads Nativos por Plataforma</strong></summary>
+
+### 🔌 Nuevas Integraciones y Reorganización de Canales (`backend/api/integrations/`)
+> - **Slack App (Events API)**: Integración en tiempo real con Slack API y renderizado nativo **Block Kit** (`section`, `actions`, `button`, `image`).
+> - **Discord Bot API**: Soporte para **Rich Embeds** y componentes `ActionRow` interactivos con respuesta de verificación ED25519 (`type=1`).
+> - **ElevenLabs Voice AI**: Síntesis neuronal de voz multilingüe (`eleven_multilingual_v2`) con selector de voces.
+> - **Avatares IA**: Generación de video-respuestas interactivas con avatares de HeyGen y D-ID.
+> - **Estructura Limpia de Integraciones**: Routers modularizados en `backend/api/integrations/` y clientes API cliente en `frontend/src/api/integrations/`.
+
+### 🎛️ Estandarización de Modales e Interfaz UI
+> - **Tarjeta de Estado e Interruptor ON/OFF**: Reorganización de los 8 modales de integraciones con tarjeta visual de estado (`IntegrationStatusCard.tsx`) e interruptor ON/OFF interno para activar/desactivar conexiones sin salir del modal.
+> - **Categorización de Integraciones (`IntegrationsView.tsx`)**: Etiquetas estandarizadas: 🟢 **Estable** (Telegram, Web), 🟡 **Inestable** (WhatsApp, Facebook, Slack, Email, Instagram, Discord, ElevenLabs, Avatares IA) y ⚪ **Pendiente implementar** (SMS, BYOC).
+
+### 💬 Bloques Visuales y Payloads Nativos por Plataforma
+> - **Pestañas Dinámicas por Canal**: En el editor de respuestas (`ResponsesSection.tsx`), cada integración activa cuenta con su pestaña dedicada para crear respuestas y bloques enriquecidos a la medida del canal.
+> - **Traductor Nativo Multiplataforma (`native_rich_messages.py`)**: Traducción inteligente de bloques visuales de Treeflow a estructuras nativas oficiales de WhatsApp (Botones/Listas interactivas), Facebook (Generic Templates/Quick Replies), Slack (Block Kit), Discord (Rich Embeds/Buttons) y Resend Email (HTML Responsivo con CTAs).
+</details>
+
+<details>
+<summary><strong>V-0.6.0 (Julio 2026) - AI Builder Agent, Seguridad Multitenant y Optimización de Producción</strong></summary>
+
+### 🤖 Treeflow AI Builder Agent
+> - **Consola Asistida de IA**: Consola inteligente capaz de crear, consultar y modificar ramas, nodos, intenciones, entidades, plantillas de mensajes, usuarios y fertilizantes en tiempo real.
+> - **Protocolo Anti-Duplicados de 2 Capas**: Regla obligatoria en System Prompt y validaciones backend en `create_branch`, `create_leaf`, `create_intent`, `create_entity`, `create_message_template` y `create_fertilizer` que impiden crear recursos duplicados por nombre.
+> - **Savepoints Transaccionales (`db.begin_nested()`)**: Ejecución segura de herramientas con rollback automático en caso de error para proteger la integridad del árbol.
+
+### 🛡️ Seguridad e Aislamiento Multitenant
+> - **Verificación de Propiedad (`verify_tree_ownership`)**: Validación de pertenencia del árbol al workspace (`tree.workspace_id == current_user.workspace_id`) en `/chat`, `/confirm` y `/sessions`.
+> - **Inmunidad a Prompt Injection / Alucinaciones**: Sobrescritura forzosa a nivel de backend de los parámetros `tree_id` y `workspace_id` al ejecutar las herramientas del agente.
+> - **Filtros Joins de BD y Cabeceras HTTP**: Aislamiento estricto por `tree_id` en PostgreSQL e inyección automática de cabeceras de seguridad (`X-Content-Type-Options`, `X-Frame-Options`, `X-XSS-Protection`, `Referrer-Policy`).
+
+### ⚡ Rendimiento, Rate Limiting y Producción
+> - **Rate Limiting (120 req/min)**: Protección mediante ventana deslizante en el Motor Determinista (`/api/process-message`) y Webhooks de Canales (`/api/webhooks/telegram/{tree_id}`) contra ataques de flooding (DoS).
+> - **Compresión GZip (`GZipMiddleware`)**: Reducción de tamaño de transferencia del 80-90% para payloads > 1KB (aceleración visual de canvas y listados).
+> - **Indexación B-Tree**: Índices en `Leaf.branch_id` y `Branch.tree_id` en PostgreSQL para consultas sub-milisegundo.
+</details>
+
+<details>
 <summary><strong>V-0.5.0 (Junio 2026) - Plantillas, Telegram y Bloques Ricos</strong></summary>
 
 ### 🔌 Integraciones y Webhooks Avanzados

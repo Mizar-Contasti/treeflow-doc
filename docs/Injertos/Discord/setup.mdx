@@ -1,0 +1,41 @@
+---
+sidebar_position: 1
+---
+
+# Setup de Discord Bot API
+
+La integración de **Discord** en TreeFlow permite conectar tu asistente conversacional con servidores y canales comunitarios mediante **Discord Bot API**, **Rich Embeds** y **ActionRow Components**.
+
+---
+
+## ⚡ Características Principales
+- **Rich Embeds NATIVOS**: Renderizado elegante de tarjetas con colores personalizados, imágenes y textos formateados.
+- **ActionRows & Buttons**: Botones interactivos que permiten a los usuarios elegir respuestas rápidas.
+- **Verificación ED25519**: Validación criptográfica de interacciones enviadas por Discord.
+
+---
+
+## 🛠️ Credenciales Requeridas
+
+1. **Discord Bot Token**: Token del Bot en el [Discord Developer Portal](https://discord.com/developers/applications).
+2. **Discord Public Key**: Clave pública para verificación de firmad ED25519 de Webhooks.
+3. **Application ID**: ID de la aplicación de Discord.
+
+---
+
+## 📋 Proceso de Configuración
+
+1. **Crear Aplicación en Discord Developer Portal**:
+   - Ve a `https://discord.com/developers/applications` y haz clic en **New Application**.
+   - Asigna un nombre a tu bot.
+
+2. **Obtener Bot Token & Public Key**:
+   - Copia la **Public Key** desde la pestaña **General Information**.
+   - En la sección **Bot**, genera y copia el **Bot Token**.
+
+3. **Configurar Interactions Endpoint URL**:
+   - Pega tu Webhook URL: `https://tu-dominio.com/integrations/discord/webhook`.
+   - Discord enviará un ping de verificación (`type=1`) que TreeFlow responderá en automático.
+
+4. **Guardar en TreeFlow**:
+   - En TreeFlow -> **Injertos** -> **Discord Bot**, ingresa las credenciales y presiona **Guardar y Conectar**.
