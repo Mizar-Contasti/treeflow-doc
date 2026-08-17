@@ -9,6 +9,42 @@ sidebar_position: 12
 ## 🎉 Versiones Recientes (2026)
 
 <details open>
+<summary><strong>V-0.8.0 (Agosto 2026) - Presencia en Tiempo Real, Debug Visual, Dialog Builder y Autenticación Mejorada</strong></summary>
+
+### 👥 Sistema de Presencia en Tiempo Real
+> - **Cursores en Vivo (Live Cursors)**: Los administradores ven el cursor de cada colaborador en tiempo real sobre el canvas y el árbol conversacional, mediante WebSocket.
+> - **Avatares de Usuarios Conectados**: Indicadores visuales en el Dashboard, Navbar, canvas (header de rama + badges por nodo), y en los editores de Intenciones y Entidades.
+> - **Follow Mode**: Modo de seguimiento flotante — un admin puede sincronizar su vista con la de otro usuario conectado con un solo clic.
+> - **Selección Resaltada**: Al seleccionar un nodo, los demás usuarios conectados ven un anillo de color único alrededor del elemento seleccionado.
+> - **Restricción a Administradores**: La interacción en tiempo real, cursores y follow mode están restringidos exclusivamente a usuarios con rol `admin`.
+> - **Endpoint de Presencia Global**: Nuevo endpoint `GET /trees/{tree_id}/presence/overview` que devuelve la lista de usuarios activos con su ubicación actual en el árbol.
+
+### 🐛 Debug Visual en Canvas
+> - **Trazado en Tiempo Real**: Durante las pruebas en la consola, los nodos visitados por el motor se resaltan visualmente en el canvas con un color diferenciado.
+> - **Auto-Navegación de Ramas**: El canvas navega automáticamente hacia la rama activa durante la sesión de debug, manteniendo el foco en el flujo en ejecución.
+> - **Conexiones Trazadas**: Las aristas (conexiones) entre nodos también se resaltan para visualizar el camino de decisión tomado por el motor.
+
+### 🏗️ Dialog Builder — Nueva Pestaña de Consola
+> - **Tercera Pestaña en la Consola**: Se agregó una pestaña dedicada *Dialog Builder* en la consola lateral del editor, junto a Chat y Debug.
+> - **Historial de Chat como Burbujas**: La ventana de conversación fue rediseñada completamente con un estilo de historial de burbujas moderno, diferenciando visualmente turnos del usuario (naranja primario) y del bot.
+> - **Debug Accordions Inline**: Los datos de debug (confidence score, entidades extraídas, rama ejecutada) se muestran como acordeones colapsables directamente dentro del historial, sin interrumpir el flujo de la conversación.
+> - **Modo QA Restringido**: El toggle de nodo y el selector de rama están desactivados en modo consola para evitar modificaciones accidentales durante las pruebas.
+
+### 🔐 Autenticación Mejorada
+> - **Auto-Logout por Inactividad**: Cierre de sesión automático tras 1 hora sin actividad del usuario, con advertencia previa.
+> - **Checkbox "Recordar Credenciales"**: Opción en el formulario de login para persistir las credenciales entre sesiones del navegador.
+
+### 🌿 Duplicación de Ramas
+> - **Acción de Duplicar Rama**: Nueva opción en la vista `/branches` (modo test/experto) para duplicar una rama completa con un prompt de nombre personalizado.
+
+### 🔧 Correcciones de Motor (Regex y API)
+> - **Estrategias de Matching (`utils.py`)**: Correcciones en los utilitarios de estrategias de matching regex del motor determinista.
+> - **Endpoints de Conversaciones**: Alineación de los endpoints de conversaciones con el path canónico `/trees/{tree_id}/conversations` y alias `/api/trees/` en `app.py`.
+> - **Fix TypeScript**: Eliminación de importaciones no utilizadas y corrección de tipos en componentes UI (`NavIcons`, `GeneralTab`, `ConsoleChatWindow`).
+
+</details>
+
+<details>
 <summary><strong>V-0.7.0 (Julio 2026) - Multicanalidad Avanzada, Modales Estandarizados y Payloads Nativos por Plataforma</strong></summary>
 
 ### 🔌 Nuevas Integraciones y Reorganización de Canales (`backend/api/integrations/`)

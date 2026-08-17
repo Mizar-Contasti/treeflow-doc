@@ -10,6 +10,114 @@ Este documento proporciona un historial detallado de todas las características,
 
 <details open>
 <summary>
+### <strong>V-0.8.0 (08/2026) - Presencia en Tiempo Real, Debug Visual, Dialog Builder y Autenticación Mejorada</strong>
+</summary>
+
+#### 👥 Sistema de Presencia en Tiempo Real (WebSocket)
+> - ✅ **Primitivas Compartidas de Presencia (`frontend/src/context/`)**
+>   - Infraestructura base de hooks y contextos para el sistema de presencia, reutilizables en todos los editores.
+> - ✅ **Indicadores en Editores de Intenciones y Entidades**
+>   - Avatares de usuarios conectados visibles directamente en los paneles de edición de Intenciones y Entidades.
+> - ✅ **Indicador Global Persistente en Navbar**
+>   - Punto de estado de conexión en la barra de navegación que muestra cuántos usuarios están activos.
+> - ✅ **Endpoint de Presencia Global (`GET /trees/{tree_id}/presence/overview`)**
+>   - Backend que devuelve la lista de usuarios activos, su rol y ubicación actual dentro del árbol.
+> - ✅ **Presencia en el Canvas (branch header + badges por nodo)**
+>   - Avatares superpuestos en el encabezado de cada rama y en los nodos individuales del canvas que el usuario está visualizando.
+> - ✅ **Avatares en Dashboard y Widget de Usuarios Conectados**
+>   - Grupo de avatares junto al título del Dashboard con endpoint `GET /connected-users`.
+>   - Modal expandido al clicar los avatares mostrando nombre completo + ubicación de cada usuario.
+> - ✅ **Selección Resaltada (User Selection Highlight)**
+>   - Al seleccionar un nodo, un anillo de color pastel único (asignado por usuario) aparece en el elemento para todos los colaboradores.
+> - ✅ **Follow Mode — Píldora Flotante**
+>   - Un admin puede sincronizar su vista con la de otro usuario. Rediseño del indicador como píldora flotante con info del usuario seguido.
+> - ✅ **Cursores en Vivo (Live Cursors)**
+>   - Transmisión de la posición del cursor en tiempo real mediante WebSocket. Overlay de cursores remotos en el canvas.
+> - ✅ **Colores Pastel Únicos por Usuario**
+>   - Paleta de colores suaves asignada por hash de usuario para diferenciar presencias sin saturar la UI.
+> - ✅ **Restricción de Interacción a Administradores**
+>   - Cursores en vivo, follow mode y selección resaltada restringidos exclusivamente a usuarios `admin`.
+>   - Seed de usuario `colaborador` incluido para pruebas de rol.
+
+#### 🐛 Debug Visual en Canvas
+> - ✅ **Trazado en Tiempo Real de Nodos Visitados**
+>   - Integración con la consola de pruebas: los nodos por los que pasa el motor de decisión se resaltan en el canvas con color diferenciado en tiempo real.
+> - ✅ **Conexiones Trazadas (`traversedDebugConnections`)**
+>   - Las aristas entre nodos también se colorean para visualizar el camino exacto de decisión tomado por el motor.
+> - ✅ **Auto-Navegación de Ramas**
+>   - El canvas navega automáticamente a la rama activa durante el debug, manteniendo el foco en el flujo en ejecución sin intervención manual.
+> - ✅ **Props `visitedDebugLeafIds` y `traversedDebugConnections`**
+>   - `CanvasBoardProps` actualizado para recibir y propagar el estado de debug desde la consola al canvas.
+
+#### 🏗️ Dialog Builder — Nueva Pestaña en la Consola
+> - ✅ **Tercera Pestaña (`EditNoteIcon`)**
+>   - Pestaña *Dialog Builder* añadida en la consola lateral del editor, junto a Chat y Debug.
+> - ✅ **Rediseño del Chat como Historial de Burbujas**
+>   - La ventana de conversación fue completamente rediseñada: burbujas diferenciadas por turnos del usuario (color naranja primario) y del bot, con timestamps.
+> - ✅ **Debug Accordions Inline**
+>   - Datos de debug (confidence score, entidades extraídas, rama ejecutada, intent matched) visibles como acordeones colapsables dentro del historial de burbujas.
+> - ✅ **Modo QA Restringido**
+>   - Toggle de nodo y selector de rama desactivados en la consola para evitar modificaciones accidentales del árbol durante las pruebas.
+> - ✅ **Escala de Texto en Sidebar**
+>   - Ajustes de tipografía y escala para el sidebar de la consola en modo QA.
+
+#### 🔐 Autenticación Mejorada
+> - ✅ **Auto-Logout por Inactividad (1 hora)**
+>   - Cierre de sesión automático tras 60 minutos sin actividad del usuario. Timer reiniciado por eventos de mouse/teclado.
+> - ✅ **Checkbox "Recordar Credenciales"**
+>   - Opción en el formulario de login que persiste las credenciales en `localStorage` para la próxima sesión.
+
+#### 🌿 Duplicación de Ramas
+> - ✅ **Acción "Duplicar" en `/branches`**
+>   - Nueva opción disponible en la vista de ramas (modo test/experto) que clona la rama seleccionada con un prompt de nombre personalizado.
+>   - Disponible tanto en el listado de `/branches` como en el árbol de diseño conversacional.
+
+#### 🔧 Correcciones de Motor y API
+> - ✅ **Fixes en Estrategias de Matching Regex (`backend/core/matcher_strategies/utils.py`)**
+>   - Correcciones en los utilitarios de normalización y compilación de patrones regex del motor determinista.
+> - ✅ **Alineación de Endpoints de Conversaciones**
+>   - Path canónico `/trees/{tree_id}/conversations` estandarizado. Alias `/api/trees/` registrado en `app.py` para compatibilidad.
+> - ✅ **Canvas UX: Panning y Layout**
+>   - Corrección del panning en el canvas. Layout automático desactivado en la carga inicial para preservar la disposición guardada.
+>   - Botón de Deshacer (Undo) añadido en la consola de canvas.
+> - ✅ **Fixes TypeScript**
+>   - Importaciones no utilizadas eliminadas en `NavIcons`, `GeneralTab`, `ConsoleChatWindow`. Corrección de tipo `onChange` en `GeneralTab`.
+
+</details>
+
+<details>
+<summary>
+### <strong>V-0.7.0 (07/2026) - Multicanalidad Avanzada, Modales Estandarizados y Payloads Nativos por Plataforma</strong>
+</summary>
+
+#### 🔌 Nuevas Integraciones y Reorganización de Canales
+> - ✅ **Slack App (Events API)**
+>   - Integración en tiempo real con Slack API con renderizado nativo **Block Kit** (`section`, `actions`, `button`, `image`).
+> - ✅ **Discord Bot API**
+>   - Soporte para **Rich Embeds** y componentes `ActionRow` interactivos con respuesta de verificación ED25519 (`type=1`).
+> - ✅ **ElevenLabs Voice AI**
+>   - Síntesis neuronal de voz multilingüe (`eleven_multilingual_v2`) con selector de voces en la interfaz.
+> - ✅ **Avatares IA (HeyGen / D-ID)**
+>   - Generación de video-respuestas interactivas con avatares de HeyGen y D-ID.
+> - ✅ **Estructura Limpia de Integraciones**
+>   - Routers modularizados en `backend/api/integrations/` y clientes API en `frontend/src/api/integrations/`.
+
+#### 🎛️ Estandarización de Modales e Interfaz UI
+> - ✅ **Tarjeta de Estado e Interruptor ON/OFF (`IntegrationStatusCard.tsx`)**
+>   - Reorganización de los 8 modales de integraciones con tarjeta visual de estado e interruptor interno para activar/desactivar conexiones.
+> - ✅ **Categorización de Integraciones (`IntegrationsView.tsx`)**
+>   - Etiquetas estandarizadas: 🟢 **Estable** (Telegram, Web), 🟡 **Inestable** (WhatsApp, Facebook, Slack, Email, Instagram, Discord, ElevenLabs, Avatares IA), ⚪ **Pendiente** (SMS, BYOC).
+
+#### 💬 Bloques Visuales y Payloads Nativos por Plataforma
+> - ✅ **Pestañas Dinámicas por Canal (`ResponsesSection.tsx`)**
+>   - Cada integración activa cuenta con su pestaña dedicada para crear respuestas y bloques enriquecidos nativos del canal.
+> - ✅ **Traductor Nativo Multiplataforma (`native_rich_messages.py`)**
+>   - Traducción de bloques Treeflow a: WhatsApp (Botones/Listas interactivas), Facebook (Generic Templates/Quick Replies), Slack (Block Kit), Discord (Rich Embeds/Buttons), Resend Email (HTML Responsivo).
+
+</details>
+
+<details>
+<summary>
 ### <strong>V-0.6.0 (07/2026) - AI Builder Agent, Seguridad Multitenant y Optimización de Producción</strong>
 </summary>
 

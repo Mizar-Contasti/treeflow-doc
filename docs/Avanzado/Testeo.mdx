@@ -11,6 +11,46 @@ Dentro del entorno de TreeFlow, cuentas con una ventana de chat simulada.
 - Permite chatear con el árbol en tiempo real.
 - Integra un **Monitor de Confidence Score**: Depurador que muestra con qué precisión (fuzzy vs machine learning) el motor está entendiendo tus frases y cómo extrae las entidades.
 
+## Consola de Dialog Builder
+
+A partir de la versión V-0.8.0, la consola del editor fue completamente rediseñada e incluye ahora **tres pestañas** especializadas:
+
+| Pestaña | Función |
+|---|---|
+| **Chat** | Conversación directa con el árbol (simulador) |
+| **Debug** | Vista técnica: logs de decisión, confianza, entidades |
+| **Dialog Builder** | Construcción guiada de diálogos y flujos de prueba |
+
+### Historial de Burbujas
+La ventana de chat muestra la conversación como un **historial de burbujas** moderno:
+- Los mensajes del **usuario** se muestran en naranja (color primario).
+- Los mensajes del **bot** se muestran en el fondo secundario.
+- Cada burbuja incluye un timestamp.
+
+### Debug Accordions Inline
+Los datos técnicos de cada turno son visibles **dentro del historial** como acordeones colapsables:
+- **Rama ejecutada** — cuál flujo se activó
+- **Intent detectado** — la intención reconocida por el motor
+- **Confidence Score** — precisión del match (fuzzy vs ML)
+- **Entidades extraídas** — parámetros capturados por el motor NLP
+
+Esto permite al diseñador de conversaciones entender el comportamiento del motor **sin salir del chat de prueba**.
+
+### Modo QA Restringido
+Para evitar modificaciones accidentales al árbol durante las pruebas:
+- El **toggle de nodo** (habilitar/deshabilitar) está bloqueado en la consola.
+- El **selector de rama** está desactivado durante la sesión de chat activa.
+
+## Debug Visual en Canvas
+
+Cuando pruebas una conversación desde la consola, el **canvas reacciona en tiempo real**:
+
+- 🟡 **Nodos resaltados**: Cada nodo (`Leaf`) por el que pasa el motor de decisión se colorea visualmente en el canvas.
+- 🔗 **Conexiones trazadas**: Las aristas entre nodos también se colorean para mostrar el camino completo tomado.
+- 🧭 **Auto-navegación**: El canvas navega automáticamente hacia la rama activa si no está en pantalla, manteniendo siempre el foco en el flujo en ejecución.
+
+Esto convierte al canvas en un **depurador visual en vivo** — puedes ver exactamente qué rama se activó, qué nodo respondió y por qué camino llegó la decisión.
+
 ## Pruebas Automatizadas End-to-End (Playwright)
 
 Para mayo de 2026, el proyecto introdujo una rigurosa suite de pruebas E2E montada sobre **Playwright**. Esto asegura que las características críticas de la aplicación jamás sufran regresiones.
@@ -23,3 +63,4 @@ Cuando la suite de pruebas se ejecuta, levanta instancias invisibles de navegado
 - **Guardado de Intenciones**: Prueba que las ramas complejas retengan sus contextos e intenciones al guardarse en la base de datos PostgreSQL.
 
 Las pruebas E2E en TreeFlow son tu salvavidas; te garantizan que por más pesada que sea la refactorización de código que apliques, las funciones básicas que tus clientes usan siempre seguirán de pie.
+
