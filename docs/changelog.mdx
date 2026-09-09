@@ -53,6 +53,12 @@ sidebar_position: 12
 ### ⚡ Rendimiento del Editor
 > - **Contextos Memorizados**: Los contextos globales creaban un objeto nuevo en cada render, así que re-renderizaban a todos sus consumidores aunque no cambiara ningún dato. Medido con 100 consumidores: de 100 renders por ciclo a 0.
 
+### 🏷️ Versión Visible
+> - **La versión aparece al pie del login**: En letra pequeña, abajo del todo. En un entorno local sale con el sufijo `· dev`; en producción, sólo el número. Sirve para saber de un vistazo contra qué estás hablando cuando reportas algo.
+
+### 🔐 Credenciales
+> - **Chrome ya no autorrellena las API keys**: Los campos de clave y de bot token se marcan como contraseña para ocultarlos, y el gestor de contraseñas del navegador les metía una credencial guardada. Afectaba a los 20 campos de integraciones, incluida la clave del proveedor de IA.
+
 </details>
 
 <details>
