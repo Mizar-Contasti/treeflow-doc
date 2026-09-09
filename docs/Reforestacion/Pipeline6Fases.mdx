@@ -4,6 +4,24 @@ sidebar_position: 4
 
 # 🔄 Pipeline de 6 Fases
 
+:::danger Esta página describe una arquitectura que ya no existe
+El servicio generativo independiente —un backend aparte en el puerto 8001, con Groq y
+su propio sistema de *frameworks*— **se retiró**. La Reforestación sigue existiendo
+como función, pero ahora la ejecuta el **Agente Constructor IA**, que vive dentro del
+backend principal:
+
+| Antes | Ahora |
+|---|---|
+| Servicio `generative/` en el puerto 8001 | `backend/core/builder_agent/`, dentro del backend |
+| `POST /api/reforestacion/apply` · `preview` · `cancel` | `POST /api/builder-agent/chat` y `/confirm` |
+| Groq como único proveedor | Tu propia clave de Anthropic, OpenAI, Gemini, Groq, Cerebras, xAI, Mistral, OpenRouter u Ollama local |
+| Pipeline de fases fijo | 47 herramientas que el agente decide usar sobre tu árbol |
+
+Lo que sigue se conserva como referencia de la implementación anterior. Para usar la
+función, ve a [Guía de Inicio](/docs/Reforestacion/GuiaInicioReforestacion).
+:::
+
+
 TreeFlow v0.4 introduce un pipeline de generación de 6 fases que proporciona mayor precisión y control en la creación de contenido conversacional.
 
 {/* ![Pipeline 6 Fases](/img/pipeline-6-fases-placeholder.svg) */}

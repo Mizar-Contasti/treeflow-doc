@@ -125,10 +125,19 @@ Cada workspace mantiene configuraciones independientes:
 - Configuraciones de endpoints únicas
 - Testing independiente por workspace
 
-#### **Usuarios y Permisos** (Próximamente)
-- Invitar usuarios específicos
-- Roles y permisos granulares
-- Control de acceso por workspace
+#### **Usuarios y Permisos**
+
+Cada usuario pertenece a un workspace y tiene uno de tres roles:
+
+| Rol | Qué puede hacer |
+|---|---|
+| **Administrador** | Todo: crear y borrar árboles, gestionar usuarios e integraciones |
+| **Desarrollador** | Diseñar y editar árboles, intenciones, entidades y flujos |
+| **Visualizador** | Consultar sin modificar: conversaciones, analítica, configuración |
+
+Los usuarios se invitan desde **Cuentas**, y la invitación llega con un enlace de alta.
+Algunas funciones de trabajo en tiempo real —cursores en vivo, follow mode— están
+restringidas a administradores.
 
 #### **Configuraciones Visuales**
 - Branding personalizado por cliente
@@ -212,10 +221,11 @@ Accede a la configuración desde el menú del workspace:
 - Configurar endpoints
 - Testing de integraciones
 
-#### **Usuarios** (Próximamente)
-- Invitar colaboradores
-- Gestionar permisos
-- Auditoría de accesos
+#### **Usuarios**
+- Invitar colaboradores por correo, con enlace de alta
+- Asignar rol: Administrador, Desarrollador o Visualizador
+- Auditoría de cambios, en **Historial**: quién tocó qué y cuándo, por árbol y por
+  workspace
 
 ### Backup y Restauración
 

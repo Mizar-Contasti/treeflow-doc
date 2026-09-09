@@ -10,17 +10,34 @@ Las Hojas del Sistema en TreeFlow son entidades predefinidas que están optimiza
 
 ## Lista Completa de Hojas del Sistema
 
-| Hoja | Descripción | Ejemplos de formato |
-|------|-------------|--------------------| 
-| **sys.any** | Acepta cualquier texto como entrada válida. | "me gusta", "quiero información", "cualquier texto que el usuario escriba" |
-| **sys.number** | Detecta números. | "42", "tres", "3.14", "mil doscientos" |
-| **sys.currency** | Detecta montos monetarios. | "$100", "50 euros", "1,200.50 pesos" |
-| **sys.date** | Detecta fechas en diversos formatos. | "15 de marzo", "15/03/2025", "mañana", "próximo lunes" |
-| **sys.time** | Detecta horas en diversos formatos. | "3 PM", "15:30", "mediodía" |
-| **sys.email** | Detecta direcciones de correo electrónico. | "usuario@ejemplo.com", "nombre.apellido@dominio.co.uk" |
-| **sys.phone** | Detecta números de teléfono. | "+52 123 456 7890", "4421234567" |
-| **sys.url** | Detecta URLs. | "https://ejemplo.com", "www.ejemplo.com" |
-| **sys.percentage** | Detecta porcentajes. | "25%", "25 por ciento" |
+| Hoja | Descripción | Ejemplos |
+|------|-------------|----------|
+| **sys.any** | Acepta cualquier texto como entrada válida | "me gusta", "quiero información" |
+| **sys.number** | Números | "42", "tres", "3.14", "mil doscientos" |
+| **sys.quantity** | Cantidades con unidad | "2 kilos", "5 piezas", "3.5 litros" |
+| **sys.percentage** | Porcentajes | "25%", "25 por ciento" |
+| **sys.currency** | Montos monetarios | "$25.50", "25 dólares", "€100" |
+| **sys.temperature** | Temperaturas | "25°C", "77°F", "25 grados" |
+| **sys.date** | Fechas | "mañana", "10 de mayo", "martes" |
+| **sys.month** | Nombres de mes | "enero", "febrero", "marzo" |
+| **sys.time** | Horas | "10", "10:30", "a las 3" |
+| **sys.email** | Correos electrónicos | "usuario@ejemplo.com" |
+| **sys.phone** | Teléfonos | "+52 123 456 7890", "4421234567" |
+| **sys.url** | URLs | "https://ejemplo.com", "www.ejemplo.com" |
+| **sys.ip_address** | Direcciones IP (IPv4 e IPv6) | "192.168.1.1", "2001:0db8::1" |
+| **sys.sip_address** | Direcciones SIP | "sip:usuario@dominio.com" |
+| **sys.coordinates** | Coordenadas GPS | "19.4326, -99.1332" |
+| **sys.zipcode** | Códigos postales mexicanos, 5 dígitos | "76000", "01000" |
+
+Son **16**. Si necesitas un dato que no está en la lista, créate una hoja propia
+—simple, con sinónimos, o [regex](/docs/Fundamentos/Hojas#3-hojas-regex) si tiene un
+formato fijo—.
+
+:::caution Alcance regional
+`sys.zipcode` reconoce el formato **mexicano** de cinco dígitos, y `sys.phone` está
+afinado para números de México. Si operas en otro país, comprueba que capturan lo que
+esperas antes de darlos por buenos.
+:::
 
 ## Uso Recomendado
 

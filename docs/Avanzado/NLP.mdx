@@ -26,6 +26,63 @@ Las Hojas en TreeFlow utilizan técnicas avanzadas para extraer información:
 2. **Coincidencia de Patrones**: Para extraer datos con formato específico
 3. **Análisis Contextual**: Para entender entidades basadas en el contexto de la conversación
 
+## Modo de Entrenamiento: Básico o Pro
+
+Cada árbol se entrena en uno de dos modos, y la diferencia no es sólo de velocidad.
+
+### Básico (Reglas Rápidas)
+
+Entrenamiento casi instantáneo. Reconoce por coincidencia de texto y patrones, exacta
+y aproximada. Va bien para prototipos, pruebas y bots de menú, donde el usuario elige
+entre opciones conocidas.
+
+En este modo **el método de Machine Learning no interviene**: desaparece de la lista de
+orden de detección, porque no hay modelo que consultar.
+
+### Pro (Machine Learning)
+
+Entrena una red neuronal que aprende a inferir la intención aunque el usuario use
+palabras que nadie escribió en las frases de entrenamiento. Tarda más en entrenar y es
+lo recomendado para producción.
+
+:::tip Cuándo cambiar
+Empieza en Básico mientras diseñas el flujo: entrenar es instantáneo y ves el efecto de
+cada cambio al momento. Pasa a Pro cuando el árbol vaya a hablar con gente de verdad,
+que nunca escribe lo que esperabas.
+:::
+
+## Orden de Detección
+
+El árbol no usa un único método para reconocer una intención: prueba **cinco**, uno
+tras otro, y se queda con el primero que dé una coincidencia buena. El orden es
+configurable desde los ajustes del árbol, arrastrando la lista.
+
+| Método | Qué mira |
+|---|---|
+| **Coincidencia Exacta de Entidades** | Las palabras clave de las hojas que aparecen en los patrones. Es el más preciso |
+| **Coincidencia Aproximada de Entidades** | Lo mismo, pero tolerando erratas: *"kiero empanads de keso"* |
+| **Coincidencia Exacta de Patrones** | La frase completa contra las frases de entrenamiento |
+| **Coincidencia Aproximada de Patrones** | Lo mismo, tolerando diferencias |
+| **Modelo de Machine Learning** | El modelo entrenado, que generaliza a frases que nadie escribió |
+
+Por defecto van en ese orden: de lo más literal a lo más interpretativo.
+
+:::caution El orden importa, y se nota
+Subir el método aproximado por encima del exacto significa que una coincidencia
+*parecida* puede ganarle a una **idéntica**. `"hola"` se parece a `"hora"` lo bastante
+como para que un fuzzy con prioridad alta mande *"a qué hora abren"* a la intención de
+saludo. Si mueves el orden, pásale al bot las frases de siempre antes de darlo por
+bueno.
+:::
+
+### Umbrales
+
+Dos ajustes acompañan al orden:
+
+- **Umbral de confianza ML** — cuánto tiene que estar seguro el modelo para que su
+  respuesta cuente. Más alto, menos aciertos por casualidad y más `no match`.
+- **Umbral de confianza Fuzzy** — cuánto parecido exige una coincidencia aproximada.
+
 ## Optimización del Reconocimiento de Intenciones
 
 ### Mejora de Patrones
