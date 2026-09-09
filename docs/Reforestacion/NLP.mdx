@@ -71,45 +71,20 @@ Configura umbrales de confianza dinámicos:
 
 ## Técnicas Avanzadas de Extracción
 
-### Leaves Compuestas
+### Hojas Compuestas
 
-Para extraer información estructurada compleja:
+Una hoja compuesta describe una **combinación de otras hojas** que aparecen juntas en
+la frase, y se define por **filas** —cada fila, una forma válida de decir lo mismo—:
 
-1. Crea una Leaf compuesta
-2. Define la estructura con sub-entidades
-3. Configura reglas de extracción para cada componente
-
-Ejemplo de Leaf compuesta para direcciones:
-
-```json
-{
-  "id": "direccion",
-  "name": "direccion",
-  "type": "composite",
-  "components": [
-    {
-      "name": "calle",
-      "type": "text",
-      "required": true
-    },
-    {
-      "name": "numero",
-      "type": "sys.number",
-      "required": true
-    },
-    {
-      "name": "ciudad",
-      "type": "leaf.ciudades",
-      "required": true
-    },
-    {
-      "name": "codigo_postal",
-      "type": "sys.zip-code",
-      "required": false
-    }
-  ]
-}
 ```
+@sys.number:cantidad @categoria_producto:categoria de @sabor_producto:sabor
+@sys.number:cantidad @categoria_producto:categoria
+@categoria_producto:categoria @sabor_producto:sabor
+```
+
+Los dos puntos nombran el parámetro: `@Productos:producto` guarda la hoja `Productos`
+bajo el nombre `producto`. Ver [Hojas Compuestas](/docs/Fundamentos/Hojas#2-hojas-compuestas)
+para el detalle.
 
 ### Expresiones Regulares Avanzadas
 
@@ -283,10 +258,21 @@ Un asistente para reservas de restaurantes que utiliza técnicas avanzadas de NL
 
 ### Implementación
 
-1. **Branch de Reserva con Extracción Compleja**:
+1. **Intención de Reserva con Extracción Compleja**:
+
+   No hay sintaxis de alternativas: cada forma de decirlo es **una frase de
+   entrenamiento aparte**. Escribe las que de verdad usa tu gente y deja que el
+   modelo generalice el resto.
+
    ```
-   Patrón: [Quiero|Me gustaría|Necesito] [hacer|realizar] una reserva [para|de] @numero [personas] [para|el] @fecha [a las|a la] @hora
+   quiero hacer una reserva para @sys.number personas @fecha a las @sys.time
+   necesito una mesa para @sys.number el @fecha a las @sys.time
+   reserva para @sys.number @fecha
+   mesa para @sys.number personas
    ```
+
+   Las variantes de una sola palabra —"quiero" / "necesito" / "me gustaría"— se
+   cubren mejor con una hoja de sinónimos que multiplicando frases.
 
 2. **Resolución de Referencias**:
    - Usuario: "¿Tienen mesa disponible para mañana a las 8?"

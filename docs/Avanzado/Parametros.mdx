@@ -4,15 +4,16 @@ sidebar_position: 2
 
 # Parámetros
 
-Los **Parámetros** en TreeFlow son elementos fundamentales que permiten extraer y almacenar información específica de los mensajes del usuario durante una conversación.
+Los **Parámetros** son los datos que tu árbol extrae de lo que escribe el usuario y
+guarda durante la conversación: la cantidad, el producto, la fecha, el teléfono.
 
 ## ¿Qué son los Parámetros?
 
-Los parámetros son contenedores de información que:
+Un parámetro es un hueco con nombre que:
 
-- Se extraen de los mensajes del usuario mediante las hojas
-- Almacenan valores específicos para su uso en las respuestas y lógica del árbol
-- Permiten personalizar la experiencia conversacional
+- se llena con lo que el usuario dice, a través de una hoja referenciada en un patrón;
+- queda disponible para las respuestas y para la lógica del árbol;
+- puede pedirse activamente si falta y es obligatorio.
 
 ![Funcionamiento de los Parámetros](/img/docs/parametros_funcionamiento.svg)
 
@@ -20,83 +21,150 @@ Los parámetros son contenedores de información que:
 
 ## Creación de Parámetros
 
-Los parámetros se crean exclusivamente a través de hojas referenciadas en los patrones de una rama. Para crear un parámetro:
+Los parámetros nacen de las **hojas referenciadas en los patrones de una intención**:
 
-1. Primero debes tener una hoja creada (por ejemplo, `@tamaño_pizza`)
-2. Luego, incluir esta hoja en un patrón de rama (por ejemplo, `"Quiero una pizza de tamaño @tamaño_pizza"`)
-3. Al guardar la rama, el sistema automáticamente creará un parámetro asociado a esa hoja
+1. Creas la hoja (por ejemplo, `tamaño_pizza`).
+2. La referencias en un patrón de la intención: `quiero una pizza @tamaño_pizza`.
+3. Al guardar, el sistema crea el parámetro asociado.
+
+Por defecto el parámetro se llama igual que la hoja. Para darle otro nombre, usa los
+dos puntos: `@tamaño_pizza:tamaño` crea el parámetro `tamaño`.
 
 ## Componentes de un Parámetro
 
-Cada parámetro tiene varios componentes configurables:
-
 ### Nombre
 
-Identificador único del parámetro dentro de la rama. Generalmente coincide con el nombre de la hoja asociada.
-
-### Clave
-
-ID único del parámetro, generalmente derivado del ID de la hoja asociada.
-
-### Nombre para mostrar
-
-Nombre personalizable que se utilizará en la interfaz de usuario y en las respuestas.
+Identificador del parámetro dentro de la intención.
 
 ### Valor por defecto
 
-Valor que se utilizará si el usuario no proporciona información para este parámetro.
-
-### Prompt
-
-Mensaje que el árbol enviará al usuario para solicitar el valor del parámetro cuando sea necesario.
-
-Ejemplo: "¿De qué tamaño quieres tu pizza?"
-
-### Fallback
-
-Mensaje que se mostrará cuando el usuario no proporcione un valor válido para un parámetro requerido después de varios intentos.
-
-Ejemplo: "Lo siento, necesito saber el tamaño de tu pizza para continuar. Por favor, elige entre pequeña, mediana o grande."
+Valor que se usa si el usuario no dice nada. Un parámetro con valor por defecto nunca
+bloquea la conversación, aunque esté marcado como requerido.
 
 ### Requerido
 
-Indica si el parámetro es obligatorio para completar la rama. Si es requerido y no se proporciona, el árbol solicitará activamente este valor al usuario.
+Si está marcado y no hay valor, el árbol lo pedirá antes de continuar. Eso es el
+**slot filling**.
+
+### Prompt
+
+La pregunta con la que se pide el dato: *"¿De qué tamaño quieres tu pizza?"*.
+
+Puede interpolar otros parámetros ya capturados:
+
+```
+¿De qué sabor quieres {{$categoria_producto}}?
+```
+
+:::caution Un enunciado que se apoya en un hueco vacío no se pregunta
+Si el prompt nombra otros parámetros y **todos** están vacíos, el árbol no hace esa
+pregunta: saldría *"¿De qué sabor quieres?"*, sin sujeto. Basta con que uno tenga
+valor. Si no queda ninguna pregunta que tenga sentido, la captura se abandona con un
+mensaje en vez de dar vueltas.
+:::
+
+### Fallback Prompt
+
+Lo que se dice cuando el usuario contesta algo que no encaja: *"No identifiqué el
+tamaño. Puede ser pequeña, mediana o grande."*
+
+### Máx. intentos de fallback
+
+Cuántas veces se insiste con ese parámetro antes de rendirse. Evita que el usuario
+quede atrapado repitiendo la misma pregunta.
+
+### Acción al superar el límite
+
+Qué hacer cuando se agotan los intentos:
+
+| Opción | Qué hace |
+|---|---|
+| **Pasar al siguiente parámetro** | Deja éste y pregunta por otro que falte |
+| **Responder aunque falte el valor** | Contesta con lo que haya |
+| **Ir al nodo de contexto (sin responder)** | Abandona la captura y vuelve al flujo |
+
+Si todos los obligatorios agotan sus intentos, el árbol abandona la intención con un
+mensaje en lugar de seguir preguntando en círculo.
+
+### Puede volver a capturarse durante el slot filling
+
+Con esto activado, el usuario puede **corregir** ese dato mientras se le pregunta por
+otro. Si el árbol pide la cantidad y el usuario dice *"mejor de queso"*, el sabor
+cambia y la cantidad se sigue pidiendo.
 
 ## Uso de Parámetros
 
-Los parámetros se pueden utilizar de diversas formas:
-
 ### En respuestas
 
-Puedes incluir el valor de un parámetro en las respuestas utilizando la sintaxis `$parametro`.
+Se interpolan con **`{{$parametro}}`**:
 
-Ejemplo: "Has pedido una pizza de tamaño $tamaño_pizza"
+```
+Has pedido una pizza de tamaño {{$tamaño_pizza}}
+```
+
+El `$` es obligatorio. También funciona dentro de expresiones:
+
+```
+{{ if $numero > 1 ? "${categoria}s" : $categoria }}
+```
+
+Un parámetro que todavía no existe vale como vacío y **no rompe el resto del
+mensaje**: sólo se queda en blanco esa parte.
 
 ### En condiciones
 
-Los parámetros pueden utilizarse para crear lógica condicional en las respuestas o para activar diferentes ramas.
+Sirven para elegir respuesta o para decidir a qué rama ir.
 
 ### En webhooks
 
-Los valores de los parámetros pueden enviarse a servicios externos a través de webhooks para procesar información o realizar acciones.
+Sus valores pueden enviarse a servicios externos.
+
+## Un parámetro con varios valores
+
+Cuando la misma hoja aparece **más de una vez en la frase**, el parámetro deja de ser
+un único valor y guarda todas las apariciones, en orden:
+
+> *"dame 1 empanada de pollo y 2 arepas de carne"*
+
+Ahí `categoria_producto` vale `empanada` **y** `arepa`. Se ve un solo parámetro, pero
+contiene los dos.
+
+En las respuestas se lee como una lista:
+
+| Escribes | Obtienes |
+|---|---|
+| `{{$producto}}` | el primero, como siempre |
+| `{{$producto[0]}}` | el primero |
+| `{{$producto[1]}}` | el segundo |
+| `{{len($producto)}}` | cuántos vinieron |
+
+Un parámetro que vino una sola vez se comporta como una lista de uno, así que
+`{{$producto[0]}}` funciona sin que tengas que saber de antemano cuántos había.
+
+:::tip Declararlo plural
+Si en la frase de entrenamiento escribes la hoja **dos veces**, le estás diciendo al
+árbol que ese parámetro puede venir repetido. Con las [hojas compuestas](/docs/Fundamentos/Hojas#2-hojas-compuestas)
+cada aparición es una línea completa —cantidad, producto y sabor juntos—, y el árbol
+puede preguntar por lo que le falte a **cada** una.
+:::
 
 ## Ciclo de vida de los Parámetros
 
-Los parámetros tienen un ciclo de vida determinado por los contextos de la rama:
-
-1. Se crean cuando se activa la rama
-2. Permanecen disponibles mientras los contextos de salida estén activos
-3. Se pueden reutilizar en diferentes turnos de la conversación
-4. Expiran cuando los contextos asociados caducan
+1. Se crean al activarse la intención.
+2. Siguen disponibles mientras los contextos de salida estén activos.
+3. Se reutilizan entre turnos de la conversación.
+4. Expiran cuando caducan sus contextos.
 
 ## Mejores Prácticas
 
-1. **Nombres descriptivos**: Utiliza nombres claros que indiquen qué información contiene el parámetro
-2. **Prompts claros**: Escribe mensajes de solicitud precisos y fáciles de entender
-3. **Valores por defecto**: Proporciona valores por defecto sensatos cuando sea posible
-4. **Validación**: Asegúrate de que las hojas asociadas capturen correctamente los valores esperados
-5. **Reutilización**: Diseña tus parámetros pensando en su posible reutilización en diferentes ramas
+1. **Nombres descriptivos**: que se lea qué guarda el parámetro.
+2. **Prompts claros**: una pregunta concreta, y si puede ser, con ejemplos.
+3. **Valores por defecto** cuando exista una opción razonable.
+4. **Límite de intentos** en los obligatorios, para que nadie quede atrapado.
+5. **Recaptura** activada en los datos que un usuario suele corregir sobre la marcha.
 
 :::tip Consejo
-Para crear experiencias conversacionales más naturales, configura cuidadosamente los prompts de tus parámetros. Un buen prompt debe ser conversacional y claro sobre qué información se espera del usuario.
+Un buen prompt es conversacional y deja claro qué se espera. Si además nombra lo que
+ya se capturó —*"¿De qué sabor quieres las 3 arepas?"*— el usuario sabe exactamente
+por cuál de sus cosas le están preguntando.
 :::

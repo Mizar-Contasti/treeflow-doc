@@ -4,10 +4,6 @@ sidebar_position: 7
 
 # Importación y Exportación de Datos
 
-import FutureFeatureNotice from '@site/src/components/FutureFeatureNotice.mdx';
-
-<FutureFeatureNotice version="v0.2" />
-
 TreeFlow proporciona herramientas potentes para importar y exportar datos, permitiéndote respaldar tus Árboles, compartirlos entre entornos, o migrar desde otras plataformas. Esta guía explica las diferentes opciones disponibles para la gestión de datos en TreeFlow.
 
 ## Exportación de Trees
@@ -43,6 +39,22 @@ Si solo necesitas exportar componentes específicos:
    - Leaves específicas
    - Configuraciones específicas
 6. Haz clic en "Exportar Selección"
+
+### Incluir conversaciones
+
+La casilla **"Incluir conversaciones"** decide si el archivo lleva además el historial
+de conversaciones del árbol. Está **desactivada por defecto**, y con razón: en un bot
+en producción el historial son miles de turnos con datos de clientes reales, y engorda
+el archivo hasta hacerlo incómodo de mover.
+
+Actívala sólo si vas a analizar ese historial. Para clonar un bot, migrarlo o
+guardarlo como plantilla no hace falta: la configuración, las ramas, las hojas, las
+intenciones y las integraciones viajan igual.
+
+:::caution Datos personales
+Un export con conversaciones puede contener nombres, teléfonos y direcciones que
+escribieron tus usuarios. Trátalo como lo que es.
+:::
 
 ## Importación de Trees
 

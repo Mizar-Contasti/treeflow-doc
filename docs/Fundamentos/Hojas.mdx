@@ -73,13 +73,39 @@ Las hojas simples contienen una lista de valores y sus sinónimos. Son ideales p
 
 ### 2. Hojas Compuestas
 
-Las hojas compuestas combinan múltiples hojas simples para crear estructuras más complejas.
+Las hojas compuestas describen **varias hojas simples que aparecen juntas** en la
+frase. Sirven para leer de una vez algo que tiene partes: "2 empanadas de queso" son
+una cantidad, un producto y un sabor, pero son *un solo* renglón del pedido.
 
-**Ejemplo:** Una hoja "pedido_helado" podría combinar las hojas "sabor_helado" y "tamaño_helado".
+Se definen por **filas**, igual que las frases de una intención. Cada fila es una
+forma válida de decirlo:
+
+```
+@sys.number:cantidad @categoria_producto:categoria de @sabor_producto:sabor
+@sys.number:cantidad @categoria_producto:categoria @sabor_producto:sabor
+@sys.number:cantidad @categoria_producto:categoria
+@categoria_producto:categoria @sabor_producto:sabor
+```
+
+Añade una fila por cada combinación que quieras cubrir: el mismo pedido en otro
+orden, o con una parte de menos. El motor se queda con la fila que rellene más
+huecos.
+
+**Los dos puntos ponen nombre al parámetro.** `@Productos:producto` es la hoja
+`Productos` guardada como `producto`, que es como la leerás en la respuesta. Sin los
+dos puntos, el parámetro se llama igual que la hoja.
+
+Una fila puede llevar **palabras literales** entre los huecos —el `de` del primer
+ejemplo—. Si las escribes, tienen que estar en la frase del usuario.
 
 ![Hoja Compuesta](/img/docs/hoja_compuesta.svg)
 
 *Ejemplo: Estructura de una hoja compuesta que combina múltiples hojas*
+
+:::tip Una frase puede traer varias
+"dame 1 empanada de pollo y 2 arepas de carne" son **dos** renglones, y la hoja
+compuesta devuelve los dos. Ver [Parámetros con varios valores](/docs/Avanzado/Parametros#un-parámetro-con-varios-valores).
+:::
 
 ### 3. Hojas Regex
 

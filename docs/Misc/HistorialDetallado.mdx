@@ -10,6 +10,75 @@ Este documento proporciona un historial detallado de todas las características,
 
 <details open>
 <summary>
+### <strong>V-0.9.0 (09/2026) - Entidades Compuestas con Alias, Pedidos de Varias Líneas y Slot Filling que no Atrapa</strong>
+</summary>
+
+#### 🧩 Hojas Compuestas (`backend/core/detector/compuestas.py`)
+> - ✅ **Definición por Filas con Alias**
+>   - Cada fila es una combinación válida (`@sys.number:cantidad @categoria:cat de @sabor:sab`). Se recorre el texto de izquierda a derecha y gana la fila que rellena más parámetros; a igualdad, la que consume menos tramo.
+> - ✅ **Palabras Literales entre Huecos**
+>   - Una fila admite texto fijo, que tiene que aparecer en la frase para que case.
+> - ✅ **Varias Líneas por Frase**
+>   - Tras casar una fila se sigue desde donde terminó, y eso es lo que separa la segunda línea de la primera.
+> - ✅ **El Alias sale de la Plantilla**
+>   - `mapa_alias_entidad` lee los alias de las propias filas, así que renombrar `:sabor` a `:relleno` no requiere tocar código.
+
+#### 🔤 Un Solo Parseo de `@` (`backend/core/utils/referencias.py`, `frontend/src/utils/referencias.ts`)
+> - ✅ **Unificación de Dieciocho Parseos**
+>   - `@` se leía con tres expresiones distintas y no equivalentes: `@sys.number` capturaba `sys`, y ninguna contemplaba los dos puntos del alias. Ahora todo pasa por `refs_de`, `tokens_de`, `sin_referencias` y `sustituir_referencias`.
+> - ✅ **Espejo en el Frontend**
+>   - El front y el motor parten un patrón igual, o el usuario resalta una cosa y el bot casa otra.
+> - ✅ **Generadores de Entrenamiento**
+>   - Sustituían con `"@" + tag`, así que el alias habría acabado dentro del dataset y envenenado el modelo.
+
+#### 📋 Ocurrencias Múltiples (`backend/core/matcher_strategies/utils.py`)
+> - ✅ **`detectar_entidades_con_ocurrencias`**
+>   - `detectar_entidades_en_texto` indexaba por nombre de entidad y la segunda aparición pisaba a la primera.
+> - ✅ **Forma Compatible del Parámetro**
+>   - El parámetro sigue siendo el mismo dict y `key_value` sigue siendo la primera aparición; `ocurrencias` es una clave hermana que sólo existe cuando hay más de una. Sin esto habrían roto en silencio los 107 sitios que leen `key_value`.
+> - ✅ **Acceso como Lista en Plantillas**
+>   - `len($x)`, `$x[0]`, `$x[1]` e iteración. Un parámetro simple es una lista de uno.
+
+#### 🧾 Pedido Multilínea (`backend/core/detector/pedido_lineas.py`)
+> - ✅ **Enumerar, Sumar y Corregir**
+>   - `describir_lineas` arma el texto del pedido entero; `acumular_lineas` suma sólo con marcador explícito y, sin él, corrige la última línea heredando lo que la frase no menciona.
+> - ✅ **Slot Filling por Línea**
+>   - `sincronizar_linea_pendiente` apunta los parámetros planos a la siguiente línea incompleta y vacía lo que esa línea no tiene, para que el chequeo de obligatorios lo vea faltar de verdad.
+> - ✅ **Persistencia entre Workers**
+>   - Las líneas viajan en `session_metadata`. Vivían sólo en el estado en memoria —que es por proceso—, así que un pedido de dos líneas se quedaba en una al cambiar de worker, y en silencio.
+> - ✅ **El Pedido Termina al Cerrarlo**
+>   - `intent_cierra_el_pedido` mira los prefijos `cerrar_*` / `cancelar_*`. Se limpian también los slots planos, o el sabor del pedido cancelado se pegaba al producto siguiente.
+
+#### 🎛️ Slot Filling (`backend/core/detector/intent_handler.py`)
+> - ✅ **`terminaSlotFilling` por Nodo de Intención**
+>   - Configuración del nodo en el canvas, con heurístico por nombre para los árboles anteriores al flag.
+> - ✅ **No se Pregunta lo que no Tiene Sujeto**
+>   - Un enunciado que se apoya en otros parámetros no se pregunta si todos están vacíos; tampoco cuenta como pendiente por intentar, o el bucle volvía a la pregunta de siempre con el contador a cero.
+> - ✅ **Artículos**
+>   - `"quiero reservar una mesa"` llenaba las personas con el 1 del "una". Lo distingue la propia plantilla: si el artículo está escrito literal en el patrón, es fraseo y no un hueco.
+
+#### 🎯 Matcher (`backend/core/matcher_strategies/`)
+> - ✅ **Límites de Palabra**
+>   - `re.escape` escapa los espacios desde Python 3.7, así que los sinónimos de varias palabras no casaban nunca. Se escapa palabra por palabra y se elimina el respaldo por subcadena, que producía falsos positivos.
+> - ✅ **Valor Canónico**
+>   - El matcher devolvía el sinónimo tecleado y el bot repetía la errata.
+> - ✅ **Un Trozo de Texto no Llena Dos Parámetros**
+>   - `sys.number` se descarta cuando su texto cabe dentro del de otro parámetro que consumió más.
+
+#### 🔧 Correcciones Puntuales
+> - ✅ **`sys.date`**: `datetime(year, month, 5512345678)` lanza `OverflowError`, no `ValueError`, y se escapaba del `except`. Bastaba con que un cliente escribiera su teléfono.
+> - ✅ **Consola**: los candidatos del canvas llegan como `{channel, text}` y todo lo que los consume lee `type`/`value`; sin normalizarlos, la consola mostraba "No se pudo cargar la respuesta".
+> - ✅ **Exportación**: `include_conversations` se ignoraba y el export arrastraba siempre el historial.
+> - ✅ **Autorrelleno de Credenciales**: 20 campos de API key y bot token con `type="password"` sin `autocomplete`, que Chrome rellenaba con la contraseña guardada del usuario.
+
+#### ⚡ Rendimiento del Frontend
+> - ✅ **Contextos Globales Memorizados**
+>   - `TreeContext` (101 consumidores), `AuthContext`, `ThemeContext` y `UnsavedChangesContext` pasaban un objeto literal como `value`, recreado en cada render. Medido con 100 consumidores memorizados y renders del padre que no tocan ningún dato: de 2000 renders a 0.
+
+</details>
+
+<details>
+<summary>
 ### <strong>V-0.8.0 (08/2026) - Presencia en Tiempo Real, Debug Visual, Dialog Builder y Autenticación Mejorada</strong>
 </summary>
 

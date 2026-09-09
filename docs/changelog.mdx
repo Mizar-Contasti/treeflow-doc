@@ -9,6 +9,53 @@ sidebar_position: 12
 ## 🎉 Versiones Recientes (2026)
 
 <details open>
+<summary><strong>V-0.9.0 (Septiembre 2026) - Entidades Compuestas con Alias, Pedidos de Varias Líneas y Slot Filling que no Atrapa</strong></summary>
+
+### 🧩 Hojas Compuestas: Filas de Combinación y Alias de Parámetro
+> - **Definición por Filas**: Una hoja compuesta se define ahora con varias filas, igual que las frases de una intención. Cada fila es una forma válida de decir lo mismo —el pedido en otro orden, o con una parte de menos— y gana la que rellena más huecos.
+> - **Alias con Dos Puntos**: `@Productos:producto` guarda la hoja `Productos` bajo el nombre de parámetro `producto`. Sin los dos puntos, el parámetro se llama igual que la hoja.
+> - **Palabras Literales en las Filas**: Una fila admite texto fijo entre los huecos (`@categoria:cat de @sabor:sab`); si está escrito, tiene que aparecer en la frase.
+> - **Resaltado del Token Completo**: En el editor, el resaltado cubre `@Productos:producto` entero. Antes el alias quedaba fuera y parecía texto suelto de la frase.
+
+### 📋 Un Parámetro Puede Traer Varios Valores
+> - **Ocurrencias Múltiples**: Si la misma hoja aparece dos veces en la frase, el parámetro guarda **las dos**, en orden. Hasta ahora la segunda pisaba a la primera y desaparecía sin aviso.
+> - **Acceso como Lista**: `{{$producto[0]}}`, `{{$producto[1]}}` y `{{len($producto)}}`. Un parámetro que vino una sola vez se comporta como una lista de uno, así que `[0]` funciona siempre.
+> - **Declararlo Plural**: Escribir la hoja dos veces en la frase de entrenamiento le dice al árbol que ese parámetro puede venir repetido.
+
+### 🧾 Pedidos de Varias Líneas
+> - **Enumeración**: *"dame 1 empanada de pollo y 2 arepas de carne"* se anota y se confirma como las dos cosas. Antes se confirmaba sólo la primera y la segunda se perdía en silencio.
+> - **Preguntar por Cada Línea**: Con dos renglones incompletos, el árbol pregunta por cada uno y nombra de cuál habla: *"¿De qué sabor quieres las 3 arepas?"*. Antes, en cuanto una línea traía el dato, el requisito se daba por cumplido y el pedido se cerraba incompleto.
+> - **Sumar frente a Corregir**: *"y además tres arepas"* añade; *"no espera, mejor de carne"* corrige la última y hereda lo que la frase no menciona. Se exige un marcador explícito para sumar, porque anotar comida que nadie pidió es peor que corregir de más.
+> - **El Pedido Termina al Cerrarlo**: Cerrar o cancelar vacía el pedido. Antes el siguiente heredaba el anterior.
+
+### 🎛️ Slot Filling que no Deja Atrapado al Usuario
+> - **Interruptor "Termina una captura en curso"**: Nueva opción por nodo de intención. Cancelar o despedirse terminan la captura; una duda de paso, como preguntar el horario, sólo la pausa y después se retoma.
+> - **Máximo de Intentos y Acción al Superarlo**: `Pasar al siguiente parámetro`, `Responder aunque falte el valor` o `Ir al nodo de contexto`. Si todos los obligatorios agotan sus intentos, el árbol abandona con un mensaje en vez de dar vueltas.
+> - **No se Pregunta lo que no Tiene Sujeto**: Un enunciado que se apoya en otros parámetros no se pregunta si todos están vacíos. Se acabó el *"¿De qué sabor quieres?"* —de nada— y la cantidad de nada detrás.
+> - **Recaptura**: Los parámetros marcados como recapturables pueden corregirse mientras se pregunta por otro.
+
+### 🔤 Lenguaje de Plantillas
+> - **`{{$variable}}` es la Sintaxis**: El `$` es obligatorio para leer un parámetro. También dentro de expresiones: `{{ if $numero > 1 ? "${producto}s" : $producto }}`.
+> - **Comparadores**: `$numero > 1` y el resto de comparaciones funcionan sobre parámetros.
+> - **`${var}` Dentro de Cadenas**: Interpolación dentro de un literal de texto.
+> - **Un Parámetro Inexistente ya no Rompe el Mensaje**: Vale como vacío y sólo se queda en blanco esa parte, en lugar de tumbar la expresión entera y dejar la respuesta muda.
+> - **Sin Conectores Huérfanos**: Un hueco vacío ya no deja *"¿Cuántas empanada de  te preparo?"*.
+
+### 🎯 Detección: Cada Palabra Clave en su Intención
+> - **Límites de Palabra**: Las frases de una hoja casan por palabras completas. Antes `"el bar"` casaba dentro de `"el BARrio"` y `"a m"` dentro de `"modificA MI pedido"`.
+> - **Nombre Bien Escrito en las Respuestas**: El bot confirma con el nombre correcto, no con la errata del usuario: *"kiero 2 empanads de keso"* se anota como *"2 empanadas de queso"*.
+> - **Un Trozo de Frase no Llena Dos Huecos**: En *"mañana a las 8 de la noche"*, el 8 es la hora y no además el número de personas.
+> - **Palabras Clave Compartidas**: Varias intenciones que compartían vocabulario dejaban el reparto a la suerte; cada una tiene ahora su discriminador.
+
+### 📦 Exportación
+> - **"Incluir conversaciones" se Respeta**: La casilla ya funciona. Desactivada —por defecto— el archivo no arrastra el historial, que en un bot en producción son miles de turnos con datos de clientes.
+
+### ⚡ Rendimiento del Editor
+> - **Contextos Memorizados**: Los contextos globales creaban un objeto nuevo en cada render, así que re-renderizaban a todos sus consumidores aunque no cambiara ningún dato. Medido con 100 consumidores: de 100 renders por ciclo a 0.
+
+</details>
+
+<details>
 <summary><strong>V-0.8.0 (Agosto 2026) - Presencia en Tiempo Real, Debug Visual, Dialog Builder y Autenticación Mejorada</strong></summary>
 
 ### 👥 Sistema de Presencia en Tiempo Real

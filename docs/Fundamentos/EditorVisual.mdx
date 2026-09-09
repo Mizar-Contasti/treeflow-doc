@@ -14,6 +14,20 @@ Cada nodo en el Canvas representa una **Intención (Branch)**. Estos nodos son o
 - **Tidy Up**: El Canvas incluye herramientas de auto-organización (alineamiento automático) para mantener tus flujos ordenados visualmente.
 - **Conexionado Relacional**: Arrastrando los puntos de los nodos, puedes establecer los "Contextos de Salida" y "Contextos de Entrada", lo que indica a TreeFlow qué nodo sigue después del otro, condicionando el flujo de la charla.
 
+### Termina una captura en curso
+
+Cada nodo de intención tiene un interruptor **"Termina una captura en curso"**, y
+decide qué pasa si el usuario dice eso *mientras* el árbol le está pidiendo datos.
+
+- **Activado** — la captura se da por terminada. Es lo que quieres en *cancelar* o
+  *despedirse*: quien cancela su pedido no espera que le sigan preguntando el sabor.
+- **Desactivado** (por defecto) — la captura sólo se pausa. El árbol contesta y
+  después retoma la pregunta pendiente, recordándosela.
+
+Es la diferencia entre una interrupción y un abandono. Preguntar el horario a medio
+pedido es una duda de paso y no debería costarle al usuario lo que ya llevaba escrito;
+decir "cancela" sí.
+
 ### Gestor de Mensajes Integrado
 A partir del Canvas Engine, no necesitas abrir pestañas separadas para escribir las respuestas. 
 Al hacer clic en un nodo de intención, se despliega una ventana lateral o modal que alberga el **Gestor de Mensajes**. Desde allí mismo puedes inyectar los bloques visuales (texto, imágenes, carruseles) que se renderizarán si la inteligencia artificial empareja ese nodo.
