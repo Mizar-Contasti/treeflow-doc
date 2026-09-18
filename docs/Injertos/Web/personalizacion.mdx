@@ -233,7 +233,27 @@ window.treeflowConfig = {
 
 ## Responsive Design
 
-### Configuración para Móviles
+### Comportamiento Adaptable desde el Panel
+
+Sin escribir CSS, la pestaña **Responsive** de la configuración del widget (en la integración Web) decide cómo se comporta según el tamaño de pantalla del visitante:
+
+| Ajuste | Qué hace | Por defecto |
+|---|---|---|
+| **Botón de maximizar** | Activa el botón en la cabecera. Su visibilidad puede ser *Solo en computadoras*, *Solo en tablets y teléfonos móviles* o *En todos los dispositivos* | Sólo en computadoras |
+| **Pantalla completa automática en móvil** | En móvil el widget se abre ocupando toda la ventana, sin bordes. Si lo apagas, conserva su forma de burbuja flotante | Activado |
+| **Punto de corte de móvil** | Ancho (480–768 px) hasta el que se considera móvil | 640 px |
+| **Punto de corte de tablet** | Ancho (hasta 1200 px) hasta el que se considera tablet | 1024 px |
+| **Auto-ajuste en tablet** | El widget se limita a la pantalla: como máximo el 88 % del ancho y el 82 % del alto. Apagado, mantiene el tamaño fijo de escritorio | Activado |
+
+Por encima del punto de corte de tablet el widget se comporta como en escritorio: ventana flotante en la esquina configurada, con las dimensiones de la pestaña **Tamaños**.
+
+La propia pestaña incluye un **simulador** (escritorio, tablet, móvil) que resume cómo se comportará el widget con la configuración actual.
+
+:::tip Empieza por aquí
+Si tu web tiene mucho tráfico móvil, deja activada la pantalla completa automática: un widget de 360 px flotando en una pantalla de teléfono es difícil de usar con el teclado abierto.
+:::
+
+### Configuración con CSS para Móviles
 
 ```css
 @media (max-width: 768px) {
@@ -247,7 +267,7 @@ window.treeflowConfig = {
 }
 ```
 
-### Configuración para Tablets
+### Configuración con CSS para Tablets
 
 ```css
 @media (min-width: 769px) and (max-width: 1024px) {

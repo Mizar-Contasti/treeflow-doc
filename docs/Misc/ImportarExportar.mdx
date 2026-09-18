@@ -56,6 +56,18 @@ Un export con conversaciones puede contener nombres, teléfonos y direcciones qu
 escribieron tus usuarios. Trátalo como lo que es.
 :::
 
+### Respaldos automáticos
+
+Además de las exportaciones manuales, cada árbol se respalda automáticamente cada día.
+
+- **Cada respaldo lleva las conversaciones ocurridas desde el anterior**, no todo el historial. Así el mismo mensaje no se guarda una vez por respaldo y las copias no engordan sin parar. La serie completa sigue cubriendo todo el historial sin huecos: lo que no está en una copia está en la anterior.
+- Una conversación abierta a caballo entre dos respaldos se guarda **entera en el primero**. El respaldo indica desde cuándo va (`metadata.conversations_since`).
+- **El primer respaldo de un árbol y las exportaciones manuales** siguen llevándolo todo.
+- Los respaldos incluyen las **traducciones** (frases de intenciones, valores de entidades y respuestas por idioma), que es donde vive el contenido.
+- El listado se **pagina de veinte en veinte** y carga sólo la fecha, la etiqueta y el tamaño de cada copia, no su contenido.
+
+Restaurar un respaldo sólo borra conversaciones si lo marcas expresamente.
+
 ## Importación de Trees
 
 ### Importación de un Nuevo Tree

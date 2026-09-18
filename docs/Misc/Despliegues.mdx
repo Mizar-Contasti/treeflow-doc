@@ -255,6 +255,17 @@ Treeflow utiliza un sistema de configuración basado en variables de entorno y a
    - Centraliza logs en una plataforma de análisis
    - Establece retención de logs según requisitos de cumplimiento
 
+### Endpoints de Salud
+
+El backend de TreeFlow expone dos comprobaciones distintas, y conviene no confundirlas:
+
+| Endpoint | Qué mide | Cuándo falla |
+|---|---|---|
+| `/api/ping` | Que el proceso del backend responde | Sólo si el worker está colgado. **No toca la base de datos** |
+| `/api/health` | Que el backend responde **y** que la base de datos contesta | Si la base está caída, aunque el proceso siga vivo |
+
+Un worker vivo con la base caída contesta 500 a todo y para Docker seguía estando "bien". Por eso el `docker-compose` de producción vigila el backend con `/api/health`, y `/api/ping` se conserva para distinguir *worker colgado* de *base caída*.
+
 ### Herramientas Recomendadas
 
 - **APM**: New Relic, Datadog, o Elastic APM

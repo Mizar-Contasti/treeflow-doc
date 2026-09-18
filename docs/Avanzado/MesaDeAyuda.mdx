@@ -1,0 +1,120 @@
+---
+sidebar_position: 8
+---
+
+# Mesa de Ayuda y Transferencia a Humano
+
+Un bot no lo resuelve todo. La **Mesa de Ayuda** (Helpdesk) es la aplicación donde una persona toma la conversación cuando el bot la deriva: ve la cola de chats que esperan, habla con el visitante en tiempo real y, al terminar, cierra el chat o se lo devuelve al bot.
+
+## Cómo llega una conversación a la Mesa de Ayuda
+
+```
+Visitante ──► Bot ──► (pide un humano) ──► Cola de la Mesa de Ayuda ──► Operador
+                                              pending_human            human_active
+```
+
+1. El visitante escribe algo que activa una intención con **transferencia a humano** (*"quiero hablar con un asesor"*).
+2. El bot contesta el mensaje de transferencia (*"Te comunico con una persona del equipo"*) y la conversación **entra en la cola en ese mismo turno**.
+3. Un operador la **reclama**: el chat pasa a estar atendido por una persona y el bot deja de contestar.
+4. El visitante y el operador conversan en tiempo real. Cada mensaje queda guardado en el historial, marcado con quién lo escribió.
+5. El operador **cierra** el chat o lo **devuelve al bot**, que retoma la conversación.
+
+:::info Por ahora, el canal Web
+La conversación en vivo entre operador y visitante funciona sobre el [widget web](/docs/Injertos/Web/setup): el operador escribe en la Mesa de Ayuda y el widget lo recibe por WebSocket. Para responder desde un helpdesk externo hay un endpoint de respuesta entrante (ver [más abajo](#helpdesk-externo)).
+:::
+
+## Configurar la Transferencia en un Árbol
+
+### 1. Marcar la intención como transferencia
+
+En el editor de nodos, la intención que debe derivar a una persona lleva como **Transición** la opción *Transferencia a agente humano*. Es el mismo desplegable que se usa para cualquier otra transición, así que el lienzo la dibuja y la edita como el resto.
+
+:::tip Sólo la que debe derivar
+Marca únicamente la intención de pedir un humano. Si aplicas la transferencia a otras, el bot derivará hasta cuando el cliente salude.
+:::
+
+La plantilla de **Restaurante** ya lo trae hecho: su intención `hablar_con_asesor` (24 frases de entrenamiento y la entidad `accion_transferencia`) apunta a la transferencia y siembra una configuración activa.
+
+### 2. Ajustar la Transferencia (opcional)
+
+En **Fertilizantes → Transferencias** se crean las configuraciones de transferencia de un árbol:
+
+| Campo | Para qué sirve |
+|---|---|
+| **Mensaje de transferencia** | Lo que dice el bot al derivar. Por defecto: *"Te estamos comunicando con un asesor humano..."* |
+| **El agente ya no escuchará la conversación** | Con esto activo (por defecto) el bot queda en pausa mientras la conversación está con una persona, para que no interfiera con el operador. Los mensajes del visitante se guardan y llegan al operador |
+| **Guardar la conversación del widget** | Mantiene en el historial del widget los mensajes de respuesta del asesor humano, aun sin intervención del agente |
+| **Enviar historial de conversación completo** y su formato (`json`, `text`, `markdown`) | Qué historial viaja al sistema externo, si lo hay |
+| **URL del endpoint**, token y cabeceras | Sólo para empujar la conversación a un sistema externo. La Mesa de Ayuda interna **no** la usa |
+| **Activa** | El motor usa la primera configuración activa del árbol (o la que fije la intención) |
+
+Si el árbol no tiene ninguna configuración, la transferencia funciona igualmente con el mensaje por defecto.
+
+:::note El endpoint de las plantillas
+Las plantillas siembran la configuración con una URL bajo el dominio reservado `.invalid`, que no resuelve nunca. Es un marcador: si quieres enviar las conversaciones a un sistema externo, cámbiala por la tuya. Para la Mesa de Ayuda interna no hace falta tocarla.
+:::
+
+## La Aplicación de Mesa de Ayuda
+
+Se abre en su propio dominio (`helpdesk.tree-flow.com`) con su propio login. Desde el panel principal, el botón **Abrir app** la abre en una pestaña nueva, y sólo lo ven administradores y desarrolladores.
+
+### Bandeja
+
+- **Cola** de conversaciones pendientes y activas, con el bot al que pertenecen.
+- **Chat** con el visitante en tiempo real y el panel con sus datos.
+- **Reclamar**, **responder**, **cerrar** y **devolver al bot**.
+
+Quien trabaja desde el panel principal tiene además la pestaña **Inbox en vivo** dentro de *Conversaciones*.
+
+### Dashboard de Operaciones (administradores)
+
+Es la vista por defecto de un administrador y resume la operación del workspace:
+
+| Indicador | Qué cuenta |
+|---|---|
+| **Operadores en línea** | Cuántos de los operadores del workspace están conectados |
+| **En espera** | Chats que esperan a que alguien los reclame |
+| **Atendidos por una persona** | Chats activos con un operador |
+| **Atendidos por el bot** | Chats que sigue llevando el bot |
+| **Resueltos hoy** | Chats cerrados durante el día |
+
+Debajo, el **estado de cada operador** (en línea, cuántos chats lleva, cuándo se le vio por última vez) y la **carga por bot**.
+
+## Roles y Acceso
+
+El acceso depende del rol **y** de por dónde se entra:
+
+| Rol | Panel principal | Mesa de Ayuda |
+|---|---|---|
+| **Administrador** | ✅ | ✅ (incluye el dashboard) |
+| **Desarrollador** | ✅ | ✅ |
+| **Operador** | ❌ | ✅ |
+| **Visualizador** | ✅ (sólo lectura) | ❌ |
+
+- Un **operador** que intenta entrar por el panel principal recibe un aviso que le indica usar la Mesa de Ayuda.
+- Un **visualizador** no puede operar chats.
+
+## Helpdesk Externo
+
+Si atiendes desde un sistema propio en lugar de la Mesa de Ayuda de TreeFlow, tu sistema puede contestar al visitante llamando a:
+
+```http
+POST /api/live-chat/external-reply
+Content-Type: application/json
+
+{
+  "tree_id": "…",
+  "session_id": "…",
+  "agent_name": "Ana, de soporte",
+  "message": "Hola, ya reviso tu pedido."
+}
+```
+
+El mensaje se guarda en la conversación, se marca como escrito por el agente y llega al widget del visitante en tiempo real. Si la conversación seguía en espera, pasa a *atendida*.
+
+## Buenas Prácticas
+
+1. **Avisa de qué pasa a continuación**: personaliza el mensaje de transferencia (*"Te paso con una persona; suele tardar unos minutos"*).
+2. **Ofrece salida al bot**: si el operador resuelve algo rápido, devolver la conversación al bot evita dejar al visitante esperando en un chat que nadie cierra.
+3. **Prueba el recorrido completo**: pide un humano desde el widget, reclámalo desde la Mesa de Ayuda y cruza un par de mensajes antes de publicarlo.
+4. **Entrena después de cambiar la intención**: recuerda que modificar frases de la intención de transferencia exige [reentrenar](/docs/Avanzado/NLP).

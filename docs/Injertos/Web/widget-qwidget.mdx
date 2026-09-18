@@ -286,6 +286,25 @@ Puede mostrar una ubicación o solicitarla.
 }
 ```
 
+### HTML Personalizado
+```json
+{
+  "type": "html",
+  "align": "vertical",
+  "items": [
+    { "html": "<h3>Novedades</h3><p>Ya está <b>abierta</b> la inscripción.</p>", "title": "Aviso" }
+  ]
+}
+```
+
+Cada elemento lleva su fragmento en `html` (y un `title` opcional). En lugar de escribir el HTML a mano, el campo puede ser una **variable de sesión** que devolvió una herramienta o una API (`{{noticias}}`): si contiene una lista de elementos con `title`, `image` y `content`/`html`/`excerpt`, el widget pinta cada uno como un fragmento y los separa con una línea.
+
+El HTML se **sanitiza** antes de mostrarse. Se permiten títulos, párrafos, listas, tablas, citas, enlaces, imágenes, negritas/cursivas y estilos en línea; **no** pasan `script`, `iframe`, `object`, `embed`, `form` ni `input`.
+
+:::tip Desde el editor de mensajes
+En el constructor de mensajes, el bloque **HTML / Web** tiene una pestaña *Código / Variable* y otra *Vista Previa* para ver cómo se pintará en el chat, y admite varios fragmentos con *Añadir otro fragmento HTML*.
+:::
+
 ## API del Backend
 
 El widget se comunica con tu backend mediante el endpoint `/message`.

@@ -30,6 +30,10 @@ Las Hojas en TreeFlow utilizan técnicas avanzadas para extraer información:
 
 Cada árbol se entrena en uno de dos modos, y la diferencia no es sólo de velocidad.
 
+:::info Los árboles nuevos empiezan en Básico
+Un árbol nuevo se crea en modo **Básico**, y también se usa Básico cuando el modo no está definido. Cambia a **Pro** cuando el árbol vaya a hablar con gente de verdad.
+:::
+
 ### Básico (Reglas Rápidas)
 
 Entrenamiento casi instantáneo. Reconoce por coincidencia de texto y patrones, exacta
@@ -50,6 +54,30 @@ Empieza en Básico mientras diseñas el flujo: entrenar es instantáneo y ves el
 cada cambio al momento. Pasa a Pro cuando el árbol vaya a hablar con gente de verdad,
 que nunca escribe lo que esperabas.
 :::
+
+### Entity Masking: comparar la forma de la frase, no sus valores
+
+Antes de comparar la frase del usuario con tus patrones, TreeFlow **sustituye las entidades que reconoce por su nombre**:
+
+```
+Usuario:      "hola quiero dos pizzas de pepperoni para llevar"
+Enmascarado:  "hola quiero @sys.number @categoria_producto de @sabor_producto @tipo_servicio"
+```
+
+Esto tiene dos consecuencias:
+
+- **Los patrones con `@entidad` casan por coincidencia exacta.** Un patrón como `quiero @sys.number @categoria_producto` se compara contra la frase enmascarada, así que casa con *"quiero dos pizzas"* y con *"quiero cinco empanadas"* sin que tengas que escribir cada combinación. Antes esta coincidencia exacta sólo miraba los patrones de texto plano.
+- **El clasificador de Machine Learning (modo Pro) se entrena y consulta sobre texto enmascarado.** Aprende la *forma* de la frase (`quiero @sys.number @categoria`) en lugar de memorizar cada valor, y el entrenamiento ya no multiplica todas las combinaciones posibles de valores: usa el patrón enmascarado y un par de ejemplos de muestra.
+
+Donde varias coincidencias se solapan, gana la más larga (*"pizza de pepperoni"* sobre *"pizza"*). Las entidades se reconocen por palabras completas, y los números (`sys.number`) también cuando se escriben con letra (*uno*, *dos*, *veinte*…).
+
+### Qué pasa al entrenar
+
+- Al terminar, el estado del árbol queda en **actualizado**. Si algo falla, queda en **error** —antes un entrenamiento fallido se mostraba como si no se hubiera lanzado— y el bot no tiene modelo que usar hasta que uno termine bien.
+- **No se lanzan dos entrenamientos a la vez** sobre el mismo árbol. Uno que lleve más de 20 minutos se da por fallido para no bloquear el siguiente.
+- Cada paso tiene un tope de **5 minutos** y un techo de memoria, para que un árbol enorme no tumbe el servidor.
+- Si el botón dice que no hay cambios pero quieres reentrenar igualmente, puedes forzarlo (`POST /train/{tree_id}?force=true`).
+- **Aplicar una plantilla** o **reemplazar intenciones en bloque** (Reforestación) marca el árbol como **desactualizado**: hay que reentrenar para que el motor use lo nuevo.
 
 ## Orden de Detección
 

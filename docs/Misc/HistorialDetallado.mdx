@@ -10,6 +10,145 @@ Este documento proporciona un historial detallado de todas las características,
 
 <details open>
 <summary>
+### <strong>Novedades desde V-0.9.0 (09/2026) - Mesa de Ayuda, Suites de Pruebas, Widget Adaptable y Bloque HTML</strong>
+</summary>
+
+> Cambios ya integrados en `master` que aún no llevan número de versión.
+
+#### 🎧 Mesa de Ayuda y Transferencia a Humano (`backend/api/live_chat_api.py`, `frontend/src/features/inbox/`)
+> - ✅ **Esquema de Handoff** (`database/init/13_schema_human_handoff.sql`)
+>   - `conversations` gana `transfer_status` (`none` · `pending_human` · `human_active` · `resolved`), `assigned_agent_id`, `assigned_agent_name`, `transfer_config_id` y `transferred_at`; `conversation_turns` gana `sender_type` y `sender_name`. El `CHECK` de `users.role` admite `agent` y `operador`. Al arrancar, el backend autoconvierte las columnas que falten.
+> - ✅ **API `/live-chat`**
+>   - `GET /queue` y `GET /{tree_id}/queue`, `GET /sessions/{id}`, `POST /sessions/{id}/claim`, `POST /sessions/{id}/message`, `POST /sessions/{id}/close` (con `return_to_bot`), `GET /admin/operations` (sólo administradores) y `POST /external-reply` para un helpdesk externo. Viewer no opera.
+> - ✅ **WebSocket** (`api/live_chat_ws.py`)
+>   - `live_chat_manager.broadcast_to_operators` avisa de `chat_queued` y `visitor_message`; el widget escucha con `useChatVisitorWebSocket`.
+> - ✅ **Guarda de Silenciado** (`api/message_api.py`)
+>   - Con la conversación en `pending_human` o `human_active` y `agent_stops_listening`, el mensaje se guarda como turno de usuario, se reenvía a los operadores y el motor no se ejecuta (`matching_type: human_handoff`).
+> - ✅ **Transferencia se Decide con el Nodo Destino** (`core/detector/flow_navigator.py`)
+>   - `is_human_transfer` mira `targetLeafId`, el `nextLeafId` del **destino** y el del origen. Con sólo el origen, la conversación no entraba en la cola hasta el segundo mensaje. `transferConfigId` se resuelve en el mismo orden.
+> - ✅ **Conversación Creada en el Primer Mensaje**
+>   - La fila de `Conversation` se crea al registrar el turno, después de pasar por aquí; ahora la transferencia usa `get_or_create_conversation`. Si aun así no hay conversación se registra un error, porque el bot anunciaría una derivación que la mesa de ayuda no vería.
+> - ✅ **Login por Rol y Origen** (`auth/api/login.py`)
+>   - El origen (`helpdesk` o `app`) sale del cuerpo, de una cabecera o de `Origin` (`helpdesk.*`). Viewer no entra en la mesa de ayuda; `operador` y `agent` sólo entran por ella. `HelpdeskProtectedRoute` aplica lo mismo en el frontend.
+> - ✅ **Plantilla de Restaurante** (`core/utils/tree_templates/canvas_builder.py`)
+>   - Una intención con `transfiereAHumano: true` recibe `nextLeafId: "transfer:human"` —el mismo valor que escribe el desplegable de Transición del lienzo— y se siembra un `TransferConfig` activo con `endpoint_url` bajo `.invalid` (RFC 2606). Reaplicar la plantilla reutiliza la configuración existente. Un test fija que las demás intenciones **no** transfieren.
+> - ✅ **Dashboard de Operaciones**
+>   - `HelpdeskAdminDashboard`, `OperationsKpiCards`, `OperatorStatusList` y `BotLoadList`, alimentados por `useAdminOperations`. Es la vista por defecto; la barra lateral es `HelpdeskSidebar`.
+
+#### 🧪 Suites de Pruebas (`backend/api/bot_tests.py`, `services/bot_test_runner.py`, `services/bot_test_csv.py`)
+> - ✅ **Modelo**
+>   - Los casos viven en un `JSONB` dentro de la suite (una suite se carga entera; nunca se consulta por turnos sueltos). Las tablas las crea `Base.metadata.create_all`. Las clases no se llaman `TestSuite`/`TestRun` porque pytest recolecta todo lo que empieza por `Test`.
+> - ✅ **API**
+>   - `GET/POST /trees/{tree_id}/test-suites`, `GET/PUT/DELETE /test-suites/{id}`, `POST …/import-csv`, `GET …/export-csv`, `GET /test-suites/plantilla.csv`, `POST …/run`, `GET …/runs`, `GET /test-runs/{id}` y `GET /test-runs/{id}/compare/{otro}`.
+> - ✅ **Runner en Proceso**
+>   - Llama a `process_turn` directamente en vez de pegar al endpoint: `/message` limita a 120 peticiones por minuto y por árbol, y por HTTP una suite de cien turnos tardaría más de un minuto. Cada caso arranca con su sesión (prefijo `bot-test-`), que se borra en un `finally`, junto con la conversación que registra el motor.
+> - ✅ **Comprobaciones**
+>   - `intencion`, `evento` (compara `intent`), `respuesta_contiene` (sin distinguir mayúsculas), `slot` (`slot_filling.parameter`) y `parametro` (columna `parametros`: `nombre=valor;nombre=valor`).
+> - ✅ **Historial**
+>   - Cada ejecución guarda el estado de entrenamiento con que se midió. La comparación devuelve transiciones (regresiones y arreglos), no totales.
+> - ✅ **Interfaz** (`features/conversations`)
+>   - Cuarta pestaña de Conversaciones, oculta en modo principiante. Editor de turnos que trabaja sobre una copia, botón de ejecutar deshabilitado mientras `can_use` no sea `true`, y foco del campo de *Nueva suite* por `inputRef` en `TransitionProps.onEntered`.
+> - ✅ **`qa/plantilla-restaurante.csv`**
+>   - El guion de Restaurante como suite: 40 casos, 72 turnos, 141 comprobaciones.
+
+#### 📱 Widget Web (`features/integrations/treeflow-web/`)
+> - ✅ **Pestaña Responsive** (`ResponsiveTab.tsx`, `useWidgetResponsive.ts`)
+>   - Nuevos campos en `WidgetConfig`: `maximizeVisibility` (`desktop` · `mobile_tablet` · `all`), `mobileAutoFullscreen`, `mobileBreakpoint` (640), `tabletBreakpoint` (1024), `tabletAutoFit`, `tabletWidth` (420) y `tabletHeight` (580). El tipo de dispositivo sale de `window.innerWidth`; en tablet con auto-ajuste el tamaño se recorta al 88 % del ancho y 82 % del alto.
+> - ✅ **Página de Demostración** (`api/widget_config.py`)
+>   - `GET /widget-demo/{tree_id}`: sin autenticación, sin caché, con el `tree_id` validado como UUID antes de interpolarlo en un atributo HTML, respetando el interruptor de la integración (404 apagada) y armando el `endpoint` con las cabeceras del proxy. El botón vive en `TreeflowWebConfigView`; el de `TreeflowWebModal` no se montaba en ninguna pantalla.
+> - ✅ **Contexto Inyectado por Defecto**
+>   - Se guarda en `injertos.web.injectedContext`, lo sirve `/widget-config` y el widget lo envía en cada petición. `_apply_widget_session_overrides` sólo fusionaba en la rama de sesión existente, así que en el primer turno el contexto se descartaba.
+> - ✅ **Tipografía y Colores**
+>   - Tamaño por defecto `0.8rem` (antes `0.9rem`), aplicado también al párrafo y los botones de los mensajes enriquecidos; `scripts/letra_widget_por_defecto.py` migra los bots que guardaron `0.9rem`. El avatar sigue al color de cabecera mientras coincidan.
+> - ✅ **Widget CDN**
+>   - Se apunta a una versión concreta (v1.3.5) y no a `@main`: jsDelivr envía `max-age=604800` y un navegador conservaba el bundle viejo una semana aunque se purgara la caché.
+
+#### 🧱 Bloque HTML (`RichHtml.tsx`, `HtmlBlockEditor.tsx`, `core/detector/response_builder.py`)
+> - ✅ **Renderizado Sanitizado**
+>   - DOMPurify con lista blanca de etiquetas (títulos, párrafos, listas, tablas, citas, enlaces, imágenes y estilos en línea) y `FORBID_TAGS: script, iframe, object, embed, form, input`.
+> - ✅ **Contenido Flexible**
+>   - Acepta HTML directo, JSON (incluso envuelto en etiquetas) o una lista de elementos en `items`, `data`, `noticias` o `key_value`; cada elemento se compone con `image`, `title` y `content`/`html`/`excerpt`.
+> - ✅ **Tipos de Respuesta**
+>   - `normalizar_respuesta` acepta `html` (interpolado) y `json` (que viaja como un bloque `html`). `processChatResponse` convierte `type: 'html'` en payload.
+> - ✅ **Interpolación de Estructuras** (`expression_evaluator.interpolate_template`)
+>   - Un parámetro o expresión cuyo valor es lista o diccionario se inserta con `json.dumps(..., ensure_ascii=False)`.
+
+#### 🧠 Entrenamiento y Matcher
+> - ✅ **Entity Masking** (`core/matcher_strategies/masking.py`)
+>   - `enmascarar_texto_con_entidades` resuelve solapamientos por mayor longitud y detecta entidades del catálogo (con límites de palabra), regex y `sys.number` (dígitos y números en letra). `buscar_coincidencia_exacta_por_patrones` compara los patrones con `@` contra el texto enmascarado y devuelve `entidades_info`; `detectar_intent_por_ml` consulta el modelo con texto enmascarado.
+> - ✅ **Datos de Entrenamiento**
+>   - `generar_ejemplos_patron` emite el patrón enmascarado más hasta dos muestras, en lugar del producto cartesiano de valores. El clasificador usa `TfidfVectorizer(ngram_range=(1, 2), sublinear_tf=True)` con un `token_pattern` que conserva `@`. NER limita a 30 variaciones por patrón.
+> - ✅ **NER por Lotes** (`train_ner_spacy.py`)
+>   - `minibatch` de 32, mezcla por época y 8 épocas con más de 1000 ejemplos (15 en otro caso; antes 20 ejemplo a ejemplo). Tope de memoria con `RLIMIT_AS` (`TRAINING_MAX_MEMORY_MB`, 1536 por defecto).
+> - ✅ **`api/train.py`**
+>   - `force` para reentrenar, `409` si hay un entrenamiento `pendiente`/`en_proceso` en la base (seguro con varios workers) y expiración de los de más de 20 minutos, `timeout=300` por paso, alias `/api/train`, y `GET /{tree_id}/status`.
+> - ✅ **Estado Real**
+>   - `get_training_status` mira también el último intento y devuelve `error`; `can_use` sale de `has_been_trained`; el polling sólo da por buenos `updated` y `outdated`. Cuentan como cambio pendiente `reforestacion` y `template`.
+> - ✅ **Generadores como Script Suelto**
+>   - Importaban `core` antes del `sys.path.append`; desde el 7-sep las fases 1 y 2 morían con `ModuleNotFoundError`.
+> - ✅ **`nlp_mode` por Defecto**
+>   - `basic` en `Tree`, `BotCreate` y `obtener_nlp_mode`. Ojo: la columna de `database/init/01_schema_core.sql` conserva `DEFAULT 'pro'` y sólo aplica a inserciones directas en SQL.
+> - ✅ **Actualizaciones Parciales**
+>   - `IntentUpdate` y `EntityUpdate` pasan a campos opcionales; sólo se escribe lo que llega. `update_entity` y `delete_entity` resuelven por UUID o por nombre.
+
+#### 🛠️ Herramientas y Scripts (`api/fertilizers.py`, `core/detector`)
+> - ✅ **`_ejecutar_fertilizante`**
+>   - La ejecución estaba copiada en los dos sitios que ejecutan herramientas (al pasar a un nodo y en el propio nodo): unas 400 líneas casi idénticas. Ahora ambos la llaman. Los ejecutores devuelven `estado` (`ok`, `sin_datos`, `error`).
+> - ✅ **Mensaje si Falla**
+>   - `errorMessage: {es, en, …}` por herramienta; `MENSAJES_DE_ERROR_POR_DEFECTO` en es, en, pt, fr, de e it. `debug_tools` conserva el detalle técnico y `user_message`.
+> - ✅ **`kind` en `debug_tools`**
+>   - `"script"` o `"tool"`, con el criterio de `_es_script`. En conversaciones antiguas se deduce: una herramienta es una petición HTTP y trae su URL.
+> - ✅ **`POST /fertilizers/{tree_id}/tools/test`**
+>   - Ejecuta con el mismo `ToolExecutor` que la conversación.
+> - ✅ **Seguridad**
+>   - `GET /fertilizers/{tree_id}`, `PUT …/status` y `GET …/tool-logs` no pedían sesión; `POST` no comprobaba el workspace y guardaba el `workspace_id` que mandaba el navegador. Ahora los cuatro exigen sesión (cookie o API key, así que el MCP sigue funcionando) y responden 404 si el árbol no es del workspace.
+
+#### 💬 Respuestas y Traducciones
+> - ✅ **Una Sola Fuente**
+>   - `_resolve_message_from_config` fusionaba la columna base y la traducción deduplicando por los primeros 80 caracteres, y `random.choice` servía una u otra (106 contra 94 sobre 200 llamadas idénticas). Ahora manda la traducción.
+> - ✅ **Bloques Vacíos**
+>   - Se descartan antes de agrupar por canal: texto en blanco o payload sin elementos.
+> - ✅ **`sync_translations_from_base_columns`**
+>   - Sembraba con `t.responses = msg.responses or []`, borrando lo que la interfaz había escrito sólo en la traducción. Ahora siembra sin pisar y nunca con un valor vacío, y hace `db.flush()` al entrar (no veía las filas de una restauración, importación o plantilla sin `commit`).
+> - ✅ **Frontend**
+>   - Sección *Respuestas por canal*, pestaña *Default*, un solo botón *Agregar Bloque*, `bloquesParaEditar` para mostrar el `text` huérfano, y `done` recupera su valor genérico (la frase de la clave pasa a `apiKeySavedDone`).
+> - ✅ **`scripts/diagnostico_respuestas_divididas.py`**
+>   - Sólo lectura; clasifica en huérfanas, sin fila de traducción y divergentes. `--curar` actúa sólo sobre las dos primeras, que son aditivas.
+
+#### 🔌 Canales de Mensajería (`core/integrations/`)
+> - ✅ **`canal.py`**
+>   - `conversar()` con sesión `<canal>:<tree_id>:<remitente>` y turno guardado en el historial; `conversar_async()` lo corre en un hilo (el motor lanza herramientas con `asyncio.run()`, que falla dentro de un webhook asíncrono).
+> - ✅ **`firmas.py`**
+>   - Meta (`X-Hub-Signature-256`), Slack (v0, con caducidad), Discord (Ed25519), Telegram (`secret_token`) y Svix (Resend), con comparación en tiempo constante. Sin secreto, no pasa.
+> - ✅ **`credenciales.py`**
+>   - Credencial por el identificador que trae el aviso; un identificador repetido en dos workspaces no se atiende ni se deja guardar; los secretos vacíos conservan el guardado.
+> - ✅ **Origen del Fallo**
+>   - WhatsApp, Messenger, Instagram, Slack, Discord y Email llamaban a `predict(texto, tree_id, db)`, que recibe un solo diccionario; el `TypeError` se tragaba en un `except` y contestaban un saludo fijo desde el 26-jul.
+
+#### 🗄️ Respaldos
+> - ✅ **Incrementales**
+>   - Se acotan por `last_auto_backup_at` sobre el inicio de la conversación, no por el último turno. `metadata.conversations_since` lo declara.
+> - ✅ **`list_snapshots`**
+>   - Pide seis columnas y nunca el JSONB `snapshot`; pagina de veinte en veinte con su total. 25 respaldos de 1,8 MB: de 0,546 s a 0,016 s.
+
+#### 🩺 Operación
+> - ✅ **`/api/health`**
+>   - Usa `check_connection()`; el `healthcheck` del compose corre con la stdlib de Python (la imagen `python:3.12-slim` no trae `curl`) y `start_period` de 90 s.
+> - ✅ **`docker-compose.yml` (desarrollo)**
+>   - Contenedores `-dev`, volúmenes `postgres_data_dev` y `voice_models_dev`, `cpuset` y límites de CPU/memoria, `BACKEND_MAX_MEMORY_MB` y `TRAINING_MAX_MEMORY_MB`. El compose de producción no cambia.
+> - ✅ **Hook `pre-push`** (`.githooks/`)
+>   - Compila el frontend en Docker con el mismo Dockerfile que `prod_complete.sh` sólo si el push toca `frontend/`.
+> - ✅ **Voz**
+>   - El compose de producción arranca voz en `8104` pero no pasaba `VOICE_SERVICE_URL` al backend, que buscaba `voice:8002`.
+> - ✅ **Plantillas en una Base Existente**
+>   - Postgres sólo ejecuta `database/init/` con el directorio de datos vacío, así que los arreglos a plantillas no llegaban a bases ya creadas; un script los aplica.
+> - ✅ **Refactor** (`e94ef7e`)
+>   - Modularización de diseño, respaldos, auditoría, canvas, autenticación y patrones. `vite.config.ts` lee la versión de `package.json` con `resolveJsonModule` en lugar de `node:fs`.
+
+</details>
+
+<details>
+<summary>
 ### <strong>V-0.9.0 (09/2026) - Entidades Compuestas con Alias, Pedidos de Varias Líneas y Slot Filling que no Atrapa</strong>
 </summary>
 

@@ -51,6 +51,76 @@ Cuando pruebas una conversación desde la consola, el **canvas reacciona en tiem
 
 Esto convierte al canvas en un **depurador visual en vivo** — puedes ver exactamente qué rama se activó, qué nodo respondió y por qué camino llegó la decisión.
 
+## Suites de Pruebas de un Bot
+
+Validar un bot conversando a mano lleva media hora por pasada, y sólo lo hace quien se acuerda. Las **suites de pruebas** guardan esas conversaciones con sus comprobaciones y las repiten contra el árbol cuando quieras, en segundos.
+
+Están en **Conversaciones → Pruebas** (junto a Historial, Tabla Dinámica y Flujo). Van ahí porque los mejores casos salen de tráfico real: una conversación que salió mal es la mejor prueba que puedes escribir.
+
+:::note Modo principiante
+Los bots en modo principiante no ven Intenciones ni Entidades, así que tampoco ven la pestaña Pruebas.
+:::
+
+### Qué es una suite
+
+Una **suite** es un conjunto de **casos**. Un **caso** es una conversación de varios **turnos**, y cada turno lleva un mensaje del usuario y, opcionalmente, comprobaciones sobre lo que responde el bot.
+
+| Comprobación | Verifica que… |
+|---|---|
+| `intencion` | La intención detectada es esa |
+| `respuesta_contiene` | La respuesta del bot contiene ese texto (sin distinguir mayúsculas) |
+| `slot` | El parámetro que el bot está pidiendo en ese turno es ese |
+| `parametros` | Los parámetros capturados tienen esos valores |
+| `evento` | El evento resultante es ese (se compara igual que la intención) |
+
+Cada caso arranca con **su propia sesión**, así que un caso no puede contaminar al siguiente. Eso importa: varias comprobaciones existen justamente para verificar que el pedido anterior no se filtra al siguiente.
+
+### Escribir una suite en CSV
+
+El formato es una fila por turno, agrupada por caso:
+
+```csv
+caso,turno,mensaje,intencion,respuesta_contiene,slot,parametros,evento
+pedido por partes,1,quiero empanadas,hacer_pedido,¿De qué sabor,sabor_producto,,
+pedido por partes,2,de queso,,¿Cuántas,numero,,
+pedido por partes,3,dos,,Anoté,,numero=2;sabor_producto=queso,
+```
+
+- **Las columnas de comprobación vacías no comprueban nada.** El CSV mínimo es `caso,turno,mensaje`: se ejecuta y te enseña qué contestó el bot. Es como se empieza una suite: primero mirar, luego fijar.
+- En `parametros` van varios en la misma celda: `nombre=valor;nombre=valor`.
+- Si el CSV tiene un error, la pantalla muestra la fila y el motivo tal cual.
+
+También puedes crear casos y editarlos en pantalla: el **lápiz** abre un editor con el nombre del caso, el mensaje de cada turno y cada comprobación, con añadir y quitar casos, turnos y comprobaciones. Trabaja sobre una copia y sólo se guarda al pulsar **Guardar**, así que **Descartar** significa algo.
+
+### Ejecutar y leer el resultado
+
+Cada fila de la lista de suites lleva sus acciones:
+
+| Acción | Qué hace |
+|---|---|
+| ▶ | Ejecuta sólo esa suite |
+| ☰ | Muestra los turnos escritos, sin ejecutar nada |
+| 👁 | Abre el historial de ejecuciones |
+| ⋮ | Importar CSV, exportar CSV, comparar con la anterior |
+| 🗑 | Borra la suite |
+
+En el resultado:
+
+- Los casos en **rojo se abren solos** y los verdes quedan plegados: de una corrida de cuarenta casos sólo se leen los que fallan.
+- Cada comprobación fallida muestra **qué se esperaba y qué contestó el bot**, para no tener que reproducir la conversación a mano.
+- Cada ejecución guarda **con qué entrenamiento se midió**. Una suite corrida contra un modelo viejo da rojos que no son del bot, y semanas después el historial lo dice.
+- **Comparar** dos ejecuciones no devuelve totales sino transiciones: qué pasaba y ahora falla, y qué fallaba y ahora pasa.
+
+:::warning El bot debe estar entrenado
+El botón de ejecutar está apagado mientras el bot no esté entrenado (el tooltip lo explica). Así no se gastan 72 turnos contra un modelo que no existe ni se leen rojos que en realidad son del entrenamiento.
+:::
+
+Una ejecución no deja rastro en **Conversaciones**: las sesiones de prueba llevan el prefijo `bot-test-` y se borran al terminar.
+
+### Suite de la plantilla de Restaurante
+
+El guion de QA de la plantilla de Restaurante existe también como CSV listo para importar (`qa/plantilla-restaurante.csv` en el repositorio): **40 casos, 72 turnos y 141 comprobaciones** que se ejecutan en unos 30 segundos. Cubre los fallos históricos del slot filling, los bloques que más han roto y las consultas de un turno. No sustituye a la guía en `.md`: el CSV sólo dice si hace falta mirar, y la guía explica por qué importa cada turno.
+
 ## Pruebas Automatizadas End-to-End (Playwright)
 
 Para mayo de 2026, el proyecto introdujo una rigurosa suite de pruebas E2E montada sobre **Playwright**. Esto asegura que las características críticas de la aplicación jamás sufran regresiones.

@@ -9,6 +9,112 @@ sidebar_position: 12
 ## 🎉 Versiones Recientes (2026)
 
 <details open>
+<summary><strong>Novedades desde V-0.9.0 (Septiembre 2026) - Mesa de Ayuda, Suites de Pruebas, Widget Adaptable y Bloque HTML</strong></summary>
+
+> Estos cambios ya están en `master` pero todavía no llevan número de versión. Cuando se publique la siguiente, esta entrada pasa a llevarlo.
+
+### 🎧 Mesa de Ayuda (Helpdesk) y Transferencia a Humano
+> - **Aplicación Aparte para Operadores**: `helpdesk.tree-flow.com`, con su propio login. Cola de conversaciones que esperan a una persona, chat con el visitante en tiempo real (WebSocket) y panel con los datos del visitante. Ver [Mesa de Ayuda](/docs/Avanzado/MesaDeAyuda).
+> - **Reclamar, Responder, Cerrar o Devolver al Bot**: El operador toma la conversación, contesta y, al terminar, la cierra o se la devuelve al bot.
+> - **Dashboard de Operaciones (Administradores)**: Operadores en línea, chats en espera, atendidos por una persona, atendidos por el bot y resueltos hoy, más el estado de cada operador y la carga por bot. Es la vista por defecto de la mesa de ayuda.
+> - **Rol `operador`**: Los operadores sólo entran por la mesa de ayuda; el rol Viewer no entra en ella. El botón **Abrir app** de la mesa de ayuda sólo lo ven administradores y desarrolladores.
+> - **Bandeja en Vivo dentro de Conversaciones**: Una pestaña más para quien trabaja desde el panel principal.
+> - **El Bot se Calla mientras Habla una Persona**: Mientras la conversación está con un operador, los mensajes del visitante se guardan y llegan al operador, y el bot no contesta (configurable por transferencia).
+> - **La Plantilla de Restaurante Deriva de Verdad**: La intención `hablar_con_asesor` ya estaba, pero volvía al nodo Inicio y no derivaba a nadie. Ahora apunta a la transferencia a humano y siembra una configuración de transferencia activa.
+> - **Entra a la Cola en el Mismo Turno**: El bot decía *"te comunico con una persona"* pero la conversación no aparecía en la mesa de ayuda hasta el siguiente mensaje del cliente. Tampoco entraba si era el primer mensaje de la sesión.
+
+### 🧪 Suites de Pruebas de un Bot
+> - **Pestaña Pruebas en Conversaciones**: Guarda casos —conversaciones de varios turnos con comprobaciones—, los ejecuta contra el árbol y deja el resultado guardado. Ver [Testeo](/docs/Avanzado/Testeo#suites-de-pruebas-de-un-bot).
+> - **CSV como Formato**: `caso,turno,mensaje,intencion,respuesta_contiene,slot,parametros,evento`. Las columnas vacías no comprueban nada, así que el CSV mínimo es `caso,turno,mensaje`: se ejecuta y enseña qué contestó el bot.
+> - **Editor de Turnos**: Los casos se editan en pantalla (mensajes, comprobaciones, añadir y quitar) sin exportar y reimportar el CSV.
+> - **Historial y Comparación**: Cada ejecución guarda con qué entrenamiento se midió. Comparar dos ejecuciones dice qué pasaba y ahora falla y qué fallaba y ahora pasa.
+> - **Los Rojos se Explican**: Los casos fallidos se abren solos, y cada comprobación muestra lo que se esperaba **y lo que el bot contestó**.
+> - **No se Ejecuta sin Entrenar**: El botón de ejecutar queda apagado mientras el bot no esté entrenado.
+> - **Guion de Restaurante Incluido**: El guion de QA de la plantilla como suite ejecutable: 40 casos, 72 turnos, 141 comprobaciones, unos 30 segundos.
+> - **Sin Conversaciones Falsas**: Cada caso usa su propia sesión y se borra al terminar; no ensucia la pantalla de Conversaciones.
+> - **Oculta en Modo Principiante**: Esos bots no ven intenciones ni entidades, así que tampoco la pestaña.
+
+### 📱 Widget Web Adaptable
+> - **Pestaña Responsive** en la configuración del widget: botón de maximizar con su visibilidad (*Solo en computadoras*, *Solo en tablets y teléfonos móviles* o *En todos los dispositivos*), **pantalla completa automática en móvil**, y los puntos de corte de móvil (480–768 px, 640 por defecto) y tablet (hasta 1200 px, 1024 por defecto).
+> - **Auto-ajuste en Tablet**: El widget no desborda la pantalla: se limita al 88 % del ancho y al 82 % del alto disponibles.
+> - **Simulador de Dispositivo**: La pestaña resume cómo se comportará el widget en escritorio, tablet y móvil con la configuración actual.
+> - **Página de Prueba para Compartir**: Un botón en la integración web abre `/widget-demo/{tree_id}`, una página con sólo ese bot cargado, sin login, para enseñárselo a alguien sin instalar nada.
+> - **Aviso de Cambios sin Guardar**: La previsualización usa lo que hay en pantalla y la página de prueba lo que hay guardado; ahora la configuración avisa cuando difieren.
+> - **Contexto por Defecto**: En la pestaña *Desarrollador* se definen variables de contexto que el widget manda en cada petición. Lo que la página inyecte con `widget.injectContext(...)` las pisa.
+> - **Contexto Inyectado en el Primer Turno**: Antes se perdía justo en el turno de bienvenida y las variables salían vacías.
+> - **Tipografía**: El tamaño de letra por defecto baja a `0.8rem` y el ajuste de *Tamaño de Fuente de Mensajes* ya llega a los párrafos y botones de los mensajes enriquecidos, no sólo al texto plano.
+> - **Colores**: El avatar sigue el color de la cabecera mientras nadie lo cambie a propósito, *Restablecer* lo restablece, y el botón lanzador ya no se pone naranja al pasar el ratón con otras paletas.
+
+### 🧱 Bloque HTML en Mensajes Enriquecidos
+> - **Nuevo Tipo `html`**: Escribe etiquetas (`<h3>`, `<p>`, `<blockquote>`, `<img>`, `<a>`…) o pon una variable de sesión (`{{noticias}}`) que devolvió una herramienta o una API.
+> - **Editor con Vista Previa**: Pestañas *Código / Variable* y *Vista Previa*, y varios fragmentos por bloque.
+> - **Sanitizado**: El HTML se limpia antes de pintarse: no pasan `script`, `iframe`, `object`, `embed`, `form` ni `input`.
+> - **Listas y JSON como Datos**: Una variable que contiene una lista de elementos (`title`, `image`, `content`/`html`/`excerpt`) se pinta como una serie de fragmentos separados.
+> - **Interpolación de Listas y Objetos**: `{{$variable}}` con una lista o un objeto ahora se inserta como JSON en vez de fallar o mostrar la representación interna.
+> - **Tipos de Respuesta `html` y `json`**: El motor los acepta como respuesta directa y los entrega al widget como bloque HTML.
+
+### 🧠 Entrenamiento y NLP
+> - **Modo Básico por Defecto**: Los árboles nuevos se entrenan en modo **Básico**, y también cuando el modo no está definido. Antes era Pro.
+> - **Entity Masking**: Antes de comparar, el texto del usuario se enmascara con sus entidades (*"dos pizzas de pepperoni"* → `@sys.number @categoria de @sabor`). Los patrones con `@entidad` ahora casan por coincidencia exacta, y el clasificador de Machine Learning se entrena y consulta sobre texto enmascarado.
+> - **Entrenamiento más Ligero**: El reconocedor de entidades entrena por lotes y con menos vueltas en árboles grandes, el generador de frases ya no multiplica todas las combinaciones, y el entrenamiento tiene un techo de memoria y de tiempo (5 minutos por paso).
+> - **Un Fallo ya no se Anuncia como Éxito**: Un entrenamiento que reventaba salía como *"sin entrenar"* y la interfaz lo daba por bueno. Ahora el estado es `error`.
+> - **El Entrenamiento Volvía a Funcionar**: Desde el 7-sep las fases 1 y 2 morían con `ModuleNotFoundError` en cualquier entorno.
+> - **Entrenar Forzado**: Cuando el botón está en *"actualizado"* se puede reentrenar igualmente (`?force=true`), y no se lanza un segundo entrenamiento sobre uno en curso. Los entrenamientos colgados más de 20 minutos se dan por fallidos.
+> - **Plantillas y Reforestación Marcan el Árbol como Desactualizado**: Aplicar una plantilla o reemplazar intenciones en bloque ahora avisa de que hay que reentrenar. Antes el motor seguía con el modelo viejo sin decir nada.
+> - **Al Abrir la Aplicación**: Se abre el último árbol con el que trabajaste, y si no hay ninguno recordado, uno de los existentes.
+
+### 🛠️ Herramientas y Scripts (Fertilizantes)
+> - **Tres Estados de Ejecución**: `ok` (✓ 200), `sin datos` (⚠ 200 sin ninguna variable de salida: el flujo sigue con los valores de respaldo) y `error` (✗). Antes una respuesta correcta sin salidas configuradas contaba como error.
+> - **Mensaje si Falla**: Cada herramienta y script tiene su mensaje amable por idioma. El usuario final ya no lee el texto técnico; éste queda en el modo debug.
+> - **Pruebas por el Backend**: El botón *Probar* ejecuta la herramienta con el mismo ejecutor que la conversación, sin CORS ni criterios distintos. Sólo queda validada con estado `ok`.
+> - **Lápiz para Editar sin Salir**: En las tarjetas de herramientas y scripts del editor de nodos y en las fichas del modo debug de la consola, con el mismo editor que la página de Fertilizantes.
+> - **Scripts con su Icono**: Las fichas de debug distinguen scripts (`<>`) de herramientas.
+> - **Seguridad**: Listar, guardar, cambiar el estado y leer los logs de ejecución de las herramientas de un árbol ahora exige sesión (o API key) y que el árbol sea de tu workspace. Antes algunos de esos endpoints respondían sin autenticar.
+
+### 💬 Respuestas por Canal
+> - **Nombres Nuevos**: La sección se llama *Respuestas por canal* y la pestaña por defecto, *Default*. Un solo botón **Agregar Bloque**; dentro se eligen los elementos, y los bloques van numerados.
+> - **Con Varios Bloques el Bot Elige Uno al Azar** en cada respuesta y manda todos sus elementos. Ahora lo dice la pantalla.
+> - **Default Admite Bloques de Elementos**, igual que el resto de pestañas. Los canales que no saben pintarlos los convierten a texto.
+> - **Se Acabó el Sorteo entre Dos Copias**: Editar una plantilla en pantalla dejaba viva la versión anterior y el bot alternaba entre las dos (*"a veces salen tres botones y a veces cinco"*). Manda la traducción.
+> - **Un Bloque Vacío no Viaja ni Entra en el Sorteo**: Ya no aparecen burbujas en blanco.
+> - **El Texto de una Plantilla no se Inventa**: Desaparecen los rellenos *"Contenido de mensaje enriquecido"* y *"Mensaje enriquecido"*.
+
+### 🔌 Canales de Mensajería
+> - **WhatsApp, Messenger, Instagram, Slack, Discord y Email Contestan de Verdad**: Llamaban al motor con los argumentos equivocados y respondían siempre un saludo fijo.
+> - **Cada Canal con las Credenciales de su Workspace**: Antes tomaban la primera credencial de cualquier workspace.
+> - **Firma de los Webhooks**: Meta, Slack, Discord, Telegram y Resend verifican la firma; sin secreto configurado, no pasan.
+> - **Telegram**: La sesión es por bot (una persona hablando con dos bots ya no arrastra el nodo del primero), las conversaciones se guardan en el historial, el webhook se registra al conectar, y ubicación, tarjetas y botones de enlace se envían bien.
+> - **Secretos**: Guardar con el campo de token vacío ya no lo borra, y las pantallas ya no reciben el *Signing Secret* de Slack ni el token de Telegram.
+
+### 🗄️ Respaldos y Contenido por Idioma
+> - **Respaldos Incrementales**: Cada respaldo automático guarda las conversaciones ocurridas desde el anterior, no todo el historial. En un bot con tráfico bajaban de 18 MB por copia y subiendo. La primera copia y las exportaciones manuales siguen llevándolo todo.
+> - **Listado con Paginación**: El listado de respaldos tardaba minutos por cargar el contenido de cada uno; ahora pide sólo lo que muestra y pagina de veinte en veinte (35 veces más rápido en la medición).
+> - **Restaurar, Importar o Aplicar una Plantilla ya no Borra lo Escrito en Pantalla**: La sincronización de traducciones sobrescribía frases de entrenamiento y bloques con valores vacíos; ahora siembra sin pisar. Un árbol importado quedaba sin traducciones y el bot no reconocía nada hasta reentrenar a mano.
+> - **Los Respaldos Incluyen las Traducciones**, que es donde vive el contenido.
+> - **Diagnóstico**: `scripts/diagnostico_respuestas_divididas.py` (sólo lectura) detecta contenido duplicado entre la columna base y la traducción.
+
+### 🩺 Operación y Despliegue
+> - **`/api/health`**: Comprueba también la base de datos, y Docker vigila el backend con él. `/api/ping` sigue midiendo sólo que el proceso responda.
+> - **Actualizar Plantillas en una Base Ya Creada**: Un script aplica los cambios de plantillas (que son datos, no código) a una base de datos existente; desplegar no los movía.
+> - **Voz en Producción**: El backend buscaba el servicio de voz en el puerto equivocado y STT/TTS llevaban caídos sin aviso.
+> - **Hook de Git**: `pre-push` cancela el push si el frontend no compila. Se activa una vez por copia con `git config core.hooksPath .githooks`.
+> - **Desarrollo**: Los servicios del `docker-compose.yml` de desarrollo llevan su propio nombre, volúmenes y puertos configurables (`DEV_DB_PORT`, `DEV_PGADMIN_PORT`) y techos de CPU y memoria, para convivir con producción en la misma máquina.
+> - **Enlaces Rotos**: El *"Leer documentación"* de ramas enlazadas y la cabecera de atribución de OpenRouter apuntaban a dominios que ya no existen.
+
+### 🐞 Correcciones
+> - **Un Pedido Completo de una Vez Perdía sus Líneas**: *"dame 1 empanada de pollo y 2 arepas de carne"* confirmaba las dos y, al cerrar, sólo la primera; y una corrección se aplicaba a la línea equivocada.
+> - **Crear Árbol con Lag Duplicaba Árboles**: Cada clic extra con el servidor lento creaba otro. El botón de importar tenía el mismo defecto.
+> - **Guardar una Hoja Nueva desde el Editor**: `PUT /design/leaves` crea la hoja si aún no existía en la base, en vez de responder 404.
+> - **Ramas Enlazadas con ID Compuesto**: El editor de intenciones mandaba un ID con sufijo y el servidor respondía 422; ahora lo interpreta.
+> - **Actualizaciones Parciales**: `PUT` de intenciones y entidades acepta sólo los campos que cambian y no vacía el resto. Las entidades también se localizan por nombre.
+> - **Botón "Listo"** decía *"Listo, ya guardé mi clave"* en toda la aplicación, y faltaba en alemán, francés e italiano.
+> - **Pasar a un Bot de Principiante desde la Pestaña Pruebas** dejaba la vista de Conversaciones en blanco; ahora vuelve al Historial.
+> - **La Consola Respeta el Canal Elegido** y no vuelve a sortear en el cliente.
+> - **Refactor de Frontend y Backend**: Modularización de diseño, respaldos, auditoría, canvas, autenticación y patrones, con la corrección de los errores de tipos que dejó.
+
+</details>
+
+<details>
 <summary><strong>V-0.9.0 (Septiembre 2026) - Entidades Compuestas con Alias, Pedidos de Varias Líneas y Slot Filling que no Atrapa</strong></summary>
 
 ### 🧩 Hojas Compuestas: Filas de Combinación y Alias de Parámetro

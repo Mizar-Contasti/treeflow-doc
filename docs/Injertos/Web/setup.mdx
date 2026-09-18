@@ -224,6 +224,31 @@ TreeFlow incluye un widget de prueba en el panel de Injertos que te permite:
 - Ver requests y responses en modo debug
 - Simular diferentes escenarios
 
+### Página de Prueba para Compartir
+
+Para que alguien pruebe tu bot sin instalarle el widget en un sitio ni darle acceso al panel, la integración Web trae un botón (junto a **Copiar**) que abre una página en blanco con sólo ese bot cargado:
+
+```
+GET /widget-demo/{tree_id}
+```
+
+Pásale ese enlace a quien quieras.
+
+- **No pide login**, igual que el widget embebido: corre en el navegador de visitantes anónimos.
+- **No lleva nada horneado**: el widget pide su configuración (`/widget-config/{tree_id}`) al cargarse, así que colores, textos y *ejecutar intención al inicio* salen de lo que tengas **guardado**. Si cambias la configuración, el mismo enlace lo refleja.
+- **Respeta el interruptor de la integración Web**: con la integración apagada la página responde 404 y el bot deja de hablar con quien conserve el enlace (sin caché, así que surte efecto en la siguiente carga). Como basta el `tree_id` para abrirla, ese interruptor es lo que decide si el bot es accesible desde fuera.
+- **En producción el enlace sale de la API** (`https://api.tree-flow.com/widget-demo/…`); en local apunta a `localhost` y sólo sirve en tu máquina.
+
+:::warning "Probar ahora" no es lo mismo que la página de prueba
+La previsualización del panel pinta el widget con lo que tienes **en pantalla**; la página de prueba usa lo que está **guardado**. Con cambios sin guardar se verán distintos (por ejemplo, colores nuevos en la previsualización y el tema por defecto en la página). La configuración te avisa cuando hay cambios sin guardar: guarda antes de compartir el enlace.
+:::
+
+### Contexto por Defecto
+
+En la pestaña **Desarrollador** de la configuración puedes definir **variables de contexto** que el widget manda en cada petición sin que tu página haga nada. El bot las lee como cualquier variable de sesión (`{{$nombre_variable}}`), incluso en el mensaje de bienvenida —que es el primer turno—.
+
+Si tu página inyecta contexto con `widget.injectContext(...)`, esos valores **pisan** a los definidos en el panel.
+
 ### Modo Debug
 
 Activa el modo debug para troubleshooting:

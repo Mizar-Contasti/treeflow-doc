@@ -225,6 +225,7 @@ Cada Fertilizante Adicional tiene un botón "Test" que permite:
 
 - **Simulación de datos**: Prueba con datos de ejemplo
 - **Vista previa del request**: Ve exactamente qué se enviará
+- **Ejecución desde el backend**: La prueba la hace el mismo ejecutor que usa la conversación (no el navegador), así que no choca con el CORS de tu API y no puede dar un resultado distinto al real. Una herramienta o un script sólo queda validado con estado **ok**
 - **Respuesta en tiempo real**: Observa la respuesta del webhook
 - **Validación de estructura**: Verifica que el formato sea correcto
 - **Códigos de estado HTTP**: Identifica errores rápidamente
@@ -238,6 +239,26 @@ El sistema registra automáticamente:
 - **Response completo**: Status code, headers, body
 - **Tiempo de respuesta**: Duración de la ejecución
 - **Errores capturados**: Stack traces y mensajes de error
+
+### 🚦 Estados de Ejecución
+
+Cada ejecución de una herramienta o un script termina en uno de tres estados, con las mismas palabras y colores en el modo debug, en el detalle y en los editores:
+
+| Estado | Significa | Qué hace el flujo |
+|---|---|---|
+| **✓ ok** (verde) | Respondió bien y trae sus variables de salida | Se aplican las salidas |
+| **⚠ sin datos** (ámbar) | Respondió 2xx pero sin ninguna variable de salida (revisa los JSONPath) | Es una advertencia: el flujo sigue con la respuesta normal del nodo y las salidas toman su valor de respaldo, si lo tienen |
+| **✗ error** (rojo) | No respondió, respondió 4xx/5xx, o dijo en el cuerpo que falló | Con valores de respaldo el flujo sigue; sin ellos, el usuario recibe el mensaje de error de la herramienta |
+
+Un script no tiene código HTTP: sus estados son *ejecutado*, *sin datos* y *error*.
+
+### 💬 Mensaje si Falla
+
+El usuario final **nunca lee el error técnico**. Cada herramienta y script tiene un campo **Mensaje si falla**, con un chip por cada idioma del bot; si no lo rellenas, se usa un mensaje amable por defecto traducido (español, inglés, portugués, francés, alemán e italiano). El detalle técnico queda sólo en el modo debug de la consola.
+
+### ✏️ Editar sin Salir del Flujo
+
+Las tarjetas de herramientas y scripts del editor de nodos, y las fichas del modo debug de la consola, llevan un **lápiz** que abre el mismo editor de esta página, con sus pruebas y su guardado. Al guardar, el editor de nodos recarga la lista.
 
 ### 🔄 Retry Logic
 
