@@ -11,7 +11,7 @@ sidebar_position: 12
 <details open>
 <summary><strong>Novedades desde V-0.9.0 (Septiembre 2026) - Mesa de Ayuda, Suites de Pruebas, Widget Adaptable y Bloque HTML</strong></summary>
 
-> Estos cambios ya están en `master` pero todavía no llevan número de versión. Cuando se publique la siguiente, esta entrada pasa a llevarlo.
+> Estos cambios aún no llevan número de versión de la aplicación. El widget del CDN, en cambio, ya está publicado: v1.3.6 y v1.3.7. Cuando se publique la siguiente versión de la aplicación, esta entrada pasa a llevarla.
 
 ### 🎧 Mesa de Ayuda (Helpdesk) y Transferencia a Humano
 > - **Aplicación Aparte para Operadores**: `helpdesk.tree-flow.com`, con su propio login. Cola de conversaciones que esperan a una persona, chat con el visitante en tiempo real (WebSocket) y panel con los datos del visitante. Ver [Mesa de Ayuda](/docs/Avanzado/MesaDeAyuda).
@@ -35,9 +35,15 @@ sidebar_position: 12
 > - **Oculta en Modo Principiante**: Esos bots no ven intenciones ni entidades, así que tampoco la pestaña.
 
 ### 📱 Widget Web Adaptable
-> - **Pestaña Responsive** en la configuración del widget: botón de maximizar con su visibilidad (*Solo en computadoras*, *Solo en tablets y teléfonos móviles* o *En todos los dispositivos*), **pantalla completa automática en móvil**, y los puntos de corte de móvil (480–768 px, 640 por defecto) y tablet (hasta 1200 px, 1024 por defecto).
-> - **Auto-ajuste en Tablet**: El widget no desborda la pantalla: se limita al 88 % del ancho y al 82 % del alto disponibles.
-> - **Simulador de Dispositivo**: La pestaña resume cómo se comportará el widget en escritorio, tablet y móvil con la configuración actual.
+> - **Widget del CDN v1.3.6 y v1.3.7**: Todo lo de esta sección llega también al widget que instalan los clientes, no sólo al de la app. Los widgets ya instalados (que apuntan a `@main`) lo reciben sin tocar su web.
+> - **Pestaña Responsive por Dispositivo**: Un panel **Configuración** con selector *Desktop / Tablet / Móvil*, y en cada uno sus propios ajustes: los puntos de corte de móvil (480–768 px, 640 por defecto) y tablet (hasta 1200 px, 1024 por defecto), la **pantalla completa automática en móvil**, el ajuste inteligente en tablet y los botones de la cabecera.
+> - **Tres Estados, y en Móvil Sólo Dos**: El chat está cerrado, abierto o maximizado. En un teléfono sólo hay cerrado o pantalla completa: al tocar el icono ocupa todo el viewport (`100dvh`), y **no hay botón de maximizar**. Éste es opcional, por dispositivo, sólo en desktop y tablet.
+> - **Botones de Minimizar y de Cerrar por Dispositivo**: *Minimizar* (vuelve al icono) viene activado en desktop y tablet y desactivado en móvil. *Cerrar* (**elimina el chat de la página** hasta recargar) viene desactivado en todos. Minimizar desde maximizado ya no restaura la ventana: vuelve al icono.
+> - **Tocar la Franja de la Cabecera en Móvil Minimiza el Chat**, haya o no botones, así un teléfono siempre tiene salida. En tablet y escritorio la cabecera sólo reacciona por sus botones.
+> - **Aviso "Sin Salida"**: En tablet y escritorio, si no hay ni minimizar ni cerrar, la pestaña avisa de que el visitante no podrá quitar el chat.
+> - **`widget.destroy()`**: Nuevo método para quitar el chat de la página; `widget.close()` sigue dejando sólo el icono.
+> - **Auto-ajuste en Tablet**: El widget no desborda la pantalla: se limita al 88 % del ancho y al 82 % del alto disponibles. Se reevalúa al girar o redimensionar.
+> - **Interruptor "Habilitar Maximizar" fuera de Desarrollador**: Ahora sólo se elige por dispositivo en Responsive.
 > - **Página de Prueba para Compartir**: Un botón en la integración web abre `/widget-demo/{tree_id}`, una página con sólo ese bot cargado, sin login, para enseñárselo a alguien sin instalar nada.
 > - **Aviso de Cambios sin Guardar**: La previsualización usa lo que hay en pantalla y la página de prueba lo que hay guardado; ahora la configuración avisa cuando difieren.
 > - **Contexto por Defecto**: En la pestaña *Desarrollador* se definen variables de contexto que el widget manda en cada petición. Lo que la página inyecte con `widget.injectContext(...)` las pisa.
@@ -48,10 +54,11 @@ sidebar_position: 12
 ### 🧱 Bloque HTML en Mensajes Enriquecidos
 > - **Nuevo Tipo `html`**: Escribe etiquetas (`<h3>`, `<p>`, `<blockquote>`, `<img>`, `<a>`…) o pon una variable de sesión (`{{noticias}}`) que devolvió una herramienta o una API.
 > - **Editor con Vista Previa**: Pestañas *Código / Variable* y *Vista Previa*, y varios fragmentos por bloque.
-> - **Sanitizado**: El HTML se limpia antes de pintarse: no pasan `script`, `iframe`, `object`, `embed`, `form` ni `input`.
+> - **Sanitizado**: El HTML se limpia antes de pintarse: no pasan `script`, `iframe`, `object`, `embed`, `form` ni `input`, ni atributos de eventos (`onerror`, `onclick`…).
 > - **Listas y JSON como Datos**: Una variable que contiene una lista de elementos (`title`, `image`, `content`/`html`/`excerpt`) se pinta como una serie de fragmentos separados.
 > - **Interpolación de Listas y Objetos**: `{{$variable}}` con una lista o un objeto ahora se inserta como JSON en vez de fallar o mostrar la representación interna.
 > - **Tipos de Respuesta `html` y `json`**: El motor los acepta como respuesta directa y los entrega al widget como bloque HTML.
+> - **También en el Widget del CDN (v1.3.6)**: Pinta el bloque `html` y las respuestas de tipo `html` dentro del chat, en vez de mostrar las etiquetas como texto. Sanea con DOMPurify y abre los enlaces en una pestaña nueva con `noopener noreferrer`. El bundle pasa de 109 a 144 KiB por incluir DOMPurify.
 
 ### 🧠 Entrenamiento y NLP
 > - **Modo Básico por Defecto**: Los árboles nuevos se entrenan en modo **Básico**, y también cuando el modo no está definido. Antes era Pro.
@@ -111,6 +118,7 @@ sidebar_position: 12
 > - **Pasar a un Bot de Principiante desde la Pestaña Pruebas** dejaba la vista de Conversaciones en blanco; ahora vuelve al Historial.
 > - **La Consola Respeta el Canal Elegido** y no vuelve a sortear en el cliente.
 > - **Refactor de Frontend y Backend**: Modularización de diseño, respaldos, auditoría, canvas, autenticación y patrones, con la corrección de los errores de tipos que dejó.
+> - **La Consola Cerrada Desplazaba Todo el Layout a la Derecha**: Al cambiar de árbol, el contenido quedaba bajo el sidebar y sobraba un hueco del ancho de la consola. La caja de la consola cerrada medía 0 pero no recortaba su panel, y el `scrollIntoView` del chat de la consola, al montarse, desplazaba el layout entero.
 
 </details>
 

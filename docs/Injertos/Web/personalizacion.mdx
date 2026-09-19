@@ -235,19 +235,37 @@ window.treeflowConfig = {
 
 ### Comportamiento Adaptable desde el Panel
 
-Sin escribir CSS, la pestaña **Responsive** de la configuración del widget (en la integración Web) decide cómo se comporta según el tamaño de pantalla del visitante:
+El chat tiene tres estados: **cerrado** (sólo el icono), **abierto** (ventana flotante) y **maximizado** (ocupa todo el viewport). Sin escribir CSS, la pestaña **Responsive** de la configuración del widget (en la integración Web) decide cómo se comporta en cada tipo de pantalla. Arriba hay un panel **Configuración** con un selector **Desktop / Tablet / Móvil**, y cada dispositivo tiene sus propios ajustes:
 
-| Ajuste | Qué hace | Por defecto |
-|---|---|---|
-| **Botón de maximizar** | Activa el botón en la cabecera. Su visibilidad puede ser *Solo en computadoras*, *Solo en tablets y teléfonos móviles* o *En todos los dispositivos* | Sólo en computadoras |
-| **Pantalla completa automática en móvil** | En móvil el widget se abre ocupando toda la ventana, sin bordes. Si lo apagas, conserva su forma de burbuja flotante | Activado |
-| **Punto de corte de móvil** | Ancho (480–768 px) hasta el que se considera móvil | 640 px |
-| **Punto de corte de tablet** | Ancho (hasta 1200 px) hasta el que se considera tablet | 1024 px |
-| **Auto-ajuste en tablet** | El widget se limita a la pantalla: como máximo el 88 % del ancho y el 82 % del alto. Apagado, mantiene el tamaño fijo de escritorio | Activado |
+| | Desktop | Tablet | Móvil |
+|---|---|---|---|
+| **Rango de pantalla** | Más ancho que el corte de tablet | Hasta el corte de tablet (1024 px por defecto) | Hasta el corte móvil (640 px por defecto, ajustable de 480 a 768) |
+| **Ventana abierta** | Flotante, con el tamaño de la pestaña **Tamaños** | Flotante que no desborda: como máximo el 88 % del ancho y el 82 % del alto (*Ajuste inteligente al viewport*) | Pantalla completa (*Pantalla completa automática*); apagado, ventana flotante |
+| **Botón de maximizar** | Opcional, apagado por defecto | Opcional, apagado por defecto | No existe |
+| **Botón de minimizar** | Activado por defecto | Activado por defecto | Desactivado por defecto |
+| **Botón de cerrar** | Desactivado por defecto | Desactivado por defecto | Desactivado por defecto |
 
-Por encima del punto de corte de tablet el widget se comporta como en escritorio: ventana flotante en la esquina configurada, con las dimensiones de la pestaña **Tamaños**.
+- **Minimizar** vuelve al icono del lanzador, y el visitante puede volver a abrir el chat tocándolo.
+- **Cerrar** **elimina el chat de la página**, con su icono, hasta que se recargue. Actívalo sólo si quieres que el visitante pueda quitar el bot.
+- **Maximizar** alterna entre ventana y pantalla completa. No existe en móvil: allí el chat está cerrado o a pantalla completa, sin estado intermedio.
 
-La propia pestaña incluye un **simulador** (escritorio, tablet, móvil) que resume cómo se comportará el widget con la configuración actual.
+### La cabecera y los toques
+
+En **tablet y escritorio** la cabecera sólo reacciona por sus botones: tocar el título o el resto de la franja no hace nada.
+
+En **móvil**, tocar la franja de la cabecera (el título, el subtítulo o cualquier zona que no sea un botón) **minimiza el chat**, haya o no botones. Un toque sobre un botón lo atiende el botón. Así, un teléfono siempre tiene salida aunque minimizar y cerrar estén desactivados, que es su valor por defecto.
+
+:::warning Tablet o escritorio sin salida
+Si en tablet o escritorio no activas ni minimizar ni cerrar, el visitante no tiene cómo quitar el chat de en medio una vez abierto. La pestaña lo avisa.
+:::
+
+### Qué llega a los clientes
+
+Estos ajustes los aplican **el widget del CDN** (desde la v1.3.6; lo de tocar la franja en móvil, desde la v1.3.7) **y el widget de la app** (la previsualización y *Probar ahora*). Se reevalúan al girar o redimensionar, y un chat que se abrió a pantalla completa por ser un teléfono vuelve a ventana si la pantalla pasa a ser de tablet o de escritorio.
+
+:::note Widgets ya instalados
+El código de integración de los clientes apunta a `@main`, así que reciben las versiones nuevas sin tocar su web (un navegador que cargó el widget en la última semana puede tardar en verlas). Los valores por defecto de la tabla se aplican a los bots que no han guardado estos ajustes: en móvil, esos widgets pierden los botones de minimizar y de cerrar, y se cierran tocando la franja. Los bots con la configuración anterior (un único botón de maximizar) conservan su botón, salvo en móvil.
+:::
 
 :::tip Empieza por aquí
 Si tu web tiene mucho tráfico móvil, deja activada la pantalla completa automática: un widget de 360 px flotando en una pantalla de teléfono es difícil de usar con el teclado abierto.

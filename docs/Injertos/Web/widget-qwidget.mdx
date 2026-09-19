@@ -26,7 +26,7 @@ Se adapta automáticamente a dispositivos móviles y desktop.
 Configura colores, título, posición y más mediante atributos HTML.
 
 ### ✅ Ligero
-Solo 20KB optimizado para carga rápida.
+Un solo archivo de unos 145 KB minificado, con DOMPurify incluido para sanear el HTML.
 
 ## Instalación Rápida
 
@@ -299,7 +299,11 @@ Puede mostrar una ubicación o solicitarla.
 
 Cada elemento lleva su fragmento en `html` (y un `title` opcional). En lugar de escribir el HTML a mano, el campo puede ser una **variable de sesión** que devolvió una herramienta o una API (`{{noticias}}`): si contiene una lista de elementos con `title`, `image` y `content`/`html`/`excerpt`, el widget pinta cada uno como un fragmento y los separa con una línea.
 
-El HTML se **sanitiza** antes de mostrarse. Se permiten títulos, párrafos, listas, tablas, citas, enlaces, imágenes, negritas/cursivas y estilos en línea; **no** pasan `script`, `iframe`, `object`, `embed`, `form` ni `input`.
+El HTML se **sanitiza** con DOMPurify antes de mostrarse. Se permiten títulos, párrafos, listas, tablas, citas, enlaces, imágenes, negritas/cursivas y estilos en línea; **no** pasan `script`, `iframe`, `object`, `embed`, `form` ni `input`, ni atributos de eventos (`onerror`, `onclick`…). Los enlaces se abren en una **pestaña nueva** con `rel="noopener noreferrer"`, para que no se lleven la página del cliente.
+
+Una respuesta del motor de tipo `html` se entrega como este mismo bloque, en vez de enseñar las etiquetas como texto. `"align": "horizontal"` coloca los fragmentos en fila.
+
+Este bloque lo pintan el widget de la app y el del CDN (desde la v1.3.6). El del CDN pasa de 109 a 144 KiB por incluir DOMPurify.
 
 :::tip Desde el editor de mensajes
 En el constructor de mensajes, el bloque **HTML / Web** tiene una pestaña *Código / Variable* y otra *Vista Previa* para ver cómo se pintará en el chat, y admite varios fragmentos con *Añadir otro fragmento HTML*.
@@ -400,9 +404,11 @@ Se desplaza automáticamente al último mensaje.
 ### Responsive Design
 
 Se adapta automáticamente a:
-- Desktop (ventana completa)
-- Tablet (ventana mediana)
-- Móvil (pantalla completa)
+- **Desktop**: ventana flotante con el tamaño configurado.
+- **Tablet**: ventana flotante que no desborda la pantalla (como máximo el 88 % del ancho y el 82 % del alto).
+- **Móvil**: sólo cerrado o a pantalla completa; al tocar el icono ocupa todo el viewport.
+
+Se reevalúa al girar o redimensionar. Los puntos de corte y el resto de ajustes se editan en la pestaña *Responsive* del panel; ver [Personalización](/docs/Injertos/Web/personalizacion#comportamiento-adaptable-desde-el-panel).
 
 ## Control Programático
 
@@ -415,12 +421,17 @@ const widget = document.querySelector('treeflow-widget');
 // Abrir el chat
 widget.open();
 
-// Cerrar el chat
+// Cerrar el chat (deja sólo el icono del lanzador)
 widget.close();
 
 // Toggle (abrir/cerrar)
 widget.toggle();
+
+// Quitar el chat de la página, con su icono, hasta que se recargue
+widget.destroy();
 ```
+
+`close()` y el botón de **minimizar** dejan el icono para volver a abrirlo; `destroy()` y el botón de **cerrar** eliminan el componente por completo.
 
 ### Enviar Mensaje Programáticamente
 
@@ -714,32 +725,34 @@ Círculo flotante en la esquina con ícono personalizable.
 Ventana de chat normal (350x500px por defecto).
 
 #### 3. **Maximized** (Maximizado)
-Pantalla completa para mejor experiencia en móviles.
-
-```html
-<treeflow-widget 
-  enable-maximize="true">
-</treeflow-widget>
-```
+La ventana ocupa todo el viewport. En un **teléfono** el chat no tiene estado intermedio: sólo está cerrado o a pantalla completa, así que al tocar el icono se abre directamente maximizado, con `100dvh` para no desbordarse bajo la barra del navegador.
 
 ### 🎛️ Controles del Widget
 
-El widget incluye 3 botones de control:
+La cabecera puede llevar tres botones. Cuáles aparecen depende del **dispositivo** del visitante, según los puntos de corte de la pestaña *Responsive* (móvil hasta 640 px, tablet hasta 1024 px por defecto):
 
-- **Minimizar** (`−`): Reduce el widget al estado anterior
-  - Desde `maximized` → `open`
-  - Desde `open` → `closed`
-- **Maximizar** (`⛶`): Alterna entre ventana y pantalla completa
-  - Desde `open` → `maximized`
-  - Desde `maximized` → `open`
-- **Cerrar** (`×`): Cierra completamente el widget a `closed`
+| Botón | Qué hace | Desktop | Tablet | Móvil |
+|---|---|---|---|---|
+| **Minimizar** (`−`) | Vuelve al icono del lanzador, desde abierto o maximizado | Sí | Sí | No |
+| **Maximizar** (`⛶`) | Alterna entre ventana y pantalla completa | Opcional | Opcional | Nunca |
+| **Cerrar** (`×`) | Quita el chat de la página, con su icono, hasta que se recargue | No | No | No |
+
+Las columnas son los valores por defecto, y todo se cambia por dispositivo desde el panel (ver [Personalización](/docs/Injertos/Web/personalizacion#comportamiento-adaptable-desde-el-panel)). Maximizar se activa por dispositivo desde el panel; un snippet sin configuración remota lo muestra en desktop y tablet (`enable-maximize`).
+
+**La cabecera sólo reacciona por sus botones**, con una excepción: en un **teléfono**, tocar la franja de la cabecera (el título, el subtítulo o cualquier zona que no sea un botón) minimiza el chat. Así un teléfono siempre tiene salida aunque no tenga botones. En tablet y escritorio, tocar el título no hace nada.
+
+:::warning Sin minimizar ni cerrar
+En tablet o escritorio sin ninguno de los dos botones, el visitante no puede quitar el chat de en medio una vez abierto.
+:::
 
 ```html
-<!-- Deshabilitar botón de maximizar -->
-<treeflow-widget 
+<!-- Sin botón de maximizar en ningún dispositivo -->
+<treeflow-widget
   enable-maximize="false">
 </treeflow-widget>
 ```
+
+Minimizar, cerrar y el maximizar por dispositivo se configuran desde el panel, no con atributos: llegan por la configuración remota del bot (`GET /widget-config/{tree-id}`) o por `window.treeflowConfig`.
 
 ### 🎨 Ícono Personalizado
 

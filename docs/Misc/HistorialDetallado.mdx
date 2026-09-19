@@ -13,7 +13,7 @@ Este documento proporciona un historial detallado de todas las características,
 ### <strong>Novedades desde V-0.9.0 (09/2026) - Mesa de Ayuda, Suites de Pruebas, Widget Adaptable y Bloque HTML</strong>
 </summary>
 
-> Cambios ya integrados en `master` que aún no llevan número de versión.
+> Cambios que aún no llevan número de versión de la aplicación. El widget del CDN ya está publicado (v1.3.6 y v1.3.7).
 
 #### 🎧 Mesa de Ayuda y Transferencia a Humano (`backend/api/live_chat_api.py`, `frontend/src/features/inbox/`)
 > - ✅ **Esquema de Handoff** (`database/init/13_schema_human_handoff.sql`)
@@ -52,16 +52,26 @@ Este documento proporciona un historial detallado de todas las características,
 >   - El guion de Restaurante como suite: 40 casos, 72 turnos, 141 comprobaciones.
 
 #### 📱 Widget Web (`features/integrations/treeflow-web/`)
-> - ✅ **Pestaña Responsive** (`ResponsiveTab.tsx`, `useWidgetResponsive.ts`)
->   - Nuevos campos en `WidgetConfig`: `maximizeVisibility` (`desktop` · `mobile_tablet` · `all`), `mobileAutoFullscreen`, `mobileBreakpoint` (640), `tabletBreakpoint` (1024), `tabletAutoFit`, `tabletWidth` (420) y `tabletHeight` (580). El tipo de dispositivo sale de `window.innerWidth`; en tablet con auto-ajuste el tamaño se recorta al 88 % del ancho y 82 % del alto.
+> - ✅ **Pestaña Responsive** (`ResponsiveTab.tsx`, `useWidgetResponsive.ts`, `maximizeDevices.ts`, `headerButtons.ts`)
+>   - Un panel **Configuración** con selector Desktop / Tablet / Móvil. Campos en `WidgetConfig`: `maximizeDesktop`, `maximizeTablet` (sin equivalente en móvil), `minimizeDesktop` (true), `minimizeTablet` (true), `minimizeMobile` (false), `closeDesktop`, `closeTablet`, `closeMobile` (todos false), `mobileAutoFullscreen`, `mobileBreakpoint` (640), `tabletBreakpoint` (1024), `tabletAutoFit`, `tabletWidth` (420) y `tabletHeight` (580). El tipo de dispositivo sale de `window.innerWidth`; en tablet con auto-ajuste el tamaño se recorta al 88 % del ancho y 82 % del alto.
+>   - `enableMaximize` se sigue guardando, derivado (`maximizeDesktop || maximizeTablet`), porque es lo único que lee el widget del CDN. `maximizeVisibility` (`desktop` · `mobile_tablet` · `all`) queda sólo para migrar configuraciones guardadas: `resolveMaximizeDevices` la traduce y nunca devuelve `true` para móvil.
+>   - `resolveHeaderButtons` da los valores por defecto (minimizar sí en desktop y tablet; cerrar en ninguno) y `flattenHeaderButtons` las banderas planas que se guardan. Se quita el interruptor general de Desarrollador y el resumen del panel; el aviso de "sin salida" sólo sale en tablet y desktop.
 > - ✅ **Página de Demostración** (`api/widget_config.py`)
 >   - `GET /widget-demo/{tree_id}`: sin autenticación, sin caché, con el `tree_id` validado como UUID antes de interpolarlo en un atributo HTML, respetando el interruptor de la integración (404 apagada) y armando el `endpoint` con las cabeceras del proxy. El botón vive en `TreeflowWebConfigView`; el de `TreeflowWebModal` no se montaba en ninguna pantalla.
 > - ✅ **Contexto Inyectado por Defecto**
 >   - Se guarda en `injertos.web.injectedContext`, lo sirve `/widget-config` y el widget lo envía en cada petición. `_apply_widget_session_overrides` sólo fusionaba en la rama de sesión existente, así que en el primer turno el contexto se descartaba.
 > - ✅ **Tipografía y Colores**
 >   - Tamaño por defecto `0.8rem` (antes `0.9rem`), aplicado también al párrafo y los botones de los mensajes enriquecidos; `scripts/letra_widget_por_defecto.py` migra los bots que guardaron `0.9rem`. El avatar sigue al color de cabecera mientras coincidan.
-> - ✅ **Widget CDN**
->   - Se apunta a una versión concreta (v1.3.5) y no a `@main`: jsDelivr envía `max-age=604800` y un navegador conservaba el bundle viejo una semana aunque se purgara la caché.
+> - ✅ **Widget CDN** (`treeflow-web-widget` v1.3.6 y v1.3.7)
+>   - Se apunta a una versión concreta (`WIDGET_SCRIPT_URL`, v1.3.7) y no a `@main`: jsDelivr envía `max-age=604800` y un navegador conservaba el bundle viejo una semana aunque se purgara la caché. El código de integración de los clientes sigue en `@main`.
+> - ✅ **Responsive en el CDN** (`src/responsive.js`)
+>   - Funciones puras que deben dar lo mismo que `useWidgetResponsive.ts` y `maximizeDevices.ts` de la app: `getDeviceType`, `resolveMaximizeDevices`, `resolveHeaderButtons`, `opensFullscreen` y `getOpenSize`. Una configuración vieja sin `maximizeVisibility` tenía el botón en todos los dispositivos en el CDN, y la app la lee como "sólo escritorio": es la única diferencia adrede.
+>   - Se elimina el `@media (max-width: 480px)` fijo de `styles.js`, que forzaba pantalla completa sin mirar la configuración. `100vh` pasa a `100dvh` en el estado maximizado.
+>   - Escucha `resize` con `requestAnimationFrame`; lo que se maximizó solo por ser teléfono (`autoMaximized`) vuelve a `open` cuando el dispositivo deja de serlo.
+> - ✅ **Franja de la Cabecera en Móvil**
+>   - `click` sobre `.chat-header`: si el objetivo no es un `button` y el dispositivo es móvil, `minimize()`. En el widget de la app, `ChatHeader` recibe `onHeaderTap` (sólo en móvil) y respeta `suppressClickRef` para no confundir un arrastre con un toque.
+> - ✅ **`minimize()` y `destroy()`**
+>   - `minimize()` deja siempre el estado `closed` (antes, desde `maximized` pasaba a `open`). `destroy()` elimina el elemento; `close()` sigue dejando el icono.
 
 #### 🧱 Bloque HTML (`RichHtml.tsx`, `HtmlBlockEditor.tsx`, `core/detector/response_builder.py`)
 > - ✅ **Renderizado Sanitizado**
@@ -72,6 +82,10 @@ Este documento proporciona un historial detallado de todas las características,
 >   - `normalizar_respuesta` acepta `html` (interpolado) y `json` (que viaja como un bloque `html`). `processChatResponse` convierte `type: 'html'` en payload.
 > - ✅ **Interpolación de Estructuras** (`expression_evaluator.interpolate_template`)
 >   - Un parámetro o expresión cuyo valor es lista o diccionario se inserta con `json.dumps(..., ensure_ascii=False)`.
+> - ✅ **Bloque HTML en el widget del CDN** (`src/html-block.js`, v1.3.6)
+>   - Porta la lógica de `RichHtml.tsx`: DOMPurify con la misma lista blanca, y el mismo contenido flexible (`html`, `content`, JSON, listas en `items`/`data`/`noticias`/`key_value`). Un hook `afterSanitizeAttributes` fuerza `target="_blank"` y `rel="noopener noreferrer"` en los enlaces. Una respuesta `html` del motor pasa por `mensajeDeRespuesta` y se entrega como bloque.
+>   - Diferencia adrede con la app: un JSON dentro de un texto sólo se busca si alrededor no hay más que etiquetas. La app lo busca siempre y toma `<p>Ver [1,2]</p>` por una lista, descartando el texto.
+>   - `package.json` había perdido sus `devDependencies` (el lockfile aún las listaba), y un `npm install` borraba 521 paquetes; se declaran de nuevo y se añade `dompurify`.
 
 #### 🧠 Entrenamiento y Matcher
 > - ✅ **Entity Masking** (`core/matcher_strategies/masking.py`)
@@ -142,6 +156,8 @@ Este documento proporciona un historial detallado de todas las características,
 >   - El compose de producción arranca voz en `8104` pero no pasaba `VOICE_SERVICE_URL` al backend, que buscaba `voice:8002`.
 > - ✅ **Plantillas en una Base Existente**
 >   - Postgres sólo ejecuta `database/init/` con el directorio de datos vacío, así que los arreglos a plantillas no llegaban a bases ya creadas; un script los aplica.
+> - ✅ **Consola Cerrada** (`components/Console/Console.tsx`)
+>   - La caja exterior de la consola mide 0 de ancho al cerrarla, pero el panel interior conserva su ancho y no se recortaba. Ese ancho contaba como desbordamiento del layout (`overflow: hidden`), y el `scrollIntoView` del chat de la consola al montarse —se remonta con `key={treeId}`— desplazaba el layout entero (`scrollLeft` a 400 px). `overflow: 'hidden'` en esa caja; el botón flotante y el panel móvil son `fixed` y no se ven afectados.
 > - ✅ **Refactor** (`e94ef7e`)
 >   - Modularización de diseño, respaldos, auditoría, canvas, autenticación y patrones. `vite.config.ts` lee la versión de `package.json` con `resolveJsonModule` en lugar de `node:fs`.
 
