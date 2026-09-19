@@ -251,17 +251,11 @@ El chat tiene tres estados: **cerrado** (sólo el icono), **abierto** (ventana f
 
 ### La cabecera y los toques
 
-En **tablet y escritorio** la cabecera sólo reacciona por sus botones: tocar el título o el resto de la franja no hace nada.
-
-En **móvil**, tocar la franja de la cabecera (el título, el subtítulo o cualquier zona que no sea un botón) **minimiza el chat**, haya o no botones. Un toque sobre un botón lo atiende el botón. Así, un teléfono siempre tiene salida aunque minimizar y cerrar estén desactivados, que es su valor por defecto.
-
-:::warning Tablet o escritorio sin salida
-Si en tablet o escritorio no activas ni minimizar ni cerrar, el visitante no tiene cómo quitar el chat de en medio una vez abierto. La pestaña lo avisa.
-:::
+Tocar la franja de la cabecera (el título, el subtítulo o cualquier zona que no sea un botón) **minimiza el chat en cualquier dispositivo**, esté o no activado el botón de minimizar. Un toque sobre un botón lo atiende el botón. Así el visitante siempre tiene salida del chat, aunque minimizar y cerrar estén desactivados (que es el valor por defecto en móvil).
 
 ### Qué llega a los clientes
 
-Estos ajustes los aplican **el widget del CDN** (desde la v1.3.6; lo de tocar la franja en móvil, desde la v1.3.7) **y el widget de la app** (la previsualización y *Probar ahora*). Se reevalúan al girar o redimensionar, y un chat que se abrió a pantalla completa por ser un teléfono vuelve a ventana si la pantalla pasa a ser de tablet o de escritorio.
+Estos ajustes los aplican **el widget del CDN** (desde la v1.3.6; tocar la franja de la cabecera, en móvil desde la v1.3.7 y en tablet y escritorio desde la v1.3.10) **y el widget de la app** (la previsualización y *Probar ahora*). Se reevalúan al girar o redimensionar, y un chat que se abrió a pantalla completa por ser un teléfono vuelve a ventana si la pantalla pasa a ser de tablet o de escritorio.
 
 :::note Widgets ya instalados
 El código de integración de los clientes apunta a `@main`, así que reciben las versiones nuevas sin tocar su web (un navegador que cargó el widget en la última semana puede tardar en verlas). Los valores por defecto de la tabla se aplican a los bots que no han guardado estos ajustes: en móvil, esos widgets pierden los botones de minimizar y de cerrar, y se cierran tocando la franja. Los bots con la configuración anterior (un único botón de maximizar) conservan su botón, salvo en móvil.

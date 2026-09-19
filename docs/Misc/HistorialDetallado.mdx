@@ -68,8 +68,8 @@ Este documento proporciona un historial detallado de todas las características,
 >   - Funciones puras que deben dar lo mismo que `useWidgetResponsive.ts` y `maximizeDevices.ts` de la app: `getDeviceType`, `resolveMaximizeDevices`, `resolveHeaderButtons`, `opensFullscreen` y `getOpenSize`. Una configuración vieja sin `maximizeVisibility` tenía el botón en todos los dispositivos en el CDN, y la app la lee como "sólo escritorio": es la única diferencia adrede.
 >   - Se elimina el `@media (max-width: 480px)` fijo de `styles.js`, que forzaba pantalla completa sin mirar la configuración. `100vh` pasa a `100dvh` en el estado maximizado.
 >   - Escucha `resize` con `requestAnimationFrame`; lo que se maximizó solo por ser teléfono (`autoMaximized`) vuelve a `open` cuando el dispositivo deja de serlo.
-> - ✅ **Franja de la Cabecera en Móvil**
->   - `click` sobre `.chat-header`: si el objetivo no es un `button` y el dispositivo es móvil, `minimize()`. En el widget de la app, `ChatHeader` recibe `onHeaderTap` (sólo en móvil) y respeta `suppressClickRef` para no confundir un arrastre con un toque.
+> - ✅ **Franja de la Cabecera**
+>   - `click` sobre `.chat-header`: si el objetivo no es un `button` y el chat no está cerrado, `minimize()`, en cualquier dispositivo y sin mirar si el botón de minimizar está activado (en móvil desde v1.3.7; en tablet y escritorio desde v1.3.10). En el widget de la app, `ChatHeader` recibe `onHeaderTap` y respeta `suppressClickRef` para no confundir un arrastre con un toque. El aviso de "sin salida" desaparece del panel.
 > - ✅ **`minimize()` y `destroy()`**
 >   - `minimize()` deja siempre el estado `closed` (antes, desde `maximized` pasaba a `open`). `destroy()` elimina el elemento; `close()` sigue dejando el icono.
 

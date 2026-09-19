@@ -739,11 +739,7 @@ La cabecera puede llevar tres botones. Cuáles aparecen depende del **dispositiv
 
 Las columnas son los valores por defecto, y todo se cambia por dispositivo desde el panel (ver [Personalización](/docs/Injertos/Web/personalizacion#comportamiento-adaptable-desde-el-panel)). Maximizar se activa por dispositivo desde el panel; un snippet sin configuración remota lo muestra en desktop y tablet (`enable-maximize`).
 
-**La cabecera sólo reacciona por sus botones**, con una excepción: en un **teléfono**, tocar la franja de la cabecera (el título, el subtítulo o cualquier zona que no sea un botón) minimiza el chat. Así un teléfono siempre tiene salida aunque no tenga botones. En tablet y escritorio, tocar el título no hace nada.
-
-:::warning Sin minimizar ni cerrar
-En tablet o escritorio sin ninguno de los dos botones, el visitante no puede quitar el chat de en medio una vez abierto.
-:::
+**Tocar la franja de la cabecera minimiza el chat** en cualquier dispositivo, esté o no activado el botón de minimizar (el título, el subtítulo o cualquier zona que no sea un botón; un toque sobre un botón lo atiende el botón). Así el visitante siempre tiene salida, aunque no haya botones. En móvil funciona desde la v1.3.7 y en tablet y escritorio desde la v1.3.10.
 
 ```html
 <!-- Sin botón de maximizar en ningún dispositivo -->
