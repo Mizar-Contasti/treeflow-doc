@@ -53,7 +53,7 @@ La pregunta con la que se pide el dato: *"¿De qué tamaño quieres tu pizza?"*.
 Puede interpolar otros parámetros ya capturados:
 
 ```
-¿De qué sabor quieres {{$categoria_producto}}?
+¿De qué sabor quieres {$categoria_producto}?
 ```
 
 :::caution Un enunciado que se apoya en un hueco vacío no se pregunta
@@ -96,20 +96,35 @@ cambia y la cantidad se sigue pidiendo.
 
 ### En respuestas
 
-Se interpolan con **`{{$parametro}}`**:
+Se interpolan con **`{$parametro}`**:
 
 ```
-Has pedido una pizza de tamaño {{$tamaño_pizza}}
+Has pedido una pizza de tamaño {$tamaño_pizza}
 ```
 
-El `$` es obligatorio. También funciona dentro de expresiones:
+El `$` es obligatorio: es lo que distingue una variable de un texto. Sin él,
+`{tamaño_pizza}` imprime la palabra "tamaño_pizza".
+
+También funciona dentro de expresiones:
 
 ```
-{{ if $numero > 1 ? "${categoria}s" : $categoria }}
+{ if $numero > 1 ? "${categoria}s" : $categoria }
 ```
 
 Un parámetro que todavía no existe vale como vacío y **no rompe el resto del
 mensaje**: sólo se queda en blanco esa parte.
+
+Dentro de la llave cabe una expresión entera, no sólo una variable:
+
+| Escribes | Para |
+|---|---|
+| `{$nombre}` | leer un parámetro |
+| `{"texto"}` · `{texto}` | un texto |
+| `{$edad > 18 ? "adulto" : "menor"}` | elegir según una condición |
+| `{$edad > 18 ? "adulto"}` | lo mismo, sin la otra rama |
+| `{$precio * 120}` | calcular |
+| `{$nombre.upper()}` · `{len($nombre)}` | funciones y métodos |
+| `{$api.estado}` · `{$api.items[0]}` | bajar dentro de la respuesta de una herramienta |
 
 ### En condiciones
 
@@ -133,13 +148,19 @@ En las respuestas se lee como una lista:
 
 | Escribes | Obtienes |
 |---|---|
-| `{{$producto}}` | el primero, como siempre |
-| `{{$producto[0]}}` | el primero |
-| `{{$producto[1]}}` | el segundo |
-| `{{len($producto)}}` | cuántos vinieron |
+| `{$producto}` | el primero, como siempre |
+| `{$producto[0]}` | el primero |
+| `{$producto[1]}` | el segundo |
+| `{count($producto)}` | cuántos vinieron |
 
 Un parámetro que vino una sola vez se comporta como una lista de uno, así que
-`{{$producto[0]}}` funciona sin que tengas que saber de antemano cuántos había.
+`{$producto[0]}` funciona sin que tengas que saber de antemano cuántos había.
+
+:::caution `count()`, no `len()`
+`count($producto)` cuenta **cuántas veces** lo dijo el usuario. `len($producto)`
+mide **caracteres**, que es otra cosa. Antes `len()` hacía las dos, y por eso
+cambió de nombre.
+:::
 
 :::tip Declararlo plural
 Si en la frase de entrenamiento escribes la hoja **dos veces**, le estás diciendo al

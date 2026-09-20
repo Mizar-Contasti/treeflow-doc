@@ -13,6 +13,19 @@ sidebar_position: 12
 
 > Estos cambios aún no llevan número de versión de la aplicación. El widget del CDN, en cambio, ya está publicado: v1.3.6 y v1.3.7. Cuando se publique la siguiente versión de la aplicación, esta entrada pasa a llevarla.
 
+### ✏️ Una Sola Llave en las Plantillas
+> - **`{$variable}` es la Sintaxis**: Antes convivían dos formas, `{{ ... }}` y `{ ... }`, y no eran dos niveles de lo mismo: la simple sólo sustituía una variable suelta. Ahora hay una sola —una llave, y dentro una expresión— y el `$` es lo que distingue una variable de un texto. Ver [Parámetros](/docs/Avanzado/Parametros#en-respuestas).
+> - **`{{ ... }}` Deja de Funcionar**: Un texto sin migrar **no da error, imprime otra cosa**: `{{$nombre}}` sale como `{Ana}`, con la llave de fuera colgando. Los árboles existentes hay que migrarlos.
+> - **Ojo al Migrar, el `$` no es Opcional**: `{{nombre}}` pasa a `{$nombre}`, **no** a `{nombre}`. Sin el dólar, `{nombre}` imprime la palabra "nombre".
+> - **`count()` Cuenta, `len()` Mide**: `len($producto)` contaba cuántas veces había venido el parámetro; ahora mide **caracteres**, y contar apariciones es `count($producto)`.
+> - **El `else` es Opcional**: `{$edad > 18 ? "adulto"}` no pinta nada si no se cumple, sin obligarte a escribir la otra rama.
+> - **Condiciones Anidadas y Compuestas**: `{ $a > 1 ? ($b > 1 ? "A" : "B") : "C" }` y `{ "Tienes " + $n + " de " + ($a if $a > $b else $b) }`. Antes el `? :` sólo valía si ocupaba la expresión entera; compuesto salía en blanco.
+> - **Leer la Respuesta de una Herramienta**: Se podía guardar la respuesta entera en un parámetro pero no leerla. Ahora `{$api.estado}`, `{$api.datos.total}`, `{$api.items[0]}`.
+> - **Aritmética de Verdad**: `{$a + $b}` con dos números da su suma (antes los concatenaba: "37"), `{$a * $b}` ya no sale vacío, y `abs()`, `round()` y `sum()` funcionan sobre valores de sesión.
+> - **El CSS y el JSON se Respetan**: Una regla de estilo de un bloque HTML, un cuerpo JSON de herramienta y los cuantificadores de una regex (`^\d{4}-\d{2}$`) atraviesan la interpolación intactos. Un hueco **dentro** de un JSON sí se resuelve.
+> - **El Saludo que Salía como Diccionario**: Un bot contestaba `{"key_value": "Buenos días", "name": "saludo_tiempo"}` en vez de "Buenos días". Se serializaba la envoltura interna del parámetro en vez del valor.
+> - **Manual del Lenguaje**: Variables, textos, condiciones, cálculos, funciones, parámetros repetidos, respuestas de herramientas y limitaciones conocidas, con todos los ejemplos verificados contra el motor.
+
 ### 🎧 Mesa de Ayuda (Helpdesk) y Transferencia a Humano
 > - **Aplicación Aparte para Operadores**: `helpdesk.tree-flow.com`, con su propio login. Cola de conversaciones que esperan a una persona, chat con el visitante en tiempo real (WebSocket) y panel con los datos del visitante. Ver [Mesa de Ayuda](/docs/Avanzado/MesaDeAyuda).
 > - **Reclamar, Responder, Cerrar o Devolver al Bot**: El operador toma la conversación, contesta y, al terminar, la cierra o se la devuelve al bot.
