@@ -14,7 +14,7 @@ Cada nombre del menú es una cosa distinta. Esta página es el mapa: qué es cad
 |---|---|
 | **Árbol** | El bot. También se crea como «un bot nuevo». Guarda el entrenamiento, los flujos y todo lo demás. |
 | **Flujo** | El dibujo del lienzo: nodos y flechas. Ordena el recorrido. No es una intención. |
-| **Hoja** | Un nodo de ese lienzo: un mensaje, una intención, una validación u otro paso. No es una entidad. |
+| **Nodo** | Un paso de ese lienzo: un mensaje, una intención, una validación u otro. Antes se llamaba hoja. No es una entidad. |
 | **Intención** | Lo que el motor reconoce en una frase: patrones, parámetros y la respuesta. |
 | **Entidad** | Un tipo de dato que se saca de la frase: un sabor, una fecha, un número. Simple, compuesta o regex. |
 | **Parámetro** | El hueco con nombre donde cae ese dato (`@sabor:sabor` → el parámetro `sabor`). |
@@ -70,7 +70,7 @@ El mismo mapa, en tres oficios. Los nombres son los del menú.
 
 **Flujo no es intención.** El flujo es el recorrido dibujado. La intención es el reconocimiento de la frase. Un nodo del flujo puede *apuntar* a una intención; no la reemplaza.
 
-**Hoja no es entidad.** La hoja es un nodo del lienzo. La entidad es el dato que se extrae del texto. En guías viejas «hoja» quería decir entidad: ya no.
+**Nodo no es entidad.** El nodo es un paso del lienzo. La entidad es el dato que se extrae del texto. En guías viejas las dos cosas se llamaban hoja: el nodo del lienzo, y también la entidad. Ya no.
 
 **Captura no es el dato.** La captura es la pregunta y los reintentos. El dato queda en el parámetro. Un parámetro requerido puede usar una captura, o llevar la pregunta escrita en él.
 
@@ -102,6 +102,7 @@ Si una página vieja no coincide con el menú, esta es la traducción.
 | Antes | Ahora |
 |---|---|
 | Rama | Intención. El lienzo se llama flujo. |
+| Hoja del lienzo | Nodo |
 | Hoja, cuando se hablaba de extraer datos | Entidad |
 | Editor visual, Canvas Engine | Flujos |
 | Injerto | Canal |
