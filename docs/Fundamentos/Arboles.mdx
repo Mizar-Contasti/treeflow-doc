@@ -1,73 +1,93 @@
 ---
 sidebar_position: 4
+sidebar_label: Árboles
 ---
 
 # Árboles
 
-Un **árbol** es un bot. En la app también se llama así al crear uno («Crear un bot nuevo») y en el panel («Estadísticas del Árbol»).
+Un **árbol** es un bot. En el selector de arriba se ve su nombre y, debajo, **Principiante** o **Avanzado**. En el panel, el título es **Estadísticas del Árbol**.
 
-## ¿Qué es un árbol?
+Cada árbol guarda lo suyo:
 
-Cada árbol contiene:
+- los [flujos](./EditorVisual), el lienzo con los nodos
+- las [intenciones](./Ramas) y las [entidades](./Hojas), lo que reconoce y lo que saca de la frase
+- los [mensajes](./Mensajes) y las [capturas](./Capturas)
+- el entrenamiento, el idioma y la forma en que decide una intención
 
-- **[Flujos](/docs/Fundamentos/EditorVisual)**: el lienzo, con nodos y flechas
-- **[Intenciones](/docs/Fundamentos/Ramas)** y **[entidades](/docs/Fundamentos/Hojas)**: lo que reconoce y lo que extrae
-- **[Mensajes](/docs/Fundamentos/Mensajes)** y **[capturas](/docs/Fundamentos/Capturas)**: lo que dice y cómo pide un dato
-- **Configuración**: cómo se entrena y cómo arranca
+Otro cliente, u otro equipo, es otro [workspace](/docs/Fundamentos/Empezando). Dentro del mismo workspace puede haber varios árboles, hasta el cupo de esa cuenta.
 
-## Crear un Nuevo Árbol
+## Plantar uno
 
-Para crear un nuevo árbol:
+**Crear un bot nuevo**, en el menú, abre **Plantar un Nuevo Árbol**. En la lista de árboles el botón dice **Nuevo Árbol**.
 
-1. Inicia sesión en tu cuenta de TreeFlow
-2. Navega a la página principal donde se muestran tus árboles
-3. Haz clic en **Crear un bot nuevo**
-4. Proporciona un nombre descriptivo para tu árbol
-5. Opcionalmente, añade una descripción que explique el propósito del árbol
-6. Haz clic en "Crear" para generar tu nuevo árbol
+![Plantar un árbol: Primera vez o Experimentado, nombre, rubro e idioma](/img/empezando/plantar.png)
 
-## Configuraciones del Árbol
+1. **Primera vez** lo deja en [modo principiante](./ModoPrincipiante), con la guía. **Experimentado** lo deja en avanzado y carga datos de prueba.
+2. **Nombre**, obligatorio. **Descripción**, si quieres.
+3. **Rubro del agente**, obligatorio. Restaurante, hotel, clínica y el resto traen una plantilla de intenciones, entidades y flujo. **Sin rubro** deja el bot básico.
+4. **Idioma base**, el del entrenamiento y el de la interfaz.
+5. **Plantar Árbol**.
 
-Cada árbol tiene configuraciones que determinan su comportamiento:
+También se puede **Importar Árbol** desde un respaldo `.json`. Después de importar hay que revisar las credenciales de las herramientas y entrenar.
 
-### Configuraciones Básicas
+El detalle del arranque está en [Primeros pasos](./Empezando).
 
-- **Nombre**: Identificador visible del árbol
-- **Descripción**: Explicación breve del propósito del árbol
-- **Propósito**: Descripción detallada de la función del árbol
+## Cambiar, exportar y borrar
 
-### Configuraciones Avanzadas
+El nombre del bot, arriba a la izquierda, abre el selector: configurarlo, cambiar de bot o crear otro. **Ver todos los bots** abre **Cambiar de Árbol**.
 
-- **Umbral de confianza ML**: Define el nivel mínimo de confianza requerido para que el modelo de machine learning considere una coincidencia válida (valor entre 0 y 1)
-- **Umbral de confianza Fuzzy**: Define el nivel mínimo de confianza para coincidencias aproximadas (valor entre 0 y 1)
-- **Orden de detección**: En qué orden se prueban los cinco métodos de reconocimiento de intenciones. Cambiarlo cambia a qué intención va una frase — ver [Orden de Detección](/docs/Avanzado/NLP#orden-de-detección)
-- **Permitir edición de hojas del sistema**: Controla si las hojas del sistema pueden ser modificadas
+![Cambiar de Árbol: el bot abierto, con exportar y eliminar](/img/arboles/cambiar.png)
 
-:::tip Configuraciones avanzadas de NLP
-Para obtener información más detallada sobre los umbrales de confianza, técnicas de procesamiento de lenguaje natural y cómo optimizar estas configuraciones, consulta nuestra guía de [Técnicas Avanzadas de NLP](/docs/Avanzado/NLP).
-:::
+- **Seleccionar** entra a ese bot y abre el panel. El que ya está abierto dice **Actual**.
+- El icono de descarga exporta un respaldo. Puedes incluir las conversaciones; el archivo pesa más.
+- El icono rojo elimina el árbol. Hay que escribir el nombre exacto. Se borra el bot y lo que tiene dentro: flujos, intenciones, entidades, mensajes y el entrenamiento. No se puede deshacer.
 
-## Gestión de Árboles
+## Configurar
 
-Desde la página principal de árboles puedes:
+El engrane junto al nombre es **Configuración del bot**. La página se llama **Configurar**. Los cambios se guardan con **Guardar cambios**, arriba a la derecha.
 
-- **Ver todos tus árboles**: Lista de todos los árboles creados
-- **Seleccionar un árbol**: Haz clic en cualquier árbol para acceder a su configuración y componentes
-- **Eliminar un árbol**: Elimina permanentemente un árbol y todos sus componentes
+Quien administra el workspace ve **Entendimiento** e **Idiomas**. **Voz** aparece cuando el servicio de voz está disponible. Una cuenta que no es administradora se queda en **General**.
 
-:::caution Precaución
-La eliminación de un árbol es permanente y no se puede deshacer. Se perderán todas las ramas, hojas y configuraciones asociadas.
-:::
+### General
 
-## Mejores Prácticas
+![General: nombre, descripción, tutoriales y cuántas tarjetas caben por página](/img/arboles/general.png)
 
-Para crear árboles efectivos:
+- **Nombre** y **descripción**.
+- **Habilitar tutoriales.** En un árbol avanzado se pueden apagar. En uno principiante se quedan encendidos.
+- **Paginación web** y **paginación móvil.** Cuántas tarjetas se ven por página en intenciones, entidades, mensajes y flujos. Cada una se configura por separado.
 
-1. **Define claramente el propósito**: Cada árbol debe tener un propósito específico y bien definido
-2. **Organiza tus ramas**: Agrupa las ramas relacionadas y asegúrate de que cubran todos los escenarios de conversación
-3. **Configura los umbrales adecuadamente**: Ajusta los umbrales de confianza según la complejidad de tu árbol (consulta nuestra [guía de NLP](/docs/Avanzado/NLP) para más detalles)
-4. **Prueba regularmente**: Utiliza la función de prueba para verificar que tu árbol responde correctamente
+### Entendimiento
 
-:::tip Consejo
-Mantener un árbol bien organizado con ramas claramente definidas facilitará su mantenimiento y mejorará la precisión de las respuestas.
-:::
+Aquí se decide cómo reconoce una frase. El detalle largo está en [Técnicas de NLP](/docs/Avanzado/NLP).
+
+![Entendimiento: nivel, sentimiento, umbrales y orden de detección](/img/arboles/entendimiento.png)
+
+**Editar nivel de inteligencia.** Un árbol nuevo arranca en **Básico (Reglas Rápidas)**: coincidencia exacta y aproximada de texto y patrones, y el entrenamiento es corto. **Pro (Machine Learning)** tarda más en entrenar y reconoce una intención aunque la persona no use las mismas palabras. Mientras entrena no se puede cambiar el nivel.
+
+**Análisis de sentimientos.** Marca cada mensaje como positivo, neutral o negativo, para ver frustración y poder pasar la conversación a una persona.
+
+**Editar umbral de confianza.** Los dos salen en 70%.
+
+- El **umbral ML** es lo mínimo que tiene que confiar el modelo para aceptar una intención. Más alto, más estricto.
+- El **umbral de coincidencia aproximada** es lo mismo para el parecido de texto, cuando la frase no es exacta.
+
+**Editar naturaleza de prioridad.** El orden en que se prueban los métodos. El de arriba gana. Se arrastran. En Básico no entra el modelo de machine learning; en Pro sí. El orden de fábrica es: coincidencia exacta de entidades, aproximada de entidades, exacta de patrones, aproximada de patrones y, en Pro, el modelo.
+
+Un cambio de nivel, de umbral o de orden pide otro entrenamiento. El rayo del menú vuelve a naranja.
+
+### Idiomas
+
+![Idiomas soportados: el base no se quita, y se pueden sumar otros](/img/arboles/idiomas.png)
+
+El **idioma base** es el que se eligió al plantar. Aquí no se desmarca. Se pueden sumar inglés, francés, italiano, alemán y portugués. **Idiomas activos** lista los que el árbol va a entender. Al guardar, el entrenamiento prepara esos idiomas.
+
+### Voz
+
+Si el servicio de voz está encendido, esta pestaña tiene dos partes:
+
+- **Reconocimiento de voz.** La persona puede mandar audio.
+- **Respuestas por voz.** El bot contesta hablado, con la voz y la velocidad que elijas. **Probar voz** las escucha antes de guardar.
+
+## Después de tocarlo
+
+Guarda, entrena si el rayo lo pide, y prueba en la [consola](/docs/Avanzado/Consola). El nombre nuevo se ve enseguida en el selector. Lo que cambió en el entendimiento no entra en la conversación hasta el entrenamiento.
