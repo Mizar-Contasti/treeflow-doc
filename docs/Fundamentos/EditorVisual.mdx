@@ -5,47 +5,69 @@ sidebar_label: Flujos
 
 # Flujos
 
-El **Editor Visual (Canvas Engine)** es el corazón de la interfaz de diseño conversacional en TreeFlow. Implementado en Diciembre de 2025, transformó la experiencia de desarrollo permitiendo diseñar, conectar y probar flujos lógicos con una interfaz interactiva de *Drag & Drop*.
+Un **flujo** es un recorrido: nodos y flechas. El árbol puede tener varios. Uno está marcado **Principal**: es el que arranca la conversación.
 
-## Componentes del Lienzo
+En [modo principiante](./ModoPrincipiante) esta misma pantalla es el editor sencillo, el de tres campos. En avanzado es el lienzo completo. La dirección es la misma; cambia el modo del árbol.
 
-### Nodos del lienzo
-En el menú esto es **Flujos**. Un flujo es un contenedor: dentro hay **nodos** y flechas. Un nodo puede ser un mensaje, una intención, una validación u otro paso. La intención en sí se edita en **Intenciones**; el nodo sólo la coloca en el recorrido. Antes, estos nodos se llamaban hojas.
+## La lista
 
-Estos nodos se arrastran por el lienzo. 
+**Flujos** abre las tarjetas. Se puede buscar por nombre.
 
-- **Tidy Up**: El Canvas incluye herramientas de auto-organización (alineamiento automático) para mantener tus flujos ordenados visualmente.
-- **Conexionado Relacional**: Arrastrando los puntos de los nodos, puedes establecer los "Contextos de Salida" y "Contextos de Entrada", lo que indica a TreeFlow qué nodo sigue después del otro, condicionando el flujo de la charla.
+![La lista de flujos: el principal, duplicar y Nuevo Flujo](/img/flujos/lista.png)
 
-### Termina una captura en curso
+- **Nuevo Flujo** crea otro recorrido, vacío.
+- **Principal** es el de arranque. Siempre hay uno. No se borra.
+- El icono de copiar duplica el flujo, con otro nombre.
+- El icono de basura lo elimina, si no es el principal.
+- **Plantillas** aplica una plantilla de industria sobre el árbol: intenciones, entidades y el dibujo. Reaplicar no pisa las preguntas de un parámetro que ya existía.
 
-Cada nodo de intención tiene un interruptor **"Termina una captura en curso"**, y
-decide qué pasa si el usuario dice eso *mientras* el árbol le está pidiendo datos.
+Al entrar a una tarjeta se abre el editor. Arriba hay dos pestañas: **Diseño**, el lienzo, y **Configuración**, el nombre del flujo y si es el principal.
 
-- **Activado** — la captura se da por terminada. Es lo que quieres en *cancelar* o
-  *despedirse*: quien cancela su pedido no espera que le sigan preguntando el sabor.
-- **Desactivado** (por defecto) — la captura sólo se pausa. El árbol contesta y
-  después retoma la pregunta pendiente, recordándosela.
+## El lienzo
 
-Es la diferencia entre una interrupción y un abandono. Preguntar el horario a medio
-pedido es una duda de paso y no debería costarle al usuario lo que ya llevaba escrito;
-decir "cancela" sí.
+![El lienzo: el inicio, una intención, un evento y un salto a otro flujo](/img/flujos/lienzo.png)
 
-### Conversación y Funcionalidad
+Cada nodo se arrastra. Abajo a la izquierda están el zoom, centrar y **Tidy Up**, que acomoda los nodos.
 
-El editor de un nodo tiene dos pestañas:
+El **+** naranja crea el nodo que toca según de dónde salgas:
 
-- **Conversación**: lo que el nodo dice y cómo sigue el diálogo.
-- **Funcionalidad**: el webhook de ese nodo, y el resto de acciones que no son el texto.
+- Desde un **contexto**, ofrece **Intención** o **Evento**.
+- Desde una intención o un evento, ofrece **Contexto**.
 
-### Gestor de Mensajes Integrado
-A partir del Canvas Engine, no necesitas abrir pestañas separadas para escribir las respuestas. 
-Al hacer clic en un nodo de intención, se despliega una ventana lateral o modal que alberga el **Gestor de Mensajes**. Desde allí mismo puedes inyectar los bloques visuales (texto, imágenes, carruseles) que se renderizarán si la inteligencia artificial empareja ese nodo.
+La flecha café, debajo del +, se arrastra hasta otro nodo para unirlos. La línea continua es el camino de la conversación. La punteada es un evento.
 
-## Machine Matcher
-El poder detrás de lo que dibujas en el Canvas es el **Machine Matcher**. 
-Este motor algorítmico traduce la representación visual de tu árbol a la base de datos PostgreSQL, convirtiendo las flechas y las conexiones en reglas lógicas precisas de *Context-In / Context-Out* que luego evalúa la API de procesamiento conversacional en milisegundos.
+| Nodo | Qué es |
+|---|---|
+| **Contexto** (verde) | Donde el bot espera. El de inicio se llama **Start**. Ahí están disponibles las intenciones de ese tramo. |
+| **Intención** (naranja) | Un paso que se activa cuando el motor reconoce esa intención. El texto de la intención se edita en [Intenciones](./Ramas); el nodo la coloca en el recorrido. |
+| **Evento** (rayo) | Lo que no es una frase reconocida: no entendió, no hubo respuesta, o cancelar. |
 
-:::info Rendimiento
-El Editor Visual guarda tu progreso a medida que modificas los nodos y se integra con un sistema de caché de 60 segundos que previene recargas innecesarias al navegar, haciéndolo extremadamente fluido.
-:::
+Una pastilla con el nombre de otro flujo, como `rama_principal`, es un salto: la conversación sale de este dibujo y entra en ese.
+
+## El editor del nodo
+
+Un clic en el nodo abre la columna de la derecha. Arriba, el **nombre** y el interruptor **Nodo activo**. Apagado, el nodo se queda en el lienzo pero no participa.
+
+### Conversación
+
+![Conversación del nodo: la intención, la respuesta y a dónde sigue](/img/flujos/conversacion.png)
+
+- **Intención.** Cuál dispara este nodo. Si ya está usada en el flujo, el selector la marca **En uso**.
+- **Respuesta.** El [mensaje](./Mensajes) que se manda cuando esa intención se capturó, después de pedir los datos que faltaban y después de las herramientas de este nodo.
+- **Transición.** El nodo de destino, casi siempre un contexto, para abrir el siguiente tramo de intenciones. También puede pasar la conversación a una persona.
+
+### Funcionalidad
+
+![Funcionalidad: scripts, herramientas, la captura en curso y el webhook](/img/flujos/funcionalidad.png)
+
+- **Scripts** y **herramientas.** Lo que el nodo llama afuera: un script, una API. Se eligen aquí; se crean en [Herramientas](/docs/Fertilizantes).
+- **Termina una captura en curso.** Decide qué pasa si la persona dice esto *mientras* el bot le está pidiendo datos. Activado, la captura se da por terminada: es lo que quieres en cancelar o despedirse. Desactivado, que es lo de fábrica, la captura sólo se pausa: el bot contesta y retoma la pregunta, con lo que ya llevaba escrito. Preguntar el horario a medio pedido es una duda de paso; decir «cancela» no.
+- **Llamar webhook en este nodo.** Al pasar por aquí se llama el webhook del agente, antes que a las herramientas. Si el agente no tiene uno activo, no pasa nada.
+
+La pestaña se queda donde la dejaste al saltar de un nodo a otro: si estás repasando herramientas, no te devuelve a Conversación en cada clic.
+
+## Guardar
+
+**Guardar cambios**, arriba a la derecha, se enciende cuando hay algo sin guardar: un nodo movido, una flecha, una respuesta. Cerrar el editor no publica solo.
+
+Si además cambiaste lo que el motor reconoce —la intención, sus patrones, una entidad—, el rayo del menú vuelve a naranja y hay que entrenar. Mover un nodo de sitio no cambia lo que el bot contesta; cambiar la intención sí.
