@@ -4,358 +4,114 @@ sidebar_position: 1
 
 # Terminología
 
-import BrowserOnly from '@docusaurus/BrowserOnly';
-import React from 'react';
-import Tabs from '@theme/Tabs';
-import TabItem from '@theme/TabItem';
-import ImageModal from '@site/src/components/ImageModal';
-
-El menú de la aplicación no usa un solo nombre para cada cosa. Esta página es el mapa.
-
-## Conceptos Principales
-
-### Árbol
-
-Un **árbol** es un chatbot. Tiene su entrenamiento, sus flujos, sus intenciones y sus entidades.
-
-### Flujo
-
-Un **flujo** es un dibujo del lienzo: una rama con hojas (nodos) y flechas. En el menú está en **Flujos**. No es una intención.
-
-### Intención
-
-Una **intención** es lo que el motor reconoce en una frase: patrones, parámetros y la respuesta. En el menú está en **Intenciones**. Antes esta guía las llamaba ramas.
-
-### Entidad
-
-Una **entidad** es un tipo de dato que se extrae de la frase: un sabor, una fecha, un número. En el menú está en **Entidades**. Antes esta guía las llamaba hojas. Puede ser simple, compuesta o regex.
-
-### Hoja del lienzo
-
-Una **hoja** del editor visual es un nodo del flujo (un mensaje, una intención, una validación). No es una entidad.
-
-### Captura
-
-Una **captura** es la pregunta reutilizable con la que el bot pide un dato. Ver [Capturas](/docs/Avanzado/Capturas).
-
-## Relación Entre Componentes
-
-1. Un **árbol** tiene flujos, intenciones, entidades, mensajes y capturas.
-2. Una **intención** referencia **entidades** en sus patrones (`@sabor`) y así nacen los parámetros.
-3. Un **flujo** ordena los nodos. Un nodo de intención apunta a una intención.
-4. Si un parámetro hay que preguntarlo, puede usar una **captura**.
-
-## Estructura de TreeFlow
-
-<Tabs>
-  <TabItem value="jerarquia" label="Vista Jerárquica" default>
-    <div style={{display: 'flex', flexDirection: 'row', gap: '20px', marginTop: '20px', alignItems: 'center'}}>
-      <div style={{flex: 2}}>
-        <h3>Jerarquía de Componentes</h3>
-        <p>En TreeFlow, los componentes se organizan en una estructura jerárquica clara:</p>
-        <ul>
-          <li><strong>Árbol (Tree)</strong>: Es el nivel superior que representa el chatbot completo.</li>
-          <li><strong>Intención</strong>: Lo que el motor reconoce en una frase. En el menú, Intenciones.</li>
-          <li><strong>Entidad</strong>: El dato que se extrae de la frase (fecha, nombre, cantidad). En el menú, Entidades.</li>
-          <li><strong>Flujo</strong>: El dibujo del lienzo. Sus nodos se llaman hojas y no son entidades.</li>
-        </ul>
-        <p>Esta estructura facilita la organización y mantenimiento de chatbots complejos, permitiendo una clara separación de responsabilidades entre componentes.</p>
-      </div>
-      <div style={{flex: 1}}>
-        <ImageModal 
-          src="/img/terminologia/jerarquia-componentes.svg" 
-          alt="Relación jerárquica entre componentes" 
-          description={
-            <div>
-              <p>La vista jerárquica muestra cómo se organizan los componentes en TreeFlow:</p>
-              <ul>
-                <li>El Árbol es el componente principal que contiene toda la lógica conversacional</li>
-                <li>Las Ramas son subcomponentes que manejan intenciones específicas</li>
-                <li>Las Hojas son elementos que extraen datos específicos de los mensajes</li>
-              </ul>
-            </div>
-          }
-        />
-      </div>
-    </div>
-  </TabItem>
-  <TabItem value="estructura" label="Vista de Árbol">
-    <div style={{display: 'flex', flexDirection: 'row', gap: '20px', marginTop: '20px', alignItems: 'center'}}>
-      <div style={{flex: 2}}>
-        <h3>Estructura de Árbol</h3>
-        <p>La terminología de TreeFlow se basa en la metáfora de un árbol:</p>
-        <ul>
-          <li><strong>Árbol (Tree)</strong>: El chatbot completo, con todas sus funcionalidades. Representa el agente conversacional en su totalidad, con su configuración, intenciones y lógica.</li>
-          <li><strong>Intención</strong>: Patrones, parámetros y respuesta de una frase reconocida.</li>
-          <li><strong>Entidad</strong>: Un dato extraído de la frase, como un nombre, una fecha o una cantidad.</li>
-        </ul>
-      </div>
-      <div style={{flex: 1}}>
-        <ImageModal 
-          src="/img/terminologia/estructura-treeflow.svg" 
-          alt="Estructura de componentes en TreeFlow" 
-          description={
-            <div>
-              <p>La vista de árbol muestra cómo interactúan los componentes en una conversación:</p>
-              <ul>
-                <li>El Árbol procesa los mensajes entrantes del usuario</li>
-                <li>Las Ramas identifican la intención del usuario</li>
-                <li>Las Hojas extraen datos específicos del mensaje</li>
-                <li>El sistema genera respuestas basadas en esta información</li>
-              </ul>
-            </div>
-          }
-        />
-      </div>
-    </div>
-  </TabItem>
-</Tabs>
-
-## Ejemplos Prácticos
-
-<Tabs>
-  <TabItem value="restaurant" label="Restaurante" default>
-    <div style={{display: 'flex', flexDirection: 'row', gap: '20px', marginTop: '20px', alignItems: 'center'}}>
-      <div style={{flex: 2}}>
-        <h3>Ejemplo de Árbol: Restaurante</h3>
-        <p>Un Árbol para un restaurante tendría:</p>
-        <ul>
-          <li>Configuración específica para reconocer diversas intenciones de los clientes</li>
-          <li>Múltiples Ramas como: reservar_mesa, consultar_menu, pedir_domicilio</li>
-          <li>Hojas para extraer información relevante como fechas, horas, platos, direcciones, etc.</li>
-        </ul>
-      </div>
-      <div style={{flex: 1}}>
-        <ImageModal 
-          src="/img/terminologia/ejemplo-reserva.svg" 
-          alt="Ejemplo de Árbol Restaurante" 
-          description={
-            <div>
-              <p>En este ejemplo de un Árbol para un restaurante:</p>
-              <ul>
-                <li>El Árbol "Restaurante" procesa la consulta del usuario</li>
-                <li>La Rama "reservar_cita" identifica la intención del usuario</li>
-                <li>Las Hojas extraen datos como fecha, hora y número de personas</li>
-                <li>El sistema responde confirmando la reserva con los datos capturados</li>
-              </ul>
-            </div>
-          }
-        />
-      </div>
-    </div>
-  </TabItem>
-  <TabItem value="store" label="Tienda Online">
-    <div style={{display: 'flex', flexDirection: 'row', gap: '20px', marginTop: '20px', alignItems: 'center'}}>
-      <div style={{flex: 2}}>
-        <h3>Ejemplo de Árbol: Tienda Online</h3>
-        <p>Un Árbol para una tienda online incluiría:</p>
-        <ul>
-          <li>Ramas para diferentes funcionalidades: consulta_producto, proceso_compra, seguimiento_pedido</li>
-          <li>Hojas para capturar datos como productos, cantidades, métodos de pago, etc.</li>
-          <li>Respuestas personalizadas basadas en el inventario y las preferencias del usuario</li>
-        </ul>
-      </div>
-      <div style={{flex: 1}}>
-        <ImageModal 
-          src="/img/terminologia/ejemplo-conversacion.svg" 
-          alt="Ejemplo de Árbol Tienda Online" 
-          description={
-            <div>
-              <p>En este ejemplo de un Árbol para una tienda online:</p>
-              <ul>
-                <li>El Árbol "Tienda" procesa la consulta del usuario sobre un producto</li>
-                <li>La Rama "consulta_producto" identifica la intención de búsqueda</li>
-                <li>La Hoja "tipo_producto" extrae el valor "smartphone"</li>
-                <li>El sistema responde con información relevante sobre smartphones</li>
-              </ul>
-            </div>
-          }
-        />
-      </div>
-    </div>
-  </TabItem>
-  <TabItem value="support" label="Soporte Técnico">
-    <div style={{display: 'flex', flexDirection: 'row', gap: '20px', marginTop: '20px', alignItems: 'center'}}>
-      <div style={{flex: 2}}>
-        <h3>Ejemplo de Árbol: TechShop</h3>
-        <p>Un Árbol para soporte técnico incluiría:</p>
-        <ul>
-          <li>Ramas para diferentes tipos de problemas: problema_hardware, problema_software, consulta_garantia</li>
-          <li>Hojas para identificar dispositivos específicos, síntomas, versiones de software, etc.</li>
-          <li>Flujos de diagnóstico para guiar al usuario en la resolución de problemas</li>
-        </ul>
-      </div>
-      <div style={{flex: 1}}>
-        <ImageModal 
-          src="/img/terminologia/ejemplo-soporte.svg" 
-          alt="Ejemplo de Árbol Soporte Técnico" 
-          description={
-            <div>
-              <p>En este ejemplo de un Árbol para soporte técnico:</p>
-              <ul>
-                <li>El Árbol "TechShop" procesa la consulta del usuario sobre un problema</li>
-                <li>La Rama "problema_hardware" identifica el tipo de problema</li>
-                <li>Las Hojas extraen información sobre el dispositivo y los síntomas</li>
-                <li>El sistema proporciona pasos de solución basados en los datos capturados</li>
-              </ul>
-            </div>
-          }
-        />
-      </div>
-    </div>
-  </TabItem>
-</Tabs>
-
-## Ventajas de Esta Terminología
-
-La terminología basada en árboles ofrece varias ventajas:
-
-1. **Intuitiva**: La metáfora del árbol facilita la comprensión de la estructura
-2. **Visual**: Permite visualizar claramente la jerarquía y relaciones
-3. **Escalable**: Facilita la organización a medida que el sistema crece
-4. **Memorable**: Los términos son fáciles de recordar y utilizar
-
-Al dominar esta terminología, podrás comunicarte eficientemente sobre tu proyecto y aprovechar al máximo las capacidades de TreeFlow para crear experiencias conversacionales efectivas.
-
-## Conceptos Avanzados
-
-:::info Conceptos Avanzados
-
-Una vez que domines los conceptos básicos de Árboles, Ramas y Hojas, estos términos avanzados te ayudarán a entender las funcionalidades de integración y conexión con sistemas externos.
-
-:::
-
-### 🏢 Workspaces
-
-**Definición**: Un Workspace es un entorno independiente que contiene todos tus árboles conversacionales, configuraciones e integraciones para un proyecto específico.
-
-**Analogía**: Si TreeFlow fuera una oficina, cada Workspace sería una oficina separada con su propio equipo, proyectos y recursos.
-
-**Características**:
-- Aislamiento completo entre workspaces
-- Configuraciones independientes
-- Usuarios y permisos específicos
-- Organización por cliente, proyecto o departamento
-
-**Ejemplo**: Una agencia podría tener workspaces separados para "Cliente A - E-commerce", "Cliente B - Soporte", y "Desarrollo Interno".
-
-### Canales
-
-**Definición**: Los canales son por dónde la persona habla con el bot: el widget web, WhatsApp, Telegram y el resto. En el menú, **Integración → Canales**.
-
-**Analogía**: Si el árbol es el cerebro, los canales son las bocas y los oídos.
-
-**Tipos de Canales**:
-- **Widget Web**: Integración embebible para sitios web
-- **WhatsApp**: Canal de mensajería móvil
-- **Telegram**: Bot de Telegram
-- **Facebook Messenger**: Integración con páginas de Facebook
-- **Interfaces personalizadas**: Componentes visuales específicos
-
-**Lo que no son canales**: una API, un CRM o un webhook. Eso está en **Herramientas**.
-
-**Ejemplo**: Un restaurante podría tener canales para su sitio web (widget), WhatsApp para pedidos, y Facebook Messenger para consultas.
-
-### Herramientas
-
-**Definición**: Las herramientas son lo que el bot llama afuera: un script, una API, el webhook, una transferencia. En el menú, **Integración → Herramientas**.
-
-**Analogía**: Si el árbol necesita un dato de un CRM o tiene que avisar a otro sistema, lo hace una herramienta.
-
-**Pestañas**:
-- **Herramientas**: código propio (scripts)
-- **APIs**: una llamada HTTP concreta
-- **Webhook**: el webhook global del workspace
-- **Transferencias**, **Base de conocimiento** e **Ingestión generativa**
-
-**Funcionalidades**:
-- Testing individual en tiempo real
-- Configuración flexible por método HTTP
-- Manejo robusto de errores
-- Debugging avanzado
-
-**Ejemplos de uso**:
-- **CRM**: Enviar leads a Salesforce
-- **Validación**: Verificar datos del usuario
-- **Notificaciones**: Alertas por email o Slack
-- **Analytics**: Tracking de conversaciones
-
-### 🤖 Reforestación
-
-**Definición**: La Reforestación es el **sistema de IA generativa** que permite crear y expandir automáticamente Ramas (intenciones) y Hojas (entidades) usando inteligencia artificial.
-
-**Analogía**: Si crear un árbol manualmente es como plantar semillas una por una, la Reforestación es como usar un dron que planta cientos de semillas inteligentemente en minutos.
-
-**Características principales**:
-- **Pipeline de 6 Fases**: Proceso progresivo de generación
-- **Modelos LLM**: Powered by Groq (llama-3.1-8b-instant, mixtral-8x7b-32768)
-- **Contexto Inteligente**: Considera el contenido existente del bot
-- **Frameworks Modulares**: Extensible con diferentes métodos de generación
-
-**Fases del Pipeline**:
-1. **Abonar**: Expansión conversacional del prompt
-2. **Análisis**: Identificación de patrones e intenciones
-3. **Estructura**: Construcción básica de componentes
-4. **Enriquecimiento**: Generación de sinónimos (5-8 por valor)
-5. **Serialización**: Estructuración semántica avanzada
-6. **Aplicación**: Conversión a JSON y aplicación al bot
-
-**Cuándo usar Reforestación**:
-- Crear un bot nuevo desde cero
-- Expandir funcionalidades existentes
-- Generar variaciones de frases rápidamente
-- Acelerar el desarrollo conversacional
-
-**Ejemplo**: En lugar de crear manualmente 10 intenciones con 50 variaciones cada una, describes el flujo conversacional en lenguaje natural y la Reforestación genera todo automáticamente en minutos.
-
-:::tip Dominando la Terminología Avanzada
-
-Estos conceptos se apoyan en los del menú: flujos, intenciones, entidades, canales y herramientas.
-
-:::
-
-## Relación entre Conceptos Avanzados
-
-```
-Workspace "E-commerce Bot"
-├── Árbol "Atención al Cliente"
-│   ├── Intención "consulta_producto"
-│   └── Entidad "nombre_producto"
-├── Canales
-│   ├── Widget web
-│   ├── WhatsApp
-│   └── Telegram
-└── Herramientas
-    ├── Webhook → CRM
-    ├── API de inventario
-    └── Script de notificación
-```
-
-### Flujo Completo de Integración
-
-1. **Usuario** envía mensaje a través de un **Canal** (ej: Widget Web)
-2. El **árbol** reconoce la **intención** y saca las **entidades**
-3. Una **herramienta** consulta el sistema externo, si hace falta
-4. Respuesta final se envía de vuelta a través del mismo **Canal**
-5. Todo ocurre dentro del contexto de un **Workspace** específico
-
-### Cuándo Usar Cada Concepto
-
-#### Usa **Canales** cuando:
-- Quieras agregar un nuevo canal de comunicación
-- Necesites embeber el chatbot en una plataforma
-- Quieras una interfaz visual específica
-
-#### Usa **Herramientas** cuando:
-- Necesites datos de sistemas externos
-- Quieras enviar información a APIs
-- Requieras validaciones en tiempo real
-- Necesites notificaciones automáticas
-
-#### Usa **Workspaces** cuando:
-- Tengas múltiples proyectos o clientes
-- Necesites separar entornos (dev, test, prod)
-- Quieras organizar por departamentos
-- Requieras configuraciones independientes
+Cada nombre del menú es una cosa distinta. Esta página es el mapa: qué es cada una, cómo se encadenan y cuáles se confunden.
 
+![El panel, con el menú de la app: flujos, intenciones, entidades y canales](/img/intro/panel.png)
 
+## El mapa
+
+| En el menú | Qué es |
+|---|---|
+| **Árbol** | El bot. También se crea como «un bot nuevo». Guarda el entrenamiento, los flujos y todo lo demás. |
+| **Flujo** | El dibujo del lienzo: nodos y flechas. Ordena el recorrido. No es una intención. |
+| **Hoja** | Un nodo de ese lienzo: un mensaje, una intención, una validación u otro paso. No es una entidad. |
+| **Intención** | Lo que el motor reconoce en una frase: patrones, parámetros y la respuesta. |
+| **Entidad** | Un tipo de dato que se saca de la frase: un sabor, una fecha, un número. Simple, compuesta o regex. |
+| **Parámetro** | El hueco con nombre donde cae ese dato (`@sabor:sabor` → el parámetro `sabor`). |
+| **Mensaje** | Una respuesta reutilizable: texto, botones, carrusel, HTML. |
+| **Captura** | Cómo se pide un dato que falta, y qué se dice si no se entiende. |
+| **Canal** | Por dónde habla la persona: el widget web, Telegram, WhatsApp y el resto. |
+| **Herramienta** | Lo que el bot llama afuera: un script, una API, el webhook, una transferencia. |
+| **Consola** | El panel de la derecha. Ahí se prueba el bot y, si quieres, lo diseña la IA. |
+
+## Cómo se encadenan
+
+Un pedido en un restaurante, con los nombres de la app:
+
+1. La persona escribe en un **canal** (el widget de la página, por ejemplo).
+2. El **árbol** recibe la frase. Una **intención** (`pedir`) la reconoce porque se parece a sus patrones.
+3. En el patrón, `@sabor` apunta a una **entidad**. De «de queso» sale el **parámetro** `sabor`.
+4. Si falta el tamaño, una **captura** pregunta «¿de qué tamaño?» y, si la respuesta no sirve, insiste.
+5. El **flujo** decide el nodo siguiente. Ese nodo muestra un **mensaje** («Listo, una grande de queso») o llama una **herramienta** (el inventario, la caja).
+6. La respuesta vuelve por el mismo canal.
+
+Si en ese momento hace falta una persona, la [mesa de ayuda](/docs/Avanzado/MesaDeAyuda) toma la conversación y se la puede devolver al bot.
+
+![Un flujo en el lienzo: nodos unidos por flechas](/img/intro/flujo.png)
+
+## Tres árboles
+
+El mismo mapa, en tres oficios. Los nombres son los del menú.
+
+### Restaurante
+
+- **Intenciones:** `reservar_mesa`, `consultar_menu`, `pedir`.
+- **Entidades:** fecha, hora, número de personas, plato.
+- **Captura:** si falta la hora, el bot la pregunta.
+- **Mensaje:** confirma la reserva con esos datos.
+- **Canal:** el widget de la página, o WhatsApp.
+- **Herramienta:** anota la reserva en el sistema del local.
+
+### Tienda
+
+- **Intenciones:** `consulta_producto`, `proceso_compra`, `seguimiento_pedido`.
+- **Entidades:** producto, cantidad, método de pago.
+- **Herramienta:** consulta el inventario y arma el pedido.
+- **Mensaje:** responde con lo que hay, no con un texto fijo.
+
+### Soporte
+
+- **Intenciones:** `problema_hardware`, `problema_software`, `consulta_garantia`.
+- **Entidades:** dispositivo, síntoma, versión.
+- **Flujo:** guía el diagnóstico, un nodo por paso.
+- **Mesa de ayuda:** si el flujo no lo resuelve, entra una persona.
+
+## Los que se confunden
+
+**Flujo no es intención.** El flujo es el recorrido dibujado. La intención es el reconocimiento de la frase. Un nodo del flujo puede *apuntar* a una intención; no la reemplaza.
+
+**Hoja no es entidad.** La hoja es un nodo del lienzo. La entidad es el dato que se extrae del texto. En guías viejas «hoja» quería decir entidad: ya no.
+
+**Captura no es el dato.** La captura es la pregunta y los reintentos. El dato queda en el parámetro. Un parámetro requerido puede usar una captura, o llevar la pregunta escrita en él.
+
+**Canal no es herramienta.** El canal es la conversación con la persona. La herramienta es la llamada a otro sistema. Pedir por WhatsApp es un canal. Consultar el stock es una herramienta.
+
+**Workspace no es árbol.** El workspace es la cuenta: usuarios, claves, varios bots. El árbol es un bot dentro de esa cuenta. En la cabecera se ve el nombre del workspace, no la marca de la plataforma.
+
+## Cuándo usar cada cosa
+
+**Canales**, cuando la persona tiene que hablar con el bot por otro lado: la web, WhatsApp, Telegram.
+
+**Herramientas**, cuando el bot tiene que leer o escribir en otro sistema: stock, un CRM, un correo, una validación.
+
+**Workspace**, cuando hay otro cliente, otro equipo o otro entorno. Cada uno tiene sus árboles, sus canales y sus claves. Dentro de un workspace, un árbol nuevo no pide otro workspace.
+
+El detalle largo de cada uno sigue en su página: [workspaces](/docs/Avanzado/Workspaces), [canales](/docs/Injertos/CanalesDeComunicacion) y [herramientas](/docs/Fertilizantes).
+
+## Diseñar, no rellenar formularios
+
+El diseño es decidir el recorrido, las preguntas y las respuestas. La IA puede hacer el trabajo de la app, porque tiene herramientas para crear y modificar flujos, intenciones, entidades y mensajes, y para entrenar y probar.
+
+- En la [consola](/docs/Avanzado/Consola), pestaña Agente, se lo cuentas ahí mismo.
+- Desde fuera, una clave [MCP](/docs/Avanzado/Credenciales) deja que otro asistente (por ejemplo Claude Desktop) entre al workspace y opere las mismas piezas.
+
+## Los nombres de antes
+
+Si una página vieja no coincide con el menú, esta es la traducción.
+
+| Antes | Ahora |
+|---|---|
+| Rama | Intención. El lienzo se llama flujo. |
+| Hoja, cuando se hablaba de extraer datos | Entidad |
+| Editor visual, Canvas Engine | Flujos |
+| Injerto | Canal |
+| Fertilizante | Herramienta. El webhook global es la pestaña Webhook. |
+| QWidget | El widget web, en Canales |
+| Reforestación, pipeline de seis fases | El agente de la consola, o un asistente por MCP |
+
+## Dónde seguir
+
+- [Flujos](/docs/Fundamentos/EditorVisual)
+- [Intenciones](/docs/Fundamentos/Ramas) y [entidades](/docs/Fundamentos/Hojas)
+- [Mensajes](/docs/Fundamentos/Mensajes) y [capturas](/docs/Fundamentos/Capturas)
+- [Lenguaje de plantillas](/docs/Avanzado/LenguajeDePlantillas): `{ }` y el `$`
