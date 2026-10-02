@@ -2,9 +2,12 @@
 sidebar_position: 1
 ---
 
+import Tabs from '@theme/Tabs';
+import TabItem from '@theme/TabItem';
+
 # Terminología
 
-Cada nombre del menú es una cosa distinta. Esta página es el mapa: qué es cada una, cómo se encadenan y cuáles se confunden.
+Cada nombre del menú es una cosa distinta. Esta página es el mapa: qué es cada una y cómo se encadenan.
 
 ![El panel, con el menú de la app: flujos, intenciones, entidades y canales](/img/intro/panel.png)
 
@@ -13,8 +16,8 @@ Cada nombre del menú es una cosa distinta. Esta página es el mapa: qué es cad
 | En el menú | Qué es |
 |---|---|
 | **Árbol** | El bot. También se crea como «un bot nuevo». Guarda el entrenamiento, los flujos y todo lo demás. |
-| **Flujo** | El dibujo del lienzo: nodos y flechas. Ordena el recorrido. No es una intención. |
-| **Nodo** | Un paso de ese lienzo: un mensaje, una intención, una validación u otro. Antes se llamaba hoja. No es una entidad. |
+| **Flujo** | El dibujo del lienzo: nodos y flechas. Ordena el recorrido. |
+| **Nodo** | Un paso de ese lienzo: un mensaje, una intención, una validación u otro. |
 | **Intención** | Lo que el motor reconoce en una frase: patrones, parámetros y la respuesta. |
 | **Entidad** | Un tipo de dato que se saca de la frase: un sabor, una fecha, un número. Simple, compuesta o regex. |
 | **Parámetro** | El hueco con nombre donde cae ese dato (`@sabor:sabor` → el parámetro `sabor`). |
@@ -41,9 +44,10 @@ Si en ese momento hace falta una persona, la [mesa de ayuda](/docs/Avanzado/Mesa
 
 ## Tres árboles
 
-El mismo mapa, en tres oficios. Los nombres son los del menú.
+El mismo mapa, en tres oficios.
 
-### Restaurante
+<Tabs>
+  <TabItem value="restaurante" label="Restaurante" default>
 
 - **Intenciones:** `reservar_mesa`, `consultar_menu`, `pedir`.
 - **Entidades:** fecha, hora, número de personas, plato.
@@ -52,31 +56,24 @@ El mismo mapa, en tres oficios. Los nombres son los del menú.
 - **Canal:** el widget de la página, o WhatsApp.
 - **Herramienta:** anota la reserva en el sistema del local.
 
-### Tienda
+  </TabItem>
+  <TabItem value="tienda" label="Tienda">
 
 - **Intenciones:** `consulta_producto`, `proceso_compra`, `seguimiento_pedido`.
 - **Entidades:** producto, cantidad, método de pago.
 - **Herramienta:** consulta el inventario y arma el pedido.
-- **Mensaje:** responde con lo que hay, no con un texto fijo.
+- **Mensaje:** responde con lo que hay.
 
-### Soporte
+  </TabItem>
+  <TabItem value="soporte" label="Soporte">
 
 - **Intenciones:** `problema_hardware`, `problema_software`, `consulta_garantia`.
 - **Entidades:** dispositivo, síntoma, versión.
 - **Flujo:** guía el diagnóstico, un nodo por paso.
 - **Mesa de ayuda:** si el flujo no lo resuelve, entra una persona.
 
-## Los que se confunden
-
-**Flujo no es intención.** El flujo es el recorrido dibujado. La intención es el reconocimiento de la frase. Un nodo del flujo puede *apuntar* a una intención; no la reemplaza.
-
-**Nodo no es entidad.** El nodo es un paso del lienzo. La entidad es el dato que se extrae del texto. En guías viejas las dos cosas se llamaban hoja: el nodo del lienzo, y también la entidad. Ya no.
-
-**Captura no es el dato.** La captura es la pregunta y los reintentos. El dato queda en el parámetro. Un parámetro requerido puede usar una captura, o llevar la pregunta escrita en él.
-
-**Canal no es herramienta.** El canal es la conversación con la persona. La herramienta es la llamada a otro sistema. Pedir por WhatsApp es un canal. Consultar el stock es una herramienta.
-
-**Workspace no es árbol.** El workspace es la cuenta: usuarios, claves, varios bots. El árbol es un bot dentro de esa cuenta. En la cabecera se ve el nombre del workspace, no la marca de la plataforma.
+  </TabItem>
+</Tabs>
 
 ## Cuándo usar cada cosa
 
