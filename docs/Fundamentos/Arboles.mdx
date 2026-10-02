@@ -71,9 +71,21 @@ Aquí se decide cómo reconoce una frase. El detalle largo está en [Técnicas d
 - El **umbral ML** es lo mínimo que tiene que confiar el modelo para aceptar una intención. Más alto, más estricto.
 - El **umbral de coincidencia aproximada** es lo mismo para el parecido de texto, cuando la frase no es exacta.
 
-**Editar naturaleza de prioridad.** El orden en que se prueban los métodos. El de arriba gana. Se arrastran. En Básico no entra el modelo de machine learning; en Pro sí. El orden de fábrica es: coincidencia exacta de entidades, aproximada de entidades, exacta de patrones, aproximada de patrones y, en Pro, el modelo.
+**Editar naturaleza de prioridad.** Es el orden en que el árbol prueba las formas de reconocer una frase. Se arrastran. El de arriba se intenta primero y, si hay empate, gana.
 
-Un cambio de nivel, de umbral o de orden pide otro entrenamiento. El rayo del menú vuelve a naranja.
+![Naturaleza de prioridad en Básico: cuatro métodos, el de arriba tiene más peso](/img/arboles/prioridad.png)
+
+En **Básico** son cuatro. En **Pro** aparece un quinto, el modelo, al final del orden de fábrica:
+
+1. **Coincidencia exacta de entidades.** La frase trae un valor de entidad tal cual: un sabor, una fecha, un producto.
+2. **Coincidencia aproximada de entidades.** Se parece a ese valor, según el umbral aproximado. «Tardes» puede parecerse a «tarde» sin ser la misma palabra.
+3. **Coincidencia exacta de patrones.** La frase calza con un patrón de la intención, letra por letra.
+4. **Coincidencia aproximada de patrones.** Se parece a un patrón, sin ser idéntica.
+5. **Modelo de machine learning.** Sólo en Pro. Infiere la intención aunque las palabras no estén en los patrones.
+
+Si un método acierta del todo, los de abajo ya no se prueban: nada posterior puede mejorar un acierto perfecto. Si varios aciertan con la misma confianza, gana el que está más arriba. Por eso subir los patrones por encima de las entidades, o el modelo por encima de los patrones, cambia a qué intención va una frase que dos métodos podrían reclamar.
+
+Un cambio de nivel, de umbral o de este orden pide otro entrenamiento. El rayo del menú vuelve a naranja.
 
 ### Idiomas
 
