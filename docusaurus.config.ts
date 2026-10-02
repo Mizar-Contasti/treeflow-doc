@@ -41,6 +41,18 @@ const config: Config = {
     locales: ['en'],
   },
 
+  plugins: [
+    [
+      '@docusaurus/plugin-client-redirects',
+      {
+        redirects: [
+          {from: '/docs/Fundamentos/Ramas', to: '/docs/Fundamentos/Intenciones'},
+          {from: '/docs/Fundamentos/Hojas', to: '/docs/Fundamentos/Entidades'},
+        ],
+      },
+    ],
+  ],
+
   presets: [
     [
       'classic',
