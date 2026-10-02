@@ -5,200 +5,65 @@ sidebar_label: Primeros pasos
 
 import AppUrl from '@site/src/components/AppUrl';
 
-# Primeros Pasos con TreeFlow
+# Primeros pasos
 
-:::tip Recomendación
+Entras, plantas un árbol y lo pruebas. El nombre de cada pieza está en la [terminología](/docs/Fundamentos/Terminologia).
 
-Antes de seguir esta guía, revisa [Empieza aquí](/docs/intro) y la [Terminología](/docs/Fundamentos/Terminologia). En el menú, un árbol tiene flujos, intenciones, entidades, mensajes y capturas. No son la misma cosa.
+## Entra
 
-:::
+![Inicio de sesión: primero el espacio de trabajo, después el usuario](/img/intro/login.png)
 
-## Acceso a la Plataforma
+1. Abre <AppUrl>TreeFlow</AppUrl>.
+2. Escribe el **espacio de trabajo** y pulsa **Continuar**.
+3. Escribe el usuario y la contraseña, y pulsa **Iniciar sesión**.
 
-Ten en cuenta que TreeFlow actualmente se encuentra en **fase beta**.
+Si todavía no tienes cuenta, **Registra tu workspace**. Pide el nombre del espacio, el correo, el usuario administrador y la contraseña. Llega un código de seis dígitos; al verificarlo queda creada la cuenta y puedes descargar las credenciales.
 
-![Pantalla de inicio de sesión](/img/empezando/login-screen.svg)
+**¿Olvidaste tu workspace?** y **¿Olvidaste tu contraseña?** usan ese mismo correo.
 
-- **URL**: <AppUrl>TreeFlow</AppUrl>
-- **Workspace de prueba**: `botsmexico`
-- **Credenciales de acceso**: 
-  - Usuario: `admin`
-  - Contraseña: `admin`
+En la cabecera, una vez dentro, se ve el nombre del workspace. Ahí viven los usuarios, las claves y los árboles. Otro cliente es otro workspace: se entra de nuevo con su nombre.
 
-Con estas credenciales podrás acceder al workspace de prueba y explorar todas las características disponibles en la plataforma.
+## Planta el primer árbol
 
-## Workspaces (Espacios de Trabajo)
+Un workspace vacío dice **No hay árboles en tu bosque**. El botón es **Plantar Primer Árbol**.
 
-:::info Nuevo en TreeFlow
+Si ya hay árboles, en el menú está **Crear un bot nuevo**. En la lista, **Nuevo Árbol** abre la misma pantalla, **Plantar un Nuevo Árbol**. También se puede **Importar Árbol** desde un respaldo.
 
-TreeFlow ahora utiliza **Workspaces** para organizar y gestionar tus proyectos de manera más eficiente. Cada workspace es un entorno independiente donde puedes crear y administrar tus árboles conversacionales.
+El diálogo tiene dos partes.
 
-:::
+**Cómo quieres empezar.**
 
-Un **Workspace** es un espacio de trabajo que contiene:
-- Tus árboles conversacionales
-- Configuraciones de integraciones
-- Webhooks y fertilizantes
-- Configuraciones específicas del entorno
+- **Primera vez** enciende los tutoriales y deja el árbol en [modo principiante](./ModoPrincipiante): el menú muestra el lienzo y esconde intenciones, entidades, mensajes y capturas. Al terminar puedes ver la guía o saltarla.
+- **Experimentado** carga datos de prueba y deja el menú completo. En el selector del árbol ese modo se llama **Avanzado**.
 
-### Crear un Workspace
+**Los datos del árbol.**
 
-1. Al iniciar sesión por primera vez, serás dirigido a crear tu primer workspace
-2. Proporciona un **nombre** descriptivo para tu workspace (ej: "Mi Empresa Bot", "Proyecto Cliente X")
-3. Opcionalmente, agrega una **descripción** que explique el propósito del workspace
-4. Haz clic en "Crear Workspace"
+- **Nombre**, obligatorio.
+- **Descripción**, si quieres.
+- **Rubro del agente**, obligatorio. Restaurante, hotel, clínica y el resto traen una plantilla de intenciones, entidades y flujo. **Sin rubro** deja el bot básico.
+- **Idioma base**, el del entrenamiento y el de la interfaz.
 
-## Iniciar Sesión
+**Plantar Árbol** lo crea y abre el panel.
 
-1. Accede a la plataforma TreeFlow en <AppUrl>TreeFlow</AppUrl> utilizando tu navegador
-2. Ingresa las credenciales de prueba (usuario: `admin`, contraseña: `admin`)
-3. Haz clic en "Iniciar Sesión"
-4. **Selecciona el Workspace**: Automáticamente accederás al workspace `botsmexico` que contiene datos de ejemplo
+![El panel, con el árbol ya elegido](/img/intro/panel.png)
 
-Una vez dentro del workspace seleccionado, verás el dashboard principal con tus árboles existentes o la opción para crear uno nuevo.
+## Pruébalo
 
-![Dashboard de TreeFlow](/img/empezando/dashboard.svg)
+1. El recorrido se dibuja en [Flujos](./EditorVisual). Cada paso del lienzo es un nodo.
+2. Si prefieres describir el diseño y que la app lo arme, está la pestaña **Agente** de la [consola](/docs/Avanzado/Consola).
+3. Al pie del menú, el rayo dice el estado del entrenamiento. **Entrenamiento pendiente** es naranja: un clic lo entrena. En verde dice **IA entrenada**. Hasta que no entrenas, el bot contesta con el entrenamiento anterior.
+4. La consola, el panel de la derecha, es el chat de prueba. Escribe como lo haría la persona.
 
-:::tip Gestión de Workspaces
+![Un flujo en el lienzo](/img/intro/flujo.png)
 
-Puedes cambiar entre workspaces en cualquier momento usando el selector en la barra superior. También puedes crear nuevos workspaces desde el menú de usuario.
+Cada cambio en intenciones o entidades pide otro entrenamiento. El rayo vuelve a naranja cuando hay algo pendiente.
 
-:::
+## Sigue por aquí
 
-## Crear tu Primer Árbol
-
-:::tip Preparación previa
-
-Antes de crear un Árbol en TreeFlow, es recomendable tener listo tu flujo conversacional. Un buen diseño conversacional facilitará enormemente la implementación y mejorará la experiencia del usuario. Consulta nuestra guía de [Diseño Conversacional](/docs/Fundamentos/DisenoConversacional) para aprender a estructurar eficazmente tus conversaciones.
-
-:::
-
-![Crear nuevo árbol](/img/empezando/nuevo-arbol.svg)
-
-### Paso 1: Crear un Nuevo Árbol
-
-1. En la página principal, haz clic en el botón "Nuevo Árbol"
-2. Proporciona un nombre descriptivo para tu Árbol (ej. "Asistente de Reservas")
-3. Opcionalmente, añade una descripción que explique el propósito del Árbol
-4. Haz clic en "Crear" para generar tu nuevo Árbol
-
-### Paso 2: Configurar las Propiedades Básicas
-
-1. En la página de configuración del Árbol, establece:
-   - **Propósito**: Define claramente el objetivo de tu Árbol
-   - **Configuración básica**: Revisa los ajustes predeterminados
-
-2. Guarda los cambios
-
-### Paso 3: Configurar Hojas
-
-Las Hojas te permiten extraer información específica de los mensajes del usuario:
-
-1. En el menú lateral, haz clic en "Hojas"
-2. Haz clic en "Nueva Hoja"
-3. Selecciona el tipo de Hoja (ej. "Fecha", "Nombre", "Número")
-4. Configura los parámetros específicos para ese tipo de Hoja
-5. Guarda la Hoja
-
-Repite este proceso para crear todas las Hojas que necesitarás según tu flujo conversacional.
-
-### Paso 4: Crear tus Primeras Ramas
-
-![Editor de ramas](/img/empezando/editor-rama.svg)
-
-Una vez que tengas tus Hojas definidas, puedes crear las Ramas que representan los patrones de conversación que tu Árbol puede reconocer:
-
-1. Navega a la sección "Ramas"
-2. Haz clic en "Nueva Rama"
-3. Define un nombre descriptivo para tu Rama (ej. "Bienvenida")
-4. Agrega patrones de activación (frases que activarán esta Rama)
-5. Configura la respuesta que dará el chatbot cuando se active esta Rama
-6. Guarda los cambios
-
-:::tip Captura automática de parámetros
-Cuando escribas patrones de activación, si incluyes valores clave que coinciden con los previamente definidos en tus Hojas, TreeFlow los capturará automáticamente como parámetros. Esto facilita enormemente la extracción de información estructurada de las conversaciones.
-:::
-
-Repite este proceso para crear todas las Ramas necesarias para tu caso de uso.
-
-### Paso 5: Entrenar y Probar tu Árbol
-
-![Probando el árbol](/img/empezando/testing-arbol.svg)
-
-Una vez configurado tu Árbol con sus Ramas y Hojas, es necesario entrenarlo antes de poder probarlo:
-
-1. Haz clic en el botón "Entrenar" en la parte superior derecha
-2. Espera a que el proceso de entrenamiento se complete (esto puede tomar unos minutos dependiendo de la complejidad de tu Árbol)
-3. Una vez entrenado, haz clic en el botón "Probar"
-4. Se abrirá una ventana de chat donde podrás interactuar con tu Árbol
-5. Escribe mensajes para ver cómo responde
-6. Verifica que las Ramas se activen correctamente
-7. Comprueba que las Hojas extraigan la información esperada
-
-:::important Entrenamiento obligatorio
-Recuerda que cada vez que realices cambios significativos en las Ramas o Hojas de tu Árbol, deberás volver a entrenarlo para que estos cambios se reflejen en su comportamiento.
-:::
-
-Si encuentras algún problema, regresa al editor y ajusta tus Ramas o Hojas según sea necesario.
-
-## Flujo de Trabajo Recomendado
-
-Para desarrollar Árboles efectivos, recomendamos seguir este flujo de trabajo:
-
-1. **Planificación**:
-   - Define claramente el propósito del Árbol
-   - Diseña el flujo conversacional completo
-   - Identifica los valores clave que necesitarás extraer
-
-2. **Creación de Hojas**:
-   - Define todas las Hojas basadas en los valores clave identificados
-   - Añade variaciones y sinónimos para cada valor
-   - Configura las propiedades específicas de cada tipo de Hoja
-
-3. **Estructura de Flujos y Respuestas**:
-   - Diseña la estructura de tus Ramas utilizando las Hojas ya definidas
-   - Configura las respuestas para cada Rama
-   - Establece los flujos de conversación con contextos
-
-4. **Pruebas y Refinamiento**:
-   - Entrena tu Árbol
-   - Prueba exhaustivamente todas las rutas de conversación
-   - Identifica y corrige problemas
-
-5. **Implementación**:
-   - Integra tu Árbol con los canales deseados
-   - Monitorea el rendimiento
-   - Realiza mejoras continuas
-
-## Mejores Prácticas para Principiantes
-
-1. **Orden correcto**: Siempre crea primero las Hojas y luego las Ramas, ya que las Ramas dependen de las Hojas para funcionar correctamente
-
-2. **Hojas enriquecidas**: Genera tus Hojas con abundantes variaciones y sinónimos para mejorar la precisión en la extracción de información
-
-3. **Comienza Simple**: Crea un Árbol con pocas Ramas y ve expandiéndolo gradualmente
-
-4. **Patrones Diversos**: Incluye múltiples formas en que los usuarios podrían expresar la misma intención
-
-5. **Prueba Regularmente**: Entrena y verifica que tu Árbol responde correctamente en diferentes escenarios
-
-6. **Contextos Claros**: Utiliza contextos para guiar el flujo de la conversación
-
-7. **Respuestas Naturales**: Proporciona múltiples variaciones de respuestas para hacer la conversación más natural
-
-## Siguientes Pasos
-
-Una vez que hayas entendido los conceptos básicos, te recomendamos seguir este orden para aprender a usar TreeFlow:
-
-1. [**Árboles**](./Arboles): Aprende a configurar y gestionar tus Árboles
-2. [**Hojas**](./Hojas): Descubre cómo crear y configurar Hojas para extraer información
-3. [**Ramas**](./Ramas): Diseña patrones de conversación efectivos utilizando tus Hojas
-4. [**Contextos**](/docs/Avanzado/Contextos): Implementa flujos de conversación avanzados
-
-Recuerda seguir este orden para una experiencia de aprendizaje óptima, ya que cada concepto se basa en los anteriores.
-
-¡Felicidades! Has dado tus primeros pasos con TreeFlow. A medida que te familiarices con la plataforma, podrás crear experiencias conversacionales cada vez más sofisticadas y efectivas.
-
-:::tip Consejo
-Recuerda que la clave para un buen chatbot es entender las necesidades de tus usuarios y diseñar flujos de conversación que les permitan alcanzar sus objetivos de manera eficiente y natural.
-:::
+1. [Modo principiante](./ModoPrincipiante), si el árbol esconde parte del menú
+2. [Árboles](./Arboles), para crear otro o cambiar de bot
+3. [Flujos](./EditorVisual), el lienzo
+4. [Intenciones](./Ramas) y [entidades](./Hojas), lo que el motor reconoce
+5. [Mensajes](./Mensajes) y [capturas](./Capturas), lo que el bot dice y cómo pide un dato
+6. [Probar el bot](./Testeo), casos de varios turnos
+7. [Canales](/docs/Injertos/CanalesDeComunicacion), cuando alguien de fuera tenga que hablar con él
