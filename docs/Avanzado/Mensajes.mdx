@@ -1,0 +1,39 @@
+---
+sidebar_position: 6
+sidebar_label: Mensajes
+---
+
+# Mensajes
+
+**Mensajes** (menú Conversación) guarda las respuestas reutilizables del árbol.
+Una intención, una hoja del flujo o una [captura](/docs/Avanzado/Capturas)
+pueden apuntar a una de estas plantillas en vez de escribir el texto cada vez.
+
+## Respuestas por canal
+
+Cada plantilla tiene una pestaña **Default** y, si hace falta, una por canal.
+Default admite los mismos bloques que el resto. Un canal que no sabe pintarlos
+los convierte a texto.
+
+Con **varios bloques**, el bot elige **uno al azar** en cada respuesta y manda
+todos sus elementos. Un bloque vacío no viaja y no entra en el sorteo.
+
+## Bloques
+
+Un bloque es una fila de elementos. Los tipos son:
+
+párrafo, imagen, video, audio, archivo, botones, respuestas rápidas,
+acordeón, desplegable, ubicación, separador, tarjeta, carrusel y HTML.
+
+El bloque **HTML** acepta etiquetas (`h3`, `p`, `a`, `img`…) o una variable
+(`{$noticias}`). Se limpia antes de pintarse: no pasan `script`, `iframe`,
+`form` ni atributos de eventos.
+
+Cualquier texto del bloque puede usar el
+[lenguaje de plantillas](/docs/Avanzado/LenguajeDePlantillas).
+
+## Dónde se editan
+
+- En **Mensajes**, como plantilla con nombre.
+- En el nodo del flujo, sin salir del lienzo.
+- En una captura, como mensaje personalizado o como plantilla elegida.

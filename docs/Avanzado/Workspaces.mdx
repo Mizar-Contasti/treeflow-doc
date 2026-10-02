@@ -17,7 +17,7 @@ Los **Workspaces** son una funcionalidad clave de TreeFlow que te permite organi
 Un **Workspace** (Espacio de Trabajo) es un entorno completamente independiente dentro de TreeFlow que contiene:
 
 - **Árboles conversacionales**: Todos tus chatbots y flujos
-- **Integraciones y Injertos**: Configuraciones de canales y APIs
+- **Integraciones y Canales**: Configuraciones de canales y APIs
 - **Fertilizantes (Webhooks)**: Endpoints y configuraciones de integración
 - **Configuraciones específicas**: Personalizaciones del entorno
 - **Usuarios y permisos**: Control de acceso al workspace
@@ -116,7 +116,7 @@ En la barra superior de TreeFlow encontrarás el **selector de workspace**:
 Cada workspace mantiene configuraciones independientes:
 
 #### **Integraciones**
-- Cada workspace tiene sus propios injertos
+- Cada workspace tiene sus propios canales
 - Configuraciones de canales específicas
 - APIs y webhooks independientes
 
@@ -153,13 +153,13 @@ restringidas a administradores.
 Workspace: "Cliente A - E-commerce"
 ├── Árbol: Bot de Ventas
 ├── Árbol: Soporte Post-Venta
-├── Injerto: Integración Web
+├── Canal: Integración Web
 └── Fertilizantes: Salesforce, Email
 
 Workspace: "Cliente B - Servicios"
 ├── Árbol: Bot de Citas
 ├── Árbol: FAQ Automático
-├── Injerto: WhatsApp Business
+├── Canal: WhatsApp Business
 └── Fertilizantes: Google Calendar, CRM
 ```
 
@@ -169,13 +169,13 @@ Workspace: "Cliente B - Servicios"
 Workspace: "Atención al Cliente"
 ├── Árbol: Soporte Técnico
 ├── Árbol: Facturación
-├── Injerto: Web Widget
+├── Canal: Web Widget
 └── Fertilizantes: Zendesk, Slack
 
 Workspace: "Recursos Humanos"
 ├── Árbol: Onboarding
 ├── Árbol: Consultas HR
-├── Injerto: Intranet
+├── Canal: Intranet
 └── Fertilizantes: HRIS, Email
 ```
 
@@ -213,7 +213,7 @@ Accede a la configuración desde el menú del workspace:
 - Ver estadísticas de uso
 
 #### **Integraciones**
-- Gestionar injertos activos
+- Gestionar canales activos
 - Configurar nuevos canales
 - Monitorear conexiones
 

@@ -1,10 +1,13 @@
 ---
 sidebar_position: 1
+sidebar_label: Herramientas
 ---
 
-# 🧪 Fertilizantes
+# Herramientas
 
-Los **Fertilizantes** en TreeFlow son webhooks especializados que se ejecutan cuando tu árbol conversacional procesa mensajes, permitiendo integrar sistemas externos y enriquecer las conversaciones con datos y funcionalidades adicionales.
+En el menú están en **Integración → Herramientas**. Ahí viven los scripts, las APIs, el webhook, las transferencias, la base de conocimiento y la ingestión generativa.
+
+Esta guía antes los llamaba fertilizantes. El webhook global es la pestaña **Webhook**. Las llamadas a una API concreta están en **APIs**, y el código propio en **Herramientas** (scripts).
 
 ## ¿Qué son los Fertilizantes?
 
@@ -15,16 +18,16 @@ Los Fertilizantes son el mecanismo de TreeFlow para conectar tu chatbot con el m
 - **Acciones**: Envío de notificaciones, creación de tickets, etc.
 - **Integraciones**: Conexión con servicios empresariales
 
-### Diferencia con Injertos
+### Diferencia con Canales
 
 Es importante entender la diferencia:
 
 | Concepto | Propósito | Ejemplo |
 |----------|-----------|---------|
-| **Injertos** | Canales de comunicación | Widget Web, WhatsApp, Telegram |
-| **Fertilizantes** | Integraciones con APIs | CRM, validadores, notificaciones |
+| **Canales** | Por dónde habla el bot con la persona | Widget web, WhatsApp, Telegram |
+| **Herramientas** | A qué sistema llama el bot | CRM, validadores, notificaciones |
 
-**Analogía**: Los Injertos son las "bocas y oídos" del bot (cómo habla con usuarios), los Fertilizantes son el "cerebro externo" (cómo obtiene información y ejecuta acciones).
+**Analogía**: Los canales son las bocas y los oídos. Las herramientas son lo que el bot consulta o ejecuta afuera.
 
 ## Tipos de Fertilizantes
 
@@ -174,10 +177,9 @@ Los Fertilizantes Adicionales se ejecutan cuando una Rama los invoca explícitam
 
 ### Acceder a la Configuración
 
-1. En tu workspace, ve a **"Fertilizantes"** en el menú lateral
-2. Verás dos secciones principales:
-   - **Fertilizante Principal** (único por workspace)
-   - **Fertilizantes Secundarios** (múltiples permitidos)
+1. En el menú, abre **Herramientas**
+2. Las pestañas son **Herramientas** (scripts), **APIs**, **Webhook**, **Transferencias**, **Base de conocimiento** e **Ingestión generativa**
+3. El webhook global de esta guía es la pestaña **Webhook**. Las APIs concretas están en **APIs**
 
 ### Fertilizante Principal
 
@@ -437,7 +439,7 @@ Sistema de reintentos automáticos:
 
 Una vez que domines los Fertilizantes, puedes:
 
-1. **Explorar Injertos**: Aprende a conectar diferentes canales
+1. **Explorar Canales**: Aprende a conectar diferentes canales
 2. **Configurar Ramas**: Invoca Fertilizantes desde tus intenciones
 3. **Implementar Analytics**: Usa el Fertilizante Principal para tracking
 4. **Integrar CRM**: Conecta con Salesforce, HubSpot, etc.

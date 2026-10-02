@@ -1,0 +1,41 @@
+---
+sidebar_position: 9
+sidebar_label: Consola
+---
+
+# Consola
+
+La **consola** es el panel de la derecha. Sirve para hablar con el árbol sin
+publicarlo. Tiene tres pestañas.
+
+| Pestaña | Para qué |
+|---|---|
+| Consola | El chat de prueba |
+| Agente | El [agente constructor](/docs/Reforestacion/Introduccion): crea y modifica el árbol con una clave de IA del workspace |
+| Constructor | El constructor de diálogos: arma turnos de usuario y de bot para probar frases |
+
+## Modo debug
+
+El icono del insecto, en la barra de la consola, activa el modo debug.
+
+Con él encendido:
+
+- un clic en el mensaje del usuario abre el **request**;
+- un clic en el mensaje del bot abre el **response**;
+- en web y tablet, el borde izquierdo de la consola se arrastra para ensancharla. Al salir del debug vuelve a su ancho.
+
+En el teléfono el panel ya ocupa toda la pantalla y no se arrastra.
+
+## Detalles de la sesión
+
+El diálogo del request o del response tiene cuatro vistas. **Todo** es la que
+queda seleccionada al abrir, y el tamaño del diálogo es el de esa vista.
+
+| Botón | Qué deja |
+|---|---|
+| Todo | el JSON completo |
+| Parameters | `parameters` y `session_parameters` |
+| Messages | el texto del usuario o la respuesta del bot |
+| Metadata | el resto: intención, tiempos, sesión, herramientas, sentimiento |
+
+La búsqueda y el botón de copiar usan la vista que esté activa.

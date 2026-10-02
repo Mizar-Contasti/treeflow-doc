@@ -8,8 +8,10 @@ El **Editor Visual (Canvas Engine)** es el corazón de la interfaz de diseño co
 
 ## Componentes del Lienzo
 
-### Nodos Conversacionales
-Cada nodo en el Canvas representa una **Intención (Branch)**. Estos nodos son objetos gráficos interactivos que puedes arrastrar libremente por el lienzo. 
+### Nodos del lienzo
+En el menú esto es **Flujos**. Un flujo es un contenedor: dentro hay **hojas** (nodos) y flechas. Una hoja puede ser un mensaje, una intención, una validación u otro paso. La intención en sí se edita en **Intenciones**; el nodo del lienzo sólo la coloca en el recorrido.
+
+Estos nodos se arrastran por el lienzo. 
 
 - **Tidy Up**: El Canvas incluye herramientas de auto-organización (alineamiento automático) para mantener tus flujos ordenados visualmente.
 - **Conexionado Relacional**: Arrastrando los puntos de los nodos, puedes establecer los "Contextos de Salida" y "Contextos de Entrada", lo que indica a TreeFlow qué nodo sigue después del otro, condicionando el flujo de la charla.
@@ -27,6 +29,13 @@ decide qué pasa si el usuario dice eso *mientras* el árbol le está pidiendo d
 Es la diferencia entre una interrupción y un abandono. Preguntar el horario a medio
 pedido es una duda de paso y no debería costarle al usuario lo que ya llevaba escrito;
 decir "cancela" sí.
+
+### Conversación y Funcionalidad
+
+El editor de un nodo tiene dos pestañas:
+
+- **Conversación**: lo que el nodo dice y cómo sigue el diálogo.
+- **Funcionalidad**: el webhook de ese nodo, y el resto de acciones que no son el texto.
 
 ### Gestor de Mensajes Integrado
 A partir del Canvas Engine, no necesitas abrir pestañas separadas para escribir las respuestas. 

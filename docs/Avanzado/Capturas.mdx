@@ -1,0 +1,57 @@
+---
+sidebar_position: 2
+sidebar_label: Capturas
+---
+
+# Capturas
+
+Una **captura** es la forma reutilizable de pedir un dato. Vive en el menú
+**Conversación → Capturas** y la usa un parámetro cuando el bot tiene que
+preguntarlo.
+
+La pregunta, el mensaje si no se entiende y los reintentos salen de la captura.
+El parámetro sólo elige cuál usar.
+
+## Qué guarda
+
+- **Nombre.** Así la ves en la lista y en el parámetro.
+- **Pregunta.** Lo que el bot dice para pedir el dato.
+- **Si no se entiende.** Lo que contesta cuando la respuesta no llena el dato.
+- **Máx. intentos.** Cuántas veces repite ese mensaje antes de rendirse.
+- **Acción al superar el límite.**
+
+| Acción | Qué hace |
+|---|---|
+| Pasar al siguiente parámetro | Deja éste y pregunta por otro que falte |
+| Responder aunque falte el valor | Contesta con lo que haya |
+| Ir al nodo de contexto | Abandona la captura y vuelve al flujo |
+
+## De dónde sale el texto
+
+La pregunta y el mensaje de «si no se entiende» pueden ser:
+
+- un **mensaje personalizado** (texto o bloques, igual que en Mensajes);
+- una **plantilla** ya guardada en Mensajes.
+
+En los dos caben huecos del [lenguaje de plantillas](/docs/Avanzado/LenguajeDePlantillas):
+`{$sabor}`, una condición, una cuenta.
+
+## Cómo se engancha a un parámetro
+
+En la intención, abre el parámetro requerido y marca **Usar captura definida**.
+Elige la captura. Desde ahí puedes editarla o quitarla de ese parámetro.
+
+Si no marcas la casilla, la pregunta, el fallback y los reintentos se escriben
+en el propio parámetro, como antes.
+
+Al usar una captura, la opción «Puede volver a capturarse durante el slot
+filling» deja de mostrarse en ese parámetro: la conversación de ese dato la
+lleva la captura.
+
+## Olvidar el valor al volver
+
+Eso no es de la captura. Sigue en el parámetro: **Olvidar este valor al volver
+a caer en esta intención**. Si está marcado, al entrar otra vez en esa
+intención el dato se vacía y hay que preguntarlo de nuevo.
+
+Ver también [Parámetros](/docs/Avanzado/Parametros).

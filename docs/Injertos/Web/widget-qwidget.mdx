@@ -297,7 +297,7 @@ Puede mostrar una ubicación o solicitarla.
 }
 ```
 
-Cada elemento lleva su fragmento en `html` (y un `title` opcional). En lugar de escribir el HTML a mano, el campo puede ser una **variable de sesión** que devolvió una herramienta o una API (`{{noticias}}`): si contiene una lista de elementos con `title`, `image` y `content`/`html`/`excerpt`, el widget pinta cada uno como un fragmento y los separa con una línea.
+Cada elemento lleva su fragmento en `html` (y un `title` opcional). En lugar de escribir el HTML a mano, el campo puede ser una **variable de sesión** que devolvió una herramienta o una API (`{$noticias}`): si contiene una lista de elementos con `title`, `image` y `content`/`html`/`excerpt`, el widget pinta cada uno como un fragmento y los separa con una línea.
 
 El HTML se **sanitiza** con DOMPurify antes de mostrarse. Se permiten títulos, párrafos, listas, tablas, citas, enlaces, imágenes, negritas/cursivas y estilos en línea; **no** pasan `script`, `iframe`, `object`, `embed`, `form` ni `input`, ni atributos de eventos (`onerror`, `onclick`…). Los enlaces se abren en una **pestaña nueva** con `rel="noopener noreferrer"`, para que no se lleven la página del cliente.
 

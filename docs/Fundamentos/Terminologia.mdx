@@ -10,52 +10,40 @@ import Tabs from '@theme/Tabs';
 import TabItem from '@theme/TabItem';
 import ImageModal from '@site/src/components/ImageModal';
 
-En TreeFlow utilizamos una terminología específica basada en la metáfora de un árbol para representar los diferentes componentes de nuestro sistema conversacional. Esta guía te ayudará a entender los conceptos fundamentales y cómo se relacionan entre sí.
+El menú de la aplicación no usa un solo nombre para cada cosa. Esta página es el mapa.
 
 ## Conceptos Principales
 
-### 🌳 Árboles
+### Árbol
 
-Un **Árbol** en TreeFlow representa un chatbot o agente conversacional completo. Cada Árbol contiene todas las configuraciones, intenciones, entidades y lógica necesarias para mantener conversaciones con los usuarios.
+Un **árbol** es un chatbot. Tiene su entrenamiento, sus flujos, sus intenciones y sus entidades.
 
-**Características principales:**
-- Configuración de umbrales de confianza
-- Orden de detección de intenciones
-- Propósito y descripción
-- Colección de Ramas y Hojas
+### Flujo
 
-### 🌿 Ramas
+Un **flujo** es un dibujo del lienzo: una rama con hojas (nodos) y flechas. En el menú está en **Flujos**. No es una intención.
 
-Las **Ramas** representan las intenciones o propósitos que un usuario puede tener al interactuar con tu Árbol. Cada Rama contiene patrones de reconocimiento, respuestas, y lógica para manejar una intención específica.
+### Intención
 
-**Tipos de Ramas:**
-- **Ramas conversacionales**: Activadas por mensajes del usuario
-- **Ramas de sistema**: Activadas por eventos internos
+Una **intención** es lo que el motor reconoce en una frase: patrones, parámetros y la respuesta. En el menú está en **Intenciones**. Antes esta guía las llamaba ramas.
 
-**Componentes de una Rama:**
-- Patrones de reconocimiento
-- Respuestas
-- Parámetros y prompts
-- Contextos de entrada/salida
-- Eventos
+### Entidad
 
-### 🍃 Hojas
+Una **entidad** es un tipo de dato que se extrae de la frase: un sabor, una fecha, un número. En el menú está en **Entidades**. Antes esta guía las llamaba hojas. Puede ser simple, compuesta o regex.
 
-Las **Hojas** son entidades o variables que tu Árbol puede extraer de los mensajes del usuario. Representan información específica que puede ser utilizada para personalizar respuestas o tomar decisiones.
+### Hoja del lienzo
 
-**Tipos de Hojas:**
-- **Simple**: Valores discretos con sinónimos
-- **Composite**: Entidades compuestas
-- **Regex**: Patrones de expresiones regulares
-- **Custom**: Entidades personalizadas
+Una **hoja** del editor visual es un nodo del flujo (un mensaje, una intención, una validación). No es una entidad.
+
+### Captura
+
+Una **captura** es la pregunta reutilizable con la que el bot pide un dato. Ver [Capturas](/docs/Avanzado/Capturas).
 
 ## Relación Entre Componentes
 
-La estructura jerárquica de TreeFlow sigue una lógica natural:
-
-1. Un **Árbol** contiene múltiples **Ramas**
-2. Las **Ramas** pueden utilizar múltiples **Hojas**
-3. Las **Hojas** proporcionan datos estructurados a las **Ramas**
+1. Un **árbol** tiene flujos, intenciones, entidades, mensajes y capturas.
+2. Una **intención** referencia **entidades** en sus patrones (`@sabor`) y así nacen los parámetros.
+3. Un **flujo** ordena los nodos. Un nodo de intención apunta a una intención.
+4. Si un parámetro hay que preguntarlo, puede usar una **captura**.
 
 ## Estructura de TreeFlow
 
@@ -67,8 +55,9 @@ La estructura jerárquica de TreeFlow sigue una lógica natural:
         <p>En TreeFlow, los componentes se organizan en una estructura jerárquica clara:</p>
         <ul>
           <li><strong>Árbol (Tree)</strong>: Es el nivel superior que representa el chatbot completo.</li>
-          <li><strong>Rama (Branch)</strong>: Cada árbol contiene múltiples ramas que representan las diferentes intenciones o funcionalidades que el chatbot puede manejar.</li>
-          <li><strong>Hoja (Leaf)</strong>: Las ramas utilizan hojas para extraer datos específicos de los mensajes del usuario, como fechas, nombres, cantidades, etc.</li>
+          <li><strong>Intención</strong>: Lo que el motor reconoce en una frase. En el menú, Intenciones.</li>
+          <li><strong>Entidad</strong>: El dato que se extrae de la frase (fecha, nombre, cantidad). En el menú, Entidades.</li>
+          <li><strong>Flujo</strong>: El dibujo del lienzo. Sus nodos se llaman hojas y no son entidades.</li>
         </ul>
         <p>Esta estructura facilita la organización y mantenimiento de chatbots complejos, permitiendo una clara separación de responsabilidades entre componentes.</p>
       </div>
@@ -97,8 +86,8 @@ La estructura jerárquica de TreeFlow sigue una lógica natural:
         <p>La terminología de TreeFlow se basa en la metáfora de un árbol:</p>
         <ul>
           <li><strong>Árbol (Tree)</strong>: El chatbot completo, con todas sus funcionalidades. Representa el agente conversacional en su totalidad, con su configuración, intenciones y lógica.</li>
-          <li><strong>Rama (Branch)</strong>: Una intención o funcionalidad específica que el chatbot puede manejar. Cada rama contiene patrones de reconocimiento, respuestas y lógica para una intención particular.</li>
-          <li><strong>Hoja (Leaf)</strong>: Una entidad o dato que el chatbot puede extraer de la conversación. Las hojas permiten capturar información específica como nombres, fechas, cantidades, etc.</li>
+          <li><strong>Intención</strong>: Patrones, parámetros y respuesta de una frase reconocida.</li>
+          <li><strong>Entidad</strong>: Un dato extraído de la frase, como un nombre, una fecha o una cantidad.</li>
         </ul>
       </div>
       <div style={{flex: 1}}>
@@ -250,32 +239,34 @@ Una vez que domines los conceptos básicos de Árboles, Ramas y Hojas, estos té
 
 **Ejemplo**: Una agencia podría tener workspaces separados para "Cliente A - E-commerce", "Cliente B - Soporte", y "Desarrollo Interno".
 
-### 🔌 Injertos
+### Canales
 
-**Definición**: Los Injertos son las **integraciones de canales** que permiten que tu chatbot se comunique a través de diferentes plataformas y interfaces.
+**Definición**: Los canales son por dónde la persona habla con el bot: el widget web, WhatsApp, Telegram y el resto. En el menú, **Integración → Canales**.
 
-**Analogía**: Si tu árbol conversacional es el cerebro, los Injertos son las "bocas" y "oídos" que le permiten hablar y escuchar en diferentes canales.
+**Analogía**: Si el árbol es el cerebro, los canales son las bocas y los oídos.
 
-**Tipos de Injertos**:
+**Tipos de Canales**:
 - **Widget Web**: Integración embebible para sitios web
 - **WhatsApp**: Canal de mensajería móvil
 - **Telegram**: Bot de Telegram
 - **Facebook Messenger**: Integración con páginas de Facebook
 - **Interfaces personalizadas**: Componentes visuales específicos
 
-**Lo que NO son Injertos**: APIs externas, CRM, analytics, webhooks (esos son Fertilizantes)
+**Lo que no son canales**: una API, un CRM o un webhook. Eso está en **Herramientas**.
 
-**Ejemplo**: Un restaurante podría tener injertos para su sitio web (widget), WhatsApp para pedidos, y Facebook Messenger para consultas.
+**Ejemplo**: Un restaurante podría tener canales para su sitio web (widget), WhatsApp para pedidos, y Facebook Messenger para consultas.
 
-### 🌿 Fertilizantes
+### Herramientas
 
-**Definición**: Los Fertilizantes son **webhooks especializados** que conectan tu chatbot con APIs y sistemas externos para enriquecer las conversaciones con datos y funcionalidades adicionales.
+**Definición**: Las herramientas son lo que el bot llama afuera: un script, una API, el webhook, una transferencia. En el menú, **Integración → Herramientas**.
 
-**Analogía**: Si tu árbol conversacional necesita "nutrientes" externos (datos de CRM, validaciones, notificaciones), los Fertilizantes son los que los proporcionan.
+**Analogía**: Si el árbol necesita un dato de un CRM o tiene que avisar a otro sistema, lo hace una herramienta.
 
-**Tipos de Fertilizantes**:
-- **Fertilizante Principal**: Webhook único que procesa todas las respuestas
-- **Fertilizantes Adicionales**: Webhooks específicos para integraciones particulares
+**Pestañas**:
+- **Herramientas**: código propio (scripts)
+- **APIs**: una llamada HTTP concreta
+- **Webhook**: el webhook global del workspace
+- **Transferencias**, **Base de conocimiento** e **Ingestión generativa**
 
 **Funcionalidades**:
 - Testing individual en tiempo real
@@ -319,7 +310,7 @@ Una vez que domines los conceptos básicos de Árboles, Ramas y Hojas, estos té
 
 :::tip Dominando la Terminología Avanzada
 
-Estos conceptos avanzados trabajan en conjunto con los básicos (Árboles, Ramas, Hojas) para crear experiencias conversacionales completas y conectadas. Dominar esta terminología te permitirá aprovechar al máximo las capacidades de integración de TreeFlow.
+Estos conceptos se apoyan en los del menú: flujos, intenciones, entidades, canales y herramientas.
 
 :::
 
@@ -328,36 +319,34 @@ Estos conceptos avanzados trabajan en conjunto con los básicos (Árboles, Ramas
 ```
 Workspace "E-commerce Bot"
 ├── Árbol "Atención al Cliente"
-│   ├── Rama "consulta_producto"
-│   └── Hoja "nombre_producto"
-├── Reforestación (IA Generativa)
-│   └── Pipeline de 6 Fases → Genera Ramas y Hojas automáticamente
-├── Injertos (Canales)
-│   ├── Widget Web
-│   ├── WhatsApp Business
-│   └── Facebook Messenger
-└── Fertilizantes (APIs)
-    ├── Fertilizante Principal → CRM
-    ├── Validador de Stock → API Inventario
-    └── Notificaciones → Email Service
+│   ├── Intención "consulta_producto"
+│   └── Entidad "nombre_producto"
+├── Canales
+│   ├── Widget web
+│   ├── WhatsApp
+│   └── Telegram
+└── Herramientas
+    ├── Webhook → CRM
+    ├── API de inventario
+    └── Script de notificación
 ```
 
 ### Flujo Completo de Integración
 
-1. **Usuario** envía mensaje a través de un **Injerto** (ej: Widget Web)
-2. **Árbol** procesa el mensaje usando **Ramas** y **Hojas**
-3. **Fertilizantes** enriquecen la respuesta con datos externos
-4. Respuesta final se envía de vuelta a través del mismo **Injerto**
+1. **Usuario** envía mensaje a través de un **Canal** (ej: Widget Web)
+2. El **árbol** reconoce la **intención** y saca las **entidades**
+3. Una **herramienta** consulta el sistema externo, si hace falta
+4. Respuesta final se envía de vuelta a través del mismo **Canal**
 5. Todo ocurre dentro del contexto de un **Workspace** específico
 
 ### Cuándo Usar Cada Concepto
 
-#### Usa **Injertos** cuando:
+#### Usa **Canales** cuando:
 - Quieras agregar un nuevo canal de comunicación
 - Necesites embeber el chatbot en una plataforma
 - Quieras una interfaz visual específica
 
-#### Usa **Fertilizantes** cuando:
+#### Usa **Herramientas** cuando:
 - Necesites datos de sistemas externos
 - Quieras enviar información a APIs
 - Requieras validaciones en tiempo real

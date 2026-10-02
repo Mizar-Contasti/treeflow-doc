@@ -19,7 +19,7 @@ El **Widget Web de TreeFlow** es un componente embebible que permite integrar tu
 ### Paso 1: Obtener el Código de Integración
 
 1. Ve a tu workspace en TreeFlow
-2. Navega a **Injertos** → **Integración Web**
+2. Navega a **Canales** → **Integración Web**
 3. Selecciona tu árbol conversacional
 4. Copia el código de integración generado
 
@@ -39,7 +39,7 @@ Pega el siguiente código en tu página HTML, preferiblemente antes del cierre d
 ### Paso 3: Configurar el Tree ID
 
 Reemplaza `TU_TREE_ID_AQUI` con el ID real de tu árbol conversacional. Puedes encontrarlo en:
-- Panel de Injertos → Integración Web
+- Panel de Canales → Integración Web
 - URL del árbol en el dashboard
 - Configuración del árbol
 
@@ -217,7 +217,7 @@ Y espera respuestas en formato:
 
 ### Widget de Prueba Integrado
 
-TreeFlow incluye un widget de prueba en el panel de Injertos que te permite:
+TreeFlow incluye un widget de prueba en el panel de Canales que te permite:
 
 - Probar el widget en tiempo real
 - Validar la configuración
@@ -245,7 +245,7 @@ La previsualización del panel pinta el widget con lo que tienes **en pantalla**
 
 ### Contexto por Defecto
 
-En la pestaña **Desarrollador** de la configuración puedes definir **variables de contexto** que el widget manda en cada petición sin que tu página haga nada. El bot las lee como cualquier variable de sesión (`{{$nombre_variable}}`), incluso en el mensaje de bienvenida —que es el primer turno—.
+En la pestaña **Desarrollador** de la configuración puedes definir **variables de contexto** que el widget manda en cada petición sin que tu página haga nada. El bot las lee como cualquier variable de sesión (`{$nombre_variable}`), incluso en el mensaje de bienvenida —que es el primer turno—.
 
 Si tu página inyecta contexto con `widget.injectContext(...)`, esos valores **pisan** a los definidos en el panel.
 
@@ -307,6 +307,6 @@ Una vez que tengas el widget funcionando:
 
 :::tip ¿Necesitas ayuda?
 
-Si tienes problemas con la integración, usa el widget de prueba en el panel de Injertos para validar tu configuración, o activa el modo debug para obtener información técnica detallada.
+Si tienes problemas con la integración, usa el widget de prueba en el panel de Canales para validar tu configuración, o activa el modo debug para obtener información técnica detallada.
 
 :::

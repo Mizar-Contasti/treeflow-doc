@@ -1,39 +1,42 @@
 ---
 sidebar_position: 5
+sidebar_label: Intenciones
 ---
 
-# Ramas
+# Intenciones
 
-Las **Ramas** en TreeFlow son el equivalente a las intenciones en otros sistemas de chatbots. Representan los diferentes patrones de conversación que tu árbol puede reconocer y responder.
+En el menú se llaman **Intenciones**. Son lo que el motor reconoce en una frase. Un flujo del lienzo es otra cosa: ver el [editor visual](/docs/Fundamentos/EditorVisual).
 
-## ¿Qué es una Rama?
+Las intenciones son el equivalente a las *intents* de otros sistemas de chatbots.
 
-Una rama define:
+## ¿Qué es una Intención?
+
+Una intención define:
 - Los patrones de texto que el usuario puede escribir
 - Las respuestas que el árbol debe proporcionar
 - Los parámetros que se deben extraer de la entrada del usuario
 - Los contextos de entrada y salida
 - Los eventos que se pueden activar
 
-## Tipos de Ramas
+## Tipos de Intenciones
 
-TreeFlow soporta dos tipos principales de ramas:
+TreeFlow soporta dos tipos principales de intenciones:
 
 import Tabs from '@theme/Tabs';
 import TabItem from '@theme/TabItem';
 
 <Tabs>
-  <TabItem value="conversacionales" label="Ramas Conversacionales" default>
-    <p>Son las ramas estándar que manejan la interacción directa con el usuario. Estas ramas:</p>
+  <TabItem value="conversacionales" label="Intenciones Conversacionales" default>
+    <p>Son las intenciones estándar que manejan la interacción directa con el usuario. Estas intenciones:</p>
     <ul>
       <li>Reconocen patrones específicos en los mensajes del usuario</li>
-      <li>Extraen información relevante usando hojas (entidades)</li>
+      <li>Extraen información relevante usando entidades</li>
       <li>Proporcionan respuestas basadas en la entrada del usuario</li>
       <li>Pueden ser creadas y modificadas libremente por el usuario</li>
     </ul>
   </TabItem>
-  <TabItem value="sistema" label="Ramas de Sistema">
-    <p>Son ramas especiales que no se activan directamente por la entrada del usuario, sino por eventos del sistema o por otras ramas. Estas ramas:</p>
+  <TabItem value="sistema" label="Intenciones de Sistema">
+    <p>Son intenciones especiales que no se activan directamente por la entrada del usuario, sino por eventos del sistema o por otras intenciones. Estas intenciones:</p>
     <ul>
       <li>Se activan mediante eventos específicos</li>
       <li>Realizan acciones en segundo plano</li>
@@ -41,42 +44,42 @@ import TabItem from '@theme/TabItem';
     </ul>
     <div className="alert alert--warning">
       <p>
-        <strong>Importante:</strong> Las ramas de sistema son predefinidas y actualmente no pueden ser modificadas por el usuario. Se utilizan para manejar funcionalidades específicas de la plataforma.
+        <strong>Importante:</strong> Las intenciones de sistema son predefinidas y actualmente no pueden ser modificadas por el usuario. Se utilizan para manejar funcionalidades específicas de la plataforma.
       </p>
     </div>
   </TabItem>
 </Tabs>
 
-## Crear una Nueva Rama
+## Crear una Nueva Intención
 
-Para crear una nueva rama:
+Para crear una nueva intención:
 
 1. Selecciona un árbol existente
-2. Navega a la sección "Ramas"
-3. Haz clic en "Nueva Rama"
-4. Proporciona un nombre descriptivo para tu rama
+2. Navega a **Intenciones**
+3. Crea una intención nueva
+4. Proporciona un nombre descriptivo para tu intención
 5. Haz clic en "Crear"
 
-Una vez creada la rama, deberás editarla para configurar sus componentes. Revisa la sección "Componentes de una Rama" más adelante para entender qué elementos puedes configurar.
+Una vez creada la intención, deberás editarla para configurar sus componentes. Revisa la sección "Componentes de una Intención" más adelante para entender qué elementos puedes configurar.
 
 :::tip Recomendación importante
-Antes de crear tus ramas, es altamente recomendable tener ya definidos:
+Antes de crear tus intenciones, es altamente recomendable tener ya definidos:
 
 1. El flujo conversacional completo (diseño de la conversación)
-2. Todas las hojas (entidades) necesarias para extraer información
+2. Todas las entidades necesarias para extraer información
 
-Esto facilitará enormemente el proceso de creación de ramas y evitará problemas posteriores de entrenamiento y entendimiento del árbol. Recuerda que las ramas dependen de las hojas para extraer información estructurada de las conversaciones.
+Esto facilitará el proceso y evita entrenar un árbol al que le faltan datos. Las intenciones leen las entidades que sus patrones referencian.
 :::
 
-## Componentes de una Rama
+## Componentes de una Intención
 
 ### Nombre
 
-Identificador único y descriptivo de la rama. Es importante usar nombres claros que indiquen la función de la rama.
+Identificador único y descriptivo de la intención. Es importante usar nombres claros que indiquen la función de la intención.
 
 ### Patrones
 
-Los patrones son ejemplos de frases que el usuario podría escribir para activar esta rama. Cuantos más patrones proporciones, mejor será la capacidad del árbol para reconocer esta intención.
+Los patrones son ejemplos de frases que el usuario podría escribir para activar esta intención. Cuantos más patrones proporciones, mejor será la capacidad del árbol para reconocer esta intención.
 
 Ejemplos de patrones:
 ```
@@ -93,7 +96,7 @@ Los parámetros son piezas de información que se extraen de la entrada del usua
 
 ### Respuestas
 
-Las respuestas son los mensajes que el árbol enviará al usuario cuando se active esta rama. Puedes configurar múltiples respuestas y el sistema elegirá una aleatoriamente.
+Las respuestas son los mensajes que el árbol enviará al usuario cuando se active esta intención. Puedes configurar múltiples respuestas y el sistema elegirá una aleatoriamente.
 
 Tipos de respuestas:
 - **Texto**: Respuestas en formato de texto simple
@@ -101,35 +104,35 @@ Tipos de respuestas:
 
 ### Contextos
 
-Los contextos son mecanismos que permiten controlar el flujo de la conversación. Funcionan como la "memoria a corto plazo" del árbol, determinando qué ramas pueden activarse en cada momento y cómo se conectan las diferentes partes de una conversación.
+Los contextos son mecanismos que permiten controlar el flujo de la conversación. Funcionan como la "memoria a corto plazo" del árbol, determinando qué intenciones pueden activarse en cada momento y cómo se conectan las diferentes partes de una conversación.
 
 [Leer más sobre Contextos](/docs/Avanzado/Contextos)
 
 ### Eventos
 
-Los eventos son acciones especiales que se activan cuando se ejecuta una rama. Permiten conectar diferentes partes del árbol, activar ramas de sistema y realizar acciones específicas sin necesidad de una entrada directa del usuario.
+Los eventos son acciones especiales que se activan cuando se ejecuta una intención. Permiten conectar diferentes partes del árbol, activar intenciones de sistema y realizar acciones específicas sin necesidad de una entrada directa del usuario.
 
 [Leer más sobre Eventos](/docs/Avanzado/Eventos)
 
 ### Metadata
 
-La metadata es información adicional que se asocia a una rama y que no tiene relación directa con la conversación o el procesamiento del agente. Permite almacenar datos personalizados que pueden ser útiles para la lógica de negocio o para el seguimiento de las interacciones.
+La metadata es información adicional que se asocia a una intención y que no tiene relación directa con la conversación o el procesamiento del agente. Permite almacenar datos personalizados que pueden ser útiles para la lógica de negocio o para el seguimiento de las interacciones.
 
 ### Webhook
 
-Los webhooks permiten conectar tu árbol con servicios externos cuando se activa una rama. Son fundamentales para integrar funcionalidades avanzadas, procesar datos en tiempo real y comunicarse con sistemas externos.
+Los webhooks permiten conectar tu árbol con servicios externos cuando se activa una intención. Son fundamentales para integrar funcionalidades avanzadas, procesar datos en tiempo real y comunicarse con sistemas externos.
 
 [Leer más sobre Webhooks](/docs/Fertilizantes)
 
-## Mejores Prácticas para Ramas
+## Mejores Prácticas para Intenciones
 
-1. **Nombres claros**: Usa nombres descriptivos que indiquen la función de la rama
+1. **Nombres claros**: Usa nombres descriptivos que indiquen la función de la intención
 2. **Patrones diversos**: Incluye variaciones naturales de cómo los usuarios podrían expresar la misma intención
 3. **Parámetros bien definidos**: Define claramente qué información necesitas extraer
 4. **Respuestas variadas**: Proporciona múltiples respuestas para hacer la conversación más natural
 5. **Contextos adecuados**: Utiliza contextos para guiar el flujo de la conversación
-6. **Prueba regularmente**: Verifica que tus ramas funcionan correctamente en diferentes escenarios
+6. **Prueba regularmente**: Verifica que tus intenciones funcionan correctamente en diferentes escenarios
 
 :::tip Consejo
-Para ramas complejas, considera dividirlas en múltiples ramas más pequeñas conectadas por contextos. Esto hace que tu árbol sea más fácil de mantener y depurar.
+Para intenciones complejas, considera dividirlas en múltiples intenciones más pequeñas conectadas por contextos. Esto hace que tu árbol sea más fácil de mantener y depurar.
 :::

@@ -1,36 +1,39 @@
 ---
 sidebar_position: 4
+sidebar_label: Entidades
 ---
 
-# Hojas
+# Entidades
 
-Las **Hojas** en TreeFlow son el equivalente a las entidades en otros sistemas de chatbots. Representan los tipos de datos que se pueden extraer de los mensajes del usuario.
+En el menú se llaman **Entidades**. Son los tipos de dato que el motor saca de una frase. Una hoja del lienzo es un nodo del flujo, no una entidad: ver el [editor visual](/docs/Fundamentos/EditorVisual).
 
-## ¿Qué es una Hoja?
+Las entidades son el equivalente a las *entities* de otros sistemas de chatbots.
 
-Una hoja define un tipo específico de información que tu árbol puede reconocer y extraer de los mensajes del usuario. Las hojas son fundamentales para:
+## ¿Qué es una Entidad?
+
+Una entidad define un tipo específico de información que tu árbol puede reconocer y extraer de los mensajes del usuario. Las entidades son fundamentales para:
 
 - Extraer información relevante de los mensajes
 - Personalizar las respuestas según los datos proporcionados
 - Permitir que el árbol tome decisiones basadas en valores específicos
 
-![Funcionamiento de las Hojas](/img/docs/hojas_funcionamiento.svg)
+![Funcionamiento de las Entidades](/img/docs/hojas_funcionamiento.svg)
 
-*Diagrama: Las Hojas extraen información estructurada de los mensajes del usuario*
+*Diagrama: Las Entidades extraen información estructurada de los mensajes del usuario*
 
-## Estructura de una Hoja
+## Estructura de una Entidad
 
-Las hojas simples y compuestas en TreeFlow se basan en una estructura de **valores clave** y **sinónimos**. Esta estructura permite reconocer diferentes formas en que un usuario puede expresar el mismo concepto.
+Las entidades simples y compuestas en TreeFlow se basan en una estructura de **valores clave** y **sinónimos**. Esta estructura permite reconocer diferentes formas en que un usuario puede expresar el mismo concepto.
 
-![Estructura de una Hoja](/img/docs/estructura_hoja.svg)
+![Estructura de una Entidad](/img/docs/estructura_hoja.svg)
 
-*Diagrama: Estructura de una hoja con valores clave y sus sinónimos asociados*
+*Diagrama: Estructura de una entidad con valores clave y sus sinónimos asociados*
 
 ### Valores Clave
 
-Los valores clave representan los datos específicos que la hoja puede identificar y extraer. Cada valor clave:
+Los valores clave representan los datos específicos que la entidad puede identificar y extraer. Cada valor clave:
 
-- Es un identificador único dentro de la hoja
+- Es un identificador único dentro de la entidad
 - Representa un concepto o dato concreto
 - Se utiliza internamente para procesar la información
 
@@ -46,34 +49,34 @@ Los sinónimos son las diferentes formas en que un usuario puede expresar el mis
 
 Cuando un usuario escribe un mensaje, TreeFlow:
 
-1. Analiza el texto buscando coincidencias con los sinónimos definidos en las hojas
+1. Analiza el texto buscando coincidencias con los sinónimos definidos en las entidades
 2. Cuando encuentra una coincidencia, extrae el valor clave asociado
 3. Este valor clave se convierte en un parámetro estructurado que las ramas pueden utilizar
 
 :::info Importante
-Esta estructura de valores clave y sinónimos aplica principalmente a las hojas simples y compuestas. Las hojas regex funcionan con patrones de expresiones regulares en lugar de valores predefinidos.
+Esta estructura de valores clave y sinónimos aplica principalmente a las entidades simples y compuestas. Las entidades regex funcionan con patrones de expresiones regulares en lugar de valores predefinidos.
 :::
 
-## Tipos de Hojas
+## Tipos de Entidades
 
-TreeFlow soporta tres tipos principales de hojas:
+TreeFlow soporta tres tipos principales de entidades:
 
-### 1. Hojas Simples
+### 1. Entidades Simples
 
-Las hojas simples contienen una lista de valores y sus sinónimos. Son ideales para conjuntos finitos de opciones.
+Las entidades simples contienen una lista de valores y sus sinónimos. Son ideales para conjuntos finitos de opciones.
 
-**Ejemplo:** Una hoja "sabor_helado" podría contener valores como:
+**Ejemplo:** Una entidad "sabor_helado" podría contener valores como:
 - chocolate (sinónimos: choco, chocolatado)
 - vainilla (sinónimos: vanilla, vainiya)
 - fresa (sinónimos: frutilla, strawberry)
 
-![Hoja Simple](/img/docs/hoja_simple.svg)
+![Entidad Simple](/img/docs/hoja_simple.svg)
 
-*Ejemplo: Estructura de una hoja simple con valores y sinónimos*
+*Ejemplo: Estructura de una entidad simple con valores y sinónimos*
 
-### 2. Hojas Compuestas
+### 2. Entidades Compuestas
 
-Las hojas compuestas describen **varias hojas simples que aparecen juntas** en la
+Las entidades compuestas describen **varias entidades simples que aparecen juntas** en la
 frase. Sirven para leer de una vez algo que tiene partes: "2 empanadas de queso" son
 una cantidad, un producto y un sabor, pero son *un solo* renglón del pedido.
 
@@ -91,70 +94,70 @@ Añade una fila por cada combinación que quieras cubrir: el mismo pedido en otr
 orden, o con una parte de menos. El motor se queda con la fila que rellene más
 huecos.
 
-**Los dos puntos ponen nombre al parámetro.** `@Productos:producto` es la hoja
+**Los dos puntos ponen nombre al parámetro.** `@Productos:producto` es la entidad
 `Productos` guardada como `producto`, que es como la leerás en la respuesta. Sin los
-dos puntos, el parámetro se llama igual que la hoja.
+dos puntos, el parámetro se llama igual que la entidad.
 
 Una fila puede llevar **palabras literales** entre los huecos —el `de` del primer
 ejemplo—. Si las escribes, tienen que estar en la frase del usuario.
 
-![Hoja Compuesta](/img/docs/hoja_compuesta.svg)
+![Entidad Compuesta](/img/docs/hoja_compuesta.svg)
 
-*Ejemplo: Estructura de una hoja compuesta que combina múltiples hojas*
+*Ejemplo: Estructura de una entidad compuesta que combina múltiples entidades*
 
 :::tip Una frase puede traer varias
-"dame 1 empanada de pollo y 2 arepas de carne" son **dos** renglones, y la hoja
+"dame 1 empanada de pollo y 2 arepas de carne" son **dos** renglones, y la entidad
 compuesta devuelve los dos. Ver [Parámetros con varios valores](/docs/Avanzado/Parametros#un-parámetro-con-varios-valores).
 :::
 
-### 3. Hojas Regex
+### 3. Entidades Regex
 
-Las hojas regex utilizan expresiones regulares para identificar patrones específicos en el texto.
+Las entidades regex utilizan expresiones regulares para identificar patrones específicos en el texto.
 
-**Ejemplo:** Una hoja para reconocer códigos de producto con el formato "ABC-12345".
+**Ejemplo:** Una entidad para reconocer códigos de producto con el formato "ABC-12345".
 
-![Hoja Regex](/img/docs/hoja_regex.svg)
+![Entidad Regex](/img/docs/hoja_regex.svg)
 
-*Ejemplo: Hoja regex para capturar patrones específicos*
+*Ejemplo: Entidad regex para capturar patrones específicos*
 
-## Hojas del Sistema
+## Entidades del Sistema
 
-TreeFlow incluye hojas del sistema predefinidas para tipos de datos comunes. Estas hojas están optimizadas para reconocer formatos específicos de información sin necesidad de configuración adicional.
+TreeFlow incluye entidades del sistema predefinidas para tipos de datos comunes. Estas entidades están optimizadas para reconocer formatos específicos de información sin necesidad de configuración adicional.
 
-![Hojas del Sistema](/img/docs/hojas_sistema.svg)
+![Entidades del Sistema](/img/docs/hojas_sistema.svg)
 
-*Diagrama: Las hojas del sistema están preconfiguradas para reconocer formatos comunes*
+*Diagrama: Las entidades del sistema están preconfiguradas para reconocer formatos comunes*
 
-:::tip Lista completa de Hojas del Sistema
-Para ver la lista completa de todas las Hojas del Sistema disponibles, con descripciones detalladas y ejemplos de los formatos que pueden capturar, consulta la [documentación de Hojas del Sistema](/docs/Misc/HojasDelSistema).
+:::tip Lista completa de Entidades del Sistema
+Para ver la lista completa de todas las Entidades del Sistema disponibles, con descripciones detalladas y ejemplos de los formatos que pueden capturar, consulta la [documentación de Entidades del Sistema](/docs/Misc/HojasDelSistema).
 :::
 
 
 
-## Crear una Nueva Hoja
+## Crear una Nueva Entidad
 
-Para crear una nueva hoja:
+Para crear una nueva entidad:
 
 1. Selecciona un árbol existente
-2. Navega a la sección "Hojas"
-3. Haz clic en "Nueva Hoja"
-4. Selecciona el tipo de hoja (simple, compuesta, regex o personalizada)
-5. Proporciona un nombre descriptivo para tu hoja
-6. Configura los valores según el tipo de hoja
-7. Guarda la hoja
+2. Navega a **Entidades**
+3. Crea una entidad nueva
+4. Elige el tipo (simple, compuesta o regex)
+5. Proporciona un nombre descriptivo para tu entidad
+6. Configura los valores según el tipo de entidad
+7. Guarda la entidad
 
 
 
-## Mejores Prácticas para Hojas
+## Mejores Prácticas para Entidades
 
-1. **Nombres descriptivos**: Usa nombres que indiquen claramente qué tipo de información extrae la hoja
+1. **Nombres descriptivos**: Usa nombres que indiquen claramente qué tipo de información extrae la entidad
 2. **Sinónimos completos**: Incluye todas las variaciones posibles de cada valor
-3. **Organización adecuada**: Divide las hojas complejas en hojas más pequeñas y específicas
-4. **Reutilización**: Crea hojas genéricas que puedan ser reutilizadas en múltiples ramas
-5. **Prueba regularmente**: Verifica que tus hojas extraen correctamente la información en diferentes contextos
+3. **Organización adecuada**: Divide las entidades complejas en entidades más pequeñas y específicas
+4. **Reutilización**: Crea entidades genéricas que puedan ser reutilizadas en múltiples ramas
+5. **Prueba regularmente**: Verifica que tus entidades extraen correctamente la información en diferentes contextos
 
 :::tip Consejo
-Para mejorar la precisión de la extracción, proporciona ejemplos variados de cómo los usuarios podrían expresar los valores de la hoja.
+Para mejorar la precisión de la extracción, proporciona ejemplos variados de cómo los usuarios podrían expresar los valores de la entidad.
 :::
 
 
