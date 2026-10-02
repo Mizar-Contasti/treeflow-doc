@@ -18,6 +18,12 @@
 }
 
 /* For readability concerns, you should choose a lighter palette in dark mode. */
+/* Capturas del artículo: más chicas que el ancho de la columna. En el teléfono siguen al 100%. */
+article .theme-doc-markdown img {
+  max-width: min(100%, 34rem);
+  height: auto;
+}
+
 [data-theme='dark'] {
   --ifm-color-primary: #F78F1E;         /* Using primary light from TreeFlow as primary */
   --ifm-color-primary-dark: #EC7F0E;    /* Darker version */
