@@ -15,6 +15,10 @@ El principiante sirve para armar la conversación y probarla. Las pantallas de d
 
 ## Qué muestra el menú
 
+Durante la guía el menú se abre entero, para poder señalar cada entrada.
+
+![El menú de un árbol principiante: Flujos, Canales, Conversaciones, Mesa de ayuda, Diagnósticos, Cuentas y Credenciales](/img/principiante/menu.png)
+
 | Se ve | Para qué |
 |---|---|
 | **Panel** | El resumen del árbol: conversaciones, flujos, entrenamiento |
@@ -31,33 +35,83 @@ En principiante el menú no muestra Intenciones, Entidades, Mensajes, Capturas, 
 
 ## El flujo sencillo
 
-**Flujos** abre la lista. Hay un flujo principal, el de por defecto. **Nuevo Flujo** abre un diálogo de tres pasos:
+**Flujos** abre la lista. Hay un flujo principal, marcado **Principal**. **Nuevo Flujo** abre el diálogo de la intención.
 
-1. **Nombre** de la intención. Por ejemplo, `saludar`.
-2. **Palabras clave.** Lo que la persona escribe para activarla: `hola`, `buenos días`. Hace falta al menos una.
-3. **Respuesta** del bot. Lo que contesta cuando reconoce esas palabras.
+![La lista: el flujo principal y el botón Nuevo Flujo](/img/principiante/flujos.png)
 
-Al guardar, esa intención queda en el lienzo: un nodo de inicio, donde el bot espera, y el nodo de la intención. Volver a abrir el nodo abre el mismo diálogo, en edición.
+El diálogo tiene tres campos, y la guía los recorre de uno en uno:
+
+1. **Nombre.** El propósito de esa parte de la conversación. La guía propone `saludar`.
+2. **Palabras clave.** Lo que la persona escribe para activarla: `hola`, `buenos días`. Se añade con Enter o con el botón **+**. Hace falta al menos una.
+3. **Respuesta.** Lo que el bot contesta cuando reconoce esas palabras.
+
+![El diálogo de la intención, con el nombre, la palabra hola y la respuesta](/img/principiante/dialogo.png)
+
+Al guardar, esa intención queda en el lienzo: el nodo de inicio, donde el bot espera, y el nodo de la intención. Volver a abrir el nodo abre el mismo diálogo, en edición.
 
 El rubro elegido al plantar (restaurante, hotel, clínica) sigue trayendo su plantilla. El editor sencillo es la forma de añadir y retocar pasos sin abrir las otras pantallas.
 
 ## La guía
 
-Si al plantar eliges ver el tutorial, recorre el árbol en este orden:
+Si al plantar eliges **Primera vez**, antes de entrar pregunta si quieres el recorrido.
 
-1. El lienzo. El inicio, y la intención de saludo todavía vacía.
-2. El diálogo. Le pones nombre, palabras y respuesta.
-3. El rayo del menú, para entrenar.
-4. La [consola](/docs/Avanzado/Consola). Escribes una frase que ya configuraste, como «hola».
-5. El menú: el bot en el que estás, el panel, flujos, canales y conversaciones.
+![La pregunta al crear el árbol: ver el tutorial o saltarlo](/img/principiante/pregunta.png)
 
-Si lo saltas, el árbol queda igual y lo recorres tú. El botón de ayuda del menú vuelve a abrir la guía de ese árbol.
+**Ver tutorial** lo arranca. **Saltar tutorial** deja el árbol igual y lo recorres tú. El botón de ayuda del menú vuelve a abrir la guía de ese árbol.
+
+### 1. El panel
+
+Abre el panel y señala las tarjetas, una por una: cuántos flujos hay, las intenciones, las entidades, si el entrenamiento está al día, y las conversaciones del día. En un árbol recién plantado el entrenamiento dice **Sin entrenar**.
+
+![Paso de la guía en el panel, sobre la tarjeta de flujos](/img/principiante/panel.png)
+
+Al terminar este tramo, la guía te lleva a Flujos.
+
+### 2. El flujo principal
+
+Ahí está la tarjeta del flujo por defecto. **Siguiente** abre el editor sola: no hay que pulsar la tarjeta.
+
+![La guía señala el flujo principal](/img/principiante/flujos.png)
+
+### 3. El lienzo
+
+Primero el nodo de inicio: ahí empieza la conversación, el bot espera a la persona. Después la intención de saludo, todavía vacía. **Siguiente** abre el editor para llenarla.
+
+![El lienzo, con el inicio y la intención vacía](/img/principiante/lienzo.png)
+
+### 4. Nombre, palabras y respuesta
+
+La guía pide tres cosas, en orden:
+
+1. El nombre `saludar`.
+2. Una palabra como `hola` o `buenos días`. Sin al menos una, no deja seguir.
+3. La respuesta, por ejemplo «¡Hola! Bienvenido». **Siguiente** guarda el flujo.
+
+![La guía en la respuesta, con saludar y hola ya escritos](/img/principiante/dialogo.png)
+
+### 5. Entrenar
+
+El globo queda junto al rayo del menú. **Siguiente** lanza el mismo entrenamiento que pulsar el rayo. Hasta que no termina, el bot no usa lo que acabas de escribir.
+
+![La guía pide entrenar con el rayo del menú](/img/principiante/entrenar.png)
+
+### 6. La consola
+
+Con el entrenamiento listo se abre la consola, el panel de la derecha. Hay que escribir una frase que ya configuraste. `hola` recibe la respuesta que guardaste. Si escribes algo que el bot no reconoce, la respuesta es otra.
+
+![En la consola, hola recibe la respuesta del saludo](/img/principiante/consola.png)
+
+### 7. El menú
+
+Al cerrar esa prueba, la guía recorre el menú: el bot en el que estás, el panel, flujos, canales, conversaciones, y otra vez el rayo. Ahí el entrenamiento ya dice **Actualizado**.
+
+![El último tramo señala Flujos en el menú](/img/principiante/menu.png)
 
 ## Entrenar y probar
 
 El rayo del menú dice el estado. **Entrenamiento pendiente** es naranja: un clic entrena. En verde dice **IA entrenada**. Hasta que no entrenas, el bot contesta con el entrenamiento anterior.
 
-La consola, el panel de la derecha, es el chat de prueba. **Canales** es el paso de después, cuando alguien de fuera tiene que hablar con el bot.
+La [consola](/docs/Avanzado/Consola) es el chat de prueba. **Canales** es el paso de después, cuando alguien de fuera tiene que hablar con el bot.
 
 ## El modo avanzado
 
