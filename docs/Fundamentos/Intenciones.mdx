@@ -5,134 +5,162 @@ sidebar_label: Intenciones
 
 # Intenciones
 
-En el menú se llaman **Intenciones**. Son lo que el motor reconoce en una frase. Un flujo del lienzo es otra cosa: ver el [editor visual](/docs/Fundamentos/EditorVisual).
+En el menú se llaman **Intenciones**. Son lo que el motor reconoce en una frase. El recorrido de la conversación es otra cosa: vive en los [flujos](./EditorVisual).
 
-Las intenciones son el equivalente a las *intents* de otros sistemas de chatbots.
+Una intención guarda tres cosas:
 
-## ¿Qué es una Intención?
+- un **nombre**, el identificador
+- los **patrones**, frases de ejemplo
+- los **parámetros**, los datos que se sacan de esas frases
 
-Una intención define:
-- Los patrones de texto que el usuario puede escribir
-- Las respuestas que el árbol debe proporcionar
-- Los parámetros que se deben extraer de la entrada del usuario
-- Los contextos de entrada y salida
-- Los eventos que se pueden activar
+Lo que el bot contesta se escribe en el nodo de intención del flujo, y los textos reutilizables en [Mensajes](./Mensajes).
 
-## Tipos de Intenciones
+## La lista
 
-TreeFlow soporta dos tipos principales de intenciones:
+**Intenciones** abre las tarjetas. Arriba se puede buscar por nombre. La pestaña es **Conversacional**: cada tarjeta es una intención que se abre y se edita.
 
-import Tabs from '@theme/Tabs';
-import TabItem from '@theme/TabItem';
+![Lista de intenciones: buscador, tarjetas y Nueva Intención](/img/intenciones/lista.png)
 
-<Tabs>
-  <TabItem value="conversacionales" label="Intenciones Conversacionales" default>
-    <p>Son las intenciones estándar que manejan la interacción directa con el usuario. Estas intenciones:</p>
-    <ul>
-      <li>Reconocen patrones específicos en los mensajes del usuario</li>
-      <li>Extraen información relevante usando entidades</li>
-      <li>Proporcionan respuestas basadas en la entrada del usuario</li>
-      <li>Pueden ser creadas y modificadas libremente por el usuario</li>
-    </ul>
-  </TabItem>
-  <TabItem value="sistema" label="Intenciones de Sistema">
-    <p>Son intenciones especiales que no se activan directamente por la entrada del usuario, sino por eventos del sistema o por otras intenciones. Estas intenciones:</p>
-    <ul>
-      <li>Se activan mediante eventos específicos</li>
-      <li>Realizan acciones en segundo plano</li>
-      <li>Pueden modificar el estado de la conversación</li>
-    </ul>
-    <div className="alert alert--warning">
-      <p>
-        <strong>Importante:</strong> Las intenciones de sistema son predefinidas y actualmente no pueden ser modificadas por el usuario. Se utilizan para manejar funcionalidades específicas de la plataforma.
-      </p>
-    </div>
-  </TabItem>
-</Tabs>
+- **Nueva Intención** crea una vacía.
+- Un clic en el nombre abre el editor.
+- La franja naranja pide confirmación para borrarla. Se va la intención, sus patrones y sus parámetros.
+- Si hay muchas, abajo están las páginas. Cuántas caben por página se configura en el [árbol](./Arboles), en **Paginación**.
 
-## Crear una Nueva Intención
+## Crear una
 
-Para crear una nueva intención:
+**Nueva Intención** pide sólo el nombre. El chip **Conversacional** indica el tipo: es el único que crea esta pantalla.
 
-1. Selecciona un árbol existente
-2. Navega a **Intenciones**
-3. Crea una intención nueva
-4. Proporciona un nombre descriptivo para tu intención
-5. Haz clic en "Crear"
+![Nueva Intención: el nombre y el tipo conversacional](/img/intenciones/crear.png)
 
-Una vez creada la intención, deberás editarla para configurar sus componentes. Revisa la sección "Componentes de una Intención" más adelante para entender qué elementos puedes configurar.
+El nombre es un identificador. Mientras se escribe, los espacios y los signos pasan a `_`. Al pulsar **Crear intención** queda en minúsculas y sin acentos: `Consulta de precio` sale como `consulta_de_precio`. La `ñ` se conserva.
 
-:::tip Recomendación importante
-Antes de crear tus intenciones, es altamente recomendable tener ya definidos:
+La tarjeta aparece en la lista, vacía. Hay que abrirla para poner patrones.
 
-1. El flujo conversacional completo (diseño de la conversación)
-2. Todas las entidades necesarias para extraer información
+## El editor
 
-Esto facilitará el proceso y evita entrenar un árbol al que le faltan datos. Las intenciones leen las entidades que sus patrones referencian.
-:::
+Arriba a la derecha, **Guardar cambios** escribe la intención. **Limpiar todo** vacía patrones y parámetros de esta intención; pide confirmación.
 
-## Componentes de una Intención
+![Editor de hacer_pedido: el nombre y los patrones, con los datos ya pintados](/img/intenciones/editor.png)
 
-### Nombre
+El campo **Nombre de la Intención** es el mismo identificador. Si el árbol tiene más de un idioma, junto al nombre aparecen los idiomas: cada uno edita sus propios patrones.
 
-Identificador único y descriptivo de la intención. Es importante usar nombres claros que indiquen la función de la intención.
+## Patrones
 
-### Patrones
+Un patrón es una frase que debería activar esta intención. Cuantas más formas naturales haya, mejor reconoce el motor. En `hacer_pedido` están `quiero pedir 3 pizzas`, `me das cinco hamburguesas por favor`, `necesito hacer un pedido`.
 
-Los patrones son ejemplos de frases que el usuario podría escribir para activar esta intención. Cuantos más patrones proporciones, mejor será la capacidad del árbol para reconocer esta intención.
+Cada fila se puede corregir en el sitio. **Enter** cierra la edición. El icono de copiar duplica el texto; el de basura quita esa frase.
 
-Ejemplos de patrones:
-```
-Quiero ordenar una pizza
-Me gustaría pedir una pizza
-Tengo hambre, quiero una pizza
-```
+Abajo, el campo **Escribe un nuevo patrón y presiona Enter** agrega una frase. **Agregar patrón** abre el cuadro para una frase más larga.
 
-### Parámetros
+![Nuevo patrón: una frase, o varias separadas por comas](/img/intenciones/nuevo-patron.png)
 
-Los parámetros son piezas de información que se extraen de la entrada del usuario. Estos solo pueden crearse mediante una hoja referenciada en un patrón y son los que guardan el valor de las palabras clave identificadas.
+Si el texto trae comas, cada trozo entra como patrón aparte. `hola, buenas tardes` crea dos.
 
-[Leer más sobre Parámetros](/docs/Avanzado/Parametros)
+Cuando hay muchas frases, el encabezado **Patrones** muestra el rango y las páginas, por ejemplo `1–10 / 47`.
 
-### Respuestas
+Las palabras de color ya están atadas a una [entidad](./Entidades). En la captura, `pedir` es una entidad, `3` y `cinco` son `sys.number`, y `pizzas` es `producto`. El color de la palabra es el mismo que la barra del parámetro.
 
-Las respuestas son los mensajes que el árbol enviará al usuario cuando se active esta intención. Puedes configurar múltiples respuestas y el sistema elegirá una aleatoriamente.
+Eso puede pasar sin escribir nada especial: al guardar la frase, el editor marca las palabras que ya coinciden con un valor o un sinónimo de alguna entidad.
 
-Tipos de respuestas:
-- **Texto**: Respuestas en formato de texto simple
-- **Payload**: Respuestas estructuradas para interfaces ricas (botones, carruseles, etc.)
+## Marcar un dato
 
-### Contextos
+Para forzar la marca, escribe `@` con un espacio delante. Se abre **Editar Highlight**.
 
-Los contextos son mecanismos que permiten controlar el flujo de la conversación. Funcionan como la "memoria a corto plazo" del árbol, determinando qué intenciones pueden activarse en cada momento y cómo se conectan las diferentes partes de una conversación.
+![Al escribir @ se elige la entidad de ese fragmento](/img/intenciones/arroba.png)
 
-[Leer más sobre Contextos](/docs/Avanzado/Contextos)
+1. **Seleccionar entidad.** La lista es la de Entidades, incluidas las del sistema (`sys.number`, `sys.time`, `sys.date`…).
+2. **Texto.** El fragmento que queda marcado. Si abriste el cuadro con `@`, el texto empieza en `@`: cámbialo por la palabra, por ejemplo `pizzas`.
+3. Cómo se guarda la palabra en la entidad:
+   - **Agregar como sinónimo.** La añade a los sinónimos del primer valor.
+   - **Agregar como nueva fila.** Crea un valor nuevo en la entidad.
+   - **Agregar como referencia.** Sólo marca este fragmento. La entidad no cambia.
 
-### Eventos
+Una entidad del sistema sólo admite **Agregar como referencia**. Una compuesta, también. Si la palabra ya existía en la entidad, queda como referencia.
 
-Los eventos son acciones especiales que se activan cuando se ejecuta una intención. Permiten conectar diferentes partes del árbol, activar intenciones de sistema y realizar acciones específicas sin necesidad de una entrada directa del usuario.
+También se puede escribir la referencia a mano: `@producto`. Con otro nombre de parámetro, `@producto:producto_pedido`: la entidad es `producto` y el parámetro se llama `producto_pedido`.
 
-[Leer más sobre Eventos](/docs/Avanzado/Eventos)
+Al marcar, si esa entidad todavía no tenía parámetro en la intención, se crea uno.
 
-### Metadata
+Un clic en una palabra que ya está pintada abre **Entidad en el patrón**. Ahí se ve la entidad y el texto. **Eliminar** quita la marca de ese fragmento; la entidad sigue existiendo.
 
-La metadata es información adicional que se asocia a una intención y que no tiene relación directa con la conversación o el procesamiento del agente. Permite almacenar datos personalizados que pueden ser útiles para la lógica de negocio o para el seguimiento de las interacciones.
+![Clic en una palabra pintada: la entidad, el texto y quitar la marca](/img/intenciones/marca.png)
 
-### Webhook
+## Parámetros
 
-Los webhooks permiten conectar tu árbol con servicios externos cuando se activa una intención. Son fundamentales para integrar funcionalidades avanzadas, procesar datos en tiempo real y comunicarse con sistemas externos.
+Un parámetro es el dato que la intención se queda: el producto, la cantidad, la fecha. Abajo del editor, cada fila tiene el **nombre del parámetro**, la **entidad** y tres iconos.
 
-[Leer más sobre Webhooks](/docs/Fertilizantes)
+![Parámetros de hacer_pedido: nombre, entidad y los iconos de editar, ajustar y quitar](/img/intenciones/parametros.png)
 
-## Mejores Prácticas para Intenciones
+- **Nombre del parámetro.** Así se usa después en las respuestas, como `{$producto_pedido}`. Si se deja vacío, se usa el nombre de la entidad.
+- **Entidad.** De dónde sale el valor. Se busca en la lista o se escribe.
+- El lápiz abre esa entidad. En una del sistema, como `sys.number`, el lápiz está apagado: no se editan.
+- El engrane abre **Ajustes del parámetro**.
+- La basura quita el parámetro de esta intención.
 
-1. **Nombres claros**: Usa nombres descriptivos que indiquen la función de la intención
-2. **Patrones diversos**: Incluye variaciones naturales de cómo los usuarios podrían expresar la misma intención
-3. **Parámetros bien definidos**: Define claramente qué información necesitas extraer
-4. **Respuestas variadas**: Proporciona múltiples respuestas para hacer la conversación más natural
-5. **Contextos adecuados**: Utiliza contextos para guiar el flujo de la conversación
-6. **Prueba regularmente**: Verifica que tus intenciones funcionan correctamente en diferentes escenarios
+**Agregar parámetro** pide el nombre y la entidad, sin pasar por un patrón. Sirve cuando el dato se va a preguntar y no hace falta que venga escrito en una frase de ejemplo.
 
-:::tip Consejo
-Para intenciones complejas, considera dividirlas en múltiples intenciones más pequeñas conectadas por contextos. Esto hace que tu árbol sea más fácil de mantener y depurar.
-:::
+La barra de color de la fila es la misma de las palabras pintadas en los patrones.
+
+Si la entidad es compuesta, debajo de la fila salen sus sub-parámetros. El check de olvidar el valor va en cada sub-parámetro.
+
+El orden en que el motor prueba una frase —entidad exacta, entidad aproximada, patrón, modelo— está en [Árboles](./Arboles), en **Entendimiento**.
+
+## Ajustes del parámetro
+
+El engrane abre esto. **Guardar** cierra el cuadro; la intención se persiste con **Guardar cambios** del editor.
+
+![Ajustes de producto_pedido: requerido, pregunta, fallback y límite](/img/intenciones/ajustes.png)
+
+**Nombre del parámetro** y **Valor por defecto.** El valor por defecto se usa si la persona no lo dice. Con valor por defecto, el parámetro no frena la conversación.
+
+**Requerido.** Si falta el valor, el bot lo pregunta antes de seguir. Eso es el slot filling. El resto de los campos de abajo aparecen cuando está marcado.
+
+**Olvidar este valor al volver a caer en esta intención.** La próxima vez que se active la intención no reutiliza lo anterior.
+
+- Si hay valor por defecto, vuelve a ese valor.
+- Si es requerido, lo vuelve a preguntar, aunque ya lo tuviera o venga en la frase.
+- Si no es requerido, lo descarta y sólo se llena si viene en la frase nueva.
+
+**Usar captura definida.** La pregunta, el mensaje de «si no se entiende» y los reintentos salen de una [captura](./Capturas). El parámetro sólo elige cuál. El lápiz abre esa captura; la X la desengancha.
+
+Sin captura, estos campos son los de la intención:
+
+**Puede volver a capturarse durante el slot filling.** Mientras queden datos por pedir, cualquier frase puede rellenar o cambiar este parámetro, aunque el bot esté preguntando por otro. Si pide la cantidad y la persona dice «mejor de queso», el producto cambia y la cantidad se sigue pidiendo.
+
+**Preguntar con un bloque enriquecido.** Apagado, la **Pregunta** es un texto: `¿Qué producto te gustaría pedir?`. Encendido, la pregunta se arma con bloques, igual que en Mensajes: el texto de un botón es lo que llena el dato.
+
+En la pregunta caben huecos del [lenguaje de plantillas](/docs/Avanzado/LenguajeDePlantillas), por ejemplo `{$categoria_producto}`.
+
+**Si no se entiende.** Lo que dice cuando la respuesta no llena el dato. En el ejemplo: `No entendí el producto. ¿Podrías decirme qué deseas? Por ejemplo: pizza, hamburguesa…`
+
+**Máx. intentos.** Cuántas veces repite ese mensaje antes de la acción de límite. `1` significa un reintento.
+
+**Acción al superar el límite.**
+
+| Acción | Qué hace |
+|---|---|
+| Pasar al siguiente parámetro | Deja éste y pregunta por otro que falte |
+| Responder aunque falte el valor | Sigue con lo que haya |
+| Ir al nodo de contexto | Abandona la pregunta y vuelve al flujo |
+
+**Permitir otra intención al preguntar este dato.** Si lo que escribe coincide con otra intención, el bot la atiende y deja esta captura. Si no coincide, cuenta como fallo y manda el mensaje de «si no se entiende».
+
+El detalle de cómo se rellenan, se interpolan y se abandonan está en [Parámetros](/docs/Avanzado/Parametros).
+
+## Dónde se usa
+
+El valor queda en la conversación con el nombre del parámetro. Una respuesta del nodo, un mensaje o una herramienta lo lee con `{$producto_pedido}`. El `$` es lo que lo distingue de un texto fijo.
+
+La frase que el bot dice al reconocer la intención se configura en el nodo del [flujo](./EditorVisual), en la pestaña **Conversación**. Si nadie la entiende, el camino es el nodo de evento de ese flujo, no un campo de esta pantalla.
+
+## Entrenar
+
+**Guardar cambios** deja el árbol desactualizado. Los patrones nuevos entran en la conversación cuando se entrena: el botón **Entrenar**, abajo en el menú, el del rayo. Hasta entonces la [consola](/docs/Avanzado/Consola) sigue con el entrenamiento anterior.
+
+## Cómo conviene armarlas
+
+- Un nombre que diga la acción: `consultar_becas`, `hacer_pedido`, `solicitar_hora`.
+- Frases como las dice una persona, no una sola fórmula repetida.
+- Una intención, una acción. `saludo` y `hacer_pedido` separados se mantienen mejor que una intención que hace las dos.
+- El parámetro requerido lleva pregunta y un «si no se entiende» que dé un ejemplo.
+- Después de guardar, entrenar, y probar la frase en la consola.
