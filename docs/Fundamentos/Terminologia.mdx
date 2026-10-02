@@ -48,30 +48,30 @@ El mismo mapa, en tres oficios.
 
 <Tabs>
   <TabItem value="restaurante" label="Restaurante" default>
-
-- **Intenciones:** `reservar_mesa`, `consultar_menu`, `pedir`.
-- **Entidades:** fecha, hora, número de personas, plato.
-- **Captura:** si falta la hora, el bot la pregunta.
-- **Mensaje:** confirma la reserva con esos datos.
-- **Canal:** el widget de la página, o WhatsApp.
-- **Herramienta:** anota la reserva en el sistema del local.
-
+    <ul>
+      <li><strong>Intenciones:</strong> <code>reservar_mesa</code>, <code>consultar_menu</code>, <code>pedir</code>.</li>
+      <li><strong>Entidades:</strong> fecha, hora, número de personas, plato.</li>
+      <li><strong>Captura:</strong> si falta la hora, el bot la pregunta.</li>
+      <li><strong>Mensaje:</strong> confirma la reserva con esos datos.</li>
+      <li><strong>Canal:</strong> el widget de la página, o WhatsApp.</li>
+      <li><strong>Herramienta:</strong> anota la reserva en el sistema del local.</li>
+    </ul>
   </TabItem>
   <TabItem value="tienda" label="Tienda">
-
-- **Intenciones:** `consulta_producto`, `proceso_compra`, `seguimiento_pedido`.
-- **Entidades:** producto, cantidad, método de pago.
-- **Herramienta:** consulta el inventario y arma el pedido.
-- **Mensaje:** responde con lo que hay.
-
+    <ul>
+      <li><strong>Intenciones:</strong> <code>consulta_producto</code>, <code>proceso_compra</code>, <code>seguimiento_pedido</code>.</li>
+      <li><strong>Entidades:</strong> producto, cantidad, método de pago.</li>
+      <li><strong>Herramienta:</strong> consulta el inventario y arma el pedido.</li>
+      <li><strong>Mensaje:</strong> responde con lo que hay.</li>
+    </ul>
   </TabItem>
   <TabItem value="soporte" label="Soporte">
-
-- **Intenciones:** `problema_hardware`, `problema_software`, `consulta_garantia`.
-- **Entidades:** dispositivo, síntoma, versión.
-- **Flujo:** guía el diagnóstico, un nodo por paso.
-- **Mesa de ayuda:** si el flujo no lo resuelve, entra una persona.
-
+    <ul>
+      <li><strong>Intenciones:</strong> <code>problema_hardware</code>, <code>problema_software</code>, <code>consulta_garantia</code>.</li>
+      <li><strong>Entidades:</strong> dispositivo, síntoma, versión.</li>
+      <li><strong>Flujo:</strong> guía el diagnóstico, un nodo por paso.</li>
+      <li><strong>Mesa de ayuda:</strong> si el flujo no lo resuelve, entra una persona.</li>
+    </ul>
   </TabItem>
 </Tabs>
 
