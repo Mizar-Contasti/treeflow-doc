@@ -75,15 +75,15 @@ Aquí se decide cómo reconoce una frase. El detalle largo está en [Técnicas d
 
 ![Naturaleza de prioridad en Básico: cuatro métodos, el de arriba tiene más peso](/img/arboles/prioridad.png)
 
-En **Básico** son cuatro. En **Pro** aparece un quinto, el modelo, al final del orden de fábrica:
+En **Básico** son cuatro. En **Pro** aparece un quinto, el modelo, al final del orden de fábrica. El mismo bot, para ver cuál entra con cada frase: `saludo` tiene el patrón `buenas tardes`; `pedir` tiene `quiero una de @sabor`; la entidad `sabor` tiene el valor `queso`.
 
-1. **Coincidencia exacta de entidades.** La frase trae un valor de entidad tal cual: un sabor, una fecha, un producto.
-2. **Coincidencia aproximada de entidades.** Se parece a ese valor, según el umbral aproximado. «Tardes» puede parecerse a «tarde» sin ser la misma palabra.
-3. **Coincidencia exacta de patrones.** La frase calza con un patrón de la intención, letra por letra.
-4. **Coincidencia aproximada de patrones.** Se parece a un patrón, sin ser idéntica.
-5. **Modelo de machine learning.** Sólo en Pro. Infiere la intención aunque las palabras no estén en los patrones.
+1. **Coincidencia exacta de entidades.** La frase trae un valor escrito en la entidad. «Queso» y «una de queso» entran por aquí: `queso` está en `sabor`.
+2. **Coincidencia aproximada de entidades.** Se parece a ese valor, sin estar escrito así, y pasa el umbral aproximado. «Keso» entra por aquí. «Tardes» puede parecerse a «tarde» y proponer otra intención, pero esa confianza no llega a un acierto perfecto.
+3. **Coincidencia exacta de patrones.** La frase es el patrón. «Buenas tardes» es el patrón de `saludo`, confianza perfecta, y le gana al parecido de «tardes» con «tarde». «Quiero una de queso» también es el patrón de `pedir`.
+4. **Coincidencia aproximada de patrones.** Se parece a un patrón de texto, sin `@`, y no es idéntico. «Buena tardes» entra por aquí, contra `buenas tardes`. Un patrón con `@sabor` no se compara de esta forma.
+5. **Modelo de machine learning.** Sólo en Pro, y sólo si los de arriba no acertaron del todo. «Ándale, lo de siempre» no trae `queso` ni calza con un patrón: si el modelo la reconoce como `pedir` y pasa su umbral, entra por aquí.
 
-Si un método acierta del todo, los de abajo ya no se prueban: nada posterior puede mejorar un acierto perfecto. Si varios aciertan con la misma confianza, gana el que está más arriba. Por eso subir los patrones por encima de las entidades, o el modelo por encima de los patrones, cambia a qué intención va una frase que dos métodos podrían reclamar.
+Un acierto perfecto corta la lista: los de abajo ya no se calculan. «Quiero una de queso» es a la vez entidad exacta y patrón exacto; con el orden de fábrica la entidad va primero, acierta del todo y el patrón ni se prueba. Si subes los patrones por encima de las entidades, esa misma frase la decide el patrón. Si ninguno acierta del todo, gana la confianza más alta y, en empate, el que está más arriba.
 
 Un cambio de nivel, de umbral o de este orden pide otro entrenamiento. El rayo del menú vuelve a naranja.
 
