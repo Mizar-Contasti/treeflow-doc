@@ -5,24 +5,70 @@ sidebar_label: Modo principiante
 
 # Modo principiante
 
-Un árbol puede estar en modo **principiante** o **avanzado**. El principiante
-esconde lo que no hace falta para armar un flujo y probarlo.
+El modo se elige al [plantar el árbol](./Empezando). **Primera vez** lo deja en principiante y enciende la guía. **Experimentado** lo deja en avanzado, con el menú completo y datos de prueba.
 
-Con un árbol principiante, el menú no muestra:
+En el selector del bot, debajo del nombre, dice **Principiante** o **Avanzado**. Cada árbol tiene el suyo: uno puede ser principiante y el de al lado, avanzado.
 
-- Intenciones
-- Entidades
-- Mensajes
-- Capturas
-- Herramientas
-- Pruebas
-- Historial
-- Respaldos
+![Al plantar, Primera vez deja el árbol en modo principiante](/img/empezando/plantar.png)
 
-Siguen visibles Flujos, Canales, Conversaciones, Mesa de ayuda, Cuentas y
-Credenciales.
+El principiante sirve para armar la conversación y probarla. Las pantallas de detalle se esconden. Las piezas siguen existiendo: una intención nueva se crea desde el flujo sencillo, con su nombre, sus palabras y su respuesta.
 
-El lienzo de un árbol principiante es el flujo sencillo. El avanzado abre el
-editor completo, con intenciones, entidades y el resto.
+## Qué muestra el menú
 
-Diagnósticos sigue siendo sólo para administradores, en los dos modos.
+| Se ve | Para qué |
+|---|---|
+| **Panel** | El resumen del árbol: conversaciones, flujos, entrenamiento |
+| **Flujos** | El editor sencillo |
+| **Canales** | Por dónde habla la persona: el widget, WhatsApp, Telegram |
+| **Conversaciones** | Lo que ya se habló |
+| **Mesa de ayuda** | Una persona toma el chat y se lo puede devolver al bot |
+| **Cuentas** | Los usuarios del workspace |
+| **Credenciales** | Las claves del workspace, y el acceso por MCP |
+
+**Diagnósticos** sigue siendo sólo para administradores, en los dos modos.
+
+En principiante el menú no muestra Intenciones, Entidades, Mensajes, Capturas, Herramientas, Pruebas, Historial ni Respaldos. Si entras a una de esas direcciones a mano, la app vuelve al panel.
+
+## El flujo sencillo
+
+**Flujos** abre la lista. Hay un flujo principal, el de por defecto. **Nuevo Flujo** abre un diálogo de tres pasos:
+
+1. **Nombre** de la intención. Por ejemplo, `saludar`.
+2. **Palabras clave.** Lo que la persona escribe para activarla: `hola`, `buenos días`. Hace falta al menos una.
+3. **Respuesta** del bot. Lo que contesta cuando reconoce esas palabras.
+
+Al guardar, esa intención queda en el lienzo: un nodo de inicio, donde el bot espera, y el nodo de la intención. Volver a abrir el nodo abre el mismo diálogo, en edición.
+
+El rubro elegido al plantar (restaurante, hotel, clínica) sigue trayendo su plantilla. El editor sencillo es la forma de añadir y retocar pasos sin abrir las otras pantallas.
+
+## La guía
+
+Si al plantar eliges ver el tutorial, recorre el árbol en este orden:
+
+1. El lienzo. El inicio, y la intención de saludo todavía vacía.
+2. El diálogo. Le pones nombre, palabras y respuesta.
+3. El rayo del menú, para entrenar.
+4. La [consola](/docs/Avanzado/Consola). Escribes una frase que ya configuraste, como «hola».
+5. El menú: el bot en el que estás, el panel, flujos, canales y conversaciones.
+
+Si lo saltas, el árbol queda igual y lo recorres tú. El botón de ayuda del menú vuelve a abrir la guía de ese árbol.
+
+## Entrenar y probar
+
+El rayo del menú dice el estado. **Entrenamiento pendiente** es naranja: un clic entrena. En verde dice **IA entrenada**. Hasta que no entrenas, el bot contesta con el entrenamiento anterior.
+
+La consola, el panel de la derecha, es el chat de prueba. **Canales** es el paso de después, cuando alguien de fuera tiene que hablar con el bot.
+
+## El modo avanzado
+
+**Experimentado**, al plantar, abre el mismo **Flujos** en el [editor completo](./EditorVisual): nodos sueltos, flechas, y en cada nodo las pestañas Conversación y Funcionalidad.
+
+Con ese modo el menú también muestra:
+
+- [Intenciones](./Ramas) y [entidades](./Hojas), para patrones, parámetros y los datos de la frase
+- [Mensajes](./Mensajes) y [capturas](./Capturas), para respuestas reutilizables y para pedir un dato que falta
+- [Herramientas](/docs/Fertilizantes), para llamar un script, una API o el webhook
+- [Pruebas](./Testeo), casos de varios turnos
+- Historial y Respaldos
+
+Ese es el modo para un bot que extrae datos, llama sistemas externos o se prueba con una suite guardada.
