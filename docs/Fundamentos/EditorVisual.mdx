@@ -40,31 +40,79 @@ La flecha café, debajo del +, se arrastra hasta otro nodo para unirlos. La lín
 |---|---|
 | **Contexto** (verde) | Donde el bot espera. El de inicio se llama **Start**. Ahí están disponibles las intenciones de ese tramo. |
 | **Intención** (naranja) | Un paso que se activa cuando el motor reconoce esa intención. El texto de la intención se edita en [Intenciones](./Ramas); el nodo la coloca en el recorrido. |
-| **Evento** (rayo) | Lo que no es una frase reconocida: no entendió, no hubo respuesta, o cancelar. |
+| **Evento** (rayo) | Lo que no es una intención: no entendió (`sys.no-match`) o no llegó nada (`sys.no-input`). |
 
 Una pastilla con el nombre de otro flujo, como `rama_principal`, es un salto: la conversación sale de este dibujo y entra en ese.
 
-## El editor del nodo
+## Lo que comparten
 
-Un clic en el nodo abre la columna de la derecha. Arriba, el **nombre** y el interruptor **Nodo activo**. Apagado, el nodo se queda en el lienzo pero no participa.
+Un clic abre la columna de la derecha. Arriba van el **nombre del nodo** y **Nodo activo**. Apagado, el nodo se queda dibujado y no participa. Ahí también se cierra el editor y se borra el bloque.
 
-### Conversación
+Los tres tienen **Conversación** y **Funcionalidad**. La pestaña se queda donde la dejaste al saltar de un nodo a otro.
 
-![Conversación del nodo: la intención, la respuesta y a dónde sigue](/img/flujos/conversacion.png)
+En Funcionalidad, los tres pueden llevar scripts, herramientas y **Llamar webhook en este nodo**. El webhook del agente se llama al pasar por aquí, antes que las herramientas. Si no hay uno activo, no pasa nada. Esas piezas se crean en [Herramientas](/docs/Fertilizantes).
 
-- **Intención.** Cuál dispara este nodo. Si ya está usada en el flujo, el selector la marca **En uso**.
-- **Respuesta.** El [mensaje](./Mensajes) que se manda cuando esa intención se capturó, después de pedir los datos que faltaban y después de las herramientas de este nodo.
-- **Transición.** El nodo de destino, casi siempre un contexto, para abrir el siguiente tramo de intenciones. También puede pasar la conversación a una persona.
+## Contexto
 
-### Funcionalidad
+El contexto no dice una frase. Dice qué se puede hacer mientras la conversación está ahí.
 
-![Funcionalidad: scripts, herramientas, la captura en curso y el webhook](/img/flujos/funcionalidad.png)
+![El contexto Start: intenciones, eventos y flujos enlazados](/img/flujos/contexto.png)
 
-- **Scripts** y **herramientas.** Lo que el nodo llama afuera: un script, una API. Se eligen aquí; se crean en [Herramientas](/docs/Fertilizantes).
-- **Termina una captura en curso.** Decide qué pasa si la persona dice esto *mientras* el bot le está pidiendo datos. Activado, la captura se da por terminada: es lo que quieres en cancelar o despedirse. Desactivado, que es lo de fábrica, la captura sólo se pausa: el bot contesta y retoma la pregunta, con lo que ya llevaba escrito. Preguntar el horario a medio pedido es una duda de paso; decir «cancela» no.
-- **Llamar webhook en este nodo.** Al pasar por aquí se llama el webhook del agente, antes que a las herramientas. Si el agente no tiene uno activo, no pasa nada.
+**Conversación**
 
-La pestaña se queda donde la dejaste al saltar de un nodo a otro: si estás repasando herramientas, no te devuelve a Conversación en cada clic.
+- **Intenciones.** Las que el motor puede reconocer en este tramo. Se elige un nodo de intención que ya exista, o **Crear nuevo nodo de intención**. Quitar el enlace no borra el nodo.
+- **Eventos.** Lo mismo con los nodos de evento: no entendió, silencio, u otro. **Crear nuevo nodo de evento** lo agrega y lo enlaza.
+- **Flujos enlazados.** Otro flujo, y el contexto de ese flujo. Desde aquí también se pueden usar las intenciones y eventos de allá. Si los dos flujos tienen la misma intención, el enlace no se hace: avisa del nombre repetido.
+
+**Funcionalidad**
+
+Scripts, herramientas y el webhook. El contexto no tiene respuesta ni «termina una captura»: eso vive en la intención.
+
+## Intención
+
+El nodo naranja no entrena la intención. La apunta. El texto, los patrones y los parámetros se editan en [Intenciones](./Ramas).
+
+![La intención: cuál la dispara, qué mensaje manda y a qué contexto sigue](/img/flujos/conversacion.png)
+
+**Conversación**
+
+- **Intención que activa el nodo.** Si ya está en este flujo, o en un flujo enlazado, el selector la marca **En uso**.
+- **Respuesta.** Una plantilla de [mensaje](./Mensajes), **+ Crear plantilla**, o **Mensaje personalizado**. Se manda cuando la intención ya se capturó, después de pedir los datos que faltaban y después de las herramientas de este nodo.
+- **Transición.** A dónde sigue, ya enviada la respuesta:
+  - **Ninguno.**
+  - **Crear nuevo contexto**, o un contexto que ya está en el lienzo.
+  - **Cambiar de flujo**, al inicio de otro.
+  - **Reiniciar flujo actual.**
+  - **Transferir a humano.** Pasa la conversación a la [mesa de ayuda](/docs/Avanzado/MesaDeAyuda). Ahí se elige la transferencia.
+
+**Funcionalidad**
+
+Hasta que no hay una intención elegida, esta pestaña pide volver a Conversación.
+
+![Funcionalidad de la intención: scripts, herramientas, la captura y el webhook](/img/flujos/funcionalidad.png)
+
+- **Scripts** y **herramientas.** Lo que este paso llama afuera.
+- **Termina una captura en curso.** Si la persona dice esto *mientras* el bot le pide datos. Activado, la captura se da por terminada: cancelar o despedirse. Desactivado, que es lo de fábrica, sólo se pausa: el bot contesta y retoma la pregunta, con lo ya escrito. Preguntar el horario a medio pedido no debería costarle el pedido; decir «cancela» sí.
+- **Llamar webhook en este nodo.**
+
+## Evento
+
+El rayo es lo que pasa sin que una intención haya calzado.
+
+![El evento No_entiendo: sys.no-match, su mensaje y el contexto al que vuelve](/img/flujos/evento.png)
+
+**Conversación**
+
+- **Evento que activa el nodo.** Se elige o se escribe. Los que el motor dispara solo son:
+  - `sys.no-match`, cuando en este contexto no reconoció la frase.
+  - `sys.no-input`, cuando no llegó nada.
+  - Un nombre propio, si otro paso lo dispara. Si ese nombre ya está en otro nodo de evento del flujo, queda **En uso**.
+- **Respuesta.** El mensaje de ese caso. Se manda después de las herramientas del nodo. `sys.no-match` suele llevar el «no entendí».
+- **Transición.** Igual que en la intención: un contexto, otro flujo, reiniciar este, o una persona. Lo habitual es volver al contexto donde se puede seguir hablando.
+
+**Funcionalidad**
+
+Scripts, herramientas y el webhook. Hasta que no hay un evento elegido, esta pestaña no se configura. El evento no tiene «termina una captura»: eso es de la intención.
 
 ## Guardar
 
