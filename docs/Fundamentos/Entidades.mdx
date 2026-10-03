@@ -39,14 +39,14 @@ Abajo está el **Probador de entidad**. Sirve para ver si una frase cae en un va
 
 Una simple es una lista de valores. Cada valor tiene una **clave** —lo que se guarda— y **sinónimos** —otras formas de decirlo—.
 
-![producto: pizza, hamburguesa, taco, refresco y ensalada, cada uno con sus sinónimos](/img/entidades/simple.png)
+![sabor_producto: carne, pollo, queso y el resto, cada clave con sus sinónimos](/img/entidades/simple.png)
 
 - La clave se escribe abajo y se confirma con **Enter**. Varias claves separadas por coma entran de una vez: `pizza, hamburguesa`.
 - En **Añadir sinónimo** pasa lo mismo: Enter, o varios separados por coma.
 - La clave también cuenta como forma de decirlo. `pizza` entra aunque no esté repetida en los sinónimos.
 - Un clic en la clave o en un sinónimo lo edita. La X del sinónimo lo quita. La basura quita el valor entero.
 
-`quiero una pizza` y `unas pizzas` caen en la clave `pizza`, porque `pizzas` es sinónimo.
+`quiero de queso` cae en la clave `queso`, porque `queso` es una de las formas de decirlo.
 
 Si en una simple escribes `@` para citar otra entidad, el formulario pregunta si la conviertes a **Compuesta**.
 
@@ -56,7 +56,7 @@ Una compuesta lee **varias entidades a la vez**. `2 pizzas` es un número y un p
 
 Cada fila es una forma válida de decirlo. Se escribe el patrón y se confirma con Enter.
 
-![Una fila compuesta: cantidad con sys.number y producto](/img/entidades/compuesta.png)
+![orden: verbo, acción, cantidad, categoría, sabor y servicio en la misma fila](/img/entidades/compuesta.png)
 
 ```
 @sys.number @producto
@@ -76,11 +76,11 @@ En la fila, cada `@` se pinta. La basura quita esa fila.
 
 Una regex reconoce un formato, no una lista de palabras. Sirve para una CURP, una ficha, un código.
 
-![ficha: el patrón regex, marcado como válido, y la opción de añadir otra variante](/img/entidades/regex.png)
+![contacto: un teléfono y un correo, los dos marcados como patrón válido](/img/entidades/regex.png)
 
 El campo **Patrón regex** avisa si la expresión es válida. **Añadir variante** suma otro patrón: basta con que uno coincida. Enter en el campo abre la variante siguiente.
 
-En `ficha` el patrón es el de una CURP: cuatro letras, seis números, `H` o `M`, y el resto del formato.
+En `contacto` hay dos variantes: un teléfono y un correo. Basta con que la frase coincida con una.
 
 En el probador de una regex, lo que escribes se pasa a mayúsculas y se le quitan los espacios, para probar el formato limpio.
 
@@ -88,7 +88,7 @@ En el probador de una regex, lo que escribes se pasa a mayúsculas y se le quita
 
 El probador está en el mismo formulario. Escribes una frase y dice si cayó en un valor.
 
-![quiero una pizza cae en la clave pizza, coincidencia exacta](/img/entidades/probador.png)
+![quiero de queso: el probador marca coincidencia encontrada](/img/entidades/probador.png)
 
 - **Valor capturado** es la clave que se guarda.
 - **Tipo** dice si fue exacta, normalizada (sin acentos, parecida) o por el patrón.

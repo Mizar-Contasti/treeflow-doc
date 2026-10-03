@@ -46,7 +46,7 @@ El campo **Nombre de la Intención** es el mismo identificador. Si el árbol tie
 
 ## Patrones
 
-Un patrón es una frase que debería activar esta intención. Cuantas más formas naturales haya, mejor reconoce el motor. En `hacer_pedido` están `quiero pedir 3 pizzas`, `me das cinco hamburguesas por favor`, `necesito hacer un pedido`.
+Un patrón es una frase que debería activar esta intención. Cuantas más formas naturales haya, mejor reconoce el motor. En `hacer_pedido` están `quiero ordenar 2 empanada de carne para comer aquí`, `ordenan 2 empanada de carne` y `dame 2 empanada de carne`.
 
 Cada fila se puede corregir en el sitio. **Enter** cierra la edición. El icono de copiar duplica el texto; el de basura quita esa frase.
 
@@ -58,7 +58,7 @@ Si el texto trae comas, cada trozo entra como patrón aparte. `hola, buenas tard
 
 Cuando hay muchas frases, el encabezado **Patrones** muestra el rango y las páginas, por ejemplo `1–10 / 47`.
 
-Las palabras de color ya están atadas a una [entidad](./Entidades). En la captura, `pedir` es una entidad, `3` y `cinco` son `sys.number`, y `pizzas` es `producto`. El color de la palabra es el mismo que la barra del parámetro.
+Las palabras de color ya están atadas a una [entidad](./Entidades). En la captura, `quiero` está atado a `verbo_deseo`. El color de la palabra es el mismo que la barra del parámetro.
 
 Eso puede pasar sin escribir nada especial: al guardar la frase, el editor marca las palabras que ya coinciden con un valor o un sinónimo de alguna entidad.
 
@@ -89,7 +89,7 @@ Un clic en una palabra que ya está pintada abre **Entidad en el patrón**. Ahí
 
 Un parámetro es el dato que la intención se queda: el producto, la cantidad, la fecha. Abajo del editor, cada fila tiene el **nombre del parámetro**, la **entidad** y tres iconos.
 
-![Parámetros de hacer_pedido: nombre, entidad y los iconos de editar, ajustar y quitar](/img/intenciones/parametros.png)
+![Parámetros de hacer_pedido: el dato orden, con la entidad compuesta del mismo nombre](/img/intenciones/parametros.png)
 
 - **Nombre del parámetro.** Así se usa después en las respuestas, como `{$producto_pedido}`. Si se deja vacío, se usa el nombre de la entidad.
 - **Entidad.** De dónde sale el valor. Se busca en la lista o se escribe.
@@ -109,7 +109,7 @@ El orden en que el motor prueba una frase —entidad exacta, entidad aproximada,
 
 El engrane abre esto. **Guardar** cierra el cuadro; la intención se persiste con **Guardar cambios** del editor.
 
-![Ajustes de producto_pedido: requerido, pregunta, fallback y límite](/img/intenciones/ajustes.png)
+![Ajustes de numero, en reservar_mesa: requerido, la pregunta, el fallback y el límite de intentos](/img/intenciones/ajustes.png)
 
 **Nombre del parámetro** y **Valor por defecto.** El valor por defecto se usa si la persona no lo dice. Con valor por defecto, el parámetro no frena la conversación.
 

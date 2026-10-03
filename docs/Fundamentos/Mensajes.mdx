@@ -23,7 +23,7 @@ Arriba se busca por nombre. **Nuevo Mensaje** abre el editor vacío.
 
 **Nombre del mensaje** es obligatorio. Los espacios pasan a `_` y al guardar queda en minúsculas, sin acentos. La `ñ` se conserva. **Descripción** es opcional: sirve para recordar para qué es, y el usuario no la ve.
 
-![menu_docente: el nombre, la descripción y el bloque de texto en Default](/img/mensajes/editor.png)
+![restaurante_saludo_response: el nombre, la descripción y el saludo en Default](/img/mensajes/editor.png)
 
 **Guardar cambios** vuelve a la lista. Si el árbol tiene más de un idioma, junto al nombre están los idiomas: cada uno edita su propio texto.
 
@@ -35,7 +35,7 @@ El acordeón se llama **Respuestas por canal**. Hay dos clases de pestaña.
 
 **Web** aparece cuando el canal web está conectado. Ahí el bloque es de tipo **Elementos enriquecidos**: párrafo, botones, imagen y el resto. WhatsApp, Telegram, Facebook, Instagram, Email, Slack, Discord, ElevenLabs y Avatares IA abren su pestaña igual que Web, sólo si ese canal está conectado, y el bloque también es de elementos enriquecidos.
 
-En `menu_docente` se ven las dos: Default con el texto y Web con el párrafo y los botones. Quien escribe por la web recibe el bloque de Web. Otro canal, si su pestaña está vacía, recibe el texto de Default.
+En `restaurante_saludo_response` Default es el saludo en texto. Si el canal web está conectado, su pestaña puede llevar elementos enriquecidos: en `prompt_image_response` es una imagen. Quien escribe por la web recibe el bloque de Web. Otro canal, si su pestaña está vacía, recibe el texto de Default.
 
 Dentro de una misma pestaña, cada **Bloque** es una variante. Si hay dos, el bot elige **uno al azar** en cada turno. Un bloque vacío no viaja y no entra en el sorteo. **Agregar Bloque** suma otra variante en la pestaña abierta.
 
@@ -57,7 +57,7 @@ El texto sale tal cual, con ese formato. **Contenido JSON**, en el mismo despleg
 
 En Web el tipo es **Elementos enriquecidos**. **Agregar Elemento** arma la lista, y se reordenan arrastrando.
 
-![Web: elementos enriquecidos, un párrafo y tres botones](/img/mensajes/web.png)
+![Web: el bloque de elementos enriquecidos, con una imagen](/img/mensajes/web.png)
 
 | Elemento | Para qué |
 |---|---|
