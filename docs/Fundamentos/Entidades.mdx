@@ -5,161 +5,118 @@ sidebar_label: Entidades
 
 # Entidades
 
-En el menú se llaman **Entidades**. Son los tipos de dato que el motor saca de una frase. Un nodo del lienzo no es una entidad: el nodo es un paso del [flujo](/docs/Fundamentos/EditorVisual); la entidad es el dato de la frase.
+En el menú se llaman **Entidades**. Son los datos que el motor saca de una frase: un producto, una fecha, un número. La [intención](./Intenciones) decide qué quiso decir la persona. La entidad decide qué trozo de la frase se guarda.
 
-Las entidades son el equivalente a las *entities* de otros sistemas de chatbots.
+## La lista
 
-## ¿Qué es una Entidad?
+**Entidades** abre las tarjetas. Arriba se busca por nombre. Hay cuatro pestañas.
 
-Una entidad define un tipo específico de información que tu árbol puede reconocer y extraer de los mensajes del usuario. Las entidades son fundamentales para:
+![Lista de entidades simples, con buscador y Nueva Entidad](/img/entidades/lista.png)
 
-- Extraer información relevante de los mensajes
-- Personalizar las respuestas según los datos proporcionados
-- Permitir que el árbol tome decisiones basadas en valores específicos
+| Pestaña | Qué guarda |
+|---|---|
+| **Simple** | Un valor y las formas de decirlo |
+| **Compuesta** | Varias entidades juntas en una sola frase |
+| **Regex** | Un formato fijo, con una expresión regular |
+| **Sistema** | Las que ya trae Treeflow (`sys.number`, `sys.date`…) |
 
-![Funcionamiento de las Entidades](/img/docs/hojas_funcionamiento.svg)
+- **Nueva Entidad** abre el formulario. Si estás en Compuesta o Regex, el tipo ya viene elegido.
+- Un clic en el nombre abre el editor.
+- La franja naranja pide confirmación para borrarla. Si una intención la está usando, el borrado avisa.
+- **Sistema** no se borra ni se edita.
 
-*Diagrama: Las Entidades extraen información estructurada de los mensajes del usuario*
+## El formulario
 
-## Estructura de una Entidad
+Arriba, **Nombre de entidad** y **Tipo**. **Guardar cambios** escribe la entidad. **Limpiar todo** vacía los valores y pide confirmación.
 
-Las entidades simples y compuestas en TreeFlow se basan en una estructura de **valores clave** y **sinónimos**. Esta estructura permite reconocer diferentes formas en que un usuario puede expresar el mismo concepto.
+El nombre es un identificador. Los espacios pasan a `_`. Al guardar queda en minúsculas y sin acentos. La `ñ` se conserva.
 
-![Estructura de una Entidad](/img/docs/estructura_hoja.svg)
+Si el árbol tiene más de un idioma, junto al nombre están los idiomas: cada uno edita sus sinónimos.
 
-*Diagrama: Estructura de una entidad con valores clave y sus sinónimos asociados*
+Abajo está el **Probador de entidad**. Sirve para ver si una frase cae en un valor, sin entrenar el árbol.
 
-### Valores Clave
+## Simple
 
-Los valores clave representan los datos específicos que la entidad puede identificar y extraer. Cada valor clave:
+Una simple es una lista de valores. Cada valor tiene una **clave** —lo que se guarda— y **sinónimos** —otras formas de decirlo—.
 
-- Es un identificador único dentro de la entidad
-- Representa un concepto o dato concreto
-- Se utiliza internamente para procesar la información
+![producto: pizza, hamburguesa, taco, refresco y ensalada, cada uno con sus sinónimos](/img/entidades/simple.png)
 
-### Sinónimos
+- La clave se escribe abajo y se confirma con **Enter**. Varias claves separadas por coma entran de una vez: `pizza, hamburguesa`.
+- En **Añadir sinónimo** pasa lo mismo: Enter, o varios separados por coma.
+- La clave también cuenta como forma de decirlo. `pizza` entra aunque no esté repetida en los sinónimos.
+- Un clic en la clave o en un sinónimo lo edita. La X del sinónimo lo quita. La basura quita el valor entero.
 
-Los sinónimos son las diferentes formas en que un usuario puede expresar el mismo valor clave. Cada valor clave puede tener múltiples sinónimos:
+`quiero una pizza` y `quiero una pizzas` caen en la clave `pizza`, porque `pizzas` es sinónimo.
 
-- Variaciones de escritura ("café", "cafe", "coffee")
-- Expresiones coloquiales ("grande", "enorme", "extra large")
-- Abreviaturas ("XL", "lg", "G")
+Si en una simple escribes `@` para citar otra entidad, el formulario pregunta si la conviertes a **Compuesta**.
 
-### Funcionamiento
+## Compuestas {#2-entidades-compuestas}
 
-Cuando un usuario escribe un mensaje, TreeFlow:
+Una compuesta lee **varias entidades a la vez**. `2 pizzas` es un número y un producto, y es un solo renglón.
 
-1. Analiza el texto buscando coincidencias con los sinónimos definidos en las entidades
-2. Cuando encuentra una coincidencia, extrae el valor clave asociado
-3. Este valor clave se convierte en un parámetro estructurado que las ramas pueden utilizar
+Cada fila es una forma válida de decirlo. Se escribe el patrón y se confirma con Enter.
 
-:::info Importante
-Esta estructura de valores clave y sinónimos aplica principalmente a las entidades simples y compuestas. Las entidades regex funcionan con patrones de expresiones regulares en lugar de valores predefinidos.
-:::
-
-## Tipos de Entidades
-
-TreeFlow soporta tres tipos principales de entidades:
-
-### 1. Entidades Simples
-
-Las entidades simples contienen una lista de valores y sus sinónimos. Son ideales para conjuntos finitos de opciones.
-
-**Ejemplo:** Una entidad "sabor_helado" podría contener valores como:
-- chocolate (sinónimos: choco, chocolatado)
-- vainilla (sinónimos: vanilla, vainiya)
-- fresa (sinónimos: frutilla, strawberry)
-
-![Entidad Simple](/img/docs/hoja_simple.svg)
-
-*Ejemplo: Estructura de una entidad simple con valores y sinónimos*
-
-### 2. Entidades Compuestas
-
-Las entidades compuestas describen **varias entidades simples que aparecen juntas** en la
-frase. Sirven para leer de una vez algo que tiene partes: "2 empanadas de queso" son
-una cantidad, un producto y un sabor, pero son *un solo* renglón del pedido.
-
-Se definen por **filas**, igual que las frases de una intención. Cada fila es una
-forma válida de decirlo:
+![Una fila compuesta: cantidad con sys.number y producto](/img/entidades/compuesta.png)
 
 ```
-@sys.number:cantidad @categoria_producto:categoria de @sabor_producto:sabor
-@sys.number:cantidad @categoria_producto:categoria @sabor_producto:sabor
-@sys.number:cantidad @categoria_producto:categoria
-@categoria_producto:categoria @sabor_producto:sabor
+@sys.number:cantidad @producto:producto
+@sys.number:cantidad @producto:producto de @sabor
+@producto:producto
 ```
 
-Añade una fila por cada combinación que quieras cubrir: el mismo pedido en otro
-orden, o con una parte de menos. El motor se queda con la fila que rellene más
-huecos.
+- `@producto` cita la entidad `producto`.
+- `@producto:producto_pedido` cita esa entidad y guarda el dato con el nombre `producto_pedido`. Sin los dos puntos, el parámetro se llama igual que la entidad.
+- Las palabras entre medias, como `de`, tienen que estar en la frase.
+- El motor se queda con la fila que rellene más huecos.
+- Una frase puede traer varios renglones. `1 pizza y 2 tacos` son dos. El detalle está en [un parámetro con varios valores](/docs/Avanzado/Parametros#un-parámetro-con-varios-valores).
 
-**Los dos puntos ponen nombre al parámetro.** `@Productos:producto` es la entidad
-`Productos` guardada como `producto`, que es como la leerás en la respuesta. Sin los
-dos puntos, el parámetro se llama igual que la entidad.
+En la fila, cada `@` se pinta. La basura quita esa fila.
 
-Una fila puede llevar **palabras literales** entre los huecos —el `de` del primer
-ejemplo—. Si las escribes, tienen que estar en la frase del usuario.
+## Regex {#3-entidades-regex}
 
-![Entidad Compuesta](/img/docs/hoja_compuesta.svg)
+Una regex reconoce un formato, no una lista de palabras. Sirve para una CURP, una ficha, un código.
 
-*Ejemplo: Estructura de una entidad compuesta que combina múltiples entidades*
+![ficha: el patrón regex, marcado como válido, y la opción de añadir otra variante](/img/entidades/regex.png)
 
-:::tip Una frase puede traer varias
-"dame 1 empanada de pollo y 2 arepas de carne" son **dos** renglones, y la entidad
-compuesta devuelve los dos. Ver [Parámetros con varios valores](/docs/Avanzado/Parametros#un-parámetro-con-varios-valores).
-:::
+El campo **Patrón regex** avisa si la expresión es válida. **Añadir variante** suma otro patrón: basta con que uno coincida. Enter en el campo abre la variante siguiente.
 
-### 3. Entidades Regex
+En `ficha` el patrón es el de una CURP: cuatro letras, seis números, `H` o `M`, y el resto del formato.
 
-Las entidades regex utilizan expresiones regulares para identificar patrones específicos en el texto.
+En el probador de una regex, lo que escribes se pasa a mayúsculas y se le quitan los espacios, para probar el formato limpio.
 
-**Ejemplo:** Una entidad para reconocer códigos de producto con el formato "ABC-12345".
+## Probador
 
-![Entidad Regex](/img/docs/hoja_regex.svg)
+El probador está en el mismo formulario. Escribes una frase y dice si cayó en un valor.
 
-*Ejemplo: Entidad regex para capturar patrones específicos*
+![quiero una pizza cae en la clave pizza, coincidencia exacta](/img/entidades/probador.png)
 
-## Entidades del Sistema
+- **Valor capturado** es la clave que se guarda.
+- **Tipo** dice si fue exacta, normalizada (sin acentos, parecida) o por el patrón.
+- Si no hay valores todavía, el campo pide que los agregues primero.
+- Las de **Sistema** no se prueban aquí: las detecta el motor.
 
-TreeFlow incluye entidades del sistema predefinidas para tipos de datos comunes. Estas entidades están optimizadas para reconocer formatos específicos de información sin necesidad de configuración adicional.
+El probador no sustituye el entrenamiento. Para ver la frase dentro de una conversación, se guarda, se entrena y se prueba en la [consola](/docs/Avanzado/Consola).
 
-![Entidades del Sistema](/img/docs/hojas_sistema.svg)
+## Sistema
 
-*Diagrama: Las entidades del sistema están preconfiguradas para reconocer formatos comunes*
+La pestaña **Sistema** lista las que ya vienen. No se editan. En una [intención](./Intenciones) se citan como `@sys.number`, `@sys.date`, `@sys.time`.
 
-:::tip Lista completa de Entidades del Sistema
-Para ver la lista completa de todas las Entidades del Sistema disponibles, con descripciones detalladas y ejemplos de los formatos que pueden capturar, consulta la [documentación de Entidades del Sistema](/docs/Misc/HojasDelSistema).
-:::
+![Las entidades del sistema: número, fecha, correo, teléfono y el resto](/img/entidades/sistema.png)
 
+| Nombre | Qué reconoce |
+|---|---|
+| `sys.number` | Números, también escritos con letra |
+| `sys.date` | Fechas: mañana, 10 de mayo, martes |
+| `sys.time` | Horas: 10, 10:30, 3pm |
+| `sys.email` | Correos |
+| `sys.phone` | Teléfonos |
+| `sys.currency` | Montos: $25.50, 100 pesos |
+| `sys.any` | Cualquier texto corto |
 
+El icono de cada tarjeta abre el detalle: ejemplos y el formato en que sale el valor. La lista completa, con el resto (`sys.url`, `sys.zipcode`, `sys.quantity`…), está en [entidades del sistema](/docs/Misc/HojasDelSistema).
 
-## Crear una Nueva Entidad
+## Entrenar
 
-Para crear una nueva entidad:
+**Guardar cambios** deja el árbol desactualizado. Los valores nuevos entran en la conversación cuando se entrena, con el botón **Entrenar** de abajo en el menú.
 
-1. Selecciona un árbol existente
-2. Navega a **Entidades**
-3. Crea una entidad nueva
-4. Elige el tipo (simple, compuesta o regex)
-5. Proporciona un nombre descriptivo para tu entidad
-6. Configura los valores según el tipo de entidad
-7. Guarda la entidad
-
-
-
-## Mejores Prácticas para Entidades
-
-1. **Nombres descriptivos**: Usa nombres que indiquen claramente qué tipo de información extrae la entidad
-2. **Sinónimos completos**: Incluye todas las variaciones posibles de cada valor
-3. **Organización adecuada**: Divide las entidades complejas en entidades más pequeñas y específicas
-4. **Reutilización**: Crea entidades genéricas que puedan ser reutilizadas en múltiples ramas
-5. **Prueba regularmente**: Verifica que tus entidades extraen correctamente la información en diferentes contextos
-
-:::tip Consejo
-Para mejorar la precisión de la extracción, proporciona ejemplos variados de cómo los usuarios podrían expresar los valores de la entidad.
-:::
-
-
-
-
+Una entidad que ninguna intención cita no se pregunta sola. Hay que marcarla en un [patrón](./Intenciones) o usarla como parámetro requerido.
