@@ -46,7 +46,7 @@ Una simple es una lista de valores. Cada valor tiene una **clave** —lo que se 
 - La clave también cuenta como forma de decirlo. `pizza` entra aunque no esté repetida en los sinónimos.
 - Un clic en la clave o en un sinónimo lo edita. La X del sinónimo lo quita. La basura quita el valor entero.
 
-`quiero una pizza` y `quiero una pizzas` caen en la clave `pizza`, porque `pizzas` es sinónimo.
+`quiero una pizza` y `unas pizzas` caen en la clave `pizza`, porque `pizzas` es sinónimo.
 
 Si en una simple escribes `@` para citar otra entidad, el formulario pregunta si la conviertes a **Compuesta**.
 
@@ -99,21 +99,40 @@ El probador no sustituye el entrenamiento. Para ver la frase dentro de una conve
 
 ## Sistema
 
-La pestaña **Sistema** lista las que ya vienen. No se editan. En una [intención](./Intenciones) se citan como `@sys.number`, `@sys.date`, `@sys.time`.
+La pestaña **Sistema** son las que ya trae el motor. No se crean, no se editan y no se borran. En un patrón de [intención](./Intenciones) se citan con arroba.
 
-![Las entidades del sistema: número, fecha, correo, teléfono y el resto](/img/entidades/sistema.png)
+Una reserva cabe en una frase:
 
-| Nombre | Qué reconoce |
-|---|---|
-| `sys.number` | Números, también escritos con letra |
-| `sys.date` | Fechas: mañana, 10 de mayo, martes |
-| `sys.time` | Horas: 10, 10:30, 3pm |
-| `sys.email` | Correos |
-| `sys.phone` | Teléfonos |
-| `sys.currency` | Montos: $25.50, 100 pesos |
-| `sys.any` | Cualquier texto corto |
+```
+quiero mesa para @sys.number el @sys.date a las @sys.time
+```
 
-El icono de cada tarjeta abre el detalle: ejemplos y el formato en que sale el valor. La lista completa, con el resto (`sys.url`, `sys.zipcode`, `sys.quantity`…), está en [entidades del sistema](/docs/Misc/HojasDelSistema).
+`quiero mesa para 4 el martes a las 10:30` llena tres datos: el número `4`, la fecha del martes y la hora `10:30`.
+
+![Las tarjetas de Sistema: cada una dice qué reconoce](/img/entidades/sistema.png)
+
+El icono de la tarjeta abre los ejemplos y el formato en que sale el valor. El probador de esta página no las prueba: las detecta el motor al entrenar.
+
+| Se cita | Una frase | También reconoce |
+|---|---|---|
+| `@sys.number` | quiero **3** pizzas | `45`, `3.14`, `tres`, `mil doscientos`. Sale el número: `3` |
+| `@sys.date` | la cita es **mañana** | `10 de mayo`, `martes`, `ayer`, `2024-05-10`. Sale `AAAA-MM-DD` |
+| `@sys.time` | a las **10:30** | `10`, `3pm`, `15:45`, `a las 3`. Sale `HH:MM` |
+| `@sys.month` | en **enero** | `febrero`, `marzo`, … `diciembre`. Sale el mes `01` a `12` |
+| `@sys.email` | escríbeme a **ana@correo.com** | `contacto@empresa.mx` |
+| `@sys.phone` | mi número es **4421234567** | `+52 123 456 7890`, `442-123-4567` |
+| `@sys.currency` | son **100 pesos** | `$25.50`, `€50`, `25 dólares` |
+| `@sys.percentage` | un **25%** de descuento | `50 por ciento`, `10.5%` |
+| `@sys.quantity` | **2 kilos** de tortilla | `5 piezas`, `3.5 litros`, `10 metros` |
+| `@sys.temperature` | está a **25 grados** | `25°C`, `77°F`, `-10 celsius` |
+| `@sys.url` | la página es **https://ejemplo.com** | `http://www.sitio.mx`, `www.ejemplo.com` |
+| `@sys.zipcode` | el código es **76000** | `01000`, `44100`. Son cinco dígitos, formato de México |
+| `@sys.coordinates` | en **19.4326, -99.1332** | latitud y longitud en decimal |
+| `@sys.ip_address` | la IP **192.168.1.1** | `8.8.8.8`, `2001:0db8::1` |
+| `@sys.sip_address` | llama a **sip:usuario@dominio.com** | `sip:1234@192.168.1.1:5060` |
+| `@sys.any` | el comentario **que sea** | cualquier texto, hasta 100 caracteres |
+
+`sys.phone` y `sys.zipcode` están afinados a México. `sys.month` la reconoce el motor aunque la pestaña no tenga su tarjeta. La pestaña sí muestra `sys.geo-city`, con ejemplos como Querétaro, Monterrey y Ciudad de México.
 
 ## Entrenar
 
