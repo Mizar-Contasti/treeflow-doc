@@ -5,37 +5,15 @@ sidebar_label: Herramientas
 
 # Herramientas
 
-En el menú están en **Integración → Herramientas**. Ahí viven los scripts, las APIs, el webhook, las transferencias, la base de conocimiento y la ingestión generativa.
+En el menú están en **Integración → Herramientas**. Las pestañas son **Herramientas** (el código), **APIs**, **Webhook**, **Transferencias**, **Base de Conocimiento** e **Ingestión Generativa**.
 
-Esta guía antes los llamaba fertilizantes. El webhook global es la pestaña **Webhook**. Las llamadas a una API concreta están en **APIs**, y el código propio en **Herramientas** (scripts).
+![Herramientas de Cafetería: las pestañas y un script del restaurante](/img/integracion/herramientas.png)
 
-## ¿Qué son los Fertilizantes?
+Una herramienta es lo que el bot llama afuera. Un [canal](/docs/Injertos/CanalesDeComunicacion) es por dónde habla con la persona.
 
-Los Fertilizantes son el mecanismo de TreeFlow para conectar tu chatbot con el mundo exterior. Funcionan como "nutrientes" que enriquecen las conversaciones con:
+## Webhook
 
-- **Datos externos**: Información de CRM, bases de datos, APIs
-- **Validaciones**: Verificación de datos en tiempo real
-- **Acciones**: Envío de notificaciones, creación de tickets, etc.
-- **Integraciones**: Conexión con servicios empresariales
-
-### Diferencia con Canales
-
-Es importante entender la diferencia:
-
-| Concepto | Propósito | Ejemplo |
-|----------|-----------|---------|
-| **Canales** | Por dónde habla el bot con la persona | Widget web, WhatsApp, Telegram |
-| **Herramientas** | A qué sistema llama el bot | CRM, validadores, notificaciones |
-
-**Analogía**: Los canales son las bocas y los oídos. Las herramientas son lo que el bot consulta o ejecuta afuera.
-
-## Tipos de Fertilizantes
-
-TreeFlow ofrece dos tipos de Fertilizantes con propósitos diferentes:
-
-### 🌟 Fertilizante Principal
-
-El **Fertilizante Principal** es el webhook global que procesa **todas** las interacciones del workspace.
+El **webhook** es el que procesa todas las interacciones del workspace.
 
 #### Características:
 - **Único por workspace**: Solo uno puede estar activo
@@ -52,7 +30,7 @@ El **Fertilizante Principal** es el webhook global que procesa **todas** las int
 
 #### Fases de Ejecución:
 
-El Fertilizante Principal se ejecuta en **2 fases** durante el procesamiento de un mensaje:
+El webhook se ejecuta en **2 fases** durante el procesamiento de un mensaje:
 
 **Fase 1 - Pre-procesamiento**:
 - Se ejecuta **antes** de que el bot genere la respuesta

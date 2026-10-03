@@ -1,165 +1,62 @@
 ---
 sidebar_position: 1
+sidebar_label: Crear un árbol
 ---
 
-# Crear un Árbol Básico
+# Crear un árbol
 
-Este tutorial te guiará paso a paso en la creación de un árbol básico utilizando TreeFlow, desde la configuración inicial hasta la implementación de un flujo conversacional simple.
+Este recorrido arma un bot de restaurante: saluda, toma un pedido y, si hace falta, pregunta el dato que faltó. El árbol de las capturas se llama **Cafetería** y se plantó con el rubro Restaurante.
 
-## Requisitos Previos
+## Entrar
 
-Antes de comenzar, asegúrate de:
+Primero el espacio de trabajo, después el usuario.
 
-- Tener una cuenta en TreeFlow
-- Haber revisado la [Terminología](/docs/Fundamentos/Terminologia) básica
-- Comprender los conceptos de [Árboles](/docs/Fundamentos/Arboles), [Ramas](/docs/Fundamentos/Intenciones) y [Hojas](/docs/Fundamentos/Entidades)
+![Inicio de sesión: el espacio de trabajo](/img/intro/login.png)
 
-## Paso 1: Diseñar el Flujo Conversacional
+## Plantar
 
-Antes de empezar a configurar tu árbol en TreeFlow, es importante diseñar el flujo conversacional:
+El **+** de arriba abre **Plantar un Nuevo Árbol**. Ahí se elige crear uno o importar un respaldo.
 
-1. Define el propósito principal del árbol
-2. Identifica las intenciones (Ramas) principales que deberá manejar
-3. Determina qué información (Hojas) necesitarás extraer
-4. Diseña las respuestas para cada escenario
+![Plantar: crear uno nuevo o importar](/img/empezando/plantar.png)
 
-Para este tutorial, crearemos un árbol simple para una pizzería que pueda:
-- Saludar al usuario
-- Tomar pedidos de pizza
-- Informar sobre horarios
-- Proporcionar información de contacto
+Al crearlo se pide el nombre, el rubro y el idioma. El rubro **Restaurante** deja intenciones, entidades, mensajes y el flujo ya dibujados. **Experimentado** lo deja en modo avanzado, que es el de estas capturas. **Primera vez** lo deja en [modo principiante](/docs/Fundamentos/ModoPrincipiante).
 
-## Paso 2: Crear un Nuevo Árbol
+El panel queda con el árbol elegido. El rayo del menú entrena. En verde, el entrenamiento está al día.
 
-1. Inicia sesión en TreeFlow
-2. Haz clic en "Crear Nuevo Árbol"
-3. Completa la información básica:
-   - Nombre: "Pizzería Virtual"
-   - Descripción: "Árbol para tomar pedidos de pizza"
-   - Idioma: Español
-4. Haz clic en "Crear"
+![Panel de Cafetería, con el entrenamiento al día](/img/intro/panel.png)
 
-## Paso 3: Configurar las Hojas
+## Lo que ya trae
 
-Siguiendo el flujo de trabajo recomendado, primero configuraremos las Hojas que necesitaremos:
+**Intenciones** son los escenarios: saludo, menú, pedido, reserva.
 
-### Hoja "tamaño_pizza"
+![Lista de intenciones del restaurante](/img/intenciones/lista.png)
 
-1. Ve a la sección "Hojas" y haz clic en "Nueva Hoja"
-2. Configura la Hoja:
-   - Nombre: tamaño_pizza
-   - Tipo: Simple
-   - Valores:
-     - **pequeña**: pequeña, chica, individual, personal
-     - **mediana**: mediana, media
-     - **grande**: grande, familiar, jumbo
+`hacer_pedido` guarda las frases y el parámetro `orden`.
 
-### Hoja "ingredientes_pizza"
+![Editor de hacer_pedido](/img/intenciones/editor.png)
 
-1. Crea otra Hoja nueva
-2. Configura la Hoja:
-   - Nombre: ingredientes_pizza
-   - Tipo: Simple
-   - Valores:
-     - **pepperoni**: pepperoni, salami, salchicha
-     - **jamón**: jamón, ham
-     - **piña**: piña, ananá, pineapple
-     - **champiñones**: champiñones, hongos, setas, mushrooms
-     - **aceitunas**: aceitunas, olivas, olives
+**Entidades** son los datos. `sabor_producto` es carne, pollo, queso y el resto.
 
-## Paso 4: Crear las Ramas
+![sabor_producto, con claves y sinónimos](/img/entidades/simple.png)
 
-Ahora crearemos las Ramas necesarias para nuestro árbol:
+**Mensajes** son lo que el bot repite. El saludo dice para qué sirve.
 
-### Rama de Saludo
+![El saludo en la pestaña Default](/img/mensajes/editor.png)
 
-1. Ve a la sección "Ramas" y haz clic en "Nueva Rama"
-2. Configura la Rama:
-   - Nombre: Saludo
-   - Patrones:
-     - "hola"
-     - "buenos días"
-     - "buenas tardes"
-     - "buenas noches"
-     - "saludos"
-   - Respuestas:
-     - "¡Hola! Bienvenido a Pizzería Virtual. ¿En qué puedo ayudarte hoy? Puedes pedir una pizza, consultar nuestros horarios o pedir información de contacto."
+## El recorrido
 
-### Rama de Pedido
+**Flujos** abre el dibujo. **Restaurante** tiene el contexto **Inicio**, una intención por escenario y el evento de cuando ninguna calza.
 
-1. Crea otra Rama nueva
-2. Configura la Rama:
-   - Nombre: Pedido_Pizza
-   - Patrones:
-     - "quiero ordenar una pizza"
-     - "quiero una pizza de @ingredientes_pizza"
-     - "me gustaría pedir una pizza @tamaño_pizza"
-     - "pizza @tamaño_pizza con @ingredientes_pizza"
-   - Parámetros:
-     - tamaño_pizza
-     - ingredientes_pizza
-   - Respuestas:
-     - Si ambos parámetros están presentes: "¡Perfecto! Has pedido una pizza `{tamaño_pizza}` con `{ingredientes_pizza}`. ¿Algo más que desees agregar?"
-     - Si falta tamaño_pizza: "¿De qué tamaño quieres tu pizza con `{ingredientes_pizza}`? Tenemos pequeña, mediana y grande."
-     - Si faltan ingredientes_pizza: "¿Qué ingredientes te gustaría en tu pizza `{tamaño_pizza}`? Tenemos pepperoni, jamón, piña, champiñones y aceitunas."
-     - Si faltan ambos: "¿De qué tamaño y con qué ingredientes te gustaría tu pizza?"
+![El lienzo de Restaurante](/img/flujos/lienzo.png)
 
-### Rama de Horarios
+`saludo` manda el mensaje y vuelve a Inicio. `reservar_mesa` pregunta las personas si no vinieron en la frase. `hablar_con_asesor` pasa a una persona.
 
-1. Crea otra Rama nueva
-2. Configura la Rama:
-   - Nombre: Horarios
-   - Patrones:
-     - "¿cuál es su horario?"
-     - "¿a qué hora abren?"
-     - "¿a qué hora cierran?"
-     - "horario de atención"
-   - Respuestas:
-     - "Nuestro horario de atención es de lunes a viernes de 11:00 AM a 10:00 PM, y sábados y domingos de 12:00 PM a 11:00 PM."
+![saludo: intención, mensaje y vuelta a Inicio](/img/flujos/conversacion.png)
 
-### Rama de Contacto
+## Probarlo
 
-1. Crea otra Rama nueva
-2. Configura la Rama:
-   - Nombre: Contacto
-   - Patrones:
-     - "¿cómo puedo contactarlos?"
-     - "información de contacto"
-     - "teléfono"
-     - "dirección"
-     - "ubicación"
-   - Respuestas:
-     - "Puedes contactarnos al teléfono (123) 456-7890. Nuestra dirección es Calle Principal #123, Ciudad. También puedes hacer pedidos en línea a través de nuestra página web www.pizzeriavirtual.com."
+La consola es el botón naranja. El primer botón elige el flujo. Para este mapa, **Restaurante**. `hola` contesta la bienvenida.
 
-## Paso 5: Entrenar el Árbol
+![hola en el flujo Restaurante](/img/diseno/recorrido.png)
 
-Una vez configuradas todas las Ramas y Hojas:
-
-1. Ve a la sección "Entrenamiento"
-2. Haz clic en "Entrenar Árbol"
-3. Espera a que el proceso de entrenamiento termine
-
-## Paso 6: Probar el Árbol
-
-1. Ve a la sección "Pruebas"
-2. Interactúa con tu árbol usando diferentes mensajes:
-   - "Hola"
-   - "Quiero ordenar una pizza"
-   - "¿Cuál es su horario?"
-   - "¿Cómo puedo contactarlos?"
-   - "Quiero una pizza grande con pepperoni"
-
-## Conclusión
-
-¡Felicidades! Has creado un árbol básico para una pizzería utilizando TreeFlow. Este árbol puede saludar a los usuarios, tomar pedidos de pizza, informar sobre horarios y proporcionar información de contacto.
-
-## Próximos Pasos
-
-Para mejorar tu árbol, considera:
-
-1. Añadir más Ramas para manejar preguntas frecuentes
-2. Implementar Contextos para mantener el estado de la conversación
-3. Configurar Eventos para acciones específicas
-4. Integrar Webhooks para procesar pedidos en sistemas externos
-
-Consulta nuestros [tutoriales avanzados](/docs/Tutoriales/Introduccion) para aprender más sobre estas funcionalidades.
+Si cambias intenciones o entidades, vuelve a entrenar. Un mensaje o una captura se leen al guardar. El detalle está en [Probar el bot](/docs/Fundamentos/Testeo).

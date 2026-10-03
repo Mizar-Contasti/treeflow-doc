@@ -1,83 +1,39 @@
 ---
 sidebar_position: 7
+sidebar_label: Pruebas
 ---
 
-# Pruebas y Aseguramiento de Calidad (Testeo)
+# Pruebas
 
-TreeFlow cuenta con mecanismos robustos para probar tus árboles conversacionales y garantizar su fiabilidad tanto a nivel funcional para el diseñador, como a nivel de rendimiento masivo (End-to-End).
+Hablar con el árbol, turno a turno, es la [consola](/docs/Fundamentos/Testeo). Esta página es la otra prueba: una **suite**, una lista de conversaciones con lo que el bot debe contestar en cada turno.
 
-## Panel de Pruebas (Simulador Local)
-Dentro del entorno de TreeFlow, cuentas con una ventana de chat simulada.
-- Permite chatear con el árbol en tiempo real.
-- Integra un **Monitor de Confidence Score**: Depurador que muestra con qué precisión (fuzzy vs machine learning) el motor está entendiendo tus frases y cómo extrae las entidades.
+![Pruebas: todavía no hay suites. Se crean y se sube un CSV](/img/pruebas/lista.png)
 
-## Consola de Dialog Builder
+## La consola
 
-A partir de la versión V-0.8.0, la consola del editor fue completamente rediseñada e incluye ahora **tres pestañas** especializadas:
+El botón naranja abre el chat. El modo debug enseña la intención, la confianza y el nodo de ese turno.
 
-| Pestaña | Función |
-|---|---|
-| **Chat** | Conversación directa con el árbol (simulador) |
-| **Debug** | Vista técnica: logs de decisión, confianza, entidades |
-| **Dialog Builder** | Construcción guiada de diálogos y flujos de prueba |
+![Un turno en la consola, con el modo debug](/img/testeo/debug.png)
 
-### Historial de Burbujas
-La ventana de chat muestra la conversación como un **historial de burbujas** moderno:
-- Los mensajes del **usuario** se muestran en naranja (color primario).
-- Los mensajes del **bot** se muestran en el fondo secundario.
-- Cada burbuja incluye un timestamp.
+## Una suite
 
-### Debug Accordions Inline
-Los datos técnicos de cada turno son visibles **dentro del historial** como acordeones colapsables:
-- **Rama ejecutada** — cuál flujo se activó
-- **Intent detectado** — la intención reconocida por el motor
-- **Confidence Score** — precisión del match (fuzzy vs ML)
-- **Entidades extraídas** — parámetros capturados por el motor NLP
+Está en **Operación → Pruebas**. Una suite es una lista de conversaciones. Se escribe en la pantalla o se sube como CSV, y se ejecuta contra el árbol ya entrenado. Cada caso arranca con su propia sesión: el pedido anterior no se filtra al siguiente. Las sesiones de la corrida no quedan en Conversaciones.
 
-Esto permite al diseñador de conversaciones entender el comportamiento del motor **sin salir del chat de prueba**.
+![El panel, con el entrenamiento al día: sin eso la suite no se puede correr](/img/intro/panel.png)
 
-### Modo QA Restringido
-Para evitar modificaciones accidentales al árbol durante las pruebas:
-- El **toggle de nodo** (habilitar/deshabilitar) está bloqueado en la consola.
-- El **selector de rama** está desactivado durante la sesión de chat activa.
+### Qué se puede comprobar
 
-## Debug Visual en Canvas
-
-Cuando pruebas una conversación desde la consola, el **canvas reacciona en tiempo real**:
-
-- 🟡 **Nodos resaltados**: Cada nodo (`Leaf`) por el que pasa el motor de decisión se colorea visualmente en el canvas.
-- 🔗 **Conexiones trazadas**: Las aristas entre nodos también se colorean para mostrar el camino completo tomado.
-- 🧭 **Auto-navegación**: El canvas navega automáticamente hacia la rama activa si no está en pantalla, manteniendo siempre el foco en el flujo en ejecución.
-
-Esto convierte al canvas en un **depurador visual en vivo** — puedes ver exactamente qué rama se activó, qué nodo respondió y por qué camino llegó la decisión.
-
-## Suites de Pruebas de un Bot
-
-Validar un bot conversando a mano lleva media hora por pasada, y sólo lo hace quien se acuerda. Las **suites de pruebas** guardan esas conversaciones con sus comprobaciones y las repiten contra el árbol cuando quieras, en segundos.
-
-Están en **Conversaciones → Pruebas** (junto a Historial, Tabla Dinámica y Flujo). Van ahí porque los mejores casos salen de tráfico real: una conversación que salió mal es la mejor prueba que puedes escribir.
-
-:::note Modo principiante
-Los bots en modo principiante no ven Intenciones ni Entidades, así que tampoco ven la pestaña Pruebas.
-:::
-
-### Qué es una suite
-
-Una **suite** es un conjunto de **casos**. Un **caso** es una conversación de varios **turnos**, y cada turno lleva un mensaje del usuario y, opcionalmente, comprobaciones sobre lo que responde el bot.
-
-| Comprobación | Verifica que… |
+| Columna | Qué exige |
 |---|---|
 | `intencion` | La intención detectada es esa |
-| `respuesta_contiene` | La respuesta del bot contiene ese texto (sin distinguir mayúsculas) |
+| `respuesta_contiene` | La respuesta del bot contiene ese texto, sin distinguir mayúsculas |
 | `slot` | El parámetro que el bot está pidiendo en ese turno es ese |
 | `parametros` | Los parámetros capturados tienen esos valores |
-| `evento` | El evento resultante es ese (se compara igual que la intención) |
+| `evento` | El evento resultante es ese |
 
-Cada caso arranca con **su propia sesión**, así que un caso no puede contaminar al siguiente. Eso importa: varias comprobaciones existen justamente para verificar que el pedido anterior no se filtra al siguiente.
+### El CSV
 
-### Escribir una suite en CSV
-
-El formato es una fila por turno, agrupada por caso:
+Una fila por turno, agrupada por caso:
 
 ```csv
 caso,turno,mensaje,intencion,respuesta_contiene,slot,parametros,evento
@@ -86,51 +42,12 @@ pedido por partes,2,de queso,,¿Cuántas,numero,,
 pedido por partes,3,dos,,Anoté,,numero=2;sabor_producto=queso,
 ```
 
-- **Las columnas de comprobación vacías no comprueban nada.** El CSV mínimo es `caso,turno,mensaje`: se ejecuta y te enseña qué contestó el bot. Es como se empieza una suite: primero mirar, luego fijar.
-- En `parametros` van varios en la misma celda: `nombre=valor;nombre=valor`.
-- Si el CSV tiene un error, la pantalla muestra la fila y el motivo tal cual.
+Las columnas vacías no comprueban nada. El CSV mínimo es `caso,turno,mensaje`. En `parametros` van varios en la misma celda: `nombre=valor;nombre=valor`. Si el archivo está mal, la pantalla muestra la fila y el motivo.
 
-También puedes crear casos y editarlos en pantalla: el **lápiz** abre un editor con el nombre del caso, el mensaje de cada turno y cada comprobación, con añadir y quitar casos, turnos y comprobaciones. Trabaja sobre una copia y sólo se guarda al pulsar **Guardar**, así que **Descartar** significa algo.
+El lápiz abre el caso en la pantalla. **Guardar** escribe los cambios. **Descartar** los suelta.
 
-### Ejecutar y leer el resultado
+### El resultado
 
-Cada fila de la lista de suites lleva sus acciones:
+En la lista, ejecutar corre esa suite. El historial guarda con qué entrenamiento se midió. Los casos que fallan se abren y muestran qué se esperaba y qué contestó el bot. Comparar dos corridas dice qué antes pasaba y ahora falla, y qué fallaba y ahora pasa.
 
-| Acción | Qué hace |
-|---|---|
-| ▶ | Ejecuta sólo esa suite |
-| ☰ | Muestra los turnos escritos, sin ejecutar nada |
-| 👁 | Abre el historial de ejecuciones |
-| ⋮ | Importar CSV, exportar CSV, comparar con la anterior |
-| 🗑 | Borra la suite |
-
-En el resultado:
-
-- Los casos en **rojo se abren solos** y los verdes quedan plegados: de una corrida de cuarenta casos sólo se leen los que fallan.
-- Cada comprobación fallida muestra **qué se esperaba y qué contestó el bot**, para no tener que reproducir la conversación a mano.
-- Cada ejecución guarda **con qué entrenamiento se midió**. Una suite corrida contra un modelo viejo da rojos que no son del bot, y semanas después el historial lo dice.
-- **Comparar** dos ejecuciones no devuelve totales sino transiciones: qué pasaba y ahora falla, y qué fallaba y ahora pasa.
-
-:::warning El bot debe estar entrenado
-El botón de ejecutar está apagado mientras el bot no esté entrenado (el tooltip lo explica). Así no se gastan 72 turnos contra un modelo que no existe ni se leen rojos que en realidad son del entrenamiento.
-:::
-
-Una ejecución no deja rastro en **Conversaciones**: las sesiones de prueba llevan el prefijo `bot-test-` y se borran al terminar.
-
-### Suite de la plantilla de Restaurante
-
-El guion de QA de la plantilla de Restaurante existe también como CSV listo para importar (`qa/plantilla-restaurante.csv` en el repositorio): **40 casos, 72 turnos y 141 comprobaciones** que se ejecutan en unos 30 segundos. Cubre los fallos históricos del slot filling, los bloques que más han roto y las consultas de un turno. No sustituye a la guía en `.md`: el CSV sólo dice si hace falta mirar, y la guía explica por qué importa cada turno.
-
-## Pruebas Automatizadas End-to-End (Playwright)
-
-Para mayo de 2026, el proyecto introdujo una rigurosa suite de pruebas E2E montada sobre **Playwright**. Esto asegura que las características críticas de la aplicación jamás sufran regresiones.
-
-### Bots Virtuales de Playwright
-Cuando la suite de pruebas se ejecuta, levanta instancias invisibles de navegadores reales (Chromium, WebKit) y actúa como un humano a velocidades sobrehumanas:
-- **Gestión de Árboles**: El bot entra, hace log in y navega hasta el Workspace correspondiente.
-- **Creación de Entidades Complejas**: Prueba que las expresiones regulares de `@sys` guarden correctamente y parsea sinónimos masivos.
-- **Inyección Masiva de Bloques Visuales**: Uno de los scripts más potentes (`rich_responses.spec.ts`) navega hacia el Editor de Mensajes y **crea más de 14 bloques visuales diferentes** secuencialmente tanto para la pestaña **Web** como para la pestaña de **Telegram** (renderizando acordeones, carruseles, audios, etc.) asegurando paridad total entre integraciones.
-- **Guardado de Intenciones**: Prueba que las ramas complejas retengan sus contextos e intenciones al guardarse en la base de datos PostgreSQL.
-
-Las pruebas E2E en TreeFlow son tu salvavidas; te garantizan que por más pesada que sea la refactorización de código que apliques, las funciones básicas que tus clientes usan siempre seguirán de pie.
-
+El botón de ejecutar queda apagado si el árbol no está entrenado.

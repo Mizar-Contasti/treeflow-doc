@@ -1,202 +1,31 @@
 ---
 sidebar_position: 6
+sidebar_label: Qué hay en la app
 ---
 
-# Funciones de TreeFlow
-
-import FutureFeatureNotice from '@site/src/components/FutureFeatureNotice.mdx';
-
-<FutureFeatureNotice version="v0.2" />
-
-TreeFlow ofrece una variedad de funciones diseñadas para crear experiencias conversacionales efectivas y fáciles de mantener. Esta guía explora las principales funcionalidades disponibles en la plataforma.
-
-## Funciones Principales
-
-### Gestión de Árboles
-
-- **Creación y edición**: Interfaz intuitiva para crear y modificar Árboles
-- **Versionado**: Sistema de control de versiones para mantener un historial de cambios
-- **Exportación e importación**: Herramientas para compartir y respaldar tus Árboles
-- **Entornos**: Separación entre desarrollo, pruebas y producción
-
-### Diseño Conversacional
-
-- **Editor de Ramas**: Herramientas visuales para crear patrones de conversación
-- **Gestión de Hojas**: Extracción de entidades y validación de datos
-- **Contextos**: Control del estado y flujo de la conversación
-- **Eventos**: Acciones basadas en eventos del sistema o del usuario
-
-### Integraciones
-
-- **Webhooks**: Conexión con servicios externos y APIs
-- **Canales de mensajería**: Integración con WhatsApp, Telegram, Facebook Messenger, etc.
-- **API REST**: Acceso programático a todas las funcionalidades
-- **Widgets web**: Componentes para integrar en sitios web
-
-### Análisis y Mejora
-
-- **Estadísticas de uso**: Métricas sobre conversaciones y usuarios
-- **Análisis de conversaciones**: Herramientas para identificar patrones y problemas
-- **Pruebas A/B**: Comparación de diferentes enfoques conversacionales
-- **Recomendaciones de mejora**: Sugerencias basadas en el análisis de datos
-
-## Funciones Avanzadas
-
-### Procesamiento de Lenguaje Natural
-
-- **Reconocimiento de intenciones**: Identificación precisa de lo que el usuario quiere
-- **Extracción de entidades**: Reconocimiento de información relevante en los mensajes
-- **Análisis de sentimiento**: Detección de emociones y tono en los mensajes
-- **Resolución de referencias**: Manejo de pronombres y referencias anafóricas
-
-### Integración con IA Generativa
-
-- **Respuestas generativas**: Uso de modelos de lenguaje para crear respuestas naturales
-- **Generación controlada**: Combinación de determinismo y flexibilidad
-- **Personalización de respuestas**: Adaptación basada en el contexto y preferencias
-- **Fallbacks inteligentes**: Respuestas generativas cuando no hay coincidencia exacta
-
-### Seguridad y Privacidad
-
-- **Control de acceso**: Gestión de roles y permisos
-- **Encriptación**: Protección de datos sensibles
-- **Cumplimiento normativo**: Herramientas para cumplir con GDPR, CCPA, etc.
-- **Auditoría**: Registro de cambios y acciones para fines de seguridad
-
-## Herramientas de Desarrollo
-
-### Entorno de Desarrollo
-
-- **Editor visual**: Interfaz gráfica para diseñar conversaciones
-- **Modo código**: Acceso directo a la configuración JSON/YAML
-- **Depuración**: Herramientas para identificar y solucionar problemas
-- **Simulador de conversaciones**: Prueba de flujos conversacionales
-
-### Colaboración
-
-- **Control de versiones**: Historial de cambios con posibilidad de revertir
-- **Trabajo en equipo**: Edición colaborativa de Árboles
-- **Comentarios**: Anotaciones para mejorar la comunicación del equipo
-- **Entornos separados**: Desarrollo, pruebas y producción
-
-## Características Principales
-
-### Determinismo y Control
-
-TreeFlow te permite mantener control total sobre las conversaciones mientras aprovechas la flexibilidad de la IA:
-
-- **Flujos predecibles**: Define exactamente cómo debe comportarse tu chatbot
-- **Sin sorpresas**: Evita respuestas inesperadas o inapropiadas
-- **Validación de datos**: Asegura que la información recopilada cumpla con tus requisitos
-- **Lógica de negocio**: Implementa reglas específicas para tu caso de uso
-
-### Escalabilidad
-
-Diseñado para crecer con tu negocio:
-
-- **Alto rendimiento**: Maneja miles de conversaciones simultáneas
-- **Arquitectura distribuida**: Escala horizontalmente según la demanda
-- **Baja latencia**: Respuestas rápidas para una mejor experiencia de usuario
-- **Alta disponibilidad**: Diseño redundante para minimizar el tiempo de inactividad
-
-## Integración con Sistemas Existentes
-
-TreeFlow se integra fácilmente con tu infraestructura actual:
-
-### Conectores Nativos
-
-Conexiones predefinidas con plataformas populares:
-
-```json title="Ejemplo de configuración de conector"
-{
-  "connector_type": "crm",
-  "platform": "salesforce",
-  "authentication": {
-    "type": "oauth2",
-    "client_id": "YOUR_CLIENT_ID"
-  },
-  "sync_options": {
-    "contacts": true,
-    "opportunities": true
-  }
-}
-```
-
-### API Abierta
-
-Acceso completo a todas las funcionalidades mediante una API RESTful:
-
-- **Gestión de Árboles**: Crear, modificar y eliminar Árboles programáticamente
-- **Gestión de conversaciones**: Enviar y recibir mensajes, gestionar sesiones
-- **Análisis de datos**: Acceder a estadísticas y reportes
-- **Administración**: Gestionar usuarios, roles y configuraciones
-
-## Casos de Uso
-
-:::tip Recomendación
-TreeFlow es especialmente efectivo para casos de uso donde se requiere un balance entre conversaciones estructuradas y flexibilidad.
-:::
-
-### Atención al Cliente
-
-- **Resolución de problemas comunes**: Guías paso a paso para solucionar problemas
-- **Gestión de tickets**: Creación y seguimiento de tickets de soporte
-- **Transferencia a agentes**: Derivación inteligente a agentes humanos cuando sea necesario
-
-### Ventas y Marketing
-
-- **Calificación de leads**: Identificación de prospectos con mayor potencial
-- **Recomendaciones de productos**: Sugerencias personalizadas basadas en preferencias
-- **Reservas y citas**: Programación de demostraciones o reuniones
-
-### Procesos Internos
-
-- **Recursos humanos**: Respuesta a preguntas frecuentes de empleados
-- **Onboarding**: Guías interactivas para nuevos empleados
-- **Acceso a información**: Búsqueda inteligente en documentación interna
-
-## Ventajas Competitivas
-
-:::info Diferenciadores
-TreeFlow combina lo mejor del enfoque determinista y generativo, ofreciendo un control preciso con la flexibilidad de la IA moderna.
-:::
-
-### Control y Flexibilidad
-
-A diferencia de otras plataformas que te obligan a elegir entre determinismo o generatividad, TreeFlow te permite:
-
-- **Combinar ambos enfoques**: Usa Ramas deterministas para flujos críticos y generatividad para conversaciones naturales
-- **Transiciones fluidas**: Cambia entre modos determinista y generativo de forma transparente
-- **Control granular**: Define exactamente dónde y cómo se utiliza cada enfoque
-
-### Facilidad de Uso
-
-Diseñado para ser accesible tanto para desarrolladores como para usuarios no técnicos:
-
-- **Interfaz visual intuitiva**: Diseña conversaciones sin necesidad de programar
-- **Plantillas predefinidas**: Comienza rápidamente con flujos conversacionales comunes
-- **Documentación completa**: Guías detalladas y ejemplos para todos los niveles de experiencia
-
-## Conclusión
-
-TreeFlow ofrece un conjunto completo de funciones para crear experiencias conversacionales efectivas, combinando:
-
-1. **Control determinista**: Para flujos críticos y extracción precisa de datos
-2. **Flexibilidad generativa**: Para conversaciones naturales y manejo de casos inesperados
-3. **Integración sencilla**: Con sistemas existentes y canales de comunicación
-4. **Escalabilidad empresarial**: Para crecer con las necesidades de tu negocio
-
-Explora las secciones específicas de la documentación para aprender más sobre cada funcionalidad y cómo implementarla en tus proyectos.
-
-:::tip Próximos pasos
-Revisa las secciones de [Ramas](/docs/Fundamentos/Intenciones) y [Hojas](/docs/Fundamentos/Entidades) para aprender a implementar estas funcionalidades en tus Árboles.
-:::
-
-## Recursos Adicionales
-
-import AppUrl from '@site/src/components/AppUrl';
-
-- **Documentación API**: Disponible en <AppUrl />
-- **Centro de Ayuda**: <AppUrl>Centro de Soporte</AppUrl>
-- **Comunidad de Desarrolladores**: <AppUrl>Foro de Desarrolladores</AppUrl>
-
+# Qué hay en la app
+
+El menú de la izquierda es el mapa. Cada nombre es una pantalla distinta. El glosario está en [Terminología](/docs/Fundamentos/Terminologia).
+
+![El panel y el menú: flujos, intenciones, entidades, mensajes y capturas](/img/intro/panel.png)
+
+| Menú | Para qué |
+|---|---|
+| **Árbol** | El bot. Se planta, se configura y se entrena |
+| **Flujos** | El dibujo del recorrido |
+| **Intenciones** | Lo que el motor reconoce |
+| **Entidades** | Los datos que saca de la frase |
+| **Mensajes** | Los textos que puede repetir |
+| **Capturas** | Cómo pide un dato que falta |
+| **Canales** | Web, WhatsApp, Telegram y el resto |
+| **Herramientas** | Scripts, APIs, webhook, transferencias |
+| **Conversaciones** | Lo que ya se habló |
+| **Mesa de ayuda** | Cuando la conversación pasa a una persona |
+| **Diagnósticos** | Por qué falló una ejecución. Lo ve un administrador |
+| **Cuentas** y **Credenciales** | Quién entra, y las llaves para hablar con el workspace desde fuera |
+
+![Un flujo en el lienzo](/img/intro/flujo.png)
+
+La consola, el botón naranja, prueba el árbol sin publicarlo. El agente de esa consola modifica el árbol si el workspace tiene una clave de modelo.
+
+![La consola](/img/testeo/consola.png)

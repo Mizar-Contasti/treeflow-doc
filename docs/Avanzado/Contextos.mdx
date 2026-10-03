@@ -1,124 +1,34 @@
 ---
 sidebar_position: 3
+sidebar_label: Contextos
 ---
 
 # Contextos
 
-Los **Contextos** en TreeFlow son mecanismos que permiten controlar el flujo de la conversación y mantener el estado entre diferentes turnos de diálogo.
+Un **contexto** es el nodo verde del [flujo](/docs/Fundamentos/EditorVisual). No dice una frase. Espera, y mientras la conversación está ahí el motor sólo prueba lo que tiene enlazado.
 
-## ¿Qué son los Contextos?
+## Qué hace
 
-Los contextos funcionan como la "memoria a corto plazo" del árbol, permitiendo:
+En el flujo Restaurante el contexto de arranque se llama **Inicio**. Ahí están el saludo, el menú, el pedido, la reserva y el evento de cuando ninguna intención calza.
 
-- Determinar qué ramas pueden activarse en cada momento
-- Conectar diferentes partes de una conversación
-- Mantener información sobre el estado actual del diálogo
-- Crear flujos conversacionales complejos y naturales
+![Inicio: las intenciones y el evento de ese tramo](/img/flujos/contexto.png)
 
-## Tipos de Contextos
+- **Intenciones.** Las que se pueden reconocer aquí. Quitar el enlace no borra la intención.
+- **Eventos.** `sys.no-match`, `sys.no-input`, o un nombre que otro paso dispara.
+- **Flujos enlazados.** Desde aquí también valen las intenciones de otro flujo. Si los dos tienen la misma, gana el nodo del flujo en el que estás.
 
-En TreeFlow, cada rama puede tener dos tipos de contextos:
+No hay contextos de entrada y de salida, ni un tiempo de vida por turnos. El sitio donde está la conversación es el contexto, y cambia cuando un nodo transiciona.
 
-### Contextos de Entrada
+## A dónde sigue
 
-Los contextos de entrada definen cuándo una rama puede ser activada. Una rama solo se considerará para su activación si:
+Cada nodo de intención elige la transición. En `saludo` es volver a **Inicio**. Por eso la frase siguiente se vuelve a oír en el mismo sitio.
 
-- No tiene contextos de entrada definidos (es una rama general)
-- Todos sus contextos de entrada están activos en la conversación actual
+![saludo manda la bienvenida y vuelve a Inicio](/img/flujos/conversacion.png)
 
-Esto permite crear ramas específicas que solo se activan en determinados momentos de la conversación.
+`hablar_con_asesor` no vuelve: la transición es una persona. Si la dejas en **Ninguno**, la conversación se queda donde estaba.
 
-### Contextos de Salida
+## Cómo se comprueba
 
-Los contextos de salida definen qué contextos estarán activos después de que una rama se active. Cada contexto de salida tiene:
+En la consola, con el flujo Restaurante y el modo debug, `hola` marca Inicio como recorrido y `saludo` como el nodo de este turno.
 
-- Un nombre único que lo identifica
-- Un "lifespan" (tiempo de vida) que determina por cuántos turnos de conversación permanecerá activo
-
-El lifespan se reduce en 1 con cada turno de conversación, y cuando llega a 0, el contexto expira.
-
-## Funcionamiento de los Contextos
-
-![Funcionamiento de los Contextos](/img/docs/contextos_funcionamiento.svg)
-
-*Diagrama: Flujo de activación de contextos en una conversación*
-
-1. Cuando una rama se activa, establece sus contextos de salida
-2. Estos contextos determinan qué ramas pueden activarse en los siguientes turnos
-3. A medida que avanza la conversación, algunos contextos expiran según su lifespan
-4. Esto permite que el árbol "recuerde" en qué parte del flujo conversacional se encuentra
-
-## Casos de Uso
-
-### Conversaciones Multi-turno
-
-Los contextos permiten crear conversaciones que se extienden por varios turnos, donde cada respuesta del usuario se interpreta en el contexto adecuado.
-
-**Ejemplo:**
-```
-Usuario: "Quiero ordenar comida"
-Bot: "¿Qué te gustaría ordenar?" (Establece contexto: ordenando_comida)
-Usuario: "Una pizza" (Contexto activo: ordenando_comida)
-Bot: "¿De qué tamaño?" (Mantiene contexto: ordenando_comida)
-```
-
-### Flujos Conversacionales Ramificados
-
-Permiten crear diferentes caminos en la conversación basados en las respuestas del usuario.
-
-### Manejo de Fallbacks Contextuales
-
-Cuando el usuario dice algo que no se entiende, el árbol puede proporcionar respuestas de fallback específicas al contexto actual.
-
-## Mejores Prácticas
-
-1. **Nombres descriptivos**: Utiliza nombres de contexto que describan claramente su propósito
-2. **Lifespans adecuados**: Configura lifespans apropiados para cada contexto:
-   - Valores más altos para conversaciones largas
-   - Valores más bajos para interacciones breves
-3. **Jerarquía de contextos**: Organiza tus contextos de manera jerárquica para flujos complejos
-4. **Contextos de salida claros**: Define claramente qué contextos deben estar activos después de cada rama
-5. **Prueba diferentes caminos**: Verifica que los contextos funcionen correctamente en diferentes escenarios de conversación
-
-:::tip Consejo
-Dibuja un diagrama de flujo de tus contextos antes de implementarlos para visualizar mejor cómo se conectarán las diferentes partes de la conversación.
-:::
-
-## Limitaciones y Consideraciones
-
-- Un contexto con lifespan 0 se elimina inmediatamente después de activar la rama
-- El lifespan máximo recomendado es 5 para evitar conflictos en conversaciones largas
-- Los contextos no persisten entre sesiones de usuario diferentes
-- Demasiados contextos activos simultáneamente pueden hacer que el árbol sea difícil de mantener
-
-## Ejemplos Prácticos
-
-### Formulario Simple
-
-```
-Rama: iniciar_formulario
-  Contextos de Salida: recopilando_datos (lifespan: 3)
-
-Rama: preguntar_nombre
-  Contextos de Entrada: recopilando_datos
-  Contextos de Salida: esperando_nombre (lifespan: 1)
-
-Rama: recibir_nombre
-  Contextos de Entrada: esperando_nombre
-  Contextos de Salida: recopilando_datos (lifespan: 2)
-```
-
-### Conversación con Submenu
-
-```
-Rama: menu_principal
-  Contextos de Salida: en_menu_principal (lifespan: 2)
-
-Rama: submenu_configuracion
-  Contextos de Entrada: en_menu_principal
-  Contextos de Salida: en_configuracion (lifespan: 3)
-
-Rama: volver_menu_principal
-  Contextos de Entrada: en_configuracion
-  Contextos de Salida: en_menu_principal (lifespan: 2)
-```
+![Inicio recorrido y saludo en el turno actual](/img/diseno/recorrido.png)

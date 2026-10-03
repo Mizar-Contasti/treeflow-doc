@@ -20,11 +20,17 @@ El sistema de reconocimiento de intenciones de TreeFlow utiliza:
 
 ### Extracción de Entidades
 
-Las Hojas en TreeFlow utilizan técnicas avanzadas para extraer información:
+La [entidad](/docs/Fundamentos/Entidades) saca el dato de la frase:
 
-1. **Reconocimiento de Entidades Nombradas (NER)**: Para identificar nombres, lugares, organizaciones, etc.
-2. **Coincidencia de Patrones**: Para extraer datos con formato específico
-3. **Análisis Contextual**: Para entender entidades basadas en el contexto de la conversación
+1. **Valores y sinónimos**, y las entidades de sistema (`sys.number`, `sys.date`…).
+2. **Patrones**, para un formato fijo, como una regex.
+3. **El orden de detección** del árbol: entidad exacta, aproximada, patrón y modelo.
+
+El modo y el orden se eligen en la configuración del árbol, pestaña **Entendimiento**.
+
+![Entendimiento: el modo, el sentimiento, los umbrales y el orden](/img/arboles/entendimiento.png)
+
+![El orden: el método de arriba tiene más peso](/img/arboles/prioridad.png)
 
 ## Modo de Entrenamiento: Básico o Pro
 
@@ -152,9 +158,9 @@ Configura umbrales de confianza dinámicos:
 
 ## Técnicas Avanzadas de Extracción
 
-### Hojas Compuestas
+### Entidades compuestas
 
-Una hoja compuesta describe una **combinación de otras hojas** que aparecen juntas en
+Una entidad compuesta describe una **combinación de otras entidades** que aparecen juntas en
 la frase. Sirve para leer de una vez algo que tiene varias partes: "2 empanadas de
 queso" son una cantidad, un producto y un sabor, y son *una sola* línea de pedido.
 
