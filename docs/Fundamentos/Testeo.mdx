@@ -5,86 +5,69 @@ sidebar_label: Probar el bot
 
 # Probar el bot
 
-Cuando el flujo, las intenciones y las entidades ya están, se prueba en la [consola](/docs/Avanzado/Consola), el panel de la derecha. Antes hay que entrenar.
+El botón naranja de abajo a la derecha abre la **consola**. Es un chat con el árbol, sin publicarlo. Tiene tres pestañas: **Consola**, el chat de prueba; **Agente**, el que modifica el árbol con una clave del workspace; y **Constructor**, para armar turnos de usuario y de bot. Esta página es la pestaña Consola y el modo debug.
 
-## Consola de Conversación
+El entrenamiento se lanza con el rayo del menú, **Entrenar**. Si el árbol no se ha entrenado nunca, la consola lo dice y el campo de texto queda apagado. Si ya se entrenó y después cambiaste intenciones o entidades, se puede seguir hablando: contesta con el último entrenamiento, hasta que vuelvas a entrenar.
 
-TreeFlow incluye una consola de conversación integrada que te permite interactuar con tu Árbol y ver cómo responde a diferentes entradas del usuario.
+## La barra
 
-![Consola de Conversación](/img/docs/consola_conversacion.svg)
+Encima del chat hay una barra.
 
-### Cómo acceder a la consola
+- **Por defecto**, el primer botón, es el flujo de arranque. Elige otro flujo y la conversación se reinicia ahí.
+- **Por defecto** o **Web**, el segundo, es el canal. El bot manda la variante de [mensaje](./Mensajes) de ese canal. Si esa pestaña está vacía, manda Default. Aparecen WhatsApp, Telegram y el resto sólo si el canal está conectado.
+- La bandera, **Ejecutar intención al inicio**, elige una intención o un evento anclado al principio del flujo. Cada vez que empiezas o reinicias, se dispara sola.
+- El insecto enciende el **modo debug**.
+- El icono de copiar guarda el enlace de esta conversación. Se activa cuando ya hay un turno.
+- La flecha hacia atrás deshace el último turno.
+- La flecha circular reinicia la conversación.
 
-La consola de conversación se encuentra en la parte derecha de la aplicación. Para utilizarla:
+Abajo se escribe, o se usa el micrófono. Un botón del mensaje del bot también cuenta como turno: si el botón envía texto, abre una URL o dispara un evento, la consola hace eso.
 
-### Entrenamiento previo obligatorio
+## Un turno
 
-:::caution Importante
-Antes de poder probar tu Árbol, es necesario entrenarlo con los últimos cambios que hayas realizado.
-:::
+Escribes y pasa esto, en orden:
 
-Para entrenar tu Árbol:
+1. El motor mira el flujo en el que estás y la frase.
+2. Elige una [intención](./Intenciones), o no reconoce nada.
+3. Saca los [parámetros](/docs/Avanzado/Parametros) con las [entidades](./Entidades).
+4. Si falta un dato requerido, pregunta con el texto del parámetro o con la [captura](./Capturas), y espera. Ese turno no llega todavía a la respuesta final.
+5. Cuando los datos están, corre las herramientas del nodo, si las hay, y manda el mensaje de ese nodo para el canal elegido.
 
-1. Haz clic en el botón "Entrenar" en la consola
-2. Espera a que el proceso de entrenamiento se complete
-3. Una vez finalizado, se habilitará el campo de texto para que puedas interactuar con el bot
+Tu frase sale en la burbuja naranja. La del bot es la respuesta. Si pulsaste un botón, la burbuja muestra la etiqueta, no el valor oculto.
 
-:::note
-Si realizas cualquier cambio en tu Árbol, Ramas o Hojas, deberás volver a entrenar el bot antes de poder probar los cambios.
-:::
+## Modo debug
 
-### Interactuando con tu Árbol
+El insecto se pone amarillo. El turno deja de ser sólo dos burbujas y enseña cómo se decidió.
 
-Una vez entrenado, simplemente escribe mensajes en la consola como si fueras un usuario real. El sistema:
+Antes de la respuesta del bot aparece una línea:
 
-1. Analizará tu mensaje
-2. Identificará la Rama más adecuada
-3. Extraerá parámetros mediante las Hojas configuradas
-4. Generará una respuesta según la configuración de la Rama activada
+`intención · confianza · cómo coincidió`
 
-## Panel de Información
+La confianza es un porcentaje. El tercer dato es el método: entidad, patrón, modelo, o `no_match` si no reconoció la frase. Si es `no_match`, la línea se marca. Al abrirla están los **parámetros** y el valor de cada uno. Un valor vacío es un dato que todavía no vino: el siguiente turno debería preguntarlo.
 
-En la consola, podrás ver información detallada sobre cada interacción:
+Si el nodo llamó una herramienta, su tarjeta aparece ahí, en el orden en que corrió, antes del mensaje. Si la conversación pasó a una persona, no hay burbuja del bot: en debug se ve a quién le llegó.
 
-![Panel de Información](/img/docs/panel_informacion.svg)
+Un clic en tu burbuja abre el **request**, lo que se envió. Un clic en la del bot abre el **response**, lo que contestó el motor. El cuadro tiene cuatro vistas. **Todo** es la que queda al abrir.
 
-### Información disponible
+| Vista | Qué deja |
+|---|---|
+| Todo | el JSON completo |
+| Parameters | `parameters` y `session_parameters` |
+| Messages | el texto de la persona o la respuesta del bot |
+| Metadata | el resto: intención, tiempos, sesión, herramientas, sentimiento |
 
-La consola muestra:
+La búsqueda y copiar usan la vista que esté abierta. Con el cuadro abierto, Ctrl+F va a esa búsqueda.
 
-- Lo que dijo el usuario
-- La respuesta del bot
-- La intención (Rama) que se activó
-- Los parámetros extraídos relacionados con la intención
+En la web y en la tablet, el borde izquierdo de la consola se arrastra y se ensancha. Al salir del debug vuelve a su ancho. En el teléfono el panel ya ocupa la pantalla.
 
-### Información adicional
+Encender el debug abre el [flujo](./EditorVisual) que se está ejecutando. El lienzo marca el nodo de este turno y el camino que ya recorrió. Un turno nuevo sigue marcando el lienzo si ya estás en él.
 
-Además, hay un botón que al hacer clic en él muestra información técnica adicional sobre:
+El lápiz del turno abre esa intención para editarla.
 
-- La estructura completa de la petición
-- La estructura completa de la respuesta
-- Nivel de confianza de la intención detectada
-- Contextos activos
-- Eventos disparados
+## Qué revisar
 
-:::tip Consejo
-Utiliza el panel de información para identificar problemas como:
-- Ramas que no se activan cuando deberían
-- Parámetros que no se extraen correctamente
-- Contextos que no funcionan como se esperaba
-:::
-
-## Pruebas Sistemáticas
-
-Para asegurar que tu Árbol funcione correctamente, es recomendable realizar pruebas sistemáticas:
-
-1. **Prueba los caminos felices**: Mensajes claros que deberían activar ramas específicas
-2. **Prueba variaciones**: Diferentes formas de expresar la misma intención
-3. **Prueba escenarios de error**: Mensajes ambiguos o fuera del alcance del bot
-4. **Prueba flujos completos**: Conversaciones multi-turno que utilizan contextos
-
-:::info Importante
-Recuerda que debes entrenar tu Árbol después de cada modificación significativa para que los cambios se reflejen en el comportamiento del chatbot.
-:::
-
-Para pruebas más avanzadas y herramientas de depuración, consulta la sección [Pruebas y Depuración](/docs/Avanzado/Testeo) en la documentación avanzada.
+- El nombre de la intención. Si no es la que esperabas, el patrón o el orden de [entendimiento](./Arboles) está decidiendo otra.
+- `no_match`. La frase no entró en ninguna intención del flujo.
+- Los parámetros. Si falta uno y el bot no pregunta, el parámetro no está en requerido o la captura no tiene pregunta.
+- La respuesta. Si elegiste Web y sale el texto de Default, la pestaña Web de ese mensaje está vacía.
+- Después de cambiar intenciones o entidades, entrenar otra vez. Un mensaje o una captura se leen en el momento: guardar ya alcanza.
