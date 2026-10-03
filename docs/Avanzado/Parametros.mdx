@@ -21,14 +21,20 @@ Un parámetro es un hueco con nombre que:
 
 ## Creación de Parámetros
 
-Los parámetros nacen de las **hojas referenciadas en los patrones de una intención**:
+Un parámetro nace al citar una [entidad](/docs/Fundamentos/Entidades) en un patrón de la intención.
 
-1. Creas la hoja (por ejemplo, `tamaño_pizza`).
-2. La referencias en un patrón de la intención: `quiero una pizza @tamaño_pizza`.
-3. Al guardar, el sistema crea el parámetro asociado.
+1. La entidad ya existe, por ejemplo `producto`.
+2. El patrón la cita: `quiero una @producto`.
+3. Al guardar, la intención tiene el parámetro. Se llama igual que la entidad.
 
-Por defecto el parámetro se llama igual que la hoja. Para darle otro nombre, usa los
-dos puntos: `@tamaño_pizza:tamaño` crea el parámetro `tamaño`.
+Los dos puntos le ponen otro nombre. `@producto:producto_pedido` sigue leyendo la entidad `producto` y el parámetro se llama `producto_pedido`. En una [compuesta](/docs/Fundamentos/Entidades#2-entidades-compuestas) es lo mismo, fila por fila:
+
+```
+@sys.number:cantidad @producto:producto
+@sys.number:cantidad @producto:producto de @sabor
+```
+
+`cantidad` y `producto` son los parámetros. `de` es una palabra de la fila, no un dato.
 
 ## Componentes de un Parámetro
 

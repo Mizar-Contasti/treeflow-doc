@@ -59,16 +59,16 @@ Cada fila es una forma válida de decirlo. Se escribe el patrón y se confirma c
 ![Una fila compuesta: cantidad con sys.number y producto](/img/entidades/compuesta.png)
 
 ```
-@sys.number:cantidad @producto:producto
-@sys.number:cantidad @producto:producto de @sabor
-@producto:producto
+@sys.number @producto
+@sys.number @producto de @sabor
+@producto
 ```
 
 - `@producto` cita la entidad `producto`.
-- `@producto:producto_pedido` cita esa entidad y guarda el dato con el nombre `producto_pedido`. Sin los dos puntos, el parámetro se llama igual que la entidad.
 - Las palabras entre medias, como `de`, tienen que estar en la frase.
 - El motor se queda con la fila que rellene más huecos.
-- Una frase puede traer varios renglones. `1 pizza y 2 tacos` son dos. El detalle está en [un parámetro con varios valores](/docs/Avanzado/Parametros#un-parámetro-con-varios-valores).
+
+El nombre que va después de los dos puntos, como `@producto:producto_pedido`, es el del [parámetro](/docs/Avanzado/Parametros).
 
 En la fila, cada `@` se pinta. La basura quita esa fila.
 
@@ -138,4 +138,4 @@ El icono de la tarjeta abre los ejemplos y el formato en que sale el valor. El p
 
 **Guardar cambios** deja el árbol desactualizado. Los valores nuevos entran en la conversación cuando se entrena, con el botón **Entrenar** de abajo en el menú.
 
-Una entidad que ninguna intención cita no se pregunta sola. Hay que marcarla en un [patrón](./Intenciones) o usarla como parámetro requerido.
+Una entidad entra en la frase cuando un [patrón](./Intenciones) la cita.

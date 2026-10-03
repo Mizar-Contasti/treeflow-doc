@@ -5,53 +5,63 @@ sidebar_label: Capturas
 
 # Capturas
 
-Una **captura** es la forma reutilizable de pedir un dato. Vive en el menú
-**Conversación → Capturas** y la usa un parámetro cuando el bot tiene que
-preguntarlo.
+Una **captura** es la forma de pedir un dato, guardada con nombre para usarla en varios [parámetros](/docs/Avanzado/Parametros). El parámetro dice cuál falta. La captura dice cómo se pregunta, qué contestar si no se entiende y cuántas veces insistir.
 
-La pregunta, el mensaje si no se entiende y los reintentos salen de la captura.
-El parámetro sólo elige cuál usar.
+Vive en **Conversación → Capturas**.
 
-## Qué guarda
+## La lista
 
-- **Nombre.** Así la ves en la lista y en el parámetro.
-- **Pregunta.** Lo que el bot dice para pedir el dato.
-- **Si no se entiende.** Lo que contesta cuando la respuesta no llena el dato.
-- **Máx. intentos.** Cuántas veces repite ese mensaje antes de rendirse.
-- **Acción al superar el límite.**
+Arriba se busca por nombre. **Nueva captura** abre el editor vacío.
+
+![Lista de capturas: Contacto, Descripción, Elegir con botones, Nombre y Texto libre](/img/capturas/lista.png)
+
+- Un clic en el nombre abre la captura.
+- La franja naranja pide confirmación para borrarla. Los parámetros que la usaban vuelven a su pregunta propia.
+
+## El editor
+
+Arriba a la derecha, **Guardar**. La pestaña se llama **Captura**.
+
+![Contacto: nombre, pregunta, mensaje si no se entiende, dos intentos y pasar al siguiente parámetro](/img/capturas/editor.png)
+
+### Nombre
+
+Así se ve en la lista y en el parámetro, al marcar **Usar captura definida**.
+
+### Pregunta
+
+Lo que el bot dice para pedir el dato. El subtítulo lo dice igual: «Lo que el bot dice para pedir el dato.»
+
+El campo **Mensaje** elige de dónde sale:
+
+- **Mensaje personalizado.** El texto o los bloques se escriben aquí, con las mismas pestañas que en [Mensajes](./Mensajes): Default en texto, y Web con elementos enriquecidos si hace falta. `Elegir con botones` es de este tipo: la pregunta trae botones.
+- **+ Crear plantilla.** Crea un mensaje en la lista de Mensajes y lo deja elegido.
+- Una plantilla que ya existe, por su nombre. El lápiz la abre. La X la quita de esta captura.
+
+En `Contacto` la pregunta personalizada es `¿Me das tu correo o tu teléfono?`.
+
+### Si no se entiende
+
+Qué contesta cuando la respuesta no llena el dato, y qué hace al agotar los intentos. El mensaje se elige igual que la pregunta: personalizado o plantilla.
+
+En `Contacto`: `Necesito un correo o un número de teléfono.`
+
+**Máx. intentos.** Cuántas veces se repite ese mensaje antes de la acción de límite. En `Contacto` son 2.
+
+**Acción al superar el límite.**
 
 | Acción | Qué hace |
 |---|---|
 | Pasar al siguiente parámetro | Deja éste y pregunta por otro que falte |
-| Responder aunque falte el valor | Contesta con lo que haya |
-| Ir al nodo de contexto | Abandona la captura y vuelve al flujo |
+| Responder aunque falte el valor | Sigue con lo que haya |
+| Ir al nodo de contexto | Abandona la pregunta y vuelve al flujo |
 
-## De dónde sale el texto
+En la pregunta y en el mensaje de «si no se entiende» caben huecos del [lenguaje de plantillas](/docs/Avanzado/LenguajeDePlantillas): `{$nombre}`.
 
-La pregunta y el mensaje de «si no se entiende» pueden ser:
+## En el parámetro
 
-- un **mensaje personalizado** (texto o bloques, igual que en Mensajes);
-- una **plantilla** ya guardada en Mensajes.
+La captura no se dispara sola. En la [intención](./Intenciones), el parámetro va marcado **Requerido** y, en sus ajustes, **Usar captura definida**. Ahí se elige el nombre. El lápiz abre esta misma captura. La X la desengancha de ese parámetro.
 
-En los dos caben huecos del [lenguaje de plantillas](/docs/Avanzado/LenguajeDePlantillas):
-`{$sabor}`, una condición, una cuenta.
+Con la captura puesta, la pregunta, el «si no se entiende» y los intentos salen de aquí. Esos campos dejan de editarse en el parámetro.
 
-## Cómo se engancha a un parámetro
-
-En la intención, abre el parámetro requerido y marca **Usar captura definida**.
-Elige la captura. Desde ahí puedes editarla o quitarla de ese parámetro.
-
-Si no marcas la casilla, la pregunta, el fallback y los reintentos se escriben
-en el propio parámetro, como antes.
-
-Al usar una captura, la opción «Puede volver a capturarse durante el slot
-filling» deja de mostrarse en ese parámetro: la conversación de ese dato la
-lleva la captura.
-
-## Olvidar el valor al volver
-
-Eso no es de la captura. Sigue en el parámetro: **Olvidar este valor al volver
-a caer en esta intención**. Si está marcado, al entrar otra vez en esa
-intención el dato se vacía y hay que preguntarlo de nuevo.
-
-Ver también [Parámetros](/docs/Avanzado/Parametros).
+**Olvidar este valor al volver a caer en esta intención** sigue en el parámetro, no en la captura. Cada vez que la intención se activa, ese dato se vacía y hay que pedirlo otra vez.
