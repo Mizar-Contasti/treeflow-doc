@@ -5,35 +5,72 @@ sidebar_label: Mensajes
 
 # Mensajes
 
-**Mensajes** (menú Conversación) guarda las respuestas reutilizables del árbol.
-Una intención, un nodo del flujo o una [captura](/docs/Fundamentos/Capturas)
-pueden apuntar a una de estas plantillas en vez de escribir el texto cada vez.
+**Mensajes** guarda los textos que el bot puede repetir. Un nodo del [flujo](./EditorVisual) o una [captura](./Capturas) apunta a uno de estos, en vez de escribir el mismo párrafo en cada sitio.
+
+Guardar ya deja el texto listo: se lee de la base en cada turno.
+
+## La lista
+
+Arriba se busca por nombre. **Nuevo Mensaje** abre el editor vacío.
+
+![Lista de mensajes: tarjetas, buscador y Nuevo Mensaje](/img/mensajes/lista.png)
+
+- Un clic en el nombre abre el mensaje.
+- La franja naranja pide confirmación para borrarlo.
+- Si hay muchas tarjetas, abajo están las páginas.
+
+## El editor
+
+**Nombre del mensaje** es obligatorio. Los espacios pasan a `_` y al guardar queda en minúsculas, sin acentos. La `ñ` se conserva. **Descripción** es opcional: sirve para recordar para qué es, y el usuario no la ve.
+
+![menu_docente: el nombre, la descripción y el bloque de texto en Default](/img/mensajes/editor.png)
+
+**Guardar cambios** vuelve a la lista. Si el árbol tiene más de un idioma, junto al nombre están los idiomas: cada uno edita su propio texto.
 
 ## Respuestas por canal
 
-Cada plantilla tiene una pestaña **Default** y, si hace falta, una por canal.
-Default admite los mismos bloques que el resto. Un canal que no sabe pintarlos
-los convierte a texto.
+El acordeón se llama **Respuestas por canal**. La pestaña **Default** siempre está. Las demás aparecen sólo si ese canal está conectado: Web, WhatsApp, Telegram, Facebook, Instagram, Email, Slack, Discord, ElevenLabs, Avatares IA.
 
-Con **varios bloques**, el bot elige **uno al azar** en cada respuesta y manda
-todos sus elementos. Un bloque vacío no viaja y no entra en el sorteo.
+En `menu_docente` hay **Default** y **Web**, porque el canal web está activo.
 
-## Bloques
+- **Default** es el respaldo. Si el canal por el que escribe la persona no tiene bloques propios, sale esto.
+- Si ese canal sí tiene algo, manda el suyo y Default no entra. En la captura, Web lleva un párrafo y botones; quien escribe por la web ve eso, no el texto de Default.
+- Dentro de una pestaña, cada **Bloque** es una variante. Si hay dos, el bot elige **uno al azar** en cada turno y manda todos los elementos de ese bloque juntos.
+- Un bloque vacío no viaja y no entra en el sorteo.
 
-Un bloque es una fila de elementos. Los tipos son:
+**Agregar Bloque** suma otra variante en la pestaña que estás viendo. El tipo de un bloque nuevo es **Elementos enriquecidos**. En Default, un mensaje viejo puede seguir en **Texto**: un párrafo con negrita, cursiva y subrayado. **JSON** guarda un objeto a mano, para un canal que espera ese formato.
 
-párrafo, imagen, video, audio, archivo, botones, respuestas rápidas,
-acordeón, desplegable, ubicación, separador, tarjeta, carrusel y HTML.
+En el texto caben huecos del [lenguaje de plantillas](/docs/Avanzado/LenguajeDePlantillas): `{$nombre}`.
 
-El bloque **HTML** acepta etiquetas (`h3`, `p`, `a`, `img`…) o una variable
-(`{$noticias}`). Se limpia antes de pintarse: no pasan `script`, `iframe`,
-`form` ni atributos de eventos.
+## Elementos
 
-Cualquier texto del bloque puede usar el
-[lenguaje de plantillas](/docs/Avanzado/LenguajeDePlantillas).
+Un bloque de **Elementos enriquecidos** es una lista. Se reordenan arrastrando. **Agregar Elemento** ofrece:
 
-## Dónde se editan
+![En Web, el bloque trae un párrafo y tres botones](/img/mensajes/web.png)
 
-- En **Mensajes**, como plantilla con nombre.
-- En el nodo del flujo, sin salir del lienzo.
-- En una captura, como mensaje personalizado o como plantilla elegida.
+| Elemento | Para qué |
+|---|---|
+| Párrafo | El texto. Puede haber varios en el mismo elemento |
+| Imagen | Una URL y el texto alternativo |
+| Video | URL, título y si arranca solo |
+| Audio | URL y título |
+| Archivo | URL, nombre y, si quieres, tamaño y extensión |
+| Botones | Cada uno con etiqueta y una acción |
+| Respuestas rápidas | Opciones cortas, como los botones |
+| Acordeón | Un título que abre un contenido |
+| Lista desplegable | Opciones y un botón para enviar la elegida |
+| Ubicación | Título, dirección, latitud y longitud |
+| Divisor | Una línea, con etiqueta opcional |
+| Tarjeta | Título, subtítulo, imagen y botones |
+| Carrusel | Varias tarjetas, una al lado de la otra |
+| HTML / Web | Etiquetas o una variable |
+
+Un botón puede **enviar texto** (eso es lo que escribe el usuario), mandar una **respuesta oculta**, **abrir una URL** o **disparar un evento**. También admite un icono y un color.
+
+El HTML se limpia antes de pintarse. Pasan títulos, párrafos, enlaces, imágenes y listas. No pasan `script`, `iframe` ni `form`. Una variable se escribe `{$noticias}`, no con llaves dobles.
+
+## Dónde se usa
+
+- En esta lista, con nombre, para reutilizarlo.
+- En el nodo del [flujo](./EditorVisual), pestaña **Conversación**: el texto se escribe ahí o se elige uno de estos mensajes.
+- En una [captura](./Capturas), como pregunta propia o como mensaje ya guardado.
