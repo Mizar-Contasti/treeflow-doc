@@ -1,115 +1,72 @@
 ---
 sidebar_position: 11
+sidebar_label: Diseño conversacional
 ---
 
-# Diseño Conversacional
+# Diseño conversacional
 
-El diseño conversacional es fundamental para crear experiencias efectivas con TreeFlow. Un buen diseño conversacional asegura que tus Árboles sean intuitivos, útiles y agradables para los usuarios.
+El diseño es el [flujo](./EditorVisual). Ahí se decide qué puede decir la persona, qué contesta el bot y a dónde sigue. Intenciones, entidades, mensajes y capturas son las piezas; el lienzo es el orden.
 
-![Diseño Conversacional](/img/docs/diseno_conversacional.svg)
+El ejemplo es el flujo **Restaurante**. El que arranca la conversación es otro: **flujo_principal**, marcado **Principal**. En la consola, el primer botón elige con cuál se prueba. **Por defecto** usa el principal.
 
-## Principios Básicos
+## Dónde espera
 
-### 1. Claridad en el Propósito
+El nodo verde no dice una frase. Espera. En Restaurante se llama **Inicio**. Ahí están las intenciones de ese tramo: saludo, el menú, el pedido, la reserva, los horarios.
 
-Cada Árbol debe tener un propósito claro y bien definido:
+![Inicio: las intenciones que el motor puede reconocer mientras la conversación está ahí](/img/flujos/contexto.png)
 
-- **Enfoque específico**: Define exactamente qué problemas resolverá tu Árbol
-- **Alcance limitado**: Es mejor tener varios Árboles especializados que uno que intente hacer demasiado
-- **Expectativas claras**: Los usuarios deben entender rápidamente para qué sirve el Árbol
+Mientras la conversación está en Inicio, el motor sólo prueba esas. Una intención que exista en el árbol y no esté enlazada aquí no se dispara. El rayo de al lado es el evento de cuando ninguna calza.
 
-### 2. Flujo Natural
+El flujo principal enlaza a Restaurante. Desde su inicio también se pueden usar las intenciones de este mapa. Si los dos tienen la misma, como `saludo`, gana el nodo del flujo en el que estás.
 
-Las conversaciones deben fluir de manera natural y lógica:
+## Un paso, y de vuelta
 
-![Flujo Conversacional](/img/docs/flujo_conversacional.svg)
+Cada intención naranja es una puerta. `saludo` se activa con esa [intención](./Intenciones), manda su [mensaje](./Mensajes) y la transición lo devuelve a **Inicio**.
 
-- **Estructura coherente**: Organiza las Ramas en un orden que tenga sentido
-- **Transiciones suaves**: Asegura que el cambio entre temas sea fluido
-- **Contexto mantenido**: El Árbol debe "recordar" información relevante durante la conversación
+![saludo: la intención, el mensaje de bienvenida y la vuelta a Inicio](/img/flujos/conversacion.png)
 
-### 3. Personalidad Consistente
+Por eso, después del saludo, «¿a qué hora abren?» se vuelve a oír. La conversación no se quedó dentro del saludo: regresó al sitio donde están las demás puertas. Horario, menú, precio y despedida hacen lo mismo.
 
-Mantén un tono y estilo coherentes en todas las respuestas:
+El texto de bienvenida no se escribe en el nodo. El nodo apunta al mensaje. En Default dice para qué sirve el bot: menú, pedido, reserva, horarios y ubicación.
 
-- **Voz de marca**: Refleja los valores y personalidad de tu marca
-- **Consistencia**: Usa el mismo estilo en todas las Ramas
-- **Adecuación al público**: Adapta el lenguaje a tu audiencia objetivo
+## Lo que falta se pregunta
 
-## Estructura de la Conversación
+Una reserva no es un nodo por cada dato. `reservar_mesa` tiene parámetros. El que está en **Requerido** se pregunta solo, con su texto, antes de mandar la confirmación.
 
-Una conversación bien diseñada generalmente sigue esta estructura:
+![numero, en reservar_mesa: la pregunta, qué decir si no se entiende y cuántas veces insistir](/img/intenciones/ajustes.png)
 
-![Estructura de la Conversación](/img/docs/estructura_conversacion.svg)
+«Quiero una mesa» no trae las personas. El bot pregunta «¿Para cuántas personas es la reserva?». Si la respuesta no es un número, usa el otro texto, hasta el límite. Luego manda la confirmación y vuelve a Inicio.
 
-## Diseñando el Flujo Conversacional
+`hacer_pedido` pregunta en orden lo que falte: la categoría, el sabor, la cantidad. La pregunta puede nombrar lo que ya se dijo, para que la persona vea cómo se entendió. Esos textos viven en el [parámetro](/docs/Avanzado/Parametros). Si la misma pregunta se va a reutilizar, se guarda como [captura](./Capturas).
 
-### Mapeo de Conversaciones
+## Si no reconoce la frase
 
-Antes de implementar tu Árbol en TreeFlow, es recomendable crear un mapa visual del flujo conversacional:
+El rayo es `sys.no-match`. No es una intención: es lo que pasa cuando, en este contexto, ninguna calzó.
 
-1. **Identifica los escenarios principales**: ¿Qué quieren lograr los usuarios?
-2. **Define los caminos de conversación**: ¿Cómo fluirá el diálogo en cada escenario?
-3. **Anticipa variaciones**: ¿De qué diferentes maneras podrían expresarse los usuarios?
-4. **Planifica puntos de decisión**: ¿Dónde necesitarás recopilar información específica?
+![El evento de no entender: sys.no-match y su mensaje](/img/flujos/evento.png)
 
-### Ejemplo de Mapa Conversacional
+El mensaje es «Lo siento, no entendí eso. ¿Podrías repetirlo?». La transición se elige igual que en una intención. Lo habitual es volver al contexto, para que el siguiente intento se oiga otra vez.
 
-```
-Inicio
-├── Saludo
-│   ├── Respuesta: Bienvenida + Opciones
-│   └── Transición a: Información, Reserva o Soporte
-├── Información
-│   ├── Respuesta: Presentar categorías de información
-│   └── Transición a: Detalles específicos o Menú principal
-├── Reserva
-│   ├── Recopilar: Fecha (Hoja)
-│   ├── Recopilar: Hora (Hoja)
-│   ├── Recopilar: Personas (Hoja)
-│   ├── Respuesta: Confirmación de reserva
-│   └── Transición a: Menú principal o Finalizar
-└── Soporte
-    ├── Respuesta: Opciones de ayuda
-    └── Transición a: Preguntas frecuentes o Contacto humano
-```
+## Cuando pide una persona
 
-## Mejores Prácticas
+`hablar_con_asesor` no vuelve a Inicio. La transición es **Transferencia a agente humano**, con la mesa de ayuda.
 
-### Para Ramas Efectivas
+![hablar_con_asesor: el mensaje, la transferencia a una persona y la mesa de ayuda](/img/diseno/asesor.png)
 
-- **Patrones diversos**: Incluye múltiples formas en que los usuarios podrían expresar la misma intención
-- **Especificidad**: Evita patrones demasiado genéricos que podrían activarse incorrectamente
-- **Priorización**: Organiza las Ramas por importancia y frecuencia de uso
+Antes avisa: «Te comunico con una persona del equipo». En Funcionalidad, **Termina una captura en curso** está activo. Si lo dice a mitad de un pedido, el bot deja de preguntar los datos y pasa la conversación. `cancelar_pedido` y `despedida` también cierran esa pregunta, y después vuelven a Inicio.
 
-### Para Hojas Útiles
+## Probar el mapa
 
-- **Extracción precisa**: Define claramente qué información debe capturar cada Hoja
-- **Validación**: Implementa verificaciones para asegurar que la información capturada es correcta
-- **Confirmación**: Confirma con el usuario que la información extraída es correcta
-- **Diseño anticipado**: Define tus Hojas antes de crear las Ramas, ya que TreeFlow capturará automáticamente como parámetros los valores clave que coincidan con tus Hojas
+En la consola, el primer botón en **Restaurante**. `hola` cae en `saludo` y contesta la bienvenida de ese flujo, no la del principal.
 
-### Para Respuestas Naturales
+![Consola en Restaurante: hola, la bienvenida, y el lienzo con Inicio recorrido y saludo en este turno](/img/diseno/recorrido.png)
 
-- **Brevedad**: Mantén las respuestas concisas y al punto
-- **Claridad**: Evita ambigüedades y jerga técnica innecesaria
-- **Accionabilidad**: Incluye siempre un próximo paso claro o una pregunta
+Con el modo debug, Inicio queda como lo ya recorrido y `saludo` como el nodo de este turno. El detalle de la consola está en [Probar el bot](./Testeo).
 
-## Pruebas y Refinamiento
+## En qué orden se arma
 
-El diseño conversacional es un proceso iterativo:
-
-1. **Prueba con usuarios reales**: Observa cómo interactúan con tu Árbol
-2. **Identifica puntos de fricción**: ¿Dónde se confunden o frustran los usuarios?
-3. **Analiza conversaciones fallidas**: ¿Por qué no se activó la Rama correcta?
-4. **Refina continuamente**: Ajusta patrones, respuestas y flujos según los datos recopilados
-
-## Herramientas de Diseño
-
-Para crear mapas de flujo conversacional, puedes utilizar:
-
-- Herramientas de diagramación como Draw.io, Lucidchart o Miro
-- Documentos compartidos con esquemas anidados
-- Tarjetas físicas para sesiones de diseño colaborativo
-
-Recuerda que un buen diseño conversacional comienza antes de tocar TreeFlow, con una planificación cuidadosa de la experiencia que quieres crear para tus usuarios.
+1. Las [intenciones](./Intenciones): una por escenario. Saludo, horario, reserva, pedido, persona.
+2. Las [entidades](./Entidades) y los parámetros: qué dato sale de la frase.
+3. La pregunta del parámetro, o una [captura](./Capturas), para lo que no vino.
+4. El [mensaje](./Mensajes) de cuando ya están los datos.
+5. El nodo en el flujo: qué intención lo dispara, qué mensaje manda y a dónde sigue. Casi todos vuelven al contexto. El que pasa a una persona, no.
