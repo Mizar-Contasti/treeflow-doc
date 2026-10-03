@@ -29,24 +29,35 @@ Arriba se busca por nombre. **Nuevo Mensaje** abre el editor vacío.
 
 ## Respuestas por canal
 
-El acordeón se llama **Respuestas por canal**. La pestaña **Default** siempre está. Las demás aparecen sólo si ese canal está conectado: Web, WhatsApp, Telegram, Facebook, Instagram, Email, Slack, Discord, ElevenLabs, Avatares IA.
+El acordeón se llama **Respuestas por canal**. Hay dos clases de pestaña.
 
-En `menu_docente` hay **Default** y **Web**, porque el canal web está activo.
+**Default** siempre está. Ahí el bloque es de tipo **Texto**: lo que el bot dice cuando el canal no trae una versión propia.
 
-- **Default** es el respaldo. Si el canal por el que escribe la persona no tiene bloques propios, sale esto.
-- Si ese canal sí tiene algo, manda el suyo y Default no entra. En la captura, Web lleva un párrafo y botones; quien escribe por la web ve eso, no el texto de Default.
-- Dentro de una pestaña, cada **Bloque** es una variante. Si hay dos, el bot elige **uno al azar** en cada turno y manda todos los elementos de ese bloque juntos.
-- Un bloque vacío no viaja y no entra en el sorteo.
+**Web** aparece cuando el canal web está conectado. Ahí el bloque es de tipo **Elementos enriquecidos**: párrafo, botones, imagen y el resto. WhatsApp, Telegram, Facebook, Instagram, Email, Slack, Discord, ElevenLabs y Avatares IA abren su pestaña igual que Web, sólo si ese canal está conectado, y el bloque también es de elementos enriquecidos.
 
-**Agregar Bloque** suma otra variante en la pestaña que estás viendo. El tipo de un bloque nuevo es **Elementos enriquecidos**. En Default, un mensaje viejo puede seguir en **Texto**: un párrafo con negrita, cursiva y subrayado. **JSON** guarda un objeto a mano, para un canal que espera ese formato.
+En `menu_docente` se ven las dos: Default con el texto y Web con el párrafo y los botones. Quien escribe por la web recibe el bloque de Web. Otro canal, si su pestaña está vacía, recibe el texto de Default.
 
-En el texto caben huecos del [lenguaje de plantillas](/docs/Avanzado/LenguajeDePlantillas): `{$nombre}`.
+Dentro de una misma pestaña, cada **Bloque** es una variante. Si hay dos, el bot elige **uno al azar** en cada turno. Un bloque vacío no viaja y no entra en el sorteo. **Agregar Bloque** suma otra variante en la pestaña abierta.
 
-## Elementos
+En el texto, de las dos pestañas, caben huecos del [lenguaje de plantillas](/docs/Avanzado/LenguajeDePlantillas): `{$nombre}`.
 
-Un bloque de **Elementos enriquecidos** es una lista. Se reordenan arrastrando. **Agregar Elemento** ofrece:
+## Default
 
-![En Web, el bloque trae un párrafo y tres botones](/img/mensajes/web.png)
+En Default el tipo es **Texto**. El campo se llama **Texto de respuesta**. Encima hay tres botones:
+
+![Default: el bloque de texto, con negrita, cursiva y subrayado](/img/mensajes/editor.png)
+
+- **Negrita.** Lo seleccionado queda entre `**`, y se pinta en negrita.
+- **Cursiva.** Queda entre `*`.
+- **Subrayado.** Queda entre `__`.
+
+El texto sale tal cual, con ese formato. **Contenido JSON**, en el mismo desplegable de tipo, guarda un objeto a mano cuando el canal espera ese formato.
+
+## Web
+
+En Web el tipo es **Elementos enriquecidos**. **Agregar Elemento** arma la lista, y se reordenan arrastrando.
+
+![Web: elementos enriquecidos, un párrafo y tres botones](/img/mensajes/web.png)
 
 | Elemento | Para qué |
 |---|---|
@@ -67,7 +78,7 @@ Un bloque de **Elementos enriquecidos** es una lista. Se reordenan arrastrando. 
 
 Un botón puede **enviar texto** (eso es lo que escribe el usuario), mandar una **respuesta oculta**, **abrir una URL** o **disparar un evento**. También admite un icono y un color.
 
-El HTML se limpia antes de pintarse. Pasan títulos, párrafos, enlaces, imágenes y listas. No pasan `script`, `iframe` ni `form`. Una variable se escribe `{$noticias}`, no con llaves dobles.
+El HTML se limpia antes de pintarse. Pasan títulos, párrafos, enlaces, imágenes y listas. No pasan `script`, `iframe` ni `form`. Una variable se escribe `{$noticias}`.
 
 ## Dónde se usa
 
