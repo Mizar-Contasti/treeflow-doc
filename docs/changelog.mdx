@@ -7,9 +7,52 @@ sidebar_position: 12
 ## 🎉 Versiones Recientes (2026)
 
 <details open>
-<summary><strong>Novedades desde V-0.9.0 (Septiembre 2026) - Mesa de Ayuda, Suites de Pruebas, Widget Adaptable y Bloque HTML</strong></summary>
+<summary><strong>Novedades desde V-0.9.0 (Septiembre–Octubre 2026) - Agente, Límites, Consola, Mesa de Ayuda y una Sola Llave</strong></summary>
 
 > Estos cambios aún no llevan número de versión de la aplicación. El widget del CDN, en cambio, ya está publicado: v1.3.6 y v1.3.7. Cuando se publique la siguiente versión de la aplicación, esta entrada pasa a llevarla.
+
+### 🤖 Agente Constructor y MCP
+> - **Anthropic Habla su Formato**: El chat mandaba el cuerpo de OpenAI a `/messages` y leía `choices[0].message`, así que fallaba aunque «Probar conexión» saliera bien. Ahora se traduce al formato nativo de la API Messages. El resto de proveedores no cambia. Ver [Proveedores y modelos](/docs/Agente/ModelosGenerativos).
+> - **46 Herramientas**: El ayudante interno que normaliza valores de entidad ya no se le ofrece al modelo. Sigue usándose al crear o modificar una entidad.
+> - **Tope del Chat**: 20 mensajes por minuto por usuario, 8 rondas de herramientas por petición y los últimos 14 mensajes de la conversación. Pasarse del minuto responde 429. Ver [Agente constructor](/docs/Agente/Constructor).
+> - **Lo que Crea se Puede Ejecutar**: Una herramienta HTTP que arma el agente se guarda en la forma plana que corre el motor, y queda guardada en el momento, con el mismo id. `PATCH` ya se ejecuta.
+> - **MCP en Credenciales**: Gestión → Credenciales tiene la pestaña MCP, aparte de las claves de API. Ver [MCP](/docs/Agente/Mcp).
+
+### 🏢 Panel de Administración y Tiers
+> - **`admin.tree-flow.com`**: App aparte, con cuentas de administrador propias. Un token de usuario de un workspace no abre el panel, ni al revés. Desde ahí se ven los workspaces (tier, estado, uso), se suspenden y reactivan, se apagan bots sueltos o todos a la vez, se cambia el tier y se anota la facturación a mano. Cada acción queda en una bitácora.
+> - **Apagar no Borra**: Un workspace suspendido responde 403 en el login y sus bots contestan un aviso fijo. Un bot apagado contesta ese aviso en el widget y en el resto de canales, sin tocar el motor. Se revierte al momento.
+> - **Cuatro Tiers**: `free`, `standard`, `premium` e `internal`. Asignar uno copia sus topes al workspace: bots, intenciones, entidades, mensajes, flujos y herramientas. Bajar de tier no borra lo que ya existe: sólo impide crear más. Un workspace anterior a los tiers conserva sus topes hasta que se le asigne uno.
+> - **Los Números**: Free cabe 5 bots, 50 intenciones, 100 entidades, 100 mensajes, 10 flujos y 100 herramientas por bot. Standard es cinco veces eso y premium veinte. Internal no tiene tope.
+
+### 🗂️ Menú
+> - **Cuatro Grupos**: Conversación (Flujos, Intenciones, Entidades, Mensajes, Capturas), Integración (Canales, Herramientas), Operación (Conversaciones, Mesa de ayuda, Pruebas) y Gestión (Historial, Respaldos, Diagnósticos, Cuentas, Credenciales). En modo principiante, Conversación enseña sólo Flujos.
+> - **Los Nombres de la App**: Flujos, canales y herramientas. Las direcciones son `/flows`, `/channels` y `/tools`.
+> - **El Nodo se Parte en Conversación y Funcionalidad**. Un árbol nuevo nace con `flujo_principal`. La pestaña Arquitectura del lienzo ya no está.
+> - **Entrenar** bajó a la fila de iconos. El color avanza mientras corre.
+
+### 🧪 Consola e Historial
+> - **En Debug se Ensancha** desde el borde izquierdo, y el arrastre sigue aunque el cursor salga del asa. Ver [Probar el bot](/docs/Fundamentos/ProbarElBot).
+> - **La Sesión por Partes**: parámetros, mensajes o metadata. Filtrar no encoge el cuadro: conserva el tamaño del JSON completo.
+> - **Un Nodo en Error se Pinta en Rojo** en el flujo mientras se depura.
+> - **El Antes y el Después, Lado a Lado**: en Gestión → Historial, un cambio se abre como diff. Ver [Historial](/docs/Misc/HistorialDetallado).
+> - **Un Parámetro, una Sola Vez**: en la sesión queda bajo su nombre. Antes podía duplicarse.
+
+### 📥 Capturas y Parámetros
+> - **La Pregunta Sale de una Captura**: el texto de «¿qué falta?» es una captura reutilizable, no un texto pegado a la intención. Ver [Capturas](/docs/Fundamentos/Capturas).
+> - **Sin Transición, Vuelve a Quien la Llamó**: una intención que no tiene a dónde seguir regresa sólo al contexto que la invocó.
+> - **A Mitad de una Pregunta**: otra intención sólo saca la captura si ese parámetro lo permite.
+> - **Cada Árbol ve las Suyas**: las capturas de un árbol sólo las lee y las modifica su workspace.
+> - **Olvidar al Volver a Entrar**: en los ajustes del parámetro, un check vacía ese valor cuando la conversación cae otra vez en su intención. En una compuesta el check va en cada sub-parámetro.
+
+### 📦 Exportar y el Teléfono
+> - **El JSON Lleva Scripts y APIs**: el import se los comía por un campo inválido y un bot restaurado llegaba sin ellos. Ver [Importar y exportar](/docs/Avanzado/ImportarExportar).
+> - **Paginación Distinta**: las listas se paginan aparte en web y en el teléfono.
+> - **La Pantalla Estrecha**: la bandeja, las listas de intenciones y de entidades, la cabecera y la consola usan el ancho del teléfono. El botón de la app es uno solo.
+> - **Las de Ejemplo ya no Traen Secretos**: salieron la consulta por CURP y las claves de Google de las herramientas que siembra un bot nuevo.
+
+### 📚 Documentación
+> - **El Sitio Usa los Nombres de la App**: flujos, nodos, intenciones, entidades, mensajes, capturas, canales, herramientas, funciones (`{ }` y `$`) y agente. La sintaxis `{{ }}` ya no se documenta como válida.
+> - **Dónde Quedó Cada Cosa**: las entidades de sistema están en [Entidades](/docs/Fundamentos/Entidades). Importar, exportar y respaldos están en [Avanzado](/docs/Avanzado/ImportarExportar). Despliegue y túnel salieron del sitio. Misceláneos se queda con el [historial del árbol](/docs/Misc/HistorialDetallado).
 
 ### 🧩 Variables del Sistema y Selector de Variables
 > - **`{$last_utterance}` y `{$last_no_match}`**: Dos variables que el motor arma solo, sin configurar nada. La primera es lo último que escribió el usuario; la segunda, la última frase que el bot no entendió. Se arman con la petición, así que ya valen en la respuesta, las herramientas y los scripts del turno. Ver [Variables del sistema](/docs/Avanzado/Funciones#variables-del-sistema).
@@ -31,7 +74,8 @@ sidebar_position: 12
 
 ### 🎧 Mesa de Ayuda (Helpdesk) y Transferencia a Humano
 > - **Aplicación Aparte para Operadores**: `helpdesk.tree-flow.com`, con su propio login. Cola de conversaciones que esperan a una persona, chat con el visitante en tiempo real (WebSocket) y panel con los datos del visitante. Ver [Mesa de Ayuda](/docs/Avanzado/MesaDeAyuda).
-> - **Reclamar, Responder, Cerrar o Devolver al Bot**: El operador toma la conversación, contesta y, al terminar, la cierra o se la devuelve al bot.
+> - **Reclamar, Responder, Cerrar o Devolver al Bot**: El operador toma la conversación, contesta y, al terminar, la cierra o se la devuelve al bot. También se puede transferir desde el chat. Al devolverla, el bot retoma desde el inicio.
+> - **La Cierra el Operador o el Visitante**. Mientras el otro escribe se ven tres puntos.
 > - **Dashboard de Operaciones (Administradores)**: Operadores en línea, chats en espera, atendidos por una persona, atendidos por el bot y resueltos hoy, más el estado de cada operador y la carga por bot. Es la vista por defecto de la mesa de ayuda.
 > - **Rol `operador`**: Los operadores sólo entran por la mesa de ayuda; el rol Viewer no entra en ella. El botón **Abrir app** de la mesa de ayuda sólo lo ven administradores y desarrolladores.
 > - **Bandeja en Vivo dentro de Conversaciones**: Una pestaña más para quien trabaja desde el panel principal.
@@ -67,11 +111,11 @@ sidebar_position: 12
 > - **Colores**: El avatar sigue el color de la cabecera mientras nadie lo cambie a propósito, *Restablecer* lo restablece, y el botón lanzador ya no se pone naranja al pasar el ratón con otras paletas.
 
 ### 🧱 Bloque HTML en Mensajes Enriquecidos
-> - **Nuevo Tipo `html`**: Escribe etiquetas (`<h3>`, `<p>`, `<blockquote>`, `<img>`, `<a>`…) o pon una variable de sesión (`{{noticias}}`) que devolvió una herramienta o una API.
+> - **Nuevo Tipo `html`**: Escribe etiquetas (`<h3>`, `<p>`, `<blockquote>`, `<img>`, `<a>`…) o pon una variable de sesión (`{$noticias}`) que devolvió una herramienta o una API.
 > - **Editor con Vista Previa**: Pestañas *Código / Variable* y *Vista Previa*, y varios fragmentos por bloque.
 > - **Sanitizado**: El HTML se limpia antes de pintarse: no pasan `script`, `iframe`, `object`, `embed`, `form` ni `input`, ni atributos de eventos (`onerror`, `onclick`…).
 > - **Listas y JSON como Datos**: Una variable que contiene una lista de elementos (`title`, `image`, `content`/`html`/`excerpt`) se pinta como una serie de fragmentos separados.
-> - **Interpolación de Listas y Objetos**: `{{$variable}}` con una lista o un objeto ahora se inserta como JSON en vez de fallar o mostrar la representación interna.
+> - **Interpolación de Listas y Objetos**: `{$variable}` con una lista o un objeto ahora se inserta como JSON en vez de fallar o mostrar la representación interna.
 > - **Tipos de Respuesta `html` y `json`**: El motor los acepta como respuesta directa y los entrega al widget como bloque HTML.
 > - **También en el Widget del CDN (v1.3.6)**: Pinta el bloque `html` y las respuestas de tipo `html` dentro del chat, en vez de mostrar las etiquetas como texto. Sanea con DOMPurify y abre los enlaces en una pestaña nueva con `noopener noreferrer`. El bundle pasa de 109 a 144 KiB por incluir DOMPurify.
 
@@ -82,21 +126,21 @@ sidebar_position: 12
 > - **Un Fallo ya no se Anuncia como Éxito**: Un entrenamiento que reventaba salía como *"sin entrenar"* y la interfaz lo daba por bueno. Ahora el estado es `error`.
 > - **El Entrenamiento Volvía a Funcionar**: Desde el 7-sep las fases 1 y 2 morían con `ModuleNotFoundError` en cualquier entorno.
 > - **Entrenar Forzado**: Cuando el botón está en *"actualizado"* se puede reentrenar igualmente (`?force=true`), y no se lanza un segundo entrenamiento sobre uno en curso. Los entrenamientos colgados más de 20 minutos se dan por fallidos.
-> - **Plantillas y Reforestación Marcan el Árbol como Desactualizado**: Aplicar una plantilla o reemplazar intenciones en bloque ahora avisa de que hay que reentrenar. Antes el motor seguía con el modelo viejo sin decir nada.
+> - **Plantillas y el Agente Marcan el Árbol como Desactualizado**: Aplicar una plantilla o reemplazar intenciones en bloque ahora avisa de que hay que reentrenar. Antes el motor seguía con el modelo viejo sin decir nada.
 > - **Al Abrir la Aplicación**: Se abre el último árbol con el que trabajaste, y si no hay ninguno recordado, uno de los existentes.
 
-### 🛠️ Herramientas y Scripts (Fertilizantes)
+### 🛠️ Herramientas y Scripts
 > - **Tres Estados de Ejecución**: `ok` (✓ 200), `sin datos` (⚠ 200 sin ninguna variable de salida: el flujo sigue con los valores de respaldo) y `error` (✗). Antes una respuesta correcta sin salidas configuradas contaba como error.
 > - **Mensaje si Falla**: Cada herramienta y script tiene su mensaje amable por idioma. El usuario final ya no lee el texto técnico; éste queda en el modo debug.
 > - **Pruebas por el Backend**: El botón *Probar* ejecuta la herramienta con el mismo ejecutor que la conversación, sin CORS ni criterios distintos. Sólo queda validada con estado `ok`.
-> - **Lápiz para Editar sin Salir**: En las tarjetas de herramientas y scripts del editor de nodos y en las fichas del modo debug de la consola, con el mismo editor que la página de Fertilizantes.
+> - **Lápiz para Editar sin Salir**: En las tarjetas de herramientas y scripts del editor de nodos y en las fichas del modo debug de la consola, con el mismo editor que la página de Herramientas.
 > - **Scripts con su Icono**: Las fichas de debug distinguen scripts (`<>`) de herramientas.
 > - **Seguridad**: Listar, guardar, cambiar el estado y leer los logs de ejecución de las herramientas de un árbol ahora exige sesión (o API key) y que el árbol sea de tu workspace. Antes algunos de esos endpoints respondían sin autenticar.
 
 ### 💬 Respuestas por Canal
-> - **Nombres Nuevos**: La sección se llama *Respuestas por canal* y la pestaña por defecto, *Default*. Un solo botón **Agregar Bloque**; dentro se eligen los elementos, y los bloques van numerados.
+> - **Nombres Nuevos**: La sección se llama *Respuestas por canal* y la pestaña por defecto, *General*. Un solo botón **Agregar Bloque**; dentro se eligen los elementos, y los bloques van numerados.
 > - **Con Varios Bloques el Bot Elige Uno al Azar** en cada respuesta y manda todos sus elementos. Ahora lo dice la pantalla.
-> - **Default Admite Bloques de Elementos**, igual que el resto de pestañas. Los canales que no saben pintarlos los convierten a texto.
+> - **General Admite Bloques de Elementos**, igual que el resto de pestañas. Los canales que no saben pintarlos los convierten a texto.
 > - **Se Acabó el Sorteo entre Dos Copias**: Editar una plantilla en pantalla dejaba viva la versión anterior y el bot alternaba entre las dos (*"a veces salen tres botones y a veces cinco"*). Manda la traducción.
 > - **Un Bloque Vacío no Viaja ni Entra en el Sorteo**: Ya no aparecen burbujas en blanco.
 > - **El Texto de una Plantilla no se Inventa**: Desaparecen los rellenos *"Contenido de mensaje enriquecido"* y *"Mensaje enriquecido"*.
