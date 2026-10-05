@@ -1,290 +1,103 @@
 ---
 sidebar_position: 1
+sidebar_label: Agente constructor
 ---
 
-# 🌱 Reforestación: IA Generativa para TreeFlow
-
-La **Reforestación** es el sistema de inteligencia artificial generativa de TreeFlow que permite crear automáticamente Hojas (entidades) e Intenciones (intents) usando modelos de lenguaje avanzados.
+# Agente constructor IA
 
-## ¿Qué es Reforestación?
+El agente construye el bot **conversando contigo**. Le dices qué quieres —«agrega un flujo para consultar el horario»— y él crea las intenciones, los nodos y los mensajes, los conecta y te cuenta qué hizo y dónde.
 
-Reforestación es una herramienta revolucionaria que utiliza IA para expandir automáticamente las capacidades conversacionales de tu Árbol. En lugar de crear manualmente cada Hoja e Intención, simplemente describes la funcionalidad que necesitas y la IA genera todo el contenido estructurado.
+Trabaja sobre el **bot que tengas seleccionado** en el selector de arriba a la izquierda. Se abre desde la consola, con el icono del robot. Para conectarlo a un proveedor, sigue [Primer encargo](/docs/Reforestacion/GuiaInicioReforestacion).
 
-### Características Principales
+:::note Reforestación
+Es la función que antes se llamaba así. Las páginas del generador de seis fases y del servicio del puerto 8001 se retiraron: ya no existen en la app.
+:::
 
-- **🤖 Generación Automática**: Crea Hojas e Intenciones con un simple prompt de texto
-- **🎯 Adaptación Universal**: Se adapta a cualquier dominio o industria automáticamente
-- **👁️ Vista Previa**: Revisa todos los cambios antes de aplicarlos a tu Árbol
-- **📝 Historial Completo**: Registro detallado de todas las sesiones y modificaciones
-- **🔄 Integración Perfecta**: Los elementos generados se integran seamlessly con tu Árbol existente
+## Qué hace
 
-## Cómo Funciona
+- **Crea y modifica** ramas, nodos, intenciones, entidades, mensajes y herramientas HTTP.
+- **Conecta** lo que crea: una intención nueva no sirve si ningún nodo de contexto la escucha, así que además la enlaza.
+- **Consulta**: la estructura del bot, el estado del entrenamiento, conversaciones y registros, y puede **simular un mensaje** para ver qué contestaría.
+- **Entrena** el bot si se lo pides, y consulta el estado y el historial de entrenamientos.
+- **Explica** al terminar: la rama afectada, los nodos e intenciones tocados y frases para probar el resultado.
 
-### 1. Análisis del Contexto Actual
+La lista completa está en [Qué puede tocar](/docs/Reforestacion/GenAITools).
 
-La IA analiza tu Árbol existente para entender:
-- Qué Hojas ya tienes definidas
-- Qué Intenciones están configuradas
-- El dominio y propósito de tu chatbot
+## Cómo pedírselo
 
-### 2. Procesamiento del Prompt
+Habla con él como con una persona que ya conoce tu bot. Cuanto más concreto, mejor sale.
 
-Cuando describes una nueva funcionalidad, la IA:
-- Identifica las **acciones** (verbos) necesarias
-- Detecta los **objetos** (sustantivos) relevantes
-- Determina las **intenciones** que se requieren
+| En vez de | Prueba con |
+|---|---|
+| «Mejora el bot» | «Añade una intención para consultar el horario, con 8 frases de ejemplo, y que conteste con el horario de lunes a viernes» |
+| «Arregla el saludo» | «El saludo contesta dos veces. Revisa el nodo de la intención `saludo` y dime qué ves antes de cambiarlo» |
+| «Crea un flujo de reservas» | «Crea una rama `reservas` con una intención `reservar_mesa` que pida fecha y número de personas» |
 
-### 3. Generación Inteligente
+Puede **preguntarte** lo que falte. No inventa direcciones, claves ni tokens de herramientas HTTP: te los pide.
 
-El sistema genera automáticamente:
+## Cómo trabaja
 
-#### **Hojas (Entidades)**
-```json
-{
-  "name": "agendar",
-  "type": "simple",
-  "values": [
-    {
-      "key": "agendar",
-      "synonyms": ["agendar", "programar", "reservar", "solicitar", "pedir"]
-    }
-  ]
-}
-```
+1. **Mira antes de crear.** Lista lo que ya existe —intenciones, entidades, ramas, nodos, mensajes, herramientas— para no duplicar.
+2. **Elige la rama.** Por defecto, la principal; si quieres otra, dilo.
+3. **Crea y conecta.** La intención, su nodo con la respuesta, y la referencia en el nodo de contexto que la escucha.
+4. **Te lo cuenta.** Qué cambió, dónde y con qué frases probarlo.
 
-#### **Intenciones (Intents)**
-```json
-{
-  "name": "agendar_cita",
-  "patterns": ["quiero @agendar una @cita", "necesito @agendar mi @cita"],
-  "entities": [
-    {"name": "agendar", "required": false},
-    {"name": "cita", "required": false}
-  ],
-  "responses": [
-    {
-      "type": "text",
-      "value": "Perfecto, voy a {agendar} tu {cita} para la fecha disponible"
-    }
-  ]
-}
-```
+Escribe en el **idioma principal del bot** —español, inglés, francés, italiano, portugués o alemán—: las intenciones, las frases de entrenamiento, las respuestas y los sinónimos salen en ese idioma. En los nombres quita los acentos y cambia los espacios por guion bajo (`consultar_horario`).
 
-## Estrategia de Entidades
+## Lo que ves en el chat
 
-### Separación Semántica
+Cada respuesta del agente trae debajo la lista de **acciones** que ejecutó, con una marca verde si salió bien y roja si la herramienta devolvió un error. Se puede abrir cada una para ver la herramienta, los argumentos y lo que devolvió. Si el agente propuso cambios que esperan tu visto bueno, en su lugar verás la tarjeta de confirmación.
 
-Reforestación utiliza una estrategia inteligente que separa automáticamente:
+Cuando el agente cambia algo, el panel se actualiza solo. Si algo no aparece, recarga la página.
 
-#### **Entidades de Acciones**
-- Verbos y acciones que el usuario puede realizar
-- Ejemplos: `crear`, `eliminar`, `modificar`, `consultar`, `enviar`
-- Incluye sinónimos naturales para cada acción
+Las conversaciones se **guardan por bot**: puedes abrir una anterior desde el historial, empezar otra o borrar una.
 
-#### **Entidades de Objetos**
-- Sustantivos y conceptos sobre los que se actúa
-- Ejemplos: `producto`, `usuario`, `pedido`, `mensaje`, `archivo`
-- Incluye variaciones y sinónimos relevantes
+## Antes de pedirle cambios grandes
 
-### Ventajas de esta Estrategia
+Por defecto el agente **te pregunta antes de cambiar nada**. Cuando decide crear, modificar o eliminar algo, no lo ejecuta: te enseña una tarjeta **Confirmar cambios propuestos** con cada acción (qué herramienta y sobre qué), y no pasa nada hasta que pulses **Confirmar**. Con **Rechazar** se descarta todo. Puedes abrir cada acción de la tarjeta para ver los argumentos completos antes de decidir.
 
-- **🎯 Mejor Desambiguación**: Distingue claramente entre "agendar cita" vs "cancelar cita"
-- **🔄 Reutilización**: Las mismas acciones sirven para diferentes objetos
-- **📈 Escalabilidad**: Fácil agregar nuevas acciones u objetos
-- **🗣️ Naturalidad**: Patrones de conversación más naturales
+Las consultas —listar, ver la estructura, simular un mensaje— no cambian nada y se ejecutan siempre sin preguntar.
 
-## Variables Dinámicas
+### Los tres casilleros
 
-### Respuestas Personalizadas
+En la configuración del agente hay tres casilleros, **activos por defecto**, y cada uno gobierna un grupo de acciones:
 
-Las respuestas generadas incluyen variables dinámicas que se reemplazan automáticamente:
+| Casillero | Qué detiene |
+|---|---|
+| **Pedir confirmación para crear** | Crear ramas, nodos, intenciones, entidades, plantillas de mensaje, herramientas, usuarios y respaldos |
+| **Pedir confirmación para modificar** | Modificar el bot, ramas, nodos, intenciones, entidades, plantillas, herramientas, usuarios, integraciones y la voz; también **entrenar** el bot |
+| **Pedir confirmación para eliminar** | Eliminar ramas, nodos, intenciones, entidades, plantillas, herramientas y usuarios |
 
-```
-Usuario: "quiero programar una consulta"
-Bot captura: agendar = "programar", cita = "consulta"
-Bot responde: "Perfecto, voy a programar tu consulta para la fecha disponible"
-```
+Si apagas uno, las acciones de ese grupo se ejecutan en el momento, como antes. Es la credencial la que guarda los casilleros, así que cada credencial puede tener los suyos.
 
-### Formato de Variables
+:::tip Qué ocurre al confirmar
+La tarjeta aplica las acciones **en orden**. Si una falla, se detiene en ella: las anteriores ya quedaron hechas (y salen de la tarjeta, para que reintentar no las repita) y se muestra el motivo.
+:::
 
-- **Sintaxis**: `{nombre_variable}`
-- **Coincidencia**: Las variables coinciden con los nombres de las entidades
-- **Flexibilidad**: Se adaptan automáticamente al contexto capturado
+### Aun así, antes de un cambio grande
 
-## Flujo de Trabajo
+- **Pídele un respaldo antes.** Tiene una herramienta para crearlo, y [Importar y exportar](/docs/Misc/ImportarExportar) explica cómo restaurar uno. Crear un respaldo también pide confirmación mientras el casillero de crear esté activo.
+- **Pide primero el plan.** «Dime qué vas a cambiar, sin cambiarlo todavía» ayuda a que el agente lo describa antes de proponerlo.
+- Si apagaste los casilleros, revisa la lista de **acciones** de cada respuesta: ya se ejecutaron.
+- Las altas, cambios y borrados de **ramas, entidades e intenciones** quedan en el historial de cambios del bot, que el agente también puede consultar. Los de nodos y mensajes no se registran ahí.
 
-### 1. Acceso a Reforestación
+## Qué no hace
 
-1. Navega a tu Árbol en TreeFlow
-2. Selecciona **"Reforestación"** en el menú lateral
-3. Verás la interfaz de generación con IA
+- **No contesta a tus usuarios.** Construye el bot; la conversación la lleva el motor con lo construido. Ver [La IA en TreeFlow](/docs/Reforestacion/Introduccion).
+- **No toca otros bots ni otros workspaces.** Solo el seleccionado, y eso lo fija el servidor, no el modelo.
+- **No crea ni modifica administradores.** Puede gestionar usuarios de otros roles, pero no administradores.
+- **No ve tus claves.** Cuando lista credenciales, la configuración secreta no se le devuelve.
+- **Recuerda poco.** Trabaja con los últimos 14 mensajes de la conversación, así que en una conversación muy larga conviene recordarle el contexto.
 
-### 2. Descripción de Funcionalidad
+## Si algo falla
 
-1. **Escribe un prompt descriptivo** de la funcionalidad que necesitas
-2. **Ejemplos efectivos**:
-   - "Sistema de gestión de citas médicas"
-   - "Bot de soporte técnico para software"
-   - "Asistente de reservas para restaurante"
-   - "Gestión de inventario para almacén"
+| Mensaje | Qué pasó |
+|---|---|
+| *API Key requerida* | No hay ninguna credencial de IA en el workspace |
+| Error **401** | La clave no es válida o venció |
+| Error **404** | El modelo elegido no existe en ese proveedor |
+| Error **429** | Llegaste al límite de peticiones, el del propio agente (20 mensajes por minuto por usuario) o el de tu proveedor: espera un momento |
+| Error **503** | El servicio del proveedor no está disponible: reintenta |
+| *Límite de iteraciones alcanzado sin respuesta final* | La petición necesitó más de 8 rondas de herramientas: pídela en pasos más pequeños |
 
-### 3. Vista Previa de Cambios
-
-1. La IA analiza tu prompt y genera:
-   - **Nuevas Hojas** con valores y sinónimos
-   - **Nuevas Intenciones** con patrones y respuestas
-   - **Análisis de confianza** (0-100%)
-
-2. **Revisa cuidadosamente**:
-   - Nombres de entidades
-   - Sinónimos propuestos
-   - Patrones de conversación
-   - Respuestas generadas
-
-### 4. Aplicación de Cambios
-
-1. **Si estás satisfecho**: Haz clic en "Aplicar Cambios"
-2. **Si necesitas ajustes**: Haz clic en "Cancelar" y refina tu prompt
-3. **Los cambios se aplican automáticamente** a tu Árbol
-
-### 5. Validación y Testing
-
-1. **Ve a Ramas**: Verifica que las nuevas intenciones aparezcan
-2. **Ve a Hojas**: Confirma que las nuevas entidades estén disponibles
-3. **Prueba en el chat**: Valida que todo funcione correctamente
-
-## Historial de Sesiones
-
-### Registro Completo
-
-Reforestación mantiene un historial detallado de:
-- **Prompts utilizados**: Qué describiste en cada sesión
-- **Cambios generados**: Qué Hojas e Intenciones se crearon
-- **Fecha y hora**: Cuándo se realizó cada modificación
-- **Estado de aplicación**: Si los cambios se aplicaron o cancelaron
-
-### Beneficios del Historial
-
-- **📊 Trazabilidad**: Saber exactamente qué cambió y cuándo
-- **🔄 Reproducibilidad**: Repetir generaciones exitosas
-- **📈 Aprendizaje**: Entender qué prompts funcionan mejor
-- **🛡️ Seguridad**: Posibilidad de revertir cambios si es necesario
-
-## Mejores Prácticas
-
-### Prompts Efectivos
-
-#### ✅ Prompts Recomendados
-```
-"Sistema de gestión de pedidos para restaurante"
-"Bot de soporte técnico con tickets y resoluciones"
-"Asistente de reservas hoteleras con check-in/check-out"
-"Gestión de inventario con entrada y salida de productos"
-```
-
-#### ❌ Prompts Poco Efectivos
-```
-"Hacer un bot"
-"Ayuda general"
-"Conversación básica"
-"Responder preguntas"
-```
-
-### Consejos para Mejores Resultados
-
-1. **Sé específico sobre el dominio**: "gestión de citas médicas" vs "gestión general"
-2. **Menciona las acciones principales**: "agendar, cancelar, modificar citas"
-3. **Incluye el contexto de uso**: "para clínica dental" vs "para spa"
-4. **Describe los objetos principales**: "citas, pacientes, tratamientos"
-
-### Iteración y Refinamiento
-
-1. **Comienza con prompts generales** para establecer la base
-2. **Refina con prompts específicos** para casos particulares
-3. **Revisa siempre la vista previa** antes de aplicar
-4. **Prueba en el chat** después de cada aplicación
-
-## Limitaciones y Consideraciones
-
-### Limitaciones Actuales
-
-- **Dependencia de claridad del prompt**: Prompts ambiguos generan resultados menos precisos
-- **No modifica entidades existentes**: Solo crea nuevas, no edita las actuales
-- **Requiere revisión humana**: Siempre revisa antes de aplicar cambios
-- **Idioma principal**: Optimizado para español, funciona en otros idiomas con menor precisión
-
-### Consideraciones de Uso
-
-- **Backup recomendado**: Siempre ten una copia de seguridad de tu Árbol antes de cambios masivos
-- **Testing exhaustivo**: Prueba todas las nuevas funcionalidades antes de producción
-- **Iteración gradual**: Mejor hacer varios cambios pequeños que uno masivo
-- **Validación de negocio**: Asegúrate de que los cambios alineen con tus objetivos
-
-## Integración con el Ecosistema TreeFlow
-
-### Compatibilidad Total
-
-Los elementos generados por Reforestación son **100% compatibles** con:
-- **Ramas existentes**: Se integran perfectamente con tus intenciones actuales
-- **Hojas existentes**: Complementan tus entidades sin conflictos
-- **Fertilizantes**: Funcionan con todos tus webhooks configurados
-- **Canales**: Compatible con todas las integraciones
-
-### Flujo de Desarrollo
-
-1. **Diseño inicial**: Crea la estructura base de tu Árbol manualmente
-2. **Expansión con IA**: Usa Reforestación para agregar funcionalidades complejas
-3. **Refinamiento manual**: Ajusta detalles específicos según necesites
-4. **Testing y optimización**: Valida y mejora el rendimiento
-
-## Casos de Uso Comunes
-
-### 🏥 Sector Salud
-- **Gestión de citas médicas**: Agendar, cancelar, modificar consultas
-- **Información de síntomas**: Consultas sobre malestares y tratamientos
-- **Recordatorios de medicamentos**: Gestión de horarios y dosis
-
-### 🛒 E-commerce
-- **Gestión de pedidos**: Crear, modificar, cancelar, rastrear pedidos
-- **Catálogo de productos**: Búsqueda, comparación, recomendaciones
-- **Soporte al cliente**: Devoluciones, garantías, consultas técnicas
-
-### 🏨 Hospitalidad
-- **Reservas hoteleras**: Check-in, check-out, modificaciones
-- **Servicios del hotel**: Spa, restaurante, room service
-- **Información turística**: Atracciones, transporte, recomendaciones
-
-### 💼 Recursos Humanos
-- **Gestión de empleados**: Contratación, evaluaciones, capacitaciones
-- **Solicitudes internas**: Vacaciones, permisos, reportes
-- **Información corporativa**: Políticas, beneficios, procedimientos
-
-## Próximas Mejoras
-
-### Versión 0.4 (Planificada)
-- **Edición de entidades existentes**: Modificar Hojas ya creadas
-- **Análisis de sentimientos**: Respuestas adaptadas al estado emocional
-- **Métricas de efectividad**: Analytics de las generaciones de IA
-- **Plantillas de dominio**: Prompts predefinidos para industrias comunes
-
-### Feedback y Mejora Continua
-
-Tu feedback es valioso para mejorar Reforestación:
-- **Reporta prompts que no funcionan bien**
-- **Sugiere dominios específicos para optimizar**
-- **Comparte casos de uso exitosos**
-- **Propón nuevas funcionalidades**
-
----
-
-## Empezar con Reforestación
-
-¿Listo para potenciar tu Árbol con IA? 
-
-1. **Accede a tu Árbol** en TreeFlow
-2. **Navega a Reforestación** en el menú lateral
-3. **Describe tu funcionalidad** en el campo de prompt
-4. **Revisa la vista previa** de cambios generados
-5. **Aplica los cambios** que consideres apropiados
-
-¡Experimenta con diferentes prompts y descubre el poder de la generación automática de contenido conversacional!
+Si el mensaje no llegó, el chat deja **reenviarlo** o **editarlo**.

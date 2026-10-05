@@ -1,39 +1,54 @@
 ---
-sidebar_position: 5
+sidebar_position: 4
+sidebar_label: Qué puede tocar
 ---
 
-# GenAI Tools y Modo Principiante
+# Qué puede tocar el agente
 
-En marzo de 2026, el motor generativo de TreeFlow dio un salto cualitativo al incorporar **Capabilities (Capacidades de Herramientas)**, también conocido como GenAI Tools. Esto le dio a la Inteligencia Artificial el poder de no solo *hablar* o *analizar*, sino de **actuar** directamente sobre la interfaz en favor del usuario.
+El agente no tiene acceso libre a la base de datos: trabaja con **46 herramientas**, y cada una hace una cosa concreta. Si algo no está aquí, no puede hacerlo.
 
-## ¿Qué son las GenAI Tools?
+Cada acción que ejecuta aparece en el chat con el nombre de la herramienta, así que esta tabla sirve para entender lo que ves.
 
-Tradicionalmente, un modelo de lenguaje está limitado a predecir la siguiente palabra. Al integrar *Tools*, el modelo es capaz de interrumpir su generación de texto y disparar un "Function Call" hacia el sistema de TreeFlow. 
+## Las herramientas
 
-Esto significa que cuando el motor generativo analiza una estructura conversacional, puede **ejecutar herramientas** (ej. buscar bases de datos, inyectar componentes en el Canvas) para agilizar el trabajo.
+**Mira** quiere decir que solo lee. **Cambia** que modifica el bot.
 
-## El Modo Principiante
+| Área | Herramientas | Qué permiten |
+|---|---|---|
+| **Árbol** | `get_tree_data` · `update_tree` | Mira la estructura completa (ramas, nodos, intenciones, entidades). Cambia el nombre, la descripción, el propósito, el webhook, el modo del bot y la configuración de [Entendimiento](/docs/Avanzado/NLP): modo, análisis de sentimiento y umbrales |
+| **Ramas** | `list_branches` · `create_branch` · `update_branch` · `delete_branch` | Mira las ramas. Crea una rama con su nodo inicial. Cambia sus propiedades, no sus nodos. Elimina una rama **con todos sus nodos** |
+| **Nodos** | `list_leafs` · `create_leaf` · `update_leaf` · `delete_leaf` | Mira los nodos de una rama. Crea, modifica y elimina nodos |
+| **Intenciones** | `list_intents` · `create_intent` · `update_intent` · `delete_intent` | Mira las intenciones. Crea una con sus frases de entrenamiento y parámetros. Modifica y elimina |
+| **Entidades** | `list_entities` · `create_entity` · `update_entity` · `delete_entity` | Mira las entidades. Crea, modifica y elimina |
+| **Mensajes** | `list_message_templates` · `create_message_template` · `update_message_template` · `delete_message_template` | Mira las plantillas de mensaje. Crea una para respuestas estructuradas o enriquecidas, la actualiza o la elimina |
+| **Herramientas HTTP** | `list_fertilizers` · `create_fertilizer` · `update_fertilizer` · `delete_fertilizer` | Mira, crea, modifica y elimina las [herramientas](/docs/Fertilizantes) del bot que llaman a una API. Los secretos de autenticación no se le muestran |
+| **Entrenamiento** | `get_bot_training_status` · `trigger_bot_training` · `list_training_history` | Mira el estado y el historial de entrenamientos, con sus errores. Lanza un entrenamiento |
+| **Probar y observar** | `simulate_chat_message` · `list_conversations` · `get_conversation` · `list_logs` · `get_log` | Manda un mensaje de prueba y trae la respuesta. Mira conversaciones y registros del sistema para depurar |
+| **Canales** | `list_integrations` · `configure_integration` | Mira los [canales](/docs/Injertos/CanalesDeComunicacion) y los **enciende o apaga**. No guarda credenciales de un canal |
+| **Voz** | `get_voice_config` · `update_voice_config` | Mira y cambia la configuración de voz (reconocimiento y síntesis) |
+| **Usuarios** | `list_users` · `create_user` · `update_user` · `delete_user` | Mira, crea o invita, cambia el rol o la actividad y elimina usuarios del workspace |
+| **Respaldos e historial** | `list_backups` · `create_backup` · `list_change_history` | Mira los respaldos. Crea uno. Lee el historial de cambios del bot |
+| **Credenciales** | `list_credentials` | Mira qué credenciales hay en el workspace, **sin sus claves** |
 
-Para reducir la curva de aprendizaje de los nuevos diseñadores conversacionales, TreeFlow implementó el **Modo Principiante**. 
+## Lo que mira y lo que cambia
 
-Esta característica utiliza activamente las *GenAI Tools*:
-1. **Asistencia Interactiva**: El sistema guía al usuario en la construcción de su primer árbol.
-2. **Generación Asistida**: Al utilizar las *Tools*, la IA puede auto-rellenar intenciones o proponer configuraciones de parámetros (slotfilling) automáticamente, basándose en la descripción que el usuario provee.
-3. **Tutorialización Dinámica**: Dependiendo de dónde te encuentres atascado, la IA usa sus herramientas para sugerirte el paso técnico exacto a seguir, ahorrándote minutos de lectura de manuales.
+- **Cambian el bot:** todo lo que empieza por `create_`, `update_` o `delete_`, más `trigger_bot_training` y `configure_integration`.
+- **Solo miran:** `get_`, `list_` y `simulate_chat_message` (este último no cambia el bot, pero sí deja una conversación de prueba).
 
-En conjunto, el Pipeline de 6 Fases (Reforestación) apoyado por estas Herramientas Generativas, convierte a TreeFlow en uno de los diseñadores conversacionales más intuitivos del ecosistema.
+Las **siete** que eliminan son `delete_branch`, `delete_leaf`, `delete_intent`, `delete_entity`, `delete_message_template`, `delete_fertilizer` y `delete_user`.
 
-## Treeflow AI Builder Agent (V-0.6.0)
+:::warning Se ejecutan al momento
+Hoy el agente ejecuta estas herramientas en cuanto decide usarlas. Ver [Antes de pedirle cambios grandes](/docs/Reforestacion#antes-de-pedirle-cambios-grandes).
+:::
 
-En julio de 2026, Treeflow evolucionó el concepto de GenAI Tools lanzando el **Treeflow AI Builder Agent**, una consola conversacional integrada en el editor que permite construir, modificar y consultar cualquier componente del chatbot conversando directamente con el agente.
+## Los límites de fábrica
 
-### ⚙️ Capacidades del Agente
-- **Creación y Edición**: Ramas (`branches`), nodos (`leaves`), intenciones (`intents`), entidades simples y compuestas (`entities`), plantillas de mensajes, usuarios y fertilizantes.
-- **Consultas en Tiempo Real**: Inspección de la estructura actual del bot, estado del entrenamiento NLU y configuraciones de voz.
-- **Confirmación Interactiva**: Solicitud de aprobación gráfica al usuario antes de aplicar cambios estructurales o destructivos.
+Estas reglas las pone el servidor, no el modelo. No dependen de lo que el agente «entienda» ni de lo que tú le digas:
 
-### 🛡️ Seguridad, Aislamiento y Resiliencia
-1. **Protocolo Anti-Duplicados de 2 Capas**: Regla obligatoria en System Prompt y verificaciones backend en todas las herramientas de creación que evitan la duplicación accidental de recursos por nombre.
-2. **Aislamiento Multitenant Inviolable**: Validación de propiedad (`verify_tree_ownership`) y sobrescritura forzosa de los parámetros `tree_id` y `workspace_id` a nivel de backend, impidiendo prompt injections u alucinaciones del modelo hacia otros árboles o espacios de trabajo.
-3. **Savepoints Transaccionales (`db.begin_nested()`)**: Las acciones del agente se ejecutan en sub-transacciones atómicas. Si una herramienta falla en un turno de múltiples acciones, la base de datos realiza rollback automático garantizando la consistencia del chatbot.
+- **Solo el bot seleccionado.** El servidor comprueba que el bot sea de tu workspace y fija él mismo el bot, el workspace y el usuario en cada herramienta. Un modelo que invente otro identificador no consigue nada.
+- **Sin administradores.** `create_user`, `update_user` y `delete_user` rechazan a los administradores: no los crea, no los cambia y no los elimina.
+- **Sin claves.** `list_credentials` y `list_fertilizers` no devuelven secretos.
 
+## Lo que no está
+
+No hay herramienta para guardar las **credenciales** de un canal (solo encenderlo o apagarlo), para subir archivos, ni para tocar otros bots o workspaces. Tampoco para leer claves.

@@ -1,103 +1,38 @@
 ---
 sidebar_position: 0
+sidebar_label: La IA en TreeFlow
 ---
 
-# Introducción a la IA en TreeFlow
+# La IA en TreeFlow
 
-El camino actual es el **agente constructor**, la pestaña Agente de la [consola](/docs/Fundamentos/Testeo). Con la clave de un proveedor del workspace (Anthropic, OpenAI, Gemini, Groq, Cerebras, xAI, Mistral, OpenRouter u Ollama) crea y modifica flujos, nodos, intenciones y entidades. Puedes pedirle confirmación antes de crear, modificar o eliminar.
+TreeFlow usa un modelo de lenguaje para **ayudarte a construir** el bot. No lo usa para **contestar** a tus usuarios.
 
-:::caution El pipeline de seis fases ya no es la app
-Las páginas de esta sección que describen el generador de seis fases (Abonar, Análisis, Estructura…) y modelos fijos de Groq corresponden a un servicio que ya no está. No las uses como guía de la pantalla actual.
+:::info El bot contesta con lo que tú construyes
+Cuando alguien escribe, el bot detecta una intención y responde con el flujo y los mensajes del árbol. No hay un modelo generativo inventando respuestas en la conversación. Eso es lo que lo hace predecible: dice lo que tú, o el agente, dejaste escrito.
 :::
 
-## El Enfoque Híbrido de TreeFlow
+## Dónde sí hay IA
 
-En TreeFlow, creemos que el futuro de las experiencias conversacionales está en un enfoque híbrido que combina:
+| Función | Para qué | Dónde |
+|---|---|---|
+| [**Agente constructor**](/docs/Reforestacion) | Crear y modificar flujos, nodos, intenciones, entidades y mensajes conversando | Consola → pestaña **Agente** |
+| **Servidor MCP** | Que un asistente de fuera (por ejemplo Claude Desktop) cree y modifique el árbol | Gestión → [Credenciales](/docs/Avanzado/Credenciales) → **MCP** |
+| **Ingestión generativa** | Sacar intenciones y entidades de un PDF o de un CSV | Integración → Herramientas → **Ingestión Generativa** y **Base de Conocimiento** |
 
-- **Control determinista**: Flujos, intenciones y entidades, que es lo que el agente constructor edita
-- **Flexibilidad Generativa**: Mediante modelos de lenguaje que enriquecen las respuestas y manejan situaciones imprevistas
+El agente y la ingestión usan **tu propia clave** de un proveedor de modelos: TreeFlow no trae un modelo propio. Ver [Proveedores y modelos](/docs/Reforestacion/ModelosGenerativos).
 
-Esta combinación te permite crear Árboles que son tanto predecibles y confiables como naturales y adaptativos.
+## Cómo se llega a ellas
 
-## Capacidades de IA Disponibles
+El botón naranja de abajo a la derecha abre la consola. Arriba hay un icono de robot: ese es el agente.
 
-TreeFlow ofrece múltiples capacidades de IA que puedes aprovechar:
+![El botón de la consola abierto, con el icono del agente arriba a la derecha](/img/agente/abrir.png)
 
-### 🌱 Reforestación (Mejorado en v0.4)
+## Por dónde seguir
 
-Sistema avanzado de generación automática de contenido conversacional con pipeline de 6 fases:
+1. [**Primer encargo**](/docs/Reforestacion/GuiaInicioReforestacion): conectar un proveedor y pedirle algo.
+2. [**El agente constructor**](/docs/Reforestacion): qué hace y cómo pedírselo.
+3. [**Qué puede tocar**](/docs/Reforestacion/GenAITools): sus 46 herramientas, por tipo.
+4. [**Proveedores y modelos**](/docs/Reforestacion/ModelosGenerativos): cuál elegir y cómo se configura.
+5. [**Cómo funciona por dentro**](/docs/Reforestacion/ArquitecturaGenerativa): el ciclo, los límites y la API.
 
-**Características principales:**
-- **Pipeline de 6 Fases**: Proceso progresivo y refinado de generación
-- **Formato Estándar**: Consistencia en todas las fases con `generated_text` + metadata
-- **Modelos Actualizados**: Groq con modelos activos (llama-3.1-8b-instant, mixtral-8x7b-32768)
-- **Proveedor a tu elección**: Anthropic, OpenAI, Gemini, Groq, Cerebras, xAI, Mistral, OpenRouter u Ollama en local, con tu propia clave
-- **Contexto Inteligente**: Considera intents y entities existentes del bot
-
-**Fases del Pipeline:**
-1. **Abonar**: Expansión conversacional del prompt (temp 0.8)
-2. **Análisis**: Identificación de patrones e intenciones (temp 0.4)
-3. **Estructura**: Construcción básica de componentes (temp 0.2)
-4. **Enriquecimiento**: Generación de sinónimos 5-8 por valor (temp 0.5)
-5. **Serialización**: Estructuración semántica avanzada (temp 0.5)
-6. **Aplicación**: Conversión a JSON y aplicación al bot (temp 0.1)
-
-[Más información sobre Reforestación](/docs/Reforestacion)
-
-### Modelos Generativos
-
-Integración con modelos de lenguaje de última generación para:
-- Enriquecer respuestas predefinidas
-- Manejar consultas no previstas
-- Personalizar la comunicación según el contexto
-
-[Más información sobre Modelos Generativos](/docs/Reforestacion/ModelosGenerativos)
-
-### Procesamiento de Lenguaje Natural (NLP)
-
-Técnicas avanzadas de NLP para:
-- Mejorar el reconocimiento de intenciones
-- Extraer información estructurada de mensajes
-- Analizar sentimiento y emociones
-
-[Más información sobre NLP](/docs/Reforestacion/NLP)
-
-### Integración Generativa
-
-Herramientas para:
-- Configurar el comportamiento de los modelos generativos
-- Definir instrucciones específicas por Rama
-- Controlar el equilibrio entre determinismo y creatividad
-
-[Más información sobre Integración Generativa](/docs/Reforestacion/IntegracionGenerativa)
-
-## Beneficios de la IA en TreeFlow
-
-La integración de IA en tu estrategia conversacional ofrece numerosas ventajas:
-
-- **Experiencias más naturales**: Conversaciones que fluyen de manera más humana
-- **Mayor adaptabilidad**: Capacidad para manejar situaciones no previstas
-- **Desarrollo más eficiente**: Menos tiempo definiendo todas las posibles variaciones
-- **Personalización avanzada**: Respuestas adaptadas al contexto y al usuario
-- **Escalabilidad**: Manejo de casos de uso complejos sin explosión de complejidad
-
-## Cómo Empezar
-
-Para comenzar a aprovechar las capacidades de IA en TreeFlow:
-
-1. Familiarízate con los [conceptos básicos](/docs/Fundamentos/Terminologia) de TreeFlow
-2. Diseña tu flujo conversacional con un enfoque híbrido en mente
-3. Explora las opciones de [Modelos Generativos](/docs/Reforestacion/ModelosGenerativos) disponibles
-4. Implementa técnicas avanzadas de [NLP](/docs/Reforestacion/NLP) en tus Ramas y Hojas
-5. Configura la [Integración Generativa](/docs/Reforestacion/IntegracionGenerativa) para optimizar el comportamiento
-
-## Consideraciones Importantes
-
-Al implementar soluciones con IA, ten en cuenta:
-
-- **Balance**: Encuentra el equilibrio adecuado entre control determinista y flexibilidad generativa
-- **Transparencia**: Sé claro con los usuarios sobre cuándo están interactuando con IA
-- **Supervisión**: Monitorea y evalúa continuamente el rendimiento de tus integraciones de IA
-- **Iteración**: Refina y mejora tus configuraciones basándote en datos reales de uso
-
-La sección de Inteligencia Artificial de esta documentación te guiará a través de todos los aspectos necesarios para implementar exitosamente capacidades de IA en tus Árboles de TreeFlow.
+Para cómo el motor entiende a tus usuarios (modo Básico o Pro, umbrales, sentimiento), lee [Entendimiento](/docs/Avanzado/NLP).

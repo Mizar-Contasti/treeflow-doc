@@ -1,160 +1,63 @@
 ---
-sidebar_position: 1
+sidebar_position: 3
+sidebar_label: Proveedores y modelos
 ---
 
-# Modelos Generativos en TreeFlow
+# Proveedores y modelos
 
-TreeFlow permite integrar modelos generativos de lenguaje para potenciar tus Árboles conversacionales, combinando el control determinista con la flexibilidad y naturalidad de la IA generativa.
+El agente no trae un modelo propio: habla con el de **tu proveedor**, con tu clave. Esta página dice cuáles hay, qué se configura de cada uno y cómo cambiar sin perder nada.
 
-:::tip Disponible en v0.4
-Los modelos generativos están completamente integrados en TreeFlow v0.4, powered by Groq con modelos de última generación como llama-3.1-8b-instant y mixtral-8x7b-32768.
+![El desplegable de proveedores en la configuración del agente](/img/agente/proveedores.png)
+
+## Los proveedores
+
+| Proveedor | Modelo que propone | URL base que propone |
+|---|---|---|
+| Anthropic (Claude) | `claude-3-7-sonnet-20250219` | `https://api.anthropic.com/v1` |
+| Gemini (Google) | `gemini-2.0-flash` | la de Google (compatible con OpenAI) |
+| Groq | `llama-3.3-70b-versatile` | `https://api.groq.com/openai/v1` |
+| OpenRouter | `google/gemma-3-12b-it:free` | `https://openrouter.ai/api/v1` |
+| Cerebras | `llama3.1-70b` | `https://api.cerebras.ai/v1` |
+| xAI Grok | `grok-2-latest` | `https://api.x.ai/v1` |
+| Mistral AI | `mistral-small-latest` | `https://api.mistral.ai/v1` |
+| OpenAI | `gpt-4o-mini` | `https://api.openai.com/v1` |
+| Ollama (Local) | `llama3` | `http://localhost:11434/v1` |
+| Custom / Local LLM | `local-model` | `http://localhost:1234/v1` |
+
+Son los valores que la pantalla rellena al elegir el proveedor. **Groq** y **OpenRouter** llevan la etiqueta *Gratis* en la lista, y **Cerebras** la de *Ultra-rápido*: son indicaciones de la app, no promesas de condiciones. Mira el plan de cada proveedor antes de depender de él.
+
+## Qué se configura
+
+| Campo | Qué es |
+|---|---|
+| **Proveedor** | Uno de los diez de arriba |
+| **Nombre de la credencial** | Para reconocerla. Por defecto, el nombre del modelo |
+| **API Key** | La clave. Necesaria en todos menos en Ollama y Custom |
+| **URL base** | La del servidor. Se rellena sola; se cambia para un servidor propio o un *proxy* |
+| **Modelo por defecto** | Uno de la lista, o el nombre de cualquier otro |
+
+El modelo tiene que admitir **llamadas a herramientas** (*function calling*): el agente trabaja pidiéndole herramientas, y un modelo que no las admite no puede construir nada. Si el proveedor responde que el modelo no existe (404), revisa el nombre.
+
+## Un servidor propio
+
+**Ollama** y **Custom / Local LLM** sirven para un modelo que corre en tu máquina o en tu red. Necesitan la URL base y no piden clave. Cualquier servidor que entienda el formato de chat de OpenAI vale (`/chat/completions`).
+
+:::note TreeFlow en Docker
+La URL `http://localhost:11434` apunta a la máquina donde corre el **backend**. Si el backend está en un contenedor, `localhost` es el contenedor y no tu equipo: usa la dirección del equipo que lo aloja.
 :::
 
-## ¿Qué son los Modelos Generativos?
+## Varias credenciales
 
-Los modelos generativos de lenguaje son sistemas de inteligencia artificial entrenados para comprender y generar texto similar al humano. Estos modelos pueden:
+Puedes guardar **varias** credenciales en el workspace —por ejemplo una de Groq para pruebas y otra de OpenAI para trabajo serio— y cambiar entre ellas arriba del chat del agente. También se cambia de **modelo** sin salir.
 
-- Producir respuestas naturales y contextuales
-- Adaptarse a diferentes estilos y tonos
-- Manejar situaciones imprevistas con mayor flexibilidad
-- Proporcionar información detallada y personalizada
+- Una credencial se **edita** o se **añade** desde los mismos controles.
+- Un encargo se puede **repetir con otro modelo** para comparar el resultado.
+- La credencial es del **workspace**: todos los bots y todas las personas la comparten.
 
-## Beneficios de los Modelos Generativos en TreeFlow
+Cuando el chat no indica una, el agente usa **la primera** credencial de IA del workspace.
 
-La integración de modelos generativos en TreeFlow ofrece numerosas ventajas:
+## La misma clave en otro sitio
 
-### 1. Experiencias Conversacionales Mejoradas
+La **ingestión generativa** de la Base de Conocimiento, que saca intenciones y entidades de un PDF o un CSV, usa también una credencial de IA del workspace. Ver [La IA en TreeFlow](/docs/Reforestacion/Introduccion).
 
-- Respuestas más naturales y fluidas
-- Mayor capacidad para mantener el contexto de la conversación
-- Adaptación dinámica al tono y necesidades del usuario
-
-### 2. Desarrollo Más Eficiente
-
-- Reducción del tiempo necesario para definir todas las posibles respuestas
-- Menor necesidad de anticipar cada variación de las preguntas del usuario
-- Adaptación más rápida a nuevos casos de uso
-
-### 3. Manejo Inteligente de Casos No Previstos
-
-- Respuestas razonables incluso para consultas no contempladas en el diseño original
-- Redirección elegante hacia los flujos conversacionales definidos
-- Reducción de la frustración del usuario ante limitaciones del chatbot
-
-## Modelos Disponibles en TreeFlow
-
-TreeFlow ofrece integración con varios modelos generativos:
-
-### Modelos de OpenAI
-
-- **GPT-4**: El modelo más avanzado, ideal para tareas complejas y respuestas detalladas
-- **GPT-3.5 Turbo**: Equilibrio entre rendimiento y costo, adecuado para la mayoría de los casos de uso
-
-### Modelos de Anthropic
-
-- **Claude 2**: Excelente para respuestas detalladas y seguras, con fuerte adherencia a instrucciones
-- **Claude Instant**: Versión más rápida y económica, ideal para respuestas cortas
-
-### Modelos Abiertos
-
-- **Llama 2**: Modelo de código abierto con buen rendimiento en múltiples tareas
-- **Mistral**: Modelo eficiente con excelente rendimiento en relación a su tamaño
-
-## Configuración de Modelos Generativos
-
-Para configurar un modelo generativo en tu Árbol:
-
-1. Navega a la configuración del Árbol
-2. En la sección "Configuración Avanzada", encuentra "Integración Generativa"
-3. Activa la opción "Habilitar asistencia generativa"
-4. Selecciona el modelo generativo a utilizar
-5. Configura los parámetros del modelo:
-   - **Temperatura**: Controla la creatividad y aleatoriedad (0.0-1.0)
-   - **Máxima longitud**: Limita la extensión de las respuestas
-   - **Presencia de penalización**: Evita repeticiones
-6. Guarda la configuración
-
-## Parámetros Avanzados
-
-### Temperatura
-
-La temperatura controla la aleatoriedad de las respuestas:
-
-- **Temperatura baja (0.1-0.3)**: Respuestas más deterministas y consistentes
-- **Temperatura media (0.4-0.7)**: Balance entre creatividad y coherencia
-- **Temperatura alta (0.8-1.0)**: Mayor creatividad pero potencialmente menos precisión
-
-### Instrucciones del Sistema
-
-Las instrucciones del sistema guían el comportamiento general del modelo:
-
-```
-Eres un asistente amable y profesional para una tienda de electrónica.
-Proporciona respuestas concisas y precisas sobre productos tecnológicos.
-Si no conoces la respuesta, indícalo claramente y ofrece alternativas.
-Mantén un tono cordial pero técnicamente informado.
-```
-
-## Mejores Prácticas
-
-### 1. Combinar Determinismo y Generatividad
-
-Utiliza un enfoque híbrido:
-- Ramas deterministas para flujos críticos (pagos, confirmaciones, validaciones)
-- Asistencia generativa para enriquecer respuestas y manejar consultas abiertas
-
-### 2. Proporcionar Contexto Suficiente
-
-Los modelos generativos funcionan mejor cuando tienen contexto:
-- Incluye información relevante del usuario en las instrucciones
-- Proporciona el historial de conversación reciente
-- Especifica el propósito y limitaciones del Árbol
-
-### 3. Establecer Límites Claros
-
-Define claramente qué puede y qué no puede hacer el modelo:
-- Especifica temas fuera del alcance
-- Establece el formato esperado para las respuestas
-- Define cómo manejar solicitudes inapropiadas
-
-### 4. Iterar y Refinar
-
-La integración generativa requiere ajustes continuos:
-- Revisa regularmente las conversaciones generadas
-- Ajusta las instrucciones basándote en los resultados
-- Modifica la temperatura según sea necesario
-
-## Casos de Uso Recomendados
-
-### Servicio al Cliente Avanzado
-
-Combina Ramas específicas para problemas comunes con respuestas generativas para casos únicos.
-
-### Asistentes de Ventas
-
-Utiliza modelos generativos para proporcionar recomendaciones personalizadas basadas en las preferencias del usuario.
-
-### Educación y Formación
-
-Crea experiencias de aprendizaje adaptativas que respondan a las preguntas específicas de cada estudiante.
-
-### Asistentes de Productividad
-
-Desarrolla Árboles que ayuden con tareas como resúmenes, generación de ideas o planificación.
-
-## Consideraciones Éticas
-
-Al implementar modelos generativos, considera:
-
-- **Transparencia**: Informa a los usuarios cuando están interactuando con IA
-- **Privacidad**: Asegúrate de manejar adecuadamente los datos sensibles
-- **Sesgo**: Monitorea y mitiga posibles sesgos en las respuestas generadas
-- **Supervisión humana**: Mantén un proceso de revisión para casos críticos
-
-## Recursos Adicionales
-
-- [Integración Generativa Avanzada](/docs/Reforestacion/IntegracionGenerativa)
-- [Técnicas de NLP](/docs/Reforestacion/NLP)
-- [Mejores Prácticas para IA Conversacional](/docs/Fundamentos/MejoresPracticas)
-
-La combinación de la estructura determinista de TreeFlow con la flexibilidad de los modelos generativos te permite crear experiencias conversacionales que son tanto controladas como naturales, aprovechando lo mejor de ambos enfoques.
+No es lo mismo que las **Claves de API** de [Credenciales](/docs/Avanzado/Credenciales): esas sirven para que un programa externo hable con TreeFlow, no para el agente.

@@ -1,233 +1,68 @@
 ---
 sidebar_position: 2
+sidebar_label: Primer encargo
 ---
 
-# 🚀 Guía de Inicio Rápido: Reforestación
+# Primer encargo
 
-Esta guía te llevará paso a paso para usar la funcionalidad de Reforestación por primera vez y generar tu primer conjunto de Hojas e Intenciones con IA.
+De cero a pedirle algo al agente: conectar un proveedor de modelos y hacer un primer cambio pequeño.
 
-## Prerrequisitos
+## Qué necesitas
 
-Antes de comenzar, asegúrate de tener:
-- ✅ Un Árbol creado en TreeFlow
-- ✅ Acceso a TreeFlow v0.4 o superior
-- ✅ Conexión a internet (para los modelos de IA Groq)
+- Un bot creado, y seleccionado arriba a la izquierda.
+- La **clave de API** de un proveedor de modelos, o un servidor local como Ollama. Cuál elegir está en [Proveedores y modelos](/docs/Reforestacion/ModelosGenerativos).
 
-## Paso 1: Acceder a Reforestación
+## 1. Abre el agente
 
-1. **Inicia sesión** en TreeFlow
-2. **Selecciona tu Workspace** si tienes múltiples
-3. **Abre tu Árbol** desde el dashboard
-4. **Navega a "Reforestación"** en el menú lateral izquierdo
+El botón naranja de abajo a la derecha abre la consola. Pulsa el icono del robot, arriba a la derecha del panel.
 
-## Paso 2: Tu Primer Prompt
+![La consola abierta, con el icono del agente arriba a la derecha](/img/agente/abrir.png)
 
-Para tu primera experiencia, te recomendamos comenzar con un prompt simple pero específico:
+## 2. Conecta un proveedor
 
-### Ejemplo Recomendado
-```
-"Sistema básico de gestión de citas médicas para una clínica"
-```
+Si el workspace aún no tiene ninguna credencial de IA, el agente te pide una: **Agrega una Credencial**.
 
-### ¿Por qué este prompt funciona bien?
-- **Específico**: Define claramente el dominio (citas médicas)
-- **Contextual**: Menciona el tipo de negocio (clínica)
-- **Accionable**: Implica acciones claras (gestión de citas)
+![La configuración del agente: proveedor, nombre, API Key, modelo y los tres casilleros de confirmación](/img/agente/configuracion.png)
 
-## Paso 3: Generar Contenido
+1. Elige el **proveedor**. Al cambiarlo se rellenan la URL base y el modelo recomendado.
+2. Ponle un **nombre** a la credencial, para reconocerla si luego tienes varias.
+3. Pega la **API Key**. El ojo la muestra mientras la escribes.
+4. Elige el **modelo** en el desplegable. Para uno que no esté en la lista, elige la opción de modelo personalizado y escribe su nombre.
+5. Pulsa **Probar Conexión**.
+6. Si salió bien, pulsa **Aplicar y Continuar**.
 
-1. **Escribe tu prompt** en el campo de texto
-2. **Haz clic en "Generar"** y espera unos segundos
-3. **Revisa el análisis** que aparece en la parte superior
+![El desplegable con los diez proveedores](/img/agente/proveedores.png)
 
-### Qué Esperar
-La IA analizará tu prompt y generará:
+:::note Hay que probar antes de guardar
+**Aplicar y Continuar** no deja guardar hasta que **Probar Conexión** haya salido bien. Si falla, el mensaje dice por qué.
+:::
 
-#### **Hojas (Entidades) Típicas**
-- `agendar`: ["agendar", "programar", "reservar", "solicitar"]
-- `cancelar`: ["cancelar", "anular", "eliminar", "borrar"]
-- `cita`: ["cita", "consulta", "turno", "hora"]
-- `medico`: ["médico", "doctor", "especialista"]
+La clave hace falta en todos los proveedores salvo **Ollama** y **Custom / Local LLM**; esos dos piden en cambio la **URL base** del servidor.
 
-#### **Intenciones Típicas**
-- `agendar_cita`: Patrones para solicitar nuevas citas
-- `cancelar_cita`: Patrones para cancelar citas existentes
-- `consultar_cita`: Patrones para verificar información de citas
+La credencial es del **workspace**, no del bot: la usan todos los bots y todas las personas del workspace. Se guarda una vez.
 
-## Paso 4: Revisar la Vista Previa
+## 3. Pide algo pequeño
 
-### Elementos a Verificar
+Ya estás en el chat del agente. Empieza con algo que puedas comprobar a simple vista:
 
-#### **En las Hojas**
-- ✅ **Nombres apropiados**: ¿Los nombres de entidades tienen sentido?
-- ✅ **Sinónimos relevantes**: ¿Los sinónimos cubren variaciones comunes?
-- ✅ **Cobertura completa**: ¿Están todas las entidades necesarias?
+> Añade una intención `consultar_horario` con 6 frases de ejemplo, y que conteste «Abrimos de lunes a viernes, de 9 a 18 h».
 
-#### **En las Intenciones**
-- ✅ **Patrones naturales**: ¿Los patrones suenan como conversaciones reales?
-- ✅ **Respuestas apropiadas**: ¿Las respuestas son profesionales y útiles?
-- ✅ **Variables dinámicas**: ¿Las respuestas usan variables como `{agendar}` y `{cita}`?
+Mientras trabaja ves «el agente está procesando». Al terminar te cuenta **qué cambió y dónde**, y debajo de su respuesta aparece la lista de acciones que ejecutó.
 
-### Ejemplo de Vista Previa
-```json
-// Hoja generada
-{
-  "name": "agendar",
-  "values": [
-    {
-      "key": "agendar",
-      "synonyms": ["agendar", "programar", "reservar", "solicitar", "pedir"]
-    }
-  ]
-}
+## 4. Revisa lo que hizo
 
-// Intención generada
-{
-  "name": "agendar_cita",
-  "patterns": ["quiero @agendar una @cita", "necesito @agendar mi @cita"],
-  "responses": [
-    {
-      "type": "text",
-      "value": "Perfecto, voy a {agendar} tu {cita}. ¿Qué fecha prefieres?"
-    }
-  ]
-}
-```
+- Abre cada **acción** para ver la herramienta y lo que devolvió.
+- Entra en **Flujos**: la intención nueva debe tener su nodo, enlazado desde el nodo de contexto. Si no aparece, recarga la página.
+- En **Intenciones**, mira las frases que escribió.
 
-## Paso 5: Aplicar Cambios
+## 5. Pruébalo
 
-Si estás satisfecho con la vista previa:
+Vuelve a la pestaña **Consola** (el icono de chat, arriba a la derecha del panel) y escribe una de las frases de ejemplo. Si el bot no la entiende, **entrénalo**: las intenciones nuevas no se reconocen hasta entrenar. El agente puede entrenarlo por ti: «entrena el bot y dime cuando termine».
 
-1. **Haz clic en "Aplicar Cambios"**
-2. **Espera la confirmación** de que los cambios se aplicaron
-3. **Observa el mensaje de éxito** con el resumen de elementos creados
+## Antes de pedirle algo grande
 
-### Qué Sucede Internamente
-- Las nuevas Hojas se agregan a tu colección de entidades
-- Las nuevas Intenciones se integran con tus Ramas existentes
-- Se generan automáticamente IDs únicos para todos los elementos
-- Se valida la compatibilidad con tu Árbol actual
+Por defecto el agente **te pide confirmación** antes de crear, modificar o eliminar: verás una tarjeta con los cambios propuestos y los aplica cuando pulses **Confirmar**. Si apagas los casilleros «Pedir confirmación…» de la configuración, ejecuta en el momento; en ese caso pídele un respaldo primero. Más en [Antes de pedirle cambios grandes](/docs/Reforestacion#antes-de-pedirle-cambios-grandes).
 
-## Paso 6: Verificar los Resultados
+## Cuando tienes varias credenciales
 
-### En la Sección Hojas
-1. **Ve a "Hojas"** en el menú lateral
-2. **Busca las nuevas entidades** que se generaron
-3. **Verifica los sinónimos** haciendo clic en cada entidad
-
-### En la Sección Ramas
-1. **Ve a "Ramas"** en el menú lateral
-2. **Encuentra las nuevas intenciones** en la lista
-3. **Revisa los patrones y respuestas** de cada intención
-
-## Paso 7: Probar en el Chat
-
-### Testing Básico
-1. **Ve al chat de prueba** de tu Árbol
-2. **Prueba frases como**:
-   - "quiero agendar una cita"
-   - "necesito programar una consulta"
-   - "quiero cancelar mi turno"
-
-### Qué Observar
-- ✅ **Reconocimiento correcto**: ¿El bot identifica la intención correcta?
-- ✅ **Variables dinámicas**: ¿Las respuestas muestran las variables capturadas?
-- ✅ **Flujo natural**: ¿La conversación se siente natural?
-
-## Prompts de Ejemplo para Practicar
-
-### Para Diferentes Industrias
-
-#### **E-commerce**
-```
-"Sistema de gestión de pedidos para tienda online con productos y envíos"
-```
-
-#### **Educación**
-```
-"Bot de información académica para universidad con cursos y inscripciones"
-```
-
-#### **Restaurante**
-```
-"Sistema de reservas para restaurante con mesas y horarios"
-```
-
-#### **Soporte Técnico**
-```
-"Bot de soporte técnico para software con tickets y resoluciones"
-```
-
-## Consejos para Mejores Resultados
-
-### ✅ Prompts Efectivos
-- **Sé específico sobre el dominio**: "gestión de inventario" vs "gestión general"
-- **Menciona acciones clave**: "crear, editar, eliminar productos"
-- **Incluye contexto**: "para almacén de ropa" vs "para almacén"
-- **Define objetos principales**: "productos, categorías, proveedores"
-
-### ❌ Prompts a Evitar
-- **Demasiado genéricos**: "hacer un chatbot"
-- **Sin contexto**: "ayuda con preguntas"
-- **Muy vagos**: "conversación básica"
-- **Sin acciones**: "información general"
-
-## Solución de Problemas Comunes
-
-### Problema: "No se generó nada"
-**Posibles causas**:
-- Prompt demasiado vago
-- Conexión a internet interrumpida
-- Servicio de IA temporalmente no disponible
-
-**Solución**:
-- Intenta con un prompt más específico
-- Verifica tu conexión a internet
-- Espera unos minutos y vuelve a intentar
-
-### Problema: "Las entidades no tienen sentido"
-**Posibles causas**:
-- Prompt ambiguo o confuso
-- Dominio muy complejo para un solo prompt
-
-**Solución**:
-- Divide en prompts más pequeños y específicos
-- Usa ejemplos concretos en tu prompt
-- Refina iterativamente
-
-### Problema: "Las respuestas son muy genéricas"
-**Posibles causas**:
-- Falta de contexto específico en el prompt
-- Dominio no claramente definido
-
-**Solución**:
-- Agrega más contexto sobre tu negocio
-- Especifica el tono de comunicación deseado
-- Menciona el tipo de usuarios objetivo
-
-## Próximos Pasos
-
-Una vez que domines lo básico:
-
-1. **Experimenta con prompts más complejos**
-2. **Combina múltiples sesiones** para funcionalidades específicas
-3. **Refina manualmente** los elementos generados si es necesario
-4. **Explora el historial** para aprender de sesiones anteriores
-
-### Funcionalidades Avanzadas
-- **Prompts iterativos**: Construye funcionalidad paso a paso
-- **Refinamiento específico**: Ajusta entidades o intenciones particulares
-- **Integración con Fertilizantes**: Conecta las nuevas intenciones con webhooks
-
-## Recursos Adicionales
-
-- [Documentación completa de Reforestación](/docs/Reforestacion)
-- [Pipeline de 6 Fases](/docs/Reforestacion/Pipeline6Fases)
-- [Modelos Generativos](/docs/Reforestacion/ModelosGenerativos)
-- [Arquitectura Generativa](/docs/Reforestacion/ArquitecturaGenerativa)
-
----
-
-¡Felicidades! 🎉 Has completado tu primera experiencia con Reforestación. Ahora tienes las herramientas para expandir automáticamente las capacidades conversacionales de tu Árbol usando IA.
-
-**¿Listo para el siguiente nivel?** Explora prompts más complejos y descubre todo el potencial de la generación automática de contenido conversacional.
+Arriba del chat puedes **cambiar de credencial** y de **modelo** sin salir, **añadir** otra, **editar** la actual, empezar una **conversación nueva** y abrir el **historial**. Útil para probar el mismo encargo con otro modelo.
