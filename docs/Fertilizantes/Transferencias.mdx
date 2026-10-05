@@ -1,23 +1,43 @@
 ---
 sidebar_position: 5
 sidebar_label: Transferencias
-description: La configuración que usa un nodo al pasar la conversación a una persona, dentro o fuera del workspace.
+description: La tarjeta que usa un nodo al pasar la conversación a una persona, dentro o fuera del workspace.
 ---
 
 # Transferencias
 
-La pestaña **Transferencias**. Cada tarjeta es una forma de pasar la conversación a una persona. **Nueva transferencia** abre el editor. El recorrido del nodo está en [Pasar a una persona](/docs/Tutoriales/PasarAUnAsesor) y la cola, en [Mesa de ayuda](/docs/Avanzado/MesaDeAyuda).
+La pestaña **Transferencias**. Cada tarjeta es una forma de pasar la conversación a una persona. En Cafetería hay una, **Mesa de ayuda**, marcada **Activo**. El botón naranja la borra. **Nueva transferencia** abre el editor vacío.
 
-## Qué se configura
+![Mesa de ayuda, activa](/img/herramientas/transferencias-lista.png)
 
-1. **Nombre**, si está **Activo**, la descripción y el mensaje que dice el bot al derivar.
-2. **Conectar con**
-   - **Mesa de ayuda interna.** La cola del workspace. No pide URL.
-   - **Sistema externo.** Una URL de webhook, una cabecera de autenticación y si se manda el historial completo (`json`, texto o markdown). Apagado el historial, sólo viaja el mensaje con el que la persona pidió a alguien.
-3. **Comportamiento**
-   - **El bot deja de contestar mientras atiende una persona.** Apagado, el bot sigue respondiendo y el asesor ve lo que dicen los dos.
-   - Guardar en el widget los mensajes del asesor.
+El nodo no la elige aquí. La elige en la transición **Transferencia a agente humano**. El recorrido está en [Pasar a una persona](/docs/Tutoriales/PasarAUnAsesor) y la cola, en [Mesa de ayuda](/docs/Avanzado/MesaDeAyuda).
 
-El motor usa la primera configuración activa del árbol, o la que elija la intención. Si no hay ninguna, la transferencia igual funciona, con el aviso de fábrica.
+## El editor
 
-Las plantillas de rubro siembran una URL bajo el dominio `.invalid`. Eso cuenta como mesa interna: no se llama a ningún servidor. Para un sistema externo, se cambia por la URL real.
+Tres bloques.
+
+![Mesa de ayuda interna: identificación, destino y comportamiento](/img/herramientas/transferencias-editor.png)
+
+### 1. Identificación
+
+- **Nombre de la transferencia.** Obligatorio. Así sale en la tarjeta y en el nodo.
+- **Descripción.** Opcional. En el ejemplo: «Transfiere a los asesores de este workspace en la mesa de ayuda.»
+- El interruptor **Activo** / **Inactivo** está en la cabecera. El motor usa la primera configuración activa, o la que fije la intención. Si no hay ninguna, la transferencia igual funciona, con el aviso de fábrica.
+- **Mensaje de transferencia.** Lo que dice el bot en el turno en que deriva. Si se deja el de fábrica, es el aviso que ya trae la plantilla del rubro.
+
+### 2. Conectar con
+
+Dos opciones, una al lado de la otra.
+
+**Mesa de ayuda interna.** La conversación entra en la cola de este workspace y un asesor la atiende en tiempo real. No pide URL. El aviso de la pantalla lo dice: no hay nada más que configurar.
+
+**Sistema externo.** Aparecen la **URL del webhook**, la **cabecera de autenticación** y el interruptor **Enviar el historial completo al transferir**. Apagado, sólo viaja el mensaje con el que la persona pidió a alguien. Encendido, el **formato del historial** puede ser `json`, texto o markdown.
+
+Las plantillas de rubro siembran una URL bajo el dominio `.invalid`. Eso cuenta como mesa interna: no se llama a ningún servidor. Para un sistema externo se cambia por la URL real.
+
+### 3. Comportamiento del bot y del widget
+
+Los dos interruptores valen para los dos destinos.
+
+- **El bot deja de contestar mientras atiende una persona.** Encendido, el bot se calla. Apagado, sigue respondiendo y el asesor ve en directo lo que dicen los dos.
+- **Conservar la conversación del widget al recargar.** Encendido, si la persona recarga la página mientras la atiende alguien, recupera los mensajes del bot y del asesor.

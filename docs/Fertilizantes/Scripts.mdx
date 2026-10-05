@@ -1,30 +1,91 @@
 ---
 sidebar_position: 2
 sidebar_label: Scripts
-description: Código Python que corre en el bot. Las ocho plantillas y cómo se engancha en un nodo.
+description: Código Python que corre en el bot. El catálogo, el editor y las ocho plantillas.
 ---
 
 # Scripts
 
-La primera pestaña de **Herramientas**. Un script es código Python: recibe lo que ya capturó la conversación y devuelve variables. No sale a internet.
+La primera pestaña. Un script no sale a internet: recibe lo que ya capturó la conversación, corre Python y devuelve variables.
 
-**Plantillas** abre el catálogo. **Crear script** abre uno vacío. Arriba se busca por nombre.
+![La lista: Saludo por Horario del Día, con la marca de validado y el botón de borrar](/img/herramientas/scripts-lista.png)
 
-El editor tiene **Entrada**, **Código**, **Salida**, **Pruebas** y **Despliegue**. En el código, las entradas se leen con `inputs.get("nombre")` y las salidas se escriben en `outputs`.
+- Un clic en la tarjeta abre el editor.
+- La marca azul es que la última prueba pasó.
+- El botón naranja borra el script. Pide confirmación.
+- **Plantillas** abre el catálogo. **Crear script** abre uno vacío, sólo con el nombre.
 
-En el nodo, **Añadir script…**. Si el nombre de la variable de sesión no coincide con el de la entrada o la salida, el signo **≠** de la fila deja escribir el otro nombre. **=** usa el mismo. Los scripts de la lista corren en ese orden, antes que las APIs.
+## El catálogo
 
-## Las ocho plantillas
+Son ocho. Cada tarjeta dice la categoría, cuántas entradas y salidas tiene, y deja **Previsualizar** el código o **Usar plantilla**. Usarla crea el script en este árbol: no lo ejecuta todavía.
 
-| Plantilla | Para qué | Entradas | Salidas |
+![Catálogo de plantillas de scripts](/img/herramientas/scripts-plantillas.png)
+
+| Plantilla | Categoría | Entradas | Salidas |
 |---|---|---|---|
-| Saludo por horario del día (México CST) | Buenos días, tardes o noches según la hora de Ciudad de México | ninguna | `saludo_tiempo`, `momento_dia`, `hora_actual`, `fecha_actual` |
-| Cálculo de descuento e impuestos | Descuento, subtotal, IVA y total | `monto_base`, `descuento_pct`, `tasa_iva` | `total_final`, `subtotal`, `ahorro_descuento`, `impuesto`, `tiene_descuento` |
-| Validación de correo y dominio | Si el correo está bien escrito y si el dominio es corporativo | `email` | `es_valido`, `email_limpio`, `dominio`, `es_corporativo` |
-| Cálculo de días y fechas | Días entre hoy y una fecha `YYYY-MM-DD`, y si ya pasó | `fecha_objetivo` | `dias_restantes`, `ha_expirado`, `es_hoy`, `estado` |
-| Extractor de números y limpiador | El primer número dentro de una frase | `texto` | `codigo_detectado`, `total_numeros`, `texto_limpio`, `tiene_codigo` |
-| Formateador de nombre propio | Quita espacios y pone mayúscula en cada palabra | `nombre` | `nombre_completo`, `primer_nombre`, `longitud`, `es_valido` |
-| Generador de código de confirmación | Un folio tipo `ORD-482910` | `prefijo`, `longitud` | `folio`, `codigo_puro`, `creado_en` |
-| Sanitizador de teléfono | Deja sólo dígitos y arma el número con código de país | `telefono`, `codigo_pais` | `telefono_limpio`, `telefono_e164`, `es_valido`, `digitos_totales` |
+| Saludo por horario del día (México CST) | Tiempo y personalización | ninguna | `saludo_tiempo`, `momento_dia`, `hora_actual`, `fecha_actual`, `hora_numero` |
+| Cálculo de descuento e impuestos | Matemáticas y finanzas | `monto_base`, `descuento_pct`, `tasa_iva` | `total_final`, `subtotal`, `ahorro_descuento`, `impuesto`, `tiene_descuento` |
+| Validación de correo y dominio | Validación y seguridad | `email` | `es_valido`, `email_limpio`, `dominio`, `es_corporativo` |
+| Cálculo de días y fechas | Fechas y tiempo | `fecha_objetivo` (`YYYY-MM-DD`) | `dias_restantes`, `ha_expirado`, `es_hoy`, `estado` |
+| Extractor de números y limpiador | Procesamiento de texto | `texto` | `codigo_detectado`, `total_numeros`, `texto_limpio`, `tiene_codigo` |
+| Formateador de nombre propio | Procesamiento de texto | `nombre` | `nombre_completo`, `primer_nombre`, `longitud`, `es_valido` |
+| Generador de código de confirmación | Validación y seguridad | `prefijo`, `longitud` | `folio`, `codigo_puro`, `creado_en` |
+| Sanitizador de teléfono | Validación y seguridad | `telefono`, `codigo_pais` | `telefono_limpio`, `telefono_e164`, `es_valido`, `digitos_totales` |
 
-En un mensaje, la salida se escribe `{$saludo_tiempo}`. El detalle de las funciones está en [Funciones](/docs/Avanzado/LenguajeDePlantillas).
+El saludo mira la hora de `America/Mexico_City`. De 5 a 12 dice buenos días, de 12 a 19 buenas tardes, y el resto buenas noches. El descuento aplica el porcentaje, resta, y suma el IVA sobre el subtotal (16 si no llega otro). El correo marca corporativo cuando el dominio no es gmail, hotmail, yahoo, outlook ni live. El folio sale como `ORD-482910`: el prefijo, un guion y los caracteres al azar, sin letras que se confundan con números.
+
+## El editor
+
+Cinco pestañas. **Guardar cambios** está arriba a la derecha.
+
+### Entrada
+
+Cada fila es un dato que el script espera. El saludo no pide nada: la pantalla dice **No hay variables definidas**.
+
+![Entrada vacía del saludo por horario](/img/herramientas/scripts-entrada.png)
+
+En un script que sí pide datos, cada variable tiene nombre, tipo, un valor de prueba y un valor de respaldo por si en la conversación no vino.
+
+En el código se leen así:
+
+```python
+monto_base = float(inputs.get("monto_base", 0))
+```
+
+### Código
+
+Arriba van el **Nombre** (obligatorio), el **Timeout** en milisegundos y la **Descripción**. La persona no ve la descripción.
+
+El recuadro **Python I/O** recuerda la forma: `inputs.get("var_name")` para entrar y `outputs = {"resultado": val}` para salir. Debajo, **Asignar output** lista los nombres que ya declaraste en Salida, para copiarlos al código.
+
+![Código del saludo: nombre, timeout 5000, el editor y el mensaje si falla](/img/herramientas/scripts-codigo.png)
+
+**Mensaje si falla** es lo que recibe la persona cuando el script truena y no hay valor de respaldo en las salidas. Vacío, el bot usa uno de fábrica en el idioma de la conversación.
+
+### Salida
+
+Una tarjeta por variable. **Nombre**, **tipo** (String, número, booleano), **JSON Path** y **Valor fallback**.
+
+En un script el JSON Path suele ir vacío: el valor sale de la clave de `outputs` con ese mismo nombre. El fallback se usa si la clave no vino o el script falló.
+
+![Salida del saludo: saludo_tiempo, momento_dia, hora_actual y fecha_actual](/img/herramientas/scripts-salida.png)
+
+### Pruebas
+
+**Ejecutar test** corre el código con los valores de prueba de la entrada. Arriba queda el estado y el tiempo. Abajo, el objeto que devolvió.
+
+![Prueba del saludo: ejecutado en 114 ms, buenos días a las 10:36](/img/herramientas/scripts-pruebas.png)
+
+Esa prueba no habla con el bot. Sólo corre el Python. Si falla, el mensaje de error sale en el mismo cuadro y la pestaña de despliegue no deja seguir hasta corregirlo.
+
+### Despliegue
+
+Cuando la prueba pasa, el aviso dice **Script validado**. **Desplegar ahora** lo deja disponible en los flujos. Sin desplegar, el nodo no lo ofrece en **Añadir script…**.
+
+![Despliegue: el script validado y el botón Desplegar ahora](/img/herramientas/scripts-despliegue.png)
+
+## En el nodo
+
+Pestaña **Funcionalidad**, **Añadir script…**. Corren en el orden de la lista, antes que el webhook y que las APIs. El **≠** de cada fila cambia el nombre de la variable de sesión si no se llama igual que la entrada o la salida.
+
+En un mensaje, la salida se escribe `{$saludo_tiempo}`.

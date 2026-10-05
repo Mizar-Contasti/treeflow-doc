@@ -1,27 +1,40 @@
 ---
 sidebar_position: 7
 sidebar_label: Ingestión generativa
-description: Un PDF, Excel o TXT del que un modelo saca intenciones y las integra al flujo.
+description: Un PDF, Excel o TXT del que un modelo saca intenciones. Primero pide una credencial de IA.
 ---
 
 # Ingestión generativa
 
-La pestaña **Ingestión generativa** lee un documento y le pide a un modelo que saque preguntas, respuestas y variaciones, y las integre al flujo. La pantalla lo marca **Impulsado por IA**.
+La pestaña **Ingestión generativa** lee un documento y le pide a un modelo que saque preguntas, respuestas y variaciones, y las integre al flujo. La pantalla lo llama **Ingestión Generativa con IA**.
 
-## La clave
+![Ingestión generativa: proveedor, modelo y clave, con la carga todavía cerrada](/img/herramientas/ingestion-generativa.png)
 
-Hasta que no hay una credencial de IA guardada, la zona de carga está cerrada. Arriba se elige una credencial del workspace o se crea una: nombre, proveedor, modelo y la clave. El modelo es el que va a leer el archivo. Las claves del workspace también se administran en [Credenciales](/docs/Avanzado/Credenciales).
+## La credencial
+
+Hasta que no hay una credencial de IA guardada en este workspace, la zona de carga está cerrada. El aviso lo dice: ingresa y guarda una credencial para desbloquearla.
+
+El formulario de arriba es **Configurar credencial de IA requerida para este espacio de trabajo**.
+
+| Campo | Qué es |
+|---|---|
+| Proveedor | Anthropic, Groq, Gemini, OpenAI, OpenRouter, Cerebras y el resto de los que acepta el workspace |
+| Modelo por defecto | El que va a leer el archivo. En la captura, `gemini-3.0-flash` |
+| Nombre de la llave | Cómo la vas a reconocer después. En la captura, «Gemini Key» |
+| API Key | La clave de esa cuenta |
+
+Al guardar, la misma credencial queda en [Credenciales](/docs/Avanzado/Credenciales) y se puede reutilizar.
 
 ## El archivo
 
-Acepta PDF, Excel y TXT. Se arrastra o se elige.
-
-**Prompt u instrucción adicional** es opcional. Le dice al modelo en qué temas concentrarse, por ejemplo devoluciones, pagos y envíos.
+Cuando la credencial está guardada aparece la zona de carga. Acepta PDF, Excel y TXT. Se arrastra o se elige.
 
 **Nombre del flujo** es el recorrido donde van a quedar las intenciones nuevas.
 
+**Prompt u instrucción adicional** es opcional. Le dice al modelo en qué temas concentrarse, por ejemplo devoluciones, pagos y envíos.
+
 ## Generar
 
-**Generar e integrar en el bot** manda el archivo. Al terminar, las intenciones aparecen en ese flujo y en la lista de abajo. **Entrenar bot ahora** las mete en el motor. Sin ese paso, la consola no las reconoce.
+**Generar e integrar en el bot** manda el archivo al modelo elegido. Al terminar, las intenciones aparecen en ese flujo y en la lista de abajo. **Entrenar Bot Ahora** las mete en el motor. Sin ese paso, la consola no las reconoce.
 
-No sustituye a la [base de conocimiento](./BaseDeConocimiento). Esa copia un CSV fila por fila. Esta interpreta un documento y puede inventar frases que el archivo no trae escritas: conviene leer la lista antes de entrenar.
+No sustituye a la [base de conocimiento](./BaseDeConocimiento). Esa copia un CSV fila por fila y no inventa frases. Esta interpreta un documento y puede proponer variaciones que el archivo no trae escritas: conviene leer la lista antes de entrenar.

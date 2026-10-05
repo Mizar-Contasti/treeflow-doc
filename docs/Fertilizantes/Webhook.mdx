@@ -1,19 +1,38 @@
 ---
 sidebar_position: 4
 sidebar_label: Webhook
-description: La URL única del árbol. Un nodo la llama con el interruptor Llamar webhook en este nodo.
+description: La única URL del árbol. Se edita como una API y un nodo la pide con un interruptor.
 ---
 
 # Webhook
 
-La pestaña **Webhook** tiene una sola tarjeta, **Webhook**. Es la URL del árbol, no una API más: no se duplica y no sale en **Añadir herramienta…**.
+La pestaña **Webhook** no tiene buscador ni botón de crear. Hay una sola tarjeta, **Webhook**. No se borra y no se duplica. No aparece en **Añadir herramienta…**: el nodo la pide aparte.
 
-Se edita como las demás: la URL (tiene que empezar por `http://` o `https://`), el tiempo límite, una frase secreta y, si hace falta, usuario y contraseña en Basic. El interruptor la deja activa. Sin URL, o apagada, no se llama.
+![La pestaña Webhook, con una sola tarjeta](/img/herramientas/webhook-lista.png)
+
+## El editor
+
+Se abre igual que una API. El **nombre** está fijo en Webhook. La descripción de fábrica es «Webhook principal del sistema». El método es **POST** y el timeout de fábrica es **30000** ms. La autenticación puede quedar en ninguna, o pasar a Basic o Bearer.
+
+![Webhook: POST, 30000 ms, cuerpo vacío y el aviso de {$variable}](/img/herramientas/webhook-editor.png)
+
+La **URL** tiene que empezar por `http://` o `https://`. Vacía, o con el interruptor apagado, el motor no llama a nada. El interruptor está en la cabecera del editor, junto a **Guardar cambios**.
+
+El cuerpo es un JSON. El aviso de esa caja dice cómo meter datos:
+
+```
+{$variable}
+{ $valor ? 'Sí' : 'No' }
+```
+
+**Entrada** y **Salida** funcionan como en una [API](./Apis): lo que el cuerpo va a leer, y lo que quieres guardar de la respuesta. **Pruebas** hace la llamada. **Despliegue** la marca. Para que el nodo la use bastan el interruptor encendido y una URL http(s): el estado de la pantalla no sustituye a eso.
+
+**Mensaje si falla** es lo que ve la persona si esa URL no contesta y no hay valor de respaldo.
 
 ## Cuándo corre
 
-En el nodo, pestaña **Funcionalidad**, **Llamar webhook en este nodo**. Si está encendido, el motor llama a esta URL al pasar por ahí, antes que a las APIs del nodo. Si el árbol no tiene webhook activo, el interruptor no hace nada.
+En el nodo, pestaña **Funcionalidad**, **Llamar webhook en este nodo**. Si está encendido, el motor llama a esta URL al pasar por ahí, después de los scripts y antes que las APIs de ese nodo. Si el árbol no tiene webhook activo, el interruptor no hace nada.
 
-Lo llevan el contexto, la intención y el evento. Si el nodo de origen y el de destino lo piden los dos, se llama una vez.
+Lo llevan el contexto, la intención y el evento. Si el nodo de origen y el de destino lo piden los dos, se llama una vez y cuenta el de destino.
 
 No es el webhook de un canal. Ese lo configura la plataforma (Meta, Slack, Discord) para entregarle mensajes a TreeFlow, y vive en [Canales](/docs/Injertos/CanalesDeComunicacion).

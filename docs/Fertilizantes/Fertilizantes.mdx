@@ -2,24 +2,34 @@
 sidebar_position: 1
 sidebar_label: Herramientas
 slug: /Fertilizantes
-description: Las seis pestañas de Integración → Herramientas, y en cuál vive cada cosa.
+description: Las seis pestañas de Integración → Herramientas, y en qué orden las llama un nodo.
 ---
 
 # Herramientas
 
-En el menú están en **Integración → Herramientas**. Un [canal](/docs/Injertos/CanalesDeComunicacion) es por dónde habla la persona. Una herramienta es lo que el bot llama mientras recorre un nodo: un script, una API, el webhook o el paso a una persona.
+En el menú están en **Integración → Herramientas**. Un [canal](/docs/Injertos/CanalesDeComunicacion) es por dónde habla la persona. Una herramienta es lo que el bot llama mientras recorre un nodo.
 
-![Herramientas de Cafetería: las pestañas y un script](/img/integracion/herramientas.png)
+![Cafetería, pestaña Scripts: el buscador, las seis pestañas y el script del saludo](/img/herramientas/scripts-lista.png)
+
+Arriba, el buscador cambia según la pestaña: **Buscar scripts…** o **Buscar APIs…**. A la derecha están **Plantillas** y el botón de crear (**Crear script** o **Crear Tool**). Esas dos acciones no están en Webhook, Transferencias, Base de conocimiento ni Ingestión generativa.
 
 | Pestaña | Qué guarda |
 |---|---|
 | [Scripts](/docs/Fertilizantes/Scripts) | Código Python que corre dentro del bot. Ocho plantillas |
-| [APIs](/docs/Fertilizantes/Apis) | Una llamada HTTP. Once plantillas |
-| [Webhook](/docs/Fertilizantes/Webhook) | Una sola URL, la del árbol, que un nodo puede pedir |
+| [APIs](/docs/Fertilizantes/Apis) | Una llamada HTTP. Diez plantillas, más las que crees |
+| [Webhook](/docs/Fertilizantes/Webhook) | Una sola tarjeta, la URL del árbol |
 | [Transferencias](/docs/Fertilizantes/Transferencias) | Cómo se pasa la conversación a una persona |
 | [Base de conocimiento](/docs/Fertilizantes/BaseDeConocimiento) | Un CSV que crea un flujo, una fila por intención |
 | [Ingestión generativa](/docs/Fertilizantes/IngestionGenerativa) | Un PDF, Excel o TXT del que un modelo saca intenciones |
 
-En el nodo del flujo, pestaña **Funcionalidad**, se eligen. **Añadir script…** corre antes. **Añadir herramienta…** llama a las APIs después, cuando ya están los datos del turno. **Llamar webhook en este nodo** usa el webhook del árbol, antes que las APIs. Si no hay uno activo, no pasa nada.
+## En el nodo
 
-La salida queda en la conversación con el nombre de la variable. Un mensaje la lee con `{$total_final}`.
+Se eligen en el nodo del flujo, pestaña **Funcionalidad**. El orden en que corren es fijo:
+
+1. Los scripts de **Añadir script…**, en el orden de la lista.
+2. El webhook, si **Llamar webhook en este nodo** está encendido y el árbol tiene URL.
+3. Las APIs de **Añadir herramienta…**, cuando el turno ya tiene sus datos.
+
+Si el nombre de la variable de sesión no coincide con el de la entrada o la salida, el **≠** de esa fila deja escribir el otro nombre. **=** usa el mismo. La salida queda en la conversación y un mensaje la lee con `{$saludo_tiempo}`.
+
+El detalle de cada pantalla está en su página. El mapa del nodo, en [Flujos](/docs/Avanzado/FlujosConversacionales#funcionalidad).

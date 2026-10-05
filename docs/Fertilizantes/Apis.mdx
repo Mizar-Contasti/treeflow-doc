@@ -1,43 +1,80 @@
 ---
 sidebar_position: 3
 sidebar_label: APIs
-description: Las once plantillas de llamada HTTP, cuáles hablan con un servicio real y cómo se leen en el mensaje.
+description: Llamadas HTTP. El catálogo de diez plantillas y el editor, campo por campo.
 ---
 
 # APIs
 
-La pestaña **APIs**. Cada tarjeta es una llamada HTTP: método, URL, cuerpo, cabeceras y las variables que entran y salen. **Crear Tool** abre una vacía. **Plantillas** abre el catálogo. El árbol tiene un tope de APIs; al llegar, el botón se cambia por el aviso del límite.
+La segunda pestaña. Cada tarjeta es una llamada HTTP. En Cafetería ya hay tres: `picsum_image`, `gcp` y `gemini_explainer`. El buscador dice **Buscar APIs…**. **Crear Tool** abre una vacía. **Plantillas** abre el catálogo.
 
-El editor tiene las mismas pestañas que un script: **Entrada**, **Código** (la URL, el método y el cuerpo), **Salida**, **Pruebas** y **Despliegue**. En Salida, cada variable lleva la ruta JSON de la respuesta, por ejemplo `$.current_weather.temperature`.
+![APIs de Cafetería](/img/herramientas/apis-lista.png)
 
-En la URL y en el cuerpo una variable se escribe `{$latitud}`. Es la misma sintaxis que en un mensaje. Al tomar una plantilla, cambia el servidor de ejemplo y deja el `$` en cada hueco.
+El árbol tiene un tope. Al llegar, **Crear Tool** se cambia por el aviso del límite.
 
-La autenticación puede ser ninguna, Basic o un token Bearer.
+## El catálogo
 
-En el nodo, **Añadir herramienta…**. Corre cuando el turno ya tiene sus datos, después de los scripts. El **≠** de cada fila cambia el nombre de la variable de sesión si no coincide con el de la API.
+Se llama **Catálogo de plantillas de herramientas**. Diez tarjetas. Cada una muestra el método (GET o POST), cuántas entradas y salidas, y si trae autenticación Bearer. **Previsualizar** enseña la URL y el cuerpo. **Usar plantilla** la copia a este árbol.
 
-## Las que llaman a un servicio público
+![Las diez plantillas, con el método y la autenticación](/img/herramientas/apis-plantillas.png)
+
+### Las que llaman a un servicio público
 
 No piden clave. La URL ya apunta al servicio.
 
-| Plantilla | Qué pide | Qué devuelve |
-|---|---|---|
-| Pronóstico del clima en tiempo real (Open-Meteo) | `latitud`, `longitud` | `temperatura`, `velocidad_viento`, `hora_medicion` |
-| Tipo de cambio y conversión de divisas | `moneda_base` (USD, EUR, MXN) | `tasa_mxn`, `tasa_eur`, `tasa_usd`, `fecha_actualizacion` |
-| Búsqueda de código postal y localidad (Zippopotam) | `codigo_postal` de México, 5 dígitos | `estado`, `colonia`, `pais` |
+| Plantilla | Método | Qué pide | Qué devuelve |
+|---|---|---|---|
+| Pronóstico del clima en tiempo real (Open-Meteo) | GET | `latitud`, `longitud` | `temperatura`, `velocidad_viento`, `hora_medicion` |
+| Tipo de cambio y conversión de divisas | GET | `moneda_base` (USD, EUR, MXN) | `tasa_mxn`, `tasa_eur`, `tasa_usd`, `fecha_actualizacion` |
+| Búsqueda de código postal y localidad (Zippopotam) | GET | `codigo_postal` de México, 5 dígitos | `estado`, `colonia`, `pais` |
 
-## Las que traen un servidor de ejemplo
+### Las que traen un servidor de ejemplo
 
-La URL es `api.ejemplo.com`. Hay que poner la del sistema real antes de probarlas. El cuerpo y las variables ya vienen nombrados.
+La URL es `api.ejemplo.com`. Hay que cambiarla por la del sistema real antes de probar. El cuerpo y los nombres de variable ya vienen puestos.
 
 | Plantilla | Método | Qué hace |
 |---|---|---|
-| Creación de ticket de soporte / CRM | POST | Abre un ticket con asunto, descripción, prioridad y contacto. Devuelve `ticket_id` y `estado` |
-| Agendamiento de citas y reservaciones | POST | Reserva con cliente, servicio, fecha, hora y sucursal. Devuelve `codigo_reserva` |
-| Consulta de stock y precios de producto | POST | Existencias y precio a partir de un SKU y una sucursal |
-| Rastreo y seguimiento de envíos | GET | Estado, fecha estimada y última ubicación de una guía |
+| Creación de ticket de soporte / CRM | POST | Abre un ticket con asunto, descripción, prioridad, nombre, correo y teléfono. Devuelve `ticket_id`, `estado` y `tiempo_estimado` |
+| Agendamiento de citas y reservaciones | POST | Reserva con cliente, servicio, fecha, hora y sucursal. Devuelve `codigo_reserva`, `estado_cita` y `especialista` |
+| Consulta de stock y precios de producto | POST | Existencias y precio a partir de un SKU y una sucursal. Devuelve `stock_disponible`, `precio_unitario`, `nombre_producto` y `tiene_stock` |
+| Rastreo y seguimiento de envíos | GET | Estado, fecha estimada y última ubicación de una guía y una paquetería |
 | Generación de enlace de pago / checkout | POST | Crea un cobro y devuelve `url_pago`. Trae autenticación Bearer |
-| Envío de mensajes SMS / WhatsApp | POST | Manda un aviso por `whatsapp` o `sms`. Trae autenticación Bearer. No es el [canal](/docs/Injertos/CanalesDeComunicacion) de WhatsApp del bot |
-| Autenticación y obtención de token JWT | POST | Pide un `token_acceso` con `client_id` y `client_secret` |
+| Envío de mensajes SMS / WhatsApp | POST | Manda un aviso por `whatsapp` o `sms` a un número. Trae Bearer. No es el [canal](/docs/Injertos/CanalesDeComunicacion) de WhatsApp del bot |
+| Autenticación y obtención de token JWT | POST | Pide `token_acceso` con `client_id` y `client_secret` |
 
-**Pruebas** dispara la llamada con los valores de prueba de cada entrada y muestra el JSON. **Despliegue** marca la tarjeta. Una API que falla puede llevar un mensaje propio para la persona; si no, el bot usa el de reserva.
+## El editor
+
+Las mismas cinco pestañas que un script. En **Código** no hay Python: hay la llamada.
+
+![picsum_image: URL con {$image_id}, método GET, timeout 15000 y autenticación ninguna](/img/herramientas/apis-editor.png)
+
+**Información general**
+
+- **Nombre.** Así sale en la tarjeta y en el nodo.
+- **Descripción.** Para recordar para qué es. La persona no la ve.
+- **URL.** Una variable se escribe `{$image_id}`. También cabe una condición: `{ $valor ? 'Sí' : 'No' }`. Es la misma sintaxis que en un [mensaje](/docs/Avanzado/LenguajeDePlantillas).
+- **Método.** GET, POST, PUT, PATCH o DELETE.
+- **Timeout.** Milisegundos antes de dar la llamada por fallida. En `picsum_image` son 15000. En el webhook de fábrica, 30000.
+- **Tipo de autenticación.** Ninguna, Basic (usuario y contraseña) o Bearer (un token).
+
+Si el método lleva cuerpo, debajo está el JSON. El aviso de la pantalla lo dice: `{$variable}` mete el dato. **Formatear JSON** acomoda el texto.
+
+**Mensaje si falla** es lo que recibe la persona cuando la llamada no responde o no trae el dato, y la salida no tiene valor de respaldo. Vacío, se usa el de fábrica en el idioma de la conversación.
+
+### Entrada
+
+Una fila por dato que la URL o el cuerpo van a pedir. **Nombre**, **tipo**, **valor de testeo** (con ése corre **Pruebas**) y **valor fallback** si en la conversación no vino.
+
+En `picsum_image` la única entrada es `image_id`, tipo String, valor de testeo `237`.
+
+### Salida
+
+Una fila por dato que quieres guardar de la respuesta. **JSON Path** es la ruta dentro del JSON, por ejemplo `$.download_url` o `$.current_weather.temperature`. **Valor fallback** se usa si esa ruta no vino.
+
+### Pruebas y despliegue
+
+**Ejecutar test** hace la llamada de verdad, con los valores de testeo, y muestra el JSON. **Desplegar ahora** la deja en **Añadir herramienta…** del nodo. Sin desplegar, el nodo no la lista.
+
+## En el nodo
+
+Pestaña **Funcionalidad**, **Añadir herramienta…**. Corre después de los scripts y del webhook, cuando el turno ya tiene sus datos. El **≠** de cada fila cambia el nombre de la variable de sesión. En el mensaje se lee `{$temperatura}`.
