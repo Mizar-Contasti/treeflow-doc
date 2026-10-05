@@ -1,0 +1,46 @@
+---
+sidebar_position: 5
+sidebar_label: Una respuesta para la web
+---
+
+# Una respuesta para la web
+
+Cada mensaje tiene dos clases de pestaña. **Default** siempre está: es texto, y es lo que sale cuando el canal no trae una versión propia. **Web** aparece cuando el canal web está conectado. Ahí el bloque es de elementos enriquecidos, y sólo lo ve quien escribe por la web.
+
+## El texto de Default
+
+**Mensajes** → `restaurante_saludo_response`. En **Default** el tipo es **Texto**. El campo se llama **Texto de respuesta**.
+
+![Default: el saludo en texto](/img/mensajes/editor.png)
+
+Negrita, cursiva y subrayado marcan lo seleccionado con `**`, `*` y `__`. **Guardar cambios** vuelve a la lista.
+
+![La lista de mensajes](/img/mensajes/lista.png)
+
+## La pestaña Web
+
+Cambia a **Web**. El tipo es **Elementos enriquecidos**. **Agregar Elemento** suma un párrafo, una imagen, botones, una tarjeta o un carrusel. Se reordenan arrastrando.
+
+![Web: un bloque con una imagen](/img/mensajes/web.png)
+
+| Elemento | Para qué |
+|---|---|
+| Párrafo | El texto. Puede haber varios en el mismo elemento |
+| Imagen | Una URL y el texto alternativo |
+| Botones | Cada uno con etiqueta y una acción |
+| Tarjeta | Título, subtítulo, imagen y botones |
+| Carrusel | Varias tarjetas, una al lado de la otra |
+
+Un botón puede enviar texto (eso es lo que escribe la persona), abrir una URL o disparar un evento. En el párrafo cabe una función: `{$nombre}`.
+
+Si hay dos bloques en la misma pestaña, el bot elige uno al azar. Un bloque vacío no viaja.
+
+## Verla en la consola
+
+Abre la consola y pon el segundo botón en **Web**. `hola` debe mostrar el bloque de la pestaña Web.
+
+![La consola, con el canal encima del chat](/img/testeo/consola.png)
+
+Si sale el párrafo de Default, la pestaña Web de ese mensaje está vacía, o el canal de la consola sigue en **Por defecto**.
+
+El catálogo de elementos está en [Mensajes](/docs/Fundamentos/Mensajes). El código para pegar el chat en un sitio está en [Setup del widget web](/docs/Injertos/Web/setup).

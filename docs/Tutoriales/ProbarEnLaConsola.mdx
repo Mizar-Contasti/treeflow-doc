@@ -1,0 +1,61 @@
+---
+sidebar_position: 2
+sidebar_label: Probar en la consola
+---
+
+# Probar en la consola
+
+La consola es el chat de prueba. No publica el árbol. En Cafetería se abre con el botón naranja, abajo a la derecha.
+
+Antes tiene que existir el árbol. Si todavía no, empieza por [Crear un árbol](./CrearChatbotBasico).
+
+## Antes de escribir
+
+El rayo del menú es **Entrenar**. En verde, el entrenamiento está al día. Si el árbol nunca se entrenó, el campo de texto queda apagado.
+
+![Panel de Cafetería, con el entrenamiento al día](/img/intro/panel.png)
+
+## Abrirla
+
+Arriba de la conversación hay una barra.
+
+![La consola: el flujo, el canal y el campo para escribir](/img/testeo/consola.png)
+
+1. El primer botón es el flujo. Para el mapa del local, elige **Restaurante**. Cambiarlo reinicia la conversación en ese flujo.
+2. El segundo es el canal. **Por defecto** manda el texto de la pestaña Default. **Web** manda la pestaña Web del mensaje, si tiene contenido.
+3. Escribe y envía.
+
+`hola` cae en la intención `saludo` y contesta la bienvenida.
+
+![hola y la respuesta del bot](/img/testeo/turno.png)
+
+La flecha circular reinicia. La flecha hacia atrás deshace el último turno.
+
+## Ver cómo decidió
+
+El insecto enciende el modo debug y se pone amarillo. Antes de la respuesta aparece una línea: la intención, la confianza y cómo coincidió. El tercer dato puede ser entidad, patrón, modelo, o `no_match` si no reconoció la frase.
+
+![Modo debug: la intención, la confianza y el nodo marcado](/img/testeo/debug.png)
+
+Un clic en tu burbuja abre lo que se envió. Un clic en la del bot abre lo que contestó el motor.
+
+| Vista | Qué deja |
+|---|---|
+| Todo | el JSON completo |
+| Parameters | los datos capturados y los de la sesión |
+| Messages | el texto de la persona o la respuesta del bot |
+| Metadata | intención, tiempos, sesión, herramientas, sentimiento |
+
+![El response: intención, parámetros y texto](/img/testeo/detalle.png)
+
+El lienzo del flujo se abre y marca el nodo de este turno.
+
+![Consola en Restaurante y el lienzo marcado](/img/diseno/recorrido.png)
+
+## Si no cuadra
+
+- La intención no es la que esperabas. El patrón o el orden de entendimiento eligió otra. El lápiz del turno abre esa intención.
+- Sale `no_match`. Ninguna intención de este flujo calzó. El camino es el evento `sys.no-match`.
+- Cambiaste intenciones o entidades. Vuelve a entrenar. Un mensaje o una captura se leen al guardar: por eso no hace falta entrenar.
+
+El detalle de cada control está en [Probar el bot](/docs/Fundamentos/Testeo).

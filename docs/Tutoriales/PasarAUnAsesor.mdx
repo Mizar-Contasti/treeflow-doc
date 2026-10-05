@@ -1,0 +1,46 @@
+---
+sidebar_position: 6
+sidebar_label: Pasar a una persona
+---
+
+# Pasar la conversación a una persona
+
+En Restaurante, `hablar_con_asesor` no vuelve a Inicio. La transición del nodo es **Transferencia a agente humano**: el bot avisa y la conversación entra en la cola en ese mismo turno.
+
+## El nodo
+
+**Flujos** → abre **Restaurante** → el nodo `hablar_con_asesor`.
+
+En **Conversación**:
+
+- **Intención:** `hablar_con_asesor`.
+- **Respuesta:** el aviso. En la plantilla es «Te comunico con una persona del equipo».
+- **Transición:** **Transferencia a agente humano**.
+
+En **Funcionalidad**, **Termina una captura en curso** está activo. Si la persona lo dice a mitad de un pedido, el bot deja de preguntar y pasa la conversación.
+
+![hablar_con_asesor: el mensaje y la transferencia](/img/diseno/asesor.png)
+
+Marca sólo esta intención. Si la misma transición está en `saludo`, el bot deriva hasta cuando la persona saluda.
+
+El texto del aviso también se puede cambiar en **Herramientas → Transferencias**, en **Mensaje de transferencia**. Si el árbol no tiene ninguna configuración, igual funciona, con el aviso de fábrica.
+
+## Probar el aviso
+
+Consola, flujo **Restaurante**. Escribe `quiero hablar con un asesor`.
+
+El bot manda el aviso. En modo debug, después de ese aviso no hay otra burbuja del bot: se ve a quién le llegó. El bot deja de contestar mientras la conversación está con una persona.
+
+![La consola en el flujo Restaurante](/img/diseno/recorrido.png)
+
+## La mesa
+
+**Operación → Mesa de ayuda**. **Bandeja en vivo** separa En espera, Mis chats y Todos. **Historial** es lo ya cerrado.
+
+![Mesa de ayuda: la bandeja en vivo](/img/operacion/mesa.png)
+
+- **En espera** son las que nadie ha reclamado.
+- Al elegir una, a la derecha está el historial y se le escribe al visitante.
+- El operador reclama, responde, cierra o devuelve la conversación al bot.
+
+La conversación en vivo entre operador y visitante funciona sobre el widget web. El detalle de la cola, el cierre y un helpdesk externo está en [Mesa de ayuda](/docs/Avanzado/MesaDeAyuda).

@@ -1,0 +1,51 @@
+---
+sidebar_position: 7
+sidebar_label: Correr una suite
+---
+
+# Correr una suite de pruebas
+
+La [consola](./ProbarEnLaConsola) es un chat, turno a turno. Una **suite** es una lista de conversaciones con lo que el bot debe contestar. Sirve para repetir el mismo pedido después de cambiar un patrón.
+
+## Entrenar primero
+
+El botón de ejecutar queda apagado si el árbol no está entrenado. El rayo del menú en verde es la señal de que el entrenamiento está al día.
+
+![El panel, con el entrenamiento al día](/img/intro/panel.png)
+
+## Dónde está
+
+**Operación → Pruebas**. Si todavía no hay suites, se crea una y se sube un CSV, o se escriben los turnos en la pantalla.
+
+![Pruebas: se crean y se sube un CSV](/img/pruebas/lista.png)
+
+## El archivo
+
+Una fila por turno. El mismo `caso` es una conversación. Cada caso arranca con su propia sesión: el pedido anterior no se filtra al siguiente.
+
+```csv
+caso,turno,mensaje,intencion,respuesta_contiene,slot,parametros,evento
+pedido por partes,1,quiero empanadas,hacer_pedido,¿De qué sabor,sabor_producto,,
+pedido por partes,2,de queso,,¿Cuántas,numero,,
+pedido por partes,3,dos,,Anoté,,numero=2;sabor_producto=queso,
+```
+
+| Columna | Qué exige |
+|---|---|
+| `intencion` | La intención detectada es esa |
+| `respuesta_contiene` | La respuesta contiene ese texto, sin distinguir mayúsculas |
+| `slot` | El parámetro que el bot está pidiendo en ese turno |
+| `parametros` | Los valores capturados. Varios en la misma celda: `nombre=valor;nombre=valor` |
+| `evento` | El evento resultante |
+
+Las columnas vacías no comprueban nada. El CSV mínimo es `caso,turno,mensaje`. Si el archivo está mal, la pantalla muestra la fila y el motivo.
+
+El lápiz abre el caso. **Guardar** escribe los cambios. **Descartar** los suelta.
+
+## El resultado
+
+Ejecutar corre esa suite contra el entrenamiento actual. El historial guarda con cuál se midió. Los casos que fallan se abren y muestran qué se esperaba y qué contestó el bot. Comparar dos corridas dice qué antes pasaba y ahora falla, y qué fallaba y ahora pasa.
+
+Las sesiones de la corrida no quedan en Conversaciones.
+
+Para mirar un turno suelto, con la intención y los parámetros, usa la consola en modo debug. El detalle de la suite está en [Pruebas](/docs/Avanzado/Testeo).
