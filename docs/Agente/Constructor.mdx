@@ -7,21 +7,17 @@ sidebar_label: Agente constructor
 
 El agente construye el bot **conversando contigo**. Le dices qué quieres —«agrega un flujo para consultar el horario»— y él crea las intenciones, los nodos y los mensajes, los conecta y te cuenta qué hizo y dónde.
 
-Trabaja sobre el **bot que tengas seleccionado** en el selector de arriba a la izquierda. Se abre desde la consola, con el icono del robot. Para conectarlo a un proveedor, sigue [Primer encargo](/docs/Reforestacion/GuiaInicioReforestacion).
-
-:::note Reforestación
-Es la función que antes se llamaba así. Las páginas del generador de seis fases y del servicio del puerto 8001 se retiraron: ya no existen en la app.
-:::
+Trabaja sobre el **bot que tengas seleccionado** en el selector de arriba a la izquierda. Se abre desde la consola, con el icono del robot. Para conectarlo a un proveedor, sigue [Primer encargo](/docs/Agente/PrimerEncargo).
 
 ## Qué hace
 
-- **Crea y modifica** ramas, nodos, intenciones, entidades, mensajes y herramientas HTTP.
+- **Crea y modifica** flujos, nodos, intenciones, entidades, mensajes y herramientas HTTP.
 - **Conecta** lo que crea: una intención nueva no sirve si ningún nodo de contexto la escucha, así que además la enlaza.
 - **Consulta**: la estructura del bot, el estado del entrenamiento, conversaciones y registros, y puede **simular un mensaje** para ver qué contestaría.
 - **Entrena** el bot si se lo pides, y consulta el estado y el historial de entrenamientos.
-- **Explica** al terminar: la rama afectada, los nodos e intenciones tocados y frases para probar el resultado.
+- **Explica** al terminar: el flujo afectado, los nodos e intenciones tocados y frases para probar el resultado.
 
-La lista completa está en [Qué puede tocar](/docs/Reforestacion/GenAITools).
+La lista completa está en [Qué puede tocar](/docs/Agente/GenAITools).
 
 ## Cómo pedírselo
 
@@ -31,14 +27,14 @@ Habla con él como con una persona que ya conoce tu bot. Cuanto más concreto, m
 |---|---|
 | «Mejora el bot» | «Añade una intención para consultar el horario, con 8 frases de ejemplo, y que conteste con el horario de lunes a viernes» |
 | «Arregla el saludo» | «El saludo contesta dos veces. Revisa el nodo de la intención `saludo` y dime qué ves antes de cambiarlo» |
-| «Crea un flujo de reservas» | «Crea una rama `reservas` con una intención `reservar_mesa` que pida fecha y número de personas» |
+| «Crea un flujo de reservas» | «Crea un flujo `reservas` con una intención `reservar_mesa` que pida fecha y número de personas» |
 
 Puede **preguntarte** lo que falte. No inventa direcciones, claves ni tokens de herramientas HTTP: te los pide.
 
 ## Cómo trabaja
 
-1. **Mira antes de crear.** Lista lo que ya existe —intenciones, entidades, ramas, nodos, mensajes, herramientas— para no duplicar.
-2. **Elige la rama.** Por defecto, la principal; si quieres otra, dilo.
+1. **Mira antes de crear.** Lista lo que ya existe —intenciones, entidades, flujos, nodos, mensajes, herramientas— para no duplicar.
+2. **Elige el flujo.** Por defecto, el principal; si quieres otro, dilo.
 3. **Crea y conecta.** La intención, su nodo con la respuesta, y la referencia en el nodo de contexto que la escucha.
 4. **Te lo cuenta.** Qué cambió, dónde y con qué frases probarlo.
 
@@ -64,9 +60,9 @@ En la configuración del agente hay tres casilleros, **activos por defecto**, y 
 
 | Casillero | Qué detiene |
 |---|---|
-| **Pedir confirmación para crear** | Crear ramas, nodos, intenciones, entidades, plantillas de mensaje, herramientas, usuarios y respaldos |
-| **Pedir confirmación para modificar** | Modificar el bot, ramas, nodos, intenciones, entidades, plantillas, herramientas, usuarios, integraciones y la voz; también **entrenar** el bot |
-| **Pedir confirmación para eliminar** | Eliminar ramas, nodos, intenciones, entidades, plantillas, herramientas y usuarios |
+| **Pedir confirmación para crear** | Crear flujos, nodos, intenciones, entidades, plantillas de mensaje, herramientas, usuarios y respaldos |
+| **Pedir confirmación para modificar** | Modificar el bot, flujos, nodos, intenciones, entidades, plantillas, herramientas, usuarios, canales y la voz; también **entrenar** el bot |
+| **Pedir confirmación para eliminar** | Eliminar flujos, nodos, intenciones, entidades, plantillas, herramientas y usuarios |
 
 Si apagas uno, las acciones de ese grupo se ejecutan en el momento, como antes. Es la credencial la que guarda los casilleros, así que cada credencial puede tener los suyos.
 
@@ -79,11 +75,11 @@ La tarjeta aplica las acciones **en orden**. Si una falla, se detiene en ella: l
 - **Pídele un respaldo antes.** Tiene una herramienta para crearlo, y [Importar y exportar](/docs/Misc/ImportarExportar) explica cómo restaurar uno. Crear un respaldo también pide confirmación mientras el casillero de crear esté activo.
 - **Pide primero el plan.** «Dime qué vas a cambiar, sin cambiarlo todavía» ayuda a que el agente lo describa antes de proponerlo.
 - Si apagaste los casilleros, revisa la lista de **acciones** de cada respuesta: ya se ejecutaron.
-- Las altas, cambios y borrados de **ramas, entidades e intenciones** quedan en el historial de cambios del bot, que el agente también puede consultar. Los de nodos y mensajes no se registran ahí.
+- Las altas, cambios y borrados de **flujos, entidades e intenciones** quedan en el historial de cambios del bot, que el agente también puede consultar. Los de nodos y mensajes no se registran ahí.
 
 ## Qué no hace
 
-- **No contesta a tus usuarios.** Construye el bot; la conversación la lleva el motor con lo construido. Ver [La IA en TreeFlow](/docs/Reforestacion/Introduccion).
+- **No contesta a tus usuarios.** Construye el bot; la conversación la lleva el motor con lo construido. Ver [La IA en TreeFlow](/docs/Agente/Introduccion).
 - **No toca otros bots ni otros workspaces.** Solo el seleccionado, y eso lo fija el servidor, no el modelo.
 - **No crea ni modifica administradores.** Puede gestionar usuarios de otros roles, pero no administradores.
 - **No ve tus claves.** Cuando lista credenciales, la configuración secreta no se le devuelve.

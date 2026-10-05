@@ -124,15 +124,6 @@ client.interceptors.request.use((config) => {
 });
 ```
 
-**Generative (useReforestacion.ts)**:
-```typescript
-const response = await fetch(`${API_BASE_URL}/api/reforestacion/preview`, {
-  headers: {
-    'Bypass-Tunnel-Reminder': 'true'
-  }
-});
-```
-
 :::tip Bypass Automático
 Con TreeFlow v0.4, el bypass está configurado automáticamente. No necesitas hacer nada adicional.
 :::

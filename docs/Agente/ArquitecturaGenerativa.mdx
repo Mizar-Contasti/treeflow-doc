@@ -14,7 +14,7 @@ El agente vive **dentro del backend principal** (`backend/core/builder_agent/`).
 1. **La consola envía** el bot, el historial de la conversación y, si lo eligió el usuario, la credencial y el modelo.
 2. **El servidor comprueba** que el bot sea del workspace de quien pregunta.
 3. **Elige la credencial**: la indicada (debe ser del workspace) o, si no se indica, la primera credencial de IA del workspace. Sin ninguna, responde que hace falta una clave.
-4. **Arma las instrucciones** del modelo en el **idioma principal del bot**: el identificador, el nombre y el propósito del bot, la lista de sus ramas, las reglas de nombres, dónde aplicar los cambios y el protocolo de **mirar antes de crear**.
+4. **Arma las instrucciones** del modelo en el **idioma principal del bot**: el identificador, el nombre y el propósito del bot, la lista de sus flujos, las reglas de nombres, dónde aplicar los cambios y el protocolo de **mirar antes de crear**.
 5. **Recorta el historial** a los **últimos 14 mensajes**.
 6. **Llama al modelo** con las instrucciones, el historial y las **46 herramientas**, descritas en el idioma del bot. Cada llamada espera hasta 60 segundos.
 7. **Si el modelo pide herramientas**, el servidor las ejecuta y le devuelve el resultado. Repite hasta **8 rondas**.
@@ -30,7 +30,7 @@ Si una herramienta falla, el error vuelve al modelo como resultado para que lo e
 
 ## Cómo habla con los proveedores
 
-Con **Anthropic** usa su API nativa (`/messages`): las instrucciones van aparte, las herramientas se describen con su esquema de entrada, y el resultado de cada herramienta vuelve como un bloque `tool_result`. Con **todos los demás proveedores** usa el **formato de chat de OpenAI** (`/chat/completions`, con las herramientas como funciones): Gemini y los demás exponen una ruta compatible; con Ollama o un servidor propio, tú pones la URL base. El ciclo es el mismo en ambos casos; sólo cambia cómo se traduce la petición y la respuesta. Ver [Proveedores y modelos](/docs/Reforestacion/ModelosGenerativos).
+Con **Anthropic** usa su API nativa (`/messages`): las instrucciones van aparte, las herramientas se describen con su esquema de entrada, y el resultado de cada herramienta vuelve como un bloque `tool_result`. Con **todos los demás proveedores** usa el **formato de chat de OpenAI** (`/chat/completions`, con las herramientas como funciones): Gemini y los demás exponen una ruta compatible; con Ollama o un servidor propio, tú pones la URL base. El ciclo es el mismo en ambos casos; sólo cambia cómo se traduce la petición y la respuesta. Ver [Proveedores y modelos](/docs/Agente/ModelosGenerativos).
 
 ## Endpoints
 

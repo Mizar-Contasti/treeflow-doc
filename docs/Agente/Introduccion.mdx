@@ -15,11 +15,11 @@ Cuando alguien escribe, el bot detecta una intención y responde con el flujo y 
 
 | Función | Para qué | Dónde |
 |---|---|---|
-| [**Agente constructor**](/docs/Reforestacion) | Crear y modificar flujos, nodos, intenciones, entidades y mensajes conversando | Consola → pestaña **Agente** |
-| **Servidor MCP** | Que un asistente de fuera (por ejemplo Claude Desktop) cree y modifique el árbol | Gestión → [Credenciales](/docs/Avanzado/Credenciales) → **MCP** |
+| [**Agente constructor**](/docs/Agente/Constructor) | Crear y modificar flujos, nodos, intenciones, entidades y mensajes conversando | Consola → pestaña **Agente** |
+| [**Servidor MCP**](/docs/Agente/Mcp) | Que Claude Desktop, Claude Code o Cursor hagan lo mismo desde fuera | Gestión → [Credenciales](/docs/Avanzado/Credenciales) → **MCP** |
 | **Ingestión generativa** | Sacar intenciones y entidades de un PDF o de un CSV | Integración → Herramientas → **Ingestión Generativa** y **Base de Conocimiento** |
 
-El agente y la ingestión usan **tu propia clave** de un proveedor de modelos: TreeFlow no trae un modelo propio. Ver [Proveedores y modelos](/docs/Reforestacion/ModelosGenerativos).
+El agente y la ingestión usan **tu propia clave** de un proveedor de modelos: TreeFlow no trae un modelo propio. Ver [Proveedores y modelos](/docs/Agente/ModelosGenerativos).
 
 ## Cómo se llega a ellas
 
@@ -29,10 +29,11 @@ El botón naranja de abajo a la derecha abre la consola. Arriba hay un icono de 
 
 ## Por dónde seguir
 
-1. [**Primer encargo**](/docs/Reforestacion/GuiaInicioReforestacion): conectar un proveedor y pedirle algo.
-2. [**El agente constructor**](/docs/Reforestacion): qué hace y cómo pedírselo.
-3. [**Qué puede tocar**](/docs/Reforestacion/GenAITools): sus 46 herramientas, por tipo.
-4. [**Proveedores y modelos**](/docs/Reforestacion/ModelosGenerativos): cuál elegir y cómo se configura.
-5. [**Cómo funciona por dentro**](/docs/Reforestacion/ArquitecturaGenerativa): el ciclo, los límites y la API.
+1. [**Primer encargo**](/docs/Agente/PrimerEncargo): conectar un proveedor y pedirle algo.
+2. [**El agente constructor**](/docs/Agente/Constructor): qué hace y cómo pedírselo.
+3. [**Qué puede tocar**](/docs/Agente/GenAITools): sus 46 herramientas, por tipo.
+4. [**Proveedores y modelos**](/docs/Agente/ModelosGenerativos): cuál elegir y cómo se configura.
+5. [**Cómo funciona por dentro**](/docs/Agente/ArquitecturaGenerativa): el ciclo, los límites y la API.
+6. [**MCP**](/docs/Agente/Mcp): la misma construcción, desde Claude.
 
 Para cómo el motor entiende a tus usuarios (modo Básico o Pro, umbrales, sentimiento), lee [Entendimiento](/docs/Avanzado/Entendimiento).

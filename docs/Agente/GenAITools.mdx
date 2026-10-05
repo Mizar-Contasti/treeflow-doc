@@ -15,9 +15,9 @@ Cada acción que ejecuta aparece en el chat con el nombre de la herramienta, as�
 
 | Área | Herramientas | Qué permiten |
 |---|---|---|
-| **Árbol** | `get_tree_data` · `update_tree` | Mira la estructura completa (ramas, nodos, intenciones, entidades). Cambia el nombre, la descripción, el propósito, el webhook, el modo del bot y la configuración de [Entendimiento](/docs/Avanzado/Entendimiento): modo, análisis de sentimiento y umbrales |
-| **Ramas** | `list_branches` · `create_branch` · `update_branch` · `delete_branch` | Mira las ramas. Crea una rama con su nodo inicial. Cambia sus propiedades, no sus nodos. Elimina una rama **con todos sus nodos** |
-| **Nodos** | `list_leafs` · `create_leaf` · `update_leaf` · `delete_leaf` | Mira los nodos de una rama. Crea, modifica y elimina nodos |
+| **Árbol** | `get_tree_data` · `update_tree` | Mira la estructura completa: flujos, nodos, intenciones, entidades. Cambia el nombre, la descripción, el propósito, el webhook, el modo del bot y la configuración de [Entendimiento](/docs/Avanzado/Entendimiento): modo, análisis de sentimiento y umbrales |
+| **Flujos** | `list_branches` · `create_branch` · `update_branch` · `delete_branch` | Mira los flujos. Crea uno con su nodo de inicio. Cambia sus propiedades, no sus nodos. Elimina un flujo **con todos sus nodos** |
+| **Nodos** | `list_leafs` · `create_leaf` · `update_leaf` · `delete_leaf` | Mira los nodos de un flujo. Crea, modifica y elimina nodos |
 | **Intenciones** | `list_intents` · `create_intent` · `update_intent` · `delete_intent` | Mira las intenciones. Crea una con sus frases de entrenamiento y parámetros. Modifica y elimina |
 | **Entidades** | `list_entities` · `create_entity` · `update_entity` · `delete_entity` | Mira las entidades. Crea, modifica y elimina |
 | **Mensajes** | `list_message_templates` · `create_message_template` · `update_message_template` · `delete_message_template` | Mira las plantillas de mensaje. Crea una para respuestas estructuradas o enriquecidas, la actualiza o la elimina |
@@ -37,9 +37,7 @@ Cada acción que ejecuta aparece en el chat con el nombre de la herramienta, as�
 
 Las **siete** que eliminan son `delete_branch`, `delete_leaf`, `delete_intent`, `delete_entity`, `delete_message_template`, `delete_fertilizer` y `delete_user`.
 
-:::warning Se ejecutan al momento
-Hoy el agente ejecuta estas herramientas en cuanto decide usarlas. Ver [Antes de pedirle cambios grandes](/docs/Reforestacion#antes-de-pedirle-cambios-grandes).
-:::
+Por defecto el agente **no las ejecuta solas**: si el casillero de crear, modificar o eliminar está activo, primero enseña la tarjeta de confirmación. Ver [Antes de pedirle cambios grandes](/docs/Agente/Constructor#antes-de-pedirle-cambios-grandes). Si apagas el casillero, las de ese grupo sí corren en el momento.
 
 ## Los límites de fábrica
 
