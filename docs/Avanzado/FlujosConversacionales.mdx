@@ -94,6 +94,8 @@ El rayo se elige o se escribe. Los que el motor dispara solo son `sys.no-match` 
 
 En Restaurante el mensaje es «Lo siento, no entendí eso. ¿Podrías repetirlo?». La transición es la misma lista que en la intención. Lo habitual es volver al contexto.
 
+En ese mensaje, y en las herramientas y scripts del nodo, la frase que no se entendió está en **`{$last_no_match}`**: `No entendí "{$last_no_match}", ¿puedes decirlo de otra forma?`. No hay que activar nada. Ver [Variables del sistema](/docs/Avanzado/LenguajeDePlantillas#variables-del-sistema).
+
 ## Cuando pide una persona
 
 `hablar_con_asesor` no vuelve a Inicio. La transición es **Transferencia a agente humano**.

@@ -15,6 +15,14 @@ Este documento proporciona un historial detallado de todas las características,
 
 > Cambios que aún no llevan número de versión de la aplicación. El widget del CDN ya está publicado (v1.3.6 y v1.3.7).
 
+#### 🧩 Variables del Sistema y Selector de Variables (`backend/core/detector/params_handler.py`, `frontend/src/components/TemplateTextField.tsx`)
+> - ✅ **`last_utterance` y `last_no_match`** (`guardar_ultimo_mensaje`, `guardar_ultimo_no_entendido`)
+>   - `process_turn` guarda el texto del turno como parámetro de sesión nada más cargar la sesión, antes de detectar; si el turno resulta no-match, guarda también `last_no_match` antes de ejecutar el nodo `sys.no-match`, haya o no handler. Se persiste en SQL y se copia a la memoria de la sesión. Un turno sin texto no toca `last_utterance`; un turno entendido no toca `last_no_match`.
+>   - Sustituye al interruptor `saveUnmatchedMessage` del nodo de evento y a `{$no_match}`, que se retiraron.
+> - ✅ **Selector de variables** (`utils/templateVariables.ts`, `hooks/useTemplateVariables.ts`, `components/TemplateTextField.tsx`)
+>   - `findVariableTrigger` detecta un `$` dentro de unas llaves abiertas y devuelve lo escrito; `filterVariables` ordena por prefijo y luego por coincidencia, sin acentos ni mayúsculas; `applyVariable` cierra la llave sólo si el hueco es una variable suelta.
+>   - Las variables son los `parameterName` (o `name`) de las intenciones del árbol seleccionado más las dos del sistema. Está en el texto de las respuestas (`ResponsesSection`) y en los párrafos del constructor de elementos (`ParagraphBlockEditor`). Tests en `frontend/tests/template_variables.spec.ts`.
+
 #### 🎧 Mesa de Ayuda y Transferencia a Humano (`backend/api/live_chat_api.py`, `frontend/src/features/inbox/`)
 > - ✅ **Esquema de Handoff** (`database/init/13_schema_human_handoff.sql`)
 >   - `conversations` gana `transfer_status` (`none` · `pending_human` · `human_active` · `resolved`), `assigned_agent_id`, `assigned_agent_name`, `transfer_config_id` y `transferred_at`; `conversation_turns` gana `sender_type` y `sender_name`. El `CHECK` de `users.role` admite `agent` y `operador`. Al arrancar, el backend autoconvierte las columnas que falten.

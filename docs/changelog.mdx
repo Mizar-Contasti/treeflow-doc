@@ -13,6 +13,11 @@ sidebar_position: 12
 
 > Estos cambios aún no llevan número de versión de la aplicación. El widget del CDN, en cambio, ya está publicado: v1.3.6 y v1.3.7. Cuando se publique la siguiente versión de la aplicación, esta entrada pasa a llevarla.
 
+### 🧩 Variables del Sistema y Selector de Variables
+> - **`{$last_utterance}` y `{$last_no_match}`**: Dos variables que el motor arma solo, sin configurar nada. La primera es lo último que escribió el usuario; la segunda, la última frase que el bot no entendió. Se arman con la petición, así que ya valen en la respuesta, las herramientas y los scripts del turno. Ver [Variables del sistema](/docs/Avanzado/LenguajeDePlantillas#variables-del-sistema).
+> - **Repetir la Frase en `sys.no-match`**: `No entendí "{$last_no_match}"` ya es posible, sin activar nada en el nodo. Se retiró el interruptor «Guardar el mensaje que no se entendió» y su variable `{$no_match}`.
+> - **Selector al Escribir `{$`**: En el texto de las respuestas sale una lista con los parámetros del bot y las variables del sistema, filtrada conforme escribes. Flechas, Enter o Tab para elegir y Escape para cerrar. Ver [El selector de variables](/docs/Avanzado/LenguajeDePlantillas#el-selector-de-variables).
+
 ### ✏️ Una Sola Llave en las Plantillas
 > - **`{$variable}` es la Sintaxis**: Antes convivían dos formas, `{{ ... }}` y `{ ... }`, y no eran dos niveles de lo mismo: la simple sólo sustituía una variable suelta. Ahora hay una sola —una llave, y dentro una expresión— y el `$` es lo que distingue una variable de un texto. Ver [Parámetros](/docs/Avanzado/Parametros#en-respuestas).
 > - **`{{ ... }}` Deja de Funcionar**: Un texto sin migrar **no da error, imprime otra cosa**: `{{$nombre}}` sale como `{Ana}`, con la llave de fuera colgando. Los árboles existentes hay que migrarlos.

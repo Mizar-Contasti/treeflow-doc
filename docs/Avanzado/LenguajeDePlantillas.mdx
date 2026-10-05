@@ -57,6 +57,41 @@ En la consola, con el flujo **Restaurante**, «quiero empanada de queso» no tra
 
 Cuando después dice «queso», la pregunta de la cantidad ya sale armada: **¿Cuántas empanadas de queso te preparo?**
 
+### El selector de variables
+
+No hace falta acordarse de los nombres. Al teclear un `$` dentro de unas llaves, `{$`, sale una lista con las variables que puedes usar, y se va filtrando conforme escribes.
+
+![El selector de variables: al escribir last_ sale la lista con las dos variables del sistema](/img/funciones/selector.png)
+
+- **Flechas** para moverte, **Enter** o **Tab** para elegir, **Escape** para cerrar la lista.
+- También puedes hacer clic en una.
+- Al elegir una variable suelta, la llave se cierra sola: `{$no` → `{$nombre}`. Dentro de una expresión (`{$edad > 18 ? $no`) no se cierra, porque lo que sigue lo escribes tú.
+- No distingue mayúsculas ni acentos.
+- Detrás de un punto (`{$api.`) no sugiere: ahí ya estás leyendo dentro del valor.
+
+La lista trae los **parámetros de las intenciones** del bot que tienes seleccionado, con la intención de la que salen, y las dos variables del sistema, marcadas como *Sistema*. Sale en los textos de las respuestas, tanto en el mensaje de texto como en los párrafos de los elementos enriquecidos.
+
+## Variables del sistema
+
+Hay dos que el motor arma solo, en cualquier bot y sin configurar nada:
+
+| Variable | Qué contiene |
+|---|---|
+| `{$last_utterance}` | Lo último que escribió el usuario |
+| `{$last_no_match}` | La última frase que el bot **no entendió** |
+
+```
+{$last_utterance}   quiero una pizza voladora
+{$last_no_match}    quiero una pizza voladora
+```
+
+Se arman **con la petición**, antes de detectar la intención. Así que en la respuesta, las herramientas y los scripts del turno ya valen lo que el usuario acaba de decir. Sirven, por ejemplo, para que el evento `sys.no-match` le repita la frase: `No entendí "{$last_no_match}", ¿puedes decirlo de otra forma?`
+
+- Viven **en la sesión**: los nodos que vengan después las leen, y el turno siguiente también.
+- `{$last_utterance}` cambia en **cada** mensaje; el anterior no se conserva. Un turno sin texto (`sys.no-input`) no la toca.
+- `{$last_no_match}` solo cambia cuando un turno **no se entiende**. Si el usuario dice algo que el bot sí entiende, sigue valiendo la última frase fallida. Mientras no haya habido ningún no-match, la variable no existe.
+- Si un bot ya tenía un parámetro con uno de esos nombres, el motor lo sustituye.
+
 ## Textos
 
 Una palabra sin `$` es texto. Las comillas simples y las invertidas se tratan como dobles.
