@@ -32,12 +32,11 @@ En Cafetería, el mensaje del pedido es una función. Si ya hay pedido, lo nombr
 
 ## Variables
 
-`{$nombre}` imprime el valor. Los espacios dan igual. `${nombre}` es la forma antigua y también vale.
+`{$nombre}` imprime el valor. Los espacios dan igual.
 
 ```
 {$nombre}                    Ana
 { $nombre }                  Ana
-${nombre}                    Ana
 {$nombre.original_value}     ANA     · cómo lo escribió la persona
 {$nombre.key_value}          ana     · el valor normalizado
 ```
@@ -198,22 +197,5 @@ sale como `{"cliente": "Ana", "id": 42}`. En un HTML, `<b>{$nombre}</b>` sale `<
 
 - No se pueden poner llaves literales dentro de una cadena de una expresión. En `{ "el formato es {a}" }`, ese `{a}` es un hueco como cualquier otro.
 - `{5}` no se evalúa. Un número suelto se deja tal cual, porque `\d{3}` en una regex es un cuantificador. Los números sí cuentan dentro de una expresión: `{$a > 5}`.
-
-## Si vienes de la sintaxis antigua
-
-Antes existían `{{ ... }}` y `{ ... }`. **`{{ ... }}` ya no existe.** Un texto sin migrar no da error: imprime otra cosa.
-
-```
-{{$nombre}}   ->  {Ana}    la llave de fuera se queda suelta
-```
-
-| Antes | Ahora |
-|---|---|
-| `{{nombre}}` | `{$nombre}` — hay que añadir el `$` |
-| `{{$nombre}}` | `{$nombre}` |
-| `{{ $a > 1 ? "x" : "y" }}` | `{ $a > 1 ? "x" : "y" }` |
-| `{{len($producto)}}` | `{count($producto)}` — cambió de significado |
-
-Sin el `$`, `{nombre}` imprime la palabra «nombre». Y `len()` ahora mide caracteres, no cuántas veces vino el parámetro.
 
 Los parámetros se usan desde las [respuestas](/docs/Avanzado/Parametros#en-respuestas) y desde las [capturas](/docs/Fundamentos/Capturas).
