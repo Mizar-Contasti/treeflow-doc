@@ -1,0 +1,19 @@
+---
+sidebar_position: 4
+sidebar_label: Webhook
+description: La URL única del árbol. Un nodo la llama con el interruptor Llamar webhook en este nodo.
+---
+
+# Webhook
+
+La pestaña **Webhook** tiene una sola tarjeta, **Webhook**. Es la URL del árbol, no una API más: no se duplica y no sale en **Añadir herramienta…**.
+
+Se edita como las demás: la URL (tiene que empezar por `http://` o `https://`), el tiempo límite, una frase secreta y, si hace falta, usuario y contraseña en Basic. El interruptor la deja activa. Sin URL, o apagada, no se llama.
+
+## Cuándo corre
+
+En el nodo, pestaña **Funcionalidad**, **Llamar webhook en este nodo**. Si está encendido, el motor llama a esta URL al pasar por ahí, antes que a las APIs del nodo. Si el árbol no tiene webhook activo, el interruptor no hace nada.
+
+Lo llevan el contexto, la intención y el evento. Si el nodo de origen y el de destino lo piden los dos, se llama una vez.
+
+No es el webhook de un canal. Ese lo configura la plataforma (Meta, Slack, Discord) para entregarle mensajes a TreeFlow, y vive en [Canales](/docs/Injertos/CanalesDeComunicacion).

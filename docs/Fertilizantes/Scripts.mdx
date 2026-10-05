@@ -1,0 +1,30 @@
+---
+sidebar_position: 2
+sidebar_label: Scripts
+description: Código Python que corre en el bot. Las ocho plantillas y cómo se engancha en un nodo.
+---
+
+# Scripts
+
+La primera pestaña de **Herramientas**. Un script es código Python: recibe lo que ya capturó la conversación y devuelve variables. No sale a internet.
+
+**Plantillas** abre el catálogo. **Crear script** abre uno vacío. Arriba se busca por nombre.
+
+El editor tiene **Entrada**, **Código**, **Salida**, **Pruebas** y **Despliegue**. En el código, las entradas se leen con `inputs.get("nombre")` y las salidas se escriben en `outputs`.
+
+En el nodo, **Añadir script…**. Si el nombre de la variable de sesión no coincide con el de la entrada o la salida, el signo **≠** de la fila deja escribir el otro nombre. **=** usa el mismo. Los scripts de la lista corren en ese orden, antes que las APIs.
+
+## Las ocho plantillas
+
+| Plantilla | Para qué | Entradas | Salidas |
+|---|---|---|---|
+| Saludo por horario del día (México CST) | Buenos días, tardes o noches según la hora de Ciudad de México | ninguna | `saludo_tiempo`, `momento_dia`, `hora_actual`, `fecha_actual` |
+| Cálculo de descuento e impuestos | Descuento, subtotal, IVA y total | `monto_base`, `descuento_pct`, `tasa_iva` | `total_final`, `subtotal`, `ahorro_descuento`, `impuesto`, `tiene_descuento` |
+| Validación de correo y dominio | Si el correo está bien escrito y si el dominio es corporativo | `email` | `es_valido`, `email_limpio`, `dominio`, `es_corporativo` |
+| Cálculo de días y fechas | Días entre hoy y una fecha `YYYY-MM-DD`, y si ya pasó | `fecha_objetivo` | `dias_restantes`, `ha_expirado`, `es_hoy`, `estado` |
+| Extractor de números y limpiador | El primer número dentro de una frase | `texto` | `codigo_detectado`, `total_numeros`, `texto_limpio`, `tiene_codigo` |
+| Formateador de nombre propio | Quita espacios y pone mayúscula en cada palabra | `nombre` | `nombre_completo`, `primer_nombre`, `longitud`, `es_valido` |
+| Generador de código de confirmación | Un folio tipo `ORD-482910` | `prefijo`, `longitud` | `folio`, `codigo_puro`, `creado_en` |
+| Sanitizador de teléfono | Deja sólo dígitos y arma el número con código de país | `telefono`, `codigo_pais` | `telefono_limpio`, `telefono_e164`, `es_valido`, `digitos_totales` |
+
+En un mensaje, la salida se escribe `{$saludo_tiempo}`. El detalle de las funciones está en [Funciones](/docs/Avanzado/LenguajeDePlantillas).

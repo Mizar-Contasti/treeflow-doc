@@ -1,0 +1,27 @@
+---
+sidebar_position: 7
+sidebar_label: Ingestión generativa
+description: Un PDF, Excel o TXT del que un modelo saca intenciones y las integra al flujo.
+---
+
+# Ingestión generativa
+
+La pestaña **Ingestión generativa** lee un documento y le pide a un modelo que saque preguntas, respuestas y variaciones, y las integre al flujo. La pantalla lo marca **Impulsado por IA**.
+
+## La clave
+
+Hasta que no hay una credencial de IA guardada, la zona de carga está cerrada. Arriba se elige una credencial del workspace o se crea una: nombre, proveedor, modelo y la clave. El modelo es el que va a leer el archivo. Las claves del workspace también se administran en [Credenciales](/docs/Avanzado/Credenciales).
+
+## El archivo
+
+Acepta PDF, Excel y TXT. Se arrastra o se elige.
+
+**Prompt u instrucción adicional** es opcional. Le dice al modelo en qué temas concentrarse, por ejemplo devoluciones, pagos y envíos.
+
+**Nombre del flujo** es el recorrido donde van a quedar las intenciones nuevas.
+
+## Generar
+
+**Generar e integrar en el bot** manda el archivo. Al terminar, las intenciones aparecen en ese flujo y en la lista de abajo. **Entrenar bot ahora** las mete en el motor. Sin ese paso, la consola no las reconoce.
+
+No sustituye a la [base de conocimiento](./BaseDeConocimiento). Esa copia un CSV fila por fila. Esta interpreta un documento y puede inventar frases que el archivo no trae escritas: conviene leer la lista antes de entrenar.

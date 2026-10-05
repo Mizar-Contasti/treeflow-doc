@@ -1,0 +1,23 @@
+---
+sidebar_position: 5
+sidebar_label: Transferencias
+description: La configuración que usa un nodo al pasar la conversación a una persona, dentro o fuera del workspace.
+---
+
+# Transferencias
+
+La pestaña **Transferencias**. Cada tarjeta es una forma de pasar la conversación a una persona. **Nueva transferencia** abre el editor. El recorrido del nodo está en [Pasar a una persona](/docs/Tutoriales/PasarAUnAsesor) y la cola, en [Mesa de ayuda](/docs/Avanzado/MesaDeAyuda).
+
+## Qué se configura
+
+1. **Nombre**, si está **Activo**, la descripción y el mensaje que dice el bot al derivar.
+2. **Conectar con**
+   - **Mesa de ayuda interna.** La cola del workspace. No pide URL.
+   - **Sistema externo.** Una URL de webhook, una cabecera de autenticación y si se manda el historial completo (`json`, texto o markdown). Apagado el historial, sólo viaja el mensaje con el que la persona pidió a alguien.
+3. **Comportamiento**
+   - **El bot deja de contestar mientras atiende una persona.** Apagado, el bot sigue respondiendo y el asesor ve lo que dicen los dos.
+   - Guardar en el widget los mensajes del asesor.
+
+El motor usa la primera configuración activa del árbol, o la que elija la intención. Si no hay ninguna, la transferencia igual funciona, con el aviso de fábrica.
+
+Las plantillas de rubro siembran una URL bajo el dominio `.invalid`. Eso cuenta como mesa interna: no se llama a ningún servidor. Para un sistema externo, se cambia por la URL real.

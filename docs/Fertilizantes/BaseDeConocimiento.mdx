@@ -1,0 +1,27 @@
+---
+sidebar_position: 6
+sidebar_label: Base de conocimiento
+description: Un CSV de dos columnas que crea un flujo, una intención y un mensaje por fila.
+---
+
+# Base de conocimiento
+
+La pestaña **Base de conocimiento** arma un flujo a partir de un CSV, sin modelo. La pantalla lo llama **Knowledge Base Determinista (CSV 1:1)** y lo marca **Sin IA**.
+
+## El archivo
+
+Dos columnas.
+
+| Columna 1 | Columna 2 |
+|---|---|
+| La frase, la intención | El mensaje que contesta el bot |
+
+La primera fila puede ser el encabezado: **Omitir encabezado** la salta. **Quitar acentos** normaliza el texto. Arriba se ve cuántas filas va a importar.
+
+**Nombre del flujo** es el recorrido que se crea. Cada fila queda como una intención de ese flujo, con su mensaje.
+
+## Importar
+
+El botón **Crear Flujo e Importar Hojas (CSV)** procesa el archivo: cada fila queda como una intención de ese flujo, con su mensaje. **Entrenar Bot Ahora** lanza el entrenamiento para que esas frases entren en la consola. Sin entrenar, el flujo está dibujado y el motor sigue con el entrenamiento anterior.
+
+Abajo queda la lista de lo importado. Se puede volver a subir otro archivo con otro nombre de flujo.

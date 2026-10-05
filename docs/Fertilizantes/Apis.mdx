@@ -1,0 +1,43 @@
+---
+sidebar_position: 3
+sidebar_label: APIs
+description: Las once plantillas de llamada HTTP, cuáles hablan con un servicio real y cómo se leen en el mensaje.
+---
+
+# APIs
+
+La pestaña **APIs**. Cada tarjeta es una llamada HTTP: método, URL, cuerpo, cabeceras y las variables que entran y salen. **Crear Tool** abre una vacía. **Plantillas** abre el catálogo. El árbol tiene un tope de APIs; al llegar, el botón se cambia por el aviso del límite.
+
+El editor tiene las mismas pestañas que un script: **Entrada**, **Código** (la URL, el método y el cuerpo), **Salida**, **Pruebas** y **Despliegue**. En Salida, cada variable lleva la ruta JSON de la respuesta, por ejemplo `$.current_weather.temperature`.
+
+En la URL y en el cuerpo una variable se escribe `{$latitud}`. Es la misma sintaxis que en un mensaje. Al tomar una plantilla, cambia el servidor de ejemplo y deja el `$` en cada hueco.
+
+La autenticación puede ser ninguna, Basic o un token Bearer.
+
+En el nodo, **Añadir herramienta…**. Corre cuando el turno ya tiene sus datos, después de los scripts. El **≠** de cada fila cambia el nombre de la variable de sesión si no coincide con el de la API.
+
+## Las que llaman a un servicio público
+
+No piden clave. La URL ya apunta al servicio.
+
+| Plantilla | Qué pide | Qué devuelve |
+|---|---|---|
+| Pronóstico del clima en tiempo real (Open-Meteo) | `latitud`, `longitud` | `temperatura`, `velocidad_viento`, `hora_medicion` |
+| Tipo de cambio y conversión de divisas | `moneda_base` (USD, EUR, MXN) | `tasa_mxn`, `tasa_eur`, `tasa_usd`, `fecha_actualizacion` |
+| Búsqueda de código postal y localidad (Zippopotam) | `codigo_postal` de México, 5 dígitos | `estado`, `colonia`, `pais` |
+
+## Las que traen un servidor de ejemplo
+
+La URL es `api.ejemplo.com`. Hay que poner la del sistema real antes de probarlas. El cuerpo y las variables ya vienen nombrados.
+
+| Plantilla | Método | Qué hace |
+|---|---|---|
+| Creación de ticket de soporte / CRM | POST | Abre un ticket con asunto, descripción, prioridad y contacto. Devuelve `ticket_id` y `estado` |
+| Agendamiento de citas y reservaciones | POST | Reserva con cliente, servicio, fecha, hora y sucursal. Devuelve `codigo_reserva` |
+| Consulta de stock y precios de producto | POST | Existencias y precio a partir de un SKU y una sucursal |
+| Rastreo y seguimiento de envíos | GET | Estado, fecha estimada y última ubicación de una guía |
+| Generación de enlace de pago / checkout | POST | Crea un cobro y devuelve `url_pago`. Trae autenticación Bearer |
+| Envío de mensajes SMS / WhatsApp | POST | Manda un aviso por `whatsapp` o `sms`. Trae autenticación Bearer. No es el [canal](/docs/Injertos/CanalesDeComunicacion) de WhatsApp del bot |
+| Autenticación y obtención de token JWT | POST | Pide un `token_acceso` con `client_id` y `client_secret` |
+
+**Pruebas** dispara la llamada con los valores de prueba de cada entrada y muestra el JSON. **Despliegue** marca la tarjeta. Una API que falla puede llevar un mensaje propio para la persona; si no, el bot usa el de reserva.
