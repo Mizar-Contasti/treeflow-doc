@@ -36,9 +36,16 @@ La integración de Telegram está respaldada por una robusta suite de pruebas En
 
 ## Configuración y Activación
 
-La configuración de Telegram se realiza desde el panel de Canales en TreeFlow.
+Es el canal más corto de activar: no hay URL que copiar ni app que crear, solo un token.
 
-1. Ve a BotFather en Telegram y crea un nuevo bot.
-2. Copia el **Token HTTP**.
-3. Pega el Token en la pestaña **Telegram** dentro de la ventana de Canales de tu árbol en TreeFlow y presiona **Conectar**.
-4. ¡Listo! TreeFlow enganchará automáticamente el Webhook.
+![La pantalla de Telegram: los pasos de BotFather, el campo del token y el interruptor](/img/canales/telegram.png)
+
+1. Elige tu bot en el selector de arriba a la izquierda.
+2. En Telegram, abre **@BotFather** y envía `/newbot`. Sigue las instrucciones para ponerle nombre y *username*.
+3. Copia el **HTTP API Token** que te da BotFather. Tiene este aspecto: `123456789:ABC…`
+4. En TreeFlow, abre **Integración → Canales → Telegram**.
+5. Pega el token en **Telegram Bot Token** y pulsa **Guardar y Conectar Telegram**.
+
+Al guardar, TreeFlow registra el webhook en Telegram él solo y el canal queda **encendido**. Escríbele a tu bot en Telegram para probarlo.
+
+El interruptor **ON/OFF** de arriba lo apaga y lo enciende sin borrar el token.

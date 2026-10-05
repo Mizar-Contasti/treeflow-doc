@@ -2,344 +2,48 @@
 sidebar_position: 1
 ---
 
-# Setup de WhatsApp Business
+# WhatsApp
 
-La integración de **WhatsApp Business** permite conectar tu chatbot de TreeFlow directamente con WhatsApp, el canal de mensajería más popular del mundo.
+Conecta tu bot con WhatsApp a través de la **Cloud API de Meta**. Es un canal **Beta**.
 
+![La pantalla de WhatsApp en Canales: estado, URL para Meta y credenciales](/img/canales/whatsapp.png)
 
+## Qué necesitas de Meta
 
-:::info Roadmap 2027
+Una app en [Meta for Developers](https://developers.facebook.com/) con el producto **WhatsApp** y un número de teléfono. De ahí salen estos datos:
 
-La integración nativa con WhatsApp Business está planificada para el ciclo de desarrollo de 2027. La siguiente documentación refleja la arquitectura técnica planificada. Por ahora, te sugerimos utilizar los **Fertilizantes** (Webhooks) para enlazar tu árbol a WhatsApp mediante middlewares de terceros.
+| Campo en TreeFlow | De dónde sale |
+|---|---|
+| **Phone Number ID** | El identificador del número, en WhatsApp de tu app en Meta |
+| **WABA ID** | El de tu cuenta de WhatsApp Business. Es opcional |
+| **Verify Token** | Lo inventas tú: cualquier texto |
+| **Meta Access Token** | Un token **permanente**, generado en Meta Business Manager |
+| **App Secret** | Tu app → Configuración → Básica → Clave secreta de la app |
 
+El **App Secret** es lo que permite comprobar que cada mensaje viene de verdad de Meta. Sin él, TreeFlow no contesta.
+
+## Activarlo
+
+1. Elige tu bot en el selector de arriba a la izquierda.
+2. Abre **Integración → Canales → WhatsApp**.
+3. **Paso 1.** Copia la **Callback URL** y pégala en Meta Developers → WhatsApp → Configuration → Webhook. En **Verify token** de Meta escribe el mismo que pondrás en TreeFlow.
+4. En Meta, suscribe el webhook al campo **messages**.
+5. **Paso 2.** Rellena Phone Number ID, Verify Token, Meta Access Token y App Secret (el WABA ID es opcional).
+6. Pulsa **Guardar e Integrar WhatsApp**. El canal queda encendido.
+
+El interruptor **ON/OFF** de arriba lo apaga y lo enciende sin borrar lo guardado.
+
+## Qué manda el bot
+
+Texto, y los bloques que WhatsApp sabe pintar: **botones**, **listas** y archivos (imagen, video, documento).
+
+:::info Dentro de la ventana de 24 horas
+WhatsApp deja que el bot conteste libremente durante las 24 horas siguientes al último mensaje de la persona. Pasado ese tiempo hace falta una plantilla aprobada por Meta, y TreeFlow no envía plantillas.
 :::
 
-## Requisitos Previos
-
-### Cuenta de WhatsApp Business
-
-- **WhatsApp Business Account** verificada
-- **Meta Business Manager** configurado
-- **Número de teléfono** dedicado para el bot
-- **Verificación de dominio** en Meta
-
-### Configuración en TreeFlow
-
-- Árbol conversacional creado y probado
-- Workspace configurado
-- Acceso a la sección de Canales
-
-## Proceso de Setup
-
-### Paso 1: Configuración en Meta
-
-#### 1.1 Crear App en Meta for Developers
-
-1. Ve a [Meta for Developers](https://developers.facebook.com/)
-2. Crea una nueva aplicación
-3. Selecciona "Business" como tipo de aplicación
-4. Agrega el producto "WhatsApp Business API"
-
-#### 1.2 Configurar WhatsApp Business API
-
-```json
-{
-  "app_id": "tu-app-id",
-  "app_secret": "tu-app-secret",
-  "access_token": "tu-access-token",
-  "phone_number_id": "tu-phone-number-id",
-  "business_account_id": "tu-business-account-id"
-}
-```
-
-### Paso 2: Configuración en TreeFlow
-
-#### 2.1 Acceder a Canales
-
-1. Ve a tu workspace en TreeFlow
-2. Navega a **Canales** → **WhatsApp Business**
-3. Haz clic en "Configurar Nueva Integración"
-
-#### 2.2 Conectar con Meta
-
-```javascript
-// Configuración de conexión
-const whatsappConfig = {
-  appId: 'tu-app-id',
-  appSecret: 'tu-app-secret',
-  accessToken: 'tu-access-token',
-  phoneNumberId: 'tu-phone-number-id',
-  businessAccountId: 'tu-business-account-id',
-  webhookVerifyToken: 'token-de-verificacion-personalizado'
-};
-```
-
-### Paso 3: Configurar Webhooks
-
-#### 3.1 URL del Webhook
-
-TreeFlow proporcionará una URL única para tu integración:
-
-```
-https://api.treeflow.ai/webhooks/whatsapp/{workspace-id}/{integration-id}
-```
-
-#### 3.2 Eventos a Suscribir
-
-- `messages` - Mensajes entrantes
-- `message_deliveries` - Confirmaciones de entrega
-- `message_reads` - Confirmaciones de lectura
-- `message_reactions` - Reacciones a mensajes
-
-### Paso 4: Configurar Plantillas de Mensaje
-
-#### 4.1 Plantillas Requeridas
-
-WhatsApp requiere plantillas pre-aprobadas para iniciar conversaciones:
-
-```json
-{
-  "templates": [
-    {
-      "name": "bienvenida",
-      "language": "es",
-      "category": "UTILITY",
-      "components": [
-        {
-          "type": "BODY",
-          "text": "¡Hola! Soy tu asistente virtual. ¿En qué puedo ayudarte hoy?"
-        }
-      ]
-    }
-  ]
-}
-```
-
-#### 4.2 Gestión de Plantillas
-
-Las plantillas se gestionan desde el panel de TreeFlow:
-
-- **Crear plantillas** con variables dinámicas
-- **Enviar para aprobación** a Meta
-- **Monitorear estado** de aprobación
-- **Gestionar versiones** de plantillas
-
-## Configuración Avanzada
-
-### Tipos de Mensaje Soportados
-
-#### Mensajes de Texto
-
-```json
-{
-  "messaging_product": "whatsapp",
-  "to": "numero-destinatario",
-  "type": "text",
-  "text": {
-    "body": "Respuesta del chatbot"
-  }
-}
-```
-
-#### Mensajes con Botones
-
-```json
-{
-  "messaging_product": "whatsapp",
-  "to": "numero-destinatario",
-  "type": "interactive",
-  "interactive": {
-    "type": "button",
-    "body": {
-      "text": "¿Qué te gustaría hacer?"
-    },
-    "action": {
-      "buttons": [
-        {
-          "type": "reply",
-          "reply": {
-            "id": "opcion_1",
-            "title": "Ver productos"
-          }
-        }
-      ]
-    }
-  }
-}
-```
-
-#### Mensajes con Lista
-
-```json
-{
-  "messaging_product": "whatsapp",
-  "to": "numero-destinatario",
-  "type": "interactive",
-  "interactive": {
-    "type": "list",
-    "header": {
-      "type": "text",
-      "text": "Nuestros servicios"
-    },
-    "body": {
-      "text": "Selecciona una opción:"
-    },
-    "action": {
-      "button": "Ver opciones",
-      "sections": [
-        {
-          "title": "Servicios",
-          "rows": [
-            {
-              "id": "servicio_1",
-              "title": "Consultoría",
-              "description": "Asesoría personalizada"
-            }
-          ]
-        }
-      ]
-    }
-  }
-}
-```
-
-### Multimedia
-
-#### Imágenes
-
-```json
-{
-  "messaging_product": "whatsapp",
-  "to": "numero-destinatario",
-  "type": "image",
-  "image": {
-    "link": "https://tu-sitio.com/imagen.jpg",
-    "caption": "Descripción de la imagen"
-  }
-}
-```
-
-#### Documentos
-
-```json
-{
-  "messaging_product": "whatsapp",
-  "to": "numero-destinatario",
-  "type": "document",
-  "document": {
-    "link": "https://tu-sitio.com/documento.pdf",
-    "caption": "Manual de usuario",
-    "filename": "manual.pdf"
-  }
-}
-```
-
-## Gestión de Sesiones
-
-### Identificación de Usuarios
-
-```javascript
-// Mapeo de usuarios WhatsApp a sesiones TreeFlow
-const sessionMapping = {
-  whatsappId: 'numero-whatsapp-usuario',
-  treeflowSessionId: 'uuid-generado',
-  userProfile: {
-    name: 'nombre-usuario',
-    phone: 'numero-telefono',
-    lastInteraction: 'timestamp'
-  }
-};
-```
-
-### Persistencia de Contexto
-
-- **24 horas**: Ventana de mensajería gratuita
-- **Plantillas**: Para reiniciar conversaciones después de 24h
-- **Contexto**: Mantenido en TreeFlow durante la sesión
-
-## Configuración de Horarios
-
-### Horario de Atención
-
-```json
-{
-  "business_hours": {
-    "enabled": true,
-    "timezone": "America/Mexico_City",
-    "schedule": {
-      "monday": {"start": "09:00", "end": "18:00"},
-      "tuesday": {"start": "09:00", "end": "18:00"},
-      "wednesday": {"start": "09:00", "end": "18:00"},
-      "thursday": {"start": "09:00", "end": "18:00"},
-      "friday": {"start": "09:00", "end": "18:00"},
-      "saturday": {"closed": true},
-      "sunday": {"closed": true}
-    }
-  },
-  "auto_reply": {
-    "outside_hours": "Gracias por contactarnos. Nuestro horario de atención es de lunes a viernes de 9:00 AM a 6:00 PM. Te responderemos en cuanto estemos disponibles."
-  }
-}
-```
-
-## Testing y Validación
-
-### Sandbox de WhatsApp
-
-Meta proporciona un entorno de pruebas:
-
-```json
-{
-  "test_numbers": ["+1234567890"],
-  "webhook_url": "https://api.treeflow.ai/webhooks/whatsapp/test/{integration-id}",
-  "verify_token": "token-de-prueba"
-}
-```
-
-### Herramientas de Debug
-
-- **Logs de webhook** en tiempo real
-- **Simulador de mensajes** en TreeFlow
-- **Monitor de plantillas** y su estado
-- **Métricas de entrega** y lectura
-
-## Límites y Consideraciones
-
-### Límites de Meta
-
-| Métrica | Límite | Descripción |
-|---------|--------|-------------|
-| Mensajes por día | 1,000 (inicial) | Aumenta según el rating |
-| Plantillas activas | 250 | Por número de teléfono |
-| Caracteres por mensaje | 4,096 | Para mensajes de texto |
-| Tamaño de archivo | 100MB | Para multimedia |
-
-### Costos
-
-- **Conversaciones iniciadas por el negocio**: Tarifa por plantilla
-- **Conversaciones iniciadas por el usuario**: Gratuitas por 24h
-- **Mensajes fuera de ventana**: Requieren plantillas aprobadas
-
-## Mejores Prácticas
-
-### Experiencia de Usuario
-
-- **Respuestas rápidas**: WhatsApp espera respuestas inmediatas
-- **Mensajes concisos**: Adapta el contenido al formato móvil
-- **Botones y listas**: Usa elementos interactivos cuando sea posible
-- **Multimedia relevante**: Incluye imágenes y documentos útiles
-
-### Cumplimiento
-
-- **Política de WhatsApp**: Respeta las reglas de la plataforma
-- **Opt-in explícito**: Los usuarios deben consentir recibir mensajes
-- **Opt-out fácil**: Proporciona formas claras de darse de baja
-- **Contenido apropiado**: Evita spam y contenido no deseado
-
----
-
-:::info Roadmap 2027
-
-Esta integración estará disponible en 2027. Mantente al día con nuestras actualizaciones.
-
-:::
+## Si no contesta
+
+- Que el interruptor esté en **ON**.
+- Que el **Verify Token** de Meta sea idéntico al de TreeFlow.
+- Que el **App Secret** sea el de la misma app que manda los mensajes.
+- Que el webhook esté suscrito a **messages**.

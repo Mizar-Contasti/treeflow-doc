@@ -2,26 +2,45 @@
 sidebar_position: 1
 ---
 
-# Setup de Instagram Direct DMs
+# Instagram Direct
 
-La integración de **Instagram Direct** permite automatizar las conversaciones iniciadas por usuarios en tus mensajes directos de Instagram a través de Graph API de Meta.
+Conecta tu bot con los **mensajes directos** de una cuenta profesional de Instagram. Es un canal **Beta**.
 
----
+![La pantalla de Instagram Direct en Canales: URL para Meta y credenciales de la cuenta](/img/canales/instagram.png)
 
-## 📸 Características
-- **Instagram Graph API**: Recepción y envío en tiempo real de mensajes directos.
-- **Payloads Nativos**: Soporte de texto, imágenes y Quick Replies.
+## Qué necesitas de Meta
 
----
+Una **cuenta profesional** de Instagram (Business o Creator) y una app en [Meta for Developers](https://developers.facebook.com/) con acceso a la mensajería de Instagram.
 
-## 🛠️ Credenciales Requeridas
-- **Page Access Token**: Token de acceso de la página de Facebook vinculada a tu cuenta profesional de Instagram.
-- **Instagram Account ID**: Identificador de tu cuenta Business de Instagram.
-- **Webhook Verify Token**: Token de verificación de Webhook.
+| Campo en TreeFlow | De dónde sale |
+|---|---|
+| **Instagram Account ID** | El ID de la cuenta de Instagram para empresas |
+| **Verify Token** | Lo inventas tú: cualquier texto |
+| **Instagram Access Token** | Un token con el permiso `instagram_manage_messages` |
+| **App Secret** | Tu app → Configuración → Básica → Clave secreta de la app |
 
----
+El **App Secret** permite comprobar que cada mensaje viene de verdad de Meta. Sin él, TreeFlow no contesta.
 
-## 📋 Proceso de Configuración
-1. Vincula tu cuenta profesional de Instagram con tu página de Facebook.
-2. Ingresa a **Canales** -> **Instagram Direct** en TreeFlow.
-3. Pega el Access Token y presiona **Guardar y Conectar**.
+## Activarlo
+
+1. Elige tu bot en el selector de arriba a la izquierda.
+2. Abre **Integración → Canales → Instagram Direct**.
+3. **Paso 1.** Copia la **Callback URL** y pégala en Meta Developers → Instagram → Webhook. En **Verify token** de Meta escribe el mismo que pondrás en TreeFlow.
+4. En Meta, suscribe el webhook al campo **messages**.
+5. **Paso 2.** Rellena Instagram Account ID, Verify Token, Instagram Access Token y App Secret.
+6. Pulsa **Guardar e Integrar Instagram**. El canal queda encendido.
+
+El interruptor **ON/OFF** de arriba lo apaga y lo enciende sin borrar lo guardado.
+
+## Qué recibe y qué manda
+
+El bot lee los mensajes de texto, las respuestas rápidas y los botones que pulsa la persona.
+
+Contesta con **texto** (hasta 1000 caracteres). Los botones de la respuesta salen como **respuestas rápidas**, hasta 13; los botones de enlace no.
+
+## Si no contesta
+
+- Que el interruptor esté en **ON**.
+- Que el **Verify Token** de Meta sea idéntico al de TreeFlow.
+- Que el **Account ID** sea el de la cuenta que recibe los mensajes.
+- Que el **App Secret** sea el de la misma app que manda los mensajes.

@@ -2,28 +2,39 @@
 sidebar_position: 1
 ---
 
-# Setup de ElevenLabs Voice AI
+# ElevenLabs
 
-La integración de **ElevenLabs** habilita respuestas de voz ultrapresentes y realistas sintetizadas por modelos neuronales multilingües (`eleven_multilingual_v2`).
+Convierte el texto de las respuestas en **audio** con las voces de [ElevenLabs](https://elevenlabs.io/). Vive en la pestaña **Voz** de Canales y es un canal **Estable**.
 
----
+![La pantalla de ElevenLabs en Canales: API Key, voz y modelo](/img/canales/elevenlabs.png)
 
-## 🎙️ Características
-- **Voice Selection**: Selección de voces predefinidas o clonadas personalizadas de tu catálogo de ElevenLabs.
-- **Text-to-Speech (TTS)**: Conversión en tiempo real del texto de respuesta NLU a clips de audio MP3 de alta fidelidad.
+## Qué necesitas
 
----
+Una cuenta de ElevenLabs y su **API Key**: Profile Settings → API Keys.
 
-## 🛠️ Credenciales Requeridas
+| Campo en TreeFlow | Qué es |
+|---|---|
+| **ElevenLabs API Key** | La clave de tu cuenta (`xi-api-key`) |
+| **Voz Predeterminada** | La voz con la que se sintetiza. Por defecto, *Rachel* |
+| **ID del Modelo TTS** | El modelo de síntesis, por ejemplo `eleven_multilingual_v2` o `eleven_turbo_v2` |
 
-1. **ElevenLabs API Key**: Clave de API de tu cuenta [ElevenLabs](https://elevenlabs.io/).
-2. **Voice ID**: Identificador de la voz a utilizar (ej. `21m00Tcm4TlvDq8ikWAM` - Rachel).
+## Activarlo
 
----
+1. Elige tu bot en el selector de arriba a la izquierda.
+2. Abre **Integración → Canales**, pestaña **Voz**, y entra en **ElevenLabs Audio AI**.
+3. Pega la **API Key**, elige la **voz** y deja o cambia el **modelo**.
+4. Pulsa **Guardar e Integrar ElevenLabs**. El canal queda encendido.
 
-## 📋 Proceso de Configuración
+El interruptor **ON/OFF** de arriba lo apaga y lo enciende sin borrar lo guardado.
 
-1. Obtén tu API Key desde **Profile Settings** -> **API Keys** en ElevenLabs.
-2. Ingresa a **Canales** -> **ElevenLabs Voice AI** en TreeFlow.
-3. Pega tu API Key y Voice ID.
-4. Presiona **Guardar y Verificar Síntesis**.
+## Dónde se nota
+
+Con ElevenLabs encendido, el editor de mensajes añade a cada respuesta la pestaña **ElevenLabs**. Es el mismo mecanismo de [cualquier canal](/docs/Injertos/CanalesDeComunicacion#una-respuesta-distinta-por-canal): ahí escribes lo que se dirá en voz.
+
+El audio sale en **MP3**.
+
+## Si no funciona
+
+- Que el interruptor esté en **ON**.
+- Que la **API Key** sea válida y tenga saldo en ElevenLabs.
+- Que el **ID del modelo** exista en tu cuenta.

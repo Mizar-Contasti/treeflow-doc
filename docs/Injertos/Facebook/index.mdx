@@ -4,8 +4,47 @@ sidebar_position: 1
 
 # Facebook Messenger
 
-Conecta tu árbol conversacional con Facebook Messenger para interactuar con tus clientes en su red social favorita.
+Conecta tu bot con el Messenger de una **página de Facebook**. Es un canal **Beta**.
 
-:::info Roadmap 2027
-La integración nativa con Facebook Messenger está planificada para el ciclo de desarrollo de 2027. Actualmente te sugerimos utilizar los **Fertilizantes** (Webhooks) para enlazar tu árbol a Facebook mediante middlewares externos.
+![La pantalla de Facebook Messenger en Canales: URL para Meta y credenciales de la página](/img/canales/facebook.png)
+
+## Qué necesitas de Meta
+
+Una página de Facebook y una app en [Meta for Developers](https://developers.facebook.com/) con el producto **Messenger**.
+
+| Campo en TreeFlow | De dónde sale |
+|---|---|
+| **Facebook Page ID** | El ID numérico de tu página |
+| **Verify Token** | Lo inventas tú: cualquier texto |
+| **Page Access Token** | El token de la página, con permiso de mensajería (*messaging*) |
+| **App Secret** | Tu app → Configuración → Básica → Clave secreta de la app |
+
+El **App Secret** permite comprobar que cada mensaje viene de verdad de Meta. Sin él, TreeFlow no contesta.
+
+## Activarlo
+
+1. Elige tu bot en el selector de arriba a la izquierda.
+2. Abre **Integración → Canales → Facebook Messenger**.
+3. **Paso 1.** Copia la **Callback URL** y pégala en tu app de Meta → Messenger → Settings → Webhooks. En **Verify token** de Meta escribe el mismo que pondrás en TreeFlow.
+4. En Meta, suscribe la página a los eventos **messages** y **messaging_postbacks**.
+5. **Paso 2.** Rellena Facebook Page ID, Verify Token, Page Access Token y App Secret.
+6. Pulsa **Guardar e Integrar Facebook**. El canal queda encendido.
+
+El interruptor **ON/OFF** de arriba lo apaga y lo enciende sin borrar lo guardado.
+
+## Qué manda el bot
+
+Texto, **tarjetas** (plantilla genérica, también en carrusel) y **respuestas rápidas**.
+
+Cuando alguien pulsa un botón o una respuesta rápida, el bot recibe lo que ese botón lleva, no el texto que se ve en él.
+
+:::note Una página, un bot
+El bot que contesta es el que tenías seleccionado al guardar. Una misma página de Facebook no se puede dar de alta en dos workspaces.
 :::
+
+## Si no contesta
+
+- Que el interruptor esté en **ON**.
+- Que el **Verify Token** de Meta sea idéntico al de TreeFlow.
+- Que el **Page ID** sea el de la página que recibe los mensajes.
+- Que el **App Secret** sea el de la misma app que manda los mensajes.

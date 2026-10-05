@@ -4,35 +4,70 @@ sidebar_position: 1
 
 # Canales
 
-Los **Canales de Comunicación** son las diferentes plataformas a través de las cuales tus usuarios interactúan con tus chatbots de TreeFlow.
+Un **canal** es por dónde la gente habla con tu bot: la web, Telegram, WhatsApp… En el menú está en **Integración → Canales**.
 
-En el menú están en **Integración → Canales**.
+![La lista de canales de chat: el widget web encendido y el resto apagados](/img/canales/lista.png)
 
----
+La pantalla tiene dos pestañas:
 
-## 🟢 Canales Estables
-- **Telegram Bot API**: Integración completa con Inline Keyboards, Webhook seguro y multimedia nativa.
-- **Widget Web Embeddable (`Treeflow Web`)**: Componente React responsivo con soporte de 13 bloques visuales.
+- **Chat**: los canales donde la persona escribe.
+- **Voz**: lo que le pone voz o cara al bot.
 
----
+Cada tarjeta dice si el canal está **Encendido** o **Apagado** para el bot que tengas seleccionado arriba a la izquierda.
 
-## 🟡 Canales Inestables / En Beta
-- **WhatsApp Cloud API**: Soporte para mensajes interactivos (botones/listas) y medios.
-- **Facebook Messenger**: Generic Templates (carruseles) y Quick Replies.
-- **Resend Email**: Respuestas automáticas con plantillas HTML responsivas.
-- **Instagram Direct DMs**: Recepción y envío en tiempo real vía Graph API.
-- **Slack App (Events API)**: Integración con Block Kit nativo para canales y DMs.
-- **Discord Bot API**: Rich Embeds y componentes ActionRow de botones.
-- **ElevenLabs Voice AI**: Síntesis de voz neuronal multilingüe.
-- **Avatares IA (HeyGen & D-ID)**: Video-respuestas con avatares virtuales.
+![La pestaña Voz: ElevenLabs y Avatares IA](/img/canales/voz.png)
 
----
+## Los canales
 
-## ⚪ Pendientes de Implementación
-- **SMS / BYOC**: Integración directa de mensajería de texto SMS.
+| Canal | Pestaña | Estado | Qué le llega a la persona |
+|---|---|---|---|
+| [Widget web](/docs/Injertos/Web/setup) | Chat | Estable | Los elementos enriquecidos de la pestaña Web |
+| [Telegram](/docs/Injertos/Telegram) | Chat | Estable | Botones, teclados y multimedia nativos |
+| [Slack](/docs/Injertos/Slack/setup) | Chat | Estable | Bloques de Slack, en canales y mensajes directos |
+| [Discord](/docs/Injertos/Discord/setup) | Chat | Estable | Respuestas a comandos y botones, con tarjetas |
+| [Email (Resend)](/docs/Injertos/Email) | Chat | Estable | Correo de respuesta, en texto y HTML |
+| [WhatsApp](/docs/Injertos/WhatsApp/setup) | Chat | Beta | Texto, botones, listas y multimedia |
+| [Facebook Messenger](/docs/Injertos/Facebook) | Chat | Beta | Texto, tarjetas y respuestas rápidas |
+| [Instagram Direct](/docs/Injertos/Instagram/setup) | Chat | Beta | Mensajes directos |
+| [ElevenLabs](/docs/Injertos/ElevenLabs/setup) | Voz | Estable | La respuesta en audio |
+| [Avatares IA](/docs/Injertos/Avatares/setup) | Voz | Beta | Un avatar que habla la respuesta |
 
----
+**Estable** y **Beta** son los rótulos que la app le da a cada canal.
 
-:::tip Configuración de Canales
-Para configurar cualquiera de estos canales, navega a la sección de **Canales** en tu workspace de TreeFlow, activa la casilla **ON/OFF** dentro de su modal y completa las credenciales correspondientes.
+:::note Lo que verás en la lista y no está aquí
+La app muestra también **SMS** y **BYOC** (telefonía propia), con el aviso de que llegan próximamente. Todavía no hay nada detrás, así que no tienen guía.
 :::
+
+## Cómo se activa un canal
+
+Todos siguen el mismo camino. Lo que cambia es de dónde sacas las credenciales.
+
+1. **Elige el bot.** El selector de arriba a la izquierda. El canal contestará con el bot que tengas seleccionado al guardar.
+2. **Abre el canal** desde su tarjeta.
+3. **Copia la URL** que te enseña la pantalla (en los que la llevan) y pégala en la plataforma del canal.
+4. **Pega las credenciales** que esa plataforma te da.
+5. Pulsa **Guardar e Integrar**. Se guardan y el canal **queda encendido**.
+
+![La pantalla de WhatsApp: el interruptor de estado, la URL para Meta y los campos de credenciales](/img/canales/whatsapp.png)
+
+El **interruptor** de arriba (ON/OFF) apaga o enciende el canal sin tocar lo guardado. Para pausarlo no hace falta borrar nada.
+
+:::info Los secretos no se vuelven a mostrar
+Tokens y claves se guardan y no se enseñan otra vez. Al guardar de nuevo, un secreto que dejes vacío se conserva; escribe uno nuevo solo si quieres cambiarlo.
+:::
+
+## La URL que se copia
+
+En WhatsApp, Facebook, Instagram, Slack, Discord y Email la pantalla muestra una URL de **webhook**: la dirección a la que la plataforma le manda los mensajes a TreeFlow. Cada uno comprueba la firma de la plataforma en cada mensaje; sin una firma válida, TreeFlow no contesta.
+
+Telegram es la excepción: TreeFlow registra su webhook solo, al guardar el token.
+
+## Una respuesta distinta por canal
+
+Cuando un canal está encendido, el editor de mensajes le añade una **pestaña** a cada respuesta. **General** es la de siempre y vale para todos; si quieres que en Telegram, en WhatsApp o en el correo el bot diga otra cosa, la escribes en la pestaña de ese canal. Los canales apagados no tienen pestaña.
+
+Las pestañas posibles son General, Web, Telegram, WhatsApp, Facebook, Email, Instagram, Slack, Discord, ElevenLabs y Avatares IA.
+
+## Probar
+
+Con el canal encendido, escríbele al bot desde la plataforma y míralo en **Conversaciones**. El widget web además trae **Probar Ahora** y **Abrir página de prueba** arriba a la derecha.

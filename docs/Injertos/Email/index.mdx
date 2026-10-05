@@ -2,10 +2,53 @@
 sidebar_position: 1
 ---
 
-# Correo Electrónico (Email)
+# Correo electrónico (Resend)
 
-Conecta tu árbol conversacional con servicios de correo para automatizar flujos de atención y soporte vía email.
+Tu bot contesta los correos que llegan a una dirección tuya. El envío y la recepción pasan por [Resend](https://resend.com). Es un canal **Estable**.
 
-:::info Roadmap 2027
-La integración nativa con Email (SendGrid/SMTP) está planificada para el ciclo de desarrollo de 2027. Actualmente te sugerimos utilizar los **Fertilizantes** (Webhooks) para disparar o leer tus correos electrónicos.
+![La pantalla de Email en Canales: webhook de entrada y credenciales de Resend](/img/canales/email.png)
+
+## Cómo funciona
+
+1. Alguien escribe a tu dirección, por ejemplo `hola@tudominio.com`.
+2. Resend avisa a TreeFlow por un **webhook**.
+3. El bot lee el texto del correo y contesta a quien lo mandó, con el asunto `Re: …`.
+
+Si el bot tiene respuestas con bloques (botones, tarjetas…), el correo sale en **HTML**; si no, en texto.
+
+El bot **no contesta a su propia dirección**. Así dos respuestas automáticas no se contestan entre sí sin fin.
+
+## Qué necesitas en Resend
+
+Una cuenta, un **dominio verificado** y recepción de correo (*Inbound*) para la dirección que usará el bot.
+
+| Campo en TreeFlow | De dónde sale |
+|---|---|
+| **Correo remitente (From Email)** | La dirección del bot. Debe ser de un dominio verificado en Resend |
+| **Nombre del remitente (From Name)** | Cómo se ve el remitente. Por defecto, *Treeflow Assistant* |
+| **Resend API Key** | Una clave con permiso para enviar correos |
+| **Signing Secret del webhook** | Resend → Webhooks → tu webhook → Signing Secret |
+
+El **Signing Secret** permite comprobar que cada correo entrante lo manda Resend. Sin él, TreeFlow no contesta.
+
+## Activarlo
+
+1. Elige tu bot en el selector de arriba a la izquierda.
+2. Abre **Integración → Canales → Email (Resend)**.
+3. Copia el **Webhook de Entrada**. Es la dirección a la que Resend avisará de cada correo.
+4. En Resend, crea un webhook con esa URL para los correos entrantes y copia su **Signing Secret**.
+5. Rellena Correo remitente, Nombre del remitente, Resend API Key y Signing Secret.
+6. Pulsa **Guardar e Integrar Email**. El canal queda encendido.
+
+El interruptor **ON/OFF** de arriba lo apaga y lo enciende sin borrar lo guardado.
+
+:::note Una dirección, un bot
+El bot que contesta es el que tenías seleccionado al guardar. La misma dirección no se puede dar de alta en dos workspaces.
 :::
+
+## Si no contesta
+
+- Que el interruptor esté en **ON**.
+- Que el correo llegue a la dirección que pusiste en **From Email**: es la que identifica al bot.
+- Que el **Signing Secret** sea el del webhook que apunta a TreeFlow.
+- Que el dominio esté verificado en Resend.

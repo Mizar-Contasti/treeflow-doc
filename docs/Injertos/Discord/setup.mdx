@@ -2,40 +2,59 @@
 sidebar_position: 1
 ---
 
-# Setup de Discord Bot API
+# Discord
 
-La integración de **Discord** en TreeFlow permite conectar tu asistente conversacional con servidores y canales comunitarios mediante **Discord Bot API**, **Rich Embeds** y **ActionRow Components**.
+Tu bot contesta en Discord a **comandos de barra** y **botones**, con tarjetas (*embeds*). Es un canal **Estable**.
 
----
+![La pantalla de Discord en Canales: Interactions Endpoint URL y credenciales de la aplicación](/img/canales/discord.png)
 
-## ⚡ Características Principales
-- **Rich Embeds NATIVOS**: Renderizado elegante de tarjetas con colores personalizados, imágenes y textos formateados.
-- **ActionRows & Buttons**: Botones interactivos que permiten a los usuarios elegir respuestas rápidas.
-- **Verificación ED25519**: Validación criptográfica de interacciones enviadas por Discord.
+:::warning Discord no lee los mensajes del canal
+El canal funciona por **interacciones**: el bot atiende lo que alguien invoca con un comando (`/pregunta …`) o pulsa en un botón. No lee la conversación normal de un servidor.
+:::
 
----
+## Qué necesitas en Discord
 
-## 🛠️ Credenciales Requeridas
+Una aplicación creada en el [Discord Developer Portal](https://discord.com/developers/applications), con un bot.
 
-1. **Discord Bot Token**: Token del Bot en el [Discord Developer Portal](https://discord.com/developers/applications).
-2. **Discord Public Key**: Clave pública para verificación de firmad ED25519 de Webhooks.
-3. **Application ID**: ID de la aplicación de Discord.
+| Campo en TreeFlow | De dónde sale |
+|---|---|
+| **Application ID / Client ID** | General Information → Application ID |
+| **Public Key** | General Information → Public Key |
+| **Discord Bot Token** | Pestaña Bot → Token |
 
----
+La **Public Key** sirve para validar que cada interacción viene de Discord. Discord la usa también al dar de alta la URL: manda una petición firmada y otra mal firmada para comprobar que la rechazas.
 
-## 📋 Proceso de Configuración
+## Activarlo
 
-1. **Crear Aplicación en Discord Developer Portal**:
-   - Ve a `https://discord.com/developers/applications` y haz clic en **New Application**.
-   - Asigna un nombre a tu bot.
+La URL se valida con la Public Key, así que primero se guardan las credenciales en TreeFlow y después se pega la URL en Discord.
 
-2. **Obtener Bot Token & Public Key**:
-   - Copia la **Public Key** desde la pestaña **General Information**.
-   - En la sección **Bot**, genera y copia el **Bot Token**.
+1. Elige tu bot en el selector de arriba a la izquierda.
+2. Abre **Integración → Canales → Discord**.
+3. Rellena Application ID, Public Key y Discord Bot Token, y pulsa **Guardar e Integrar Discord**. El canal queda encendido.
+4. Copia la **Interactions Endpoint URL** de esa misma pantalla.
+5. En el Developer Portal → tu aplicación → General Information, pégala en **Interactions Endpoint URL** y guarda. Discord la verifica al momento.
+6. Invita la aplicación a tu servidor con los ámbitos *bot* y *applications.commands* (OAuth2 → URL Generator).
 
-3. **Configurar Interactions Endpoint URL**:
-   - Pega tu Webhook URL: `https://tu-dominio.com/integrations/discord/webhook`.
-   - Discord enviará un ping de verificación (`type=1`) que TreeFlow responderá en automático.
+El interruptor **ON/OFF** de arriba lo apaga y lo enciende sin borrar lo guardado.
 
-4. **Guardar en TreeFlow**:
-   - En TreeFlow -> **Canales** -> **Discord Bot**, ingresa las credenciales y presiona **Guardar y Conectar**.
+## Qué recibe el bot
+
+- De un **comando de barra**: el valor de sus opciones, unidas en un solo texto. Si el comando no lleva opciones, su nombre.
+- De un **botón**: el identificador (`custom_id`) del botón.
+
+Eso es lo que el bot lee como mensaje de la persona. Un comando con una sola opción de texto, por ejemplo `/pregunta texto`, es la forma natural de hablarle.
+
+:::note Los comandos los creas tú
+TreeFlow no registra comandos de barra en Discord. Tienes que crear en Discord el comando que quieras (por ejemplo `/pregunta`, con una opción de texto) para que la gente tenga algo que invocar.
+:::
+
+## Qué manda el bot
+
+Texto (hasta 2000 caracteres) o, si la respuesta lleva bloques, tarjetas y botones de Discord. Contesta con un mensaje de seguimiento, así que Discord muestra «pensando…» hasta que llega.
+
+## Si no contesta
+
+- Que el interruptor esté en **ON**.
+- Que la **Public Key** sea la de la misma aplicación.
+- Que la **Interactions Endpoint URL** esté guardada y verificada en Discord.
+- Que el comando que invocas exista y pase alguna opción de texto.

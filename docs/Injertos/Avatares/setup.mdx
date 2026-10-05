@@ -2,28 +2,37 @@
 sidebar_position: 1
 ---
 
-# Setup de Avatares IA (HeyGen & D-ID)
+# Avatares IA
 
-La integración de **Avatares IA** permite a tu chatbot responder con videos hiperrealistas generados dinámicamente mediante las APIs de **HeyGen** o **D-ID**.
+Un **avatar** que habla la respuesta, con video generado por [HeyGen](https://www.heygen.com/) o [D-ID](https://www.d-id.com/). Vive en la pestaña **Voz** de Canales y es un canal **Beta**.
 
----
+![La pantalla de Avatares IA en Canales: proveedor, API Key y Avatar ID](/img/canales/avatars.png)
 
-## 👤 Características
-- **Multi-Proveedor**: Compatibilidad nativa con HeyGen Streaming API y D-ID Animation API.
-- **Avatar Customization**: ID de Avatar y Voice ID configurable para personalizar la apariencia y expresión del agente virtual.
+## Qué necesitas
 
----
+Una cuenta en HeyGen o en D-ID, su **API Key** y el identificador del avatar que quieres usar.
 
-## 🛠️ Credenciales Requeridas
+| Campo en TreeFlow | Qué es |
+|---|---|
+| **Proveedor de Avatar** | HeyGen (Interactive Avatar API) o D-ID |
+| **API Key** | La clave de tu cuenta, de la consola del proveedor |
+| **Avatar ID / Character ID** | El identificador del avatar o personaje a mostrar |
 
-1. **Provider**: HeyGen o D-ID.
-2. **API Key**: Clave API del proveedor elegido.
-3. **Avatar ID**: Identificador del avatar virtual.
+## Activarlo
 
----
+1. Elige tu bot en el selector de arriba a la izquierda.
+2. Abre **Integración → Canales**, pestaña **Voz**, y entra en **Avatares IA Interactivos**.
+3. Elige el **proveedor**, pega la **API Key** y el **Avatar ID**.
+4. Pulsa **Guardar e Integrar Avatares**. El canal queda encendido.
 
-## 📋 Proceso de Configuración
+El interruptor **ON/OFF** de arriba lo apaga y lo enciende sin borrar lo guardado.
 
-1. Obtén tu API Key y Avatar ID en la consola de HeyGen o D-ID.
-2. Navega a **Canales** -> **Avatares IA** en TreeFlow.
-3. Elige el proveedor, pega las credenciales y presiona **Guardar y Conectar**.
+## Dónde se nota
+
+Con Avatares encendido, el editor de mensajes añade a cada respuesta la pestaña **Avatares IA**. Es el mismo mecanismo de [cualquier canal](/docs/Injertos/CanalesDeComunicacion#una-respuesta-distinta-por-canal): ahí escribes lo que dirá el avatar.
+
+## Si no funciona
+
+- Que el interruptor esté en **ON**.
+- Que la **API Key** sea de la plataforma que elegiste como proveedor.
+- Que el **Avatar ID** exista en tu cuenta.
