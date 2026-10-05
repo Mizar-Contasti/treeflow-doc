@@ -48,6 +48,11 @@ const config: Config = {
         redirects: [
           {from: '/docs/Fundamentos/Ramas', to: '/docs/Fundamentos/Intenciones'},
           {from: '/docs/Fundamentos/Hojas', to: '/docs/Fundamentos/Entidades'},
+          {from: '/docs/Avanzado/FlujosConversacionales', to: '/docs/Fundamentos/EditorVisual'},
+          {from: '/docs/Avanzado/Consola', to: '/docs/Fundamentos/Testeo'},
+          {from: '/docs/Avanzado/Contextos', to: '/docs/Fundamentos/EditorVisual'},
+          {from: '/docs/Avanzado/Eventos', to: '/docs/Fundamentos/EditorVisual'},
+          {from: '/docs/Avanzado/Analitica', to: '/docs/Fundamentos/Empezando'},
         ],
       },
     ],

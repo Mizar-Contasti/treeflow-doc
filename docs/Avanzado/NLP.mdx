@@ -1,409 +1,70 @@
 ---
-sidebar_position: 7
+sidebar_position: 3
+sidebar_label: Entendimiento
 ---
 
-# Técnicas Avanzadas de NLP
+# Entendimiento
 
-TreeFlow combina técnicas deterministas con procesamiento de lenguaje natural (NLP) avanzado para crear experiencias conversacionales más potentes y naturales. Esta guía explora cómo aprovechar estas capacidades para mejorar tus Árboles.
-
-## Fundamentos de NLP en TreeFlow
-
-TreeFlow utiliza múltiples técnicas de NLP para comprender mejor las entradas de los usuarios:
-
-### Reconocimiento de Intenciones
-
-El sistema de reconocimiento de intenciones de TreeFlow utiliza:
-
-1. **Coincidencia de Patrones**: Para identificar coincidencias exactas o aproximadas
-2. **Clasificación ML**: Para reconocer intenciones incluso cuando la formulación es diferente
-3. **Análisis Semántico**: Para entender el significado subyacente del mensaje
-
-### Extracción de Entidades
-
-La [entidad](/docs/Fundamentos/Entidades) saca el dato de la frase:
-
-1. **Valores y sinónimos**, y las entidades de sistema (`sys.number`, `sys.date`…).
-2. **Patrones**, para un formato fijo, como una regex.
-3. **El orden de detección** del árbol: entidad exacta, aproximada, patrón y modelo.
-
-El modo y el orden se eligen en la configuración del árbol, pestaña **Entendimiento**.
+La pantalla está en la configuración del árbol, pestaña **Entendimiento**. Ahí se elige el modo, el análisis de sentimiento, los umbrales y el orden. Esta página es lo que hace cada uno.
 
 ![Entendimiento: el modo, el sentimiento, los umbrales y el orden](/img/arboles/entendimiento.png)
 
+## Básico o Pro
+
+Un árbol nuevo arranca en **Básico**. También se usa Básico cuando el modo no está definido.
+
+En Básico el entrenamiento es corto. Reconoce por coincidencia de texto y de patrones, exacta y aproximada. El modelo no entra en la lista: no hay uno que consultar.
+
+**Pro** entrena un clasificador. Es una regresión logística de scikit-learn sobre el texto de las frases, no una red neuronal. Sirve cuando la persona no escribe las mismas palabras del patrón. Tarda más. Mientras entrena no se cambia el nivel.
+
+Empieza en Básico mientras armas el flujo. Pasa a Pro cuando el árbol va a hablar con gente que no usa tus frases.
+
+## Enmascarar la frase
+
+Antes de comparar, el motor sustituye lo que ya reconoció como entidad por su nombre:
+
+```
+Usuario:      hola quiero dos pizzas de pepperoni para llevar
+Enmascarado:  hola quiero @sys.number @categoria_producto de @sabor_producto @tipo_servicio
+```
+
+Un patrón `quiero @sys.number @categoria_producto` casa con «quiero dos pizzas» y con «quiero cinco empanadas» sin escribir cada combinación. En Pro, el clasificador también se entrena y se consulta sobre ese texto enmascarado: aprende la forma de la frase, no cada valor.
+
+Si varias coincidencias se pisan, gana la más larga. Las entidades se leen por palabras completas. `sys.number` también entiende el número escrito con letra.
+
+## Al entrenar
+
+El rayo del menú lanza el entrenamiento. Al terminar, el estado queda en **actualizado**. Si falla, queda en **error** y el bot sigue con el modelo anterior hasta que uno termine bien.
+
+No corren dos entrenamientos a la vez sobre el mismo árbol. Uno que lleve más de 20 minutos se da por fallido, para no bloquear el siguiente. Si el botón dice que no hay cambios y aun así quieres reentrenar, se puede forzar.
+
+Aplicar una plantilla, o reemplazar intenciones en bloque, deja el árbol **desactualizado**. Hay que entrenar otra vez para que el motor use lo nuevo. Un mensaje o una captura no pasan por aquí: se leen al contestar.
+
+## Orden
+
+El árbol prueba varios métodos y se queda con el primero que coincida bien. El orden se arrastra en **Naturaleza de prioridad**. El de arriba va primero.
+
 ![El orden: el método de arriba tiene más peso](/img/arboles/prioridad.png)
-
-## Modo de Entrenamiento: Básico o Pro
-
-Cada árbol se entrena en uno de dos modos, y la diferencia no es sólo de velocidad.
-
-:::info Los árboles nuevos empiezan en Básico
-Un árbol nuevo se crea en modo **Básico**, y también se usa Básico cuando el modo no está definido. Cambia a **Pro** cuando el árbol vaya a hablar con gente de verdad.
-:::
-
-### Básico (Reglas Rápidas)
-
-Entrenamiento casi instantáneo. Reconoce por coincidencia de texto y patrones, exacta
-y aproximada. Va bien para prototipos, pruebas y bots de menú, donde el usuario elige
-entre opciones conocidas.
-
-En este modo **el método de Machine Learning no interviene**: desaparece de la lista de
-orden de detección, porque no hay modelo que consultar.
-
-### Pro (Machine Learning)
-
-Entrena una red neuronal que aprende a inferir la intención aunque el usuario use
-palabras que nadie escribió en las frases de entrenamiento. Tarda más en entrenar y es
-lo recomendado para producción.
-
-:::tip Cuándo cambiar
-Empieza en Básico mientras diseñas el flujo: entrenar es instantáneo y ves el efecto de
-cada cambio al momento. Pasa a Pro cuando el árbol vaya a hablar con gente de verdad,
-que nunca escribe lo que esperabas.
-:::
-
-### Entity Masking: comparar la forma de la frase, no sus valores
-
-Antes de comparar la frase del usuario con tus patrones, TreeFlow **sustituye las entidades que reconoce por su nombre**:
-
-```
-Usuario:      "hola quiero dos pizzas de pepperoni para llevar"
-Enmascarado:  "hola quiero @sys.number @categoria_producto de @sabor_producto @tipo_servicio"
-```
-
-Esto tiene dos consecuencias:
-
-- **Los patrones con `@entidad` casan por coincidencia exacta.** Un patrón como `quiero @sys.number @categoria_producto` se compara contra la frase enmascarada, así que casa con *"quiero dos pizzas"* y con *"quiero cinco empanadas"* sin que tengas que escribir cada combinación. Antes esta coincidencia exacta sólo miraba los patrones de texto plano.
-- **El clasificador de Machine Learning (modo Pro) se entrena y consulta sobre texto enmascarado.** Aprende la *forma* de la frase (`quiero @sys.number @categoria`) en lugar de memorizar cada valor, y el entrenamiento ya no multiplica todas las combinaciones posibles de valores: usa el patrón enmascarado y un par de ejemplos de muestra.
-
-Donde varias coincidencias se solapan, gana la más larga (*"pizza de pepperoni"* sobre *"pizza"*). Las entidades se reconocen por palabras completas, y los números (`sys.number`) también cuando se escriben con letra (*uno*, *dos*, *veinte*…).
-
-### Qué pasa al entrenar
-
-- Al terminar, el estado del árbol queda en **actualizado**. Si algo falla, queda en **error** —antes un entrenamiento fallido se mostraba como si no se hubiera lanzado— y el bot no tiene modelo que usar hasta que uno termine bien.
-- **No se lanzan dos entrenamientos a la vez** sobre el mismo árbol. Uno que lleve más de 20 minutos se da por fallido para no bloquear el siguiente.
-- Cada paso tiene un tope de **5 minutos** y un techo de memoria, para que un árbol enorme no tumbe el servidor.
-- Si el botón dice que no hay cambios pero quieres reentrenar igualmente, puedes forzarlo (`POST /train/{tree_id}?force=true`).
-- **Aplicar una plantilla** o **reemplazar intenciones en bloque** (Reforestación) marca el árbol como **desactualizado**: hay que reentrenar para que el motor use lo nuevo.
-
-## Orden de Detección
-
-El árbol no usa un único método para reconocer una intención: prueba **cinco**, uno
-tras otro, y se queda con el primero que dé una coincidencia buena. El orden es
-configurable desde los ajustes del árbol, arrastrando la lista.
 
 | Método | Qué mira |
 |---|---|
-| **Coincidencia Exacta de Entidades** | Las palabras clave de las hojas que aparecen en los patrones. Es el más preciso |
-| **Coincidencia Aproximada de Entidades** | Lo mismo, pero tolerando erratas: *"kiero empanads de keso"* |
-| **Coincidencia Exacta de Patrones** | La frase completa contra las frases de entrenamiento |
-| **Coincidencia Aproximada de Patrones** | Lo mismo, tolerando diferencias |
-| **Modelo de Machine Learning** | El modelo entrenado, que generaliza a frases que nadie escribió |
+| Coincidencia exacta de entidades | Un valor o un sinónimo escrito en la entidad |
+| Coincidencia aproximada de entidades | Lo mismo, tolerando erratas |
+| Coincidencia exacta de patrones | La frase contra las frases de entrenamiento |
+| Coincidencia aproximada de patrones | Lo mismo, tolerando diferencias |
+| Modelo | El clasificador de Pro. En Básico esta fila no está |
 
-Por defecto van en ese orden: de lo más literal a lo más interpretativo.
-
-:::caution El orden importa, y se nota
-Subir el método aproximado por encima del exacto significa que una coincidencia
-*parecida* puede ganarle a una **idéntica**. `"hola"` se parece a `"hora"` lo bastante
-como para que un fuzzy con prioridad alta mande *"a qué hora abren"* a la intención de
-saludo. Si mueves el orden, pásale al bot las frases de siempre antes de darlo por
-bueno.
-:::
+De fábrica van de lo más literal a lo más suelto. Subir lo aproximado por encima de lo exacto hace que una frase parecida le gane a una idéntica. «hola» se parece a «hora» lo bastante como para que «a qué hora abren» caiga en el saludo. Si mueves el orden, prueba las frases de siempre antes de dejarlo.
 
 ### Umbrales
 
-Dos ajustes acompañan al orden:
+Los dos salen en 70%.
 
-- **Umbral de confianza ML** — cuánto tiene que estar seguro el modelo para que su
-  respuesta cuente. Más alto, menos aciertos por casualidad y más `no match`.
-- **Umbral de confianza Fuzzy** — cuánto parecido exige una coincidencia aproximada.
+- **Umbral ML.** Lo mínimo que tiene que confiar el modelo para aceptar la intención. Más alto, menos aciertos de casualidad y más `no_match`.
+- **Umbral de coincidencia aproximada.** El parecido mínimo cuando la frase no es exacta.
 
-## Optimización del Reconocimiento de Intenciones
+## Sentimiento
 
-### Mejora de Patrones
+El interruptor **Análisis de sentimientos** marca cada mensaje como positivo, neutral o negativo. Sirve para ver frustración en el panel y para sugerir que la conversación pase a una persona. No es una condición que se escribe en el flujo.
 
-Para mejorar el reconocimiento de intenciones:
-
-1. **Variedad de Expresiones**: Incluye múltiples formas en que los usuarios podrían expresar la misma intención
-2. **Patrones Semánticos**: Utiliza patrones que capturen el significado, no solo palabras específicas
-3. **Anotaciones**: Utiliza anotaciones especiales en tus patrones:
-   - `[opcional]`: Para palabras que pueden estar presentes o no
-   - `(alternativa1|alternativa2)`: Para especificar alternativas
-   - `~aproximado`: Para coincidencias aproximadas
-
-Ejemplo de patrones avanzados:
-
-```
-Quiero [reservar] (una mesa|una habitación) para @numero [personas] [para] @fecha [a las] @hora
-[Me gustaría] saber (el estado|la situación) de mi @tipo_documento [número] @numero_documento
-```
-
-### Entrenamiento del Modelo
-
-Para mejorar el modelo de clasificación ML:
-
-1. Navega a la sección "Entrenamiento" en el menú principal
-2. Revisa las conversaciones donde el modelo tuvo baja confianza
-3. Etiqueta manualmente las intenciones correctas
-4. Inicia un nuevo entrenamiento del modelo
-
-### Umbrales Dinámicos
-
-Configura umbrales de confianza dinámicos:
-
-1. En la configuración del Tree, activa "Umbrales Dinámicos"
-2. Configura reglas basadas en:
-   - Contexto actual
-   - Historial de la conversación
-   - Complejidad del mensaje
-
-## Técnicas Avanzadas de Extracción
-
-### Entidades compuestas
-
-Una entidad compuesta describe una **combinación de otras entidades** que aparecen juntas en
-la frase. Sirve para leer de una vez algo que tiene varias partes: "2 empanadas de
-queso" son una cantidad, un producto y un sabor, y son *una sola* línea de pedido.
-
-Se define por **filas**, igual que las frases de una intención. Cada fila es una forma
-válida de decir lo mismo:
-
-```
-@sys.number:cantidad @categoria_producto:categoria de @sabor_producto:sabor
-@sys.number:cantidad @categoria_producto:categoria @sabor_producto:sabor
-@sys.number:cantidad @categoria_producto:categoria
-@categoria_producto:categoria @sabor_producto:sabor
-```
-
-Con varias filas cubres el mismo pedido dicho en otro orden, o con una parte de menos.
-Gana la fila que rellena más huecos; a igualdad, la que se ciñe al tramo más corto.
-
-**Los dos puntos nombran el parámetro.** `@Productos:producto` es la hoja `Productos`
-guardada bajo el nombre `producto`, que es como la leerás luego en la respuesta. Sin
-los dos puntos, el parámetro se llama igual que la hoja.
-
-Una fila puede llevar **palabras literales** entre los huecos —el `de` del primer
-ejemplo—. Si están escritas, tienen que aparecer en la frase del usuario.
-
-:::tip Varias líneas en una sola frase
-"dame 1 empanada de pollo y 2 arepas de carne" son **dos** líneas. La hoja compuesta
-las devuelve las dos, en orden, y el bot puede enumerarlas y preguntar por cada una
-la parte que le falte. Ver [Parámetros con varios valores](/docs/Avanzado/Parametros#un-parámetro-con-varios-valores).
-:::
-
-### Expresiones Regulares Avanzadas
-
-Para datos con formato específico, utiliza expresiones regulares potentes:
-
-1. Crea una Leaf de tipo regex
-2. Utiliza grupos de captura para extraer componentes específicos
-3. Añade anotaciones para mejorar la extracción
-
-Ejemplo de regex avanzada para números de referencia:
-
-```
-^(?<tipo>[A-Z]{2})-(?<año>\d{4})-(?<numero>\d{6})$
-```
-
-Esta expresión extraería componentes separados de un código como "IN-2023-123456".
-
-### Normalización de Entidades
-
-Para mejorar la calidad de los datos extraídos:
-
-1. Configura reglas de normalización en la Leaf
-2. Define transformaciones para valores extraídos
-3. Implementa validación post-extracción
-
-Ejemplo de normalización para fechas:
-
-```javascript
-function normalizarFecha(texto) {
-  // Convertir "mañana", "hoy", etc. a fechas específicas
-  if (texto.toLowerCase() === "hoy") {
-    return obtenerFechaActual();
-  } else if (texto.toLowerCase() === "mañana") {
-    return obtenerFechaSiguiente(1);
-  }
-  // Normalizar formatos de fecha
-  return formatearFecha(texto);
-}
-```
-
-## Análisis de Sentimiento y Emociones
-
-TreeFlow puede analizar el sentimiento y las emociones en los mensajes del usuario:
-
-### Configuración del Análisis
-
-1. En la configuración del Tree, activa "Análisis de Sentimiento"
-2. Configura el nivel de detalle:
-   - Básico: Positivo, Negativo, Neutral
-   - Avanzado: Incluye emociones específicas (alegría, frustración, confusión, etc.)
-
-### Uso en Branches
-
-Para utilizar el análisis de sentimiento en tus Branches:
-
-1. Crea una Branch con condiciones basadas en sentimiento
-2. Utiliza la variable especial `{'{'}sentiment{'}'}` en tus condiciones
-3. Personaliza las respuestas según el sentimiento detectado
-
-Ejemplo:
-
-```
-Si {'{'}sentiment{'}'} == "negativo" entonces:
-  "Lamento que estés experimentando dificultades. Intentemos resolver esto juntos."
-Si {'{'}sentiment{'}'} == "positivo" entonces:
-  "¡Me alegra que estés satisfecho! ¿Hay algo más en lo que pueda ayudarte?"
-```
-
-## Procesamiento de Lenguaje Contextual
-
-### Resolución de Referencias
-
-TreeFlow puede resolver referencias anafóricas (como "eso", "él", "ella", "ellos"):
-
-1. Activa "Resolución de Referencias" en la configuración del Tree
-2. El sistema automáticamente resolverá referencias a entidades mencionadas previamente
-
-Ejemplo:
-- Usuario: "¿Cuál es el precio del iPhone 14?"
-- Tree: "El iPhone 14 cuesta $799"
-- Usuario: "¿Y viene en color negro?"
-- Tree entiende que "viene" se refiere al "iPhone 14"
-
-### Memoria Conversacional
-
-Para mantener y utilizar información a lo largo de la conversación:
-
-1. Configura la "Memoria Conversacional" en la configuración del Tree
-2. Define qué información debe ser recordada automáticamente
-3. Utiliza la información almacenada en respuestas posteriores
-
-## Integración con Modelos de Lenguaje Avanzados
-
-### Configuración de Modelos Externos
-
-Para integrar modelos de lenguaje más potentes:
-
-1. Navega a "Configuración" > "Modelos de Lenguaje"
-2. Selecciona el modelo que deseas utilizar:
-   - Modelos internos de TreeFlow
-   - OpenAI GPT
-   - Hugging Face Transformers
-   - Modelos personalizados
-3. Configura los parámetros del modelo:
-   - Temperatura
-   - Longitud máxima
-   - Tokens de parada
-
-### Uso Híbrido
-
-Implementa un enfoque híbrido:
-
-1. Utiliza el sistema determinista para:
-   - Extracción precisa de información
-   - Flujos de conversación críticos
-   - Validación de datos
-
-2. Utiliza modelos generativos para:
-   - Generación de respuestas naturales
-   - Manejo de consultas complejas
-   - Personalización avanzada
-
-## Técnicas de Preprocesamiento
-
-### Limpieza de Texto
-
-Configura reglas de limpieza para mejorar la comprensión:
-
-1. Navega a "Configuración" > "Preprocesamiento"
-2. Configura reglas para:
-   - Corrección ortográfica
-   - Normalización de caracteres especiales
-   - Manejo de emojis y emoticones
-   - Expansión de abreviaturas
-
-### Segmentación Avanzada
-
-Para mensajes complejos que contienen múltiples intenciones:
-
-1. Activa "Segmentación de Mensajes" en la configuración
-2. El sistema dividirá automáticamente mensajes complejos
-3. Procesará cada segmento como una intención separada
-
-## Análisis y Mejora Continua
-
-### Aprendizaje Activo
-
-Implementa un ciclo de aprendizaje activo:
-
-1. Revisa regularmente mensajes con baja confianza
-2. Etiqueta manualmente las intenciones correctas
-3. Añade nuevos patrones basados en mensajes reales
-4. Reentrenar el modelo con los nuevos datos
-
-### Análisis de Confusiones
-
-Para identificar y resolver confusiones entre Branches:
-
-1. Navega a "Analítica" > "Matriz de Confusión"
-2. Identifica Branches que se confunden frecuentemente
-3. Mejora la diferenciación entre estas Branches:
-   - Añade patrones más específicos
-   - Refina las entidades utilizadas
-   - Ajusta los umbrales de confianza
-
-## Ejemplo Práctico: Asistente de Reservas Avanzado
-
-### Escenario
-
-Un asistente para reservas de restaurantes que utiliza técnicas avanzadas de NLP.
-
-### Implementación
-
-1. **Intención de Reserva con Extracción Compleja**:
-
-   No hay sintaxis de alternativas: cada forma de decirlo es **una frase de
-   entrenamiento aparte**. Escribe las que de verdad usa tu gente y deja que el
-   modelo generalice el resto.
-
-   ```
-   quiero hacer una reserva para @sys.number personas @fecha a las @sys.time
-   necesito una mesa para @sys.number el @fecha a las @sys.time
-   reserva para @sys.number @fecha
-   mesa para @sys.number personas
-   ```
-
-   Las variantes de una sola palabra —"quiero" / "necesito" / "me gustaría"— se
-   cubren mejor con una hoja de sinónimos que multiplicando frases.
-
-2. **Resolución de Referencias**:
-   - Usuario: "¿Tienen mesa disponible para mañana a las 8?"
-   - Tree: "Sí, tenemos disponibilidad. ¿Para cuántas personas sería la reserva?"
-   - Usuario: "Para 4"
-   - Tree entiende que "4" se refiere al número de personas para la reserva mencionada
-
-3. **Análisis de Sentimiento para Personalización**:
-   - Si el usuario muestra entusiasmo: "¡Fantástico! Estamos emocionados de recibirlos mañana a las 8 PM."
-   - Si el usuario muestra duda: "Hemos reservado su mesa para mañana a las 8 PM. Puede modificar o cancelar su reserva hasta 2 horas antes sin cargo."
-
-4. **Normalización de Entidades**:
-   - Usuario: "Quiero reservar para el próximo viernes"
-   - El sistema normaliza "próximo viernes" a la fecha específica
-
-### Resultados
-
-Este enfoque avanzado permite:
-- Mayor precisión en la extracción de información
-- Conversaciones más naturales y fluidas
-- Mejor manejo de casos complejos
-- Personalización basada en el contexto y sentimiento
-
-## Conclusión
-
-Las técnicas avanzadas de NLP en TreeFlow te permiten crear experiencias conversacionales más naturales, precisas y efectivas. Combinando el control determinista con la flexibilidad del procesamiento de lenguaje natural, puedes desarrollar Árboles que realmente entiendan y respondan a las necesidades de tus usuarios.
-
-:::tip Consejo
-Comienza con técnicas básicas y ve incorporando gradualmente funcionalidades más avanzadas a medida que te familiarices con la plataforma y entiendas mejor las necesidades de tus usuarios.
-:::
+Las entidades compuestas, la regex y las de sistema están en [Entidades](/docs/Fundamentos/Entidades).
