@@ -38,11 +38,11 @@ La flecha café, debajo del +, se arrastra hasta otro nodo para unirlos. La lín
 
 | Nodo | Qué es |
 |---|---|
-| **Contexto** (verde) | Donde el bot espera. El de inicio se llama **Start**. Ahí están disponibles las intenciones de ese tramo. |
+| **Contexto** (verde) | Donde el bot espera. En el flujo Restaurante se llama **Inicio**. Ahí están disponibles las intenciones de ese tramo. |
 | **Intención** (naranja) | Un paso que se activa cuando el motor reconoce esa intención. El texto de la intención se edita en [Intenciones](./Intenciones); el nodo la coloca en el recorrido. |
 | **Evento** (rayo) | Lo que no es una intención: no entendió (`sys.no-match`) o no llegó nada (`sys.no-input`). |
 
-Una pastilla con el nombre de otro flujo, como `rama_principal`, es un salto: la conversación sale de este dibujo y entra en ese.
+Una pastilla con el nombre de otro flujo, como `flujo_principal`, es un enlace: desde este dibujo también se puede saltar a ese. El recorrido con las capturas está en [Flujos](/docs/Avanzado/FlujosConversacionales).
 
 ## Lo que comparten
 
@@ -62,7 +62,7 @@ El contexto no dice una frase. Dice qué se puede hacer mientras la conversació
 
 - **Intenciones.** Las que el motor puede reconocer en este tramo. Se elige un nodo de intención que ya exista, o **Crear nuevo nodo de intención**. Quitar el enlace no borra el nodo.
 - **Eventos.** Lo mismo con los nodos de evento: no entendió, silencio, u otro. **Crear nuevo nodo de evento** lo agrega y lo enlaza.
-- **Flujos enlazados.** Otro flujo, y el contexto de ese flujo. Desde aquí también se pueden usar las intenciones y eventos de allá. Si los dos flujos tienen la misma intención, el enlace no se hace: avisa del nombre repetido.
+- **Flujos enlazados.** Otro flujo, y el contexto de ese flujo. Desde aquí también se pueden usar las intenciones y eventos de allá. Si los dos tienen la misma intención, al estar en uno corre el nodo de ese flujo.
 
 **Funcionalidad**
 

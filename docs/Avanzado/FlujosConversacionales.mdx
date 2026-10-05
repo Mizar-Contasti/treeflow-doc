@@ -1,0 +1,111 @@
+---
+sidebar_position: 1
+sidebar_label: Flujos
+---
+
+# Flujos
+
+Un flujo es el dibujo de la conversación: nodos y flechas. El árbol puede tener varios. Uno está marcado **Principal** y es el que arranca si en la consola el primer botón dice **Por defecto**.
+
+En Cafetería el principal es **flujo_principal**. **Restaurante** es el mapa del local. La pantalla, botón por botón, está en [Flujos](/docs/Fundamentos/EditorVisual). Esta página recorre ese mapa.
+
+## La lista
+
+**Flujos** abre las tarjetas. Se busca por nombre. **Nuevo Flujo** crea uno vacío. El icono de copiar lo duplica. La basura borra, menos el principal. **Plantillas** aplica un rubro: intenciones, entidades y el dibujo. Reaplicar no pisa la pregunta de un parámetro que ya existía.
+
+![flujo_principal marcado Principal, y el flujo Restaurante](/img/flujos/lista.png)
+
+## Configuración
+
+Al abrir un flujo hay dos pestañas: **Diseño** y **Configuración**.
+
+![Nombre, descripción y el interruptor de flujo principal](/img/flujos/configuracion.png)
+
+- **Nombre del flujo.** Es el identificador. En la consola sale en el primer botón.
+- **Descripción.** Para recordar de qué es. La persona no la ve.
+- **Flujo principal.** Sólo puede haber uno. El que ya lo es no se apaga desde aquí: se enciende en el otro flujo y se guarda. El principal no se borra. Es el punto de partida cuando la consola dice **Por defecto**.
+
+Arriba a la derecha, el icono de guardar se enciende cuando hay algo sin guardar: un nodo movido, una flecha, el nombre, el interruptor. Cerrar el editor no guarda solo. Mover un nodo no cambia lo que el bot contesta. Cambiar la intención, un patrón o una entidad sí: el rayo del menú vuelve a naranja y hay que entrenar.
+
+## El lienzo
+
+**Diseño** es el mapa. Cada nodo se arrastra. Abajo a la izquierda están el zoom, centrar y **Tidy Up**, que acomoda los nodos.
+
+![Inicio, las intenciones del restaurante, el evento y el salto a flujo_principal](/img/flujos/lienzo.png)
+
+El **+** naranja crea el nodo según de dónde salgas. Desde un contexto ofrece intención o evento. Desde una intención o un evento ofrece un contexto. La flecha café, debajo del +, se arrastra hasta otro nodo para unirlos. La línea continua es el camino. La punteada es un evento.
+
+| Nodo | Qué es |
+|---|---|
+| Contexto, verde | Donde el bot espera. En Restaurante se llama **Inicio** |
+| Intención, naranja | Se activa cuando el motor reconoce esa intención |
+| Evento, el rayo | No entendió (`sys.no-match`) o no llegó nada (`sys.no-input`) |
+
+La pastilla `flujo_principal` es un enlace: desde este dibujo también se puede saltar a ese flujo.
+
+## Dónde espera
+
+El contexto no dice una frase. Lista lo que se puede reconocer mientras la conversación está ahí.
+
+![Inicio, con las intenciones y el evento de ese tramo](/img/flujos/contexto.png)
+
+- **Intenciones.** Las de este tramo. Se elige un nodo que ya exista, o se crea uno. Quitar el enlace no borra la intención.
+- **Eventos.** El de no entender, el de silencio, o un nombre que otro paso dispara.
+- **Flujos enlazados.** Desde aquí también valen las intenciones del otro flujo. Si los dos tienen `saludo`, al estar en uno corre el nodo de ese flujo, no el del otro.
+
+El flujo principal enlaza a Restaurante. Por eso, arrancando en **Por defecto**, también se puede pedir o reservar. El saludo que contesta es el del flujo en el que estás.
+
+## Un paso, y de vuelta
+
+El nodo naranja no entrena la intención. La apunta. Patrones y parámetros se editan en [Intenciones](/docs/Fundamentos/Intenciones).
+
+![saludo: la intención, el mensaje y la vuelta a Inicio](/img/flujos/conversacion.png)
+
+**Conversación**
+
+- **Intención.** Si ya está en este flujo, o en uno enlazado, el selector la marca **En uso**.
+- **Respuesta.** Una plantilla de [mensaje](/docs/Fundamentos/Mensajes), **+ Crear plantilla**, o **Mensaje personalizado**. Se manda cuando ya están los datos, después de las herramientas de este nodo.
+- **Transición.** A dónde sigue:
+  - **Ninguno.**
+  - Un contexto del lienzo, o uno nuevo.
+  - **Cambiar de flujo**, al inicio de otro.
+  - **Reiniciar flujo actual.**
+  - **Transferir a humano.** Pasa la conversación a la [mesa de ayuda](./MesaDeAyuda).
+
+`saludo`, el horario, el menú y el pedido vuelven a **Inicio**. Por eso la frase siguiente se vuelve a oír.
+
+## Funcionalidad
+
+Hasta que no hay una intención elegida, esta pestaña pide volver a Conversación.
+
+![Scripts, herramientas, terminar la captura y el webhook](/img/flujos/funcionalidad.png)
+
+- **Scripts** y **herramientas.** Lo que este paso llama afuera. Se crean en [Herramientas](/docs/Fertilizantes).
+- **Termina una captura en curso.** Si la persona dice esto mientras el bot pide datos. Activado, la pregunta se da por terminada: cancelar o despedirse. Apagado, que es lo de fábrica, el bot contesta y retoma la pregunta, con lo ya escrito.
+- **Llamar webhook en este nodo.** El webhook del árbol corre al pasar por aquí, antes que las herramientas. Si no hay uno activo, no pasa nada.
+
+El contexto no tiene respuesta ni «termina una captura». El evento tampoco cierra la captura: eso es de la intención.
+
+## Si no reconoce la frase
+
+![sys.no-match y su mensaje](/img/flujos/evento.png)
+
+El rayo se elige o se escribe. Los que el motor dispara solo son `sys.no-match` y `sys.no-input`. Un nombre propio lo dispara otro paso; si ya está en otro evento del flujo, queda **En uso**.
+
+En Restaurante el mensaje es «Lo siento, no entendí eso. ¿Podrías repetirlo?». La transición es la misma lista que en la intención. Lo habitual es volver al contexto.
+
+## Cuando pide una persona
+
+`hablar_con_asesor` no vuelve a Inicio. La transición es **Transferencia a agente humano**.
+
+![hablar_con_asesor: el mensaje y la mesa de ayuda](/img/diseno/asesor.png)
+
+Antes avisa: «Te comunico con una persona del equipo». **Termina una captura en curso** está activo: si lo dice a mitad de un pedido, deja de preguntar y pasa la conversación.
+
+## Probar este mapa
+
+En la consola, el primer botón en **Restaurante**. `hola` cae en `saludo` y contesta la bienvenida de ese flujo. Con el modo debug, Inicio queda como recorrido y `saludo` como el nodo de este turno.
+
+![Consola en Restaurante y el lienzo marcado](/img/diseno/recorrido.png)
+
+El detalle del chat está en [Probar el bot](/docs/Fundamentos/Testeo).
