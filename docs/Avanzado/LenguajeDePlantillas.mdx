@@ -5,7 +5,7 @@ sidebar_label: Funciones
 
 # Funciones
 
-Todo lo que el bot dice puede llevar una función dentro de `{ }`. Se rellena en el momento: los mensajes, las preguntas de un parámetro, las URL y los cuerpos de las herramientas, los bloques HTML. Una variable, `{$nombre}`, es el caso más corto.
+Todo lo que el bot dice puede llevar una función dentro de `{ }`. Se rellena en el momento: los mensajes, las preguntas de un parámetro, las URL y los cuerpos de las herramientas, los bloques HTML.
 
 Hay **una sola sintaxis**:
 
@@ -17,26 +17,50 @@ Hay **una sola sintaxis**:
 {nombre}      la palabra "nombre"
 ```
 
-![El texto de un mensaje: ahí se escriben los huecos](/img/mensajes/editor.png)
+En Cafetería, el mensaje del pedido es una función. Si ya hay pedido, lo nombra. Si no, pregunta qué preparar.
 
-Esa es toda la regla. Lo demás son consecuencias.
+![restaurante_hacer_pedido_response: la función con $pedido y el if](/img/funciones/mensaje.png)
+
+```
+{("¡Listo! Anoté " + $pedido + ". Te lo preparamos enseguida.") if $pedido else "¡Con gusto! ¿Qué te preparo?"}
+```
+
+| Llegó | Sale |
+|---|---|
+| `$pedido` = `2 empanadas de queso` | ¡Listo! Anoté 2 empanadas de queso. Te lo preparamos enseguida. |
+| `$pedido` vacío | ¡Con gusto! ¿Qué te preparo? |
 
 ## Variables
 
+`{$nombre}` imprime el valor. Los espacios dan igual. `${nombre}` es la forma antigua y también vale.
+
 ```
 {$nombre}                    Ana
-{ $nombre }                  Ana          · los espacios dan igual
-${nombre}                    Ana          · la forma antigua también vale
-{$nombre.original_value}     ANA          · cómo lo escribió el usuario
-{$nombre.key_value}          ana          · el valor normalizado
+{ $nombre }                  Ana
+${nombre}                    Ana
+{$nombre.original_value}     ANA     · cómo lo escribió la persona
+{$nombre.key_value}          ana     · el valor normalizado
 ```
 
 Una variable que no existe se queda en blanco. No rompe el mensaje.
 
+La pregunta de la cantidad, en `hacer_pedido`, mete lo que ya se capturó:
+
+![Pregunta de numero: {$categoria_producto} y {$sabor_producto}](/img/funciones/pregunta.png)
+
+```
+¿Cuántas {$categoria_producto}s de {$sabor_producto} te preparo?
+```
+
+En la consola, con el flujo **Restaurante**, «quiero empanada de queso» no trae el sabor todavía. La pregunta de sabor usa la categoría que sí vino:
+
+![La consola sustituye la categoría: ¿De qué sabor quieres empanada?](/img/funciones/consola.png)
+
+Cuando después dice «queso», la pregunta de la cantidad ya sale armada: **¿Cuántas empanadas de queso te preparo?**
+
 ## Textos
 
-Una palabra sin `$` es texto. Las comillas simples y las invertidas se tratan
-como dobles.
+Una palabra sin `$` es texto. Las comillas simples y las invertidas se tratan como dobles.
 
 ```
 {"hola"}     hola
@@ -45,22 +69,24 @@ como dobles.
 {hola}       hola
 ```
 
-Esto importa al comparar:
+Eso importa al comparar:
 
 ```
 {$color == rojo}       compara con el texto "rojo"
 {$color == $otro}      compara con otra variable
 ```
 
+`{$sabor == queso}` es verdadero si el sabor capturado es queso. `{$sabor == $otro}` compara dos variables.
+
 ## Condiciones
 
 ```
 {$edad > 18 ? "adulto" : "menor"}            adulto
 {if $edad > 18 ? "adulto" : "menor"}         adulto   · el "if" delante es opcional
-{$edad > 18 ? "adulto"}                      adulto   · el ":" también es opcional
+{$edad > 18 ? "adulto"}                      adulto   · sin la otra rama, si no se cumple no sale nada
 ```
 
-Si no se cumple y no pusiste la otra rama, no sale nada. El hueco desaparece.
+El pedido de arriba es el mismo mecanismo: `if $pedido` elige el texto de confirmación; si no hay pedido, elige la pregunta.
 
 Se pueden anidar con paréntesis:
 
@@ -75,32 +101,48 @@ Y componer con texto alrededor:
 { $nombre + ", el mayor es " + ($a if $a > $b else $b) }
 ```
 
-## Cálculos
+La reserva hace lo mismo con el contacto. Si vino, lo nombra. Si no, la confirmación no lo menciona:
 
 ```
-{$precio * 120}          18000
-{$a + $b}                10        · dos números se suman
-{"Total: " + $a}         Total: 3  · con texto, se concatena
+{("Te confirmamos a " + $contacto + ".") if $contacto else ""}
+```
+
+## Cálculos
+
+Dos números se suman. Un número junto a un texto se pega.
+
+```
+{$precio * 120}          18000      · si precio es 150
+{$a + $b}                10         · si a es 6 y b es 4
+{"Total: " + $a}         Total: 3   · con texto, se concatena
 {$b - $a}                4
 {round($precio, 2)}      150.4
 ```
 
+Un precio de menú cabe en la respuesta así:
+
+```
+{ "Son $" + ($precio * $numero) + " por " + $numero + " " + $categoria_producto }
+```
+
+Con precio `45` y número `2` sale **Son $90 por 2 empanada**.
+
 ## Funciones y métodos
 
-| Escribes | Qué hace |
-|---|---|
-| `{len($nombre)}` | cuántos **caracteres** tiene |
-| `{count($producto)}` | cuántas **veces** lo dijo el usuario en la frase |
-| `{round($x)}` `{round($x, 2)}` | redondear |
-| `{min($a,$b)}` `{max($a,$b)}` `{abs($x)}` `{sum($lista)}` | los de siempre |
-| `{str($x)}` `{int($x)}` `{float($x)}` `{bool($x)}` | convertir |
-| `{$nombre.upper()}` `{$nombre.capitalize()}` `{$texto.strip()}` | métodos de texto |
+| Escribes | Qué hace | Ejemplo |
+|---|---|---|
+| `{len($nombre)}` | cuántos **caracteres** tiene | `Ana` → `3` |
+| `{count($producto)}` | cuántas **veces** lo dijo en la frase | dos productos → `2` |
+| `{round($x)}` `{round($x, 2)}` | redondear | `150.36` → `150.36` o `150` |
+| `{min($a,$b)}` `{max($a,$b)}` `{abs($x)}` `{sum($lista)}` | los de siempre | |
+| `{str($x)}` `{int($x)}` `{float($x)}` `{bool($x)}` | convertir | |
+| `{$nombre.upper()}` | mayúsculas | `ana` → `ANA` |
+| `{$nombre.capitalize()}` | primera en mayúscula | `ana` → `Ana` |
+| `{$texto.strip()}` | quita espacios de las orillas | |
 
-`len()` y `count()` son cosas distintas. `len($nombre)` con "Ana" dentro da
-**3**. `count($producto)` da **2** si el usuario nombró dos productos en la
-misma frase.
+`len()` y `count()` no miden lo mismo. `len($nombre)` con Ana da **3**. `count($producto)` da **2** si en la misma frase nombró dos productos.
 
-## Cuando el usuario repite algo
+## Cuando la persona repite algo
 
 Si en una frase caben varios valores del mismo parámetro, se indexan:
 
@@ -111,13 +153,13 @@ Si en una frase caben varios valores del mismo parámetro, se indexan:
 {$producto}           el primero, como siempre
 ```
 
-`{$producto[0]}` funciona aunque sólo haya venido uno: un parámetro simple se
-comporta como una lista de uno.
+«quiero una empanada y un café» puede dejar dos productos. `{$producto[0]}` es el primero y `{$producto[1]}` el segundo. `{$producto[0]}` también funciona cuando sólo vino uno: un parámetro simple se comporta como una lista de uno.
+
+`{$pedido}` de una compuesta no imprime la estructura. Imprime el resumen legible, por ejemplo **2 empanadas de queso**.
 
 ## Respuestas de herramientas
 
-Una herramienta puede guardar su respuesta entera en un parámetro. Se baja
-dentro con puntos e índices:
+Una herramienta puede guardar su respuesta entera en un parámetro. Se baja dentro con puntos e índices:
 
 ```
 {$api}                 el objeto entero, como JSON
@@ -126,37 +168,40 @@ dentro con puntos e índices:
 {$api.items}           la lista
 ```
 
+Si la herramienta dejó `{"estado": "listo", "items": ["empanada", "café"]}` en `$api`:
+
+| Escribes | Sale |
+|---|---|
+| `{$api.estado}` | listo |
+| `{$api.items[0]}` | empanada |
+| `{$api}` | `{"estado": "listo", "items": ["empanada", "café"]}` |
+
 ## Lo que el motor no toca
 
-Sólo se evalúa lo que parece código. Esto atraviesa la interpolación intacto:
+Sólo se evalúa lo que parece código. Esto atraviesa intacto:
 
 ```
 <style>.tarjeta { color: red; padding: 4px }</style>     el CSS de un bloque HTML
 {"cliente": "Ana", "cantidad": 2}                        un cuerpo JSON
-^\d{4}-\d{2}-\d{2}$                                      una regex de validación
+^\d{4}-\d{2}-\d{2}$                                      una regex
 ```
 
-Un hueco **dentro** de un JSON sí se resuelve. Es lo que hace falta para el
-cuerpo de una herramienta:
+Un hueco **dentro** de un JSON sí se resuelve. Es el cuerpo de una herramienta:
 
 ```
 {"cliente": "{$nombre}", "id": {$id}}
 ```
 
-sale como `{"cliente": "Ana", "id": 42}`.
+sale como `{"cliente": "Ana", "id": 42}`. En un HTML, `<b>{$nombre}</b>` sale `<b>Ana</b>` y el CSS de al lado no se toca.
 
 ## Limitaciones
 
-- No se pueden poner llaves literales dentro de una cadena de una expresión.
-  En `{ "el formato es {a}" }`, ese `{a}` es un hueco como cualquier otro.
-- `{5}` no se evalúa. Un número suelto se deja tal cual, porque `\d{3}` en
-  una regex es un cuantificador. Los números sí cuentan dentro de una
-  expresión: `{$a > 5}`.
+- No se pueden poner llaves literales dentro de una cadena de una expresión. En `{ "el formato es {a}" }`, ese `{a}` es un hueco como cualquier otro.
+- `{5}` no se evalúa. Un número suelto se deja tal cual, porque `\d{3}` en una regex es un cuantificador. Los números sí cuentan dentro de una expresión: `{$a > 5}`.
 
 ## Si vienes de la sintaxis antigua
 
-Antes existían `{{ ... }}` y `{ ... }`. **`{{ ... }}` ya no existe.** Un texto
-sin migrar no da error: imprime otra cosa.
+Antes existían `{{ ... }}` y `{ ... }`. **`{{ ... }}` ya no existe.** Un texto sin migrar no da error: imprime otra cosa.
 
 ```
 {{$nombre}}   ->  {Ana}    la llave de fuera se queda suelta
@@ -169,8 +214,6 @@ sin migrar no da error: imprime otra cosa.
 | `{{ $a > 1 ? "x" : "y" }}` | `{ $a > 1 ? "x" : "y" }` |
 | `{{len($producto)}}` | `{count($producto)}` — cambió de significado |
 
-Sin el `$`, `{nombre}` imprime la palabra "nombre". Y `len()` ahora mide
-caracteres, no cuántas veces vino el parámetro.
+Sin el `$`, `{nombre}` imprime la palabra «nombre». Y `len()` ahora mide caracteres, no cuántas veces vino el parámetro.
 
-Los parámetros se usan desde las [respuestas](/docs/Avanzado/Parametros#en-respuestas)
-y desde las [capturas](/docs/Fundamentos/Capturas).
+Los parámetros se usan desde las [respuestas](/docs/Avanzado/Parametros#en-respuestas) y desde las [capturas](/docs/Fundamentos/Capturas).
