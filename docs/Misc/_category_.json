@@ -1,4 +1,8 @@
 {
   "label": "Misceláneos",
-  "position": 11
+  "position": 11,
+  "link": {
+    "type": "generated-index",
+    "description": "El mapa del menú, las entidades de sistema, el historial, los respaldos y el despliegue."
+  }
 }
