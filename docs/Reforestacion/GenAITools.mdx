@@ -15,16 +15,16 @@ Cada acción que ejecuta aparece en el chat con el nombre de la herramienta, as�
 
 | Área | Herramientas | Qué permiten |
 |---|---|---|
-| **Árbol** | `get_tree_data` · `update_tree` | Mira la estructura completa (ramas, nodos, intenciones, entidades). Cambia el nombre, la descripción, el propósito, el webhook, el modo del bot y la configuración de [Entendimiento](/docs/Avanzado/NLP): modo, análisis de sentimiento y umbrales |
+| **Árbol** | `get_tree_data` · `update_tree` | Mira la estructura completa (ramas, nodos, intenciones, entidades). Cambia el nombre, la descripción, el propósito, el webhook, el modo del bot y la configuración de [Entendimiento](/docs/Avanzado/Entendimiento): modo, análisis de sentimiento y umbrales |
 | **Ramas** | `list_branches` · `create_branch` · `update_branch` · `delete_branch` | Mira las ramas. Crea una rama con su nodo inicial. Cambia sus propiedades, no sus nodos. Elimina una rama **con todos sus nodos** |
 | **Nodos** | `list_leafs` · `create_leaf` · `update_leaf` · `delete_leaf` | Mira los nodos de una rama. Crea, modifica y elimina nodos |
 | **Intenciones** | `list_intents` · `create_intent` · `update_intent` · `delete_intent` | Mira las intenciones. Crea una con sus frases de entrenamiento y parámetros. Modifica y elimina |
 | **Entidades** | `list_entities` · `create_entity` · `update_entity` · `delete_entity` | Mira las entidades. Crea, modifica y elimina |
 | **Mensajes** | `list_message_templates` · `create_message_template` · `update_message_template` · `delete_message_template` | Mira las plantillas de mensaje. Crea una para respuestas estructuradas o enriquecidas, la actualiza o la elimina |
-| **Herramientas HTTP** | `list_fertilizers` · `create_fertilizer` · `update_fertilizer` · `delete_fertilizer` | Mira, crea, modifica y elimina las [herramientas](/docs/Fertilizantes) del bot que llaman a una API. Los secretos de autenticación no se le muestran |
+| **Herramientas HTTP** | `list_fertilizers` · `create_fertilizer` · `update_fertilizer` · `delete_fertilizer` | Mira, crea, modifica y elimina las [herramientas](/docs/Herramientas) del bot que llaman a una API. Los secretos de autenticación no se le muestran |
 | **Entrenamiento** | `get_bot_training_status` · `trigger_bot_training` · `list_training_history` | Mira el estado y el historial de entrenamientos, con sus errores. Lanza un entrenamiento |
 | **Probar y observar** | `simulate_chat_message` · `list_conversations` · `get_conversation` · `list_logs` · `get_log` | Manda un mensaje de prueba y trae la respuesta. Mira conversaciones y registros del sistema para depurar |
-| **Canales** | `list_integrations` · `configure_integration` | Mira los [canales](/docs/Injertos/CanalesDeComunicacion) y los **enciende o apaga**. No guarda credenciales de un canal |
+| **Canales** | `list_integrations` · `configure_integration` | Mira los [canales](/docs/Canales/CanalesDeComunicacion) y los **enciende o apaga**. No guarda credenciales de un canal |
 | **Voz** | `get_voice_config` · `update_voice_config` | Mira y cambia la configuración de voz (reconocimiento y síntesis) |
 | **Usuarios** | `list_users` · `create_user` · `update_user` · `delete_user` | Mira, crea o invita, cambia el rol o la actividad y elimina usuarios del workspace |
 | **Respaldos e historial** | `list_backups` · `create_backup` · `list_change_history` | Mira los respaldos. Crea uno. Lee el historial de cambios del bot |

@@ -5,7 +5,7 @@ sidebar_label: Intenciones
 
 # Intenciones
 
-En el menú se llaman **Intenciones**. Son lo que el motor reconoce en una frase. El recorrido de la conversación es otra cosa: vive en los [flujos](./EditorVisual).
+En el menú se llaman **Intenciones**. Son lo que el motor reconoce en una frase. El recorrido de la conversación es otra cosa: vive en los [flujos](./Flujos).
 
 Una intención guarda tres cosas:
 
@@ -129,7 +129,7 @@ Sin captura, estos campos son los de la intención:
 
 **Preguntar con un bloque enriquecido.** Apagado, la **Pregunta** es un texto: `¿Qué producto te gustaría pedir?`. Encendido, la pregunta se arma con bloques, igual que en Mensajes: el texto de un botón es lo que llena el dato.
 
-En la pregunta caben [funciones](/docs/Avanzado/LenguajeDePlantillas), por ejemplo `{$categoria_producto}`.
+En la pregunta caben [funciones](/docs/Avanzado/Funciones), por ejemplo `{$categoria_producto}`.
 
 **Si no se entiende.** Lo que dice cuando la respuesta no llena el dato. En el ejemplo: `No entendí el producto. ¿Podrías decirme qué deseas? Por ejemplo: pizza, hamburguesa…`
 
@@ -151,11 +151,11 @@ El detalle de cómo se rellenan, se interpolan y se abandonan está en [Parámet
 
 El valor queda en la conversación con el nombre del parámetro. Una respuesta del nodo, un mensaje o una herramienta lo lee con `{$producto_pedido}`. El `$` es lo que lo distingue de un texto fijo.
 
-La frase que el bot dice al reconocer la intención se configura en el nodo del [flujo](./EditorVisual), en la pestaña **Conversación**. Si nadie la entiende, el camino es el nodo de evento de ese flujo, no un campo de esta pantalla.
+La frase que el bot dice al reconocer la intención se configura en el nodo del [flujo](./Flujos), en la pestaña **Conversación**. Si nadie la entiende, el camino es el nodo de evento de ese flujo, no un campo de esta pantalla.
 
 ## Entrenar
 
-**Guardar cambios** deja el árbol desactualizado. Los patrones nuevos entran en la conversación cuando se entrena: el botón **Entrenar**, abajo en el menú, el del rayo. Hasta entonces la [consola](/docs/Fundamentos/Testeo) sigue con el entrenamiento anterior.
+**Guardar cambios** deja el árbol desactualizado. Los patrones nuevos entran en la conversación cuando se entrena: el botón **Entrenar**, abajo en el menú, el del rayo. Hasta entonces la [consola](/docs/Fundamentos/ProbarElBot) sigue con el entrenamiento anterior.
 
 ## Cómo conviene armarlas
 

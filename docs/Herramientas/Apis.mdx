@@ -39,7 +39,7 @@ La URL es `api.ejemplo.com`. Hay que cambiarla por la del sistema real antes de 
 | Consulta de stock y precios de producto | POST | Existencias y precio a partir de un SKU y una sucursal. Devuelve `stock_disponible`, `precio_unitario`, `nombre_producto` y `tiene_stock` |
 | Rastreo y seguimiento de envíos | GET | Estado, fecha estimada y última ubicación de una guía y una paquetería |
 | Generación de enlace de pago / checkout | POST | Crea un cobro y devuelve `url_pago`. Trae autenticación Bearer |
-| Envío de mensajes SMS / WhatsApp | POST | Manda un aviso por `whatsapp` o `sms` a un número. Trae Bearer. No es el [canal](/docs/Injertos/CanalesDeComunicacion) de WhatsApp del bot |
+| Envío de mensajes SMS / WhatsApp | POST | Manda un aviso por `whatsapp` o `sms` a un número. Trae Bearer. No es el [canal](/docs/Canales/CanalesDeComunicacion) de WhatsApp del bot |
 | Autenticación y obtención de token JWT | POST | Pide `token_acceso` con `client_id` y `client_secret` |
 
 ## El editor
@@ -52,7 +52,7 @@ Las mismas cinco pestañas que un script. En **Código** no hay Python: hay la l
 
 - **Nombre.** Así sale en la tarjeta y en el nodo.
 - **Descripción.** Para recordar para qué es. La persona no la ve.
-- **URL.** Una variable se escribe `{$image_id}`. También cabe una condición: `{ $valor ? 'Sí' : 'No' }`. Es la misma sintaxis que en un [mensaje](/docs/Avanzado/LenguajeDePlantillas).
+- **URL.** Una variable se escribe `{$image_id}`. También cabe una condición: `{ $valor ? 'Sí' : 'No' }`. Es la misma sintaxis que en un [mensaje](/docs/Avanzado/Funciones).
 - **Método.** GET, POST, PUT, PATCH o DELETE.
 - **Timeout.** Milisegundos antes de dar la llamada por fallida. En `picsum_image` son 15000. En el webhook de fábrica, 30000.
 - **Tipo de autenticación.** Ninguna, Basic (usuario y contraseña) o Bearer (un token).

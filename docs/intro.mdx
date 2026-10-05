@@ -32,8 +32,8 @@ TreeFlow cuenta con una arquitectura de despliegue madura para adaptarse a tus n
 3. **Crea tu primer Árbol** - Sigue los [tutoriales](/docs/Tutoriales/Introduccion) o la guía de [primeros pasos](/docs/Fundamentos/Empezando)
 4. **Escribe intenciones** - Los [patrones de conversación](/docs/Fundamentos/Intenciones) viven en Intenciones
 5. **Define entidades** - Configura [entidades](/docs/Fundamentos/Entidades) para extraer datos de la frase
-6. **Dibuja el flujo** - Ordena los nodos en el [editor visual](/docs/Fundamentos/EditorVisual)
-7. **Integra con el mundo** - Conecta tu chatbot por [Canales](/docs/Injertos/CanalesDeComunicacion) y llama a sistemas externos desde [Herramientas](/docs/Fertilizantes)
+6. **Dibuja el flujo** - Ordena los nodos en el [editor visual](/docs/Fundamentos/Flujos)
+7. **Integra con el mundo** - Conecta tu chatbot por [Canales](/docs/Canales/CanalesDeComunicacion) y llama a sistemas externos desde [Herramientas](/docs/Herramientas)
 
 ## Características Principales
 
@@ -44,40 +44,40 @@ El trabajo tuyo es el diseño: qué debe pasar, qué se pregunta y qué se conte
 
 Hay dos puertas, y las dos hablan con las mismas piezas del árbol:
 
-- **El agente de la [consola](/docs/Fundamentos/Testeo).** Le describes el diseño en la pestaña Agente. Usa la clave del proveedor que elijas y unas herramientas que operan el árbol. Puedes exigir confirmación antes de crear, modificar o eliminar.
+- **El agente de la [consola](/docs/Fundamentos/ProbarElBot).** Le describes el diseño en la pestaña Agente. Usa la clave del proveedor que elijas y unas herramientas que operan el árbol. Puedes exigir confirmación antes de crear, modificar o eliminar.
 - **Un asistente de fuera, por [MCP](/docs/Avanzado/Credenciales).** En Credenciales → MCP se crea una clave y se copia la configuración (por ejemplo para Claude Desktop). Ese asistente entra al workspace y usa la app igual: no tienes que recorrer cada formulario.
 
 ### Conversación
 Lo que el bot sabe decir, y en qué orden.
 
-- **[Flujos](/docs/Fundamentos/EditorVisual)**: el lienzo. Cada nodo tiene **Conversación** y **Funcionalidad**.
+- **[Flujos](/docs/Fundamentos/Flujos)**: el lienzo. Cada nodo tiene **Conversación** y **Funcionalidad**.
 - **[Intenciones](/docs/Fundamentos/Intenciones)** y **[entidades](/docs/Fundamentos/Entidades)**: reconocen la frase y sacan los datos. Después hay que entrenar.
 - **[Mensajes](/docs/Fundamentos/Mensajes)**: las respuestas reutilizables, con bloques (texto, botones, carrusel, HTML).
 - **[Capturas](/docs/Fundamentos/Capturas)**: cómo el bot pide un dato que falta, y qué hace si no lo entiende.
-- **[Funciones](/docs/Avanzado/LenguajeDePlantillas)**: lo que se escribe dentro de `{ }`. El `$` distingue una variable de un texto.
+- **[Funciones](/docs/Avanzado/Funciones)**: lo que se escribe dentro de `{ }`. El `$` distingue una variable de un texto.
 
 ### Consola
 El panel de la derecha, para probar el árbol sin publicarlo.
 
-- El chat de prueba y el [modo debug](/docs/Fundamentos/Testeo), con el request y el response partido en parámetros, mensajes y metadata.
+- El chat de prueba y el [modo debug](/docs/Fundamentos/ProbarElBot), con el request y el response partido en parámetros, mensajes y metadata.
 - El **agente constructor**, la puerta de adentro para que la IA arme el diseño.
 - El **constructor de diálogos**, para armar turnos de usuario y de bot.
 
 ### Integración
 Por dónde habla la persona, y a qué sistemas llama el bot.
 
-- **[Canales](/docs/Injertos/CanalesDeComunicacion)**: el widget web para incrustar el chat, y el resto (Telegram, WhatsApp y los demás) desde la misma pantalla.
-- **[Herramientas](/docs/Fertilizantes)**: scripts, APIs, el webhook del workspace y las transferencias a una persona. Se prueban en la misma página.
+- **[Canales](/docs/Canales/CanalesDeComunicacion)**: el widget web para incrustar el chat, y el resto (Telegram, WhatsApp y los demás) desde la misma pantalla.
+- **[Herramientas](/docs/Herramientas)**: scripts, APIs, el webhook del workspace y las transferencias a una persona. Se prueban en la misma página.
 
 ### Operación
 Lo que pasa cuando el bot ya está en uso.
 
 - **Conversaciones**: el historial de lo que se habló.
 - **[Mesa de ayuda](/docs/Avanzado/MesaDeAyuda)**: una persona toma la conversación, contesta y se la puede devolver al bot.
-- **[Pruebas](/docs/Avanzado/Testeo)**: casos de varios turnos que se ejecutan contra el árbol y quedan guardados.
+- **[Pruebas](/docs/Avanzado/Pruebas)**: casos de varios turnos que se ejecutan contra el árbol y quedan guardados.
 
 ## Recursos Adicionales
 
 - [Historial de cambios](/docs/changelog) - Últimas actualizaciones y mejoras
 - [Mejores prácticas](/docs/Fundamentos/MejoresPracticas) - Recomendaciones para crear experiencias conversacionales efectivas
-- [Consola y agente constructor](/docs/Fundamentos/Testeo) - Probar el árbol y pedirle a la IA que lo modifique
+- [Consola y agente constructor](/docs/Fundamentos/ProbarElBot) - Probar el árbol y pedirle a la IA que lo modifique

@@ -21,7 +21,7 @@ Visitante ──► Bot ──► (pide un humano) ──► Cola de la Mesa de 
 5. El operador **cierra** el chat o lo **devuelve al bot**, que retoma la conversación.
 
 :::info Por ahora, el canal Web
-La conversación en vivo entre operador y visitante funciona sobre el [widget web](/docs/Injertos/Web/setup): el operador escribe en la Mesa de Ayuda y el widget lo recibe por WebSocket. Para responder desde un helpdesk externo hay un endpoint de respuesta entrante (ver [más abajo](#helpdesk-externo)).
+La conversación en vivo entre operador y visitante funciona sobre el [widget web](/docs/Canales/Web/setup): el operador escribe en la Mesa de Ayuda y el widget lo recibe por WebSocket. Para responder desde un helpdesk externo hay un endpoint de respuesta entrante (ver [más abajo](#helpdesk-externo)).
 :::
 
 ## Configurar la Transferencia en un Árbol
@@ -118,4 +118,4 @@ El mensaje se guarda en la conversación, se marca como escrito por el agente y 
 1. **Avisa de qué pasa a continuación**: personaliza el mensaje de transferencia (*"Te paso con una persona; suele tardar unos minutos"*).
 2. **Ofrece salida al bot**: si el operador resuelve algo rápido, devolver la conversación al bot evita dejar al visitante esperando en un chat que nadie cierra.
 3. **Prueba el recorrido completo**: pide un humano desde el widget, reclámalo desde la Mesa de Ayuda y cruza un par de mensajes antes de publicarlo.
-4. **Entrena después de cambiar la intención**: recuerda que modificar frases de la intención de transferencia exige [reentrenar](/docs/Avanzado/NLP).
+4. **Entrena después de cambiar la intención**: recuerda que modificar frases de la intención de transferencia exige [reentrenar](/docs/Avanzado/Entendimiento).

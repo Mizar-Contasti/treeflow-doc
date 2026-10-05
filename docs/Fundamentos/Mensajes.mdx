@@ -5,7 +5,7 @@ sidebar_label: Mensajes
 
 # Mensajes
 
-**Mensajes** guarda los textos que el bot puede repetir. Un nodo del [flujo](./EditorVisual) o una [captura](./Capturas) apunta a uno de estos, en vez de escribir el mismo párrafo en cada sitio.
+**Mensajes** guarda los textos que el bot puede repetir. Un nodo del [flujo](./Flujos) o una [captura](./Capturas) apunta a uno de estos, en vez de escribir el mismo párrafo en cada sitio.
 
 Guardar ya deja el texto listo: se lee de la base en cada turno.
 
@@ -39,7 +39,7 @@ En `restaurante_saludo_response` Default es el saludo en texto. Si el canal web 
 
 Dentro de una misma pestaña, cada **Bloque** es una variante. Si hay dos, el bot elige **uno al azar** en cada turno. Un bloque vacío no viaja y no entra en el sorteo. **Agregar Bloque** suma otra variante en la pestaña abierta.
 
-En el texto, de las dos pestañas, caben [funciones](/docs/Avanzado/LenguajeDePlantillas): `{$nombre}`.
+En el texto, de las dos pestañas, caben [funciones](/docs/Avanzado/Funciones): `{$nombre}`.
 
 ## Default
 
@@ -83,5 +83,5 @@ El HTML se limpia antes de pintarse. Pasan títulos, párrafos, enlaces, imágen
 ## Dónde se usa
 
 - En esta lista, con nombre, para reutilizarlo.
-- En el nodo del [flujo](./EditorVisual), pestaña **Conversación**: el texto se escribe ahí o se elige uno de estos mensajes.
+- En el nodo del [flujo](./Flujos), pestaña **Conversación**: el texto se escribe ahí o se elige uno de estos mensajes.
 - En una [captura](./Capturas), como pregunta propia o como mensaje ya guardado.

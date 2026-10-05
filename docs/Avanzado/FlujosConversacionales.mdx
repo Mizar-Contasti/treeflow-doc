@@ -7,7 +7,7 @@ sidebar_label: Flujos
 
 Un flujo es el dibujo de la conversación: nodos y flechas. El árbol puede tener varios. Uno está marcado **Principal** y es el que arranca si en la consola el primer botón dice **Por defecto**.
 
-En Cafetería el principal es **flujo_principal**. **Restaurante** es el mapa del local. La pantalla, botón por botón, está en [Flujos](/docs/Fundamentos/EditorVisual). Esta página recorre ese mapa.
+En Cafetería el principal es **flujo_principal**. **Restaurante** es el mapa del local. La pantalla, botón por botón, está en [Flujos](/docs/Fundamentos/Flujos). Esta página recorre ese mapa.
 
 ## La lista
 
@@ -80,7 +80,7 @@ Hasta que no hay una intención elegida, esta pestaña pide volver a Conversaci�
 
 ![Scripts, herramientas, terminar la captura y el webhook](/img/flujos/funcionalidad.png)
 
-- **Scripts** y **herramientas.** Lo que este paso llama afuera. Se crean en [Herramientas](/docs/Fertilizantes).
+- **Scripts** y **herramientas.** Lo que este paso llama afuera. Se crean en [Herramientas](/docs/Herramientas).
 - **Termina una captura en curso.** Si la persona dice esto mientras el bot pide datos. Activado, la pregunta se da por terminada: cancelar o despedirse. Apagado, que es lo de fábrica, el bot contesta y retoma la pregunta, con lo ya escrito.
 - **Llamar webhook en este nodo.** El webhook del árbol corre al pasar por aquí, antes que las herramientas. Si no hay uno activo, no pasa nada.
 
@@ -94,7 +94,7 @@ El rayo se elige o se escribe. Los que el motor dispara solo son `sys.no-match` 
 
 En Restaurante el mensaje es «Lo siento, no entendí eso. ¿Podrías repetirlo?». La transición es la misma lista que en la intención. Lo habitual es volver al contexto.
 
-En ese mensaje, y en las herramientas y scripts del nodo, la frase que no se entendió está en **`{$last_no_match}`**: `No entendí "{$last_no_match}", ¿puedes decirlo de otra forma?`. No hay que activar nada. Ver [Variables del sistema](/docs/Avanzado/LenguajeDePlantillas#variables-del-sistema).
+En ese mensaje, y en las herramientas y scripts del nodo, la frase que no se entendió está en **`{$last_no_match}`**: `No entendí "{$last_no_match}", ¿puedes decirlo de otra forma?`. No hay que activar nada. Ver [Variables del sistema](/docs/Avanzado/Funciones#variables-del-sistema).
 
 ## Cuando pide una persona
 
@@ -110,4 +110,4 @@ En la consola, el primer botón en **Restaurante**. `hola` cae en `saludo` y con
 
 ![Consola en Restaurante y el lienzo marcado](/img/diseno/recorrido.png)
 
-El detalle del chat está en [Probar el bot](/docs/Fundamentos/Testeo).
+El detalle del chat está en [Probar el bot](/docs/Fundamentos/ProbarElBot).

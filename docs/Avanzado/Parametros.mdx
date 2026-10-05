@@ -63,7 +63,7 @@ cuál. Entonces la pregunta, el mensaje si no se entiende y los reintentos los
 pone la captura, no estos campos.
 
 Puede interpolar otros parámetros ya capturados. La sintaxis completa está en
-[Funciones](/docs/Avanzado/LenguajeDePlantillas):
+[Funciones](/docs/Avanzado/Funciones):
 
 ```
 ¿De qué sabor quieres {$categoria_producto}?
@@ -118,11 +118,11 @@ Has pedido una pizza de tamaño {$tamaño_pizza}
 El `$` es obligatorio: es lo que distingue una variable de un texto. Sin él,
 `{tamaño_pizza}` imprime la palabra "tamaño_pizza".
 
-Al teclear `{$` en el texto de una respuesta sale un [selector con los parámetros que puedes usar](/docs/Avanzado/LenguajeDePlantillas#el-selector-de-variables).
+Al teclear `{$` en el texto de una respuesta sale un [selector con los parámetros que puedes usar](/docs/Avanzado/Funciones#el-selector-de-variables).
 
 Además de los tuyos hay dos parámetros que el motor arma solo, sin crearlos:
 `{$last_utterance}` (lo último que escribió el usuario) y `{$last_no_match}` (la
-última frase que el bot no entendió). Ver [Variables del sistema](/docs/Avanzado/LenguajeDePlantillas#variables-del-sistema).
+última frase que el bot no entendió). Ver [Variables del sistema](/docs/Avanzado/Funciones#variables-del-sistema).
 Si creas un parámetro con uno de esos nombres, el motor lo sustituye.
 
 También funciona dentro de expresiones:
@@ -146,7 +146,7 @@ Dentro de la llave cabe una expresión entera, no sólo una variable:
 | `{$nombre.upper()}` · `{len($nombre)}` | funciones y métodos |
 | `{$api.estado}` · `{$api.items[0]}` | bajar dentro de la respuesta de una herramienta |
 
-El resto —condiciones anidadas, listas y lo que el motor no evalúa— está en [Funciones](/docs/Avanzado/LenguajeDePlantillas).
+El resto —condiciones anidadas, listas y lo que el motor no evalúa— está en [Funciones](/docs/Avanzado/Funciones).
 
 ### En condiciones
 
