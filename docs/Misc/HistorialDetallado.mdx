@@ -1,23 +1,86 @@
 ---
 sidebar_position: 99
 sidebar_label: Historial
-description: Cambios, entrenamientos y el registro de las herramientas, en Gestión.
+description: Cambios, entrenamientos y las ejecuciones de scripts, APIs y webhook.
 ---
 
 # Historial
 
-**Gestión → Historial** es lo que ya pasó en el árbol. El registro de versiones del producto está en el [historial de cambios](/docs/changelog).
+**Gestión → Historial** es lo que ya pasó en el árbol que tienes seleccionado arriba a la izquierda. El registro de versiones del producto está en el [historial de cambios](/docs/changelog). Las copias del árbol no viven aquí: están en [Respaldos](/docs/Avanzado/ImportarExportar).
 
-Tres pestañas.
+Tres pestañas: **Cambios**, **Entrenamientos** e **Integraciones**. Cada una tiene su buscador, sus filtros y el icono de reloj para volver a pedir la lista. En el teléfono el buscador sube a la cabecera.
 
-| Pestaña | Qué deja |
-|---|---|
-| **Cambios** | Quién creó, modificó o borró un flujo, una intención o una entidad, y cuándo |
-| **Entrenamientos** | Cada corrida: modo, estado, duración, y el detalle de intenciones y entidades |
-| **Integraciones** | Las ejecuciones de scripts, APIs y el webhook: si salió bien, el tiempo y el error |
+## Cambios
 
-Arriba se filtra y se actualiza la lista. Un cambio se abre y muestra el antes y el después.
+Quién creó, modificó, borró, activó o desactivó algo, y cuándo.
 
-Los nodos y los mensajes no quedan en **Cambios**. Un entrenamiento que falló se ve en **Entrenamientos**, con el motivo. Si una herramienta no contestó, el detalle está en **Integraciones** y, para un administrador, también en [Diagnósticos](/docs/Avanzado/Diagnosticos).
+![Cambios de Cafetería: un canal actualizado y el árbol creado, con tipo, acción y persona](/img/historial/cambios.png)
 
-Las copias del árbol no viven aquí. Están en [Respaldos](/docs/Avanzado/ImportarExportar).
+Cada fila lleva:
+
+- La **acción**, en una pastilla. Creado y Actualizado van en verde, Activado en azul, Eliminado y Desactivado en rojo.
+- El **árbol**. Si el cambio es de un usuario o del workspace, esa columna dice Usuario o Workspace y el nombre.
+- El **tipo**: Árbol, Flujo, Intención, Entidad, Mensaje, Canal, Usuario o Workspace. También pueden salir Contexto, Evento, Entrenamiento o Conversación, aunque el filtro de tipo no los lista.
+- El **autor**. Si lo hizo el agente, la fila dice que fue el agente y el nombre de quien lo confirmó.
+- La **fecha** y **Ver Detalles**, a la derecha.
+
+Arriba se filtra por tipo, acción y persona, y se busca por el nombre de lo que cambió o por la persona. La lista trae hasta 500 cambios del árbol y los muestra de veinte en veinte.
+
+Un nodo del lienzo no tiene fila propia. Moverlo o editar su texto ahí no aparece. Sí aparece el mensaje, el flujo, la intención, la entidad o el canal si eso se guardó aparte.
+
+### El detalle
+
+**Ver Detalles** abre el antes y el después, lado a lado.
+
+![El canal web pasó de un objeto vacío a enabled true. Antes en amarillo, después en verde](/img/historial/cambio-detalle.png)
+
+- **Información General**, plegada. Trae la acción, el tipo, el nombre, la fecha y el origen: una persona, o el agente y quién lo operó.
+- **Cambios Realizados**. Cuenta cuántos campos se modificaron, se agregaron, se eliminaron o quedaron iguales.
+- **Antes** va a la izquierda, en amarillo. **Después** va a la derecha, en verde.
+- **Ver todo** enseña el objeto completo. **Solo cambios** deja las líneas que difieren.
+- Las flechas expanden o pliegan los objetos. **Copiar Antes** y **Copiar Después** llevan el JSON al portapapeles.
+- El icono de las esquinas pone el cuadro a pantalla completa.
+- **Metadata Adicional**, plegada, es el JSON extra de ese registro: por ejemplo que lo escribió el agente.
+
+## Entrenamientos
+
+Cada vez que se pulsa **Entrenar**.
+
+![Un entrenamiento de Cafetería: Terminado, modo Básico, 2.0 s, el 3 de octubre](/img/historial/entrenamientos.png)
+
+La tarjeta dice:
+
+- **Terminado** (verde), **En Proceso** o **Cancelado**.
+- **Básico** o **Pro**.
+- El árbol, quién lo lanzó, cuánto tardó y a qué hora empezó.
+
+Arriba se filtra por modo (Básico o Pro), por estado y por fechas **Desde** y **Hasta**. El buscador mira el usuario, el modo y las notas. De diez en diez. Al terminar un entrenamiento, esta lista se actualiza sola.
+
+Un clic en la tarjeta, o en **Ver Detalles**, abre el registro.
+
+![Detalle: Cafetería, Admin Principal, Terminado, Básico (TF-IDF), dos fases y 27 intenciones con 52 entidades](/img/historial/entrenamiento-detalle.png)
+
+- **Información General**: árbol, usuario, fecha de inicio, duración, estado y modo. Básico se anota como TF-IDF. Pro, como spaCy NER + SVM.
+- **Timeline de fases**. Básico tiene dos: generar los datos de las intenciones y generar los datos NER. Cada una muestra sus segundos. Pro recorre cuatro.
+- **Cambios aplicados**, en tres pestañas:
+  - **Resumen**: cuántas intenciones y cuántas entidades entraron en esa corrida, y el tiempo total.
+  - **Intenciones**: cada una con el número de frases. Al abrirla se ven las frases.
+  - **Entidades**: cada una con sus valores.
+
+![Las intenciones de esa corrida: saludo con 23 frases, consultar_horario con 20, hacer_pedido con 13](/img/historial/entrenamiento-intenciones.png)
+
+Si el estado es **Cancelado** y hay un motivo, el cuadro lo pinta abajo, en rojo. El botón **Entrenar** del menú es el que lanza la corrida; aquí sólo se consulta.
+
+## Integraciones
+
+Las veces que un script, una API o el webhook **se ejecutaron** en una conversación. No es el historial de quién editó la herramienta: eso, si quedó registrado, está en **Cambios**.
+
+![Integraciones de Cafetería, todavía sin ejecuciones](/img/historial/integraciones.png)
+
+Si el árbol todavía no ha llamado a ninguna, la pantalla dice: «Aún no hay ejecuciones de integraciones registradas para este árbol.»
+
+Cuando hay filas, cada una trae el nombre de la herramienta, **OK** o el código de error, los milisegundos y la fecha. Se filtra por **Exitosos** o **Errores**, y por fechas. El buscador mira el nombre y el texto del error. De veinte en veinte.
+
+Un clic abre el detalle: el estado, el tiempo, la fecha, el mensaje de error si lo hubo, los **parámetros de entrada** que se mandaron y las **salidas** que volvieron. Si una salida no se configuró, esa sección queda vacía.
+
+Para un administrador, el mismo fallo también se puede mirar en [Diagnósticos](/docs/Avanzado/Diagnosticos).
