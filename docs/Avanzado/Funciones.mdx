@@ -73,24 +73,38 @@ La lista trae los **parámetros de las intenciones** del bot que tienes seleccio
 
 ## Variables del sistema
 
-Hay dos que el motor arma solo, en cualquier bot y sin configurar nada:
+El motor deja dos listas en cualquier bot. No se crean en Entidades ni en un parámetro, no se configuran y no se apagan. Al teclear `{$` salen en el selector, marcadas como *Sistema*, junto a los parámetros de las intenciones.
 
 | Variable | Qué contiene |
 |---|---|
-| `{$last_utterance}` | Lo último que escribió el usuario |
-| `{$last_no_match}` | La última frase que el bot **no entendió** |
+| `{$last_utterance}` | Lo último que escribió la persona |
+| `{$last_no_match}` | La última frase que el bot no entendió |
+
+Las dos viven en la sesión: las leen la respuesta, las herramientas y los scripts de este turno, los nodos que vengan después, y el turno siguiente. Si el bot ya tenía un parámetro con uno de esos nombres, el motor lo sustituye.
+
+### `{$last_utterance}`
+
+Se guarda al llegar el mensaje, antes de detectar la intención. En ese mismo turno ya vale lo que acaba de escribir.
 
 ```
-{$last_utterance}   quiero una pizza voladora
-{$last_no_match}    quiero una pizza voladora
+Dijiste "{$last_utterance}".
 ```
 
-Se arman **con la petición**, antes de detectar la intención. Así que en la respuesta, las herramientas y los scripts del turno ya valen lo que el usuario acaba de decir. Sirven, por ejemplo, para que el evento `sys.no-match` le repita la frase: `No entendí "{$last_no_match}", ¿puedes decirlo de otra forma?`
+Si escribió `quiero una pizza voladora`, sale **Dijiste "quiero una pizza voladora".**
 
-- Viven **en la sesión**: los nodos que vengan después las leen, y el turno siguiente también.
-- `{$last_utterance}` cambia en **cada** mensaje; el anterior no se conserva. Un turno sin texto (`sys.no-input`) no la toca.
-- `{$last_no_match}` solo cambia cuando un turno **no se entiende**. Si el usuario dice algo que el bot sí entiende, sigue valiendo la última frase fallida. Mientras no haya habido ningún no-match, la variable no existe.
-- Si un bot ya tenía un parámetro con uno de esos nombres, el motor lo sustituye.
+Cambia en cada mensaje que trae texto. El anterior no se conserva. Un turno sin texto (`sys.no-input`) no la toca.
+
+### `{$last_no_match}`
+
+Se guarda cuando el turno queda en `sys.no-match`, antes de contestar y antes de correr las herramientas y scripts de ese nodo. Sirve para repetirle la frase:
+
+```
+No entendí "{$last_no_match}", ¿puedes decirlo de otra forma?
+```
+
+Si esa frase fue `quiero una pizza voladora`, sale **No entendí "quiero una pizza voladora", ¿puedes decirlo de otra forma?**
+
+Un turno que sí se entiende no la cambia: sigue valiendo la última frase fallida. Mientras no haya habido ningún no-match, la variable no existe y el hueco sale en blanco.
 
 ## Textos
 

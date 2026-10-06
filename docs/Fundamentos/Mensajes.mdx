@@ -39,7 +39,20 @@ En `restaurante_saludo_response` Default es el saludo en texto. Si el canal web 
 
 Dentro de una misma pestaña, cada **Bloque** es una variante. Si hay dos, el bot elige **uno al azar** en cada turno. Un bloque vacío no viaja y no entra en el sorteo. **Agregar Bloque** suma otra variante en la pestaña abierta.
 
-En el texto, de las dos pestañas, caben [funciones](/docs/Avanzado/Funciones): `{$nombre}`.
+En el texto, de las dos pestañas, caben [funciones](/docs/Avanzado/Funciones): `{$nombre}` lee un parámetro de una intención.
+
+Además, el motor deja dos variables en cualquier bot. No hay que crearlas. Al teclear `{$` salen en el selector, marcadas como *Sistema*.
+
+| Variable | Qué contiene |
+|---|---|
+| `{$last_utterance}` | Lo último que escribió la persona. Cambia en cada mensaje |
+| `{$last_no_match}` | La última frase que el bot no entendió. Un turno entendido no la cambia |
+
+```
+No entendí "{$last_no_match}", ¿puedes decirlo de otra forma?
+```
+
+Cuándo se guarda cada una, y qué pasa si todavía no hubo un no-match, está en [Variables del sistema](/docs/Avanzado/Funciones#variables-del-sistema).
 
 ## Default
 

@@ -37,6 +37,21 @@ La misma sintaxis cabe en la pregunta de un parámetro o de una captura.
 ¿Cuántas {$categoria_producto}s de {$sabor_producto} te preparo?
 ```
 
+## Las que ya vienen
+
+No hace falta crearlas. En cualquier mensaje el motor deja dos:
+
+| Variable | Qué contiene |
+|---|---|
+| `{$last_utterance}` | Lo último que escribió la persona |
+| `{$last_no_match}` | La última frase que el bot no entendió |
+
+```
+No entendí "{$last_no_match}", ¿puedes decirlo de otra forma?
+```
+
+Al teclear `{$` salen en el selector, marcadas como *Sistema*. Cuándo cambia cada una está en [Variables del sistema](/docs/Avanzado/Funciones#variables-del-sistema).
+
 ## Comprobarlo
 
 Abre la consola, flujo **Restaurante**, canal **Por defecto**. Completa el pedido. La respuesta debe nombrar lo capturado.

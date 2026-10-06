@@ -107,7 +107,7 @@ El rayo es lo que pasa sin que una intención haya calzado.
   - `sys.no-match`, cuando en este contexto no reconoció la frase.
   - `sys.no-input`, cuando no llegó nada.
   - Un nombre propio, si otro paso lo dispara. Si ese nombre ya está en otro nodo de evento del flujo, queda **En uso**.
-- **Respuesta.** El mensaje de ese caso. Se manda después de las herramientas del nodo. `sys.no-match` suele llevar el «no entendí».
+- **Respuesta.** El mensaje de ese caso. Se manda después de las herramientas del nodo. `sys.no-match` suele llevar el «no entendí». En ese mensaje la frase que no calzó está en `{$last_no_match}`, y lo último que escribió la persona, en `{$last_utterance}`. No hay que activarlas. Ver [Variables del sistema](/docs/Avanzado/Funciones#variables-del-sistema).
 - **Transición.** Igual que en la intención: un contexto, otro flujo, reiniciar este, o una persona. Lo habitual es volver al contexto donde se puede seguir hablando.
 
 **Funcionalidad**
