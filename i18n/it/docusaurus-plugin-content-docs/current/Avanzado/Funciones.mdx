@@ -1,0 +1,250 @@
+---
+sidebar_position: 2
+sidebar_label: Funzioni
+---
+
+# Funzioni
+
+Tutto ciò che il bot dice può portare una funzione dentro `{ }`. Si riempie al momento: i messaggi, le domande di un parametro, gli URL e i corpi degli strumenti, i blocchi HTML.
+
+C'è **una sola sintassi**:
+
+> Apri `{`, dentro metti un'espressione, chiudi `}`.
+> Dentro, il **`$` distingue una variabile da un testo**.
+
+```
+{$nombre}     el valor de la variable nombre
+{nombre}      la palabra "nombre"
+```
+
+In Cafetería, il messaggio dell'ordine è una funzione. Se c'è già un ordine, lo nomina. Se no, chiede che cosa preparare.
+
+![restaurante_hacer_pedido_response: la funzione con $pedido e l'if](/img/funciones/mensaje.png)
+
+```
+{("¡Listo! Anoté " + $pedido + ". Te lo preparamos enseguida.") if $pedido else "¡Con gusto! ¿Qué te preparo?"}
+```
+
+| È arrivato | Esce |
+|---|---|
+| `$pedido` = `2 empanadas de queso` | ¡Listo! Anoté 2 empanadas de queso. Te lo preparamos enseguida. |
+| `$pedido` vuoto | ¡Con gusto! ¿Qué te preparo? |
+
+## Variabili
+
+`{$nombre}` stampa il valore. Gli spazi non contano.
+
+```
+{$nombre}                    Ana
+{ $nombre }                  Ana
+{$nombre.original_value}     ANA     · cómo lo escribió la persona
+{$nombre.key_value}          ana     · el valor normalizado
+```
+
+Una variabile che non esiste resta vuota. Non rompe il messaggio.
+
+La domanda della quantità, in `hacer_pedido`, inserisce ciò che è già stato acquisito:
+
+![Domanda di numero: {$categoria_producto} e {$sabor_producto}](/img/funciones/pregunta.png)
+
+```
+¿Cuántas {$categoria_producto}s de {$sabor_producto} te preparo?
+```
+
+Nella console, con il flusso **Restaurante**, «quiero empanada de queso» non porta ancora il gusto. La domanda del gusto usa la categoria che è arrivata:
+
+![La console sostituisce la categoria: ¿De qué sabor quieres empanada?](/img/funciones/consola.png)
+
+Quando poi dice «queso», la domanda della quantità esce già composta: **¿Cuántas empanadas de queso te preparo?**
+
+### Il selettore di variabili {#el-selector-de-variables}
+
+Non serve ricordarsi i nomi. Digitando un `$` dentro delle parentesi graffe, `{$`, esce un elenco con le variabili che puoi usare, e si filtra man mano che scrivi.
+
+![Il selettore di variabili: scrivendo last_ esce l'elenco con le due variabili di sistema](/img/funciones/selector.png)
+
+- **Frecce** per spostarti, **Invio** o **Tab** per scegliere, **Escape** per chiudere l'elenco.
+- Puoi anche fare clic su una.
+- Scegliendo una variabile da sola, la parentesi si chiude da sé: `{$no` → `{$nombre}`. Dentro un'espressione (`{$edad > 18 ? $no`) non si chiude, perché ciò che segue lo scrivi tu.
+- Non distingue maiuscole né accenti.
+- Dietro un punto (`{$api.`) non suggerisce: lì stai già leggendo dentro il valore.
+
+L'elenco porta i **parametri degli intenti** del bot che hai selezionato, con l'intento da cui escono, e le due variabili di sistema, marcate come *Sistema*. Compare nei testi delle risposte, sia nel messaggio di testo sia nei paragrafi degli elementi avanzati.
+
+## Variabili di sistema {#variables-del-sistema}
+
+Il motore lascia due elenchi in qualsiasi bot. Non si creano in Entità né in un parametro, non si configurano e non si spengono. Digitando `{$` escono nel selettore, marcate come *Sistema*, accanto ai parametri degli intenti.
+
+| Variabile | Che cosa contiene |
+|---|---|
+| `{$last_utterance}` | L'ultima cosa che ha scritto la persona |
+| `{$last_no_match}` | L'ultima frase che il bot non ha capito |
+
+Entrambe vivono nella sessione: le leggono la risposta, gli strumenti e gli script di questo turno, i nodi che vengono dopo, e il turno successivo. Se il bot aveva già un parametro con uno di quei nomi, il motore lo sostituisce.
+
+### `{$last_utterance}`
+
+Si salva all'arrivo del messaggio, prima di rilevare l'intento. In quello stesso turno vale già ciò che è appena stato scritto.
+
+```
+Dijiste "{$last_utterance}".
+```
+
+Se ha scritto `quiero una pizza voladora`, esce **Dijiste "quiero una pizza voladora".**
+
+Cambia a ogni messaggio che porta testo. Il precedente non si conserva. Un turno senza testo (`sys.no-input`) non la tocca.
+
+### `{$last_no_match}`
+
+Si salva quando il turno resta in `sys.no-match`, prima di rispondere e prima di eseguire gli strumenti e gli script di quel nodo. Serve a ripetergli la frase:
+
+```
+No entendí "{$last_no_match}", ¿puedes decirlo de otra forma?
+```
+
+Se quella frase è stata `quiero una pizza voladora`, esce **No entendí "quiero una pizza voladora", ¿puedes decirlo de otra forma?**
+
+Un turno che si capisce non la cambia: continua a valere l'ultima frase fallita. Finché non c'è stato nessun no-match, la variabile non esiste e lo spazio esce vuoto.
+
+## Testi
+
+Una parola senza `$` è testo. Le virgolette singole e quelle inverse si trattano come doppie.
+
+```
+{"hola"}     hola
+{'hola'}     hola
+{`hola`}     hola
+{hola}       hola
+```
+
+Questo conta nel confronto:
+
+```
+{$color == rojo}       compara con el texto "rojo"
+{$color == $otro}      compara con otra variable
+```
+
+`{$sabor == queso}` è vero se il gusto acquisito è queso. `{$sabor == $otro}` confronta due variabili.
+
+## Condizioni
+
+```
+{$edad > 18 ? "adulto" : "menor"}            adulto
+{if $edad > 18 ? "adulto" : "menor"}         adulto   · el "if" delante es opcional
+{$edad > 18 ? "adulto"}                      adulto   · sin la otra rama, si no se cumple no sale nada
+```
+
+L'ordine di sopra è lo stesso meccanismo: `if $pedido` sceglie il testo di conferma; se non c'è ordine, sceglie la domanda.
+
+Si possono annidare con parentesi:
+
+```
+{ $a > 1 ? ($b > 1 ? "los dos" : "sólo a") : "ninguno" }
+```
+
+E comporre con testo intorno:
+
+```
+{ "Tienes " + $n + " mensajes" }
+{ $nombre + ", el mayor es " + ($a if $a > $b else $b) }
+```
+
+La prenotazione fa lo stesso con il contatto. Se è arrivato, lo nomina. Se no, la conferma non lo menziona:
+
+```
+{("Te confirmamos a " + $contacto + ".") if $contacto else ""}
+```
+
+## Calcoli
+
+Due numeri si sommano. Un numero accanto a un testo si attacca.
+
+```
+{$precio * 120}          18000      · si precio es 150
+{$a + $b}                10         · si a es 6 y b es 4
+{"Total: " + $a}         Total: 3   · con texto, se concatena
+{$b - $a}                4
+{round($precio, 2)}      150.4
+```
+
+Un prezzo di menu sta nella risposta così:
+
+```
+{ "Son $" + ($precio * $numero) + " por " + $numero + " " + $categoria_producto }
+```
+
+Con prezzo `45` e numero `2` esce **Son $90 por 2 empanada**.
+
+## Funzioni e metodi
+
+| Scrivi | Che cosa fa | Esempio |
+|---|---|---|
+| `{len($nombre)}` | quanti **caratteri** ha | `Ana` → `3` |
+| `{count($producto)}` | quante **volte** l'ha detto nella frase | due prodotti → `2` |
+| `{round($x)}` `{round($x, 2)}` | arrotondare | `150.36` → `150.36` o `150` |
+| `{min($a,$b)}` `{max($a,$b)}` `{abs($x)}` `{sum($lista)}` | quelli di sempre | |
+| `{str($x)}` `{int($x)}` `{float($x)}` `{bool($x)}` | convertire | |
+| `{$nombre.upper()}` | maiuscole | `ana` → `ANA` |
+| `{$nombre.capitalize()}` | prima in maiuscola | `ana` → `Ana` |
+| `{$texto.strip()}` | toglie gli spazi ai bordi | |
+
+`len()` e `count()` non misurano la stessa cosa. `len($nombre)` con Ana dà **3**. `count($producto)` dà **2** se nella stessa frase ha nominato due prodotti.
+
+## Quando la persona ripete qualcosa
+
+Se in una frase stanno più valori dello stesso parametro, si indicizzano:
+
+```
+{$producto[0]}        el primero
+{$producto[1]}        el segundo
+{count($producto)}    cuántos vinieron
+{$producto}           el primero, como siempre
+```
+
+«quiero una empanada y un café» può lasciare due prodotti. `{$producto[0]}` è il primo e `{$producto[1]}` il secondo. `{$producto[0]}` funziona anche quando ne è arrivato uno solo: un parametro semplice si comporta come un elenco di uno.
+
+`{$pedido}` di una composta non stampa la struttura. Stampa il riepilogo leggibile, per esempio **2 empanadas de queso**.
+
+## Risposte degli strumenti
+
+Uno strumento può salvare l'intera risposta in un parametro. Si scende dentro con punti e indici:
+
+```
+{$api}                 el objeto entero, como JSON
+{$api.estado}          un campo
+{$api.items[0]}        el primer elemento de una lista
+{$api.items}           la lista
+```
+
+Se lo strumento ha lasciato `{"estado": "listo", "items": ["empanada", "café"]}` in `$api`:
+
+| Scrivi | Esce |
+|---|---|
+| `{$api.estado}` | listo |
+| `{$api.items[0]}` | empanada |
+| `{$api}` | `{"estado": "listo", "items": ["empanada", "café"]}` |
+
+## Ciò che il motore non tocca
+
+Si valuta solo ciò che sembra codice. Questo passa intatto:
+
+```
+<style>.tarjeta { color: red; padding: 4px }</style>     el CSS de un bloque HTML
+{"cliente": "Ana", "cantidad": 2}                        un cuerpo JSON
+^\d{4}-\d{2}-\d{2}$                                      una regex
+```
+
+Uno spazio **dentro** un JSON sì si risolve. È il corpo di uno strumento:
+
+```
+{"cliente": "{$nombre}", "id": {$id}}
+```
+
+esce come `{"cliente": "Ana", "id": 42}`. In un HTML, `<b>{$nombre}</b>` esce `<b>Ana</b>` e il CSS accanto non si tocca.
+
+## Limitazioni
+
+- Non si possono mettere parentesi graffe letterali dentro una stringa di un'espressione. In `{ "el formato es {a}" }`, quel `{a}` è uno spazio come qualsiasi altro.
+- `{5}` non si valuta. Un numero da solo si lascia così com'è, perché `\d{3}` in una regex è un quantificatore. I numeri contano dentro un'espressione: `{$a > 5}`.
+
+I parametri si usano dalle [risposte](/docs/Avanzado/Parametros#en-respuestas) e dalle [acquisizioni](/docs/Fundamentos/Capturas).

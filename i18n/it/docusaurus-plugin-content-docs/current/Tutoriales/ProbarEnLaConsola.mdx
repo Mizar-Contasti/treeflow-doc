@@ -1,0 +1,61 @@
+---
+sidebar_position: 2
+sidebar_label: Provare nella console
+---
+
+# Provare nella console
+
+La console è la chat di prova. Non pubblica l'albero. In Cafetería si apre con il pulsante arancione, in basso a destra.
+
+Prima deve esistere l'albero. Se ancora non c'è, inizia da [Creare un albero](./CrearChatbotBasico).
+
+## Prima di scrivere
+
+Il fulmine del menu è **Addestra**. In verde, l'addestramento è aggiornato. Se l'albero non è mai stato addestrato, il campo di testo resta spento.
+
+![Pannello di Cafetería, con l'addestramento aggiornato](/img/intro/panel.png)
+
+## Aprirla
+
+Sopra la conversazione c'è una barra.
+
+![La console: il flusso, il canale e il campo per scrivere](/img/testeo/consola.png)
+
+1. Il primo pulsante è il flusso. Per la mappa del locale, scegli **Restaurante**. Cambiarlo riavvia la conversazione in quel flusso.
+2. Il secondo è il canale. **Predefinito** invia il testo della scheda Default. **Web** invia la scheda Web del messaggio, se ha contenuto.
+3. Scrivi e invia.
+
+`hola` cade nell'intento `saludo` e risponde con il benvenuto.
+
+![hola e la risposta del bot](/img/testeo/turno.png)
+
+La freccia circolare riavvia. La freccia indietro annulla l'ultimo turno.
+
+## Vedere come ha deciso
+
+L'insetto attiva la modalità debug e diventa giallo. Prima della risposta compare una riga: l'intento, la confidenza e come ha coinciso. Il terzo dato può essere entità, pattern, modello, oppure `no_match` se non ha riconosciuto la frase.
+
+![Modalità debug: l'intento, la confidenza e il nodo evidenziato](/img/testeo/debug.png)
+
+Un clic sulla tua bolla apre quello che è stato inviato. Un clic su quella del bot apre quello che ha risposto il motore.
+
+| Vista | Che cosa lascia |
+|---|---|
+| Tutto | il JSON completo |
+| Parameters | i dati acquisiti e quelli della sessione |
+| Messages | il testo della persona o la risposta del bot |
+| Metadata | intento, tempi, sessione, strumenti, sentimento |
+
+![La response: intento, parametri e testo](/img/testeo/detalle.png)
+
+La tela del flusso si apre e segna il nodo di questo turno.
+
+![Console in Restaurante e la tela evidenziata](/img/diseno/recorrido.png)
+
+## Se non torna
+
+- L'intento non è quello che ti aspettavi. Il pattern o l'ordine di comprensione ne ha scelto un altro. La matita del turno apre quell'intento.
+- Esce `no_match`. Nessun intento di questo flusso ha corrisposto. Il percorso è l'evento `sys.no-match`.
+- Hai cambiato intenti o entità. Addestra di nuovo. Un messaggio o un'acquisizione si leggono al salvataggio: per questo non serve addestrare.
+
+Il dettaglio di ogni controllo è in [Provare il bot](/docs/Fundamentos/ProbarElBot).

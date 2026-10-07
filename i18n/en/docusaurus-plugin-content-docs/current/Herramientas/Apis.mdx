@@ -1,0 +1,80 @@
+---
+sidebar_position: 3
+sidebar_label: APIs
+description: HTTP calls. The catalog of ten templates, and the editor, field by field.
+---
+
+# APIs
+
+The second tab. Each card is an HTTP call. Cafetería already has three: `picsum_image`, `gcp`, and `gemini_explainer`. The search box says **Search APIs…**. **Create Tool** opens an empty one. **Templates** opens the catalog.
+
+![Cafetería APIs](/img/herramientas/apis-lista.png)
+
+The tree has a cap. When you reach it, **Create Tool** is replaced by the limit notice.
+
+## The catalog
+
+It is called **Tool template catalog**. Ten cards. Each one shows the method (GET or POST), how many inputs and outputs it has, and whether it includes Bearer authentication. **Preview** shows the URL and the body. **Use template** copies it into this tree.
+
+![The ten templates, with the method and the authentication](/img/herramientas/apis-plantillas.png)
+
+### The ones that call a public service
+
+They do not ask for a key. The URL already points at the service.
+
+| Template | Method | What it asks for | What it returns |
+|---|---|---|---|
+| Real-time weather forecast (Open-Meteo) | GET | `latitud`, `longitud` | `temperatura`, `velocidad_viento`, `hora_medicion` |
+| Exchange rate and currency conversion | GET | `moneda_base` (USD, EUR, MXN) | `tasa_mxn`, `tasa_eur`, `tasa_usd`, `fecha_actualizacion` |
+| Postal code and locality lookup (Zippopotam) | GET | `codigo_postal` for Mexico, 5 digits | `estado`, `colonia`, `pais` |
+
+### The ones that ship with an example server
+
+The URL is `api.ejemplo.com`. Change it to the real system's URL before you test. The body and the variable names are already filled in.
+
+| Template | Method | What it does |
+|---|---|---|
+| Support / CRM ticket creation | POST | Opens a ticket with subject, description, priority, name, email, and phone. Returns `ticket_id`, `estado`, and `tiempo_estimado` |
+| Appointment and reservation scheduling | POST | Books with customer, service, date, time, and store. Returns `codigo_reserva`, `estado_cita`, and `especialista` |
+| Product stock and price lookup | POST | Stock and price from a SKU and a store. Returns `stock_disponible`, `precio_unitario`, `nombre_producto`, and `tiene_stock` |
+| Shipment tracking | GET | Status, estimated date, and last location for a tracking number and a carrier |
+| Payment link / checkout generation | POST | Creates a charge and returns `url_pago`. Includes Bearer authentication |
+| SMS / WhatsApp message sending | POST | Sends a notice by `whatsapp` or `sms` to a number. Includes Bearer. It is not the bot's WhatsApp [channel](/docs/Canales/CanalesDeComunicacion) |
+| Authentication and JWT token retrieval | POST | Requests `token_acceso` with `client_id` and `client_secret` |
+
+## The editor
+
+The same five tabs as a script. On **Code** there is no Python: there is the call.
+
+![picsum_image: URL with {$image_id}, GET method, timeout 15000, and authentication none](/img/herramientas/apis-editor.png)
+
+**General information**
+
+- **Name.** How it shows up on the card and on the node.
+- **Description.** A reminder of what it is for. The person does not see it.
+- **URL.** A variable is written `{$image_id}`. A condition also fits: `{ $valor ? 'Sí' : 'No' }`. It is the same syntax as in a [message](/docs/Avanzado/Funciones).
+- **Method.** GET, POST, PUT, PATCH, or DELETE.
+- **Timeout.** Milliseconds before the call is treated as failed. In `picsum_image` it is 15000. In the default webhook, 30000.
+- **Authentication type.** None, Basic (username and password), or Bearer (a token).
+
+If the method has a body, the JSON is below. The notice on the screen says so: `{$variable}` inserts the value. **Format JSON** tidies the text.
+
+**Message if it fails** is what the person receives when the call does not respond or does not bring the value, and the output has no fallback value. Empty, the default for the conversation language is used.
+
+### Input
+
+One row per value that the URL or the body will ask for. **Name**, **type**, **test value** (that is what **Tests** runs with), and **fallback value** if it did not arrive in the conversation.
+
+In `picsum_image` the only input is `image_id`, type String, test value `237`.
+
+### Output
+
+One row per value you want to save from the response. **JSON Path** is the path inside the JSON, for example `$.download_url` or `$.current_weather.temperature`. **Fallback value** is used if that path did not arrive.
+
+### Tests and deploy
+
+**Run test** makes the real call, with the test values, and shows the JSON. **Deploy now** puts it in the node's **Add tool…**. Without deploying, the node does not list it.
+
+## On the node
+
+**Functionality** tab, **Add tool…**. It runs after the scripts and the webhook, once the turn already has its data. The **≠** on each row changes the session variable name. In the message it is read as `{$temperatura}`.

@@ -1,0 +1,67 @@
+---
+sidebar_position: 9
+sidebar_label: Captures
+---
+
+# Captures
+
+Une **capture** est la façon de demander une donnée, enregistrée sous un nom pour la réutiliser dans plusieurs [paramètres](/docs/Avanzado/Parametros). Le paramètre dit laquelle manque. La capture dit comment on la demande, quoi répondre si on ne comprend pas, et combien de fois insister.
+
+Elle vit dans **Conversation → Captures**.
+
+## La liste
+
+En haut, on cherche par nom. **Nouvelle capture** ouvre l'éditeur vide.
+
+![Liste des captures : Contacto, Descripción, Elegir con botones, Nombre et Texte libre](/img/capturas/lista.png)
+
+- Un clic sur le nom ouvre la capture.
+- La bande orange demande une confirmation pour la supprimer. Les paramètres qui l'utilisaient reviennent à leur propre question.
+
+## L'éditeur
+
+En haut à droite, **Enregistrer**. L'onglet s'appelle **Capture**.
+
+![Contacto : nom, question, message si on ne comprend pas, deux tentatives et passage au paramètre suivant](/img/capturas/editor.png)
+
+### Nom
+
+C'est ainsi qu'elle apparaît dans la liste et dans le paramètre, lorsqu'on coche **Utiliser une capture définie**.
+
+### Question
+
+Ce que le bot dit pour demander la donnée. Le sous-titre le dit de la même façon : « Ce que le bot dit pour demander la donnée. »
+
+Le champ **Message** choisit d'où elle vient :
+
+- **Message personnalisé.** Le texte ou les blocs s'écrivent ici, avec les mêmes onglets que dans [Messages](./Mensajes) : Default en texte, et Web avec des éléments enrichis si besoin. `Elegir con botones` est de ce type : la question apporte des boutons.
+- **+ Créer un modèle.** Crée un message dans la liste des Messages et le laisse sélectionné.
+- Un modèle qui existe déjà, par son nom. Le crayon l'ouvre. La croix le retire de cette capture.
+
+Dans `Contacto`, la question personnalisée est `¿Me das tu correo o tu teléfono?`.
+
+### Si on ne comprend pas
+
+Ce qu'il répond lorsque la réponse ne remplit pas la donnée, et ce qu'il fait une fois les tentatives épuisées. Le message se choisit comme la question : personnalisé ou modèle.
+
+Dans `Contacto` : `Necesito un correo o un número de teléfono.`
+
+**Max. tentatives.** Combien de fois ce message se répète avant l'action de limite. Dans `Contacto`, c'est 2.
+
+**Action au dépassement de la limite.**
+
+| Action | Ce qu'elle fait |
+|---|---|
+| Passer au paramètre suivant | Laisse celui-ci et demande un autre qui manque |
+| Répondre même si la valeur manque | Continue avec ce qu'il y a |
+| Aller au nœud de contexte | Abandonne la question et revient au flux |
+
+Dans la question et dans le message « si on ne comprend pas », des [fonctions](/docs/Avanzado/Funciones) ont leur place : `{$nombre}`.
+
+## Dans le paramètre
+
+La capture ne se déclenche pas toute seule. Dans l'[intention](./Intenciones), le paramètre est marqué **Requis** et, dans ses réglages, **Utiliser une capture définie**. On y choisit le nom. Le crayon ouvre cette même capture. La croix la détache de ce paramètre.
+
+Avec la capture en place, la question, le « si on ne comprend pas » et les tentatives viennent d'ici. Ces champs ne s'éditent plus dans le paramètre.
+
+**Oublier cette valeur en retombant sur cette intention** reste dans le paramètre, pas dans la capture. Chaque fois que l'intention s'active, cette donnée se vide et il faut la redemander.

@@ -1,0 +1,166 @@
+---
+sidebar_position: 6
+sidebar_label: Intents
+---
+
+# Intents
+
+In the menu they are called **Intents**. They are what the engine recognizes in an utterance. The path of the conversation is something else: it lives in the [flows](./Flujos).
+
+An intent stores three things:
+
+- a **name**, the identifier
+- the **patterns**, example utterances
+- the **parameters**, the data extracted from those utterances
+
+What the bot answers is written on the intent node of the flow, and the reusable texts in [Messages](./Mensajes).
+
+## The list
+
+**Intents** opens the cards. At the top you can search by name. The tab is **Conversational**: each card is an intent that opens and can be edited.
+
+![Intent list: search, cards, and New Intent](/img/intenciones/lista.png)
+
+- **New Intent** creates an empty one.
+- A click on the name opens the editor.
+- The orange strip asks for confirmation before deleting it. The intent, its patterns, and its parameters go with it.
+- If there are many, the pages are at the bottom. How many fit on a page is configured on the [tree](./Arboles), under **Pagination**.
+
+## Create one
+
+**New Intent** asks only for the name. The **Conversational** chip shows the type: it is the only one this screen creates.
+
+![New Intent: the name and the conversational type](/img/intenciones/crear.png)
+
+The name is an identifier. While you type, spaces and punctuation become `_`. When you press **Create intent** it is stored in lowercase and without accents: `Consulta de precio` comes out as `consulta_de_precio`. The `ñ` is kept.
+
+The card appears in the list, empty. You have to open it to add patterns.
+
+## The editor
+
+At the top right, **Save changes** writes the intent. **Clear all** empties the patterns and parameters of this intent; it asks for confirmation.
+
+![Editor for hacer_pedido: the name and the patterns, with the data already highlighted](/img/intenciones/editor.png)
+
+The **Intent name** field is the same identifier. If the tree has more than one language, the languages appear next to the name: each one edits its own patterns.
+
+## Patterns
+
+A pattern is an utterance that should activate this intent. The more natural forms there are, the better the engine recognizes it. In `hacer_pedido` there are `quiero ordenar 2 empanada de carne para comer aquí`, `ordenan 2 empanada de carne`, and `dame 2 empanada de carne`.
+
+Each row can be corrected in place. **Enter** closes the edit. The copy icon duplicates the text; the trash icon removes that utterance.
+
+Below, the field **Type a new pattern and press Enter** adds an utterance. **Add pattern** opens the box for a longer utterance.
+
+![New pattern: one utterance, or several separated by commas](/img/intenciones/nuevo-patron.png)
+
+If the text contains commas, each piece comes in as a separate pattern. `hola, buenas tardes` creates two.
+
+When there are many utterances, the **Patterns** header shows the range and the pages, for example `1–10 / 47`.
+
+Colored words are already tied to an [entity](./Entidades). In the screenshot, `quiero` is tied to `verbo_deseo`. The color of the word is the same as the parameter's bar.
+
+That can happen without writing anything special: when you save the utterance, the editor marks the words that already match a value or a synonym of some entity.
+
+## Mark a piece of data
+
+To force the mark, type `@` with a space before it. **Edit Highlight** opens.
+
+![When you type @ you choose the entity for that fragment](/img/intenciones/arroba.png)
+
+1. **Select entity.** The list is the one from Entities, including the system ones (`sys.number`, `sys.time`, `sys.date`…).
+2. **Text.** The fragment that stays marked. If you opened the box with `@`, the text starts with `@`: change it to the word, for example `pizzas`.
+3. How the word is saved on the entity:
+   - **Add as synonym.** Adds it to the synonyms of the first value.
+   - **Add as a new row.** Creates a new value on the entity.
+   - **Add as a reference.** Only marks this fragment. The entity does not change.
+
+A system entity only accepts **Add as a reference**. A composite one does too. If the word already existed on the entity, it stays as a reference.
+
+You can also type the reference by hand: `@producto`. With another parameter name, `@producto:producto_pedido`: the entity is `producto` and the parameter is called `producto_pedido`.
+
+When you mark it, if that entity did not yet have a parameter on the intent, one is created.
+
+A click on a word that is already highlighted opens **Entity in the pattern**. There you see the entity and the text. **Delete** removes the mark from that fragment; the entity still exists.
+
+![Click on a highlighted word: the entity, the text, and removing the mark](/img/intenciones/marca.png)
+
+## Parameters
+
+A parameter is the data the intent keeps: the product, the quantity, the date. At the bottom of the editor, each row has the **parameter name**, the **entity**, and three icons.
+
+![Parameters of hacer_pedido: the orden data, with the composite entity of the same name](/img/intenciones/parametros.png)
+
+- **Parameter name.** This is how it is used later in responses, as `{$producto_pedido}`. If it is left empty, the entity name is used.
+- **Entity.** Where the value comes from. You search the list or type it.
+- The pencil opens that entity. On a system one, such as `sys.number`, the pencil is off: they are not edited.
+- The gear opens **Parameter settings**.
+- The trash removes the parameter from this intent.
+
+**Add parameter** asks for the name and the entity, without going through a pattern. It is useful when the data will be asked for and does not need to be written in an example utterance.
+
+The color bar of the row is the same as the highlighted words in the patterns.
+
+If the entity is composite, its sub-parameters appear under the row. The checkbox to forget the value is on each sub-parameter.
+
+The order in which the engine tries an utterance — exact entity, approximate entity, pattern, model — is in [Trees](./Arboles), under **Understanding**.
+
+## Parameter settings
+
+The gear opens this. **Save** closes the box; the intent is persisted with the editor's **Save changes**.
+
+![Settings for numero, on reservar_mesa: required, the question, the fallback, and the attempt limit](/img/intenciones/ajustes.png)
+
+**Parameter name** and **Default value.** The default value is used if the person does not say it. With a default value, the parameter does not hold up the conversation.
+
+**Required.** If the value is missing, the bot asks for it before continuing. That is slot filling. The rest of the fields below appear when it is checked.
+
+**Forget this value when this intent is reached again.** The next time the intent activates, it does not reuse the previous value.
+
+- If there is a default value, it goes back to that value.
+- If it is required, it asks again, even if it already had it or it comes in the utterance.
+- If it is not required, it discards it and it is filled only if it comes in the new utterance.
+
+**Use a defined capture.** The question, the "if it is not understood" message, and the retries come from a [capture](./Capturas). The parameter only chooses which one. The pencil opens that capture; the X detaches it.
+
+Without a capture, these fields belong to the intent:
+
+**Can be captured again during slot filling.** While there is still data left to ask for, any utterance can fill or change this parameter, even if the bot is asking for another one. If it asks for the quantity and the person says "cheese instead", the product changes and the quantity is still asked for.
+
+**Ask with a rich block.** Off, the **Question** is text: `¿Qué producto te gustaría pedir?`. On, the question is built with blocks, the same as in Messages: a button's text is what fills the data.
+
+[Functions](/docs/Avanzado/Funciones) fit in the question, for example `{$categoria_producto}`.
+
+**If it is not understood.** What it says when the answer does not fill the data. In the example: `No entendí el producto. ¿Podrías decirme qué deseas? Por ejemplo: pizza, hamburguesa…`
+
+**Max attempts.** How many times it repeats that message before the limit action. `1` means one retry.
+
+**Action when the limit is exceeded.**
+
+| Action | What it does |
+|---|---|
+| Move on to the next parameter | Leaves this one and asks for another one that is missing |
+| Reply even if the value is missing | Continues with whatever it has |
+| Go to the context node | Abandons the question and returns to the flow |
+
+**Allow another intent while asking for this data.** If what they write matches another intent, the bot handles it and leaves this capture. If it does not match, it counts as a failure and sends the "if it is not understood" message.
+
+The details of how they are filled, interpolated, and abandoned are in [Parameters](/docs/Avanzado/Parametros).
+
+## Where it is used
+
+The value stays in the conversation under the parameter name. A node response, a message, or a tool reads it with `{$producto_pedido}`. The `$` is what distinguishes it from fixed text.
+
+The utterance the bot says when it recognizes the intent is configured on the [flow](./Flujos) node, on the **Conversation** tab. If nobody understands it, the path is that flow's event node, not a field on this screen.
+
+## Train
+
+**Save changes** leaves the tree out of date. New patterns enter the conversation when you train: the **Train** button, at the bottom of the menu, the lightning bolt. Until then the [console](/docs/Fundamentos/ProbarElBot) keeps using the previous training.
+
+## How to build them
+
+- A name that states the action: `consultar_becas`, `hacer_pedido`, `solicitar_hora`.
+- Utterances the way a person says them, not one formula repeated.
+- One intent, one action. `saludo` and `hacer_pedido` kept separate hold up better than one intent that does both.
+- The required parameter has a question and an "if it is not understood" that gives an example.
+- After saving, train, and test the utterance in the console.

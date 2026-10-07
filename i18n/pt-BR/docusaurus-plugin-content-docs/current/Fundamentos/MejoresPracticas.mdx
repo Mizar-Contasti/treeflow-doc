@@ -1,0 +1,64 @@
+---
+sidebar_position: 12
+sidebar_label: Boas práticas
+---
+
+# Boas práticas
+
+Isto é o que evita que uma árvore responda outra coisa. O exemplo é o fluxo **Restaurante** da Cafetería.
+
+## Várias frases, uma intenção
+
+Uma intenção é um cenário, não uma redação. `hacer_pedido` tem muitas formas de pedir a mesma coisa.
+
+![hacer_pedido: o mesmo pedido dito de várias maneiras](/img/intenciones/editor.png)
+
+Uma frase curta demais engole as outras. `saludo` não deveria ter um padrão tão solto que «a que horas vocês abrem» caia ali. Se duas intenções podem ler a mesma frase, ganha a que preenche mais dados e, em empate, a que está mais acima na ordem de [entendimento](./Arboles).
+
+## O dado se pergunta, não se desenha
+
+Uma reserva não é um nó por dado. A [entidade](./Entidades) tira o valor da frase. Se faltar e o parâmetro estiver em **Obrigatório**, o bot pergunta.
+
+![numero, obrigatório, com a pergunta e o limite de tentativas](/img/intenciones/ajustes.png)
+
+A pergunta nomeia o que já foi capturado, para a pessoa ver como foi entendido. Se essa pergunta for usada em várias intenções, vai numa [captura](./Capturas).
+
+## Só se ouve o que está no contexto
+
+O nó verde espera. As intenções ligadas ali são as únicas que o motor testa nesse trecho.
+
+![Início, com as intenções desse trecho](/img/flujos/contexto.png)
+
+Uma intenção que exista na árvore e não esteja ligada não dispara. Depois de responder, quase todos os nós voltam a Início: assim a frase seguinte volta a ser ouvida.
+
+![saludo volta a Início](/img/flujos/conversacion.png)
+
+A que passa para uma pessoa não volta. `hablar_con_asesor` transfere e fecha a pergunta que estivesse pela metade.
+
+## Quando não encaixa
+
+Cada contexto tem seu `sys.no-match`. A mensagem diz que não entendeu e pede para repetir. A transição habitual é voltar ao mesmo contexto.
+
+![O evento sys.no-match](/img/flujos/evento.png)
+
+O limite de tentativas do parâmetro faz o mesmo com um dado: insiste e, ao passar, segue com o próximo ou solta a captura. Não deixe um obrigatório sem pergunta nem sem teto.
+
+## O nome é um identificador
+
+Intenções, entidades, mensagens e capturas se salvam em minúsculas, com `_` no lugar de espaços. `Consulta de precio` fica `consulta_de_precio`. O `ñ` é mantido.
+
+Esse nome é o que o fluxo, o parâmetro e o template `{$nombre}` citam. Mudá-lo depois quebra essas citações.
+
+## Treinar o que o motor memoriza
+
+Intenções e entidades entram no treinamento. Uma mensagem ou uma captura se leem ao responder: salvar já basta. O raio do menu é **Treinar**. O painel marca em verde quando está em dia.
+
+![O painel, com o treinamento em dia](/img/intro/panel.png)
+
+## Testar o fluxo que você está desenhando
+
+O console começa no fluxo **Principal** se o primeiro botão diz **Padrão**. O mapa de Restaurante é outro fluxo: é preciso escolhê-lo. Se não, `hola` responde a saudação do principal.
+
+![Console em Restaurante: hola e o nó deste turno](/img/diseno/recorrido.png)
+
+Com o modo debug se vê a intenção, a confiança e o caminho na tela. O detalhe está em [Testar o bot](./ProbarElBot).

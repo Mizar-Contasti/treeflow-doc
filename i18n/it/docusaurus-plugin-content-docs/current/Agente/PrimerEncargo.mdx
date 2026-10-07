@@ -1,0 +1,68 @@
+---
+sidebar_position: 2
+sidebar_label: Primo incarico
+---
+
+# Primo incarico
+
+Da zero a chiedergli qualcosa all'agente: collegare un provider di modelli e fare una prima modifica piccola.
+
+## Che cosa ti serve
+
+- Un bot creato, e selezionato in alto a sinistra.
+- La **chiave API** di un provider di modelli, o un server locale come Ollama. Quale scegliere è in [Provider e modelli](/docs/Agente/ModelosGenerativos).
+
+## 1. Apri l'agente
+
+Il pulsante arancione in basso a destra apre la console. Premi l'icona del robot, in alto a destra del pannello.
+
+![La console aperta, con l'icona dell'agente in alto a destra](/img/agente/abrir.png)
+
+## 2. Collega un provider
+
+Se il workspace non ha ancora nessuna credenziale di IA, l'agente te ne chiede una: **Aggiungi una credenziale**.
+
+![La configurazione dell'agente: provider, nome, API Key, modello e le tre caselle di conferma](/img/agente/configuracion.png)
+
+1. Scegli il **provider**. Cambiandolo si compilano l'URL di base e il modello consigliato.
+2. Dai un **nome** alla credenziale, per riconoscerla se poi ne hai diverse.
+3. Incolla l'**API Key**. L'occhio la mostra mentre la scrivi.
+4. Scegli il **modello** nel menu a tendina. Per uno che non è nell'elenco, scegli l'opzione di modello personalizzato e scrivi il suo nome.
+5. Premi **Prova connessione**.
+6. Se è andata bene, premi **Applica e continua**.
+
+![Il menu a tendina con i dieci provider](/img/agente/proveedores.png)
+
+:::note Bisogna provare prima di salvare
+**Applica e continua** non lascia salvare finché **Prova connessione** non è andata bene. Se fallisce, il messaggio dice perché.
+:::
+
+La chiave serve in tutti i provider tranne **Ollama** e **Custom / Local LLM**; questi due chiedono invece l'**URL di base** del server.
+
+La credenziale è del **workspace**, non del bot: la usano tutti i bot e tutte le persone del workspace. Si salva una volta.
+
+## 3. Chiedi qualcosa di piccolo
+
+Sei già nella chat dell'agente. Inizia con qualcosa che puoi verificare a vista:
+
+> Aggiungi un intento `consultar_horario` con 6 frasi di esempio, e fagli rispondere «Apriamo dal lunedì al venerdì, dalle 9 alle 18».
+
+Mentre lavora vedi «l'agente sta elaborando». Al termine ti racconta **che cosa è cambiato e dove**, e sotto la sua risposta compare l'elenco delle azioni che ha eseguito.
+
+## 4. Controlla quello che ha fatto
+
+- Apri ogni **azione** per vedere lo strumento e quello che ha restituito.
+- Entra in **Flussi**: l'intento nuovo deve avere il suo nodo, collegato dal nodo di contesto. Se non compare, ricarica la pagina.
+- In **Intenti**, guarda le frasi che ha scritto.
+
+## 5. Provalo
+
+Torna alla scheda **Console** (l'icona della chat, in alto a destra del pannello) e scrivi una delle frasi di esempio. Se il bot non la capisce, **addestralo**: gli intenti nuovi non si riconoscono fino all'addestramento. L'agente può addestrarlo per te: «addestra il bot e dimmi quando ha finito».
+
+## Prima di chiedergli qualcosa di grande
+
+Di default l'agente **ti chiede conferma** prima di creare, modificare o eliminare: vedrai una card con le modifiche proposte e le applica quando premi **Conferma**. Se spegni le caselle «Chiedi conferma…» della configurazione, esegue subito; in quel caso chiedigli prima un backup. Altro in [Prima di chiedergli modifiche grandi](/docs/Agente/Constructor#antes-de-pedirle-cambios-grandes).
+
+## Quando hai diverse credenziali
+
+Sopra la chat puoi **cambiare credenziale** e **modello** senza uscire, **aggiungerne** un'altra, **modificare** quella attuale, iniziare una **conversazione nuova** e aprire la **cronologia**. Utile per provare lo stesso incarico con un altro modello.

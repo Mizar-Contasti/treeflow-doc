@@ -1,0 +1,46 @@
+---
+sidebar_position: 6
+sidebar_label: Passare a una persona
+---
+
+# Passare la conversazione a una persona
+
+In Restaurante, `hablar_con_asesor` non torna a Inicio. La transizione del nodo è **Trasferimento a un agente umano**: il bot avvisa e la conversazione entra in coda nello stesso turno.
+
+## Il nodo
+
+**Flussi** → apri **Restaurante** → il nodo `hablar_con_asesor`.
+
+In **Conversazione**:
+
+- **Intento:** `hablar_con_asesor`.
+- **Risposta:** l'avviso. Nel modello è «Ti metto in contatto con una persona del team».
+- **Transizione:** **Trasferimento a un agente umano**.
+
+In **Funzionalità**, **Termina un'acquisizione in corso** è attivo. Se la persona lo dice a metà di un ordine, il bot smette di chiedere e passa la conversazione.
+
+![hablar_con_asesor: il messaggio e il trasferimento](/img/diseno/asesor.png)
+
+Segna soltanto questo intento. Se la stessa transizione è su `saludo`, il bot trasferisce anche quando la persona saluta.
+
+Il testo dell'avviso si può cambiare anche in **Strumenti → Trasferimenti**, in **Messaggio di trasferimento**. Se l'albero non ha nessuna configurazione, funziona lo stesso, con l'avviso di fabbrica.
+
+## Provare l'avviso
+
+Console, flusso **Restaurante**. Scrivi `quiero hablar con un asesor`.
+
+Il bot manda l'avviso. In modalità debug, dopo quell'avviso non c'è un'altra bolla del bot: si vede a chi è arrivata. Il bot smette di rispondere mentre la conversazione è con una persona.
+
+![La console nel flusso Restaurante](/img/diseno/recorrido.png)
+
+## Lo sportello
+
+**Operazioni → Sportello di assistenza**. **Casella in diretta** separa In attesa, Le mie chat e Tutte. **Cronologia** è quello già chiuso.
+
+![Sportello di assistenza: la casella in diretta](/img/operacion/mesa.png)
+
+- **In attesa** sono quelle che nessuno ha preso in carico.
+- Scegliendone una, a destra c'è la cronologia e si scrive al visitatore.
+- L'operatore prende in carico, risponde, chiude o restituisce la conversazione al bot.
+
+La conversazione in diretta tra operatore e visitatore funziona sul widget web. Il dettaglio della coda, della chiusura e di un helpdesk esterno è in [Sportello di assistenza](/docs/Avanzado/MesaDeAyuda).

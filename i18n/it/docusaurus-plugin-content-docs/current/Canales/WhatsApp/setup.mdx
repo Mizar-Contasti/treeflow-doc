@@ -1,0 +1,49 @@
+---
+sidebar_position: 1
+---
+
+# WhatsApp
+
+Collega il tuo bot con WhatsApp attraverso la **Cloud API di Meta**. È un canale **Beta**.
+
+![La schermata di WhatsApp in Canali: stato, URL per Meta e credenziali](/img/canales/whatsapp.png)
+
+## Che cosa ti serve da Meta
+
+Un'app in [Meta for Developers](https://developers.facebook.com/) con il prodotto **WhatsApp** e un numero di telefono. Da lì escono questi dati:
+
+| Campo in TreeFlow | Da dove esce |
+|---|---|
+| **Phone Number ID** | L'identificatore del numero, in WhatsApp della tua app su Meta |
+| **WABA ID** | Quello del tuo account WhatsApp Business. È facoltativo |
+| **Verify Token** | Lo inventi tu: qualsiasi testo |
+| **Meta Access Token** | Un token **permanente**, generato in Meta Business Manager |
+| **App Secret** | La tua app → Configurazione → Base → Chiave segreta dell'app |
+
+L'**App Secret** è quello che permette di verificare che ogni messaggio arrivi davvero da Meta. Senza di esso, TreeFlow non risponde.
+
+## Attivarlo
+
+1. Scegli il tuo bot nel selettore in alto a sinistra.
+2. Apri **Integrazione → Canali → WhatsApp**.
+3. **Passo 1.** Copia la **Callback URL** e incollala in Meta Developers → WhatsApp → Configuration → Webhook. In **Verify token** di Meta scrivi lo stesso che metterai in TreeFlow.
+4. Su Meta, iscrivi il webhook al campo **messages**.
+5. **Passo 2.** Compila Phone Number ID, Verify Token, Meta Access Token e App Secret (il WABA ID è facoltativo).
+6. Premi **Salva e integra WhatsApp**. Il canale resta acceso.
+
+L'interruttore **ON/OFF** in alto lo spegne e lo accende senza cancellare quello che è salvato.
+
+## Che cosa manda il bot
+
+Testo, e i blocchi che WhatsApp sa disegnare: **pulsanti**, **elenchi** e file (immagine, video, documento).
+
+:::info Dentro la finestra di 24 ore
+WhatsApp lascia che il bot risponda liberamente durante le 24 ore successive all'ultimo messaggio della persona. Passato quel tempo serve un modello approvato da Meta, e TreeFlow non invia modelli.
+:::
+
+## Se non risponde
+
+- Che l'interruttore sia su **ON**.
+- Che il **Verify Token** di Meta sia identico a quello di TreeFlow.
+- Che l'**App Secret** sia quello della stessa app che manda i messaggi.
+- Che il webhook sia iscritto a **messages**.

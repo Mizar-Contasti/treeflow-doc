@@ -1,0 +1,211 @@
+---
+sidebar_position: 3
+sidebar_label: Paramètres
+---
+
+# Paramètres
+
+Les **paramètres** sont les données que votre arbre extrait de ce qu'écrit l'utilisateur et
+garde pendant la conversation : la quantité, le produit, la date, le téléphone.
+
+## Que sont les paramètres ?
+
+Un paramètre est un trou nommé qui :
+
+- se remplit avec ce que dit l'utilisateur, à travers une entité citée dans un motif ;
+- reste disponible pour les réponses et pour la logique de l'arbre ;
+- peut être demandé activement s'il manque et qu'il est obligatoire.
+
+![Réglages d'un paramètre requis : la question, le repli et la limite](/img/intenciones/ajustes.png)
+
+![Le paramètre orden dans hacer_pedido, lu depuis l'entité composée](/img/intenciones/parametros.png)
+
+## Création de paramètres
+
+Un paramètre naît en citant une [entité](/docs/Fundamentos/Entidades) dans un motif de l'intention.
+
+1. L'entité existe déjà, par exemple `producto`.
+2. Le motif la cite : `quiero una @producto`.
+3. À l'enregistrement, l'intention a le paramètre. Il s'appelle comme l'entité.
+
+Les deux-points lui donnent un autre nom. `@producto:producto_pedido` continue de lire l'entité `producto` et le paramètre s'appelle `producto_pedido`. Dans une [composée](/docs/Fundamentos/Entidades#2-entidades-compuestas), c'est la même chose, ligne par ligne :
+
+```
+@sys.number:cantidad @producto:producto
+@sys.number:cantidad @producto:producto de @sabor
+```
+
+`cantidad` et `producto` sont les paramètres. `de` est un mot de la ligne, pas une donnée.
+
+## Composants d'un paramètre
+
+### Nom
+
+Identifiant du paramètre à l'intérieur de l'intention.
+
+### Valeur par défaut
+
+Valeur utilisée si l'utilisateur ne dit rien. Un paramètre avec une valeur par défaut ne
+bloque jamais la conversation, même s'il est marqué comme requis.
+
+### Requis
+
+S'il est coché et qu'il n'y a pas de valeur, l'arbre la demandera avant de continuer. C'est le
+**slot filling**.
+
+### Prompt
+
+La question avec laquelle on demande la donnée : *« De quelle taille voulez-vous votre pizza ? »*.
+
+Elle peut vivre dans le paramètre, ou sortir d'une [capture](/docs/Fundamentos/Capturas)
+réutilisable : dans le paramètre requis, vous cochez **Utiliser une capture définie** et vous choisissez
+laquelle. Alors la capture fournit la question, le message si on ne comprend pas et les nouvelles tentatives, pas ces champs.
+
+Elle peut interpoler d'autres paramètres déjà capturés. La syntaxe complète est dans
+[Fonctions](/docs/Avanzado/Funciones) :
+
+```
+¿De qué sabor quieres {$categoria_producto}?
+```
+
+:::caution Une phrase qui s'appuie sur un trou vide ne se demande pas
+Si le prompt nomme d'autres paramètres et qu'ils sont **tous** vides, l'arbre ne pose pas cette
+question : il sortirait *« De quelle saveur voulez-vous ? »*, sans sujet. Il suffit qu'un seul ait
+une valeur. S'il ne reste aucune question qui ait du sens, la capture s'abandonne avec un
+message au lieu de tourner en rond.
+:::
+
+### Prompt de repli
+
+Ce qui se dit lorsque l'utilisateur répond quelque chose qui ne convient pas : *« Je n'ai pas identifié la
+taille. Cela peut être petite, moyenne ou grande. »*
+
+### Max. tentatives de repli
+
+Combien de fois on insiste avec ce paramètre avant d'abandonner. Cela évite que l'utilisateur
+reste piégé à répéter la même question.
+
+### Action au dépassement de la limite
+
+Quoi faire lorsque les tentatives sont épuisées :
+
+| Option | Ce qu'elle fait |
+|---|---|
+| **Passer au paramètre suivant** | Laisse celui-ci et demande un autre qui manque |
+| **Répondre même si la valeur manque** | Répond avec ce qu'il y a |
+| **Aller au nœud de contexte (sans répondre)** | Abandonne la capture et revient au flux |
+
+Si tous les obligatoires épuisent leurs tentatives, l'arbre abandonne l'intention avec un
+message au lieu de continuer à demander en cercle.
+
+### Peut être recapturé pendant le slot filling
+
+Avec ceci activé, l'utilisateur peut **corriger** cette donnée pendant qu'on lui demande
+autre chose. Si l'arbre demande la quantité et que l'utilisateur dit *« plutôt au fromage »*, la saveur
+change et la quantité continue d'être demandée.
+
+## Usage des paramètres
+
+### Dans les réponses {#en-respuestas}
+
+Ils s'interpolent avec **`{$parametro}`** :
+
+```
+Has pedido una pizza de tamaño {$tamaño_pizza}
+```
+
+Le `$` est obligatoire : c'est ce qui distingue une variable d'un texte. Sans lui,
+`{tamaño_pizza}` imprime le mot « tamaño_pizza ».
+
+En tapant `{$` dans le texte d'une réponse, un [sélecteur sort avec les paramètres que vous pouvez utiliser](/docs/Avanzado/Funciones#el-selector-de-variables).
+
+En plus des vôtres, il y a deux paramètres que le moteur assemble seul, sans les créer :
+`{$last_utterance}` (la dernière chose écrite par l'utilisateur) et `{$last_no_match}` (la
+dernière phrase que le bot n'a pas comprise). Voir [Variables du système](/docs/Avanzado/Funciones#variables-del-sistema).
+Si vous créez un paramètre avec l'un de ces noms, le moteur le remplace.
+
+Cela fonctionne aussi à l'intérieur d'expressions :
+
+```
+{ if $numero > 1 ? "${categoria}s" : $categoria }
+```
+
+Un paramètre qui n'existe pas encore vaut comme vide et **ne casse pas le reste du
+message** : seule cette partie reste en blanc.
+
+À l'intérieur de l'accolade tient une expression entière, pas seulement une variable :
+
+| Vous écrivez | Pour |
+|---|---|
+| `{$nombre}` | lire un paramètre |
+| `{"texto"}` · `{texto}` | un texte |
+| `{$edad > 18 ? "adulto" : "menor"}` | choisir selon une condition |
+| `{$edad > 18 ? "adulto"}` | la même chose, sans l'autre branche |
+| `{$precio * 120}` | calculer |
+| `{$nombre.upper()}` · `{len($nombre)}` | fonctions et méthodes |
+| `{$api.estado}` · `{$api.items[0]}` | descendre dans la réponse d'un outil |
+
+Le reste — conditions imbriquées, listes et ce que le moteur n'évalue pas — est dans [Fonctions](/docs/Avanzado/Funciones).
+
+### Dans des conditions
+
+Ils servent à choisir la réponse ou à décider vers quelle branche aller.
+
+### Dans des webhooks
+
+Leurs valeurs peuvent être envoyées à des services externes.
+
+## Un paramètre avec plusieurs valeurs
+
+Lorsque la même entité apparaît **plus d'une fois dans la phrase**, le paramètre cesse d'être
+une seule valeur et garde toutes les apparitions, dans l'ordre :
+
+> *« donne-moi 1 empanada au poulet et 2 arepas à la viande »*
+
+Là, `categoria_producto` vaut `empanada` **et** `arepa`. On voit un seul paramètre, mais
+il contient les deux.
+
+Dans les réponses, on le lit comme une liste :
+
+| Vous écrivez | Vous obtenez |
+|---|---|
+| `{$producto}` | le premier, comme toujours |
+| `{$producto[0]}` | le premier |
+| `{$producto[1]}` | le second |
+| `{count($producto)}` | combien sont venus |
+
+Un paramètre venu une seule fois se comporte comme une liste d'un, donc
+`{$producto[0]}` fonctionne sans que vous ayez à savoir d'avance combien il y en avait.
+
+:::caution `count()`, pas `len()`
+`count($producto)` compte **combien de fois** l'utilisateur l'a dit. `len($producto)`
+mesure des **caractères**, ce qui est autre chose. Avant, `len()` faisait les deux, et c'est pour cela
+qu'il a changé de nom.
+:::
+
+:::tip Le déclarer au pluriel
+Si dans la phrase d'entraînement vous écrivez l'entité **deux fois**, vous dites à l'arbre que ce paramètre peut venir répété. Avec les [entités composées](/docs/Fundamentos/Entidades#2-entidades-compuestas)
+chaque apparition est une ligne complète — quantité, produit et saveur ensemble —, et l'arbre
+peut demander ce qui manque à **chacune**.
+:::
+
+## Cycle de vie des paramètres
+
+1. Ils se créent à l'activation de l'intention.
+2. Ils restent disponibles tant que les contextes de sortie sont actifs.
+3. Ils se réutilisent entre les tours de la conversation.
+4. Ils expirent lorsque leurs contextes expirent.
+
+## Bonnes pratiques
+
+1. **Noms descriptifs** : que l'on lise ce que garde le paramètre.
+2. **Prompts clairs** : une question concrète, et si possible, avec des exemples.
+3. **Valeurs par défaut** lorsqu'il existe une option raisonnable.
+4. **Limite de tentatives** sur les obligatoires, pour que personne ne reste piégé.
+5. **Recapture** activée sur les données qu'un utilisateur corrige d'habitude en cours de route.
+
+:::tip Conseil
+Un bon prompt est conversationnel et laisse clair ce que l'on attend. S'il nomme en plus ce qui
+a déjà été capturé — *« De quelle saveur voulez-vous les 3 arepas ? »* — l'utilisateur sait exactement
+pour laquelle de ses choses on lui demande.
+:::

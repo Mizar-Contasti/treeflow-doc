@@ -1,0 +1,61 @@
+---
+sidebar_position: 2
+sidebar_label: Test in the console
+---
+
+# Test in the console
+
+The console is the test chat. It does not publish the tree. In Cafetería it opens with the orange button, at the bottom right.
+
+The tree has to exist first. If it does not yet, start with [Create a tree](./CrearChatbotBasico).
+
+## Before you type
+
+The lightning bolt in the menu is **Train**. In green, training is up to date. If the tree was never trained, the text field stays off.
+
+![Cafetería panel, with training up to date](/img/intro/panel.png)
+
+## Open it
+
+Above the conversation there is a bar.
+
+![The console: the flow, the channel, and the field for typing](/img/testeo/consola.png)
+
+1. The first button is the flow. For the shop's map, choose **Restaurante**. Changing it restarts the conversation in that flow.
+2. The second is the channel. **Default** sends the text from the Default tab. **Web** sends the message's Web tab, if it has content.
+3. Type and send.
+
+`hola` lands on the `saludo` intent and replies with the welcome.
+
+![hola and the bot's reply](/img/testeo/turno.png)
+
+The circular arrow restarts. The back arrow undoes the last turn.
+
+## See how it decided
+
+The bug turns on debug mode and turns yellow. Before the reply a line appears: the intent, the confidence, and how it matched. The third value can be entity, pattern, model, or `no_match` if it did not recognize the phrase.
+
+![Debug mode: the intent, the confidence, and the marked node](/img/testeo/debug.png)
+
+A click on your bubble opens what was sent. A click on the bot's opens what the engine replied.
+
+| View | What it shows |
+|---|---|
+| All | the full JSON |
+| Parameters | the captured data and the session data |
+| Messages | the person's text or the bot's reply |
+| Metadata | intent, timings, session, tools, sentiment |
+
+![The response: intent, parameters, and text](/img/testeo/detalle.png)
+
+The flow canvas opens and marks this turn's node.
+
+![Console in Restaurante and the marked canvas](/img/diseno/recorrido.png)
+
+## If it does not line up
+
+- The intent is not the one you expected. The pattern or the understanding order chose another. The pencil on the turn opens that intent.
+- `no_match` comes out. No intent in this flow matched. The path is the `sys.no-match` event.
+- You changed intents or entities. Train again. A message or a capture is read on save: that is why training is not required.
+
+The detail of each control is in [Test the bot](/docs/Fundamentos/ProbarElBot).

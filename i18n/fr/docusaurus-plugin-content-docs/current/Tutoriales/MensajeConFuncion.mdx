@@ -1,0 +1,65 @@
+---
+sidebar_position: 4
+sidebar_label: Un message avec une fonction
+---
+
+# Un message avec une fonction
+
+Ce que le bot dit peut contenir un trou. On l'écrit entre accolades et le `$` marque la variable. Sans `$`, c'est du texte fixe.
+
+```
+{$nombre}     el valor de la variable nombre
+{nombre}      la palabra "nombre"
+```
+
+## La commande de Cafetería
+
+**Messages** ouvre la liste. Entrez dans `restaurante_hacer_pedido_response`. Dans l'onglet **Default**, le texte nomme ce qui a été noté s'il y a déjà une commande et, sinon, demande quoi préparer.
+
+![restaurante_hacer_pedido_response : la fonction avec $pedido](/img/funciones/mensaje.png)
+
+```
+{("¡Listo! Anoté " + $pedido + ". Te lo preparamos enseguida.") if $pedido else "¡Con gusto! ¿Qué te preparo?"}
+```
+
+| Ce qui est arrivé | Ce qui sort |
+|---|---|
+| `$pedido` = `2 empanadas de queso` | C'est noté ! J'ai inscrit 2 empanadas au fromage. Nous le préparons tout de suite. |
+| `$pedido` vide | Avec plaisir ! Que puis-je vous préparer ? |
+
+**Enregistrer les modifications**. Le texte se lit au moment de répondre : il n'est pas nécessaire d'entraîner.
+
+La même syntaxe tient dans la question d'un paramètre ou d'une capture.
+
+![Question de quantité : {$categoria_producto} et {$sabor_producto}](/img/funciones/pregunta.png)
+
+```
+¿Cuántas {$categoria_producto}s de {$sabor_producto} te preparo?
+```
+
+## Celles qui sont déjà là
+
+Inutile de les créer. Dans n'importe quel message, le moteur en laisse deux :
+
+| Variable | Ce qu'elle contient |
+|---|---|
+| `{$last_utterance}` | La dernière chose qu'a écrite la personne |
+| `{$last_no_match}` | La dernière phrase que le bot n'a pas comprise |
+
+```
+No entendí "{$last_no_match}", ¿puedes decirlo de otra forma?
+```
+
+En tapant `{$`, elles apparaissent dans le sélecteur, marquées *Système*. Le moment où chacune change est dans [Variables du système](/docs/Avanzado/Funciones#variables-del-sistema).
+
+## Le vérifier
+
+Ouvrez la console, flux **Restaurante**, canal **Par défaut**. Terminez la commande. La réponse doit nommer ce qui a été capturé.
+
+![La console a déjà substitué la catégorie dans la question](/img/funciones/consola.png)
+
+Si une accolade isolée apparaît dans la bulle, il manque le `$` ou l'expression ne s'est pas fermée avec `}`. Une variable qui n'existe pas sort en blanc et ne casse pas le message.
+
+`{$nombre.original_value}` est la façon dont la personne l'a écrit. `{$nombre.key_value}` est la valeur normalisée.
+
+La liste complète — conditions, comptes, `len`, listes — est dans [Fonctions](/docs/Avanzado/Funciones).

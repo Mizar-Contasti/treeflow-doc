@@ -1,0 +1,86 @@
+---
+sidebar_position: 99
+sidebar_label: Historique
+description: Changements, entraînements et les exécutions de scripts, d'APIs et du webhook.
+---
+
+# Historique
+
+**Gestion → Historique** est ce qui s'est déjà passé dans l'arbre sélectionné en haut à gauche. Le registre des versions du produit est dans l'[historique des changements](/docs/changelog). Les copies de l'arbre ne vivent pas ici : elles sont dans [Sauvegardes](/docs/Avanzado/ImportarExportar).
+
+Trois onglets : **Changements**, **Entraînements** et **Intégrations**. Chacun a son champ de recherche, ses filtres et l'icône d'horloge pour redemander la liste. Sur le téléphone, le champ de recherche monte dans l'en-tête.
+
+## Changements
+
+Qui a créé, modifié, supprimé, activé ou désactivé quelque chose, et quand.
+
+![Changements de Cafetería : un canal mis à jour et l'arbre créé, avec le type, l'action et la personne](/img/historial/cambios.png)
+
+Chaque ligne porte :
+
+- L'**action**, dans une pastille. Créé et Mis à jour vont en vert, Activé en bleu, Supprimé et Désactivé en rouge.
+- L'**arbre**. Si le changement concerne un utilisateur ou le workspace, cette colonne dit Utilisateur ou Workspace et le nom.
+- Le **type** : Arbre, Flux, Intention, Entité, Message, Canal, Utilisateur ou Workspace. Peuvent aussi apparaître Contexte, Événement, Entraînement ou Conversation, même si le filtre de type ne les liste pas.
+- L'**auteur**. Si c'est l'agent qui l'a fait, la ligne dit que c'était l'agent et le nom de la personne qui l'a confirmé.
+- La **date** et **Voir les détails**, à droite.
+
+En haut, on filtre par type, action et personne, et on cherche par le nom de ce qui a changé ou par la personne. La liste apporte jusqu'à 500 changements de l'arbre et les montre de vingt en vingt.
+
+Un nœud du canevas n'a pas de ligne propre. Le déplacer ou modifier son texte là n'apparaît pas. Le message, le flux, l'intention, l'entité ou le canal apparaît si cela a été enregistré à part.
+
+### Le détail
+
+**Voir les détails** ouvre l'avant et l'après, côte à côte.
+
+![Le canal web est passé d'un objet vide à enabled true. Avant en jaune, après en vert](/img/historial/cambio-detalle.png)
+
+- **Informations générales**, replié. Il apporte l'action, le type, le nom, la date et l'origine : une personne, ou l'agent et qui l'a opéré.
+- **Modifications effectuées**. Il compte combien de champs ont été modifiés, ajoutés, supprimés ou sont restés identiques.
+- **Avant** va à gauche, en jaune. **Après** va à droite, en vert.
+- **Tout voir** montre l'objet complet. **Modifications seulement** laisse les lignes qui diffèrent.
+- Les flèches déplient ou replient les objets. **Copier Avant** et **Copier Après** mettent le JSON dans le presse-papiers.
+- L'icône des coins met le cadre en plein écran.
+- **Métadonnées supplémentaires**, replié, est le JSON supplémentaire de cet enregistrement : par exemple que l'agent l'a écrit.
+
+## Entraînements
+
+Chaque fois qu'on clique sur **Entraîner**.
+
+![Un entraînement de Cafetería : Terminé, mode Basique, 2,0 s, le 3 octobre](/img/historial/entrenamientos.png)
+
+La carte dit :
+
+- **Terminé** (vert), **En cours** ou **Annulé**.
+- **Basique** ou **Pro**.
+- L'arbre, qui l'a lancé, combien de temps ça a pris et à quelle heure ça a commencé.
+
+En haut, on filtre par mode (Basique ou Pro), par état et par dates **Du** et **Au**. Le champ de recherche regarde l'utilisateur, le mode et les notes. De dix en dix. À la fin d'un entraînement, cette liste se met à jour toute seule.
+
+Un clic sur la carte, ou sur **Voir les détails**, ouvre l'enregistrement.
+
+![Détail : Cafetería, Admin Principal, Terminé, Basique (TF-IDF), deux phases et 27 intentions avec 52 entités](/img/historial/entrenamiento-detalle.png)
+
+- **Informations générales** : arbre, utilisateur, date de début, durée, état et mode. Basique est noté comme TF-IDF. Pro, comme spaCy NER + SVM.
+- **Chronologie des phases**. Basique en a deux : générer les données des intentions et générer les données NER. Chacune montre ses secondes. Pro en parcourt quatre.
+- **Changements appliqués**, en trois onglets :
+  - **Résumé** : combien d'intentions et combien d'entités sont entrées dans cette exécution, et le temps total.
+  - **Intentions** : chacune avec le nombre de phrases. En l'ouvrant, on voit les phrases.
+  - **Entités** : chacune avec ses valeurs.
+
+![Les intentions de cette exécution : saludo avec 23 phrases, consultar_horario avec 20, hacer_pedido avec 13](/img/historial/entrenamiento-intenciones.png)
+
+Si l'état est **Annulé** et qu'il y a un motif, le cadre l'affiche en bas, en rouge. Le bouton **Entraîner** du menu est celui qui lance l'exécution. Ici, on consulte seulement.
+
+## Intégrations
+
+Les fois où un script, une API ou le webhook **se sont exécutés** dans une conversation. Ce n'est pas l'historique de qui a modifié l'outil : cela, s'il a été enregistré, est dans **Changements**.
+
+![Intégrations de Cafetería, encore sans exécutions](/img/historial/integraciones.png)
+
+Si l'arbre n'a encore appelé personne, l'écran dit : « Aucune exécution d'intégrations n'est encore enregistrée pour cet arbre. »
+
+Quand il y a des lignes, chacune apporte le nom de l'outil, **OK** ou le code d'erreur, les millisecondes et la date. On filtre par **Réussis** ou **Erreurs**, et par dates. Le champ de recherche regarde le nom et le texte de l'erreur. De vingt en vingt.
+
+Un clic ouvre le détail : l'état, le temps, la date, le message d'erreur s'il y en a eu un, les **paramètres d'entrée** qui ont été envoyés et les **sorties** qui sont revenues. Si une sortie n'a pas été configurée, cette section reste vide.
+
+Pour un administrateur, le même échec peut aussi se regarder dans [Diagnostics](/docs/Avanzado/Diagnosticos).

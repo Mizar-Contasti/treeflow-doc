@@ -1,0 +1,438 @@
+---
+sidebar_position: 12
+---
+
+# 📜 Changelog
+
+## 🎉 Recent Versions (2026)
+
+<details open>
+<summary><strong>What's New since V-0.9.0 (September–October 2026) - Agent, Limits, Console, Help Desk, and a Single Brace</strong></summary>
+
+> These changes do not have an application version number yet. The CDN widget, meanwhile, is already published: v1.3.6 and v1.3.7. When the next application version is published, this entry will carry that number.
+
+### 🤖 Builder Agent and MCP
+> - **Anthropic Speaks Its Own Format**: The chat was sending the OpenAI body to `/messages` and reading `choices[0].message`, so it failed even when "Test connection" succeeded. It now translates to the native Messages API format. The other providers do not change. See [Providers and models](/docs/Agente/ModelosGenerativos).
+> - **46 Tools**: The internal helper that normalizes entity values is no longer offered to the model. It is still used when creating or modifying an entity.
+> - **Chat Cap**: 20 messages per minute per user, 8 tool rounds per request, and the last 14 messages of the conversation. Going over the minute responds 429. See [Builder agent](/docs/Agente/Constructor).
+> - **What It Creates Can Be Run**: An HTTP tool the agent builds is saved in the flat form the engine runs, and it is saved at that moment, with the same id. `PATCH` now runs.
+> - **MCP in Credentials**: Management → Credentials has the MCP tab, separate from the API keys. See [MCP](/docs/Agente/Mcp).
+
+### 🏢 Administration Panel and Tiers
+> - **`admin.tree-flow.com`**: A separate app, with its own administrator accounts. A user token from a workspace does not open the panel, and a panel token does not open a workspace. From there you see the workspaces (tier, status, usage), suspend and reactivate them, turn off individual bots or all of them at once, change the tier, and record billing by hand. Every action stays in a log.
+> - **Shutting Off Does Not Delete**: A suspended workspace responds 403 on login and its bots reply with a fixed notice. A bot that is turned off replies with that notice in the widget and on the other channels, without touching the engine. It is reversed immediately.
+> - **Four Tiers**: `free`, `standard`, `premium`, and `internal`. Assigning one copies its caps to the workspace: bots, intents, entities, messages, flows, and tools. Dropping to a lower tier does not delete what already exists: it only prevents creating more. A workspace from before tiers keeps its caps until one is assigned.
+> - **The Numbers**: Free fits 5 bots, 50 intents, 100 entities, 100 messages, 10 flows, and 100 tools per bot. Standard is five times that and premium twenty. Internal has no cap.
+
+### 🗂️ Menu
+> - **Four Groups**: Conversation (Flows, Intents, Entities, Messages, Captures), Integration (Channels, Tools), Operations (Conversations, Help desk, Tests), and Management (History, Backups, Diagnostics, Accounts, Credentials). In beginner mode, Conversation shows only Flows.
+> - **The App's Names**: Flows, channels, and tools. The addresses are `/flows`, `/channels`, and `/tools`.
+> - **The Node Splits into Conversation and Functionality**. A new tree is born with `flujo_principal`. The canvas Architecture tab is gone.
+> - **Train** moved down to the icon row. The color advances while it runs.
+
+### 🧪 Console and History
+> - **In Debug It Widens** from the left edge, and the drag continues even if the cursor leaves the handle. See [Test the bot](/docs/Fundamentos/ProbarElBot).
+> - **The Session in Parts**: parameters, messages, or metadata. Filtering does not shrink the box: it keeps the size of the full JSON.
+> - **A Node in Error Is Painted Red** on the flow while you debug.
+> - **Before and After, Side by Side**: in Management → History, a change opens as a diff. See [History](/docs/Misc/HistorialDetallado).
+> - **A Parameter, Only Once**: in the session it stays under its name. Before, it could be duplicated.
+
+### 📥 Captures and Parameters
+> - **The Question Comes from a Capture**: the "what is missing?" text is a reusable capture, not text stuck to the intent. See [Captures](/docs/Fundamentos/Capturas).
+> - **With No Transition, It Returns to Whoever Called It**: an intent that has nowhere to continue returns only to the context that invoked it.
+> - **In the Middle of a Question**: another intent pulls the capture only if that parameter allows it.
+> - **Each Tree Sees Its Own**: a tree's captures are read and modified only by its workspace.
+> - **Forget on Re-entry**: in the parameter settings, a checkbox clears that value when the conversation lands on its intent again. On a composite one the checkbox is on each sub-parameter.
+
+### 📦 Export and the Phone
+> - **The JSON Carries Scripts and APIs**: import was eating them because of an invalid field, and a restored bot arrived without them. See [Import and export](/docs/Avanzado/ImportarExportar).
+> - **Separate Pagination**: lists paginate separately on the web and on the phone.
+> - **The Narrow Screen**: the inbox, the intent and entity lists, the header, and the console use the phone's width. The app button is a single one.
+> - **The Sample Ones No Longer Bring Secrets**: the CURP lookup and the Google keys left the tools that a new bot seeds.
+
+### 📚 Documentation
+> - **The Site Uses the App's Names**: flows, nodes, intents, entities, messages, captures, channels, tools, functions (`{ }` and `$`), and agent. The `{{ }}` syntax is no longer documented as valid.
+> - **Where Each Thing Ended Up**: system entities are in [Entities](/docs/Fundamentos/Entidades). Import, export, and backups are in [Advanced](/docs/Avanzado/ImportarExportar). Deployment and the tunnel left the site. Miscellaneous keeps the [tree history](/docs/Misc/HistorialDetallado).
+
+### 🧩 System Variables and the Variable Selector
+> - **`{$last_utterance}` and `{$last_no_match}`**: Two variables the engine builds on its own, with nothing to configure. The first is the last thing the user wrote; the second, the last utterance the bot did not understand. They are built with the request, so they already have a value in the response, the tools, and the scripts of the turn. See [System variables](/docs/Avanzado/Funciones#variables-del-sistema).
+> - **Repeat the Utterance in `sys.no-match`**: `No entendí "{$last_no_match}"` is now possible, without turning anything on in the node. The "Save the message that was not understood" switch and its `{$no_match}` variable were removed.
+> - **Selector When You Type `{$`**: In response text a list appears with the bot's parameters and the system variables, filtered as you type. Arrows, Enter, or Tab to choose, and Escape to close. See [The variable selector](/docs/Avanzado/Funciones#el-selector-de-variables).
+
+### ✏️ A Single Brace in Templates
+> - **`{$variable}` Is the Syntax**: Two forms used to live together, `{{ ... }}` and `{ ... }`, and they were not two levels of the same thing: the simple one only substituted a lone variable. Now there is only one — one brace, and an expression inside — and the `$` is what distinguishes a variable from text. See [Parameters](/docs/Avanzado/Parametros#en-respuestas).
+> - **`{{ ... }}` Stops Working**: Unmigrated text **does not error, it prints something else**: `{{$nombre}}` comes out as `{Ana}`, with the outer brace left hanging. Existing trees have to be migrated.
+> - **Watch the Migration, the `$` Is Not Optional**: `{{nombre}}` becomes `{$nombre}`, **not** `{nombre}`. Without the dollar sign, `{nombre}` prints the word "nombre".
+> - **`count()` Counts, `len()` Measures**: `len($producto)` used to count how many times the parameter had come in; now it measures **characters**, and counting occurrences is `count($producto)`.
+> - **The `else` Is Optional**: `{$edad > 18 ? "adulto"}` paints nothing if it is not met, without forcing you to write the other branch.
+> - **Nested and Compound Conditions**: `{ $a > 1 ? ($b > 1 ? "A" : "B") : "C" }` and `{ "Tienes " + $n + " de " + ($a if $a > $b else $b) }`. Before, `? :` was valid only if it occupied the whole expression; a compound one came out blank.
+> - **Read a Tool's Response**: You could save the whole response in a parameter but not read it. Now `{$api.estado}`, `{$api.datos.total}`, `{$api.items[0]}`.
+> - **Real Arithmetic**: `{$a + $b}` with two numbers gives their sum (before it concatenated them: "37"), `{$a * $b}` no longer comes out empty, and `abs()`, `round()`, and `sum()` work on session values.
+> - **CSS and JSON Are Left Alone**: A style rule of an HTML block, a tool's JSON body, and the quantifiers of a regex (`^\d{4}-\d{2}$`) pass through interpolation intact. A slot **inside** a JSON is resolved.
+> - **The Greeting That Came Out as a Dictionary**: A bot replied `{"key_value": "Buenos días", "name": "saludo_tiempo"}` instead of the greeting text. The parameter's internal wrapper was serialized instead of the value.
+> - **Language Manual**: Variables, texts, conditions, calculations, functions, repeated parameters, tool responses, and known limitations. It is published in [Functions](/docs/Avanzado/Funciones).
+
+### 🎧 Help Desk and Transfer to a Human
+> - **A Separate Application for Operators**: `helpdesk.tree-flow.com`, with its own login. A queue of conversations waiting for a person, a real-time chat with the visitor (WebSocket), and a panel with the visitor's data. See [Help Desk](/docs/Avanzado/MesaDeAyuda).
+> - **Claim, Reply, Close, or Hand Back to the Bot**: The operator takes the conversation, replies, and, when finished, closes it or hands it back to the bot. It can also be transferred from the chat. When it is handed back, the bot resumes from the start.
+> - **The Operator or the Visitor Closes It**. While the other person is typing, three dots are shown.
+> - **Operations Dashboard (Administrators)**: Operators online, chats waiting, handled by a person, handled by the bot, and resolved today, plus each operator's status and the load per bot. It is the help desk's default view.
+> - **`operador` Role**: Operators enter only through the help desk; the Viewer role does not enter it. The help desk **Open app** button is seen only by administrators and developers.
+> - **Live Inbox inside Conversations**: One more tab for whoever works from the main panel.
+> - **The Bot Stays Quiet while a Person Talks**: While the conversation is with an operator, the visitor's messages are saved and reach the operator, and the bot does not reply (configurable per transfer).
+> - **The Restaurant Template Actually Hands Off**: The `hablar_con_asesor` intent was already there, but it returned to the Start node and did not hand off to anyone. It now points at the transfer to a human and seeds an active transfer configuration.
+> - **It Enters the Queue on the Same Turn**: The bot said "I'll connect you with a person" but the conversation did not appear in the help desk until the customer's next message. It also did not enter if it was the session's first message.
+
+### 🧪 Bot Test Suites
+> - **Tests Tab in Conversations**: Saves cases — multi-turn conversations with checks — runs them against the tree, and leaves the result saved. See [Tests](/docs/Avanzado/Pruebas#una-suite).
+> - **CSV as the Format**: `caso,turno,mensaje,intencion,respuesta_contiene,slot,parametros,evento`. Empty columns check nothing, so the minimum CSV is `caso,turno,mensaje`: it runs and shows what the bot answered.
+> - **Turn Editor**: Cases are edited on screen (messages, checks, add and remove) without exporting and reimporting the CSV.
+> - **History and Comparison**: Each run saves which training it was measured against. Comparing two runs says what used to pass and now fails, and what used to fail and now passes.
+> - **The Red Ones Explain Themselves**: Failed cases open on their own, and each check shows what was expected **and what the bot answered**.
+> - **It Does Not Run without Training**: The run button stays off while the bot is not trained.
+> - **Restaurant Script Included**: The template's QA script as an executable suite: 40 cases, 72 turns, 141 checks, about 30 seconds.
+> - **No Fake Conversations**: Each case uses its own session and is deleted when it finishes; it does not clutter the Conversations screen.
+> - **Hidden in Beginner Mode**: Those bots do not see intents or entities, so they do not see the tab either.
+
+### 📱 Adaptive Web Widget
+> - **CDN Widget v1.3.6 and v1.3.7**: Everything in this section also reaches the widget customers install, not only the one in the app. Widgets already installed (that point at `@main`) receive it without touching their site.
+> - **Responsive Tab by Device**: A **Settings** panel with a *Desktop / Tablet / Mobile* selector, and on each one its own settings: the mobile breakpoints (480–768 px, 640 by default) and tablet (up to 1200 px, 1024 by default), **automatic full screen on mobile**, smart fit on tablet, and the header buttons.
+> - **Three States, and on Mobile Only Two**: The chat is closed, open, or maximized. On a phone there is only closed or full screen: tapping the icon fills the whole viewport (`100dvh`), and **there is no maximize button**. That one is optional, per device, only on desktop and tablet.
+> - **Minimize and Close Buttons per Device**: *Minimize* (returns to the icon) comes on for desktop and tablet and off for mobile. *Close* (**removes the chat from the page** until reload) comes off on all of them. Minimizing from maximized no longer restores the window: it returns to the icon.
+> - **Tapping the Header Strip Minimizes the Chat** on any device, whether or not the minimize button is on (on mobile since CDN v1.3.7; on tablet and desktop since v1.3.10). A tap on a button is handled by the button. That way there is always a way out, even if minimize and close are off.
+> - **`widget.destroy()`**: A new method to remove the chat from the page; `widget.close()` still leaves only the icon.
+> - **Auto-fit on Tablet**: The widget does not overflow the screen: it is limited to 88% of the available width and 82% of the available height. It is reevaluated on rotate or resize.
+> - **"Enable Maximize" Switch out of Developer**: It is now chosen only per device in Responsive.
+> - **Test Page to Share**: A button in the web integration opens `/widget-demo/{tree_id}`, a page with only that bot loaded, without login, so you can show it to someone without installing anything.
+> - **Unsaved Changes Notice**: The preview uses what is on screen and the test page uses what is saved; the settings now warn when they differ.
+> - **Default Context**: On the *Developer* tab you define context variables that the widget sends on every request. What the page injects with `widget.injectContext(...)` overrides them.
+> - **Injected Context on the First Turn**: Before, it was lost exactly on the welcome turn and the variables came out empty.
+> - **Typography**: The default font size drops to `0.8rem`, and the *Message Font Size* adjustment now reaches the paragraphs and buttons of rich messages, not only plain text.
+> - **Colors**: The avatar follows the header color until someone changes it on purpose, *Reset* resets it, and the launcher button no longer turns orange on hover with other palettes.
+
+### 🧱 HTML Block in Rich Messages
+> - **New `html` Type**: Write tags (`<h3>`, `<p>`, `<blockquote>`, `<img>`, `<a>`…) or put a session variable (`{$noticias}`) that a tool or an API returned.
+> - **Editor with Preview**: *Code / Variable* and *Preview* tabs, and several fragments per block.
+> - **Sanitized**: The HTML is cleaned before it is rendered: `script`, `iframe`, `object`, `embed`, `form`, and `input` do not get through, nor do event attributes (`onerror`, `onclick`…).
+> - **Lists and JSON as Data**: A variable that contains a list of elements (`title`, `image`, `content`/`html`/`excerpt`) is rendered as a series of separate fragments.
+> - **List and Object Interpolation**: `{$variable}` with a list or an object is now inserted as JSON instead of failing or showing the internal representation.
+> - **`html` and `json` Response Types**: The engine accepts them as a direct response and delivers them to the widget as an HTML block.
+> - **Also in the CDN Widget (v1.3.6)**: It renders the `html` block and `html` responses inside the chat, instead of showing the tags as text. It sanitizes with DOMPurify and opens links in a new tab with `noopener noreferrer`. The bundle goes from 109 to 144 KiB because it includes DOMPurify.
+
+### 🧠 Training and NLP
+> - **Basic Mode by Default**: New trees train in **Basic** mode, and also when the mode is not defined. Before, it was Pro.
+> - **Entity Masking**: Before comparing, the user's text is masked with its entities (*"dos pizzas de pepperoni"* (two pepperoni pizzas) → `@sys.number @categoria de @sabor`). Patterns with `@entidad` now match exactly, and the Machine Learning classifier trains and queries on masked text.
+> - **Lighter Training**: The entity recognizer trains in batches and with fewer passes on large trees, the utterance generator no longer multiplies every combination, and training has a memory and time ceiling (5 minutes per step).
+> - **A Failure Is No Longer Announced as Success**: A training that crashed came out as "not trained" and the interface treated it as fine. Now the status is `error`.
+> - **Training Worked Again**: Since Sep 7, phases 1 and 2 died with `ModuleNotFoundError` in every environment.
+> - **Forced Training**: When the button is on "up to date" you can retrain anyway (`?force=true`), and a second training is not launched on top of one in progress. Trainings stuck for more than 20 minutes are treated as failed.
+> - **Templates and the Agent Mark the Tree as Out of Date**: Applying a template or replacing intents in bulk now warns that you have to retrain. Before, the engine kept going with the old model without saying anything.
+> - **When You Open the Application**: It opens the last tree you worked with, and if none is remembered, one of the existing ones.
+
+### 🛠️ Tools and Scripts
+> - **Three Execution States**: `ok` (✓ 200), `sin datos` (⚠ 200 with no output variable: the flow continues with the fallback values), and `error` (✗). Before, a correct response with no outputs configured counted as an error.
+> - **Message if It Fails**: Each tool and script has its friendly message per language. The end user no longer reads the technical text; that stays in debug mode.
+> - **Tests through the Backend**: The *Test* button runs the tool with the same executor as the conversation, without CORS or different criteria. It is only marked validated with status `ok`.
+> - **Pencil to Edit without Leaving**: On the tool and script cards of the node editor and on the cards of the console's debug mode, with the same editor as the Tools page.
+> - **Scripts with Their Icon**: Debug cards distinguish scripts (`<>`) from tools.
+> - **Security**: Listing, saving, changing the status, and reading the execution logs of a tree's tools now requires a session (or API key) and that the tree belong to your workspace. Before, some of those endpoints responded without authentication.
+
+### 💬 Responses by Channel
+> - **New Names**: The section is called *Responses by channel* and the default tab, *General*. A single **Add Block** button; inside it you choose the elements, and the blocks are numbered.
+> - **With Several Blocks the Bot Picks One at Random** on each response and sends all of its elements. The screen says so now.
+> - **General Accepts Element Blocks**, the same as the other tabs. Channels that do not know how to render them convert them to text.
+> - **The Draw between Two Copies Is Over**: Editing a template on screen left the previous version alive and the bot alternated between the two ("sometimes three buttons come out and sometimes five"). The stored translation is what gets sent.
+> - **An Empty Block Is Not Sent and Does Not Enter the Draw**: Blank bubbles no longer appear.
+> - **A Template's Text Is Not Invented**: The fillers "Rich message content" and "Rich message" disappear.
+
+### 🔌 Messaging Channels
+> - **WhatsApp, Messenger, Instagram, Slack, Discord, and Email Actually Reply**: They called the engine with the wrong arguments and always responded with a fixed greeting.
+> - **Each Channel with Its Workspace's Credentials**: Before, they took the first credential from any workspace.
+> - **Webhook Signatures**: Meta, Slack, Discord, Telegram, and Resend verify the signature; without a configured secret, they do not get through.
+> - **Telegram**: The session is per bot (a person talking to two bots no longer carries the first one's node), conversations are saved in the history, the webhook is registered on connect, and location, cards, and link buttons are sent correctly.
+> - **Secrets**: Saving with the token field empty no longer deletes it, and the screens no longer receive Slack's *Signing Secret* or the Telegram token.
+
+### 🗄️ Backups and Content by Language
+> - **Incremental Backups**: Each automatic backup saves the conversations that happened since the previous one, not the whole history. On a bot with traffic they were dropping from 18 MB per copy and climbing. The first copy and manual exports still carry everything.
+> - **Paginated Listing**: The backup listing took minutes because it loaded the content of each one; now it asks only for what it shows and pages twenty at a time (35 times faster in the measurement).
+> - **Restore, Import, or Apply a Template No Longer Deletes What Was Written on Screen**: Translation sync was overwriting training utterances and blocks with empty values; now it seeds without overwriting. An imported tree was left without translations and the bot recognized nothing until you retrained by hand.
+> - **Backups Include the Translations**, which is where the content lives.
+> - **Diagnostic**: `scripts/diagnostico_respuestas_divididas.py` (read only) detects duplicated content between the base column and the translation.
+
+### 🩺 Operations and Deployment
+> - **`/api/health`**: It also checks the database, and Docker watches the backend with it. `/api/ping` still measures only that the process responds.
+> - **Update Templates in a Database Already Created**: A script applies template changes (which are data, not code) to an existing database; deploying did not move them.
+> - **Voice in Production**: The backend looked for the voice service on the wrong port and STT/TTS had been down without notice.
+> - **Git Hook**: `pre-push` cancels the push if the frontend does not compile. It is activated once per copy with `git config core.hooksPath .githooks`.
+> - **Development**: The development `docker-compose.yml` services have their own name, configurable volumes and ports (`DEV_DB_PORT`, `DEV_PGADMIN_PORT`), and CPU and memory ceilings, so they can coexist with production on the same machine.
+> - **Broken Links**: The "Read documentation" of linked branches and the OpenRouter attribution header pointed at domains that no longer exist.
+
+### 🐞 Fixes
+> - **A Complete Order at Once Lost Its Lines**: "give me 1 chicken empanada and 2 beef arepas" confirmed both and, on close, only the first; and a correction was applied to the wrong line.
+> - **Creating a Tree with Lag Duplicated Trees**: Every extra click with a slow server created another one. The import button had the same defect.
+> - **Save a New Leaf from the Editor**: `PUT /design/leaves` creates the leaf if it did not yet exist in the database, instead of responding 404.
+> - **Linked Branches with a Composite ID**: The intent editor sent an ID with a suffix and the server responded 422; now it interprets it.
+> - **Partial Updates**: `PUT` of intents and entities accepts only the fields that change and does not empty the rest. Entities are also located by name.
+> - **"Done" Button** said "Done, I already saved my key" throughout the application, and it was missing in German, French, and Italian.
+> - **Switching to a Beginner Bot from the Tests Tab** left the Conversations view blank; now it returns to History.
+> - **The Console Respects the Chosen Channel** and no longer draws again on the client.
+> - **Frontend and Backend Refactor**: Modularization of design, backups, audit, canvas, authentication, and patterns, with the type errors that left behind corrected.
+> - **The Closed Console Shifted the Whole Layout to the Right**: When switching trees, the content ended up under the sidebar and there was a gap the width of the console. The closed console's box measured 0 but did not clip its panel, and the console chat's `scrollIntoView`, on mount, shifted the entire layout.
+
+</details>
+
+<details>
+<summary><strong>V-0.9.0 (September 2026) - Composite Entities with Aliases, Multi-line Orders, and Slot Filling That Does Not Trap</strong></summary>
+
+### 🧩 Composite Entities: Combination Rows and Parameter Alias
+> - **Definition by Rows**: A composite entity is now defined with several rows, the same as an intent's utterances. Each row is a valid way of saying the same thing — the order in another sequence, or with one part missing — and the one that fills the most slots wins.
+> - **Alias with a Colon**: `@Productos:producto` stores the `Productos` entity under the parameter name `producto`. Without the colon, the parameter is named the same as the entity.
+> - **Literal Words in the Rows**: A row accepts fixed text between the slots (`@categoria:cat de @sabor:sab`); if it is written, it has to appear in the utterance.
+> - **Highlight of the Whole Token**: In the editor, the highlight covers the whole `@Productos:producto`. Before, the alias was left out and looked like loose text of the utterance.
+
+### 📋 A Parameter Can Bring Several Values
+> - **Multiple Occurrences**: If the same entity appears twice in the utterance, the parameter stores **both**, in order. Until now the second overwrote the first and disappeared without notice.
+> - **Access as a List**: `{{$producto[0]}}`, `{{$producto[1]}}`, and `{{len($producto)}}`. A parameter that came in only once behaves as a list of one, so `[0]` always works.
+> - **Declare It Plural**: Writing the entity twice in the training utterance tells the tree that this parameter can come in more than once.
+
+### 🧾 Multi-line Orders
+> - **Enumeration**: "give me 1 chicken empanada and 2 beef arepas" is recorded and confirmed as both things. Before, only the first was confirmed and the second was lost in silence.
+> - **Ask for Each Line**: With two incomplete lines, the tree asks for each one and names which one it is talking about: "What flavor do you want for the 3 arepas?". Before, as soon as one line brought the data, the requirement was treated as met and the order closed incomplete.
+> - **Add versus Correct**: "and also three arepas" adds; "no wait, beef instead" corrects the last one and inherits what the utterance does not mention. An explicit marker is required to add, because recording food nobody ordered is worse than over-correcting.
+> - **The Order Ends When You Close It**: Closing or canceling clears the order. Before, the next one inherited the previous one.
+
+### 🎛️ Slot Filling That Does Not Leave the User Trapped
+> - **"Ends a capture in progress" Switch**: A new option per intent node. Canceling or saying goodbye ends the capture; a passing question, such as asking the hours, only pauses it and it is picked up afterward.
+> - **Maximum Attempts and Action When Exceeded**: `Pasar al siguiente parámetro`, `Responder aunque falte el valor`, or `Ir al nodo de contexto`. If every required one exhausts its attempts, the tree gives up with a message instead of going in circles.
+> - **It Does Not Ask What Has No Subject**: An utterance that depends on other parameters is not asked if they are all empty. The "What flavor do you want?" — of nothing — and the quantity of nothing behind it are gone.
+> - **Recapture**: Parameters marked as recapturable can be corrected while another one is being asked for.
+
+### 🔤 Template Language
+> - **`{{$variable}}` Is the Syntax**: The `$` is required to read a parameter. Also inside expressions: `{{ if $numero > 1 ? "${producto}s" : $producto }}`.
+> - **Comparators**: `$numero > 1` and the rest of the comparisons work on parameters.
+> - **`${var}` Inside Strings**: Interpolation inside a text literal.
+> - **A Missing Parameter No Longer Breaks the Message**: It counts as empty and only that part stays blank, instead of knocking down the whole expression and leaving the response mute.
+> - **No Orphaned Connectors**: An empty slot no longer leaves "How many empanada of  should I prepare for you?".
+
+### 🎯 Detection: Each Keyword in Its Intent
+> - **Word Boundaries**: An entity's utterances match on whole words. Before, `"el bar"` matched inside `"el BARrio"` and `"a m"` inside `"modificA MI pedido"`.
+> - **The Name Spelled Right in Responses**: The bot confirms with the correct name, not the user's typo: "i wnat 2 chese empanadas" is recorded as "2 cheese empanadas".
+> - **A Piece of an Utterance Does Not Fill Two Slots**: In "tomorrow at 8 at night", the 8 is the time and not also the number of people.
+> - **Shared Keywords**: Several intents that shared vocabulary left the split to chance; each one now has its own discriminator.
+
+### 📦 Export
+> - **"Include conversations" Is Respected**: The checkbox works now. Off — by default — the file does not drag the history along, which on a production bot is thousands of turns with customer data.
+
+### ⚡ Editor Performance
+> - **Memoized Contexts**: Global contexts created a new object on every render, so they re-rendered all of their consumers even when no data changed. Measured with 100 consumers: from 100 renders per cycle to 0.
+
+### 🏷️ Visible Version
+> - **The version appears at the bottom of login**: In small type, at the very bottom. In a local environment it comes out with the `· dev` suffix; in production, only the number. It lets you see at a glance what you are talking to when you report something.
+
+### 🔐 Credentials
+> - **Chrome no longer autofills API keys**: Key and bot token fields are marked as password to hide them, and the browser's password manager was putting a saved credential into them. It affected all 20 integration fields, including the AI provider key.
+
+</details>
+
+<details>
+<summary><strong>V-0.8.0 (August 2026) - Real-Time Presence, Visual Debug, Dialog Builder, and Improved Authentication</strong></summary>
+
+### 👥 Real-Time Presence System
+> - **Live Cursors**: Administrators see each collaborator's cursor in real time on the canvas and the conversational tree, through WebSocket.
+> - **Connected User Avatars**: Visual indicators on the Dashboard, Navbar, canvas (branch header + badges per node), and in the Intent and Entity editors.
+> - **Follow Mode**: Floating follow mode — an admin can sync their view with that of another connected user in a single click.
+> - **Highlighted Selection**: When a node is selected, the other connected users see a ring of a unique color around the selected element.
+> - **Restricted to Administrators**: Real-time interaction, cursors, and follow mode are restricted exclusively to users with the `admin` role.
+> - **Global Presence Endpoint**: New endpoint `GET /trees/{tree_id}/presence/overview` that returns the list of active users with their current location on the tree.
+
+### 🐛 Visual Debug on the Canvas
+> - **Real-Time Trace**: During console tests, the nodes visited by the engine are highlighted visually on the canvas with a distinct color.
+> - **Automatic Branch Navigation**: The canvas navigates automatically to the active branch during the debug session, keeping the focus on the flow that is running.
+> - **Traced Connections**: The edges (connections) between nodes are also highlighted to visualize the decision path the engine took.
+
+### 🏗️ Dialog Builder — New Console Tab
+> - **Third Tab in the Console**: A dedicated *Dialog Builder* tab was added in the editor's side console, next to Chat and Debug.
+> - **Chat History as Bubbles**: The conversation window was completely redesigned with a modern bubble-history style, visually distinguishing user turns (primary orange) and bot turns.
+> - **Inline Debug Accordions**: Debug data (confidence score, extracted entities, executed branch) is shown as collapsible accordions directly inside the history, without interrupting the conversation flow.
+> - **Restricted QA Mode**: The node toggle and the branch selector are disabled in console mode to avoid accidental modifications during tests.
+
+### 🔐 Improved Authentication
+> - **Auto-Logout for Inactivity**: Automatic sign-out after 1 hour without user activity, with a prior warning.
+> - **"Remember Credentials" Checkbox**: An option on the login form to persist credentials across browser sessions.
+
+### 🌿 Branch Duplication
+> - **Duplicate Branch Action**: A new option in the `/branches` view (test/expert mode) to duplicate a complete branch with a custom name prompt.
+
+### 🔧 Engine Fixes (Regex and API)
+> - **Matching Strategies (`utils.py`)**: Fixes in the deterministic engine's regex matching strategy utilities.
+> - **Conversation Endpoints**: Alignment of the conversation endpoints with the canonical path `/trees/{tree_id}/conversations` and the `/api/trees/` alias in `app.py`.
+> - **TypeScript Fix**: Removal of unused imports and type corrections in UI components (`NavIcons`, `GeneralTab`, `ConsoleChatWindow`).
+
+</details>
+
+<details>
+<summary><strong>V-0.7.0 (July 2026) - Advanced Multichannel, Standardized Modals, and Native Payloads per Platform</strong></summary>
+
+### 🔌 New Integrations and Channel Reorganization (`backend/api/integrations/`)
+> - **Slack App (Events API)**: Real-time integration with the Slack API and native **Block Kit** rendering (`section`, `actions`, `button`, `image`).
+> - **Discord Bot API**: Support for **Rich Embeds** and interactive `ActionRow` components with an ED25519 verification response (`type=1`).
+> - **ElevenLabs Voice AI**: Multilingual neural voice synthesis (`eleven_multilingual_v2`) with a voice selector.
+> - **AI Avatars**: Generation of interactive video responses with HeyGen and D-ID avatars.
+> - **Clean Integration Structure**: Routers modularized in `backend/api/integrations/` and API clients in `frontend/src/api/integrations/`.
+
+### 🎛️ Modal and UI Standardization
+> - **Status Card and ON/OFF Switch**: Reorganization of the 8 integration modals with a visual status card (`IntegrationStatusCard.tsx`) and an internal ON/OFF switch to activate or deactivate connections without leaving the modal.
+> - **Integration Categorization (`IntegrationsView.tsx`)**: Standardized labels: 🟢 **Stable** (Telegram, Web), 🟡 **Unstable** (WhatsApp, Facebook, Slack, Email, Instagram, Discord, ElevenLabs, AI Avatars), and ⚪ **Not yet implemented** (SMS, BYOC).
+
+### 💬 Visual Blocks and Native Payloads per Platform
+> - **Dynamic Tabs per Channel**: In the response editor (`ResponsesSection.tsx`), each active integration has its dedicated tab for creating responses and rich blocks tailored to the channel.
+> - **Native Multiplatform Translator (`native_rich_messages.py`)**: Intelligent translation of TreeFlow visual blocks to the official native structures of WhatsApp (interactive Buttons/Lists), Facebook (Generic Templates/Quick Replies), Slack (Block Kit), Discord (Rich Embeds/Buttons), and Resend Email (responsive HTML with CTAs).
+</details>
+
+<details>
+<summary><strong>V-0.6.0 (July 2026) - AI Builder Agent, Multitenant Security, and Production Optimization</strong></summary>
+
+### 🤖 TreeFlow AI Builder Agent
+> - **AI-Assisted Console**: An intelligent console able to create, query, and modify branches, nodes, intents, entities, message templates, users, and fertilizers in real time.
+> - **2-Layer Anti-Duplicate Protocol**: A mandatory rule in the System Prompt and backend validations in `create_branch`, `create_leaf`, `create_intent`, `create_entity`, `create_message_template`, and `create_fertilizer` that prevent creating duplicate resources by name.
+> - **Transactional Savepoints (`db.begin_nested()`)**: Safe execution of tools with automatic rollback on error to protect the tree's integrity.
+
+### 🛡️ Multitenant Security and Isolation
+> - **Ownership Verification (`verify_tree_ownership`)**: Validation that the tree belongs to the workspace (`tree.workspace_id == current_user.workspace_id`) on `/chat`, `/confirm`, and `/sessions`.
+> - **Immunity to Prompt Injection / Hallucinations**: Forced overwrite at the backend level of the `tree_id` and `workspace_id` parameters when the agent's tools run.
+> - **DB Join Filters and HTTP Headers**: Strict isolation by `tree_id` in PostgreSQL and automatic injection of security headers (`X-Content-Type-Options`, `X-Frame-Options`, `X-XSS-Protection`, `Referrer-Policy`).
+
+### ⚡ Performance, Rate Limiting, and Production
+> - **Rate Limiting (120 req/min)**: Protection through a sliding window on the Deterministic Engine (`/api/process-message`) and Channel Webhooks (`/api/webhooks/telegram/{tree_id}`) against flooding attacks (DoS).
+> - **GZip Compression (`GZipMiddleware`)**: 80–90% transfer size reduction for payloads > 1KB (visual speedup of the canvas and listings).
+> - **B-Tree Indexing**: Indexes on `Leaf.branch_id` and `Branch.tree_id` in PostgreSQL for sub-millisecond queries.
+</details>
+
+<details>
+<summary><strong>V-0.5.0 (June 2026) - Templates, Telegram, and Rich Blocks</strong></summary>
+
+### 🔌 Integrations and Advanced Webhooks
+> - **Official Telegram**: Native connection with Telegram, rendering of 14 rich blocks (carousels, buttons, media) with end-to-end tests.
+> - **Third-Party Webhooks**: Support and stability of webhooks (`Fertilizantes`).
+
+### 🤖 Generation and Templates
+> - **Industrial Models**: Deep refactor of templates.
+> - **Complex Reforestation**: Modifications and improvements to natural parsing and highlighting in the editor.
+> - **Relative Entity Support**: Capture of dynamic dates and complex proper names in templates.
+</details>
+
+<details>
+<summary><strong>V-0.4.2 (May 2026) - UI Stability and Tests</strong></summary>
+
+### 🎨 Experience and QA
+> - **Full Responsiveness**: Complete adjustments so TreeFlow works at every screen size.
+> - **Default Agents**: Addition of preloaded bots and agents for a fast start.
+> - **Automated Testing**: Integration with Playwright for robust E2E tests.
+</details>
+
+<details>
+<summary><strong>V-0.4.1 (April 2026) - Engine Stabilization</strong></summary>
+
+### 🛠️ Core Improvements
+> - Global fix for saving branches and state.
+> - Correction in enabling and disabling parameters (slot filling).
+> - Final interface translations.
+</details>
+
+<details>
+<summary><strong>V-0.4.0 (March 2026) - Applied Generative AI and Infrastructure</strong></summary>
+
+### 🤖 GenAI and UI
+> - **AI Tools**: A generative engine able to use external tools in real time.
+> - **Beginner Mode**: Introduction of interactive tutorials and simplified modes.
+
+### 🚀 Deployment and DevOps
+> - **Staging Environment**: Configuration of dynamic URLs through Cloudflared.
+> - **Dynamic CORS**: A solution so Frontend, Backend, and Grafana can coexist on separate ports.
+</details>
+
+<details>
+<summary><strong>V-0.3.2 (February 2026) - Architecture and Security</strong></summary>
+
+### 🛡️ Security
+> - Deep correction of sign-in (Login) policies and security properties.
+> - Technical architecture documented.
+</details>
+
+<details>
+<summary><strong>V-0.3.1 (January 2026) - Slot Filling and Dynamic Variables</strong></summary>
+
+### 💬 Intelligent Responses
+> - Support for injecting and using parameter variables directly in text messages (`{variable}`).
+> - Multi-parameters (slot filling) optimized for multiple entities in the same intent.
+</details>
+
+
+## 📜 Base History (2025)
+
+<details>
+<summary><strong>V-0.3.0 (December 2025) - The Conversational Canvas</strong></summary>
+
+### 🎨 Canvas Engine
+> - **Visual Editor (Canvas) Launch**: A working drag-and-drop graphical interface with the Matcher.
+> - **Integrated Message System**: Intents now render content directly on the node.
+</details>
+
+<details>
+<summary><strong>V-0.2.3 (November 2025) - Analytics and STT</strong></summary>
+
+### 📊 Monitoring
+> - Integrated **Grafana and Prometheus** operations dashboard.
+> - Complete conversational history with **Sentiment Analysis**.
+> - Insertion of Speech-to-Text (STT) logs.
+</details>
+
+<details>
+<summary><strong>V-0.2.2 (October 2025) - Phased AI Generation</strong></summary>
+
+### 🤖 Reforestation and Highlighting
+> - **6-phase AI Pipeline**: Conversational analysis, semantic structuring, synonyms, and application (Groq Models).
+> - **Dark Mode**: Native implementation and intelligent cache.
+> - Interactive visual highlighting (`Highlight`) of recognized entities in the text boxes.
+</details>
+
+<details>
+<summary><strong>V-0.2.1 (September 2025) - Generative Base</strong></summary>
+
+### 🧠 Foundational Models
+> - Endpoint changes for NER (Named Entity Recognition) models.
+> - Refactor of the generative system's base Prompts.
+</details>
+
+<details>
+<summary><strong>V-0.2.0 (August 2025) - Multimodal AI and Web Widgets</strong></summary>
+
+### 🎨 Design and Widget
+> - **Web Widget V2**: Launch of the interactive, embeddable Web Widget (Shadow DOM).
+> - Isolated Generative Backend and user Control Panel.
+</details>
+
+<details>
+<summary><strong>V-0.1.0 (July 2025) - Workspaces and Fertilizers</strong></summary>
+
+### 🏢 Multi-Environment Structure
+> - Official launch of the **Workspaces** system (independent accounts and user segregation).
+> - Implementation of the interactive Live Testing modal for **Webhooks**.
+</details>
+
+<details>
+<summary><strong>V-0.0.2 (June 2025) - Advanced Metadata</strong></summary>
+
+### ⚙️ Parameters and Contexts
+> - Global handling of user Metadata (sys variables) and functional input and output contexts.
+> - Logical requirement of user parameters for validation.
+</details>
+
+<details>
+<summary><strong>V-0.0.1 (May 2025) - Initial Launch</strong></summary>
+
+### 🌱 The TreeFlow Seed
+> - Architectural base of Trees, Branches, and Leaves.
+> - Native implementation of base `@sys` entities and logical detectors with FastAPI + React.
+> - Machine Learning vs Fuzzy Logic threshold adjustments.
+</details>

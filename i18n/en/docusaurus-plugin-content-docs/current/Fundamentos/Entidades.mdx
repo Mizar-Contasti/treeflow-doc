@@ -1,0 +1,141 @@
+---
+sidebar_position: 7
+sidebar_label: Entities
+---
+
+# Entities
+
+In the menu they are called **Entities**. They are the data the engine extracts from an utterance: a product, a date, a number. The [intent](./Intenciones) decides what the person meant. The entity decides which piece of the utterance is stored.
+
+## The list
+
+**Entities** opens the cards. At the top you search by name. There are four tabs.
+
+![List of simple entities, with search and New Entity](/img/entidades/lista.png)
+
+| Tab | What it stores |
+|---|---|
+| **Simple** | A value and the ways of saying it |
+| **Composite** | Several entities together in a single utterance |
+| **Regex** | A fixed format, with a regular expression |
+| **System** | The ones TreeFlow already includes (`sys.number`, `sys.date`…) |
+
+- **New Entity** opens the form. If you are on Composite or Regex, the type is already chosen.
+- A click on the name opens the editor.
+- The orange strip asks for confirmation before deleting it. If an intent is using it, the deletion warns you.
+- **System** cannot be deleted or edited.
+
+## The form
+
+At the top, **Entity name** and **Type**. **Save changes** writes the entity. **Clear all** empties the values and asks for confirmation.
+
+The name is an identifier. Spaces become `_`. On save it is stored in lowercase and without accents. The `ñ` is kept.
+
+If the tree has more than one language, the languages sit next to the name: each one edits its synonyms.
+
+Below is the **Entity tester**. It shows whether an utterance lands on a value, without training the tree.
+
+## Simple
+
+A simple entity is a list of values. Each value has a **key** — what is stored — and **synonyms** — other ways of saying it.
+
+![sabor_producto: beef, chicken, cheese, and the rest, each key with its synonyms](/img/entidades/simple.png)
+
+- The key is typed below and confirmed with **Enter**. Several keys separated by a comma come in at once: `pizza, hamburguesa`.
+- In **Add synonym** the same thing happens: Enter, or several separated by a comma.
+- The key also counts as a way of saying it. `pizza` matches even if it is not repeated in the synonyms.
+- A click on the key or on a synonym edits it. The synonym's X removes it. The trash removes the whole value.
+
+`quiero de queso` lands on the key `queso`, because `queso` is one of the ways of saying it.
+
+If in a simple entity you type `@` to cite another entity, the form asks whether you convert it to **Composite**.
+
+## Composite {#2-entidades-compuestas}
+
+A composite entity reads **several entities at once**. `2 pizzas` is a number and a product, and it is a single row.
+
+Each row is a valid way of saying it. You type the pattern and confirm with Enter.
+
+![orden: verb, action, quantity, category, flavor, and service on the same row](/img/entidades/compuesta.png)
+
+```
+@sys.number @producto
+@sys.number @producto de @sabor
+@producto
+```
+
+- `@producto` cites the `producto` entity.
+- The words in between, such as `de`, have to be in the utterance.
+- The engine keeps the row that fills the most slots.
+
+The name that comes after the colon, such as `@producto:producto_pedido`, is the [parameter](/docs/Avanzado/Parametros) name.
+
+On the row, each `@` is highlighted. The trash removes that row.
+
+## Regex {#3-entidades-regex}
+
+A regex recognizes a format, not a list of words. It is for a CURP, an employee number, a code.
+
+![contacto: a phone and an email, both marked as a valid pattern](/img/entidades/regex.png)
+
+The **Regex pattern** field warns you if the expression is valid. **Add variant** adds another pattern: one match is enough. Enter in the field opens the next variant.
+
+In `contacto` there are two variants: a phone and an email. It is enough for the utterance to match one of them.
+
+In a regex tester, what you type is converted to uppercase and spaces are removed, so the clean format is tested.
+
+## Tester
+
+The tester is on the same form. You type an utterance and it says whether it landed on a value.
+
+![I want cheese: the tester marks a match found](/img/entidades/probador.png)
+
+- **Captured value** is the key that is stored.
+- **Type** says whether it was exact, normalized (without accents, similar), or by the pattern.
+- If there are no values yet, the field asks you to add them first.
+- **System** ones are not tested here: the engine detects them.
+
+The tester does not replace training. To see the utterance inside a conversation, save, train, and test in the [console](/docs/Fundamentos/ProbarElBot).
+
+## System
+
+The **System** tab is the ones the engine already includes. They are not created, not edited, and not deleted. In an [intent](./Intenciones) pattern they are cited with an at-sign.
+
+A reservation fits in one utterance:
+
+```
+quiero mesa para @sys.number el @sys.date a las @sys.time
+```
+
+`quiero mesa para 4 el martes a las 10:30` fills three pieces of data: the number `4`, Tuesday's date, and the time `10:30`.
+
+![The System cards: each one says what it recognizes](/img/entidades/sistema.png)
+
+The card's icon opens the examples and the format the value comes out in. This page's tester does not test them: the engine detects them when it trains.
+
+| Cited as | An utterance | Also recognizes |
+|---|---|---|
+| `@sys.number` | I want **3** pizzas | `45`, `3.14`, `tres`, `mil doscientos`. The number comes out: `3` |
+| `@sys.date` | the appointment is **tomorrow** | `10 de mayo`, `martes`, `ayer`, `2024-05-10`. It comes out as `AAAA-MM-DD` |
+| `@sys.time` | at **10:30** | `10`, `3pm`, `15:45`, `a las 3`. It comes out as `HH:MM` |
+| `@sys.month` | in **January** | `febrero`, `marzo`, … `diciembre`. The month comes out as `01` through `12` |
+| `@sys.email` | write me at **ana@correo.com** | `contacto@empresa.mx` |
+| `@sys.phone` | my number is **4421234567** | `+52 123 456 7890`, `442-123-4567` |
+| `@sys.currency` | that's **100 pesos** | `$25.50`, `€50`, `25 dólares` |
+| `@sys.percentage` | a **25%** discount | `50 por ciento`, `10.5%` |
+| `@sys.quantity` | **2 kilos** of tortilla | `5 piezas`, `3.5 litros`, `10 metros` |
+| `@sys.temperature` | it's **25 degrees** | `25°C`, `77°F`, `-10 celsius` |
+| `@sys.url` | the page is **https://ejemplo.com** | `http://www.sitio.mx`, `www.ejemplo.com` |
+| `@sys.zipcode` | the code is **76000** | `01000`, `44100`. Five digits, Mexico format |
+| `@sys.coordinates` | at **19.4326, -99.1332** | latitude and longitude in decimal |
+| `@sys.ip_address` | the IP **192.168.1.1** | `8.8.8.8`, `2001:0db8::1` |
+| `@sys.sip_address` | call **sip:usuario@dominio.com** | `sip:1234@192.168.1.1:5060` |
+| `@sys.any` | the comment **whatever it is** | any text, up to 100 characters |
+
+`sys.phone` and `sys.zipcode` are tuned for Mexico. The engine recognizes `sys.month` even if the tab does not have its card. The tab does show `sys.geo-city`, with examples such as Querétaro, Monterrey, and Mexico City.
+
+## Train
+
+**Save changes** leaves the tree out of date. New values enter the conversation when you train, with the **Train** button at the bottom of the menu.
+
+An entity enters the utterance when a [pattern](./Intenciones) cites it.

@@ -1,0 +1,32 @@
+---
+sidebar_position: 3
+sidebar_label: Funcionalidade
+---
+
+# Funcionalidade
+
+A aba **Funcionalidade** de [Web Chatbot Widget](./setup) decide o que acontece ao abrir o chat. Isso não se configura no HTML do site.
+
+![Funcionalidade: a intenção no início, abrir ao carregar, arquivos, o atraso e o microfone](/img/canales/web.png)
+
+## Executar intenção no início
+
+Ao abrir o chat, o bot pode dizer algo sem que a pessoa escreva. O seletor lista as intenções e os eventos que dependem de um contexto do fluxo principal e dos fluxos vinculados. A pessoa não vê uma mensagem sua: vê a resposta desse nó.
+
+Se o seletor indicar que não há intenções ancoradas, o fluxo principal não tem um contexto com intenções. Na Cafetería, esse contexto se chama **Início**. Escolhe-se uma, por exemplo `saludo`, e salva.
+
+É o mesmo seletor da bandeira do [console](/docs/Fundamentos/ProbarElBot).
+
+## Os demais interruptores
+
+**Abrir ao iniciar.** Ligado, a janela se abre sozinha ao carregar a página. Desligado, fica o círculo do canto.
+
+**Anexar arquivos.** A pessoa pode enviar imagens, vídeos, PDF, Word e Excel: até 1 MB e 5 arquivos.
+
+**Atraso na resposta.** Antes de responder, aparece a animação de «digitando». O atraso vai de 500 a 10000 milissegundos. O habitual é 1500.
+
+**Gravação de áudio com STT.** O interruptor fica desligado até o bot ter STT na configuração de voz. Ligado, o microfone transcreve e envia o texto.
+
+**Idioma padrão** aparece só se a árvore tiver mais de um idioma. É o idioma com o qual o widget inicia.
+
+Cada alteração pede **Salvar alterações**. A [página de teste](./setup#probarlo) lê o que foi salvo; **Testar agora** lê o que está na tela.

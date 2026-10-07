@@ -1,0 +1,46 @@
+---
+sidebar_position: 5
+sidebar_label: Uma resposta para a web
+---
+
+# Uma resposta para a web
+
+Cada mensagem tem duas classes de aba. **Default** sempre está: é texto, e é o que sai quando o canal não traz uma versão própria. **Web** aparece quando o canal web está conectado. Ali o bloco é de elementos enriquecidos, e só quem escreve pela web o vê.
+
+## O texto de Default
+
+**Mensagens** → `restaurante_saludo_response`. Em **Default** o tipo é **Texto**. O campo se chama **Texto da resposta**.
+
+![Default: a saudação em texto](/img/mensajes/editor.png)
+
+Negrito, itálico e sublinhado marcam o selecionado com `**`, `*` e `__`. **Salvar alterações** volta à lista.
+
+![A lista de mensagens](/img/mensajes/lista.png)
+
+## A aba Web
+
+Mude para **Web**. O tipo é **Elementos enriquecidos**. **Adicionar elemento** soma um parágrafo, uma imagem, botões, um cartão ou um carrossel. Reordenam-se arrastando.
+
+![Web: um bloco com uma imagem](/img/mensajes/web.png)
+
+| Elemento | Para quê |
+|---|---|
+| Parágrafo | O texto. Pode haver vários no mesmo elemento |
+| Imagem | Uma URL e o texto alternativo |
+| Botões | Cada um com rótulo e uma ação |
+| Cartão | Título, subtítulo, imagem e botões |
+| Carrossel | Vários cartões, um ao lado do outro |
+
+Um botão pode enviar texto (é isso que a pessoa escreve), abrir uma URL ou disparar um evento. No parágrafo cabe uma função: `{$nombre}`.
+
+Se houver dois blocos na mesma aba, o bot escolhe um ao acaso. Um bloco vazio não viaja.
+
+## Vê-la no console
+
+Abra o console e coloque o segundo botão em **Web**. `hola` deve mostrar o bloco da aba Web.
+
+![O console, com o canal acima do chat](/img/testeo/consola.png)
+
+Se sair o parágrafo de Default, a aba Web dessa mensagem está vazia, ou o canal do console continua em **Padrão**.
+
+O catálogo de elementos está em [Mensagens](/docs/Fundamentos/Mensajes). O código para colar o chat em um site está em [Setup do widget web](/docs/Canales/Web/setup).

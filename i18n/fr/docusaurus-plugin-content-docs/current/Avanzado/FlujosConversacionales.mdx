@@ -1,0 +1,113 @@
+---
+sidebar_position: 1
+sidebar_label: Flux
+---
+
+# Flux
+
+Un flux est le dessin de la conversation : des nœuds et des flèches. L'arbre peut en avoir plusieurs. L'un est marqué **Principal** et c'est celui qui démarre si, dans la console, le premier bouton dit **Par défaut**.
+
+Dans Cafetería, le principal est **flujo_principal**. **Restaurante** est la carte du lieu. L'écran, bouton par bouton, est dans [Flux](/docs/Fundamentos/Flujos). Cette page parcourt cette carte.
+
+## La liste
+
+**Flux** ouvre les cartes. On cherche par nom. **Nouveau flux** en crée un vide. L'icône de copie le duplique. La corbeille efface, sauf le principal. **Modèles** applique un secteur : intentions, entités et le dessin. Réappliquer n'écrase pas la question d'un paramètre qui existait déjà.
+
+![flujo_principal marqué Principal, et le flux Restaurante](/img/flujos/lista.png)
+
+## Configuration
+
+En ouvrant un flux, il y a deux onglets : **Conception** et **Configuration**.
+
+![Nom, description et l'interrupteur de flux principal](/img/flujos/configuracion.png)
+
+- **Nom du flux.** C'est l'identifiant. Dans la console, il sort dans le premier bouton.
+- **Description.** Pour se rappeler de quoi il s'agit. La personne ne la voit pas.
+- **Flux principal.** Il ne peut y en avoir qu'un. Celui qui l'est déjà ne s'éteint pas d'ici : on l'allume dans l'autre flux et on enregistre. Le principal ne se supprime pas. C'est le point de départ lorsque la console dit **Par défaut**.
+
+En haut à droite, l'icône d'enregistrement s'allume lorsqu'il y a quelque chose de non enregistré : un nœud déplacé, une flèche, le nom, l'interrupteur. Fermer l'éditeur n'enregistre pas tout seul. Déplacer un nœud ne change pas ce que le bot répond. Changer l'intention, un motif ou une entité, si : l'éclair du menu redevient orange et il faut entraîner.
+
+## Le canevas
+
+**Conception** est la carte. Chaque nœud se fait glisser. En bas à gauche se trouvent le zoom, centrer et **Tidy Up**, qui range les nœuds.
+
+![Inicio, les intentions du restaurant, l'événement et le saut vers flujo_principal](/img/flujos/lienzo.png)
+
+Le **+** orange crée le nœud selon l'endroit d'où vous partez. Depuis un contexte, il propose une intention ou un événement. Depuis une intention ou un événement, il propose un contexte. La flèche marron, sous le +, se fait glisser jusqu'à un autre nœud pour les relier. La ligne continue est le chemin. La ligne pointillée est un événement.
+
+| Nœud | Ce que c'est |
+|---|---|
+| Contexte, vert | Là où le bot attend. Dans Restaurante, il s'appelle **Inicio** |
+| Intention, orange | S'active lorsque le moteur reconnaît cette intention |
+| Événement, l'éclair | Il n'a pas compris (`sys.no-match`) ou rien n'est arrivé (`sys.no-input`) |
+
+La pastille `flujo_principal` est un lien : depuis ce dessin, on peut aussi sauter vers ce flux.
+
+## Où il attend
+
+Le contexte ne dit pas une phrase. Il liste ce que l'on peut reconnaître tant que la conversation est là.
+
+![Inicio, avec les intentions et l'événement de ce tronçon](/img/flujos/contexto.png)
+
+- **Intentions.** Celles de ce tronçon. On choisit un nœud qui existe déjà, ou on en crée un. Retirer le lien ne supprime pas l'intention.
+- **Événements.** Celui de ne pas comprendre, celui du silence, ou un nom qu'un autre pas déclenche.
+- **Flux liés.** Depuis ici, les intentions de l'autre flux valent aussi. Si les deux ont `saludo`, lorsqu'on est dans l'un, c'est le nœud de ce flux qui s'exécute, pas celui de l'autre.
+
+Le flux principal est lié à Restaurante. C'est pour cela qu'en démarrant sur **Par défaut**, on peut aussi commander ou réserver. Le salut qui répond est celui du flux dans lequel vous êtes.
+
+## Un pas, et le retour
+
+Le nœud orange n'entraîne pas l'intention. Il la pointe. Motifs et paramètres s'éditent dans [Intentions](/docs/Fundamentos/Intenciones).
+
+![saludo : l'intention, le message et le retour à Inicio](/img/flujos/conversacion.png)
+
+**Conversation**
+
+- **Intention.** Si elle est déjà dans ce flux, ou dans un flux lié, le sélecteur la marque **En cours d'utilisation**.
+- **Réponse.** Un modèle de [message](/docs/Fundamentos/Mensajes), **+ Créer un modèle**, ou **Message personnalisé**. Il est envoyé lorsque les données sont déjà là, après les outils de ce nœud.
+- **Transition.** Où l'on continue :
+  - **Aucun.**
+  - Un contexte du canevas, ou un nouveau.
+  - **Changer de flux**, au début d'un autre.
+  - **Redémarrer le flux actuel.**
+  - **Transférer à un humain.** Passe la conversation au [service d'assistance](./MesaDeAyuda).
+
+`saludo`, les horaires, le menu et la commande reviennent à **Inicio**. C'est pour cela que la phrase suivante s'entend de nouveau.
+
+## Fonctionnalité {#funcionalidad}
+
+Tant qu'aucune intention n'est choisie, cet onglet demande de revenir à Conversation.
+
+![Scripts, outils, terminer la capture et le webhook](/img/flujos/funcionalidad.png)
+
+- **Scripts** et **outils.** Ce que ce pas appelle à l'extérieur. Ils se créent dans [Outils](/docs/Herramientas).
+- **Termine une capture en cours.** Si la personne dit cela pendant que le bot demande des données. Activé, la question est considérée comme terminée : annuler ou prendre congé. Éteint, ce qui est le réglage d'usine, le bot répond et reprend la question, avec ce qui est déjà écrit.
+- **Appeler le webhook sur ce nœud.** Le webhook de l'arbre s'exécute en passant par ici, avant les outils. S'il n'y en a pas d'actif, il ne se passe rien.
+
+Le contexte n'a pas de réponse ni de « termine une capture ». L'événement ne ferme pas non plus la capture : cela appartient à l'intention.
+
+## S'il ne reconnaît pas la phrase
+
+![sys.no-match et son message](/img/flujos/evento.png)
+
+L'éclair se choisit ou s'écrit. Ceux que le moteur déclenche seul sont `sys.no-match` et `sys.no-input`. Un nom propre est déclenché par un autre pas ; s'il est déjà dans un autre événement du flux, il reste **En cours d'utilisation**.
+
+Dans Restaurante, le message est « Désolé, je n'ai pas compris. Pourriez-vous répéter ? ». La transition est la même liste que pour l'intention. L'habitude est de revenir au contexte.
+
+Dans ce message, et dans les outils et scripts du nœud, la phrase qui n'a pas été comprise est dans **`{$last_no_match}`** : `No entendí "{$last_no_match}", ¿puedes decirlo de otra forma?`. Il n'y a rien à activer. Voir [Variables du système](/docs/Avanzado/Funciones#variables-del-sistema).
+
+## Lorsqu'on demande une personne
+
+`hablar_con_asesor` ne revient pas à Inicio. La transition est **Transfert vers un agent humain**.
+
+![hablar_con_asesor : le message et le service d'assistance](/img/diseno/asesor.png)
+
+Avant, il prévient : « Je vous mets en relation avec une personne de l'équipe ». **Termine une capture en cours** est actif : s'il le dit au milieu d'une commande, il cesse de demander et passe la conversation.
+
+## Tester cette carte
+
+Dans la console, le premier bouton sur **Restaurante**. `hola` tombe dans `saludo` et répond par la bienvenue de ce flux. Avec le mode debug, Inicio reste comme parcouru et `saludo` comme le nœud de ce tour.
+
+![Console dans Restaurante et le canevas marqué](/img/diseno/recorrido.png)
+
+Le détail du chat est dans [Tester le bot](/docs/Fundamentos/ProbarElBot).

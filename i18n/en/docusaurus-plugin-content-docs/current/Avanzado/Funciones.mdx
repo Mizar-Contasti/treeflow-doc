@@ -1,0 +1,250 @@
+---
+sidebar_position: 2
+sidebar_label: Functions
+---
+
+# Functions
+
+Anything the bot says can carry a function inside `{ }`. It is filled in at the moment: messages, a parameter's questions, tool URLs and bodies, HTML blocks.
+
+There is **one syntax only**:
+
+> You open `{`, put an expression inside, and close `}`.
+> Inside, **`$` tells a variable apart from text**.
+
+```
+{$nombre}     el valor de la variable nombre
+{nombre}      la palabra "nombre"
+```
+
+In Cafetería, the order message is a function. If there is already an order, it names it. If not, it asks what to prepare.
+
+![restaurante_hacer_pedido_response: the function with $pedido and the if](/img/funciones/mensaje.png)
+
+```
+{("¡Listo! Anoté " + $pedido + ". Te lo preparamos enseguida.") if $pedido else "¡Con gusto! ¿Qué te preparo?"}
+```
+
+| What arrived | What comes out |
+|---|---|
+| `$pedido` = `2 empanadas de queso` | Done! I noted 2 cheese empanadas. We'll get it ready right away. |
+| `$pedido` empty | Happy to! What can I get you? |
+
+## Variables
+
+`{$nombre}` prints the value. Spaces do not matter.
+
+```
+{$nombre}                    Ana
+{ $nombre }                  Ana
+{$nombre.original_value}     ANA     · cómo lo escribió la persona
+{$nombre.key_value}          ana     · el valor normalizado
+```
+
+A variable that does not exist stays blank. It does not break the message.
+
+The quantity question, in `hacer_pedido`, inserts what was already captured:
+
+![Question for numero: {$categoria_producto} and {$sabor_producto}](/img/funciones/pregunta.png)
+
+```
+¿Cuántas {$categoria_producto}s de {$sabor_producto} te preparo?
+```
+
+In the console, with the **Restaurante** flow, "I want a cheese empanada" does not bring the flavor yet. The flavor question uses the category that did come in:
+
+![The console substitutes the category: What flavor empanada do you want?](/img/funciones/consola.png)
+
+When they later say "cheese", the quantity question is already assembled: **How many cheese empanadas should I make for you?**
+
+### The variable picker {#el-selector-de-variables}
+
+You do not have to remember the names. When you type a `$` inside braces, `{$`, a list appears with the variables you can use, and it filters as you type.
+
+![The variable picker: typing last_ shows the list with the two system variables](/img/funciones/selector.png)
+
+- **Arrow keys** to move, **Enter** or **Tab** to choose, **Escape** to close the list.
+- You can also click one.
+- When you choose a standalone variable, the brace closes by itself: `{$no` → `{$nombre}`. Inside an expression (`{$edad > 18 ? $no`) it does not close, because you type what follows.
+- It ignores case and accents.
+- After a dot (`{$api.`) it does not suggest: you are already reading inside the value.
+
+The list brings the **intent parameters** of the bot you have selected, with the intent they come from, and the two system variables, marked *System*. It appears in response text, both in the text message and in the paragraphs of rich elements.
+
+## System variables {#variables-del-sistema}
+
+The engine leaves two values in any bot. They are not created in Entities or on a parameter, they are not configured, and they cannot be turned off. When you type `{$` they appear in the picker, marked *System*, next to the intent parameters.
+
+| Variable | What it contains |
+|---|---|
+| `{$last_utterance}` | The last thing the person wrote |
+| `{$last_no_match}` | The last phrase the bot did not understand |
+
+Both live in the session: the reply, the tools, and the scripts of this turn read them, as do later nodes, and the next turn. If the bot already had a parameter with one of those names, the engine replaces it.
+
+### `{$last_utterance}`
+
+It is saved when the message arrives, before the intent is detected. On that same turn it already holds what was just written.
+
+```
+Dijiste "{$last_utterance}".
+```
+
+If they wrote `quiero una pizza voladora`, the result is **You said "I want a flying pizza".**
+
+It changes on every message that brings text. The previous one is not kept. A turn with no text (`sys.no-input`) does not touch it.
+
+### `{$last_no_match}`
+
+It is saved when the turn ends up as `sys.no-match`, before replying and before running that node's tools and scripts. Use it to repeat the phrase back:
+
+```
+No entendí "{$last_no_match}", ¿puedes decirlo de otra forma?
+```
+
+If that phrase was `quiero una pizza voladora`, the result is **I didn't understand "I want a flying pizza", can you say it another way?**
+
+A turn that is understood does not change it: it still holds the last failed phrase. Until there has been a no-match, the variable does not exist and the gap comes out blank.
+
+## Text
+
+A word without `$` is text. Single quotes and backticks are treated as double quotes.
+
+```
+{"hola"}     hola
+{'hola'}     hola
+{`hola`}     hola
+{hola}       hola
+```
+
+That matters when comparing:
+
+```
+{$color == rojo}       compara con el texto "rojo"
+{$color == $otro}      compara con otra variable
+```
+
+`{$sabor == queso}` is true if the captured flavor is queso. `{$sabor == $otro}` compares two variables.
+
+## Conditions
+
+```
+{$edad > 18 ? "adulto" : "menor"}            adulto
+{if $edad > 18 ? "adulto" : "menor"}         adulto   · el "if" delante es opcional
+{$edad > 18 ? "adulto"}                      adulto   · sin la otra rama, si no se cumple no sale nada
+```
+
+The order above is the same mechanism: `if $pedido` chooses the confirmation text; if there is no order, it chooses the question.
+
+They can be nested with parentheses:
+
+```
+{ $a > 1 ? ($b > 1 ? "los dos" : "sólo a") : "ninguno" }
+```
+
+And composed with text around them:
+
+```
+{ "Tienes " + $n + " mensajes" }
+{ $nombre + ", el mayor es " + ($a if $a > $b else $b) }
+```
+
+The booking does the same with the contact. If it came in, it names them. If not, the confirmation does not mention them:
+
+```
+{("Te confirmamos a " + $contacto + ".") if $contacto else ""}
+```
+
+## Calculations
+
+Two numbers are added. A number next to text is joined to it.
+
+```
+{$precio * 120}          18000      · si precio es 150
+{$a + $b}                10         · si a es 6 y b es 4
+{"Total: " + $a}         Total: 3   · con texto, se concatena
+{$b - $a}                4
+{round($precio, 2)}      150.4
+```
+
+A menu price fits in the reply like this:
+
+```
+{ "Son $" + ($precio * $numero) + " por " + $numero + " " + $categoria_producto }
+```
+
+With price `45` and number `2` the result is **That's $90 for 2 empanada**.
+
+## Functions and methods
+
+| You write | What it does | Example |
+|---|---|---|
+| `{len($nombre)}` | how many **characters** it has | `Ana` → `3` |
+| `{count($producto)}` | how many **times** they said it in the phrase | two products → `2` |
+| `{round($x)}` `{round($x, 2)}` | round | `150.36` → `150.36` or `150` |
+| `{min($a,$b)}` `{max($a,$b)}` `{abs($x)}` `{sum($lista)}` | the usual ones | |
+| `{str($x)}` `{int($x)}` `{float($x)}` `{bool($x)}` | convert | |
+| `{$nombre.upper()}` | uppercase | `ana` → `ANA` |
+| `{$nombre.capitalize()}` | first letter uppercase | `ana` → `Ana` |
+| `{$texto.strip()}` | trims spaces from the edges | |
+
+`len()` and `count()` do not measure the same thing. `len($nombre)` with Ana gives **3**. `count($producto)` gives **2** if they named two products in the same phrase.
+
+## When the person repeats something
+
+If one phrase can hold several values of the same parameter, they are indexed:
+
+```
+{$producto[0]}        el primero
+{$producto[1]}        el segundo
+{count($producto)}    cuántos vinieron
+{$producto}           el primero, como siempre
+```
+
+"I want an empanada and a coffee" can leave two products. `{$producto[0]}` is the first and `{$producto[1]}` is the second. `{$producto[0]}` also works when only one came in: a simple parameter behaves like a list of one.
+
+A composite's `{$pedido}` does not print the structure. It prints the readable summary, for example **2 cheese empanadas**.
+
+## Tool responses
+
+A tool can store its entire response in a parameter. You go down into it with dots and indexes:
+
+```
+{$api}                 el objeto entero, como JSON
+{$api.estado}          un campo
+{$api.items[0]}        el primer elemento de una lista
+{$api.items}           la lista
+```
+
+If the tool left `{"estado": "listo", "items": ["empanada", "café"]}` in `$api`:
+
+| You write | Result |
+|---|---|
+| `{$api.estado}` | listo |
+| `{$api.items[0]}` | empanada |
+| `{$api}` | `{"estado": "listo", "items": ["empanada", "café"]}` |
+
+## What the engine does not touch
+
+Only what looks like code is evaluated. This passes through intact:
+
+```
+<style>.tarjeta { color: red; padding: 4px }</style>     el CSS de un bloque HTML
+{"cliente": "Ana", "cantidad": 2}                        un cuerpo JSON
+^\d{4}-\d{2}-\d{2}$                                      una regex
+```
+
+A gap **inside** a JSON is resolved. It is a tool body:
+
+```
+{"cliente": "{$nombre}", "id": {$id}}
+```
+
+it comes out as `{"cliente": "Ana", "id": 42}`. In HTML, `<b>{$nombre}</b>` comes out as `<b>Ana</b>` and the CSS next to it is left alone.
+
+## Limitations
+
+- You cannot put literal braces inside a string in an expression. In `{ "el formato es {a}" }`, that `{a}` is a gap like any other.
+- `{5}` is not evaluated. A bare number is left as is, because `\d{3}` in a regex is a quantifier. Numbers do count inside an expression: `{$a > 5}`.
+
+Parameters are used from [responses](/docs/Avanzado/Parametros#en-respuestas) and from [captures](/docs/Fundamentos/Capturas).

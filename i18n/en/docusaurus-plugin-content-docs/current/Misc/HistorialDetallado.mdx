@@ -1,0 +1,86 @@
+---
+sidebar_position: 99
+sidebar_label: History
+description: Changes, trainings, and the runs of scripts, APIs, and the webhook.
+---
+
+# History
+
+**Management → History** is what already happened in the tree you have selected at the top left. The product version log is in the [changelog](/docs/changelog). Copies of the tree do not live here: they are in [Backups](/docs/Avanzado/ImportarExportar).
+
+Three tabs: **Changes**, **Trainings**, and **Integrations**. Each one has its search box, its filters, and the clock icon to request the list again. On a phone the search box moves up into the header.
+
+## Changes
+
+Who created, modified, deleted, activated, or deactivated something, and when.
+
+![Cafetería changes: a channel updated and the tree created, with type, action, and person](/img/historial/cambios.png)
+
+Each row carries:
+
+- The **action**, in a pill. Created and Updated go in green, Activated in blue, Deleted and Deactivated in red.
+- The **tree**. If the change is for a user or the workspace, that column says User or Workspace and the name.
+- The **type**: Tree, Flow, Intent, Entity, Message, Channel, User, or Workspace. Context, Event, Training, or Conversation can also appear, although the type filter does not list them.
+- The **author**. If the agent did it, the row says it was the agent and the name of whoever confirmed it.
+- The **date** and **View Details**, on the right.
+
+At the top you filter by type, action, and person, and you search by the name of what changed or by the person. The list brings up to 500 changes for the tree and shows them twenty at a time.
+
+A canvas node does not have its own row. Moving it or editing its text there does not show up. The message, the flow, the intent, the entity, or the channel does show up if that was saved separately.
+
+### The detail
+
+**View Details** opens the before and the after, side by side.
+
+![The web channel went from an empty object to enabled true. Before in yellow, after in green](/img/historial/cambio-detalle.png)
+
+- **General Information**, collapsed. It brings the action, the type, the name, the date, and the origin: a person, or the agent and who operated it.
+- **Changes Made**. It counts how many fields were modified, added, removed, or stayed the same.
+- **Before** goes on the left, in yellow. **After** goes on the right, in green.
+- **View all** shows the full object. **Changes only** leaves the lines that differ.
+- The arrows expand or collapse the objects. **Copy Before** and **Copy After** put the JSON on the clipboard.
+- The icon in the corners puts the box in full screen.
+- **Additional Metadata**, collapsed, is the extra JSON for that record: for example that the agent wrote it.
+
+## Trainings
+
+Every time **Train** is pressed.
+
+![A Cafetería training: Finished, Basic mode, 2.0 s, October 3](/img/historial/entrenamientos.png)
+
+The card says:
+
+- **Finished** (green), **In Progress**, or **Canceled**.
+- **Basic** or **Pro**.
+- The tree, who launched it, how long it took, and what time it started.
+
+At the top you filter by mode (Basic or Pro), by status, and by **From** and **To** dates. The search box looks at the user, the mode, and the notes. Ten at a time. When a training finishes, this list updates on its own.
+
+A click on the card, or on **View Details**, opens the record.
+
+![Detail: Cafetería, Primary Admin, Finished, Basic (TF-IDF), two phases, and 27 intents with 52 entities](/img/historial/entrenamiento-detalle.png)
+
+- **General Information**: tree, user, start date, duration, status, and mode. Basic is recorded as TF-IDF. Pro, as spaCy NER + SVM.
+- **Phase timeline**. Basic has two: generate the intent data and generate the NER data. Each one shows its seconds. Pro goes through four.
+- **Applied changes**, in three tabs:
+  - **Summary**: how many intents and how many entities went into that run, and the total time.
+  - **Intents**: each one with the number of phrases. Opening it shows the phrases.
+  - **Entities**: each one with its values.
+
+![The intents from that run: saludo with 23 phrases, consultar_horario with 20, hacer_pedido with 13](/img/historial/entrenamiento-intenciones.png)
+
+If the status is **Canceled** and there is a reason, the box shows it at the bottom, in red. The **Train** button in the menu is the one that launches the run; here you only look it up.
+
+## Integrations
+
+The times a script, an API, or the webhook **ran** in a conversation. This is separate from the history of who edited the tool: that, if it was recorded, is in **Changes**.
+
+![Cafetería integrations, still with no runs](/img/historial/integraciones.png)
+
+If the tree has not called any yet, the screen says: "There are no recorded integration runs for this tree yet."
+
+When there are rows, each one brings the tool name, **OK** or the error code, the milliseconds, and the date. You filter by **Successful** or **Errors**, and by dates. The search box looks at the name and the error text. Twenty at a time.
+
+A click opens the detail: the status, the time, the date, the error message if there was one, the **input parameters** that were sent, and the **outputs** that came back. If an output was not configured, that section stays empty.
+
+For an administrator, the same failure can also be looked at in [Diagnostics](/docs/Avanzado/Diagnosticos).

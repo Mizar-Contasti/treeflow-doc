@@ -1,0 +1,38 @@
+---
+sidebar_position: 4
+sidebar_label: Webhook
+description: A única URL da árvore. Edita-se como uma API e um nó a pede com um interruptor.
+---
+
+# Webhook
+
+A aba **Webhook** não tem buscador nem botão de criar. Há um único cartão, **Webhook**. Não se apaga e não se duplica. Não aparece em **Adicionar ferramenta…**: o nó a pede à parte.
+
+![A aba Webhook, com um único cartão](/img/herramientas/webhook-lista.png)
+
+## O editor
+
+Abre-se igual a uma API. O **nome** está fixo em Webhook. A descrição padrão é «Webhook principal do sistema». O método é **POST** e o timeout padrão é **30000** ms. A autenticação pode ficar em nenhuma, ou passar para Basic ou Bearer.
+
+![Webhook: POST, 30000 ms, corpo vazio e o aviso de {$variable}](/img/herramientas/webhook-editor.png)
+
+A **URL** precisa começar com `http://` ou `https://`. Vazia, ou com o interruptor desligado, o motor não chama nada. O interruptor fica no cabeçalho do editor, ao lado de **Salvar alterações**.
+
+O corpo é um JSON. O aviso dessa caixa diz como inserir dados:
+
+```
+{$variable}
+{ $valor ? 'Sí' : 'No' }
+```
+
+**Entrada** e **Saída** funcionam como em uma [API](./Apis): o que o corpo vai ler, e o que você quer guardar da resposta. **Testes** faz a chamada. **Implantação** a marca. Para o nó usá-la, bastam o interruptor ligado e uma URL http(s): o estado da tela não substitui isso.
+
+**Mensagem se falhar** é o que a pessoa vê se essa URL não responder e não houver valor de fallback.
+
+## Quando roda
+
+No nó, aba **Funcionalidade**, **Chamar webhook neste nó**. Se estiver ligado, o motor chama esta URL ao passar por ali, depois dos scripts e antes das APIs desse nó. Se a árvore não tiver webhook ativo, o interruptor não faz nada.
+
+Levam-no o contexto, a intenção e o evento. Se o nó de origem e o de destino pedirem os dois, chama-se uma vez e vale o de destino.
+
+Não é o webhook de um canal. Esse é configurado pela plataforma (Meta, Slack, Discord) para entregar mensagens ao TreeFlow, e fica em [Canais](/docs/Canales/CanalesDeComunicacion).

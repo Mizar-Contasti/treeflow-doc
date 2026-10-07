@@ -1,0 +1,72 @@
+---
+sidebar_position: 11
+sidebar_label: Progettazione conversazionale
+---
+
+# Progettazione conversazionale
+
+Il progetto è il [flusso](./Flujos). Lì si decide che cosa può dire la persona, che cosa risponde il bot e dove continua. Intenti, entità, messaggi e acquisizioni sono i pezzi; la tela è l'ordine.
+
+L'esempio è il flusso **Restaurante**. Quello che avvia la conversazione è un altro: **flujo_principal**, segnato **Principale**. Nella console, il primo pulsante sceglie con quale si prova. **Predefinito** usa il principale.
+
+## Dove aspetta
+
+Il nodo verde non dice una frase. Aspetta. In Restaurante si chiama **Inizio**. Lì ci sono gli intenti di quel tratto: il saluto, il menu, l'ordine, la prenotazione, gli orari.
+
+![Inizio: gli intenti che il motore può riconoscere mentre la conversazione è lì](/img/flujos/contexto.png)
+
+Finché la conversazione è in Inizio, il motore prova solo quelli. Un intento che esiste nell'albero e non è collegato qui non scatta. Il fulmine accanto è l'evento di quando nessuno combacia.
+
+Il flusso principale si collega a Restaurante. Dal suo inizio si possono usare anche gli intenti di questa mappa. Se entrambi hanno lo stesso, come `saludo`, vince il nodo del flusso in cui ti trovi.
+
+## Un passo, e ritorno
+
+Ogni intento arancione è una porta. `saludo` si attiva con quell'[intento](./Intenciones), manda il suo [messaggio](./Mensajes) e la transizione lo riporta a **Inizio**.
+
+![saludo: l'intento, il messaggio di benvenuto e il ritorno a Inizio](/img/flujos/conversacion.png)
+
+Per questo, dopo il saluto, «a che ora aprite?» si sente di nuovo. La conversazione non è rimasta dentro il saluto: è tornata al punto dove stanno le altre porte. Orario, menu, prezzo e commiato fanno lo stesso.
+
+Il testo di benvenuto non si scrive nel nodo. Il nodo punta al messaggio. In Default dice a che cosa serve il bot: menu, ordine, prenotazione, orari e posizione.
+
+## Ciò che manca si chiede
+
+Una prenotazione non è un nodo per ogni dato. `reservar_mesa` ha parametri. Quello in **Obbligatorio** si chiede da solo, con il suo testo, prima di mandare la conferma.
+
+![numero, in reservar_mesa: la domanda, che cosa dire se non si capisce e quante volte insistere](/img/intenciones/ajustes.png)
+
+«Voglio un tavolo» non porta le persone. Il bot chiede «Per quante persone è la prenotazione?». Se la risposta non è un numero, usa l'altro testo, fino al limite. Poi manda la conferma e torna a Inizio.
+
+`hacer_pedido` chiede in ordine ciò che manca: la categoria, il gusto, la quantità. La domanda può nominare ciò che è già stato detto, così la persona vede come è stato capito. Quei testi stanno nel [parametro](/docs/Avanzado/Parametros). Se la stessa domanda va riutilizzata, si salva come [acquisizione](./Capturas).
+
+## Se non riconosce la frase
+
+Il fulmine è `sys.no-match`. Non è un intento: è ciò che succede quando, in questo contesto, nessuno ha combaciato.
+
+![L'evento di non capire: sys.no-match e il suo messaggio](/img/flujos/evento.png)
+
+Il messaggio è «Mi dispiace, non ho capito. Puoi ripetere?». La transizione si sceglie come in un intento. L'abitudine è tornare al contesto, così il tentativo successivo si sente di nuovo.
+
+## Quando chiede una persona
+
+`hablar_con_asesor` non torna a Inizio. La transizione è **Trasferimento a un agente umano**, con lo sportello di assistenza.
+
+![hablar_con_asesor: il messaggio, il trasferimento a una persona e lo sportello di assistenza](/img/diseno/asesor.png)
+
+Prima avvisa: «Ti metto in contatto con una persona del team». In Funzionalità, **Termina un'acquisizione in corso** è attivo. Se lo dice a metà di un ordine, il bot smette di chiedere i dati e passa la conversazione. `cancelar_pedido` e `despedida` chiudono anche quella domanda, e poi tornano a Inizio.
+
+## Provare la mappa
+
+Nella console, il primo pulsante su **Restaurante**. `hola` cade in `saludo` e risponde con il benvenuto di quel flusso, non con quello del principale.
+
+![Console su Restaurante: hola, il benvenuto, e la tela con Inizio percorso e saludo in questo turno](/img/diseno/recorrido.png)
+
+Con la modalità debug, Inizio resta come già percorso e `saludo` come il nodo di questo turno. Il dettaglio della console è in [Provare il bot](./ProbarElBot).
+
+## In che ordine si costruisce
+
+1. Gli [intenti](./Intenciones): uno per scenario. Saluto, orario, prenotazione, ordine, persona.
+2. Le [entità](./Entidades) e i parametri: quale dato esce dalla frase.
+3. La domanda del parametro, o un'[acquisizione](./Capturas), per ciò che non è arrivato.
+4. Il [messaggio](./Mensajes) di quando i dati ci sono già.
+5. Il nodo nel flusso: quale intento lo fa scattare, quale messaggio manda e dove continua. Quasi tutti tornano al contesto. Quello che passa a una persona, no.

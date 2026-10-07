@@ -1,0 +1,99 @@
+---
+sidebar_position: 1
+sidebar_label: Builder agent
+---
+
+# AI builder agent
+
+The agent builds the bot **by talking with you**. You tell it what you want — "add a flow to look up the hours" — and it creates the intents, the nodes, and the messages, connects them, and tells you what it did and where.
+
+It works on the **bot you have selected** in the selector at the top left. It opens from the console, with the robot icon. To connect it to a provider, follow [First task](/docs/Agente/PrimerEncargo).
+
+## What it does
+
+- **Creates and modifies** flows, nodes, intents, entities, messages, and HTTP tools.
+- **Connects** what it creates: a new intent is useless if no context node listens for it, so it links it as well.
+- **Looks up**: the bot's structure, the training status, conversations and logs, and it can **simulate a message** to see what it would reply.
+- **Trains** the bot if you ask it to, and looks up the status and the training history.
+- **Explains** when it finishes: the affected flow, the nodes and intents it touched, and phrases to test the result.
+
+The full list is in [What it can change](/docs/Agente/GenAITools).
+
+## How to ask it
+
+Talk to it as you would to a person who already knows your bot. The more concrete, the better it comes out.
+
+| Instead of | Try |
+|---|---|
+| "Improve the bot" | "Add an intent to look up the hours, with 8 example phrases, and have it reply with the Monday to Friday hours" |
+| "Fix the greeting" | "The greeting replies twice. Check the node for the `saludo` intent and tell me what you see before changing it" |
+| "Create a reservations flow" | "Create a `reservas` flow with a `reservar_mesa` intent that asks for the date and the number of people" |
+
+It can **ask you** for what is missing. It does not invent addresses, keys, or tokens for HTTP tools: it asks you for them.
+
+## How it works
+
+1. **It looks before it creates.** It lists what already exists — intents, entities, flows, nodes, messages, tools — so it does not duplicate.
+2. **It chooses the flow.** By default, the main one; if you want another, say so.
+3. **It creates and connects.** The intent, its node with the reply, and the reference on the context node that listens for it.
+4. **It tells you.** What changed, where, and which phrases to test it with.
+
+It writes in the **bot's primary language** — Spanish, English, French, Italian, Portuguese, or German —: intents, training phrases, replies, and synonyms come out in that language. In names it strips accents and replaces spaces with underscores (`consultar_horario`).
+
+## What you see in the chat
+
+Each agent reply brings below it the list of **actions** it ran, with a green mark if it went well and a red one if the tool returned an error. You can open each one to see the tool, the arguments, and what it returned. If the agent proposed changes that are waiting for your approval, you will see the confirmation card instead.
+
+When the agent changes something, the panel updates on its own. If something does not appear, reload the page.
+
+Conversations are **saved per bot**: you can open an earlier one from the history, start another, or delete one.
+
+## Before you ask for large changes {#antes-de-pedirle-cambios-grandes}
+
+By default the agent **asks you before changing anything**. When it decides to create, modify, or delete something, it does not run it: it shows you a **Confirm proposed changes** card with each action (which tool and on what), and nothing happens until you press **Confirm**. With **Reject** everything is discarded. You can open each action on the card to see the full arguments before you decide.
+
+Lookups — listing, seeing the structure, simulating a message — change nothing and always run without asking.
+
+### The three checkboxes
+
+In the agent settings there are three checkboxes, **on by default**, and each one governs a group of actions:
+
+| Checkbox | What it stops |
+|---|---|
+| **Ask for confirmation to create** | Creating flows, nodes, intents, entities, message templates, tools, users, and backups |
+| **Ask for confirmation to modify** | Modifying the bot, flows, nodes, intents, entities, templates, tools, users, channels, and the voice; also **training** the bot |
+| **Ask for confirmation to delete** | Deleting flows, nodes, intents, entities, templates, tools, and users |
+
+If you turn one off, the actions in that group run immediately, as before. The credential is what stores the checkboxes, so each credential can have its own.
+
+:::tip What happens when you confirm
+The card applies the actions **in order**. If one fails, it stops there: the earlier ones are already done (and they leave the card, so retrying does not repeat them) and the reason is shown.
+:::
+
+### Even so, before a large change
+
+- **Ask it for a backup first.** It has a tool to create one, and [Import and export](/docs/Avanzado/ImportarExportar) explains how to restore one. Creating a backup also asks for confirmation while the create checkbox is on.
+- **Ask for the plan first.** "Tell me what you are going to change, without changing it yet" helps the agent describe it before proposing it.
+- If you turned the checkboxes off, review the **actions** list on each reply: they already ran.
+- Creates, changes, and deletions of **flows, entities, and intents** stay in the bot's change history, which the agent can also look up. Those for nodes and messages are not recorded there.
+
+## What it does not do
+
+- **It does not reply to your users.** It builds the bot; the engine carries the conversation with what was built. See [AI in TreeFlow](/docs/Agente/Introduccion).
+- **It does not touch other bots or other workspaces.** Only the selected one, and the server sets that, not the model.
+- **It does not create or modify administrators.** It can manage users of other roles, but not administrators.
+- **It does not see your keys.** When it lists credentials, the secret configuration is not returned to it.
+- **It remembers little.** It works with the last 14 messages of the conversation, so in a very long conversation it helps to remind it of the context.
+
+## If something fails
+
+| Message | What happened |
+|---|---|
+| *API Key required* | There is no AI credential in the workspace |
+| Error **401** | The key is not valid or it expired |
+| Error **404** | The chosen model does not exist at that provider |
+| Error **429** | You reached the request limit, the agent's own (20 messages per minute per user) or your provider's: wait a moment |
+| Error **503** | The provider's service is not available: try again |
+| *Iteration limit reached without a final response* | The request needed more than 8 tool rounds: ask for it in smaller steps |
+
+If the message did not go through, the chat lets you **resend** it or **edit** it.

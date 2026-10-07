@@ -1,0 +1,100 @@
+---
+sidebar_position: 8
+sidebar_label: Messaggi
+---
+
+# Messaggi
+
+**Messaggi** conserva i testi che il bot può ripetere. Un nodo del [flusso](./Flujos) o un'[acquisizione](./Capturas) punta a uno di questi, invece di scrivere lo stesso paragrafo in ogni punto.
+
+Salvare lascia già il testo pronto: si legge dal database a ogni turno.
+
+## L'elenco
+
+In alto si cerca per nome. **Nuovo messaggio** apre l'editor vuoto.
+
+![Elenco dei messaggi: schede, ricerca e Nuovo messaggio](/img/mensajes/lista.png)
+
+- Un clic sul nome apre il messaggio.
+- La fascia arancione chiede conferma per eliminarlo.
+- Se ci sono molte schede, in basso ci sono le pagine.
+
+## L'editor
+
+**Nome del messaggio** è obbligatorio. Gli spazi diventano `_` e al salvataggio resta in minuscolo, senza accenti. La `ñ` si conserva. **Descrizione** è facoltativa: serve a ricordare a che cosa serve, e l'utente non la vede.
+
+![restaurante_saludo_response: il nome, la descrizione e il saluto in Default](/img/mensajes/editor.png)
+
+**Salva modifiche** torna all'elenco. Se l'albero ha più di una lingua, accanto al nome ci sono le lingue: ciascuna modifica il proprio testo.
+
+## Risposte per canale
+
+La fisarmonica si chiama **Risposte per canale**. Ci sono due classi di scheda.
+
+**Default** c'è sempre. Lì il blocco è di tipo **Testo**: ciò che il bot dice quando il canale non ha una versione propria.
+
+**Web** compare quando il canale web è collegato. Lì il blocco è di tipo **Elementi avanzati**: paragrafo, pulsanti, immagine e il resto. WhatsApp, Telegram, Facebook, Instagram, Email, Slack, Discord, ElevenLabs e Avatar IA aprono la loro scheda come Web, solo se quel canale è collegato, e il blocco è anch'esso di elementi avanzati.
+
+In `restaurante_saludo_response` Default è il saluto in testo. Se il canale web è collegato, la sua scheda può portare elementi avanzati: in `prompt_image_response` è un'immagine. Chi scrive dal web riceve il blocco di Web. Un altro canale, se la sua scheda è vuota, riceve il testo di Default.
+
+Dentro la stessa scheda, ogni **Blocco** è una variante. Se ce ne sono due, il bot ne sceglie **uno a caso** a ogni turno. Un blocco vuoto non viaggia e non entra nel sorteggio. **Aggiungi blocco** aggiunge un'altra variante nella scheda aperta.
+
+Nel testo, di entrambe le schede, ci stanno le [funzioni](/docs/Avanzado/Funciones): `{$nombre}` legge un parametro di un intento.
+
+Inoltre, il motore lascia due variabili in qualsiasi bot. Non bisogna crearle. Digitando `{$` compaiono nel selettore, marcate come *Sistema*.
+
+| Variabile | Che cosa contiene |
+|---|---|
+| `{$last_utterance}` | L'ultima cosa che ha scritto la persona. Cambia a ogni messaggio |
+| `{$last_no_match}` | L'ultima frase che il bot non ha capito. Un turno capito non la cambia |
+
+```
+No entendí "{$last_no_match}", ¿puedes decirlo de otra forma?
+```
+
+Quando si salva ciascuna, e che cosa succede se non c'è ancora stato un no-match, è in [Variabili di sistema](/docs/Avanzado/Funciones#variables-del-sistema).
+
+## Default
+
+In Default il tipo è **Testo**. Il campo si chiama **Testo della risposta**. Sopra ci sono tre pulsanti:
+
+![Default: il blocco di testo, con grassetto, corsivo e sottolineato](/img/mensajes/editor.png)
+
+- **Grassetto.** Il selezionato resta tra `**`, e si dipinge in grassetto.
+- **Corsivo.** Resta tra `*`.
+- **Sottolineato.** Resta tra `__`.
+
+Il testo esce così com'è, con quel formato. **Contenuto JSON**, nello stesso menu a tendina del tipo, salva un oggetto a mano quando il canale si aspetta quel formato.
+
+## Web
+
+In Web il tipo è **Elementi avanzati**. **Aggiungi elemento** compone l'elenco, e si riordinano trascinando.
+
+![Web: il blocco di elementi avanzati, con un'immagine](/img/mensajes/web.png)
+
+| Elemento | A che cosa serve |
+|---|---|
+| Paragrafo | Il testo. Ce ne possono essere diversi nello stesso elemento |
+| Immagine | Un URL e il testo alternativo |
+| Video | URL, titolo e se parte da solo |
+| Audio | URL e titolo |
+| File | URL, nome e, se vuoi, dimensione ed estensione |
+| Pulsanti | Ciascuno con etichetta e un'azione |
+| Risposte rapide | Opzioni brevi, come i pulsanti |
+| Fisarmonica | Un titolo che apre un contenuto |
+| Elenco a discesa | Opzioni e un pulsante per inviare quella scelta |
+| Posizione | Titolo, indirizzo, latitudine e longitudine |
+| Divisore | Una linea, con etichetta facoltativa |
+| Scheda | Titolo, sottotitolo, immagine e pulsanti |
+| Carosello | Più schede, una accanto all'altra |
+| HTML / Web | Etichette o una variabile |
+
+Un pulsante può **inviare testo** (è ciò che scrive l'utente), mandare una **risposta nascosta**, **aprire un URL** o **far scattare un evento**. Accetta anche un'icona e un colore.
+
+L'HTML si pulisce prima di essere dipinto. Passano titoli, paragrafi, link, immagini ed elenchi. Non passano `script`, `iframe` né `form`. Una variabile si scrive `{$noticias}`.
+
+## Dove si usa
+
+- In questo elenco, con nome, per riutilizzarlo.
+- Nel nodo del [flusso](./Flujos), scheda **Conversazione**: il testo si scrive lì o si sceglie uno di questi messaggi.
+- In un'[acquisizione](./Capturas), come domanda propria o come messaggio già salvato.

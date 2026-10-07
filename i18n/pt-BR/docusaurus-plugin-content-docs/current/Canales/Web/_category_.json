@@ -1,0 +1,8 @@
+{
+  "label": "Web",
+  "position": 2,
+  "link": {
+    "type": "generated-index",
+    "description": "O widget web: ligá-lo, a intenção ao abrir, a aparência e o controle a partir da página."
+  }
+}

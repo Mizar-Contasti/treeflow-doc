@@ -33,12 +33,38 @@ const config: Config = {
   onBrokenLinks: 'throw',
   onBrokenMarkdownLinks: 'warn',
 
-  // Even if you don't use internationalization, you can use this field to set
-  // useful metadata like html lang. For example, if your site is Chinese, you
-  // may want to replace "en" with "zh-Hans".
+  // Spanish is the source language in docs/ and in this config.
+  // Other locales live under i18n/<locale> and are served at /<locale>/.
   i18n: {
-    defaultLocale: 'en',
-    locales: ['en'],
+    defaultLocale: 'es',
+    locales: ['es', 'en', 'it', 'pt-BR', 'fr'],
+    localeConfigs: {
+      es: {
+        label: 'Español',
+        htmlLang: 'es',
+        direction: 'ltr',
+      },
+      en: {
+        label: 'English',
+        htmlLang: 'en',
+        direction: 'ltr',
+      },
+      it: {
+        label: 'Italiano',
+        htmlLang: 'it',
+        direction: 'ltr',
+      },
+      'pt-BR': {
+        label: 'Português',
+        htmlLang: 'pt-BR',
+        direction: 'ltr',
+      },
+      fr: {
+        label: 'Français',
+        htmlLang: 'fr',
+        direction: 'ltr',
+      },
+    },
   },
 
   plugins: [
@@ -140,6 +166,10 @@ const config: Config = {
           sidebarId: 'tutorialSidebar',
           position: 'left',
           label: 'Documentación',
+        },
+        {
+          type: 'localeDropdown',
+          position: 'right',
         },
         // {
         //   href: 'https://github.com/facebook/docusaurus',

@@ -1,0 +1,128 @@
+---
+sidebar_position: 3
+sidebar_label: Mode débutant
+---
+
+# Mode débutant
+
+Le mode se choisit en [plantant l'arbre](./Empezando). **Première fois** le laisse en débutant et allume le guide. **Expérimenté** le laisse en avancé, avec le menu complet et des données de test.
+
+Dans le sélecteur du bot, sous le nom, il dit **Débutant** ou **Avancé**. Chaque arbre a le sien : l'un peut être débutant et celui d'à côté, avancé.
+
+![Planter un arbre commence par choisir d'en créer un nouveau ou d'importer](/img/empezando/plantar.png)
+
+Le débutant sert à assembler la conversation et à la tester. Les écrans de détail se cachent. Les pièces continuent d'exister : une nouvelle intention se crée depuis le flux simple, avec son nom, ses mots et sa réponse.
+
+## Ce que montre le menu
+
+Pendant le guide, le menu s'ouvre en entier, pour pouvoir désigner chaque entrée.
+
+![Le menu d'un arbre débutant : Flux, Canaux, Conversations, Service d'assistance, Diagnostics, Comptes et Identifiants](/img/principiante/menu.png)
+
+| On voit | À quoi ça sert |
+|---|---|
+| **Tableau de bord** | Le résumé de l'arbre : conversations, flux, entraînement |
+| **Flux** | L'éditeur simple |
+| **Canaux** | Par où parle la personne : le widget, WhatsApp, Telegram |
+| **Conversations** | Ce qui s'est déjà dit |
+| **Service d'assistance** | Une personne prend le chat et peut le rendre au bot |
+| **Comptes** | Les utilisateurs du workspace |
+| **Identifiants** | Les clés du workspace, et l'accès par MCP |
+
+**Diagnostics** reste réservé aux administrateurs, dans les deux modes.
+
+En débutant, le menu ne montre pas Intentions, Entités, Messages, Captures, Outils, Tests, Historique ni Sauvegardes. Si vous entrez dans l'une de ces adresses à la main, l'application revient au tableau de bord.
+
+## Le flux simple
+
+**Flux** ouvre la liste. Il y a un flux principal, marqué **Principal**. **Nouveau flux** ouvre le dialogue de l'intention.
+
+![La liste : le flux principal et le bouton Nouveau flux](/img/principiante/flujos.png)
+
+Le dialogue a trois champs, et le guide les parcourt un par un :
+
+1. **Nom.** Le but de cette partie de la conversation. Le guide propose `saludar`.
+2. **Mots-clés.** Ce que la personne écrit pour l'activer : `hola`, `buenos días`. On l'ajoute avec Entrée ou avec le bouton **+**. Il en faut au moins un.
+3. **Réponse.** Ce que le bot répond lorsqu'il reconnaît ces mots.
+
+![Le dialogue de l'intention, avec le nom, le mot hola et la réponse](/img/principiante/dialogo.png)
+
+À l'enregistrement, cette intention reste sur le canevas : le nœud de début, où le bot attend, et le nœud de l'intention. Rouvrir le nœud ouvre le même dialogue, en édition.
+
+Le secteur choisi à la plantation (restaurant, hôtel, clinique) continue d'apporter son modèle. L'éditeur simple est la façon d'ajouter et de retoucher des pas sans ouvrir les autres écrans.
+
+## Le guide
+
+Si en plantant vous choisissez **Première fois**, avant d'entrer il demande si vous voulez le parcours.
+
+![La question à la création de l'arbre : voir le tutoriel ou le passer](/img/principiante/pregunta.png)
+
+**Voir le tutoriel** le démarre. **Passer le tutoriel** laisse l'arbre tel quel et vous le parcourez vous-même. Le bouton d'aide du menu rouvre le guide de cet arbre.
+
+### 1. Le tableau de bord
+
+Il ouvre le tableau de bord et désigne les cartes, une par une : combien de flux il y a, les intentions, les entités, si l'entraînement est à jour, et les conversations du jour. Sur un arbre tout juste planté, l'entraînement dit **Non entraîné**.
+
+![Étape du guide sur le tableau de bord, au-dessus de la carte des flux](/img/principiante/panel.png)
+
+À la fin de ce tronçon, le guide vous emmène vers Flux.
+
+### 2. Le flux principal
+
+Là se trouve la carte du flux par défaut. **Suivant** ouvre l'éditeur tout seul : il n'y a pas à appuyer sur la carte.
+
+![Le guide désigne le flux principal](/img/principiante/flujos.png)
+
+### 3. Le canevas
+
+D'abord le nœud de début : c'est là que commence la conversation, le bot attend la personne. Ensuite l'intention de salut, encore vide. **Suivant** ouvre l'éditeur pour la remplir.
+
+![Le canevas, avec le début et l'intention vide](/img/principiante/lienzo.png)
+
+### 4. Nom, mots et réponse
+
+Le guide demande trois choses, dans l'ordre :
+
+1. Le nom `saludar`.
+2. Un mot comme `hola` ou `buenos días`. Sans au moins un, il ne laisse pas continuer.
+3. La réponse, par exemple « Bonjour ! Bienvenue ». **Suivant** enregistre le flux.
+
+![Le guide sur la réponse, avec saludar et hola déjà écrits](/img/principiante/dialogo.png)
+
+### 5. Entraîner
+
+Le ballon reste à côté de l'éclair du menu. **Suivant** lance le même entraînement qu'appuyer sur l'éclair. Tant qu'il n'est pas terminé, le bot n'utilise pas ce que vous venez d'écrire.
+
+![Le guide demande d'entraîner avec l'éclair du menu](/img/principiante/entrenar.png)
+
+### 6. La console
+
+Avec l'entraînement prêt, la console s'ouvre, le panneau de droite. Il faut écrire une phrase que vous avez déjà configurée. `hola` reçoit la réponse que vous avez enregistrée. Si vous écrivez quelque chose que le bot ne reconnaît pas, la réponse est une autre.
+
+![Dans la console, hola reçoit la réponse du salut](/img/principiante/consola.png)
+
+### 7. Le menu
+
+En fermant ce test, le guide parcourt le menu : le bot dans lequel vous êtes, le tableau de bord, les flux, les canaux, les conversations, et de nouveau l'éclair. Là, l'entraînement dit déjà **À jour**.
+
+![Le dernier tronçon désigne Flux dans le menu](/img/principiante/menu.png)
+
+## Entraîner et tester
+
+L'éclair du menu indique l'état. **Entraînement en attente** est orange : un clic entraîne. En vert, il dit **IA entraînée**. Tant que vous n'entraînez pas, le bot répond avec l'entraînement précédent.
+
+La [console](/docs/Fundamentos/ProbarElBot) est le chat de test. **Canaux** est le pas d'après, lorsque quelqu'un de l'extérieur doit parler au bot.
+
+## Le mode avancé
+
+**Expérimenté**, à la plantation, ouvre le même **Flux** dans l'[éditeur complet](./Flujos) : des nœuds libres, des flèches, et sur chaque nœud les onglets Conversation et Fonctionnalité.
+
+Avec ce mode, le menu montre aussi :
+
+- [Intentions](./Intenciones) et [entités](./Entidades), pour les motifs, les paramètres et les données de la phrase
+- [Messages](./Mensajes) et [captures](./Capturas), pour les réponses réutilisables et pour demander une donnée qui manque
+- [Outils](/docs/Herramientas), pour appeler un script, une API ou le webhook
+- [Tests](./ProbarElBot), des cas de plusieurs tours
+- Historique et Sauvegardes
+
+C'est le mode pour un bot qui extrait des données, appelle des systèmes externes ou se teste avec une suite enregistrée.

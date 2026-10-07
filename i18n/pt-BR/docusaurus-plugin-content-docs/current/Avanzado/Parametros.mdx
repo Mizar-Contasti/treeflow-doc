@@ -1,0 +1,213 @@
+---
+sidebar_position: 3
+sidebar_label: Parâmetros
+---
+
+# Parâmetros
+
+Os **parâmetros** são os dados que a sua árvore extrai do que o usuário escreve e
+guarda durante a conversa: a quantidade, o produto, a data, o telefone.
+
+## O que são os parâmetros?
+
+Um parâmetro é um espaço com nome que:
+
+- se preenche com o que o usuário diz, por meio de uma entidade citada num padrão;
+- fica disponível para as respostas e para a lógica da árvore;
+- pode ser pedido ativamente se faltar e for obrigatório.
+
+![Ajustes de um parâmetro obrigatório: a pergunta, o fallback e o limite](/img/intenciones/ajustes.png)
+
+![O parâmetro orden em hacer_pedido, lido da entidade composta](/img/intenciones/parametros.png)
+
+## Criação de parâmetros
+
+Um parâmetro nasce ao citar uma [entidade](/docs/Fundamentos/Entidades) num padrão da intenção.
+
+1. A entidade já existe, por exemplo `producto`.
+2. O padrão a cita: `quiero una @producto`.
+3. Ao salvar, a intenção tem o parâmetro. Chama-se igual à entidade.
+
+Os dois pontos põem outro nome. `@producto:producto_pedido` continua lendo a entidade `producto` e o parâmetro se chama `producto_pedido`. Numa [composta](/docs/Fundamentos/Entidades#2-entidades-compuestas) é o mesmo, linha por linha:
+
+```
+@sys.number:cantidad @producto:producto
+@sys.number:cantidad @producto:producto de @sabor
+```
+
+`cantidad` e `producto` são os parâmetros. `de` é uma palavra da linha, não um dado.
+
+## Componentes de um parâmetro
+
+### Nome
+
+Identificador do parâmetro dentro da intenção.
+
+### Valor padrão
+
+Valor que se usa se o usuário não disser nada. Um parâmetro com valor padrão nunca
+bloqueia a conversa, mesmo marcado como obrigatório.
+
+### Obrigatório
+
+Se estiver marcado e não houver valor, a árvore vai pedi-lo antes de continuar. Isso é o
+**slot filling**.
+
+### Prompt
+
+A pergunta com a qual se pede o dado: *"De que tamanho você quer a pizza?"*.
+
+Pode viver no parâmetro, ou sair de uma [captura](/docs/Fundamentos/Capturas)
+reutilizável: no parâmetro obrigatório você marca **Usar captura definida** e escolhe
+qual. Então a pergunta, a mensagem se não entender e as novas tentativas as
+põe a captura, não estes campos.
+
+Pode interpolar outros parâmetros já capturados. A sintaxe completa está em
+[Funções](/docs/Avanzado/Funciones):
+
+```
+¿De qué sabor quieres {$categoria_producto}?
+```
+
+:::caution Um enunciado que se apoia num espaço vazio não se pergunta
+Se o prompt nomeia outros parâmetros e **todos** estão vazios, a árvore não faz essa
+pergunta: sairia *"De que sabor você quer?"*, sem sujeito. Basta que um tenha
+valor. Se não restar nenhuma pergunta que faça sentido, a captura se abandona com uma
+mensagem em vez de dar voltas.
+:::
+
+### Fallback prompt
+
+O que se diz quando o usuário responde algo que não encaixa: *"Não identifiquei o
+tamanho. Pode ser pequena, média ou grande."*
+
+### Máx. tentativas de fallback
+
+Quantas vezes se insiste com esse parâmetro antes de desistir. Evita que o usuário
+fique preso repetindo a mesma pergunta.
+
+### Ação ao superar o limite
+
+O que fazer quando as tentativas se esgotam:
+
+| Opção | O que faz |
+|---|---|
+| **Passar ao próximo parâmetro** | Deixa este e pergunta por outro que falte |
+| **Responder mesmo faltando o valor** | Responde com o que houver |
+| **Ir ao nó de contexto (sem responder)** | Abandona a captura e volta ao fluxo |
+
+Se todos os obrigatórios esgotarem as tentativas, a árvore abandona a intenção com uma
+mensagem em vez de continuar perguntando em círculo.
+
+### Pode voltar a ser capturado durante o slot filling
+
+Com isto ativado, o usuário pode **corrigir** esse dado enquanto se pergunta por
+outro. Se a árvore pede a quantidade e o usuário diz *"melhor de queijo"*, o sabor
+muda e a quantidade continua sendo pedida.
+
+## Uso de parâmetros
+
+### Nas respostas {#en-respuestas}
+
+Interpolam-se com **`{$parametro}`**:
+
+```
+Has pedido una pizza de tamaño {$tamaño_pizza}
+```
+
+O `$` é obrigatório: é o que distingue uma variável de um texto. Sem ele,
+`{tamaño_pizza}` imprime a palavra "tamaño_pizza".
+
+Ao digitar `{$` no texto de uma resposta sai um [seletor com os parâmetros que você pode usar](/docs/Avanzado/Funciones#el-selector-de-variables).
+
+Além dos seus há dois parâmetros que o motor monta sozinho, sem criá-los:
+`{$last_utterance}` (o último que o usuário escreveu) e `{$last_no_match}` (a
+última frase que o bot não entendeu). Ver [Variáveis do sistema](/docs/Avanzado/Funciones#variables-del-sistema).
+Se você criar um parâmetro com um desses nomes, o motor o substitui.
+
+Também funciona dentro de expressões:
+
+```
+{ if $numero > 1 ? "${categoria}s" : $categoria }
+```
+
+Um parâmetro que ainda não existe vale como vazio e **não quebra o resto da
+mensagem**: só fica em branco essa parte.
+
+Dentro da chave cabe uma expressão inteira, não só uma variável:
+
+| Você escreve | Para |
+|---|---|
+| `{$nombre}` | ler um parâmetro |
+| `{"texto"}` · `{texto}` | um texto |
+| `{$edad > 18 ? "adulto" : "menor"}` | escolher segundo uma condição |
+| `{$edad > 18 ? "adulto"}` | o mesmo, sem a outra ramificação |
+| `{$precio * 120}` | calcular |
+| `{$nombre.upper()}` · `{len($nombre)}` | funções e métodos |
+| `{$api.estado}` · `{$api.items[0]}` | descer dentro da resposta de uma ferramenta |
+
+O resto — condições aninhadas, listas e o que o motor não avalia — está em [Funções](/docs/Avanzado/Funciones).
+
+### Em condições
+
+Servem para escolher resposta ou para decidir para qual ramificação ir.
+
+### Em webhooks
+
+Os valores podem ser enviados a serviços externos.
+
+## Um parâmetro com vários valores
+
+Quando a mesma entidade aparece **mais de uma vez na frase**, o parâmetro deixa de ser
+um único valor e guarda todas as ocorrências, em ordem:
+
+> *"me dá 1 empada de frango e 2 arepas de carne"*
+
+Ali `categoria_producto` vale `empanada` **e** `arepa`. Vê-se um só parâmetro, mas
+contém os dois.
+
+Nas respostas se lê como uma lista:
+
+| Você escreve | Você obtém |
+|---|---|
+| `{$producto}` | o primeiro, como sempre |
+| `{$producto[0]}` | o primeiro |
+| `{$producto[1]}` | o segundo |
+| `{count($producto)}` | quantos vieram |
+
+Um parâmetro que veio uma só vez se comporta como uma lista de um, então
+`{$producto[0]}` funciona sem você precisar saber de antemão quantos havia.
+
+:::caution `count()`, não `len()`
+`count($producto)` conta **quantas vezes** o usuário disse. `len($producto)`
+mede **caracteres**, que é outra coisa. Antes `len()` fazia as duas, e por isso
+mudou de nome.
+:::
+
+:::tip Declarar no plural
+Se na frase de treinamento você escreve a entidade **duas vezes**, está dizendo à
+árvore que esse parâmetro pode vir repetido. Com as [entidades compostas](/docs/Fundamentos/Entidades#2-entidades-compuestas)
+cada ocorrência é uma linha completa — quantidade, produto e sabor juntos —, e a árvore
+pode perguntar o que faltar a **cada** uma.
+:::
+
+## Ciclo de vida dos parâmetros
+
+1. Criam-se ao ativar a intenção.
+2. Seguem disponíveis enquanto os contextos de saída estiverem ativos.
+3. Reutilizam-se entre turnos da conversa.
+4. Expiram quando os contextos caducam.
+
+## Boas práticas
+
+1. **Nomes descritivos**: que se leia o que o parâmetro guarda.
+2. **Prompts claros**: uma pergunta concreta e, se puder, com exemplos.
+3. **Valores padrão** quando existir uma opção razoável.
+4. **Limite de tentativas** nos obrigatórios, para ninguém ficar preso.
+5. **Recaptura** ativada nos dados que um usuário costuma corrigir no meio do caminho.
+
+:::tip Conselho
+Um bom prompt é conversacional e deixa claro o que se espera. Se além disso nomeia o que
+já foi capturado — *"De que sabor você quer as 3 arepas?"* — o usuário sabe exatamente
+por qual das coisas estão perguntando.
+:::

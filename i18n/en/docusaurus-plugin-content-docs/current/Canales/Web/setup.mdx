@@ -1,0 +1,61 @@
+---
+sidebar_position: 1
+sidebar_label: Web widget
+---
+
+# Web widget
+
+The **web widget** is the chat you embed on a site. It does not ask for a token: you turn it on, adjust it in the panel, and copy a snippet. It is a **Stable** channel.
+
+![Web Chatbot Widget, with status Active and the Functionality tab](/img/canales/web.png)
+
+## Turn it on
+
+The tree has to be **trained**. If it is not, the switch does not change to Active and the screen warns "Bot not trained".
+
+1. Choose the bot at the top left.
+2. Open **Integration → Channels → Web Chatbot Widget**.
+3. Turn **Status** on. It changes to **Active** and the tabs appear.
+4. Adjust what you need and click **Save Changes**, at the top right. The orange dot on the button means there are unsaved changes.
+
+| Tab | What it is for |
+|---|---|
+| [Functionality](./Funcionalidad) | The intent when the chat opens, files, the delay, and the microphone |
+| [Text, Colors, Sizes, and Responsive](./personalizacion) | How it looks |
+| [Developer](./DesdeLaPagina) | Variables that travel with each message, debug mode, and control from the page |
+
+The copy icon, to the right of the tabs, copies the snippet. The one beside it resets the options to the factory defaults.
+
+**Try Now** and **Open test page** are at the top as well.
+
+## Paste it on the site
+
+The snippet already includes the script, this TreeFlow's address, and the tree id. You do not fill in the id by hand. Paste it before `</body>`:
+
+```html
+<script src="https://cdn.jsdelivr.net/gh/Mizar-Contasti/treeflow-web-widget@main/dist/treeflow-widget.js"></script>
+
+<treeflow-widget
+  endpoint="https://tu-servidor/message"
+  tree-id="el-id-de-tu-arbol">
+</treeflow-widget>
+```
+
+`endpoint` and `tree-id` are already filled in when you copy. Colors, text, and the start intent are not in the HTML: the widget requests them on load, from what is **saved**.
+
+With the channel off, the widget stops replying.
+
+## Try it {#probarlo}
+
+**Try Now** opens the chat inside the panel, with what you have on screen, even if it is not saved. Click it again and it says **Stop testing**.
+
+**Open test page** opens a blank page, with no login, and only this bot. It uses what is **saved**. If you change a color and do not save, the preview and that page do not match. The same link reflects the last thing you saved.
+
+In production the link comes from the API (`https://api.tree-flow.com/widget-demo/…`). Locally it points at your machine.
+
+## If it does not appear
+
+- The script has to load. Check it in the browser console.
+- The `tree-id` is the one from the snippet, not one typed by hand.
+- The switch has to be **Active** and the tree trained.
+- Someone writing on the web receives the **Web** tab of the message. If that tab is empty, they receive **General**. The details are in [Messages](/docs/Fundamentos/Mensajes).

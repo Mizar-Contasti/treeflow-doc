@@ -1,0 +1,8 @@
+{
+  "label": "Strumenti",
+  "position": 6,
+  "link": {
+    "type": "generated-index",
+    "description": "Script, le dieci API, il webhook, i trasferimenti e i due modi per caricare conoscenza."
+  }
+}

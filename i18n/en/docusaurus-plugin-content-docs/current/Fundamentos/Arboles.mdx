@@ -1,0 +1,103 @@
+---
+sidebar_position: 4
+sidebar_label: Trees
+---
+
+# Trees
+
+A **tree** is a bot. In the selector at the top you see its name and, underneath, **Beginner** or **Advanced**. On the dashboard, the title is **Tree Statistics**.
+
+Each tree keeps its own:
+
+- the [flows](./Flujos), the canvas with the nodes
+- the [intents](./Intenciones) and the [entities](./Entidades), what it recognizes and what it extracts from the utterance
+- the [messages](./Mensajes) and the [captures](./Capturas)
+- the training, the language, and the way it decides an intent
+
+Another customer, or another team, is another [workspace](/docs/Fundamentos/Empezando). Inside the same workspace there can be several trees, up to that account's quota.
+
+## Plant one
+
+**Create a new bot**, in the menu, opens **Plant a New Tree**. In the tree list the button says **New Tree**.
+
+![Plant a tree: create a new one or import a backup](/img/empezando/plantar.png)
+
+1. **First time** leaves it in [beginner mode](./ModoPrincipiante), with the guide. **Experienced** leaves it in advanced and loads sample data.
+2. **Name**, required. **Description**, if you want one.
+3. **Agent industry**, required. Restaurant, hotel, clinic, and the rest bring a template of intents, entities, and a flow. **No industry** leaves the basic bot.
+4. **Base language**, the one used for training and for the interface.
+5. **Plant Tree**.
+
+You can also **Import Tree** from a `.json` backup. After importing, review the tool credentials and train.
+
+The details of getting started are in [Getting started](./Empezando).
+
+## Switch, export, and delete
+
+The bot name, at the top left, opens the selector: configure it, switch bots, or create another one. **View all bots** opens **Switch Tree**.
+
+- **Select** enters that bot and opens the dashboard. The one already open says **Current**.
+- The download icon exports a backup. You can include conversations; the file is larger.
+- The red icon deletes the tree. You have to type the exact name. The bot and everything inside it are deleted: flows, intents, entities, messages, and the training. This cannot be undone.
+
+## Configure
+
+The gear next to the name is **Bot settings**. The page is called **Configure**. Changes are saved with **Save changes**, at the top right.
+
+Whoever administers the workspace sees **Understanding** and **Languages**. **Voice** appears when the voice service is available. An account that is not an administrator stays on **General**.
+
+### General
+
+![General: name, description, tutorials, and how many cards fit on a page](/img/arboles/general.png)
+
+- **Name** and **description**.
+- **Enable tutorials.** On an advanced tree they can be turned off. On a beginner tree they stay on.
+- **Web pagination** and **mobile pagination.** How many cards are shown per page in intents, entities, messages, and flows. Each one is configured separately.
+
+### Understanding
+
+This is where you decide how an utterance is recognized. The details of training and of the order are in [Understanding](/docs/Avanzado/Entendimiento).
+
+![Understanding: level, sentiment, thresholds, and detection order](/img/arboles/entendimiento.png)
+
+**Edit intelligence level.** A new tree starts on **Basic (Fast Rules)**: exact and approximate matching of text and patterns, and training is short. **Pro (Machine Learning)** takes longer to train and recognizes an intent even when the person does not use the same words. While it is training, the level cannot be changed.
+
+**Sentiment analysis.** Marks each message as positive, neutral, or negative, so you can see frustration and hand the conversation to a person.
+
+**Edit confidence threshold.** Both start at 70%.
+
+- The **ML threshold** is the minimum confidence the model needs before it accepts an intent. Higher means stricter.
+- The **approximate match threshold** is the same thing for text similarity, when the utterance is not exact.
+
+**Edit priority nature.** This is the order in which the tree tries the ways of recognizing an utterance. You drag them. The one on top is tried first and, if there is a tie, it wins.
+
+![Priority nature on Basic: four methods, the one on top weighs more](/img/arboles/prioridad.png)
+
+On **Basic** there are four. On **Pro** a fifth appears, the model, at the end of the factory order. The same bot, so you can see which one matches each utterance: `saludo` has the pattern `buenas tardes`; `pedir` has `quiero una de @sabor`; the `sabor` entity has the value `queso`.
+
+1. **Exact entity match.** The utterance contains a value written in the entity. The value `queso` on its own, or a phrase that contains it, comes in here because `queso` is in `sabor`.
+2. **Approximate entity match.** It resembles that value, without being written that way, and it passes the approximate threshold. A misspelling of `queso` comes in here. A fragment of `buenas tardes` can resemble a shorter word and propose another intent, but that confidence does not reach a perfect hit.
+3. **Exact pattern match.** The utterance is the pattern. `buenas tardes` is the `saludo` pattern, perfect confidence, and it beats that merely similar fragment. `quiero una de @sabor`, with the entity filled, is also the `pedir` pattern.
+4. **Approximate pattern match.** It resembles a text pattern, without `@`, and it is not identical. A near-miss of `buenas tardes` comes in here. A pattern with `@sabor` is not compared this way.
+5. **Machine learning model.** Only on Pro, and only if the ones above did not hit perfectly. "Alright, the usual" contains neither `queso` nor a pattern match: if the model recognizes it as `pedir` and it passes its threshold, it comes in here.
+
+A perfect hit cuts the list short: the ones below are no longer calculated. An utterance that is at once an exact entity and an exact pattern — `queso` inside `quiero una de @sabor` — is decided by the entity with the factory order: it hits completely and the pattern is not even tried. If you move patterns above entities, that same utterance is decided by the pattern. If none of them hits completely, the highest confidence wins and, in a tie, the one higher up.
+
+A change of level, of threshold, or of this order asks for another training. The lightning bolt in the menu turns orange again.
+
+### Languages
+
+![Supported languages: the base one cannot be removed, and others can be added](/img/arboles/idiomas.png)
+
+The **base language** is the one chosen when you planted. It cannot be unchecked here. You can add English, French, Italian, German, and Portuguese. **Active languages** lists the ones the tree will understand. When you save, training prepares those languages.
+
+### Voice
+
+If the voice service is on, this tab has two parts:
+
+- **Speech recognition.** The person can send audio.
+- **Voice responses.** The bot answers out loud, with the voice and the speed you choose. **Test voice** lets you hear them before saving.
+
+## After you change it
+
+Save, train if the lightning bolt asks for it, and test in the [console](/docs/Fundamentos/ProbarElBot). The new name shows up right away in the selector. What changed in understanding does not enter the conversation until training.

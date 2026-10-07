@@ -1,0 +1,56 @@
+---
+sidebar_position: 5
+sidebar_label: Fonctionnement interne
+---
+
+# Fonctionnement interne
+
+Pour qui intègre, débogue ou veut savoir ce qui se passe entre le moment où vous écrivez une tâche et celui où le bot change.
+
+L'agent vit **dans le backend principal** (`backend/core/builder_agent/`). Il n'y a pas de service à part : le service génératif indépendant du port 8001 a été retiré. On l'utilise à travers l'API `/api/builder-agent`.
+
+## Ce qui se passe avec chaque message
+
+1. **La console envoie** le bot, l'historique de la conversation et, si l'utilisateur l'a choisi, l'identifiant et le modèle.
+2. **Le serveur vérifie** que le bot appartient au workspace de la personne qui demande.
+3. **Il choisit l'identifiant** : celui qui est indiqué (il doit être du workspace) ou, s'il n'est pas indiqué, le premier identifiant d'IA du workspace. S'il n'y en a aucun, il répond qu'une clé est nécessaire.
+4. **Il assemble les instructions** du modèle dans la **langue principale du bot** : l'identificateur, le nom et l'objet du bot, la liste de ses flux, les règles de noms, où appliquer les changements et le protocole de **regarder avant de créer**.
+5. **Il coupe l'historique** aux **14 derniers messages**.
+6. **Il appelle le modèle** avec les instructions, l'historique et les **46 outils**, décrits dans la langue du bot. Chaque appel attend jusqu'à 60 secondes.
+7. **Si le modèle demande des outils**, le serveur les exécute et lui renvoie le résultat. Il répète jusqu'à **8 tours**.
+8. **Si le modèle répond sans en demander d'autres**, ce texte est la réponse. La conversation est enregistrée avec les actions exécutées et revient à la console.
+
+S'il arrive aux 8 tours sans réponse finale, il renvoie *Limite d'itérations atteinte sans réponse finale*, avec les actions qu'il a bien réussi à exécuter.
+
+## Comment un outil s'exécute
+
+Le serveur appelle l'outil avec les arguments que le modèle a donnés **plus le contexte de la session** : le bot, le workspace et l'utilisateur. Le contexte de la session **l'emporte** sur ce que le modèle a écrit. Un modèle qui se trompe — ou qui reçoit une instruction malveillante dans un texte — ne peut pas sortir du bot ni du workspace.
+
+Si un outil échoue, l'erreur revient au modèle comme résultat pour qu'il l'explique ou qu'il essaie autrement.
+
+## Comment il parle aux fournisseurs
+
+Avec **Anthropic**, il utilise son API native (`/messages`) : les instructions vont à part, les outils sont décrits avec leur schéma d'entrée, et le résultat de chaque outil revient comme un bloc `tool_result`. Avec **tous les autres fournisseurs**, il utilise le **format de chat d'OpenAI** (`/chat/completions`, avec les outils comme fonctions) : Gemini et les autres exposent une route compatible. Avec Ollama ou un serveur à vous, vous mettez l'URL de base. Le cycle est le même dans les deux cas. Seule change la façon de traduire la requête et la réponse. Voir [Fournisseurs et modèles](/docs/Agente/ModelosGenerativos).
+
+## Endpoints
+
+Tous exigent une session ouverte et travaillent sur un bot du workspace.
+
+| Méthode et route | À quoi ça sert |
+|---|---|
+| `POST /api/builder-agent/chat` | Un tour de l'agent : renvoie le texte, les actions et le `session_id` |
+| `POST /api/builder-agent/confirm` | Exécute un outil déjà décidé, après l'accord de l'utilisateur |
+| `GET /api/builder-agent/sessions` | Les conversations enregistrées d'un bot, la plus récente d'abord |
+| `GET /api/builder-agent/sessions/{id}` | Une conversation entière |
+| `PUT /api/builder-agent/sessions/{id}/messages` | Remplace les messages enregistrés d'une conversation |
+| `DELETE /api/builder-agent/sessions/{id}` | Supprime une conversation |
+
+S'il n'y a pas d'identifiant, `chat` répond `400` avec `key_required: true`. La console ouvre alors la configuration.
+
+`chat` appelle un modèle payant, donc il a une limite de **20 messages par minute et par utilisateur** : passé cette limite, il répond `429` avec un avis, sans appeler le fournisseur.
+
+## Ce qui est enregistré
+
+Chaque conversation reste dans la table des sessions de l'agent, avec son bot, son workspace, l'utilisateur, un **titre** (les 60 premiers caractères du premier message), les messages et les actions. Elles sont listées par bot, et c'est pour cela que l'historique est par bot.
+
+Les **identifiants d'IA** sont enregistrés dans la même table d'identifiants du workspace que ceux des canaux, avec le type du fournisseur et sa configuration : la clé, l'URL de base et le modèle.

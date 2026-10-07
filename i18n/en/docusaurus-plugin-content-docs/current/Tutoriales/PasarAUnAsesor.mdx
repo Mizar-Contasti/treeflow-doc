@@ -1,0 +1,46 @@
+---
+sidebar_position: 6
+sidebar_label: Hand off to a person
+---
+
+# Hand the conversation to a person
+
+In Restaurante, `hablar_con_asesor` does not return to Start. The node transition is **Transfer to a human agent**: the bot gives notice and the conversation enters the queue on that same turn.
+
+## The node
+
+**Flows** → open **Restaurante** → the `hablar_con_asesor` node.
+
+Under **Conversation**:
+
+- **Intent:** `hablar_con_asesor`.
+- **Response:** the notice. In the template it is "I'll connect you with someone on the team".
+- **Transition:** **Transfer to a human agent**.
+
+Under **Functionality**, **Ends a capture in progress** is on. If the person says it in the middle of an order, the bot stops asking and hands the conversation over.
+
+![hablar_con_asesor: the message and the transfer](/img/diseno/asesor.png)
+
+Mark only this intent. If the same transition is on `saludo`, the bot hands off even when the person says hello.
+
+The notice text can also be changed under **Tools → Transfers**, in **Transfer message**. If the tree has no configuration, it still works, with the default notice.
+
+## Try the notice
+
+Console, **Restaurante** flow. Type `quiero hablar con un asesor`.
+
+The bot sends the notice. In debug mode, after that notice there is no other bot bubble: you see who it reached. The bot stops replying while the conversation is with a person.
+
+![The console in the Restaurante flow](/img/diseno/recorrido.png)
+
+## The desk
+
+**Operations → Help desk**. **Live inbox** separates Waiting, My chats, and All. **History** is what is already closed.
+
+![Help desk: the live inbox](/img/operacion/mesa.png)
+
+- **Waiting** are the ones nobody has claimed.
+- When you choose one, the history is on the right and you write to the visitor.
+- The operator claims, replies, closes, or returns the conversation to the bot.
+
+The live conversation between operator and visitor works on the web widget. The detail of the queue, closing, and an external help desk is in [Help desk](/docs/Avanzado/MesaDeAyuda).

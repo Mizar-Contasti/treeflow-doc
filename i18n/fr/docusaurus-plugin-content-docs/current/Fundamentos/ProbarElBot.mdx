@@ -1,0 +1,81 @@
+---
+sidebar_position: 10
+sidebar_label: Tester le bot
+---
+
+# Tester le bot
+
+Le bouton orange en bas à droite ouvre la **console**. C'est un chat avec l'arbre, sans le publier. Elle a trois onglets : **Console**, le chat de test ; **Agent**, celui qui modifie l'arbre avec une clé du workspace ; et **Constructeur**, pour assembler des tours d'utilisateur et de bot. Cette page est l'onglet Console et le mode debug.
+
+L'entraînement se lance avec l'éclair du menu, **Entraîner**. Si l'arbre n'a jamais été entraîné, la console le dit et le champ de texte reste éteint. S'il a déjà été entraîné et que vous avez ensuite changé des intentions ou des entités, on peut continuer à parler : il répond avec le dernier entraînement, jusqu'à ce que vous entraîniez de nouveau.
+
+![La console ouverte : le flux, le canal et le champ pour écrire](/img/testeo/consola.png)
+
+## La barre
+
+Au-dessus du chat, il y a une barre.
+
+- **Par défaut**, le premier bouton, est le flux de démarrage. Choisissez un autre flux et la conversation redémarre là.
+- **Par défaut** ou **Web**, le deuxième, est le canal. Le bot envoie la variante de [message](./Mensajes) de ce canal. Si cet onglet est vide, il envoie Default. WhatsApp, Telegram et le reste n'apparaissent que si le canal est connecté.
+- Le drapeau, **Exécuter l'intention au début**, choisit une intention ou un événement ancré au début du flux. Chaque fois que vous commencez ou redémarrez, elle se déclenche toute seule.
+- L'insecte allume le **mode debug**.
+- L'icône de copie garde le lien de cette conversation. Elle s'active lorsqu'il y a déjà un tour.
+- La flèche vers l'arrière annule le dernier tour.
+- La flèche circulaire redémarre la conversation.
+
+En bas, on écrit, ou on utilise le microphone. Un bouton du message du bot compte aussi comme un tour : si le bouton envoie du texte, ouvre une URL ou déclenche un événement, la console le fait.
+
+## Un tour
+
+Vous écrivez et ceci se passe, dans l'ordre :
+
+1. Le moteur regarde le flux dans lequel vous êtes et la phrase.
+2. Il choisit une [intention](./Intenciones), ou ne reconnaît rien.
+3. Il extrait les [paramètres](/docs/Avanzado/Parametros) avec les [entités](./Entidades).
+4. S'il manque une donnée requise, il demande avec le texte du paramètre ou avec la [capture](./Capturas), et il attend. Ce tour n'arrive pas encore à la réponse finale.
+5. Lorsque les données sont là, il exécute les outils du nœud, s'il y en a, et envoie le message de ce nœud pour le canal choisi.
+
+Votre phrase sort dans la bulle orange. Celle du bot est la réponse. Si vous avez appuyé sur un bouton, la bulle montre l'étiquette, pas la valeur cachée.
+
+![hola et la réponse du bot dans la console](/img/testeo/turno.png)
+
+## Mode debug
+
+L'insecte devient jaune. Le tour cesse d'être seulement deux bulles et montre comment la décision a été prise.
+
+![Mode debug : l'intention, la confiance, la méthode, et le nœud marqué dans le flux](/img/testeo/debug.png)
+
+Avant la réponse du bot apparaît une ligne :
+
+`intention · confiance · comment cela a correspondu`
+
+La confiance est un pourcentage. La troisième donnée est la méthode : entité, motif, modèle, ou `no_match` s'il n'a pas reconnu la phrase. Si c'est `no_match`, la ligne est marquée. En l'ouvrant, il y a les **paramètres** et la valeur de chacun. Une valeur vide est une donnée qui n'est pas encore venue : le tour suivant devrait la demander.
+
+Si le nœud a appelé un outil, sa carte apparaît là, dans l'ordre où il a tourné, avant le message. Si la conversation est passée à une personne, il n'y a pas de bulle du bot : en debug, on voit à qui elle est arrivée.
+
+Un clic sur votre bulle ouvre la **request**, ce qui a été envoyé. Un clic sur celle du bot ouvre la **response**, ce qu'a répondu le moteur. Le cadre a quatre vues. **Tout** est celle qui reste à l'ouverture.
+
+| Vue | Ce qu'elle laisse |
+|---|---|
+| Tout | le JSON complet |
+| Parameters | `parameters` et `session_parameters` |
+| Messages | le texte de la personne ou la réponse du bot |
+| Metadata | le reste : intention, temps, session, outils, sentiment |
+
+La recherche et la copie utilisent la vue qui est ouverte. Avec le cadre ouvert, Ctrl+F va à cette recherche.
+
+![Détails de la session : la response, avec l'intention, les paramètres et le texte](/img/testeo/detalle.png)
+
+Sur le web et sur la tablette, le bord gauche de la console se fait glisser et s'élargit. En sortant du debug, elle revient à sa largeur. Sur le téléphone, le panneau occupe déjà l'écran.
+
+Allumer le debug ouvre le [flux](./Flujos) qui s'exécute. Le canevas marque le nœud de ce tour et le chemin déjà parcouru. Un nouveau tour continue de marquer le canevas si vous y êtes déjà.
+
+Le crayon du tour ouvre cette intention pour l'éditer.
+
+## Quoi vérifier
+
+- Le nom de l'intention. Si ce n'est pas celle que vous attendiez, le motif ou l'ordre de [compréhension](./Arboles) en décide une autre.
+- `no_match`. La phrase n'est entrée dans aucune intention du flux.
+- Les paramètres. S'il en manque un et que le bot ne demande pas, le paramètre n'est pas en requis ou la capture n'a pas de question.
+- La réponse. Si vous avez choisi Web et que le texte de Default sort, l'onglet Web de ce message est vide.
+- Après avoir changé des intentions ou des entités, entraîner de nouveau. Un message ou une capture se lisent sur le moment : enregistrer suffit.

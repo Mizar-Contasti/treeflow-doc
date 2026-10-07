@@ -1,0 +1,76 @@
+---
+sidebar_position: 1
+---
+
+import AppUrl from '@site/src/components/AppUrl';
+
+# Inizia qui
+
+**TreeFlow** è una piattaforma per sviluppare chatbot deterministici che generano business, unendo il controllo preciso dei flussi conversazionali alla potenza dei modelli generativi.
+
+![Pannello di controllo: statistiche dell'albero, con flussi, intenti, entità e canali](/img/intro/panel.png)
+
+## Prima di cominciare
+
+> **Consiglio**: parti dalla [Terminologia](/docs/Fundamentos/Terminologia). Il menu separa flussi, intenti, entità, messaggi e acquisizioni, e non sono la stessa cosa.
+
+## Accesso alla piattaforma
+
+![Accesso: prima si scrive il workspace](/img/intro/login.png)
+
+## Primi passi
+
+1. **Familiarizza con la terminologia** - Comprendi i [concetti di base](/docs/Fundamentos/Terminologia) di TreeFlow
+2. **Configura il tuo workspace** - Scopri gli [spazi di lavoro](/docs/Avanzado/Workspaces) per organizzare i progetti
+3. **Crea il tuo primo albero** - Segui i [tutorial](/docs/Tutoriales/Introduccion) o la guida dei [primi passi](/docs/Fundamentos/Empezando)
+4. **Scrivi gli intenti** - I [pattern di conversazione](/docs/Fundamentos/Intenciones) stanno in Intenti
+5. **Definisci le entità** - Configura le [entità](/docs/Fundamentos/Entidades) per estrarre i dati dalla frase
+6. **Disegna il flusso** - Ordina i nodi nell'[editor visuale](/docs/Fundamentos/Flujos)
+7. **Integra con il mondo** - Collega il chatbot tramite i [Canali](/docs/Canales/CanalesDeComunicacion) e chiama sistemi esterni dagli [Strumenti](/docs/Herramientas)
+
+## Caratteristiche principali
+
+![Editor dei flussi: la tela con i nodi dell'albero](/img/intro/flujo.png)
+
+### Progetti la conversazione
+Il tuo lavoro è il progetto: che cosa deve succedere, che cosa si chiede e che cosa si risponde. L'IA fa il resto dentro l'app, perché può creare e modificare flussi, intenti, entità, messaggi e strumenti, e anche addestrare e provare.
+
+Ci sono due porte, ed entrambe parlano con gli stessi pezzi dell'albero:
+
+- **L'agente della [console](/docs/Fundamentos/ProbarElBot).** Descrivi il progetto nella scheda Agente. Usa la chiave del fornitore che scegli e alcuni strumenti che operano sull'albero. Puoi richiedere una conferma prima di creare, modificare o eliminare.
+- **Un assistente esterno, via [MCP](/docs/Avanzado/Credenciales).** In Credenziali → MCP si crea una chiave e si copia la configurazione (per esempio per Claude Desktop). Quell'assistente entra nel workspace e usa l'app allo stesso modo: non devi passare da ogni modulo.
+
+### Conversazione
+Quello che il bot sa dire, e in che ordine.
+
+- **[Flussi](/docs/Fundamentos/Flujos)**: la tela. Ogni nodo ha **Conversazione** e **Funzionalità**.
+- **[Intenti](/docs/Fundamentos/Intenciones)** ed **[entità](/docs/Fundamentos/Entidades)**: riconoscono la frase ed estraggono i dati. Poi bisogna addestrare.
+- **[Messaggi](/docs/Fundamentos/Mensajes)**: le risposte riutilizzabili, con blocchi (testo, pulsanti, carosello, HTML).
+- **[Acquisizioni](/docs/Fundamentos/Capturas)**: come il bot chiede un dato che manca, e che cosa fa se non lo capisce.
+- **[Funzioni](/docs/Avanzado/Funciones)**: quello che si scrive dentro `{ }`. Il `$` distingue una variabile da un testo.
+
+### Console
+Il pannello a destra, per provare l'albero senza pubblicarlo.
+
+- La chat di prova e la [modalità debug](/docs/Fundamentos/ProbarElBot), con request e response divisi in parametri, messaggi e metadata.
+- L'**agente costruttore**, la porta interna perché l'IA costruisca il progetto.
+- Il **costruttore di dialoghi**, per comporre turni dell'utente e del bot.
+
+### Integrazione
+Da dove parla la persona, e quali sistemi chiama il bot.
+
+- **[Canali](/docs/Canales/CanalesDeComunicacion)**: il widget web per incorporare la chat, e il resto (Telegram, WhatsApp e gli altri) dalla stessa schermata.
+- **[Strumenti](/docs/Herramientas)**: script, API, il webhook del workspace e i trasferimenti a una persona. Si provano nella stessa pagina.
+
+### Operatività
+Quello che succede quando il bot è già in uso.
+
+- **Conversazioni**: la cronologia di ciò che è stato detto.
+- **[Sportello di assistenza](/docs/Avanzado/MesaDeAyuda)**: una persona prende la conversazione, risponde e può restituirla al bot.
+- **[Test](/docs/Avanzado/Pruebas)**: casi di più turni che si eseguono sull'albero e restano salvati.
+
+## Risorse aggiuntive
+
+- [Cronologia delle modifiche](/docs/changelog) - Ultimi aggiornamenti e miglioramenti
+- [Buone pratiche](/docs/Fundamentos/MejoresPracticas) - Consigli per creare esperienze conversazionali efficaci
+- [Console e agente costruttore](/docs/Fundamentos/ProbarElBot) - Provare l'albero e chiedere all'IA di modificarlo

@@ -1,0 +1,40 @@
+---
+sidebar_position: 7
+sidebar_label: Ingestion générative
+description: Un PDF, un Excel ou un TXT dont un modèle extrait des intentions. Il demande d'abord un identifiant d'IA.
+---
+
+# Ingestion générative
+
+L'onglet **Ingestion générative** lit un document et demande à un modèle d'en extraire des questions, des réponses et des variations, puis de les intégrer au flux. L'écran l'appelle **Ingestion générative avec IA**.
+
+![Ingestion générative : fournisseur, modèle et clé, avec le dépôt encore fermé](/img/herramientas/ingestion-generativa.png)
+
+## L'identifiant
+
+Tant qu'un identifiant d'IA n'est pas enregistré dans ce workspace, la zone de dépôt reste fermée. L'avis le dit : saisissez et enregistrez un identifiant pour la débloquer.
+
+Le formulaire du haut est **Configurer l'identifiant d'IA requis pour ce workspace**.
+
+| Champ | Ce que c'est |
+|---|---|
+| Fournisseur | Anthropic, Groq, Gemini, OpenAI, OpenRouter, Cerebras et les autres qu'accepte le workspace |
+| Modèle par défaut | Celui qui va lire le fichier. Sur la capture, `gemini-3.0-flash` |
+| Nom de la clé | Comment vous la reconnaîtrez ensuite. Sur la capture, « Gemini Key » |
+| API Key | La clé de ce compte |
+
+À l'enregistrement, le même identifiant se retrouve dans [Identifiants](/docs/Avanzado/Credenciales) et peut être réutilisé.
+
+## Le fichier
+
+Quand l'identifiant est enregistré, la zone de dépôt apparaît. Elle accepte PDF, Excel et TXT. On le fait glisser ou on le choisit.
+
+**Nom du flux** est le parcours où vont rester les nouvelles intentions.
+
+**Prompt ou instruction supplémentaire** est facultatif. Il dit au modèle sur quels sujets se concentrer, par exemple les retours, les paiements et les envois.
+
+## Générer
+
+**Générer et intégrer dans le bot** envoie le fichier au modèle choisi. À la fin, les intentions apparaissent dans ce flux et dans la liste du bas. **Entraîner le bot maintenant** les met dans le moteur. Sans cette étape, la console ne les reconnaît pas.
+
+Elle ne remplace pas la [base de connaissances](./BaseDeConocimiento). Celle-là copie un CSV ligne par ligne et n'invente pas de phrases. Celle-ci interprète un document et peut proposer des variations que le fichier n'écrit pas : il vaut mieux lire la liste avant d'entraîner.

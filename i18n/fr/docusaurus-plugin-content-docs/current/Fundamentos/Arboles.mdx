@@ -1,0 +1,103 @@
+---
+sidebar_position: 4
+sidebar_label: Arbres
+---
+
+# Arbres
+
+Un **arbre** est un bot. Dans le sélecteur du haut, on voit son nom et, en dessous, **Débutant** ou **Avancé**. Dans le tableau de bord, le titre est **Statistiques de l'arbre**.
+
+Chaque arbre garde ce qui lui appartient :
+
+- les [flux](./Flujos), le canevas avec les nœuds
+- les [intentions](./Intenciones) et les [entités](./Entidades), ce qu'il reconnaît et ce qu'il extrait de la phrase
+- les [messages](./Mensajes) et les [captures](./Capturas)
+- l'entraînement, la langue et la façon dont il décide d'une intention
+
+Un autre client, ou une autre équipe, est un autre [workspace](/docs/Fundamentos/Empezando). Dans le même workspace, il peut y avoir plusieurs arbres, jusqu'au quota de ce compte.
+
+## En planter un
+
+**Créer un nouveau bot**, dans le menu, ouvre **Planter un nouvel arbre**. Dans la liste des arbres, le bouton dit **Nouvel arbre**.
+
+![Planter un arbre : en créer un nouveau ou importer une sauvegarde](/img/empezando/plantar.png)
+
+1. **Première fois** le laisse en [mode débutant](./ModoPrincipiante), avec le guide. **Expérimenté** le laisse en avancé et charge des données de test.
+2. **Nom**, obligatoire. **Description**, si vous le souhaitez.
+3. **Secteur de l'agent**, obligatoire. Restaurant, hôtel, clinique et les autres apportent un modèle d'intentions, d'entités et de flux. **Sans secteur** laisse le bot de base.
+4. **Langue de base**, celle de l'entraînement et celle de l'interface.
+5. **Planter l'arbre**.
+
+On peut aussi **Importer un arbre** depuis une sauvegarde `.json`. Après l'import, il faut vérifier les identifiants des outils et entraîner.
+
+Le détail du démarrage est dans [Premiers pas](./Empezando).
+
+## Modifier, exporter et supprimer
+
+Le nom du bot, en haut à gauche, ouvre le sélecteur : le configurer, changer de bot ou en créer un autre. **Voir tous les bots** ouvre **Changer d'arbre**.
+
+- **Sélectionner** entre dans ce bot et ouvre le tableau de bord. Celui qui est déjà ouvert indique **Actuel**.
+- L'icône de téléchargement exporte une sauvegarde. Vous pouvez inclure les conversations ; le fichier pèse plus lourd.
+- L'icône rouge supprime l'arbre. Il faut saisir le nom exact. Le bot et ce qu'il contient sont effacés : flux, intentions, entités, messages et entraînement. C'est irréversible.
+
+## Configurer
+
+L'engrenage à côté du nom est **Configuration du bot**. La page s'appelle **Configurer**. Les modifications s'enregistrent avec **Enregistrer les modifications**, en haut à droite.
+
+Qui administre le workspace voit **Compréhension** et **Langues**. **Voix** apparaît lorsque le service vocal est disponible. Un compte qui n'est pas administrateur reste sur **Général**.
+
+### Général
+
+![Général : nom, description, tutoriels et nombre de cartes par page](/img/arboles/general.png)
+
+- **Nom** et **description**.
+- **Activer les tutoriels.** Sur un arbre avancé, on peut les éteindre. Sur un arbre débutant, ils restent allumés.
+- **Pagination web** et **pagination mobile.** Combien de cartes s'affichent par page dans les intentions, les entités, les messages et les flux. Chacune se configure séparément.
+
+### Compréhension
+
+C'est ici que l'on décide comment une phrase est reconnue. Le détail de l'entraînement et de l'ordre est dans [Compréhension](/docs/Avanzado/Entendimiento).
+
+![Compréhension : niveau, sentiment, seuils et ordre de détection](/img/arboles/entendimiento.png)
+
+**Modifier le niveau d'intelligence.** Un arbre neuf démarre en **Basique (règles rapides)** : correspondance exacte et approximative du texte et des motifs, et l'entraînement est court. **Pro (Machine Learning)** met plus de temps à entraîner et reconnaît une intention même si la personne n'utilise pas les mêmes mots. Pendant l'entraînement, on ne peut pas changer de niveau.
+
+**Analyse des sentiments.** Marque chaque message comme positif, neutre ou négatif, pour voir la frustration et pouvoir passer la conversation à une personne.
+
+**Modifier le seuil de confiance.** Les deux sortent à 70 %.
+
+- Le **seuil ML** est le minimum de confiance que le modèle doit avoir pour accepter une intention. Plus il est haut, plus il est strict.
+- Le **seuil de correspondance approximative** est la même chose pour la ressemblance de texte, lorsque la phrase n'est pas exacte.
+
+**Modifier la nature de priorité.** C'est l'ordre dans lequel l'arbre essaie les façons de reconnaître une phrase. On les fait glisser. Celui du haut est tenté en premier et, en cas d'égalité, il gagne.
+
+![Nature de priorité en Basique : quatre méthodes, celle du haut pèse davantage](/img/arboles/prioridad.png)
+
+En **Basique**, il y en a quatre. En **Pro**, une cinquième apparaît, le modèle, à la fin de l'ordre d'usine. Le même bot, pour voir laquelle entre avec chaque phrase : `saludo` a le motif `buenas tardes` ; `pedir` a `quiero una de @sabor` ; l'entité `sabor` a la valeur `queso`.
+
+1. **Correspondance exacte d'entités.** La phrase contient une valeur écrite dans l'entité. La valeur `queso` seule, ou une phrase qui la contient, entre ici : `queso` est dans `sabor`.
+2. **Correspondance approximative d'entités.** Elle ressemble à cette valeur sans être écrite ainsi, et elle passe le seuil approximatif. Une faute sur `queso` entre ici. Un fragment de `buenas tardes` peut ressembler à un mot plus court et proposer une autre intention, mais cette confiance n'atteint pas un succès parfait.
+3. **Correspondance exacte de motifs.** La phrase est le motif. `buenas tardes` est le motif de `saludo`, confiance parfaite, et elle l'emporte sur le fragment seulement semblable. `quiero una de @sabor`, une fois l'entité remplie, est aussi le motif de `pedir`.
+4. **Correspondance approximative de motifs.** Elle ressemble à un motif de texte, sans `@`, et elle n'est pas identique. Un quasi-double de `buenas tardes` entre ici. Un motif avec `@sabor` n'est pas comparé de cette façon.
+5. **Modèle de machine learning.** Seulement en Pro, et seulement si ceux du dessus n'ont pas réussi parfaitement. « Allez, comme d'habitude » ne contient ni `queso` ni un motif : si le modèle la reconnaît comme `pedir` et qu'elle passe son seuil, elle entre ici.
+
+Un succès parfait coupe la liste : ceux du dessous ne sont plus calculés. Une phrase qui est à la fois une entité exacte et un motif exact est décidée par l'entité avec l'ordre d'usine : elle réussit complètement et le motif n'est même pas essayé. Si vous placez les motifs au-dessus des entités, cette même phrase est décidée par le motif. Si aucun ne réussit complètement, la confiance la plus haute gagne et, en cas d'égalité, celui qui est le plus haut.
+
+Un changement de niveau, de seuil ou de cet ordre demande un autre entraînement. L'éclair du menu redevient orange.
+
+### Langues
+
+![Langues prises en charge : la langue de base ne se retire pas, et on peut en ajouter d'autres](/img/arboles/idiomas.png)
+
+La **langue de base** est celle choisie à la plantation. Ici, on ne la décoche pas. On peut ajouter l'anglais, le français, l'italien, l'allemand et le portugais. **Langues actives** liste celles que l'arbre va comprendre. À l'enregistrement, l'entraînement prépare ces langues.
+
+### Voix
+
+Si le service vocal est allumé, cet onglet a deux parties :
+
+- **Reconnaissance vocale.** La personne peut envoyer de l'audio.
+- **Réponses vocales.** Le bot répond à voix haute, avec la voix et la vitesse que vous choisissez. **Tester la voix** les fait écouter avant d'enregistrer.
+
+## Après y avoir touché
+
+Enregistrez, entraînez si l'éclair le demande, et testez dans la [console](/docs/Fundamentos/ProbarElBot). Le nouveau nom apparaît tout de suite dans le sélecteur. Ce qui a changé dans la compréhension n'entre dans la conversation qu'après l'entraînement.

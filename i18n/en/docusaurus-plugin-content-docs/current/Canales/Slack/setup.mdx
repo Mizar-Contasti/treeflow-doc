@@ -1,0 +1,50 @@
+---
+sidebar_position: 1
+---
+
+# Slack
+
+Your bot replies in Slack, in channels and in direct messages, with Slack's native blocks. It is a **Stable** channel.
+
+![The Slack screen in Channels: Request URL and app credentials](/img/canales/slack.png)
+
+## What you need in Slack
+
+An app created at [api.slack.com/apps](https://api.slack.com/apps) and installed in your workspace.
+
+| Field in TreeFlow | Where it comes from |
+|---|---|
+| **Bot User OAuth Token** | OAuth & Permissions → *Bot User OAuth Token*. It starts with `xoxb-` |
+| **Signing Secret** | Basic Information → App Credentials |
+
+The **Signing Secret** lets TreeFlow check that each event really comes from Slack. Without it, TreeFlow does not reply.
+
+The bot needs the `chat:write` permission so it can reply.
+
+## Turn it on
+
+The URL you paste into Slack is verified with your Signing Secret, so save the credentials in TreeFlow first and then paste the URL into Slack.
+
+1. Choose your bot in the selector at the top left.
+2. Open **Integration → Channels → Slack**.
+3. Fill in **Bot User OAuth Token** and **Signing Secret**, and click **Save and Integrate Slack**. The channel is turned on.
+4. Copy the **Request URL** from that same screen.
+5. In your Slack app → **Event Subscriptions**, turn on *Enable Events* and paste the URL into **Request URL**. Slack verifies it right away.
+6. Under *Subscribe to bot events*, add `message.channels`, `message.im`, and `app_mention`.
+7. For the **buttons** to work, under **Interactivity & Shortcuts** turn on *Interactivity* and paste the same URL.
+
+The **ON/OFF** switch at the top turns it off and on without deleting what is saved.
+
+## What the bot does
+
+- It replies to people's **messages** and to **mentions** (`@tubot`). It ignores messages from bots, edits, and deletions.
+- It replies **in the thread** of the message.
+- It sends Slack blocks: paragraphs, images, and buttons.
+- When someone clicks a button, the bot receives that button's value as if the person had typed it.
+
+## If it does not reply
+
+- The switch is **ON**.
+- The **Signing Secret** belongs to the same app that sends the events.
+- The bot is **invited to the channel** where you write to it.
+- The events from step 6 are subscribed.

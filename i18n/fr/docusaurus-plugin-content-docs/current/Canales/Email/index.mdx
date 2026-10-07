@@ -1,0 +1,54 @@
+---
+sidebar_position: 1
+---
+
+# E-mail (Resend)
+
+Votre bot répond aux e-mails qui arrivent à l'une de vos adresses. L'envoi et la réception passent par [Resend](https://resend.com). C'est un canal **Stable**.
+
+![L'écran E-mail dans Canaux : webhook entrant et identifiants Resend](/img/canales/email.png)
+
+## Comment ça fonctionne
+
+1. Quelqu'un écrit à votre adresse, par exemple `hola@tudominio.com`.
+2. Resend prévient TreeFlow par un **webhook**.
+3. Le bot lit le texte de l'e-mail et répond à l'expéditeur, avec l'objet `Re: …`.
+
+Si le bot a des réponses avec des blocs (boutons, cartes…), l'e-mail part en **HTML**. Sinon, en texte.
+
+Le bot **ne répond pas à sa propre adresse**. Ainsi, deux réponses automatiques ne se répondent pas sans fin.
+
+## Ce qu'il vous faut dans Resend
+
+Un compte, un **domaine vérifié** et la réception d'e-mails (*Inbound*) pour l'adresse qu'utilisera le bot.
+
+| Champ dans TreeFlow | D'où ça vient |
+|---|---|
+| **E-mail de l'expéditeur (From Email)** | L'adresse du bot. Elle doit appartenir à un domaine vérifié dans Resend |
+| **Nom de l'expéditeur (From Name)** | L'apparence de l'expéditeur. Par défaut, *Treeflow Assistant* |
+| **Resend API Key** | Une clé autorisée à envoyer des e-mails |
+| **Signing Secret du webhook** | Resend → Webhooks → votre webhook → Signing Secret |
+
+Le **Signing Secret** permet de vérifier que chaque e-mail entrant est envoyé par Resend. Sans lui, TreeFlow ne répond pas.
+
+## L'activer
+
+1. Choisissez votre bot dans le sélecteur en haut à gauche.
+2. Ouvrez **Intégration → Canaux → Email (Resend)**.
+3. Copiez le **Webhook entrant**. C'est l'adresse à laquelle Resend signalera chaque e-mail.
+4. Dans Resend, créez un webhook avec cette URL pour les e-mails entrants et copiez son **Signing Secret**.
+5. Renseignez l'e-mail de l'expéditeur, le nom de l'expéditeur, la Resend API Key et le Signing Secret.
+6. Cliquez sur **Enregistrer et intégrer Email**. Le canal est activé.
+
+L'interrupteur **ON/OFF** du haut le désactive et l'active sans effacer ce qui est enregistré.
+
+:::note Une adresse, un bot
+Le bot qui répond est celui que vous aviez sélectionné au moment de l'enregistrement. La même adresse ne peut pas être enregistrée dans deux workspaces.
+:::
+
+## S'il ne répond pas
+
+- Vérifiez que l'interrupteur est sur **ON**.
+- Vérifiez que l'e-mail arrive à l'adresse saisie dans **From Email** : c'est elle qui identifie le bot.
+- Vérifiez que le **Signing Secret** est celui du webhook qui pointe vers TreeFlow.
+- Vérifiez que le domaine est vérifié dans Resend.

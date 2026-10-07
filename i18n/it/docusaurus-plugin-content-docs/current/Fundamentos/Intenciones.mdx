@@ -1,0 +1,166 @@
+---
+sidebar_position: 6
+sidebar_label: Intenti
+---
+
+# Intenti
+
+Nel menu si chiamano **Intenti**. Sono ciò che il motore riconosce in una frase. Il percorso della conversazione è un'altra cosa: sta nei [flussi](./Flujos).
+
+Un intento conserva tre cose:
+
+- un **nome**, l'identificatore
+- i **pattern**, frasi di esempio
+- i **parametri**, i dati che si estraggono da quelle frasi
+
+Ciò che il bot risponde si scrive nel nodo di intento del flusso, e i testi riutilizzabili in [Messaggi](./Mensajes).
+
+## L'elenco
+
+**Intenti** apre le schede. In alto si può cercare per nome. La scheda è **Conversazionale**: ogni scheda è un intento che si apre e si modifica.
+
+![Elenco degli intenti: ricerca, schede e Nuovo intento](/img/intenciones/lista.png)
+
+- **Nuovo intento** ne crea uno vuoto.
+- Un clic sul nome apre l'editor.
+- La fascia arancione chiede conferma per eliminarlo. Se ne va l'intento, i suoi pattern e i suoi parametri.
+- Se ce ne sono molti, in basso ci sono le pagine. Quante ne stanno per pagina si configura nell'[albero](./Arboles), in **Paginazione**.
+
+## Crearne uno
+
+**Nuovo intento** chiede solo il nome. Il chip **Conversazionale** indica il tipo: è l'unico che crea questa schermata.
+
+![Nuovo intento: il nome e il tipo conversazionale](/img/intenciones/crear.png)
+
+Il nome è un identificatore. Mentre si scrive, gli spazi e i segni diventano `_`. Premendo **Crea intento** resta in minuscolo e senza accenti: `Consulta de precio` esce come `consulta_de_precio`. La `ñ` si conserva.
+
+La scheda compare nell'elenco, vuota. Bisogna aprirla per mettere i pattern.
+
+## L'editor
+
+In alto a destra, **Salva modifiche** scrive l'intento. **Svuota tutto** svuota pattern e parametri di questo intento; chiede conferma.
+
+![Editor di hacer_pedido: il nome e i pattern, con i dati già dipinti](/img/intenciones/editor.png)
+
+Il campo **Nome dell'intento** è lo stesso identificatore. Se l'albero ha più di una lingua, accanto al nome compaiono le lingue: ciascuna modifica i propri pattern.
+
+## Pattern
+
+Un pattern è una frase che dovrebbe attivare questo intento. Più forme naturali ci sono, meglio riconosce il motore. In `hacer_pedido` ci sono `quiero ordenar 2 empanada de carne para comer aquí`, `ordenan 2 empanada de carne` e `dame 2 empanada de carne`.
+
+Ogni riga si può correggere sul posto. **Invio** chiude la modifica. L'icona di copia duplica il testo; quella del cestino toglie quella frase.
+
+In basso, il campo **Scrivi un nuovo pattern e premi Invio** aggiunge una frase. **Aggiungi pattern** apre il riquadro per una frase più lunga.
+
+![Nuovo pattern: una frase, o diverse separate da virgole](/img/intenciones/nuevo-patron.png)
+
+Se il testo ha virgole, ogni pezzo entra come pattern a parte. `hola, buenas tardes` ne crea due.
+
+Quando ci sono molte frasi, l'intestazione **Pattern** mostra l'intervallo e le pagine, per esempio `1–10 / 47`.
+
+Le parole colorate sono già legate a un'[entità](./Entidades). Nella cattura, `quiero` è legato a `verbo_deseo`. Il colore della parola è lo stesso della barra del parametro.
+
+Può succedere senza scrivere nulla di speciale: salvando la frase, l'editor marca le parole che già combaciano con un valore o un sinonimo di qualche entità.
+
+## Marcare un dato
+
+Per forzare il segno, scrivi `@` con uno spazio davanti. Si apre **Modifica evidenziazione**.
+
+![Scrivendo @ si sceglie l'entità di quel frammento](/img/intenciones/arroba.png)
+
+1. **Seleziona entità.** L'elenco è quello di Entità, comprese quelle di sistema (`sys.number`, `sys.time`, `sys.date`…).
+2. **Testo.** Il frammento che resta marcato. Se hai aperto il riquadro con `@`, il testo inizia con `@`: cambialo con la parola, per esempio `pizzas`.
+3. Come si salva la parola nell'entità:
+   - **Aggiungi come sinonimo.** La aggiunge ai sinonimi del primo valore.
+   - **Aggiungi come nuova riga.** Crea un valore nuovo nell'entità.
+   - **Aggiungi come riferimento.** Marca solo questo frammento. L'entità non cambia.
+
+Un'entità di sistema accetta solo **Aggiungi come riferimento**. Una composta, anche. Se la parola esisteva già nell'entità, resta come riferimento.
+
+Si può anche scrivere il riferimento a mano: `@producto`. Con un altro nome di parametro, `@producto:producto_pedido`: l'entità è `producto` e il parametro si chiama `producto_pedido`.
+
+Al momento di marcare, se quell'entità non aveva ancora un parametro nell'intento, se ne crea uno.
+
+Un clic su una parola già dipinta apre **Entità nel pattern**. Lì si vedono l'entità e il testo. **Elimina** toglie il segno da quel frammento; l'entità continua a esistere.
+
+![Clic su una parola dipinta: l'entità, il testo e togliere il segno](/img/intenciones/marca.png)
+
+## Parametri
+
+Un parametro è il dato che l'intento conserva: il prodotto, la quantità, la data. In basso nell'editor, ogni riga ha il **nome del parametro**, l'**entità** e tre icone.
+
+![Parametri di hacer_pedido: il dato orden, con l'entità composta dello stesso nome](/img/intenciones/parametros.png)
+
+- **Nome del parametro.** Così si usa poi nelle risposte, come `{$producto_pedido}`. Se si lascia vuoto, si usa il nome dell'entità.
+- **Entità.** Da dove esce il valore. Si cerca nell'elenco o si scrive.
+- La matita apre quell'entità. In una di sistema, come `sys.number`, la matita è spenta: non si modificano.
+- L'ingranaggio apre **Impostazioni del parametro**.
+- Il cestino toglie il parametro da questo intento.
+
+**Aggiungi parametro** chiede il nome e l'entità, senza passare da un pattern. Serve quando il dato si chiederà e non è necessario che arrivi scritto in una frase di esempio.
+
+La barra di colore della riga è la stessa delle parole dipinte nei pattern.
+
+Se l'entità è composta, sotto la riga escono i suoi sotto-parametri. La spunta di dimenticare il valore sta in ogni sotto-parametro.
+
+L'ordine in cui il motore prova una frase —entità esatta, entità approssimativa, pattern, modello— è in [Alberi](./Arboles), in **Comprensione**.
+
+## Impostazioni del parametro
+
+L'ingranaggio apre questo. **Salva** chiude il riquadro; l'intento si persiste con **Salva modifiche** dell'editor.
+
+![Impostazioni di numero, in reservar_mesa: obbligatorio, la domanda, il fallback e il limite di tentativi](/img/intenciones/ajustes.png)
+
+**Nome del parametro** e **Valore predefinito.** Il valore predefinito si usa se la persona non lo dice. Con un valore predefinito, il parametro non frena la conversazione.
+
+**Obbligatorio.** Se manca il valore, il bot lo chiede prima di continuare. Questo è lo slot filling. Il resto dei campi sotto compare quando è selezionato.
+
+**Dimentica questo valore quando si ricade in questo intento.** La volta successiva in cui si attiva l'intento non riutilizza il precedente.
+
+- Se c'è un valore predefinito, torna a quel valore.
+- Se è obbligatorio, lo chiede di nuovo, anche se lo aveva già o arriva nella frase.
+- Se non è obbligatorio, lo scarta e si riempie solo se arriva nella frase nuova.
+
+**Usa acquisizione definita.** La domanda, il messaggio di «se non si capisce» e i tentativi escono da un'[acquisizione](./Capturas). Il parametro sceglie solo quale. La matita apre quell'acquisizione; la X la stacca.
+
+Senza acquisizione, questi campi sono quelli dell'intento:
+
+**Può essere acquisito di nuovo durante lo slot filling.** Finché restano dati da chiedere, qualsiasi frase può riempire o cambiare questo parametro, anche se il bot sta chiedendo un altro. Se chiede la quantità e la persona dice «meglio al formaggio», il prodotto cambia e la quantità si continua a chiedere.
+
+**Chiedi con un blocco avanzato.** Spento, la **Domanda** è un testo: `¿Qué producto te gustaría pedir?`. Acceso, la domanda si compone con blocchi, come in Messaggi: il testo di un pulsante è ciò che riempie il dato.
+
+Nella domanda ci stanno le [funzioni](/docs/Avanzado/Funciones), per esempio `{$categoria_producto}`.
+
+**Se non si capisce.** Ciò che dice quando la risposta non riempie il dato. Nell'esempio: `No entendí el producto. ¿Podrías decirme qué deseas? Por ejemplo: pizza, hamburguesa…`
+
+**Tentativi max.** Quante volte ripete quel messaggio prima dell'azione di limite. `1` significa un nuovo tentativo.
+
+**Azione al superamento del limite.**
+
+| Azione | Che cosa fa |
+|---|---|
+| Passa al parametro successivo | Lascia questo e chiede un altro che manca |
+| Rispondi anche se manca il valore | Continua con quello che c'è |
+| Vai al nodo di contesto | Abbandona la domanda e torna al flusso |
+
+**Consenti un altro intento mentre si chiede questo dato.** Se ciò che scrive combacia con un altro intento, il bot lo gestisce e lascia questa acquisizione. Se non combacia, conta come fallimento e manda il messaggio di «se non si capisce».
+
+Il dettaglio di come si riempiono, si interpolano e si abbandonano è in [Parametri](/docs/Avanzado/Parametros).
+
+## Dove si usa
+
+Il valore resta nella conversazione con il nome del parametro. Una risposta del nodo, un messaggio o uno strumento lo legge con `{$producto_pedido}`. Il `$` è ciò che lo distingue da un testo fisso.
+
+La frase che il bot dice riconoscendo l'intento si configura nel nodo del [flusso](./Flujos), nella scheda **Conversazione**. Se nessuno la capisce, il cammino è il nodo di evento di quel flusso, non un campo di questa schermata.
+
+## Addestrare
+
+**Salva modifiche** lascia l'albero non aggiornato. I pattern nuovi entrano nella conversazione quando si addestra: il pulsante **Addestra**, in basso nel menu, quello del fulmine. Fino ad allora la [console](/docs/Fundamentos/ProbarElBot) continua con l'addestramento precedente.
+
+## Come conviene costruirli
+
+- Un nome che dica l'azione: `consultar_becas`, `hacer_pedido`, `solicitar_hora`.
+- Frasi come le dice una persona, non una sola formula ripetuta.
+- Un intento, un'azione. `saludo` e `hacer_pedido` separati si mantengono meglio di un intento che fa entrambe le cose.
+- Il parametro obbligatorio porta una domanda e un «se non si capisce» che dia un esempio.
+- Dopo aver salvato, addestrare, e provare la frase nella console.

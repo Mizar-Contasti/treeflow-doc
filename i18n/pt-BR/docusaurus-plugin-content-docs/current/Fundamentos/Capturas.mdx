@@ -1,0 +1,67 @@
+---
+sidebar_position: 9
+sidebar_label: Capturas
+---
+
+# Capturas
+
+Uma **captura** é a forma de pedir um dado, salva com nome para usá-la em vários [parâmetros](/docs/Avanzado/Parametros). O parâmetro diz qual falta. A captura diz como se pergunta, o que responder se não entender e quantas vezes insistir.
+
+Fica em **Conversa → Capturas**.
+
+## A lista
+
+Em cima se busca por nome. **Nova captura** abre o editor vazio.
+
+![Lista de capturas: Contato, Descrição, Escolher com botões, Nome e Texto livre](/img/capturas/lista.png)
+
+- Um clique no nome abre a captura.
+- A faixa laranja pede confirmação para apagá-la. Os parâmetros que a usavam voltam à pergunta própria.
+
+## O editor
+
+Em cima à direita, **Salvar**. A aba se chama **Captura**.
+
+![Contato: nome, pergunta, mensagem se não entender, duas tentativas e passar ao próximo parâmetro](/img/capturas/editor.png)
+
+### Nome
+
+Assim aparece na lista e no parâmetro, ao marcar **Usar captura definida**.
+
+### Pergunta
+
+O que o bot diz para pedir o dado. O subtítulo diz o mesmo: «O que o bot diz para pedir o dado.»
+
+O campo **Mensagem** escolhe de onde sai:
+
+- **Mensagem personalizada.** O texto ou os blocos se escrevem aqui, com as mesmas abas de [Mensagens](./Mensajes): Default em texto, e Web com elementos enriquecidos se precisar. `Elegir con botones` é deste tipo: a pergunta traz botões.
+- **+ Criar template.** Cria uma mensagem na lista de Mensagens e a deixa escolhida.
+- Um template que já existe, pelo nome. O lápis abre. O X tira desta captura.
+
+Em `Contacto` a pergunta personalizada é `¿Me das tu correo o tu teléfono?`.
+
+### Se não entender
+
+O que responde quando a resposta não preenche o dado, e o que faz ao esgotar as tentativas. A mensagem se escolhe igual à pergunta: personalizada ou template.
+
+Em `Contacto`: `Necesito un correo o un número de teléfono.`
+
+**Máx. tentativas.** Quantas vezes se repete essa mensagem antes da ação de limite. Em `Contacto` são 2.
+
+**Ação ao superar o limite.**
+
+| Ação | O que faz |
+|---|---|
+| Passar ao próximo parâmetro | Deixa este e pergunta por outro que falte |
+| Responder mesmo faltando o valor | Segue com o que houver |
+| Ir ao nó de contexto | Abandona a pergunta e volta ao fluxo |
+
+Na pergunta e na mensagem de «se não entender» cabem [funções](/docs/Avanzado/Funciones): `{$nombre}`.
+
+## No parâmetro
+
+A captura não dispara sozinha. Na [intenção](./Intenciones), o parâmetro vai marcado **Obrigatório** e, nos ajustes, **Usar captura definida**. Ali se escolhe o nome. O lápis abre esta mesma captura. O X a desliga desse parâmetro.
+
+Com a captura aplicada, a pergunta, o «se não entender» e as tentativas saem daqui. Esses campos deixam de ser editados no parâmetro.
+
+**Esquecer este valor ao cair de novo nesta intenção** continua no parâmetro, não na captura. Cada vez que a intenção se ativa, esse dado se esvazia e é preciso pedi-lo de novo.

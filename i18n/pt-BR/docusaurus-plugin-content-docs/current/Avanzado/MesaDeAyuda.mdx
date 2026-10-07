@@ -1,0 +1,121 @@
+---
+sidebar_position: 6
+sidebar_label: Mesa de ajuda
+---
+
+# Mesa de ajuda e transferência para humano
+
+Um bot não resolve tudo. A **Mesa de ajuda** (Helpdesk) é o aplicativo onde uma pessoa assume a conversa quando o bot a encaminha: vê a fila de chats que esperam, fala com o visitante em tempo real e, ao terminar, fecha o chat ou devolve ao bot.
+
+## Como uma conversa chega à Mesa de ajuda
+
+```
+Visitante ──► Bot ──► (pide un humano) ──► Cola de la Mesa de Ayuda ──► Operador
+                                              pending_human            human_active
+```
+
+1. O visitante escreve algo que ativa uma intenção com **transferência para humano** (*"quero falar com um assessor"*).
+2. O bot responde a mensagem de transferência (*"Vou te conectar com uma pessoa da equipe"*) e a conversa **entra na fila nesse mesmo turno**.
+3. Um operador a **reivindica**: o chat passa a ser atendido por uma pessoa e o bot para de responder.
+4. O visitante e o operador conversam em tempo real. Cada mensagem fica salva no histórico, marcada com quem a escreveu.
+5. O operador **fecha** o chat ou o **devolve ao bot**, que retoma a conversa.
+
+:::info Por enquanto, o canal Web
+A conversa ao vivo entre operador e visitante funciona sobre o [widget web](/docs/Canales/Web/setup): o operador escreve na Mesa de ajuda e o widget recebe por WebSocket. Para responder a partir de um helpdesk externo há um endpoint de resposta de entrada (ver [mais abaixo](#helpdesk-externo)).
+:::
+
+## Configurar a transferência numa árvore
+
+### 1. Marcar a intenção como transferência
+
+No editor de nós, a intenção que deve encaminhar a uma pessoa leva como **Transição** a opção *Transferência para agente humano*. É o mesmo menu usado para qualquer outra transição, então a tela a desenha e a edita como o resto.
+
+:::tip Só a que deve encaminhar
+Marque apenas a intenção de pedir um humano. Se você aplicar a transferência a outras, o bot vai encaminhar até quando o cliente cumprimentar.
+:::
+
+O template de **Restaurante** já traz isso pronto: a intenção `hablar_con_asesor` (24 frases de treinamento e a entidade `accion_transferencia`) aponta para a transferência e semeia uma configuração ativa.
+
+### 2. Ajustar a transferência (opcional)
+
+Em **Ferramentas → Transferências** se criam as configurações de transferência de uma árvore:
+
+| Campo | Para que serve |
+|---|---|
+| **Mensagem de transferência** | O que o bot diz ao encaminhar. Por padrão: *"Estamos te conectando com um assessor humano..."* |
+| **O agente já não vai ouvir a conversa** | Com isto ativo (por padrão) o bot fica em pausa enquanto a conversa está com uma pessoa, para não interferir no operador. As mensagens do visitante se salvam e chegam ao operador |
+| **Salvar a conversa do widget** | Mantém no histórico do widget as mensagens de resposta do assessor humano, mesmo sem intervenção do agente |
+| **Enviar histórico de conversa completo** e o formato (`json`, `text`, `markdown`) | Que histórico viaja ao sistema externo, se houver |
+| **URL do endpoint**, token e cabeçalhos | Só para empurrar a conversa a um sistema externo. A Mesa de ajuda interna **não** a usa |
+| **Ativa** | O motor usa a primeira configuração ativa da árvore (ou a que a intenção fixar) |
+
+Se a árvore não tiver nenhuma configuração, a transferência funciona do mesmo jeito com a mensagem padrão.
+
+:::note O endpoint dos templates
+Os templates semeiam a configuração com uma URL sob o domínio reservado `.invalid`, que nunca resolve. É um marcador: se você quiser enviar as conversas a um sistema externo, troque pela sua. Para a Mesa de ajuda interna não é preciso mexer.
+:::
+
+## O aplicativo
+
+No menu está em **Operação → Mesa de ajuda**. **Bandeja ao vivo** tem Em espera, Meus chats e Todos. **Histórico** é o já fechado.
+
+![Mesa de ajuda: a bandeja ao vivo, vazia](/img/operacion/mesa.png)
+
+- **Em espera** são as que ninguém reivindicou.
+- **Meus chats** são as de quem está olhando.
+- Ao escolher uma, à direita está o histórico e se escreve ao visitante.
+
+O operador reivindica, responde, fecha ou devolve a conversa ao bot.
+
+### Painel de operações (administradores)
+
+É a vista padrão de um administrador e resume a operação do workspace:
+
+| Indicador | O que conta |
+|---|---|
+| **Operadores online** | Quantos dos operadores do workspace estão conectados |
+| **Em espera** | Chats que esperam alguém reivindicá-los |
+| **Atendidos por uma pessoa** | Chats ativos com um operador |
+| **Atendidos pelo bot** | Chats que o bot continua levando |
+| **Resolvidos hoje** | Chats fechados durante o dia |
+
+Embaixo, o **estado de cada operador** (online, quantos chats leva, quando foi visto pela última vez) e a **carga por bot**.
+
+## Papéis e acesso
+
+O acesso depende do papel **e** de por onde se entra:
+
+| Papel | Painel principal | Mesa de ajuda |
+|---|---|---|
+| **Administrador** | ✅ | ✅ (inclui o painel) |
+| **Desenvolvedor** | ✅ | ✅ |
+| **Operador** | ❌ | ✅ |
+| **Visualizador** | ✅ (somente leitura) | ❌ |
+
+- Um **operador** que tenta entrar pelo painel principal recebe um aviso que indica usar a Mesa de ajuda.
+- Um **visualizador** não pode operar chats.
+
+## Helpdesk externo {#helpdesk-externo}
+
+Se você atende a partir de um sistema próprio em vez da Mesa de ajuda do TreeFlow, o seu sistema pode responder ao visitante chamando:
+
+```http
+POST /api/live-chat/external-reply
+Content-Type: application/json
+
+{
+  "tree_id": "…",
+  "session_id": "…",
+  "agent_name": "Ana, de soporte",
+  "message": "Hola, ya reviso tu pedido."
+}
+```
+
+A mensagem se salva na conversa, marca-se como escrita pelo agente e chega ao widget do visitante em tempo real. Se a conversa seguia em espera, passa a *atendida*.
+
+## Boas práticas
+
+1. **Avise o que acontece em seguida**: personalize a mensagem de transferência (*"Vou te passar para uma pessoa; costuma levar alguns minutos"*).
+2. **Ofereça saída para o bot**: se o operador resolve algo rápido, devolver a conversa ao bot evita deixar o visitante esperando num chat que ninguém fecha.
+3. **Teste o percurso completo**: peça um humano a partir do widget, reivindique na Mesa de ajuda e troque um par de mensagens antes de publicar.
+4. **Treine depois de mudar a intenção**: lembre que modificar frases da intenção de transferência exige [retreinar](/docs/Avanzado/Entendimiento).

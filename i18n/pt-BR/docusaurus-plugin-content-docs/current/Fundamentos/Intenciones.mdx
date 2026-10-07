@@ -1,0 +1,166 @@
+---
+sidebar_position: 6
+sidebar_label: Intenções
+---
+
+# Intenções
+
+No menu se chamam **Intenções**. São o que o motor reconhece numa frase. O percurso da conversa é outra coisa: fica nos [fluxos](./Flujos).
+
+Uma intenção guarda três coisas:
+
+- um **nome**, o identificador
+- os **padrões**, frases de exemplo
+- os **parâmetros**, os dados que se extraem dessas frases
+
+O que o bot responde se escreve no nó de intenção do fluxo, e os textos reutilizáveis em [Mensagens](./Mensajes).
+
+## A lista
+
+**Intenções** abre os cartões. Em cima se pode buscar por nome. A aba é **Conversacional**: cada cartão é uma intenção que se abre e se edita.
+
+![Lista de intenções: busca, cartões e Nova intenção](/img/intenciones/lista.png)
+
+- **Nova intenção** cria uma vazia.
+- Um clique no nome abre o editor.
+- A faixa laranja pede confirmação para apagá-la. Vai a intenção, os padrões e os parâmetros.
+- Se houver muitas, embaixo estão as páginas. Quantas cabem por página se configura na [árvore](./Arboles), em **Paginação**.
+
+## Criar uma
+
+**Nova intenção** pede só o nome. O chip **Conversacional** indica o tipo: é o único que esta página cria.
+
+![Nova intenção: o nome e o tipo conversacional](/img/intenciones/crear.png)
+
+O nome é um identificador. Enquanto se escreve, os espaços e os sinais viram `_`. Ao clicar em **Criar intenção** fica em minúsculas e sem acentos: `Consulta de precio` sai como `consulta_de_precio`. O `ñ` é mantido.
+
+O cartão aparece na lista, vazio. É preciso abri-lo para pôr padrões.
+
+## O editor
+
+Em cima à direita, **Salvar alterações** grava a intenção. **Limpar tudo** esvazia padrões e parâmetros desta intenção; pede confirmação.
+
+![Editor de hacer_pedido: o nome e os padrões, com os dados já pintados](/img/intenciones/editor.png)
+
+O campo **Nome da intenção** é o mesmo identificador. Se a árvore tiver mais de um idioma, junto ao nome aparecem os idiomas: cada um edita os próprios padrões.
+
+## Padrões
+
+Um padrão é uma frase que deveria ativar esta intenção. Quanto mais formas naturais houver, melhor o motor reconhece. Em `hacer_pedido` estão `quiero ordenar 2 empanada de carne para comer aquí`, `ordenan 2 empanada de carne` e `dame 2 empanada de carne`.
+
+Cada linha se pode corrigir no lugar. **Enter** fecha a edição. O ícone de copiar duplica o texto; o de lixeira tira essa frase.
+
+Embaixo, o campo **Escreva um novo padrão e pressione Enter** adiciona uma frase. **Adicionar padrão** abre o quadro para uma frase mais longa.
+
+![Novo padrão: uma frase, ou várias separadas por vírgulas](/img/intenciones/nuevo-patron.png)
+
+Se o texto traz vírgulas, cada pedaço entra como padrão separado. `hola, buenas tardes` cria dois.
+
+Quando há muitas frases, o cabeçalho **Padrões** mostra o intervalo e as páginas, por exemplo `1–10 / 47`.
+
+As palavras coloridas já estão ligadas a uma [entidade](./Entidades). Na captura, `quiero` está ligado a `verbo_deseo`. A cor da palavra é a mesma da barra do parâmetro.
+
+Isso pode acontecer sem escrever nada especial: ao salvar a frase, o editor marca as palavras que já coincidem com um valor ou um sinônimo de alguma entidade.
+
+## Marcar um dado
+
+Para forçar a marca, escreva `@` com um espaço antes. Abre **Editar Highlight**.
+
+![Ao escrever @ se escolhe a entidade desse fragmento](/img/intenciones/arroba.png)
+
+1. **Selecionar entidade.** A lista é a de Entidades, incluídas as do sistema (`sys.number`, `sys.time`, `sys.date`…).
+2. **Texto.** O fragmento que fica marcado. Se você abriu o quadro com `@`, o texto começa em `@`: troque pela palavra, por exemplo `pizzas`.
+3. Como a palavra se guarda na entidade:
+   - **Adicionar como sinônimo.** Acrescenta aos sinônimos do primeiro valor.
+   - **Adicionar como nova linha.** Cria um valor novo na entidade.
+   - **Adicionar como referência.** Só marca este fragmento. A entidade não muda.
+
+Uma entidade do sistema só admite **Adicionar como referência**. Uma composta, também. Se a palavra já existia na entidade, fica como referência.
+
+Também se pode escrever a referência na mão: `@producto`. Com outro nome de parâmetro, `@producto:producto_pedido`: a entidade é `producto` e o parâmetro se chama `producto_pedido`.
+
+Ao marcar, se essa entidade ainda não tinha parâmetro na intenção, cria-se um.
+
+Um clique numa palavra que já está pintada abre **Entidade no padrão**. Ali se vê a entidade e o texto. **Eliminar** tira a marca desse fragmento; a entidade continua existindo.
+
+![Clique numa palavra pintada: a entidade, o texto e tirar a marca](/img/intenciones/marca.png)
+
+## Parâmetros
+
+Um parâmetro é o dado que a intenção fica: o produto, a quantidade, a data. Embaixo do editor, cada linha tem o **nome do parâmetro**, a **entidade** e três ícones.
+
+![Parâmetros de hacer_pedido: o dado orden, com a entidade composta do mesmo nome](/img/intenciones/parametros.png)
+
+- **Nome do parâmetro.** Assim se usa depois nas respostas, como `{$producto_pedido}`. Se ficar vazio, usa-se o nome da entidade.
+- **Entidade.** De onde sai o valor. Busca-se na lista ou se escreve.
+- O lápis abre essa entidade. Numa do sistema, como `sys.number`, o lápis está desligado: não se editam.
+- A engrenagem abre **Ajustes do parâmetro**.
+- A lixeira tira o parâmetro desta intenção.
+
+**Adicionar parâmetro** pede o nome e a entidade, sem passar por um padrão. Serve quando o dado vai ser perguntado e não precisa vir escrito numa frase de exemplo.
+
+A barra de cor da linha é a mesma das palavras pintadas nos padrões.
+
+Se a entidade é composta, debaixo da linha saem os subparâmetros. O check de esquecer o valor vai em cada subparâmetro.
+
+A ordem em que o motor testa uma frase — entidade exata, entidade aproximada, padrão, modelo — está em [Árvores](./Arboles), em **Entendimento**.
+
+## Ajustes do parâmetro
+
+A engrenagem abre isto. **Salvar** fecha o quadro; a intenção se persiste com **Salvar alterações** do editor.
+
+![Ajustes de numero, em reservar_mesa: obrigatório, a pergunta, o fallback e o limite de tentativas](/img/intenciones/ajustes.png)
+
+**Nome do parâmetro** e **Valor padrão.** O valor padrão se usa se a pessoa não disser. Com valor padrão, o parâmetro não trava a conversa.
+
+**Obrigatório.** Se faltar o valor, o bot pergunta antes de seguir. Isso é o slot filling. O resto dos campos de baixo aparece quando está marcado.
+
+**Esquecer este valor ao cair de novo nesta intenção.** A próxima vez que a intenção se ativar não reutiliza o anterior.
+
+- Se houver valor padrão, volta a esse valor.
+- Se for obrigatório, pergunta de novo, mesmo que já tivesse ou venha na frase.
+- Se não for obrigatório, descarta e só se preenche se vier na frase nova.
+
+**Usar captura definida.** A pergunta, a mensagem de «se não entender» e as novas tentativas saem de uma [captura](./Capturas). O parâmetro só escolhe qual. O lápis abre essa captura; o X a desliga.
+
+Sem captura, estes campos são os da intenção:
+
+**Pode voltar a ser capturado durante o slot filling.** Enquanto faltarem dados para pedir, qualquer frase pode preencher ou mudar este parâmetro, mesmo que o bot esteja perguntando por outro. Se pede a quantidade e a pessoa diz «melhor de queijo», o produto muda e a quantidade continua sendo pedida.
+
+**Perguntar com um bloco enriquecido.** Desligado, a **Pergunta** é um texto: `¿Qué producto te gustaría pedir?`. Ligado, a pergunta se monta com blocos, igual a Mensagens: o texto de um botão é o que preenche o dado.
+
+Na pergunta cabem [funções](/docs/Avanzado/Funciones), por exemplo `{$categoria_producto}`.
+
+**Se não entender.** O que diz quando a resposta não preenche o dado. No exemplo: `No entendí el producto. ¿Podrías decirme qué deseas? Por ejemplo: pizza, hamburguesa…`
+
+**Máx. tentativas.** Quantas vezes repete essa mensagem antes da ação de limite. `1` significa uma nova tentativa.
+
+**Ação ao superar o limite.**
+
+| Ação | O que faz |
+|---|---|
+| Passar ao próximo parâmetro | Deixa este e pergunta por outro que falte |
+| Responder mesmo faltando o valor | Segue com o que houver |
+| Ir ao nó de contexto | Abandona a pergunta e volta ao fluxo |
+
+**Permitir outra intenção ao perguntar este dado.** Se o que se escreve coincide com outra intenção, o bot a atende e deixa esta captura. Se não coincidir, conta como falha e manda a mensagem de «se não entender».
+
+O detalhe de como se preenchem, se interpolam e se abandonam está em [Parâmetros](/docs/Avanzado/Parametros).
+
+## Onde se usa
+
+O valor fica na conversa com o nome do parâmetro. Uma resposta do nó, uma mensagem ou uma ferramenta o lê com `{$producto_pedido}`. O `$` é o que o distingue de um texto fixo.
+
+A frase que o bot diz ao reconhecer a intenção se configura no nó do [fluxo](./Flujos), na aba **Conversa**. Se ninguém a entender, o caminho é o nó de evento desse fluxo, não um campo desta página.
+
+## Treinar
+
+**Salvar alterações** deixa a árvore desatualizada. Os padrões novos entram na conversa quando se treina: o botão **Treinar**, embaixo no menu, o do raio. Até lá o [console](/docs/Fundamentos/ProbarElBot) segue com o treinamento anterior.
+
+## Como convém montá-las
+
+- Um nome que diga a ação: `consultar_becas`, `hacer_pedido`, `solicitar_hora`.
+- Frases como uma pessoa diz, não uma fórmula só repetida.
+- Uma intenção, uma ação. `saludo` e `hacer_pedido` separados se mantêm melhor do que uma intenção que faz as duas.
+- O parâmetro obrigatório leva pergunta e um «se não entender» que dê um exemplo.
+- Depois de salvar, treinar, e testar a frase no console.

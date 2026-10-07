@@ -1,0 +1,68 @@
+---
+sidebar_position: 2
+sidebar_label: Primeiro pedido
+---
+
+# Primeiro pedido
+
+Do zero a pedir algo ao agente: conectar um provedor de modelos e fazer uma primeira alteração pequena.
+
+## O que você precisa
+
+- Um bot criado, e selecionado no canto superior esquerdo.
+- A **chave de API** de um provedor de modelos, ou um servidor local como o Ollama. Qual escolher está em [Provedores e modelos](/docs/Agente/ModelosGenerativos).
+
+## 1. Abra o agente
+
+O botão laranja de baixo à direita abre o console. Clique no ícone do robô, no canto superior direito do painel.
+
+![O console aberto, com o ícone do agente no canto superior direito](/img/agente/abrir.png)
+
+## 2. Conecte um provedor
+
+Se o workspace ainda não tiver nenhuma credencial de IA, o agente pede uma: **Adicione uma credencial**.
+
+![A configuração do agente: provedor, nome, API Key, modelo e as três caixas de confirmação](/img/agente/configuracion.png)
+
+1. Escolha o **provedor**. Ao mudá-lo, a URL base e o modelo recomendado são preenchidos.
+2. Dê um **nome** à credencial, para reconhecê-la se depois você tiver várias.
+3. Cole a **API Key**. O olho a mostra enquanto você escreve.
+4. Escolha o **modelo** na lista. Para um que não esteja na lista, escolha a opção de modelo personalizado e escreva o nome.
+5. Clique em **Testar conexão**.
+6. Se deu certo, clique em **Aplicar e continuar**.
+
+![A lista com os dez provedores](/img/agente/proveedores.png)
+
+:::note É preciso testar antes de salvar
+**Aplicar e continuar** não deixa salvar até que **Testar conexão** tenha dado certo. Se falhar, a mensagem diz por quê.
+:::
+
+A chave é necessária em todos os provedores, exceto **Ollama** e **Custom / Local LLM**; esses dois pedem, em vez disso, a **URL base** do servidor.
+
+A credencial é do **workspace**, não do bot: todos os bots e todas as pessoas do workspace a usam. Salva-se uma vez.
+
+## 3. Peça algo pequeno
+
+Você já está no chat do agente. Comece com algo que possa conferir à primeira vista:
+
+> Adicione uma intenção `consultar_horario` com 6 frases de exemplo, e que responda «Abrimos de segunda a sexta, das 9 às 18 h».
+
+Enquanto trabalha, você vê «o agente está processando». Ao terminar, ele conta **o que mudou e onde**, e abaixo da resposta aparece a lista de ações que executou.
+
+## 4. Revise o que ele fez
+
+- Abra cada **ação** para ver a ferramenta e o que ela devolveu.
+- Entre em **Fluxos**: a intenção nova deve ter o nó, ligado a partir do nó de contexto. Se não aparecer, recarregue a página.
+- Em **Intenções**, veja as frases que ele escreveu.
+
+## 5. Teste
+
+Volte à aba **Console** (o ícone de chat, no canto superior direito do painel) e escreva uma das frases de exemplo. Se o bot não a entender, **treine-o**: as intenções novas não são reconhecidas até treinar. O agente pode treiná-lo por você: «treine o bot e me avise quando terminar».
+
+## Antes de pedir algo grande
+
+Por padrão, o agente **pede confirmação** antes de criar, modificar ou excluir: você verá um cartão com as alterações propostas e ele as aplica quando você clicar em **Confirmar**. Se desligar as caixas «Pedir confirmação…» da configuração, ele executa na hora; nesse caso, peça um backup primeiro. Mais em [Antes de pedir mudanças grandes](/docs/Agente/Constructor#antes-de-pedirle-cambios-grandes).
+
+## Quando você tem várias credenciais
+
+Acima do chat você pode **trocar de credencial** e de **modelo** sem sair, **adicionar** outra, **editar** a atual, começar uma **conversa nova** e abrir o **histórico**. Útil para testar o mesmo pedido com outro modelo.

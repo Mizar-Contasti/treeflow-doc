@@ -1,0 +1,60 @@
+---
+sidebar_position: 1
+---
+
+# Discord
+
+Votre bot répond sur Discord aux **commandes slash** et aux **boutons**, avec des cartes (*embeds*). C'est un canal **Stable**.
+
+![L'écran Discord dans Canaux : Interactions Endpoint URL et identifiants de l'application](/img/canales/discord.png)
+
+:::warning Discord ne lit pas les messages du canal
+Le canal fonctionne par **interactions** : le bot traite ce que quelqu'un invoque avec une commande (`/pregunta …`) ou en appuyant sur un bouton. Il ne lit pas la conversation ordinaire d'un serveur.
+:::
+
+## Ce qu'il vous faut sur Discord
+
+Une application créée dans le [Discord Developer Portal](https://discord.com/developers/applications), avec un bot.
+
+| Champ dans TreeFlow | D'où ça vient |
+|---|---|
+| **Application ID / Client ID** | General Information → Application ID |
+| **Public Key** | General Information → Public Key |
+| **Discord Bot Token** | Onglet Bot → Token |
+
+La **Public Key** sert à valider que chaque interaction vient de Discord. Discord l'utilise aussi au moment d'enregistrer l'URL : il envoie une requête signée et une autre mal signée pour vérifier que vous rejetez la seconde.
+
+## L'activer
+
+L'URL est validée avec la Public Key. Enregistrez donc d'abord les identifiants dans TreeFlow, puis collez l'URL dans Discord.
+
+1. Choisissez votre bot dans le sélecteur en haut à gauche.
+2. Ouvrez **Intégration → Canaux → Discord**.
+3. Renseignez Application ID, Public Key et Discord Bot Token, puis cliquez sur **Enregistrer et intégrer Discord**. Le canal est activé.
+4. Copiez l'**Interactions Endpoint URL** de ce même écran.
+5. Dans le Developer Portal → votre application → General Information, collez-la dans **Interactions Endpoint URL** et enregistrez. Discord la vérifie aussitôt.
+6. Invitez l'application sur votre serveur avec les portées *bot* et *applications.commands* (OAuth2 → URL Generator).
+
+L'interrupteur **ON/OFF** du haut le désactive et l'active sans effacer ce qui est enregistré.
+
+## Ce que le bot reçoit
+
+- D'une **commande slash** : la valeur de ses options, réunies en un seul texte. Si la commande n'a pas d'options, son nom.
+- D'un **bouton** : l'identifiant (`custom_id`) du bouton.
+
+C'est ce que le bot lit comme message de la personne. Une commande avec une seule option de texte, par exemple `/pregunta texto`, est la façon naturelle de lui parler.
+
+:::note Les commandes, c'est vous qui les créez
+TreeFlow n'enregistre pas de commandes slash dans Discord. Vous devez créer dans Discord la commande souhaitée (par exemple `/pregunta`, avec une option de texte) pour que les gens aient quelque chose à invoquer.
+:::
+
+## Ce que le bot envoie
+
+Du texte (jusqu'à 2000 caractères) ou, si la réponse contient des blocs, des cartes et des boutons Discord. Il répond par un message de suivi, donc Discord affiche « réflexion… » jusqu'à l'arrivée.
+
+## S'il ne répond pas
+
+- Vérifiez que l'interrupteur est sur **ON**.
+- Vérifiez que la **Public Key** est celle de la même application.
+- Vérifiez que l'**Interactions Endpoint URL** est enregistrée et vérifiée dans Discord.
+- Vérifiez que la commande invoquée existe et transmet une option de texte.

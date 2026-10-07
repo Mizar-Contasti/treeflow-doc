@@ -1,0 +1,69 @@
+---
+sidebar_position: 4
+sidebar_label: Depuis la page
+---
+
+# Depuis la page
+
+L'onglet **Développeur** de [Web Chatbot Widget](./setup) s'adresse à qui intègre le chat. Si le site se contente de coller le snippet, inutile d'entrer ici.
+
+## Variables de contexte
+
+Chaque ligne est un nom et une valeur. Elles voyagent dans chaque message et le bot les lit comme n'importe quelle variable, avec `{$nombre}`.
+
+Elles servent de valeur par défaut. Si la page appelle `injectContext`, ces valeurs remplacent celles du panneau. Une variable définie ici est déjà présente au premier tour, celui de l'accueil.
+
+**Enregistrer les modifications** les laisse dans le widget. Sans enregistrement, la page de test ne les voit pas.
+
+## Mode debug
+
+L'interrupteur **Mode debug** place un bouton d'inspection à côté de chaque message du bot. Il ouvre la requête et la réponse de ce tour. Il sert à examiner le widget publié. La console du panneau a le sien, dans [Tester le bot](/docs/Fundamentos/ProbarElBot).
+
+## Contrôler le chat
+
+L'avis du panneau le dit : c'est facultatif. Cela sert si la page a son propre bouton, ou s'il y a un utilisateur avec une session.
+
+L'élément est `treeflow-widget`.
+
+**Ouvrir ou réduire**
+
+```javascript
+const widget = document.querySelector('treeflow-widget');
+widget.open();
+widget.close();
+```
+
+**Mode sombre**, en plus de l'interrupteur de [Couleurs](./personalizacion#colores) :
+
+```javascript
+const widget = document.querySelector('treeflow-widget');
+widget.setAttribute('dark-mode', 'true');
+widget.removeAttribute('dark-mode');
+```
+
+**Données de la personne qui est sur la page.** Elles remplacent les variables du panneau. Le bot les utilise comme `{$nombre}`.
+
+```javascript
+const widget = document.querySelector('treeflow-widget');
+widget.injectContext({
+  usuarioId: 'usr_987',
+  nombre: 'María González',
+  plan: 'Empresarial'
+});
+```
+
+**Envoyer un texte** comme si la personne l'avait écrit :
+
+```javascript
+const widget = document.querySelector('treeflow-widget');
+widget.sendUserMessage('Hola, necesito ayuda con mi pedido');
+```
+
+**Vider la conversation** et commencer une autre session :
+
+```javascript
+const widget = document.querySelector('treeflow-widget');
+widget.clearHistory();
+```
+
+Le même code est dans l'onglet, avec un bouton **Copier** pour chaque cas.

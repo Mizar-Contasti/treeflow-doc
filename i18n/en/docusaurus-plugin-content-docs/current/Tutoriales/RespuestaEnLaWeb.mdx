@@ -1,0 +1,46 @@
+---
+sidebar_position: 5
+sidebar_label: A reply for the web
+---
+
+# A reply for the web
+
+Each message has two kinds of tab. **Default** is always there: it is text, and it is what comes out when the channel has no version of its own. **Web** appears when the web channel is connected. There the block is rich elements, and only someone writing on the web sees it.
+
+## The Default text
+
+**Messages** → `restaurante_saludo_response`. On **Default** the type is **Text**. The field is called **Response text**.
+
+![Default: the greeting in text](/img/mensajes/editor.png)
+
+Bold, italic, and underline mark the selection with `**`, `*`, and `__`. **Save changes** returns to the list.
+
+![The message list](/img/mensajes/lista.png)
+
+## The Web tab
+
+Switch to **Web**. The type is **Rich elements**. **Add Element** adds a paragraph, an image, buttons, a card, or a carousel. Drag to reorder them.
+
+![Web: a block with an image](/img/mensajes/web.png)
+
+| Element | What it is for |
+|---|---|
+| Paragraph | The text. There can be several in the same element |
+| Image | A URL and the alt text |
+| Buttons | Each one with a label and an action |
+| Card | Title, subtitle, image, and buttons |
+| Carousel | Several cards, side by side |
+
+A button can send text (that is what the person types), open a URL, or fire an event. A function fits in the paragraph: `{$nombre}`.
+
+If there are two blocks on the same tab, the bot picks one at random. An empty block does not travel.
+
+## See it in the console
+
+Open the console and set the second button to **Web**. `hola` should show the block from the Web tab.
+
+![The console, with the channel above the chat](/img/testeo/consola.png)
+
+If the Default paragraph comes out, that message's Web tab is empty, or the console channel is still on **Default**.
+
+The element catalog is in [Messages](/docs/Fundamentos/Mensajes). The code to paste the chat into a site is in [Web widget setup](/docs/Canales/Web/setup).

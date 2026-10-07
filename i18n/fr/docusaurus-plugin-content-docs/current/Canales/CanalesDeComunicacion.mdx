@@ -1,0 +1,73 @@
+---
+sidebar_position: 1
+---
+
+# Canaux
+
+Un **canal** est le moyen par lequel les gens parlent à votre bot : le web, Telegram, WhatsApp… Dans le menu, il se trouve sous **Intégration → Canaux**.
+
+![La liste des canaux de chat : le widget web activé et les autres désactivés](/img/canales/lista.png)
+
+L'écran comporte deux onglets :
+
+- **Chat** : les canaux où la personne écrit.
+- **Voix** : ce qui donne une voix ou un visage au bot.
+
+Chaque carte indique si le canal est **Activé** ou **Désactivé** pour le bot sélectionné en haut à gauche.
+
+![L'onglet Voix : ElevenLabs et Avatars IA](/img/canales/voz.png)
+
+## Les canaux
+
+| Canal | Onglet | État | Ce que reçoit la personne |
+|---|---|---|---|
+| [Widget web](/docs/Canales/Web/setup) | Chat | Stable | Les éléments enrichis de l'onglet Web |
+| [Telegram](/docs/Canales/Telegram) | Chat | Stable | Boutons, claviers et médias natifs |
+| [Slack](/docs/Canales/Slack/setup) | Chat | Stable | Blocs Slack, dans les canaux et les messages directs |
+| [Discord](/docs/Canales/Discord/setup) | Chat | Stable | Réponses aux commandes et aux boutons, avec des cartes |
+| [E-mail (Resend)](/docs/Canales/Email) | Chat | Stable | E-mail de réponse, en texte et en HTML |
+| [WhatsApp](/docs/Canales/WhatsApp/setup) | Chat | Bêta | Texte, boutons, listes et médias |
+| [Facebook Messenger](/docs/Canales/Facebook) | Chat | Bêta | Texte, cartes et réponses rapides |
+| [Instagram Direct](/docs/Canales/Instagram/setup) | Chat | Bêta | Messages directs |
+| [ElevenLabs](/docs/Canales/ElevenLabs/setup) | Voix | Stable | La réponse en audio |
+| [Avatars IA](/docs/Canales/Avatares/setup) | Voix | Bêta | Un avatar qui prononce la réponse |
+
+**Stable** et **Bêta** sont les libellés que l'application attribue à chaque canal.
+
+:::note Ce que la liste affiche et qui n'est pas traité ici
+L'application affiche aussi **SMS** et **BYOC** (téléphonie propre), avec l'avertissement qu'ils arrivent prochainement. Il n'y a encore rien derrière, donc ils n'ont pas de guide.
+:::
+
+## Comment activer un canal
+
+Tous suivent le même chemin. Ce qui change, c'est l'endroit d'où viennent les identifiants.
+
+1. **Choisissez le bot.** Le sélecteur en haut à gauche. Le canal répond avec le bot sélectionné au moment de l'enregistrement.
+2. **Ouvrez le canal** depuis sa carte.
+3. **Copiez l'URL** affichée à l'écran (pour ceux qui en ont une) et collez-la sur la plateforme du canal.
+4. **Collez les identifiants** que cette plateforme vous fournit.
+5. Cliquez sur **Enregistrer et intégrer**. Ils sont enregistrés et le canal **est activé**.
+
+![L'écran WhatsApp : l'interrupteur d'état, l'URL pour Meta et les champs d'identifiants](/img/canales/whatsapp.png)
+
+L'**interrupteur** du haut (ON/OFF) désactive ou active le canal sans toucher à ce qui est enregistré. Pour le mettre en pause, inutile de supprimer quoi que ce soit.
+
+:::info Les secrets ne s'affichent plus
+Les jetons et les clés sont enregistrés et ne sont plus montrés. Lors d'un nouvel enregistrement, un secret laissé vide est conservé. Saisissez-en un nouveau seulement si vous voulez le changer.
+:::
+
+## L'URL à copier
+
+Sur WhatsApp, Facebook, Instagram, Slack, Discord et E-mail, l'écran affiche une URL de **webhook** : l'adresse à laquelle la plateforme envoie les messages à TreeFlow. Chacun vérifie la signature de la plateforme à chaque message. Sans signature valide, TreeFlow ne répond pas.
+
+Telegram est l'exception : TreeFlow enregistre son webhook tout seul, à l'enregistrement du jeton.
+
+## Une réponse différente par canal {#una-respuesta-distinta-por-canal}
+
+Quand un canal est activé, l'éditeur de messages ajoute un **onglet** à chaque réponse. **General** est celui de toujours et vaut pour tous. Si vous voulez que sur Telegram, sur WhatsApp ou par e-mail le bot dise autre chose, écrivez-le dans l'onglet de ce canal. Les canaux désactivés n'ont pas d'onglet.
+
+Les onglets possibles sont General, Web, Telegram, WhatsApp, Facebook, Email, Instagram, Slack, Discord, ElevenLabs et Avatars IA.
+
+## Essayer
+
+Avec le canal activé, écrivez au bot depuis la plateforme et suivez-le dans **Conversations**. Le widget web propose en plus **Essayer maintenant** et **Ouvrir la page de test** en haut à droite.

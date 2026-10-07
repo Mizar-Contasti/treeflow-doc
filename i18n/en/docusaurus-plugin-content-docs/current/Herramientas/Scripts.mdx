@@ -1,0 +1,91 @@
+---
+sidebar_position: 2
+sidebar_label: Scripts
+description: Python code that runs in the bot. The catalog, the editor, and the eight templates.
+---
+
+# Scripts
+
+The first tab. A script does not go out to the internet: it receives what the conversation already captured, runs Python, and returns variables.
+
+![The list: Greeting by Time of Day, with the validated mark and the delete button](/img/herramientas/scripts-lista.png)
+
+- A click on the card opens the editor.
+- The blue mark means the last test passed.
+- The orange button deletes the script. It asks for confirmation.
+- **Templates** opens the catalog. **Create script** opens an empty one, with only the name.
+
+## The catalog
+
+There are eight. Each card states the category, how many inputs and outputs it has, and lets you **Preview** the code or **Use template**. Using it creates the script in this tree: it does not run it yet.
+
+![Script template catalog](/img/herramientas/scripts-plantillas.png)
+
+| Template | Category | Inputs | Outputs |
+|---|---|---|---|
+| Greeting by time of day (Mexico CST) | Time and personalization | none | `saludo_tiempo`, `momento_dia`, `hora_actual`, `fecha_actual`, `hora_numero` |
+| Discount and tax calculation | Math and finance | `monto_base`, `descuento_pct`, `tasa_iva` | `total_final`, `subtotal`, `ahorro_descuento`, `impuesto`, `tiene_descuento` |
+| Email and domain validation | Validation and security | `email` | `es_valido`, `email_limpio`, `dominio`, `es_corporativo` |
+| Day and date calculation | Dates and time | `fecha_objetivo` (`YYYY-MM-DD`) | `dias_restantes`, `ha_expirado`, `es_hoy`, `estado` |
+| Number extractor and cleaner | Text processing | `texto` | `codigo_detectado`, `total_numeros`, `texto_limpio`, `tiene_codigo` |
+| Proper-name formatter | Text processing | `nombre` | `nombre_completo`, `primer_nombre`, `longitud`, `es_valido` |
+| Confirmation code generator | Validation and security | `prefijo`, `longitud` | `folio`, `codigo_puro`, `creado_en` |
+| Phone sanitizer | Validation and security | `telefono`, `codigo_pais` | `telefono_limpio`, `telefono_e164`, `es_valido`, `digitos_totales` |
+
+The greeting looks at the time in `America/Mexico_City`. From 5 to 12 it says good morning, from 12 to 19 good afternoon, and the rest good evening. The discount applies the percentage, subtracts it, and adds VAT on the subtotal (16 if no other rate arrives). The email is marked corporate when the domain is not gmail, hotmail, yahoo, outlook, or live. The code comes out as `ORD-482910`: the prefix, a hyphen, and the random characters, without letters that can be confused with numbers.
+
+## The editor
+
+Five tabs. **Save changes** is at the top right.
+
+### Input
+
+Each row is a value the script expects. The greeting asks for nothing: the screen says **No variables defined**.
+
+![Empty input for the time-of-day greeting](/img/herramientas/scripts-entrada.png)
+
+In a script that does ask for data, each variable has a name, a type, a test value, and a fallback value in case it did not arrive in the conversation.
+
+In the code they are read like this:
+
+```python
+monto_base = float(inputs.get("monto_base", 0))
+```
+
+### Code
+
+At the top go the **Name** (required), the **Timeout** in milliseconds, and the **Description**. The person does not see the description.
+
+The **Python I/O** box recalls the shape: `inputs.get("var_name")` to come in and `outputs = {"resultado": val}` to go out. Below, **Assign output** lists the names you already declared in Output, so you can copy them into the code.
+
+![Greeting code: name, timeout 5000, the editor, and the message if it fails](/img/herramientas/scripts-codigo.png)
+
+**Message if it fails** is what the person receives when the script crashes and there is no fallback value on the outputs. Empty, the bot uses a default one in the conversation language.
+
+### Output
+
+One card per variable. **Name**, **type** (String, number, boolean), **JSON Path**, and **Fallback value**.
+
+In a script the JSON Path is usually empty: the value comes from the `outputs` key with that same name. The fallback is used if the key did not arrive or the script failed.
+
+![Greeting output: saludo_tiempo, momento_dia, hora_actual, and fecha_actual](/img/herramientas/scripts-salida.png)
+
+### Tests
+
+**Run test** runs the code with the input test values. The status and the time stay at the top. Below, the object it returned.
+
+![Greeting test: ran in 114 ms, good morning at 10:36](/img/herramientas/scripts-pruebas.png)
+
+That test does not talk to the bot. It only runs the Python. If it fails, the error message appears in the same box, and the deploy tab does not let you continue until you fix it.
+
+### Deploy
+
+When the test passes, the notice says **Script validated**. **Deploy now** makes it available in the flows. Without deploying, the node does not offer it in **Add script…**.
+
+![Deploy: the validated script and the Deploy now button](/img/herramientas/scripts-despliegue.png)
+
+## On the node
+
+**Functionality** tab, **Add script…**. They run in list order, before the webhook and the APIs. The **≠** on each row changes the session variable name if it is not called the same as the input or the output.
+
+In a message, the output is written `{$saludo_tiempo}`.

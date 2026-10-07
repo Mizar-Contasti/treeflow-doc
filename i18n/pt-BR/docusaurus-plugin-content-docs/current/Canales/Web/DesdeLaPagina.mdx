@@ -1,0 +1,69 @@
+---
+sidebar_position: 4
+sidebar_label: A partir da página
+---
+
+# A partir da página
+
+A aba **Desenvolvedor** de [Web Chatbot Widget](./setup) é para quem incorpora o chat. Se o site só cola o snippet, não é preciso entrar aqui.
+
+## Variáveis de contexto
+
+Cada linha é um nome e um valor. Elas viajam em cada mensagem e o bot as lê como qualquer variável, com `{$nombre}`.
+
+Servem como valor padrão. Se a página chamar `injectContext`, esses valores substituem os do painel. Uma variável definida aqui já está no primeiro turno, o de boas-vindas.
+
+**Salvar alterações** as deixa no widget. Sem salvar, a página de teste não as vê.
+
+## Modo debug
+
+O interruptor **Modo debug** coloca um botão de inspeção ao lado de cada mensagem do bot. Ele abre o request e o response daquele turno. Serve para revisar o widget publicado. O console do painel tem o seu, em [Testar o bot](/docs/Fundamentos/ProbarElBot).
+
+## Controlar o chat
+
+O aviso do painel diz isso: é opcional. Serve se a página tem um botão próprio, ou se há um usuário com sessão.
+
+O elemento é `treeflow-widget`.
+
+**Abrir ou minimizar**
+
+```javascript
+const widget = document.querySelector('treeflow-widget');
+widget.open();
+widget.close();
+```
+
+**Modo escuro**, além do interruptor de [Cores](./personalizacion#colores):
+
+```javascript
+const widget = document.querySelector('treeflow-widget');
+widget.setAttribute('dark-mode', 'true');
+widget.removeAttribute('dark-mode');
+```
+
+**Dados de quem está na página.** Substituem as variáveis do painel. O bot as usa como `{$nombre}`.
+
+```javascript
+const widget = document.querySelector('treeflow-widget');
+widget.injectContext({
+  usuarioId: 'usr_987',
+  nombre: 'María González',
+  plan: 'Empresarial'
+});
+```
+
+**Enviar um texto** como se a pessoa o tivesse escrito:
+
+```javascript
+const widget = document.querySelector('treeflow-widget');
+widget.sendUserMessage('Hola, necesito ayuda con mi pedido');
+```
+
+**Limpar a conversa** e começar outra sessão:
+
+```javascript
+const widget = document.querySelector('treeflow-widget');
+widget.clearHistory();
+```
+
+O mesmo código está na aba, com um botão **Copiar** para cada caso.

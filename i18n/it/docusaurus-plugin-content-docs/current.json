@@ -1,0 +1,142 @@
+{
+  "version.label": {
+    "message": "Prossima",
+    "description": "The label for version current"
+  },
+  "sidebar.tutorialSidebar.category.Fundamentos": {
+    "message": "Fondamenti",
+    "description": "The label for category Fundamentos in sidebar tutorialSidebar"
+  },
+  "sidebar.tutorialSidebar.category.Fundamentos.link.generated-index.description": {
+    "message": "Concetti fondamentali per iniziare a usare TreeFlow.",
+    "description": "The generated-index page description for category Fundamentos in sidebar tutorialSidebar"
+  },
+  "sidebar.tutorialSidebar.category.Avanzado": {
+    "message": "Avanzate",
+    "description": "The label for category Avanzado in sidebar tutorialSidebar"
+  },
+  "sidebar.tutorialSidebar.category.Avanzado.link.generated-index.description": {
+    "message": "Funzionalità avanzate e configurazioni tecniche di TreeFlow.",
+    "description": "The generated-index page description for category Avanzado in sidebar tutorialSidebar"
+  },
+  "sidebar.tutorialSidebar.category.Tutoriales": {
+    "message": "Tutorial",
+    "description": "The label for category Tutoriales in sidebar tutorialSidebar"
+  },
+  "sidebar.tutorialSidebar.category.Tutoriales.link.generated-index.description": {
+    "message": "Percorsi con le schermate di Cafetería: piantare, provare, chiedere un dato, pubblicare sul web e passare a una persona.",
+    "description": "The generated-index page description for category Tutoriales in sidebar tutorialSidebar"
+  },
+  "sidebar.tutorialSidebar.category.Canales": {
+    "message": "Canali",
+    "description": "The label for category Canales in sidebar tutorialSidebar"
+  },
+  "sidebar.tutorialSidebar.category.Canales.link.generated-index.description": {
+    "message": "Guide per collegare TreeFlow a diversi canali di comunicazione e piattaforme.",
+    "description": "The generated-index page description for category Canales in sidebar tutorialSidebar"
+  },
+  "sidebar.tutorialSidebar.category.Web": {
+    "message": "Web",
+    "description": "The label for category Web in sidebar tutorialSidebar"
+  },
+  "sidebar.tutorialSidebar.category.Web.link.generated-index.description": {
+    "message": "Il widget web: attivarlo, l'intento all'apertura, l'aspetto e il controllo dalla pagina.",
+    "description": "The generated-index page description for category Web in sidebar tutorialSidebar"
+  },
+  "sidebar.tutorialSidebar.category.WhatsApp": {
+    "message": "WhatsApp",
+    "description": "The label for category WhatsApp in sidebar tutorialSidebar"
+  },
+  "sidebar.tutorialSidebar.category.WhatsApp.link.generated-index.description": {
+    "message": "Integrazione con WhatsApp Business API per parlare direttamente con i tuoi utenti.",
+    "description": "The generated-index page description for category WhatsApp in sidebar tutorialSidebar"
+  },
+  "sidebar.tutorialSidebar.category.Telegram": {
+    "message": "Telegram",
+    "description": "The label for category Telegram in sidebar tutorialSidebar"
+  },
+  "sidebar.tutorialSidebar.category.Telegram.link.generated-index.description": {
+    "message": "Integrazione con Telegram Bot API per una delle piattaforme più usate.",
+    "description": "The generated-index page description for category Telegram in sidebar tutorialSidebar"
+  },
+  "sidebar.tutorialSidebar.category.Facebook": {
+    "message": "Facebook",
+    "description": "The label for category Facebook in sidebar tutorialSidebar"
+  },
+  "sidebar.tutorialSidebar.category.Facebook.link.generated-index.description": {
+    "message": "Integrazione con Facebook Messenger per i messaggi sui social.",
+    "description": "The generated-index page description for category Facebook in sidebar tutorialSidebar"
+  },
+  "sidebar.tutorialSidebar.category.Instagram": {
+    "message": "Instagram",
+    "description": "The label for category Instagram in sidebar tutorialSidebar"
+  },
+  "sidebar.tutorialSidebar.category.Instagram.link.generated-index.description": {
+    "message": "Integrazione con i messaggi diretti di Instagram",
+    "description": "The generated-index page description for category Instagram in sidebar tutorialSidebar"
+  },
+  "sidebar.tutorialSidebar.category.Slack": {
+    "message": "Slack",
+    "description": "The label for category Slack in sidebar tutorialSidebar"
+  },
+  "sidebar.tutorialSidebar.category.Slack.link.generated-index.description": {
+    "message": "Integrazione con i canali Slack e i messaggi interattivi (Block Kit)",
+    "description": "The generated-index page description for category Slack in sidebar tutorialSidebar"
+  },
+  "sidebar.tutorialSidebar.category.Discord": {
+    "message": "Discord",
+    "description": "The label for category Discord in sidebar tutorialSidebar"
+  },
+  "sidebar.tutorialSidebar.category.Discord.link.generated-index.description": {
+    "message": "Integrazione con i bot Discord, i rich embed e i componenti interattivi",
+    "description": "The generated-index page description for category Discord in sidebar tutorialSidebar"
+  },
+  "sidebar.tutorialSidebar.category.Email": {
+    "message": "Email",
+    "description": "The label for category Email in sidebar tutorialSidebar"
+  },
+  "sidebar.tutorialSidebar.category.Email.link.generated-index.description": {
+    "message": "Integrazione email per risposte automatiche.",
+    "description": "The generated-index page description for category Email in sidebar tutorialSidebar"
+  },
+  "sidebar.tutorialSidebar.category.ElevenLabs": {
+    "message": "ElevenLabs",
+    "description": "The label for category ElevenLabs in sidebar tutorialSidebar"
+  },
+  "sidebar.tutorialSidebar.category.ElevenLabs.link.generated-index.description": {
+    "message": "Voce conversazionale realistica con ElevenLabs Voice AI",
+    "description": "The generated-index page description for category ElevenLabs in sidebar tutorialSidebar"
+  },
+  "sidebar.tutorialSidebar.category.Avatares IA": {
+    "message": "Avatar IA",
+    "description": "The label for category Avatares IA in sidebar tutorialSidebar"
+  },
+  "sidebar.tutorialSidebar.category.Avatares IA.link.generated-index.description": {
+    "message": "Risposte video interattive con avatar HeyGen e D-ID",
+    "description": "The generated-index page description for category Avatares IA in sidebar tutorialSidebar"
+  },
+  "sidebar.tutorialSidebar.category.Herramientas": {
+    "message": "Strumenti",
+    "description": "The label for category Herramientas in sidebar tutorialSidebar"
+  },
+  "sidebar.tutorialSidebar.category.Herramientas.link.generated-index.description": {
+    "message": "Script, le dieci API, il webhook, i trasferimenti e i due modi per caricare conoscenza.",
+    "description": "The generated-index page description for category Herramientas in sidebar tutorialSidebar"
+  },
+  "sidebar.tutorialSidebar.category.Agente": {
+    "message": "Agente",
+    "description": "The label for category Agente in sidebar tutorialSidebar"
+  },
+  "sidebar.tutorialSidebar.category.Agente.link.generated-index.description": {
+    "message": "L'agente costruttore della console, i provider dei modelli e il server MCP per Claude.",
+    "description": "The generated-index page description for category Agente in sidebar tutorialSidebar"
+  },
+  "sidebar.tutorialSidebar.category.Misceláneos": {
+    "message": "Varie",
+    "description": "The label for category Misceláneos in sidebar tutorialSidebar"
+  },
+  "sidebar.tutorialSidebar.category.Misceláneos.link.generated-index.description": {
+    "message": "Ciò che non ha ancora una sezione propria. Per ora, la cronologia dell'albero.",
+    "description": "The generated-index page description for category Misceláneos in sidebar tutorialSidebar"
+  }
+}

@@ -1,0 +1,52 @@
+---
+sidebar_position: 4
+sidebar_label: Che cosa può toccare
+---
+
+# Che cosa può toccare l'agente
+
+L'agente non ha accesso libero al database: lavora con **46 strumenti**, e ognuno fa una cosa concreta. Se qualcosa non è qui, non può farlo.
+
+Ogni azione che esegue compare nella chat con il nome dello strumento, quindi questa tabella serve a capire quello che vedi.
+
+## Gli strumenti
+
+**Legge** vuol dire che legge soltanto. **Modifica** che cambia il bot.
+
+| Area | Strumenti | Che cosa permettono |
+|---|---|---|
+| **Albero** | `get_tree_data` · `update_tree` | Legge la struttura completa: flussi, nodi, intenti, entità. Cambia il nome, la descrizione, lo scopo, il webhook, la modalità del bot e la configurazione di [Comprensione](/docs/Avanzado/Entendimiento): modalità, analisi del sentimento e soglie |
+| **Flussi** | `list_branches` · `create_branch` · `update_branch` · `delete_branch` | Legge i flussi. Ne crea uno con il suo nodo di inizio. Cambia le sue proprietà, non i suoi nodi. Elimina un flusso **con tutti i suoi nodi** |
+| **Nodi** | `list_leafs` · `create_leaf` · `update_leaf` · `delete_leaf` | Legge i nodi di un flusso. Crea, modifica ed elimina nodi |
+| **Intenti** | `list_intents` · `create_intent` · `update_intent` · `delete_intent` | Legge gli intenti. Ne crea uno con le sue frasi di addestramento e i parametri. Modifica ed elimina |
+| **Entità** | `list_entities` · `create_entity` · `update_entity` · `delete_entity` | Legge le entità. Crea, modifica ed elimina |
+| **Messaggi** | `list_message_templates` · `create_message_template` · `update_message_template` · `delete_message_template` | Legge i modelli di messaggio. Ne crea uno per risposte strutturate o arricchite, lo aggiorna o lo elimina |
+| **Strumenti HTTP** | `list_fertilizers` · `create_fertilizer` · `update_fertilizer` · `delete_fertilizer` | Legge, crea, modifica ed elimina gli [strumenti](/docs/Herramientas) del bot che chiamano un'API. I segreti di autenticazione non gli vengono mostrati |
+| **Addestramento** | `get_bot_training_status` · `trigger_bot_training` · `list_training_history` | Legge lo stato e la cronologia degli addestramenti, con i loro errori. Lancia un addestramento |
+| **Provare e osservare** | `simulate_chat_message` · `list_conversations` · `get_conversation` · `list_logs` · `get_log` | Manda un messaggio di prova e porta la risposta. Legge conversazioni e registri del sistema per il debug |
+| **Canali** | `list_integrations` · `configure_integration` | Legge i [canali](/docs/Canales/CanalesDeComunicacion) e li **accende o spegne**. Non salva le credenziali di un canale |
+| **Voce** | `get_voice_config` · `update_voice_config` | Legge e cambia la configurazione della voce (riconoscimento e sintesi) |
+| **Utenti** | `list_users` · `create_user` · `update_user` · `delete_user` | Legge, crea o invita, cambia il ruolo o l'attività ed elimina utenti del workspace |
+| **Backup e cronologia** | `list_backups` · `create_backup` · `list_change_history` | Legge i backup. Ne crea uno. Legge la cronologia delle modifiche del bot |
+| **Credenziali** | `list_credentials` | Legge quali credenziali ci sono nel workspace, **senza le loro chiavi** |
+
+## Quello che legge e quello che cambia
+
+- **Cambiano il bot:** tutto quello che inizia con `create_`, `update_` o `delete_`, più `trigger_bot_training` e `configure_integration`.
+- **Leggono soltanto:** `get_`, `list_` e `simulate_chat_message` (quest'ultimo non cambia il bot, ma lascia una conversazione di prova).
+
+Le **sette** che eliminano sono `delete_branch`, `delete_leaf`, `delete_intent`, `delete_entity`, `delete_message_template`, `delete_fertilizer` e `delete_user`.
+
+Di default l'agente **non le esegue da solo**: se la casella di creare, modificare o eliminare è attiva, prima mostra la card di conferma. Vedi [Prima di chiedergli modifiche grandi](/docs/Agente/Constructor#antes-de-pedirle-cambios-grandes). Se spegni la casella, quelle di quel gruppo girano subito.
+
+## I limiti di fabbrica
+
+Queste regole le mette il server, non il modello. Non dipendono da quello che l'agente «capisce» né da quello che gli dici:
+
+- **Soltanto il bot selezionato.** Il server verifica che il bot sia del tuo workspace e fissa lui stesso il bot, il workspace e l'utente in ogni strumento. Un modello che inventi un altro identificatore non ottiene nulla.
+- **Senza amministratori.** `create_user`, `update_user` e `delete_user` rifiutano gli amministratori: non li crea, non li cambia e non li elimina.
+- **Senza chiavi.** `list_credentials` e `list_fertilizers` non restituiscono segreti.
+
+## Quello che non c'è
+
+Non c'è uno strumento per salvare le **credenziali** di un canale (soltanto accenderlo o spegnerlo), per caricare file, né per toccare altri bot o workspace. Nemmeno per leggere le chiavi.

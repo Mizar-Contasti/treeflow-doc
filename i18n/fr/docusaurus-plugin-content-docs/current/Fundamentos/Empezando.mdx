@@ -1,0 +1,86 @@
+---
+sidebar_position: 2
+sidebar_label: Premiers pas
+---
+
+import AppUrl from '@site/src/components/AppUrl';
+
+# Premiers pas
+
+Vous entrez, vous plantez un arbre et vous le testez. Le nom de chaque pièce est dans la [terminologie](/docs/Fundamentos/Terminologia).
+
+## Entrez
+
+![Connexion : d'abord l'espace de travail, ensuite l'utilisateur](/img/intro/login.png)
+
+1. Ouvrez <AppUrl>TreeFlow</AppUrl>.
+2. Saisissez l'**espace de travail** et appuyez sur **Continuer**.
+3. Saisissez l'utilisateur et le mot de passe, puis appuyez sur **Se connecter**.
+
+Si vous n'avez pas encore de compte, **Enregistrez votre workspace**. Il demande le nom de l'espace, l'adresse e-mail, l'utilisateur administrateur et le mot de passe. Un code à six chiffres arrive ; une fois vérifié, le compte est créé et vous pouvez télécharger les identifiants.
+
+**Vous avez oublié votre workspace ?** et **Vous avez oublié votre mot de passe ?** utilisent cette même adresse.
+
+Dans l'en-tête, une fois à l'intérieur, on voit le nom du workspace. C'est là que vivent les utilisateurs, les clés et les arbres. Un autre client est un autre workspace : on entre de nouveau avec son nom.
+
+## Plantez le premier arbre
+
+Un workspace vide dit **Il n'y a pas d'arbres dans votre forêt**. Le bouton est **Planter le premier arbre**.
+
+S'il y a déjà des arbres, le menu contient **Créer un nouveau bot**. Dans la liste, **Nouvel arbre** ouvre le même écran, **Planter un nouvel arbre**. On peut aussi **Importer un arbre** depuis une sauvegarde.
+
+![Planter un nouvel arbre : en créer un ou importer une sauvegarde](/img/empezando/plantar.png)
+
+Le dialogue a deux parties.
+
+**Comment vous voulez commencer.**
+
+- **Première fois** allume les tutoriels et laisse l'arbre en [mode débutant](./ModoPrincipiante) : le menu montre le canevas et cache les intentions, les entités, les messages et les captures. À la fin, vous pouvez voir le guide ou le passer.
+- **Expérimenté** charge des données de test et laisse le menu complet. Dans le sélecteur de l'arbre, ce mode s'appelle **Avancé**.
+
+**Les données de l'arbre.**
+
+- **Nom**, obligatoire.
+- **Description**, si vous le souhaitez.
+- **Secteur de l'agent**, obligatoire. Restaurant, hôtel, clinique et les autres apportent un modèle d'intentions, d'entités et de flux. **Sans secteur** laisse le bot de base.
+- **Langue de base**, celle de l'entraînement et celle de l'interface.
+
+**Planter l'arbre** le crée et ouvre le tableau de bord.
+
+![Le tableau de bord, avec l'arbre déjà choisi](/img/intro/panel.png)
+
+En haut, on choisit l'arbre et la période. **Dernier jour** est celle qui reste à l'ouverture.
+
+| Carte | Ce qu'elle compte |
+|---|---|
+| Conversations | Combien il y en a eu dans la période |
+| Taux d'échec | Quelle part n'a pas été résolue |
+| Sentiment de l'utilisateur | Si l'analyse de sentiment est allumée |
+| Escalade vers un humain | Combien sont passées à une personne |
+| Flux, intentions, entités | Combien il y en a dans l'arbre |
+| Canaux | Combien sont connectés |
+| Entraînement | S'il est à jour. En vert, oui |
+
+## Testez-le
+
+1. Le parcours se dessine dans [Flux](./Flujos). Chaque pas du canevas est un nœud.
+
+![Un flux sur le canevas](/img/intro/flujo.png)
+
+2. Si vous préférez décrire la conception et laisser l'application l'assembler, il y a l'onglet **Agent** de la [console](/docs/Fundamentos/ProbarElBot).
+3. Au pied du menu, l'éclair indique l'état de l'entraînement. **Entraînement en attente** est orange : un clic l'entraîne. En vert, il dit **IA entraînée**. Tant que vous n'entraînez pas, le bot répond avec l'entraînement précédent.
+4. La console, le panneau de droite, est le chat de test. Écrivez comme le ferait la personne.
+
+![La console ouverte à droite du tableau de bord](/img/empezando/consola.png)
+
+Chaque changement dans les intentions ou les entités demande un autre entraînement. L'éclair redevient orange lorsqu'il y a quelque chose en attente.
+
+## Continuez par ici
+
+1. [Mode débutant](./ModoPrincipiante), si l'arbre cache une partie du menu
+2. [Arbres](./Arboles), pour en créer un autre ou changer de bot
+3. [Flux](./Flujos), le canevas
+4. [Intentions](./Intenciones) et [entités](./Entidades), ce que le moteur reconnaît
+5. [Messages](./Mensajes) et [captures](./Capturas), ce que le bot dit et comment il demande une donnée
+6. [Tester le bot](./ProbarElBot), des cas de plusieurs tours
+7. [Canaux](/docs/Canales/CanalesDeComunicacion), lorsque quelqu'un de l'extérieur doit lui parler

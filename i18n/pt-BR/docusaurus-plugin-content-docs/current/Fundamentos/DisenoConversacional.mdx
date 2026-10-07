@@ -1,0 +1,72 @@
+---
+sidebar_position: 11
+sidebar_label: Design conversacional
+---
+
+# Design conversacional
+
+O design é o [fluxo](./Flujos). Ali se decide o que a pessoa pode dizer, o que o bot responde e para onde segue. Intenções, entidades, mensagens e capturas são as peças; a tela é a ordem.
+
+O exemplo é o fluxo **Restaurante**. O que inicia a conversa é outro: **fluxo_principal**, marcado **Principal**. No console, o primeiro botão escolhe com qual se testa. **Padrão** usa o principal.
+
+## Onde espera
+
+O nó verde não diz uma frase. Espera. Em Restaurante se chama **Início**. Ali estão as intenções desse trecho: saudação, o cardápio, o pedido, a reserva, os horários.
+
+![Início: as intenções que o motor pode reconhecer enquanto a conversa está ali](/img/flujos/contexto.png)
+
+Enquanto a conversa está em Início, o motor só testa essas. Uma intenção que exista na árvore e não esteja ligada aqui não dispara. O raio ao lado é o evento de quando nenhuma encaixa.
+
+O fluxo principal liga a Restaurante. A partir do início dele também se podem usar as intenções deste mapa. Se os dois têm a mesma, como `saludo`, ganha o nó do fluxo em que você está.
+
+## Um passo, e de volta
+
+Cada intenção laranja é uma porta. `saludo` se ativa com essa [intenção](./Intenciones), manda sua [mensagem](./Mensajes) e a transição devolve a **Início**.
+
+![saludo: a intenção, a mensagem de boas-vindas e a volta a Início](/img/flujos/conversacion.png)
+
+Por isso, depois da saudação, «a que horas vocês abrem?» volta a ser ouvida. A conversa não ficou dentro da saudação: voltou ao lugar onde estão as outras portas. Horário, cardápio, preço e despedida fazem o mesmo.
+
+O texto de boas-vindas não se escreve no nó. O nó aponta para a mensagem. Em Default diz para que serve o bot: cardápio, pedido, reserva, horários e localização.
+
+## O que falta se pergunta
+
+Uma reserva não é um nó por dado. `reservar_mesa` tem parâmetros. O que está em **Obrigatório** se pergunta sozinho, com o texto dele, antes de mandar a confirmação.
+
+![numero, em reservar_mesa: a pergunta, o que dizer se não entender e quantas vezes insistir](/img/intenciones/ajustes.png)
+
+«Quero uma mesa» não traz as pessoas. O bot pergunta «Para quantas pessoas é a reserva?». Se a resposta não for um número, usa o outro texto, até o limite. Depois manda a confirmação e volta a Início.
+
+`hacer_pedido` pergunta em ordem o que faltar: a categoria, o sabor, a quantidade. A pergunta pode nomear o que já foi dito, para a pessoa ver como foi entendido. Esses textos ficam no [parâmetro](/docs/Avanzado/Parametros). Se a mesma pergunta for reutilizada, guarda-se como [captura](./Capturas).
+
+## Se não reconhecer a frase
+
+O raio é `sys.no-match`. Não é uma intenção: é o que acontece quando, neste contexto, nenhuma encaixou.
+
+![O evento de não entender: sys.no-match e sua mensagem](/img/flujos/evento.png)
+
+A mensagem é «Desculpe, não entendi. Você pode repetir?». A transição se escolhe igual a uma intenção. O habitual é voltar ao contexto, para a próxima tentativa ser ouvida de novo.
+
+## Quando pede uma pessoa
+
+`hablar_con_asesor` não volta a Início. A transição é **Transferência para agente humano**, com a mesa de ajuda.
+
+![hablar_con_asesor: a mensagem, a transferência para uma pessoa e a mesa de ajuda](/img/diseno/asesor.png)
+
+Antes avisa: «Vou te conectar com uma pessoa da equipe». Em Funcionalidade, **Encerra uma captura em andamento** está ativo. Se disser isso no meio de um pedido, o bot para de perguntar os dados e passa a conversa. `cancelar_pedido` e `despedida` também fecham essa pergunta, e depois voltam a Início.
+
+## Testar o mapa
+
+No console, o primeiro botão em **Restaurante**. `hola` cai em `saludo` e responde as boas-vindas desse fluxo, não as do principal.
+
+![Console em Restaurante: hola, as boas-vindas, e a tela com Início percorrido e saludo neste turno](/img/diseno/recorrido.png)
+
+Com o modo debug, Início fica como o já percorrido e `saludo` como o nó deste turno. O detalhe do console está em [Testar o bot](./ProbarElBot).
+
+## Em que ordem se monta
+
+1. As [intenções](./Intenciones): uma por cenário. Saudação, horário, reserva, pedido, pessoa.
+2. As [entidades](./Entidades) e os parâmetros: que dado sai da frase.
+3. A pergunta do parâmetro, ou uma [captura](./Capturas), para o que não veio.
+4. A [mensagem](./Mensajes) de quando os dados já estão.
+5. O nó no fluxo: que intenção o dispara, que mensagem manda e para onde segue. Quase todos voltam ao contexto. O que passa para uma pessoa, não.

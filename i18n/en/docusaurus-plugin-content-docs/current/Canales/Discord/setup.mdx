@@ -1,0 +1,60 @@
+---
+sidebar_position: 1
+---
+
+# Discord
+
+Your bot replies in Discord to **slash commands** and **buttons**, with cards (*embeds*). It is a **Stable** channel.
+
+![The Discord screen in Channels: Interactions Endpoint URL and application credentials](/img/canales/discord.png)
+
+:::warning Discord does not read channel messages
+The channel works through **interactions**: the bot handles what someone invokes with a command (`/pregunta …`) or clicks on a button. It does not read the normal conversation on a server.
+:::
+
+## What you need in Discord
+
+An application created in the [Discord Developer Portal](https://discord.com/developers/applications), with a bot.
+
+| Field in TreeFlow | Where it comes from |
+|---|---|
+| **Application ID / Client ID** | General Information → Application ID |
+| **Public Key** | General Information → Public Key |
+| **Discord Bot Token** | Bot tab → Token |
+
+The **Public Key** validates that each interaction comes from Discord. Discord also uses it when you register the URL: it sends one signed request and one badly signed request to check that you reject the bad one.
+
+## Turn it on
+
+The URL is validated with the Public Key, so save the credentials in TreeFlow first and then paste the URL into Discord.
+
+1. Choose your bot in the selector at the top left.
+2. Open **Integration → Channels → Discord**.
+3. Fill in Application ID, Public Key, and Discord Bot Token, and click **Save and Integrate Discord**. The channel is turned on.
+4. Copy the **Interactions Endpoint URL** from that same screen.
+5. In the Developer Portal → your application → General Information, paste it into **Interactions Endpoint URL** and save. Discord verifies it right away.
+6. Invite the application to your server with the *bot* and *applications.commands* scopes (OAuth2 → URL Generator).
+
+The **ON/OFF** switch at the top turns it off and on without deleting what is saved.
+
+## What the bot receives
+
+- From a **slash command**: the values of its options, joined into a single text. If the command has no options, its name.
+- From a **button**: the button's identifier (`custom_id`).
+
+That is what the bot reads as the person's message. A command with a single text option, for example `/pregunta texto`, is the natural way to talk to it.
+
+:::note You create the commands
+TreeFlow does not register slash commands in Discord. You create the command you want in Discord (for example `/pregunta`, with a text option) so people have something to invoke.
+:::
+
+## What the bot sends
+
+Text (up to 2000 characters) or, if the reply includes blocks, Discord cards and buttons. It replies with a follow-up message, so Discord shows "thinking…" until it arrives.
+
+## If it does not reply
+
+- The switch is **ON**.
+- The **Public Key** belongs to the same application.
+- The **Interactions Endpoint URL** is saved and verified in Discord.
+- The command you invoke exists and passes a text option.

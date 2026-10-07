@@ -1,0 +1,35 @@
+---
+sidebar_position: 1
+sidebar_label: Tools
+slug: /Herramientas
+description: The six tabs under Integration → Tools, and the order in which a node calls them.
+---
+
+# Tools
+
+In the menu they are under **Integration → Tools**. A [channel](/docs/Canales/CanalesDeComunicacion) is where the person talks. A tool is what the bot calls while it walks a node.
+
+![Cafetería, Scripts tab: the search box, the six tabs, and the greeting script](/img/herramientas/scripts-lista.png)
+
+At the top, the search box changes with the tab: **Search scripts…** or **Search APIs…**. On the right are **Templates** and the create button (**Create script** or **Create Tool**). Those two actions are absent from Webhook, Transfers, Knowledge base, and Generative ingestion.
+
+| Tab | What it stores |
+|---|---|
+| [Scripts](/docs/Herramientas/Scripts) | Python code that runs inside the bot. Eight templates |
+| [APIs](/docs/Herramientas/Apis) | An HTTP call. Ten templates, plus the ones you create |
+| [Webhook](/docs/Herramientas/Webhook) | A single card, the tree's URL |
+| [Transfers](/docs/Herramientas/Transferencias) | How the conversation is handed to a person |
+| [Knowledge base](/docs/Herramientas/BaseDeConocimiento) | A CSV that creates a flow, one row per intent |
+| [Generative ingestion](/docs/Herramientas/IngestionGenerativa) | A PDF, Excel, or TXT file from which a model extracts intents |
+
+## On the node
+
+They are chosen on the flow node, **Functionality** tab. The order they run in is fixed:
+
+1. The scripts from **Add script…**, in list order.
+2. The webhook, if **Call webhook on this node** is on and the tree has a URL.
+3. The APIs from **Add tool…**, once the turn already has its data.
+
+If the session variable name does not match the input or the output, the **≠** on that row lets you type the other name. **=** uses the same one. The output stays in the conversation, and a message reads it with `{$saludo_tiempo}`.
+
+The detail of each screen is on its page. The node map is in [Flows](/docs/Avanzado/FlujosConversacionales#funcionalidad).

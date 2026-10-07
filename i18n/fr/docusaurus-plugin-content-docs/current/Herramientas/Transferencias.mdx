@@ -1,0 +1,43 @@
+---
+sidebar_position: 5
+sidebar_label: Transferts
+description: La carte qu'utilise un nœud en passant la conversation à une personne, dans le workspace ou en dehors.
+---
+
+# Transferts
+
+L'onglet **Transferts**. Chaque carte est une façon de passer la conversation à une personne. Dans Cafetería, il y en a une, **Service d'assistance**, marquée **Actif**. Le bouton orange la supprime. **Nouveau transfert** ouvre l'éditeur vide.
+
+![Service d'assistance, actif](/img/herramientas/transferencias-lista.png)
+
+Le nœud ne la choisit pas ici. Il la choisit dans la transition **Transfert vers un agent humain**. Le parcours est dans [Passer à une personne](/docs/Tutoriales/PasarAUnAsesor) et la file, dans [Service d'assistance](/docs/Avanzado/MesaDeAyuda).
+
+## L'éditeur
+
+Trois blocs.
+
+![Service d'assistance interne : identification, destination et comportement](/img/herramientas/transferencias-editor.png)
+
+### 1. Identification
+
+- **Nom du transfert.** Obligatoire. C'est ainsi qu'il apparaît sur la carte et dans le nœud.
+- **Description.** Facultative. Dans l'exemple : « Transfère vers les conseillers de ce workspace dans le service d'assistance. »
+- L'interrupteur **Actif** / **Inactif** est dans l'en-tête. Le moteur utilise la première configuration active, ou celle que fixe l'intention. S'il n'y en a aucune, le transfert fonctionne quand même, avec l'avis d'usine.
+- **Message de transfert.** Ce que dit le bot au tour où il oriente. Si on laisse celui d'usine, c'est l'avis déjà présent dans le modèle du secteur.
+
+### 2. Connecter avec
+
+Deux options, côte à côte.
+
+**Service d'assistance interne.** La conversation entre dans la file de ce workspace et un conseiller la prend en charge en temps réel. Elle ne demande pas d'URL. L'avis de l'écran le dit : il n'y a rien d'autre à configurer.
+
+**Système externe.** Apparaissent l'**URL du webhook**, l'**en-tête d'authentification** et l'interrupteur **Envoyer l'historique complet au transfert**. Désactivé, seul voyage le message avec lequel la personne a demandé quelqu'un. Activé, le **format de l'historique** peut être `json`, texte ou markdown.
+
+Les modèles de secteur sèment une URL sous le domaine `.invalid`. Cela compte comme un service interne : aucun serveur n'est appelé. Pour un système externe, on la remplace par l'URL réelle.
+
+### 3. Comportement du bot et du widget
+
+Les deux interrupteurs valent pour les deux destinations.
+
+- **Le bot cesse de répondre pendant qu'une personne s'en occupe.** Activé, le bot se tait. Désactivé, il continue de répondre et le conseiller voit en direct ce que disent les deux.
+- **Conserver la conversation du widget au rechargement.** Activé, si la personne recharge la page pendant qu'on s'occupe d'elle, elle retrouve les messages du bot et du conseiller.

@@ -1,0 +1,100 @@
+---
+sidebar_position: 8
+sidebar_label: Mensagens
+---
+
+# Mensagens
+
+**Mensagens** guarda os textos que o bot pode repetir. Um nó do [fluxo](./Flujos) ou uma [captura](./Capturas) aponta para um destes, em vez de escrever o mesmo parágrafo em cada lugar.
+
+Salvar já deixa o texto pronto: ele é lido da base a cada turno.
+
+## A lista
+
+Em cima se busca por nome. **Nova mensagem** abre o editor vazio.
+
+![Lista de mensagens: cartões, busca e Nova mensagem](/img/mensajes/lista.png)
+
+- Um clique no nome abre a mensagem.
+- A faixa laranja pede confirmação para apagá-la.
+- Se houver muitos cartões, embaixo estão as páginas.
+
+## O editor
+
+**Nome da mensagem** é obrigatório. Os espaços viram `_` e, ao salvar, fica em minúsculas, sem acentos. O `ñ` é mantido. **Descrição** é opcional: serve para lembrar para que é, e o usuário não a vê.
+
+![restaurante_saludo_response: o nome, a descrição e a saudação em Default](/img/mensajes/editor.png)
+
+**Salvar alterações** volta à lista. Se a árvore tiver mais de um idioma, junto ao nome estão os idiomas: cada um edita o próprio texto.
+
+## Respostas por canal
+
+O acordeão se chama **Respostas por canal**. Há duas classes de aba.
+
+**Default** sempre está. Ali o bloco é do tipo **Texto**: o que o bot diz quando o canal não traz uma versão própria.
+
+**Web** aparece quando o canal web está conectado. Ali o bloco é do tipo **Elementos enriquecidos**: parágrafo, botões, imagem e o resto. WhatsApp, Telegram, Facebook, Instagram, Email, Slack, Discord, ElevenLabs e Avatares IA abrem a aba igual à Web, só se esse canal estiver conectado, e o bloco também é de elementos enriquecidos.
+
+Em `restaurante_saludo_response` Default é a saudação em texto. Se o canal web estiver conectado, a aba pode levar elementos enriquecidos: em `prompt_image_response` é uma imagem. Quem escreve pela web recebe o bloco de Web. Outro canal, se a aba estiver vazia, recebe o texto de Default.
+
+Dentro de uma mesma aba, cada **Bloco** é uma variante. Se houver dois, o bot escolhe **um ao acaso** a cada turno. Um bloco vazio não viaja e não entra no sorteio. **Adicionar bloco** soma outra variante na aba aberta.
+
+No texto, das duas abas, cabem [funções](/docs/Avanzado/Funciones): `{$nombre}` lê um parâmetro de uma intenção.
+
+Além disso, o motor deixa duas variáveis em qualquer bot. Não é preciso criá-las. Ao digitar `{$` elas saem no seletor, marcadas como *Sistema*.
+
+| Variável | O que contém |
+|---|---|
+| `{$last_utterance}` | O último que a pessoa escreveu. Muda a cada mensagem |
+| `{$last_no_match}` | A última frase que o bot não entendeu. Um turno entendido não a muda |
+
+```
+No entendí "{$last_no_match}", ¿puedes decirlo de otra forma?
+```
+
+Quando cada uma se guarda, e o que acontece se ainda não houve um no-match, está em [Variáveis do sistema](/docs/Avanzado/Funciones#variables-del-sistema).
+
+## Default
+
+Em Default o tipo é **Texto**. O campo se chama **Texto da resposta**. Em cima há três botões:
+
+![Default: o bloco de texto, com negrito, itálico e sublinhado](/img/mensajes/editor.png)
+
+- **Negrito.** O selecionado fica entre `**`, e se pinta em negrito.
+- **Itálico.** Fica entre `*`.
+- **Sublinhado.** Fica entre `__`.
+
+O texto sai tal qual, com esse formato. **Conteúdo JSON**, no mesmo menu de tipo, guarda um objeto na mão quando o canal espera esse formato.
+
+## Web
+
+Em Web o tipo é **Elementos enriquecidos**. **Adicionar elemento** monta a lista, e se reordenam arrastando.
+
+![Web: o bloco de elementos enriquecidos, com uma imagem](/img/mensajes/web.png)
+
+| Elemento | Para que serve |
+|---|---|
+| Parágrafo | O texto. Pode haver vários no mesmo elemento |
+| Imagem | Uma URL e o texto alternativo |
+| Vídeo | URL, título e se começa sozinho |
+| Áudio | URL e título |
+| Arquivo | URL, nome e, se quiser, tamanho e extensão |
+| Botões | Cada um com rótulo e uma ação |
+| Respostas rápidas | Opções curtas, como os botões |
+| Acordeão | Um título que abre um conteúdo |
+| Lista suspensa | Opções e um botão para enviar a escolhida |
+| Localização | Título, endereço, latitude e longitude |
+| Divisor | Uma linha, com rótulo opcional |
+| Cartão | Título, subtítulo, imagem e botões |
+| Carrossel | Vários cartões, um ao lado do outro |
+| HTML / Web | Etiquetas ou uma variável |
+
+Um botão pode **enviar texto** (isso é o que o usuário escreve), mandar uma **resposta oculta**, **abrir uma URL** ou **disparar um evento**. Também admite um ícone e uma cor.
+
+O HTML se limpa antes de ser pintado. Passam títulos, parágrafos, links, imagens e listas. Não passam `script`, `iframe` nem `form`. Uma variável se escreve `{$noticias}`.
+
+## Onde se usa
+
+- Nesta lista, com nome, para reutilizá-la.
+- No nó do [fluxo](./Flujos), aba **Conversa**: o texto se escreve ali ou se escolhe uma destas mensagens.
+- Numa [captura](./Capturas), como pergunta própria ou como mensagem já salva.

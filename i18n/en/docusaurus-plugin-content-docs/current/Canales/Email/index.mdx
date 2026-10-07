@@ -1,0 +1,54 @@
+---
+sidebar_position: 1
+---
+
+# Email (Resend)
+
+Your bot replies to email that arrives at an address of yours. Sending and receiving go through [Resend](https://resend.com). It is a **Stable** channel.
+
+![The Email screen in Channels: inbound webhook and Resend credentials](/img/canales/email.png)
+
+## How it works
+
+1. Someone writes to your address, for example `hello@yourdomain.com`.
+2. Resend notifies TreeFlow through a **webhook**.
+3. The bot reads the text of the email and replies to the sender, with the subject `Re: …`.
+
+If the bot has replies with blocks (buttons, cards…), the email goes out as **HTML**. Otherwise it goes out as text.
+
+The bot **does not reply to its own address**. That way two automatic replies do not answer each other forever.
+
+## What you need in Resend
+
+An account, a **verified domain**, and inbound email (*Inbound*) for the address the bot will use.
+
+| Field in TreeFlow | Where it comes from |
+|---|---|
+| **Sender email (From Email)** | The bot's address. It must belong to a domain verified in Resend |
+| **Sender name (From Name)** | How the sender appears. The default is *Treeflow Assistant* |
+| **Resend API Key** | A key with permission to send email |
+| **Webhook Signing Secret** | Resend → Webhooks → your webhook → Signing Secret |
+
+The **Signing Secret** lets TreeFlow check that each incoming email is sent by Resend. Without it, TreeFlow does not reply.
+
+## Turn it on
+
+1. Choose your bot in the selector at the top left.
+2. Open **Integration → Channels → Email (Resend)**.
+3. Copy the **Inbound webhook**. That is the address Resend will notify for each email.
+4. In Resend, create a webhook with that URL for incoming email and copy its **Signing Secret**.
+5. Fill in sender email, sender name, Resend API Key, and Signing Secret.
+6. Click **Save and Integrate Email**. The channel is turned on.
+
+The **ON/OFF** switch at the top turns it off and on without deleting what is saved.
+
+:::note One address, one bot
+The bot that replies is the one you had selected when you saved. The same address cannot be registered in two workspaces.
+:::
+
+## If it does not reply
+
+- The switch is **ON**.
+- The email arrives at the address you put in **From Email**: that is what identifies the bot.
+- The **Signing Secret** belongs to the webhook that points at TreeFlow.
+- The domain is verified in Resend.

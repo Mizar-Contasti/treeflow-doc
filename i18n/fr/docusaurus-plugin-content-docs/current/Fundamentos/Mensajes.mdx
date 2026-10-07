@@ -1,0 +1,100 @@
+---
+sidebar_position: 8
+sidebar_label: Messages
+---
+
+# Messages
+
+**Messages** garde les textes que le bot peut répéter. Un nœud du [flux](./Flujos) ou une [capture](./Capturas) pointe vers l'un d'eux, au lieu d'écrire le même paragraphe à chaque endroit.
+
+Enregistrer laisse déjà le texte prêt : il est lu depuis la base à chaque tour.
+
+## La liste
+
+En haut, on cherche par nom. **Nouveau message** ouvre l'éditeur vide.
+
+![Liste de messages : cartes, recherche et Nouveau message](/img/mensajes/lista.png)
+
+- Un clic sur le nom ouvre le message.
+- La bande orange demande une confirmation pour le supprimer.
+- S'il y a beaucoup de cartes, les pages sont en bas.
+
+## L'éditeur
+
+**Nom du message** est obligatoire. Les espaces deviennent `_` et, à l'enregistrement, il reste en minuscules, sans accents. Le `ñ` est conservé. **Description** est facultative : elle sert à se rappeler à quoi il sert, et l'utilisateur ne la voit pas.
+
+![restaurante_saludo_response : le nom, la description et le salut dans Default](/img/mensajes/editor.png)
+
+**Enregistrer les modifications** revient à la liste. Si l'arbre a plus d'une langue, à côté du nom se trouvent les langues : chacune édite son propre texte.
+
+## Réponses par canal
+
+L'accordéon s'appelle **Réponses par canal**. Il y a deux sortes d'onglets.
+
+**Default** est toujours là. Le bloc y est de type **Texte** : ce que le bot dit lorsque le canal n'apporte pas sa propre version.
+
+**Web** apparaît lorsque le canal web est connecté. Le bloc y est de type **Éléments enrichis** : paragraphe, boutons, image et le reste. WhatsApp, Telegram, Facebook, Instagram, Email, Slack, Discord, ElevenLabs et Avatars IA ouvrent leur onglet comme Web, seulement si ce canal est connecté, et le bloc est aussi d'éléments enrichis.
+
+Dans `restaurante_saludo_response`, Default est le salut en texte. Si le canal web est connecté, son onglet peut porter des éléments enrichis : dans `prompt_image_response`, c'est une image. Qui écrit par le web reçoit le bloc de Web. Un autre canal, si son onglet est vide, reçoit le texte de Default.
+
+Dans un même onglet, chaque **Bloc** est une variante. S'il y en a deux, le bot en choisit **un au hasard** à chaque tour. Un bloc vide ne voyage pas et n'entre pas dans le tirage. **Ajouter un bloc** ajoute une autre variante dans l'onglet ouvert.
+
+Dans le texte, des deux onglets, des [fonctions](/docs/Avanzado/Funciones) ont leur place : `{$nombre}` lit un paramètre d'une intention.
+
+De plus, le moteur laisse deux variables dans n'importe quel bot. Il n'y a pas à les créer. En tapant `{$`, elles sortent dans le sélecteur, marquées comme *Système*.
+
+| Variable | Ce qu'elle contient |
+|---|---|
+| `{$last_utterance}` | La dernière chose écrite par la personne. Elle change à chaque message |
+| `{$last_no_match}` | La dernière phrase que le bot n'a pas comprise. Un tour compris ne la change pas |
+
+```
+No entendí "{$last_no_match}", ¿puedes decirlo de otra forma?
+```
+
+Quand chacune est enregistrée, et ce qui se passe s'il n'y a pas encore eu de non-correspondance, est dans [Variables du système](/docs/Avanzado/Funciones#variables-del-sistema).
+
+## Default
+
+Dans Default, le type est **Texte**. Le champ s'appelle **Texte de réponse**. Au-dessus, il y a trois boutons :
+
+![Default : le bloc de texte, avec gras, italique et souligné](/img/mensajes/editor.png)
+
+- **Gras.** La sélection se retrouve entre `**`, et s'affiche en gras.
+- **Italique.** Elle se retrouve entre `*`.
+- **Souligné.** Elle se retrouve entre `__`.
+
+Le texte sort tel quel, avec ce format. **Contenu JSON**, dans le même menu déroulant de type, garde un objet à la main lorsque le canal attend ce format.
+
+## Web
+
+Dans Web, le type est **Éléments enrichis**. **Ajouter un élément** assemble la liste, et on les réordonne en les faisant glisser.
+
+![Web : le bloc d'éléments enrichis, avec une image](/img/mensajes/web.png)
+
+| Élément | À quoi il sert |
+|---|---|
+| Paragraphe | Le texte. Il peut y en avoir plusieurs dans le même élément |
+| Image | Une URL et le texte alternatif |
+| Vidéo | URL, titre et s'il démarre seul |
+| Audio | URL et titre |
+| Fichier | URL, nom et, si vous voulez, taille et extension |
+| Boutons | Chacun avec une étiquette et une action |
+| Réponses rapides | Des options courtes, comme les boutons |
+| Accordéon | Un titre qui ouvre un contenu |
+| Liste déroulante | Des options et un bouton pour envoyer celle qui est choisie |
+| Lieu | Titre, adresse, latitude et longitude |
+| Séparateur | Une ligne, avec une étiquette facultative |
+| Carte | Titre, sous-titre, image et boutons |
+| Carrousel | Plusieurs cartes, l'une à côté de l'autre |
+| HTML / Web | Des balises ou une variable |
+
+Un bouton peut **envoyer du texte** (c'est ce qu'écrit l'utilisateur), envoyer une **réponse cachée**, **ouvrir une URL** ou **déclencher un événement**. Il admet aussi une icône et une couleur.
+
+Le HTML est nettoyé avant d'être affiché. Passent les titres, les paragraphes, les liens, les images et les listes. Ne passent pas `script`, `iframe` ni `form`. Une variable s'écrit `{$noticias}`.
+
+## Où il s'utilise
+
+- Dans cette liste, avec un nom, pour le réutiliser.
+- Dans le nœud du [flux](./Flujos), onglet **Conversation** : le texte s'écrit là ou l'on choisit l'un de ces messages.
+- Dans une [capture](./Capturas), comme question propre ou comme message déjà enregistré.

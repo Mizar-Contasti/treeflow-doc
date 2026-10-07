@@ -1,0 +1,31 @@
+---
+sidebar_position: 6
+sidebar_label: Base di conoscenza
+description: Un CSV di due colonne che crea un flusso, un intento e un messaggio per riga, senza modello.
+---
+
+# Base di conoscenza
+
+La scheda **Base di conoscenza** costruisce un flusso a partire da un file, senza modello. La schermata lo chiama **Knowledge Base deterministica (CSV 1:1)** e lo segna **Senza IA (Gratis ed esatto)**.
+
+![Base di conoscenza: il nome del flusso, le due caselle e la zona dove rilasciare il CSV](/img/herramientas/base-conocimiento.png)
+
+## Il file
+
+CSV o TSV. Due colonne.
+
+| Colonna 1 | Colonna 2 |
+|---|---|
+| La frase, che diventa l'intento | Il messaggio con cui risponde il bot |
+
+**Salta la prima riga (intestazione delle colonne)** è acceso di fabbrica: la prima riga non si importa. **Elimina accenti e segni diacritici in frasi/risposte** normalizza il testo prima di creare gli intenti. Spento, gli accenti restano.
+
+**Nome del flusso (Branch) da creare nel bot** è il percorso nuovo. L'esempio del campo è «Domande frequenti spedizioni». Ogni riga resta come un intento di quel flusso, con il suo messaggio agganciato. Il sottotitolo della schermata lo dice: la colonna 1 è la frase e la colonna 2 è il messaggio.
+
+## Importare
+
+Si trascina il file nella zona punteggiata oppure si fa clic per cercarlo. Il pulsante **Crea flusso e importa fogli (CSV)** si accende quando c'è un file. Elabora le righe e disegna il flusso.
+
+**Addestra il bot ora** lancia l'addestramento perché quelle frasi entrino nella console. Senza addestrare, il flusso è creato e il motore resta con l'addestramento precedente.
+
+In basso, **Intenti di conoscenza registrati** elenca quello che è già stato importato in questo albero. Se non c'è ancora nulla, l'avviso chiede di selezionare un file. Si può ricaricare un altro, con un altro nome di flusso: non sovrascrive il precedente.

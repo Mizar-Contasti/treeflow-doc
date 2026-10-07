@@ -1,0 +1,46 @@
+---
+sidebar_position: 5
+sidebar_label: Una risposta per il web
+---
+
+# Una risposta per il web
+
+Ogni messaggio ha due tipi di scheda. **Default** c'è sempre: è testo, ed è quello che esce quando il canale non ha una versione propria. **Web** compare quando il canale web è collegato. Lì il blocco è di elementi arricchiti, e lo vede soltanto chi scrive dal web.
+
+## Il testo di Default
+
+**Messaggi** → `restaurante_saludo_response`. In **Default** il tipo è **Testo**. Il campo si chiama **Testo della risposta**.
+
+![Default: il saluto in testo](/img/mensajes/editor.png)
+
+Grassetto, corsivo e sottolineato segnano la selezione con `**`, `*` e `__`. **Salva modifiche** torna all'elenco.
+
+![L'elenco dei messaggi](/img/mensajes/lista.png)
+
+## La scheda Web
+
+Passa a **Web**. Il tipo è **Elementi arricchiti**. **Aggiungi elemento** aggiunge un paragrafo, un'immagine, pulsanti, una scheda o un carosello. Si riordinano trascinandoli.
+
+![Web: un blocco con un'immagine](/img/mensajes/web.png)
+
+| Elemento | A che cosa serve |
+|---|---|
+| Paragrafo | Il testo. Ce ne possono essere diversi nello stesso elemento |
+| Immagine | Un URL e il testo alternativo |
+| Pulsanti | Ognuno con etichetta e un'azione |
+| Card | Titolo, sottotitolo, immagine e pulsanti |
+| Carosello | Diverse card, una accanto all'altra |
+
+Un pulsante può inviare testo (è quello che scrive la persona), aprire un URL o lanciare un evento. Nel paragrafo entra una funzione: `{$nombre}`.
+
+Se ci sono due blocchi nella stessa scheda, il bot ne sceglie uno a caso. Un blocco vuoto non parte.
+
+## Vederla nella console
+
+Apri la console e metti il secondo pulsante su **Web**. `hola` deve mostrare il blocco della scheda Web.
+
+![La console, con il canale sopra la chat](/img/testeo/consola.png)
+
+Se esce il paragrafo di Default, la scheda Web di quel messaggio è vuota, oppure il canale della console è ancora su **Predefinito**.
+
+Il catalogo degli elementi è in [Messaggi](/docs/Fundamentos/Mensajes). Il codice per incollare la chat in un sito è in [Setup del widget web](/docs/Canales/Web/setup).

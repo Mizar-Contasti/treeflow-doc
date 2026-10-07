@@ -1,0 +1,76 @@
+---
+sidebar_position: 1
+---
+
+import AppUrl from '@site/src/components/AppUrl';
+
+# Commencez ici
+
+**TreeFlow** est une plateforme pour concevoir des chatbots déterministes qui font avancer l'activité, en combinant le contrôle précis des flux conversationnels et la puissance des modèles génératifs.
+
+![Tableau de bord : statistiques de l'arbre, avec les flux, les intentions, les entités et les canaux](/img/intro/panel.png)
+
+## Avant de commencer
+
+> **Recommandation** : commencez par la [Terminologie](/docs/Fundamentos/Terminologia). Le menu sépare les flux, les intentions, les entités, les messages et les captures, et ce n'est pas la même chose.
+
+## Accès à la plateforme
+
+![Connexion : on saisit d'abord le workspace](/img/intro/login.png)
+
+## Premiers pas
+
+1. **Familiarisez-vous avec la terminologie** - Comprenez les [concepts de base](/docs/Fundamentos/Terminologia) de TreeFlow
+2. **Configurez votre workspace** - Découvrez les [espaces de travail](/docs/Avanzado/Workspaces) pour organiser vos projets
+3. **Créez votre premier arbre** - Suivez les [tutoriels](/docs/Tutoriales/Introduccion) ou le guide des [premiers pas](/docs/Fundamentos/Empezando)
+4. **Écrivez des intentions** - Les [motifs de conversation](/docs/Fundamentos/Intenciones) vivent dans Intentions
+5. **Définissez des entités** - Configurez les [entités](/docs/Fundamentos/Entidades) pour extraire des données de la phrase
+6. **Dessinez le flux** - Ordonnez les nœuds dans l'[éditeur visuel](/docs/Fundamentos/Flujos)
+7. **Reliez-le au monde** - Connectez votre chatbot par les [Canaux](/docs/Canales/CanalesDeComunicacion) et appelez des systèmes externes depuis les [Outils](/docs/Herramientas)
+
+## Caractéristiques principales
+
+![Éditeur de flux : le canevas avec les nœuds de l'arbre](/img/intro/flujo.png)
+
+### Vous concevez la conversation
+Votre travail, c'est la conception : ce qui doit se passer, ce qui est demandé et ce qui est répondu. L'IA fait le reste dans l'application, car elle peut créer et modifier des flux, des intentions, des entités, des messages et des outils, et aussi entraîner et tester.
+
+Il y a deux portes, et les deux parlent aux mêmes pièces de l'arbre :
+
+- **L'agent de la [console](/docs/Fundamentos/ProbarElBot).** Vous décrivez la conception dans l'onglet Agent. Il utilise la clé du fournisseur que vous choisissez et des outils qui opèrent l'arbre. Vous pouvez exiger une confirmation avant de créer, de modifier ou de supprimer.
+- **Un assistant extérieur, via [MCP](/docs/Avanzado/Credenciales).** Dans Identifiants → MCP, une clé est créée et la configuration est copiée (par exemple pour Claude Desktop). Cet assistant entre dans le workspace et utilise l'application de la même façon : vous n'avez pas à parcourir chaque formulaire.
+
+### Conversation
+Ce que le bot sait dire, et dans quel ordre.
+
+- **[Flux](/docs/Fundamentos/Flujos)** : le canevas. Chaque nœud a **Conversation** et **Fonctionnalité**.
+- **[Intentions](/docs/Fundamentos/Intenciones)** et **[entités](/docs/Fundamentos/Entidades)** : elles reconnaissent la phrase et en extraient les données. Il faut ensuite entraîner.
+- **[Messages](/docs/Fundamentos/Mensajes)** : les réponses réutilisables, avec des blocs (texte, boutons, carrousel, HTML).
+- **[Captures](/docs/Fundamentos/Capturas)** : comment le bot demande une donnée manquante, et ce qu'il fait s'il ne comprend pas.
+- **[Fonctions](/docs/Avanzado/Funciones)** : ce qui s'écrit à l'intérieur de `{ }`. Le `$` distingue une variable d'un texte.
+
+### Console
+Le panneau de droite, pour tester l'arbre sans le publier.
+
+- Le chat de test et le [mode debug](/docs/Fundamentos/ProbarElBot), avec la requête et la réponse découpées en paramètres, messages et métadonnées.
+- L'**agent constructeur**, la porte intérieure pour que l'IA assemble la conception.
+- Le **constructeur de dialogues**, pour composer des tours d'utilisateur et de bot.
+
+### Intégration
+Par où la personne parle, et quels systèmes le bot appelle.
+
+- **[Canaux](/docs/Canales/CanalesDeComunicacion)** : le widget web pour intégrer le chat, et le reste (Telegram, WhatsApp et les autres) depuis le même écran.
+- **[Outils](/docs/Herramientas)** : scripts, API, le webhook du workspace et les transferts vers une personne. Ils se testent sur la même page.
+
+### Exploitation
+Ce qui se passe lorsque le bot est déjà en service.
+
+- **Conversations** : l'historique de ce qui s'est dit.
+- **[Service d'assistance](/docs/Avanzado/MesaDeAyuda)** : une personne prend la conversation, répond et peut la rendre au bot.
+- **[Tests](/docs/Avanzado/Pruebas)** : des cas de plusieurs tours exécutés contre l'arbre et conservés.
+
+## Ressources supplémentaires
+
+- [Historique des modifications](/docs/changelog) - Dernières mises à jour et améliorations
+- [Bonnes pratiques](/docs/Fundamentos/MejoresPracticas) - Recommandations pour créer des expériences conversationnelles efficaces
+- [Console et agent constructeur](/docs/Fundamentos/ProbarElBot) - Tester l'arbre et demander à l'IA de le modifier

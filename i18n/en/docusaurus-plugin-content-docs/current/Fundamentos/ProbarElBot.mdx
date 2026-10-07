@@ -1,0 +1,81 @@
+---
+sidebar_position: 10
+sidebar_label: Test the bot
+---
+
+# Test the bot
+
+The orange button at the bottom right opens the **console**. It is a chat with the tree, without publishing it. It has three tabs: **Console**, the test chat; **Agent**, the one that modifies the tree with a workspace key; and **Builder**, for assembling user turns and bot turns. This page is the Console tab and debug mode.
+
+Training is started with the lightning bolt in the menu, **Train**. If the tree has never been trained, the console says so and the text field stays off. If it was already trained and you later changed intents or entities, you can keep talking: it answers with the latest training, until you train again.
+
+![The console open: the flow, the channel, and the field for writing](/img/testeo/consola.png)
+
+## The bar
+
+Above the chat there is a bar.
+
+- **Default**, the first button, is the starting flow. Choose another flow and the conversation restarts there.
+- **Default** or **Web**, the second, is the channel. The bot sends the [message](./Mensajes) variant for that channel. If that tab is empty, it sends Default. WhatsApp, Telegram, and the rest appear only if the channel is connected.
+- The flag, **Run intent at start**, chooses an intent or an event anchored at the beginning of the flow. Every time you start or restart, it fires on its own.
+- The bug icon turns on **debug mode**.
+- The copy icon saves the link to this conversation. It activates once there is already a turn.
+- The back arrow undoes the last turn.
+- The circular arrow restarts the conversation.
+
+You type below, or you use the microphone. A button on the bot's message also counts as a turn: if the button sends text, opens a URL, or fires an event, the console does that.
+
+## A turn
+
+You write, and this happens, in order:
+
+1. The engine looks at the flow you are in and the utterance.
+2. It chooses an [intent](./Intenciones), or it recognizes nothing.
+3. It extracts the [parameters](/docs/Avanzado/Parametros) with the [entities](./Entidades).
+4. If a required piece of data is missing, it asks with the parameter's text or with the [capture](./Capturas), and it waits. That turn does not reach the final response yet.
+5. When the data is there, it runs the node's tools, if it has any, and sends that node's message for the chosen channel.
+
+Your utterance comes out in the orange bubble. The bot's is the response. If you pressed a button, the bubble shows the label, not the hidden value.
+
+![hello and the bot's response in the console](/img/testeo/turno.png)
+
+## Debug mode
+
+The bug icon turns yellow. The turn stops being only two bubbles and shows how it was decided.
+
+![Debug mode: the intent, the confidence, the method, and the node marked on the flow](/img/testeo/debug.png)
+
+Before the bot's response a line appears:
+
+`intención · confianza · cómo coincidió`
+
+The confidence is a percentage. The third piece of data is the method: entity, pattern, model, or `no_match` if it did not recognize the utterance. If it is `no_match`, the line is marked. Opening it shows the **parameters** and the value of each one. An empty value is a piece of data that has not come in yet: the next turn should ask for it.
+
+If the node called a tool, its card appears there, in the order it ran, before the message. If the conversation was handed to a person, there is no bot bubble: in debug you see who received it.
+
+A click on your bubble opens the **request**, what was sent. A click on the bot's opens the **response**, what the engine answered. The box has four views. **All** is the one shown when it opens.
+
+| View | What it leaves |
+|---|---|
+| All | the full JSON |
+| Parameters | `parameters` and `session_parameters` |
+| Messages | the person's text or the bot's response |
+| Metadata | the rest: intent, timings, session, tools, sentiment |
+
+Search and copy use the view that is open. With the box open, Ctrl+F goes to that search.
+
+![Session details: the response, with the intent, the parameters, and the text](/img/testeo/detalle.png)
+
+On the web and on a tablet, the left edge of the console is dragged and it widens. Leaving debug returns it to its width. On a phone the panel already fills the screen.
+
+Turning debug on opens the [flow](./Flujos) that is running. The canvas marks this turn's node and the path it has already walked. A new turn keeps marking the canvas if you are already on it.
+
+The turn's pencil opens that intent so you can edit it.
+
+## What to check
+
+- The intent name. If it is not the one you expected, the pattern or the [understanding](./Arboles) order is deciding another one.
+- `no_match`. The utterance did not enter any intent on the flow.
+- The parameters. If one is missing and the bot does not ask, the parameter is not required or the capture has no question.
+- The response. If you chose Web and the Default text comes out, that message's Web tab is empty.
+- After changing intents or entities, train again. A message or a capture is read at that moment: saving is enough.

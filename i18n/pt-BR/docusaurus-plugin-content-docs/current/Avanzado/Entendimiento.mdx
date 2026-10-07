@@ -1,0 +1,70 @@
+---
+sidebar_position: 4
+sidebar_label: Entendimento
+---
+
+# Entendimento
+
+A página está na configuração da árvore, aba **Entendimento**. Ali se escolhe o modo, a análise de sentimento, os limiares e a ordem. Esta página é o que cada um faz.
+
+![Entendimento: o modo, o sentimento, os limiares e a ordem](/img/arboles/entendimiento.png)
+
+## Básico ou Pro
+
+Uma árvore nova começa em **Básico**. Também se usa Básico quando o modo não está definido.
+
+Em Básico o treinamento é curto. Reconhece por coincidência de texto e de padrões, exata e aproximada. O modelo não entra na lista: não há um para consultar.
+
+**Pro** treina um classificador. É uma regressão logística do scikit-learn sobre o texto das frases, não uma rede neural. Serve quando a pessoa não escreve as mesmas palavras do padrão. Demora mais. Enquanto treina não se muda o nível.
+
+Comece em Básico enquanto monta o fluxo. Passe a Pro quando a árvore for falar com gente que não usa as suas frases.
+
+## Mascarar a frase
+
+Antes de comparar, o motor substitui o que já reconheceu como entidade pelo nome dela:
+
+```
+Usuario:      hola quiero dos pizzas de pepperoni para llevar
+Enmascarado:  hola quiero @sys.number @categoria_producto de @sabor_producto @tipo_servicio
+```
+
+Um padrão `quiero @sys.number @categoria_producto` casa com «quiero dos pizzas» e com «quiero cinco empanadas» sem escrever cada combinação. Em Pro, o classificador também se treina e se consulta sobre esse texto mascarado: aprende a forma da frase, não cada valor.
+
+Se várias coincidências se sobrepõem, ganha a mais longa. As entidades se leem por palavras completas. `sys.number` também entende o número escrito por extenso.
+
+## Ao treinar
+
+O raio do menu lança o treinamento. Ao terminar, o estado fica em **atualizado**. Se falhar, fica em **erro** e o bot segue com o modelo anterior até um terminar bem.
+
+Não rodam dois treinamentos ao mesmo tempo sobre a mesma árvore. Um que leve mais de 20 minutos se dá por falho, para não bloquear o seguinte. Se o botão disser que não há alterações e mesmo assim você quiser retreinar, dá para forçar.
+
+Aplicar um template, ou substituir intenções em bloco, deixa a árvore **desatualizada**. É preciso treinar de novo para o motor usar o novo. Uma mensagem ou uma captura não passam por aqui: se leem ao responder.
+
+## Ordem
+
+A árvore testa vários métodos e fica com o primeiro que coincidir bem. A ordem se arrasta em **Natureza da prioridade**. O de cima vai primeiro.
+
+![A ordem: o método de cima tem mais peso](/img/arboles/prioridad.png)
+
+| Método | O que olha |
+|---|---|
+| Coincidência exata de entidades | Um valor ou um sinônimo escrito na entidade |
+| Coincidência aproximada de entidades | O mesmo, tolerando erros de digitação |
+| Coincidência exata de padrões | A frase contra as frases de treinamento |
+| Coincidência aproximada de padrões | O mesmo, tolerando diferenças |
+| Modelo | O classificador de Pro. Em Básico esta linha não está |
+
+De fábrica vão do mais literal ao mais solto. Subir o aproximado acima do exato faz uma frase parecida ganhar de uma idêntica. «hola» se parece o bastante de «hora» para «a qué hora abren» cair na saudação. Se você mover a ordem, teste as frases de sempre antes de deixar.
+
+### Limiares
+
+Os dois saem em 70%.
+
+- **Limiar ML.** O mínimo que o modelo precisa confiar para aceitar a intenção. Mais alto, menos acertos por acaso e mais `no_match`.
+- **Limiar de coincidência aproximada.** A semelhança mínima quando a frase não é exata.
+
+## Sentimento
+
+O interruptor **Análise de sentimentos** marca cada mensagem como positiva, neutra ou negativa. Serve para ver frustração no painel e para sugerir que a conversa passe a uma pessoa. Não é uma condição que se escreve no fluxo.
+
+As entidades compostas, a regex e as de sistema estão em [Entidades](/docs/Fundamentos/Entidades).

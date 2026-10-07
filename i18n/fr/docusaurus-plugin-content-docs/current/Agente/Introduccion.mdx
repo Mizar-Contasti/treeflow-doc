@@ -1,0 +1,39 @@
+---
+sidebar_position: 0
+sidebar_label: L'IA dans TreeFlow
+---
+
+# L'IA dans TreeFlow
+
+TreeFlow utilise un modèle de langage pour **vous aider à construire** le bot. Il ne l'utilise pas pour **répondre** à vos utilisateurs.
+
+:::info Le bot répond avec ce que vous construisez
+Quand quelqu'un écrit, le bot détecte une intention et répond avec le flux et les messages de l'arbre. Aucun modèle génératif n'invente de réponses dans la conversation. C'est ce qui le rend prévisible : il dit ce que vous, ou l'agent, avez laissé écrit.
+:::
+
+## Où il y a de l'IA
+
+| Fonction | À quoi elle sert | Où |
+|---|---|---|
+| [**Agent constructeur**](/docs/Agente/Constructor) | Créer et modifier des flux, des nœuds, des intentions, des entités et des messages en conversant | Console → onglet **Agent** |
+| [**Serveur MCP**](/docs/Agente/Mcp) | Que Claude Desktop, Claude Code ou Cursor fassent la même chose depuis l'extérieur | Gestion → [Identifiants](/docs/Avanzado/Credenciales) → **MCP** |
+| **Ingestion générative** | Extraire des intentions et des entités d'un PDF ou d'un CSV | Intégration → Outils → **Ingestion générative** et **Base de connaissances** |
+
+L'agent et l'ingestion utilisent **votre propre clé** d'un fournisseur de modèles : TreeFlow n'embarque pas de modèle propre. Voir [Fournisseurs et modèles](/docs/Agente/ModelosGenerativos).
+
+## Comment on y arrive
+
+Le bouton orange en bas à droite ouvre la console. En haut, il y a une icône de robot : c'est l'agent.
+
+![Le bouton de la console ouvert, avec l'icône de l'agent en haut à droite](/img/agente/abrir.png)
+
+## Par où continuer
+
+1. [**Première tâche**](/docs/Agente/PrimerEncargo) : connecter un fournisseur et lui demander quelque chose.
+2. [**L'agent constructeur**](/docs/Agente/Constructor) : ce qu'il fait et comment le lui demander.
+3. [**Ce qu'il peut toucher**](/docs/Agente/GenAITools) : ses 46 outils, par type.
+4. [**Fournisseurs et modèles**](/docs/Agente/ModelosGenerativos) : lequel choisir et comment il se configure.
+5. [**Comment ça fonctionne à l'intérieur**](/docs/Agente/ArquitecturaGenerativa) : le cycle, les limites et l'API.
+6. [**MCP**](/docs/Agente/Mcp) : la même construction, depuis Claude.
+
+Pour la façon dont le moteur comprend vos utilisateurs (mode Basique ou Pro, seuils, sentiment), lisez [Compréhension](/docs/Avanzado/Entendimiento).

@@ -1,0 +1,51 @@
+---
+sidebar_position: 7
+sidebar_label: Executar uma suíte
+---
+
+# Executar uma suíte de testes
+
+O [console](./ProbarEnLaConsola) é um chat, turno a turno. Uma **suíte** é uma lista de conversas com o que o bot deve responder. Serve para repetir o mesmo pedido depois de mudar um padrão.
+
+## Treinar primeiro
+
+O botão de executar fica desligado se a árvore não estiver treinada. O raio do menu em verde é o sinal de que o treinamento está em dia.
+
+![O painel, com o treinamento em dia](/img/intro/panel.png)
+
+## Onde fica
+
+**Operação → Testes**. Se ainda não houver suítes, cria-se uma e envia-se um CSV, ou escrevem-se os turnos na tela.
+
+![Testes: criam-se e envia-se um CSV](/img/pruebas/lista.png)
+
+## O arquivo
+
+Uma linha por turno. O mesmo `caso` é uma conversa. Cada caso começa com a própria sessão: o pedido anterior não passa para o seguinte.
+
+```csv
+caso,turno,mensaje,intencion,respuesta_contiene,slot,parametros,evento
+pedido por partes,1,quiero empanadas,hacer_pedido,¿De qué sabor,sabor_producto,,
+pedido por partes,2,de queso,,¿Cuántas,numero,,
+pedido por partes,3,dos,,Anoté,,numero=2;sabor_producto=queso,
+```
+
+| Coluna | O que exige |
+|---|---|
+| `intencion` | A intenção detectada é essa |
+| `respuesta_contiene` | A resposta contém esse texto, sem diferenciar maiúsculas |
+| `slot` | O parâmetro que o bot está pedindo nesse turno |
+| `parametros` | Os valores capturados. Vários na mesma célula: `nombre=valor;nombre=valor` |
+| `evento` | O evento resultante |
+
+As colunas vazias não conferem nada. O CSV mínimo é `caso,turno,mensaje`. Se o arquivo estiver errado, a tela mostra a linha e o motivo.
+
+O lápis abre o caso. **Salvar** grava as alterações. **Descartar** as solta.
+
+## O resultado
+
+Executar roda essa suíte contra o treinamento atual. O histórico guarda com qual ela foi medida. Os casos que falham se abrem e mostram o que se esperava e o que o bot respondeu. Comparar duas execuções diz o que antes passava e agora falha, e o que falhava e agora passa.
+
+As sessões da execução não ficam em Conversas.
+
+Para olhar um turno isolado, com a intenção e os parâmetros, use o console em modo debug. O detalhe da suíte está em [Testes](/docs/Avanzado/Pruebas).

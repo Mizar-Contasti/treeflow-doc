@@ -1,0 +1,113 @@
+---
+sidebar_position: 1
+sidebar_label: Fluxos
+---
+
+# Fluxos
+
+Um fluxo é o desenho da conversa: nós e setas. A árvore pode ter vários. Um está marcado **Principal** e é o que inicia se no console o primeiro botão diz **Padrão**.
+
+Na Cafetería o principal é **flujo_principal**. **Restaurante** é o mapa do local. A página, botão por botão, está em [Fluxos](/docs/Fundamentos/Flujos). Esta página percorre esse mapa.
+
+## A lista
+
+**Fluxos** abre os cartões. Busca-se por nome. **Novo fluxo** cria um vazio. O ícone de copiar duplica. A lixeira apaga, menos o principal. **Templates** aplica um segmento: intenções, entidades e o desenho. Reaplicar não sobrescreve a pergunta de um parâmetro que já existia.
+
+![flujo_principal marcado Principal, e o fluxo Restaurante](/img/flujos/lista.png)
+
+## Configuração
+
+Ao abrir um fluxo há duas abas: **Design** e **Configuração**.
+
+![Nome, descrição e o interruptor de fluxo principal](/img/flujos/configuracion.png)
+
+- **Nome do fluxo.** É o identificador. No console sai no primeiro botão.
+- **Descrição.** Para lembrar do que é. A pessoa não a vê.
+- **Fluxo principal.** Só pode haver um. O que já é não se desliga daqui: liga-se no outro fluxo e se salva. O principal não se apaga. É o ponto de partida quando o console diz **Padrão**.
+
+Em cima à direita, o ícone de salvar acende quando há algo sem salvar: um nó movido, uma seta, o nome, o interruptor. Fechar o editor não salva sozinho. Mover um nó não muda o que o bot responde. Mudar a intenção, um padrão ou uma entidade sim: o raio do menu volta a laranja e é preciso treinar.
+
+## A tela
+
+**Design** é o mapa. Cada nó se arrasta. Embaixo à esquerda estão o zoom, centralizar e **Tidy Up**, que ajeita os nós.
+
+![Início, as intenções do restaurante, o evento e o salto para flujo_principal](/img/flujos/lienzo.png)
+
+O **+** laranja cria o nó conforme de onde você sai. A partir de um contexto oferece intenção ou evento. A partir de uma intenção ou de um evento oferece um contexto. A seta marrom, debaixo do +, se arrasta até outro nó para uni-los. A linha contínua é o caminho. A pontilhada é um evento.
+
+| Nó | O que é |
+|---|---|
+| Contexto, verde | Onde o bot espera. Em Restaurante se chama **Início** |
+| Intenção, laranja | Ativa quando o motor reconhece essa intenção |
+| Evento, o raio | Não entendeu (`sys.no-match`) ou não chegou nada (`sys.no-input`) |
+
+A pílula `flujo_principal` é um link: a partir deste desenho também se pode saltar para esse fluxo.
+
+## Onde espera
+
+O contexto não diz uma frase. Lista o que se pode reconhecer enquanto a conversa está ali.
+
+![Início, com as intenções e o evento desse trecho](/img/flujos/contexto.png)
+
+- **Intenções.** As deste trecho. Escolhe-se um nó que já exista, ou se cria um. Tirar o link não apaga a intenção.
+- **Eventos.** O de não entender, o de silêncio, ou um nome que outro passo dispara.
+- **Fluxos ligados.** Daqui também valem as intenções do outro fluxo. Se os dois têm `saludo`, ao estar num corre o nó desse fluxo, não o do outro.
+
+O fluxo principal liga a Restaurante. Por isso, começando em **Padrão**, também se pode pedir ou reservar. A saudação que responde é a do fluxo em que você está.
+
+## Um passo, e de volta
+
+O nó laranja não treina a intenção. Aponta para ela. Padrões e parâmetros se editam em [Intenções](/docs/Fundamentos/Intenciones).
+
+![saludo: a intenção, a mensagem e a volta a Início](/img/flujos/conversacion.png)
+
+**Conversa**
+
+- **Intenção.** Se já está neste fluxo, ou num ligado, o seletor a marca **Em uso**.
+- **Resposta.** Um template de [mensagem](/docs/Fundamentos/Mensajes), **+ Criar template**, ou **Mensagem personalizada**. Manda-se quando os dados já estão, depois das ferramentas deste nó.
+- **Transição.** Para onde segue:
+  - **Nenhum.**
+  - Um contexto da tela, ou um novo.
+  - **Mudar de fluxo**, para o início de outro.
+  - **Reiniciar fluxo atual.**
+  - **Transferir para humano.** Passa a conversa para a [mesa de ajuda](./MesaDeAyuda).
+
+`saludo`, o horário, o cardápio e o pedido voltam a **Início**. Por isso a frase seguinte volta a ser ouvida.
+
+## Funcionalidade {#funcionalidad}
+
+Enquanto não houver uma intenção escolhida, esta aba pede voltar a Conversa.
+
+![Scripts, ferramentas, encerrar a captura e o webhook](/img/flujos/funcionalidad.png)
+
+- **Scripts** e **ferramentas.** O que este passo chama fora. Criam-se em [Ferramentas](/docs/Herramientas).
+- **Encerra uma captura em andamento.** Se a pessoa diz isto enquanto o bot pede dados. Ativado, a pergunta se dá por encerrada: cancelar ou se despedir. Desligado, que é o de fábrica, o bot responde e retoma a pergunta, com o já escrito.
+- **Chamar webhook neste nó.** O webhook da árvore roda ao passar por aqui, antes das ferramentas. Se não houver um ativo, não acontece nada.
+
+O contexto não tem resposta nem «encerra uma captura». O evento também não fecha a captura: isso é da intenção.
+
+## Se não reconhecer a frase
+
+![sys.no-match e sua mensagem](/img/flujos/evento.png)
+
+O raio se escolhe ou se escreve. Os que o motor dispara sozinho são `sys.no-match` e `sys.no-input`. Um nome próprio outro passo dispara; se já está em outro evento do fluxo, fica **Em uso**.
+
+Em Restaurante a mensagem é «Desculpe, não entendi. Você pode repetir?». A transição é a mesma lista da intenção. O habitual é voltar ao contexto.
+
+Nessa mensagem, e nas ferramentas e scripts do nó, a frase que não foi entendida está em **`{$last_no_match}`**: `No entendí "{$last_no_match}", ¿puedes decirlo de otra forma?`. Não é preciso ativar nada. Ver [Variáveis do sistema](/docs/Avanzado/Funciones#variables-del-sistema).
+
+## Quando pede uma pessoa
+
+`hablar_con_asesor` não volta a Início. A transição é **Transferência para agente humano**.
+
+![hablar_con_asesor: a mensagem e a mesa de ajuda](/img/diseno/asesor.png)
+
+Antes avisa: «Vou te conectar com uma pessoa da equipe». **Encerra uma captura em andamento** está ativo: se disser isso no meio de um pedido, para de perguntar e passa a conversa.
+
+## Testar este mapa
+
+No console, o primeiro botão em **Restaurante**. `hola` cai em `saludo` e responde as boas-vindas desse fluxo. Com o modo debug, Início fica como percorrido e `saludo` como o nó deste turno.
+
+![Console em Restaurante e a tela marcada](/img/diseno/recorrido.png)
+
+O detalhe do chat está em [Testar o bot](/docs/Fundamentos/ProbarElBot).

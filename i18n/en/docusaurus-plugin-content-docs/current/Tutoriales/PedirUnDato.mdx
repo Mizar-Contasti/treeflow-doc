@@ -1,0 +1,52 @@
+---
+sidebar_position: 3
+sidebar_label: Ask for a missing value
+---
+
+# Ask for a missing value
+
+In Cafetería, "I want empanadas" does not include the flavor. The bot does not invent the order: it asks for what is missing and waits.
+
+## Where the question comes from
+
+Open **Intents** and go into `hacer_pedido`. Below are the parameters: the value, and the entity it comes from.
+
+![hacer_pedido parameters](/img/intenciones/parametros.png)
+
+The gear opens **Parameter settings**. With **Required** checked, if the value did not come in the phrase the bot asks for it before continuing.
+
+![Parameter settings: required, the question, and the attempt limit](/img/intenciones/ajustes.png)
+
+Right there you write the **Question** and the **If it is not understood** text, how many times to insist, and what to do when the attempts run out: move on to the next value, reply with whatever is available, or return to the context.
+
+**Use a defined capture** pulls those three texts from a named capture, so the same question can be reused across several intents. The parameter only chooses which one.
+
+## The capture
+
+**Conversation → Captures**. **New capture** opens the empty editor.
+
+![Capture list](/img/capturas/lista.png)
+
+`Contacto` asks for an email or a phone number, warns if it is not understood, insists twice, and, if the attempts run out, moves on to the next parameter.
+
+![Contacto: question, if it is not understood, and two attempts](/img/capturas/editor.png)
+
+In the restaurant, the quantity question uses what was already captured. The `$` is the variable:
+
+```
+¿Cuántas {$categoria_producto}s de {$sabor_producto} te preparo?
+```
+
+![Quantity question, with the category and the flavor](/img/funciones/pregunta.png)
+
+**Save**. A capture or a question is read at that moment: you do not need to train for the text. You do need to train if you created the parameter or changed the entity.
+
+## Try it
+
+In the console, **Restaurante** flow. Type `quiero empanada`. If the flavor is still missing, the question names the category that did arrive.
+
+![The console substitutes the category: What flavor of empanada do you want?](/img/funciones/consola.png)
+
+Turn on debug mode. An empty parameter is the value the next turn should ask for. If the bot does not ask, the parameter is not set to required, or the capture has no question.
+
+When the data is in, the node sends the order message. The detail is in [Captures](/docs/Fundamentos/Capturas) and in [Parameters](/docs/Avanzado/Parametros).

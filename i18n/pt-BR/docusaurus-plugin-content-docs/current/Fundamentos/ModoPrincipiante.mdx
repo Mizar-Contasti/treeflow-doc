@@ -1,0 +1,128 @@
+---
+sidebar_position: 3
+sidebar_label: Modo iniciante
+---
+
+# Modo iniciante
+
+O modo se escolhe ao [plantar a árvore](./Empezando). **Primeira vez** deixa em iniciante e liga o guia. **Experiente** deixa em avançado, com o menu completo e dados de teste.
+
+No seletor do bot, debaixo do nome, diz **Iniciante** ou **Avançado**. Cada árvore tem o seu: uma pode ser iniciante e a do lado, avançada.
+
+![Plantar uma árvore começa escolhendo criar uma nova ou importar](/img/empezando/plantar.png)
+
+O iniciante serve para montar a conversa e testá-la. As páginas de detalhe se escondem. As peças continuam existindo: uma intenção nova se cria a partir do fluxo simples, com o nome, as palavras e a resposta.
+
+## O que o menu mostra
+
+Durante o guia o menu se abre inteiro, para poder apontar cada entrada.
+
+![O menu de uma árvore iniciante: Fluxos, Canais, Conversas, Mesa de ajuda, Diagnósticos, Contas e Credenciais](/img/principiante/menu.png)
+
+| Aparece | Para que serve |
+|---|---|
+| **Painel** | O resumo da árvore: conversas, fluxos, treinamento |
+| **Fluxos** | O editor simples |
+| **Canais** | Por onde a pessoa fala: o widget, WhatsApp, Telegram |
+| **Conversas** | O que já foi falado |
+| **Mesa de ajuda** | Uma pessoa assume o chat e pode devolvê-lo ao bot |
+| **Contas** | Os usuários do workspace |
+| **Credenciais** | As chaves do workspace, e o acesso por MCP |
+
+**Diagnósticos** continua só para administradores, nos dois modos.
+
+Em iniciante o menu não mostra Intenções, Entidades, Mensagens, Capturas, Ferramentas, Testes, Histórico nem Backups. Se você entrar num desses endereços na mão, o app volta ao painel.
+
+## O fluxo simples
+
+**Fluxos** abre a lista. Há um fluxo principal, marcado **Principal**. **Novo fluxo** abre o diálogo da intenção.
+
+![A lista: o fluxo principal e o botão Novo fluxo](/img/principiante/flujos.png)
+
+O diálogo tem três campos, e o guia os percorre um a um:
+
+1. **Nome.** O propósito dessa parte da conversa. O guia propõe `saludar`.
+2. **Palavras-chave.** O que a pessoa escreve para ativá-la: `hola`, `buenos días`. Adiciona-se com Enter ou com o botão **+**. Precisa de pelo menos uma.
+3. **Resposta.** O que o bot responde quando reconhece essas palavras.
+
+![O diálogo da intenção, com o nome, a palavra hola e a resposta](/img/principiante/dialogo.png)
+
+Ao salvar, essa intenção fica na tela: o nó de início, onde o bot espera, e o nó da intenção. Abrir o nó de novo abre o mesmo diálogo, em edição.
+
+O segmento escolhido ao plantar (restaurante, hotel, clínica) continua trazendo o template. O editor simples é a forma de acrescentar e retocar passos sem abrir as outras páginas.
+
+## O guia
+
+Se ao plantar você escolhe **Primeira vez**, antes de entrar pergunta se você quer o percurso.
+
+![A pergunta ao criar a árvore: ver o tutorial ou pulá-lo](/img/principiante/pregunta.png)
+
+**Ver tutorial** começa. **Pular tutorial** deixa a árvore igual e você percorre. O botão de ajuda do menu volta a abrir o guia dessa árvore.
+
+### 1. O painel
+
+Abre o painel e aponta os cartões, um por um: quantos fluxos há, as intenções, as entidades, se o treinamento está em dia, e as conversas do dia. Numa árvore recém-plantada o treinamento diz **Sem treinar**.
+
+![Passo do guia no painel, sobre o cartão de fluxos](/img/principiante/panel.png)
+
+Ao terminar este trecho, o guia leva você a Fluxos.
+
+### 2. O fluxo principal
+
+Ali está o cartão do fluxo padrão. **Seguinte** abre o editor sozinho: não é preciso clicar no cartão.
+
+![O guia aponta o fluxo principal](/img/principiante/flujos.png)
+
+### 3. A tela
+
+Primeiro o nó de início: ali começa a conversa, o bot espera a pessoa. Depois a intenção de saudação, ainda vazia. **Seguinte** abre o editor para preenchê-la.
+
+![A tela, com o início e a intenção vazia](/img/principiante/lienzo.png)
+
+### 4. Nome, palavras e resposta
+
+O guia pede três coisas, em ordem:
+
+1. O nome `saludar`.
+2. Uma palavra como `hola` ou `buenos días`. Sem pelo menos uma, não deixa seguir.
+3. A resposta, por exemplo «Olá! Bem-vindo». **Seguinte** salva o fluxo.
+
+![O guia na resposta, com saludar e hola já escritos](/img/principiante/dialogo.png)
+
+### 5. Treinar
+
+O balão fica junto ao raio do menu. **Seguinte** lança o mesmo treinamento que clicar no raio. Enquanto não termina, o bot não usa o que você acabou de escrever.
+
+![O guia pede para treinar com o raio do menu](/img/principiante/entrenar.png)
+
+### 6. O console
+
+Com o treinamento pronto se abre o console, o painel da direita. É preciso escrever uma frase que você já configurou. `hola` recebe a resposta que você salvou. Se você escrever algo que o bot não reconhece, a resposta é outra.
+
+![No console, hola recebe a resposta da saudação](/img/principiante/consola.png)
+
+### 7. O menu
+
+Ao fechar esse teste, o guia percorre o menu: o bot em que você está, o painel, fluxos, canais, conversas, e de novo o raio. Ali o treinamento já diz **Atualizado**.
+
+![O último trecho aponta Fluxos no menu](/img/principiante/menu.png)
+
+## Treinar e testar
+
+O raio do menu diz o estado. **Treinamento pendente** é laranja: um clique treina. Em verde diz **IA treinada**. Enquanto você não treinar, o bot responde com o treinamento anterior.
+
+O [console](/docs/Fundamentos/ProbarElBot) é o chat de teste. **Canais** é o passo seguinte, quando alguém de fora precisa falar com o bot.
+
+## O modo avançado
+
+**Experiente**, ao plantar, abre o mesmo **Fluxos** no [editor completo](./Flujos): nós soltos, setas, e em cada nó as abas Conversa e Funcionalidade.
+
+Com esse modo o menu também mostra:
+
+- [Intenções](./Intenciones) e [entidades](./Entidades), para padrões, parâmetros e os dados da frase
+- [Mensagens](./Mensajes) e [capturas](./Capturas), para respostas reutilizáveis e para pedir um dado que falta
+- [Ferramentas](/docs/Herramientas), para chamar um script, uma API ou o webhook
+- [Testes](./ProbarElBot), casos de vários turnos
+- Histórico e Backups
+
+Esse é o modo para um bot que extrai dados, chama sistemas externos ou se testa com uma suíte salva.

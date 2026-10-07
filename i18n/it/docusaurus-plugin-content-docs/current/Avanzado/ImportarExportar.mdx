@@ -1,0 +1,45 @@
+---
+sidebar_position: 10
+sidebar_label: Importa ed esporta
+description: Il JSON dell'albero, la casella delle conversazioni e i backup di Gestione.
+---
+
+# Importa ed esporta
+
+Un albero si sposta come un file JSON: la configurazione, i flussi, i nodi, gli intenti, le entità, i messaggi, gli script e le API. Le chiavi dei canali non viaggiano.
+
+## Esportare
+
+Nell'elenco degli alberi, l'icona di download di una scheda apre **Esporta albero**.
+
+La casella **Includi conversazioni** è spenta. Così il file serve a clonare o salvare il progetto, senza la cronologia di chi ha scritto. Accesa, il file cresce: in un bot con traffico sono migliaia di turni.
+
+Quella cronologia può contenere nomi, telefoni e indirizzi. Trattala come dati dei clienti.
+
+L'avviso della schermata dice che il file porta la configurazione, i flussi, le entità e gli strumenti, senza credenziali. Vanno anche le traduzioni: le frasi, i valori e le risposte di ogni lingua. Senza, al ripristino quelle colonne restano vuote.
+
+## Importare
+
+**Importa albero**, in alto nell'elenco, crea un albero nuovo a partire dal JSON.
+
+L'icona di ripristino di una scheda, **Ripristina e sovrascrivi questo albero**, sovrascrive l'albero scelto con il file. Non è una fusione: il contenuto del file sostituisce quello che c'era.
+
+Si può anche piantare importando, dal **+** in alto, in **Pianta un nuovo albero**.
+
+## Backup
+
+**Gestione → Backup** salva copie dentro TreeFlow, senza scaricare un file.
+
+La scheda **Base** elenca le copie: tipo (automatica o manuale), etichetta, data, dimensione e chi l'ha generata. Venti alla volta. Ripristinare applica quella copia sull'albero attuale. Se non ce n'è nessuna, la schermata lo dice e propone di crearne una a mano.
+
+**Configurazione di backup** ha l'interruttore **Abilita i backup automatici** e la frequenza: ogni ora, ogni giorno o ogni settimana. Lì si vede l'ultimo backup e la prossima esecuzione.
+
+Ogni copia automatica porta le conversazioni iniziate dalla precedente, non di nuovo tutta la cronologia. Una conversazione aperta tra due copie si salva per intero nella prima. Il primo backup di un albero porta quello che c'è. La serie completa copre la cronologia senza ripetere lo stesso turno in ogni file.
+
+## Altri download
+
+- **Conversazioni** scarica un CSV dell'elenco che stai vedendo, con il filtro applicato.
+- **Test** importa ed esporta il CSV di una [suite](/docs/Avanzado/Pruebas).
+- La [base di conoscenza](/docs/Herramientas/BaseDeConocimiento) legge un CSV di due colonne e crea un flusso. Non è questo JSON.
+
+Non c'è l'esportazione di un flusso singolo, né un importatore di Dialogflow o di Rasa.

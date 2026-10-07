@@ -1,0 +1,35 @@
+---
+sidebar_position: 1
+sidebar_label: Strumenti
+slug: /Herramientas
+description: Le sei schede di Integrazione → Strumenti, e in che ordine le chiama un nodo.
+---
+
+# Strumenti
+
+Nel menu stanno in **Integrazione → Strumenti**. Un [canale](/docs/Canales/CanalesDeComunicacion) è da dove parla la persona. Uno strumento è quello che il bot chiama mentre percorre un nodo.
+
+![Cafetería, scheda Script: la ricerca, le sei schede e lo script del saluto](/img/herramientas/scripts-lista.png)
+
+In alto, la ricerca cambia secondo la scheda: **Cerca script…** o **Cerca API…**. A destra ci sono **Modelli** e il pulsante di creazione (**Crea script** o **Crea strumento**). Queste due azioni non ci sono in Webhook, Trasferimenti, Base di conoscenza e Ingestione generativa.
+
+| Scheda | Che cosa conserva |
+|---|---|
+| [Script](/docs/Herramientas/Scripts) | Codice Python che gira dentro il bot. Otto modelli |
+| [API](/docs/Herramientas/Apis) | Una chiamata HTTP. Dieci modelli, più quelli che crei |
+| [Webhook](/docs/Herramientas/Webhook) | Una sola scheda, l'URL dell'albero |
+| [Trasferimenti](/docs/Herramientas/Transferencias) | Come si passa la conversazione a una persona |
+| [Base di conoscenza](/docs/Herramientas/BaseDeConocimiento) | Un CSV che crea un flusso, una riga per intento |
+| [Ingestione generativa](/docs/Herramientas/IngestionGenerativa) | Un PDF, Excel o TXT da cui un modello estrae intenti |
+
+## Nel nodo
+
+Si scelgono nel nodo del flusso, scheda **Funzionalità**. L'ordine in cui girano è fisso:
+
+1. Gli script di **Aggiungi script…**, nell'ordine dell'elenco.
+2. Il webhook, se **Chiama webhook in questo nodo** è acceso e l'albero ha un URL.
+3. Le API di **Aggiungi strumento…**, quando il turno ha già i suoi dati.
+
+Se il nome della variabile di sessione non coincide con quello dell'ingresso o dell'uscita, il **≠** di quella riga lascia scrivere l'altro nome. **=** usa lo stesso. L'uscita resta nella conversazione e un messaggio la legge con `{$saludo_tiempo}`.
+
+Il dettaglio di ogni schermata è nella sua pagina. La mappa del nodo, in [Flussi](/docs/Avanzado/FlujosConversacionales#funcionalidad).

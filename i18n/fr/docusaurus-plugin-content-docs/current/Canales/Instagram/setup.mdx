@@ -1,0 +1,46 @@
+---
+sidebar_position: 1
+---
+
+# Instagram Direct
+
+Connectez votre bot aux **messages directs** d'un compte professionnel Instagram. C'est un canal **Bêta**.
+
+![L'écran Instagram Direct dans Canaux : URL pour Meta et identifiants du compte](/img/canales/instagram.png)
+
+## Ce qu'il vous faut chez Meta
+
+Un **compte professionnel** Instagram (Business ou Creator) et une application sur [Meta for Developers](https://developers.facebook.com/) avec l'accès à la messagerie Instagram.
+
+| Champ dans TreeFlow | D'où ça vient |
+|---|---|
+| **Instagram Account ID** | L'identifiant du compte Instagram professionnel |
+| **Verify Token** | Vous l'inventez : n'importe quel texte |
+| **Instagram Access Token** | Un jeton avec l'autorisation `instagram_manage_messages` |
+| **App Secret** | Votre application → Configuration → De base → Clé secrète de l'application |
+
+L'**App Secret** permet de vérifier que chaque message vient bien de Meta. Sans lui, TreeFlow ne répond pas.
+
+## L'activer
+
+1. Choisissez votre bot dans le sélecteur en haut à gauche.
+2. Ouvrez **Intégration → Canaux → Instagram Direct**.
+3. **Étape 1.** Copiez la **Callback URL** et collez-la dans Meta Developers → Instagram → Webhook. Dans **Verify token** de Meta, saisissez le même que celui que vous mettrez dans TreeFlow.
+4. Dans Meta, abonnez le webhook au champ **messages**.
+5. **Étape 2.** Renseignez Instagram Account ID, Verify Token, Instagram Access Token et App Secret.
+6. Cliquez sur **Enregistrer et intégrer Instagram**. Le canal est activé.
+
+L'interrupteur **ON/OFF** du haut le désactive et l'active sans effacer ce qui est enregistré.
+
+## Ce qu'il reçoit et ce qu'il envoie
+
+Le bot lit les messages texte, les réponses rapides et les boutons sur lesquels la personne appuie.
+
+Il répond par du **texte** (jusqu'à 1000 caractères). Les boutons de la réponse sortent comme **réponses rapides**, jusqu'à 13. Les boutons de lien ne sont pas envoyés.
+
+## S'il ne répond pas
+
+- Vérifiez que l'interrupteur est sur **ON**.
+- Vérifiez que le **Verify Token** de Meta est identique à celui de TreeFlow.
+- Vérifiez que l'**Account ID** est celui du compte qui reçoit les messages.
+- Vérifiez que l'**App Secret** est celui de la même application qui envoie les messages.

@@ -1,0 +1,50 @@
+---
+sidebar_position: 1
+---
+
+# Facebook Messenger
+
+Conecta o seu bot ao Messenger de uma **página do Facebook**. É um canal **Beta**.
+
+![A tela do Facebook Messenger em Canais: URL para a Meta e credenciais da página](/img/canales/facebook.png)
+
+## O que você precisa da Meta
+
+Uma página do Facebook e um app em [Meta for Developers](https://developers.facebook.com/) com o produto **Messenger**.
+
+| Campo no TreeFlow | De onde vem |
+|---|---|
+| **Facebook Page ID** | O ID numérico da sua página |
+| **Verify Token** | Você inventa: qualquer texto |
+| **Page Access Token** | O token da página, com permissão de mensagens (*messaging*) |
+| **App Secret** | Seu app → Configurações → Básico → Chave secreta do app |
+
+O **App Secret** permite conferir que cada mensagem vem mesmo da Meta. Sem ele, o TreeFlow não responde.
+
+## Ativá-lo
+
+1. Escolha seu bot no seletor do canto superior esquerdo.
+2. Abra **Integração → Canais → Facebook Messenger**.
+3. **Passo 1.** Copie a **Callback URL** e cole no seu app da Meta → Messenger → Settings → Webhooks. Em **Verify token** da Meta, escreva o mesmo que você vai colocar no TreeFlow.
+4. Na Meta, inscreva a página nos eventos **messages** e **messaging_postbacks**.
+5. **Passo 2.** Preencha Facebook Page ID, Verify Token, Page Access Token e App Secret.
+6. Clique em **Salvar e integrar Facebook**. O canal fica ligado.
+
+O interruptor **ON/OFF** de cima desliga e liga o canal sem apagar o que foi salvo.
+
+## O que o bot envia
+
+Texto, **cartões** (modelo genérico, também em carrossel) e **respostas rápidas**.
+
+Quando alguém toca um botão ou uma resposta rápida, o bot recebe o que esse botão carrega, não o texto que aparece nele.
+
+:::note Uma página, um bot
+O bot que responde é o que estava selecionado ao salvar. A mesma página do Facebook não pode ser cadastrada em dois workspaces.
+:::
+
+## Se não responder
+
+- O interruptor precisa estar em **ON**.
+- O **Verify Token** da Meta precisa ser idêntico ao do TreeFlow.
+- O **Page ID** precisa ser o da página que recebe as mensagens.
+- O **App Secret** precisa ser o do mesmo app que envia as mensagens.

@@ -1,0 +1,45 @@
+---
+sidebar_position: 10
+sidebar_label: Importar e exportar
+description: O JSON da árvore, a caixa de conversas e os backups de Gestão.
+---
+
+# Importar e exportar
+
+Uma árvore se move como um arquivo JSON: a configuração, os fluxos, os nós, as intenções, as entidades, as mensagens, os scripts e as APIs. As chaves dos canais não viajam.
+
+## Exportar
+
+Na lista de árvores, o ícone de download de um cartão abre **Exportar árvore**.
+
+A caixa **Incluir conversas** está desligada. Assim o arquivo serve para clonar ou salvar o design, sem o histórico de quem escreveu. Ligada, o arquivo cresce: num bot com tráfego são milhares de turnos.
+
+Esse histórico pode trazer nomes, telefones e endereços. Trate como dados de clientes.
+
+O aviso da página diz que o arquivo leva a configuração, os fluxos, as entidades e as ferramentas, sem credenciais. Também vão as traduções: as frases, os valores e as respostas de cada idioma. Sem elas, ao restaurar essas colunas ficam em branco.
+
+## Importar
+
+**Importar árvore**, em cima na lista, cria uma árvore nova a partir do JSON.
+
+O ícone de restaurar de um cartão, **Restaurar e sobrescrever esta árvore**, sobrescreve a árvore escolhida com o arquivo. Não é uma mistura: o conteúdo do arquivo substitui o que havia.
+
+Também dá para plantar importando, a partir do **+** de cima, em **Plantar uma nova árvore**.
+
+## Backups
+
+**Gestão → Backups** guarda cópias dentro do TreeFlow, sem baixar um arquivo.
+
+A aba **Básico** lista as cópias: tipo (automática ou manual), etiqueta, data, tamanho e quem a gerou. De vinte em vinte. Restaurar aplica essa cópia sobre a árvore atual. Se não houver nenhuma, a página avisa e oferece criar uma na mão.
+
+**Configuração de backup** tem o interruptor **Habilitar backups automáticos** e a frequência: a cada hora, a cada dia ou a cada semana. Ali se vê o último backup e a próxima execução.
+
+Cada cópia automática leva as conversas que começaram desde a anterior, não todo o histórico de novo. Uma conversa aberta entre duas cópias se guarda inteira na primeira. O primeiro backup de uma árvore leva o que houver. A série completa cobre o histórico sem repetir o mesmo turno em cada arquivo.
+
+## Outros downloads
+
+- **Conversas** baixa um CSV da lista que você está vendo, com o filtro aplicado.
+- **Testes** importa e exporta o CSV de uma [suíte](/docs/Avanzado/Pruebas).
+- A [base de conhecimento](/docs/Herramientas/BaseDeConocimiento) lê um CSV de duas colunas e cria um fluxo. Não é este JSON.
+
+Não há exportação de um fluxo solto, nem um importador de Dialogflow ou de Rasa.

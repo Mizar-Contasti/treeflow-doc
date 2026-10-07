@@ -1,0 +1,46 @@
+---
+sidebar_position: 6
+sidebar_label: Passar para uma pessoa
+---
+
+# Passar a conversa para uma pessoa
+
+Em Restaurante, `hablar_con_asesor` não volta a Início. A transição do nó é **Transferência para agente humano**: o bot avisa e a conversa entra na fila nesse mesmo turno.
+
+## O nó
+
+**Fluxos** → abra **Restaurante** → o nó `hablar_con_asesor`.
+
+Em **Conversa**:
+
+- **Intenção:** `hablar_con_asesor`.
+- **Resposta:** o aviso. No modelo é «Te comunico con una persona del equipo».
+- **Transição:** **Transferência para agente humano**.
+
+Em **Funcionalidade**, **Encerra uma captura em andamento** está ativo. Se a pessoa disser isso no meio de um pedido, o bot para de perguntar e passa a conversa.
+
+![hablar_con_asesor: a mensagem e a transferência](/img/diseno/asesor.png)
+
+Marque só esta intenção. Se a mesma transição estiver em `saludo`, o bot encaminha até quando a pessoa cumprimenta.
+
+O texto do aviso também pode ser mudado em **Ferramentas → Transferências**, em **Mensagem de transferência**. Se a árvore não tiver nenhuma configuração, funciona mesmo assim, com o aviso padrão.
+
+## Testar o aviso
+
+Console, fluxo **Restaurante**. Escreva `quiero hablar con un asesor`.
+
+O bot envia o aviso. No modo debug, depois desse aviso não há outro balão do bot: vê-se para quem chegou. O bot deixa de responder enquanto a conversa está com uma pessoa.
+
+![O console no fluxo Restaurante](/img/diseno/recorrido.png)
+
+## A mesa
+
+**Operação → Mesa de ajuda**. **Caixa ao vivo** separa Em espera, Meus chats e Todos. **Histórico** é o que já foi encerrado.
+
+![Mesa de ajuda: a caixa ao vivo](/img/operacion/mesa.png)
+
+- **Em espera** são as que ninguém assumiu.
+- Ao escolher uma, à direita está o histórico e escreve-se ao visitante.
+- O operador assume, responde, encerra ou devolve a conversa ao bot.
+
+A conversa ao vivo entre operador e visitante funciona sobre o widget web. O detalhe da fila, do encerramento e de um helpdesk externo está em [Mesa de ajuda](/docs/Avanzado/MesaDeAyuda).

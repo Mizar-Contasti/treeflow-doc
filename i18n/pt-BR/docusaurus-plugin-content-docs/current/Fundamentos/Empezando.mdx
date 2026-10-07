@@ -1,0 +1,86 @@
+---
+sidebar_position: 2
+sidebar_label: Primeiros passos
+---
+
+import AppUrl from '@site/src/components/AppUrl';
+
+# Primeiros passos
+
+Você entra, planta uma árvore e testa. O nome de cada peça está na [terminologia](/docs/Fundamentos/Terminologia).
+
+## Entre
+
+![Login: primeiro o espaço de trabalho, depois o usuário](/img/intro/login.png)
+
+1. Abra <AppUrl>TreeFlow</AppUrl>.
+2. Escreva o **espaço de trabalho** e clique em **Continuar**.
+3. Escreva o usuário e a senha, e clique em **Entrar**.
+
+Se você ainda não tem conta, **Registre seu workspace**. Pede o nome do espaço, o e-mail, o usuário administrador e a senha. Chega um código de seis dígitos; ao verificá-lo, a conta fica criada e você pode baixar as credenciais.
+
+**Esqueceu seu workspace?** e **Esqueceu sua senha?** usam esse mesmo e-mail.
+
+No cabeçalho, depois de entrar, aparece o nome do workspace. Ali ficam os usuários, as chaves e as árvores. Outro cliente é outro workspace: entra-se de novo com o nome dele.
+
+## Plante a primeira árvore
+
+Um workspace vazio diz **Não há árvores na sua floresta**. O botão é **Plantar primeira árvore**.
+
+Se já houver árvores, no menu está **Criar um bot novo**. Na lista, **Nova árvore** abre a mesma página, **Plantar uma nova árvore**. Também dá para **Importar árvore** a partir de um backup.
+
+![Plantar uma nova árvore: criar uma ou importar um backup](/img/empezando/plantar.png)
+
+O diálogo tem duas partes.
+
+**Como você quer começar.**
+
+- **Primeira vez** liga os tutoriais e deixa a árvore no [modo iniciante](./ModoPrincipiante): o menu mostra a tela e esconde intenções, entidades, mensagens e capturas. Ao terminar, você pode ver o guia ou pulá-lo.
+- **Experiente** carrega dados de teste e deixa o menu completo. No seletor da árvore esse modo se chama **Avançado**.
+
+**Os dados da árvore.**
+
+- **Nome**, obrigatório.
+- **Descrição**, se quiser.
+- **Segmento do agente**, obrigatório. Restaurante, hotel, clínica e os demais trazem um template de intenções, entidades e fluxo. **Sem segmento** deixa o bot básico.
+- **Idioma base**, o do treinamento e o da interface.
+
+**Plantar árvore** cria e abre o painel.
+
+![O painel, com a árvore já escolhida](/img/intro/panel.png)
+
+Em cima se escolhe a árvore e o intervalo. **Último dia** é o que fica ao abrir.
+
+| Cartão | O que conta |
+|---|---|
+| Conversas | Quantas houve no intervalo |
+| Taxa de falha | Que parte não foi resolvida |
+| Sentimento do usuário | Se a análise de sentimento está ligada |
+| Escalonamento para humano | Quantas passaram para uma pessoa |
+| Fluxos, intenções, entidades | Quantos há na árvore |
+| Canais | Quantos estão conectados |
+| Treinamento | Se está em dia. Em verde, sim |
+
+## Teste
+
+1. O percurso se desenha em [Fluxos](./Flujos). Cada passo da tela é um nó.
+
+![Um fluxo na tela](/img/intro/flujo.png)
+
+2. Se preferir descrever o design e deixar o app montá-lo, está a aba **Agente** do [console](/docs/Fundamentos/ProbarElBot).
+3. No rodapé do menu, o raio diz o estado do treinamento. **Treinamento pendente** é laranja: um clique treina. Em verde diz **IA treinada**. Enquanto você não treinar, o bot responde com o treinamento anterior.
+4. O console, o painel da direita, é o chat de teste. Escreva como a pessoa escreveria.
+
+![O console aberto à direita do painel](/img/empezando/consola.png)
+
+Cada alteração em intenções ou entidades pede outro treinamento. O raio volta a laranja quando há algo pendente.
+
+## Siga por aqui
+
+1. [Modo iniciante](./ModoPrincipiante), se a árvore esconde parte do menu
+2. [Árvores](./Arboles), para criar outra ou trocar de bot
+3. [Fluxos](./Flujos), a tela
+4. [Intenções](./Intenciones) e [entidades](./Entidades), o que o motor reconhece
+5. [Mensagens](./Mensajes) e [capturas](./Capturas), o que o bot diz e como pede um dado
+6. [Testar o bot](./ProbarElBot), casos de vários turnos
+7. [Canais](/docs/Canales/CanalesDeComunicacion), quando alguém de fora precisar falar com ele

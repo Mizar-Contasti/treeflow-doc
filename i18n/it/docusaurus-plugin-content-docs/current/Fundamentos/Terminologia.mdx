@@ -1,0 +1,115 @@
+---
+sidebar_position: 1
+---
+
+import Tabs from '@theme/Tabs';
+import TabItem from '@theme/TabItem';
+
+# Terminologia
+
+Ogni nome del menu è una cosa diversa. Questa pagina è la mappa: che cosa è ciascuna e come si concatenano.
+
+![Il pannello, con il menu dell'app: flussi, intenti, entità e canali](/img/intro/panel.png)
+
+## La mappa
+
+| Nel menu | Che cosa è |
+|---|---|
+| **Albero** | Il bot. Si crea anche come «un bot nuovo». Conserva l'addestramento, i flussi e tutto il resto. |
+| **Flusso** | Il disegno della tela: nodi e frecce. Ordina il percorso. |
+| **Nodo** | Un passo di quella tela: un messaggio, un intento, una validazione o altro. |
+| **Intento** | Ciò che il motore riconosce in una frase: pattern, parametri e la risposta. |
+| **Entità** | Un tipo di dato che si estrae dalla frase: un gusto, una data, un numero. Semplice, composta o regex. |
+| **Parametro** | Lo spazio con nome dove cade quel dato (`@sabor:sabor` → il parametro `sabor`). |
+| **Messaggio** | Una risposta riutilizzabile: testo, pulsanti, carosello, HTML. |
+| **Acquisizione** | Come si chiede un dato che manca, e che cosa si dice se non si capisce. |
+| **Canale** | Da dove parla la persona: il widget web, Telegram, WhatsApp e il resto. |
+| **Strumento** | Ciò che il bot chiama fuori: uno script, un'API, il webhook, un trasferimento. |
+| **Console** | Il pannello a destra. Lì si prova il bot e, se vuoi, lo progetta l'IA. |
+
+## Come si concatenano
+
+Un ordine in un ristorante, con i nomi dell'app:
+
+1. La persona scrive in un **canale** (il widget della pagina, per esempio).
+2. L'**albero** riceve la frase. Un **intento** (`pedir`) la riconosce perché somiglia ai suoi pattern.
+3. Nel pattern, `@sabor` punta a un'**entità**. Da «al formaggio» esce il **parametro** `sabor`.
+4. Se manca la dimensione, un'**acquisizione** chiede «di che dimensione?» e, se la risposta non serve, insiste.
+5. Il **flusso** decide il nodo successivo. Quel nodo mostra un **messaggio** («Fatto, una grande al formaggio») o chiama uno **strumento** (l'inventario, la cassa).
+6. La risposta torna dallo stesso canale.
+
+Se in quel momento serve una persona, lo [sportello di assistenza](/docs/Avanzado/MesaDeAyuda) prende la conversazione e può restituirla al bot.
+
+![Un flusso sulla tela: nodi uniti da frecce](/img/intro/flujo.png)
+
+## Tre alberi
+
+La stessa mappa, in tre mestieri.
+
+<Tabs>
+  <TabItem value="restaurante" label="Ristorante" default>
+    <ul>
+      <li><strong>Intenti:</strong> <code>reservar_mesa</code>, <code>consultar_menu</code>, <code>pedir</code>.</li>
+      <li><strong>Entità:</strong> data, ora, numero di persone, piatto.</li>
+      <li><strong>Acquisizione:</strong> se manca l'ora, il bot la chiede.</li>
+      <li><strong>Messaggio:</strong> conferma la prenotazione con quei dati.</li>
+      <li><strong>Canale:</strong> il widget della pagina, o WhatsApp.</li>
+      <li><strong>Strumento:</strong> annota la prenotazione nel sistema del locale.</li>
+    </ul>
+  </TabItem>
+  <TabItem value="tienda" label="Negozio">
+    <ul>
+      <li><strong>Intenti:</strong> <code>consulta_producto</code>, <code>proceso_compra</code>, <code>seguimiento_pedido</code>.</li>
+      <li><strong>Entità:</strong> prodotto, quantità, metodo di pagamento.</li>
+      <li><strong>Strumento:</strong> consulta l'inventario e compone l'ordine.</li>
+      <li><strong>Messaggio:</strong> risponde con quello che c'è.</li>
+    </ul>
+  </TabItem>
+  <TabItem value="soporte" label="Supporto">
+    <ul>
+      <li><strong>Intenti:</strong> <code>problema_hardware</code>, <code>problema_software</code>, <code>consulta_garantia</code>.</li>
+      <li><strong>Entità:</strong> dispositivo, sintomo, versione.</li>
+      <li><strong>Flusso:</strong> guida la diagnosi, un nodo per passo.</li>
+      <li><strong>Sportello di assistenza:</strong> se il flusso non lo risolve, entra una persona.</li>
+    </ul>
+  </TabItem>
+</Tabs>
+
+## Quando usare ciascuna cosa
+
+**Canali**, quando la persona deve parlare con il bot da un'altra parte: il web, WhatsApp, Telegram.
+
+**Strumenti**, quando il bot deve leggere o scrivere in un altro sistema: stock, un CRM, un'email, una validazione.
+
+**Workspace**, quando c'è un altro cliente, un altro team o un altro ambiente. Ciascuno ha i suoi alberi, i suoi canali e le sue chiavi. Dentro un workspace, un albero nuovo non chiede un altro workspace.
+
+Il dettaglio lungo di ciascuno continua nella sua pagina: [workspace](/docs/Avanzado/Workspaces), [canali](/docs/Canales/CanalesDeComunicacion) e [strumenti](/docs/Herramientas).
+
+## Progettare, non compilare moduli
+
+Il progetto è decidere il percorso, le domande e le risposte. L'IA può fare il lavoro dell'app, perché ha strumenti per creare e modificare flussi, intenti, entità e messaggi, e per addestrare e provare.
+
+- Nella [console](/docs/Fundamentos/ProbarElBot), scheda Agente, glielo racconti lì.
+- Da fuori, una chiave [MCP](/docs/Avanzado/Credenciales) permette a un altro assistente (per esempio Claude Desktop) di entrare nel workspace e operare sugli stessi pezzi.
+
+## I nomi di prima
+
+Se una pagina vecchia non coincide con il menu, questa è la traduzione.
+
+| Prima | Ora |
+|---|---|
+| Ramo | Intento. La tela si chiama flusso. |
+| Foglia della tela | Nodo |
+| Foglia, quando si parlava di estrarre dati | Entità |
+| Editor visuale, Canvas Engine | Flussi |
+| Innesto | Canale |
+| Fertilizzante | Strumento. Il webhook globale è la scheda Webhook. |
+| QWidget | Il widget web, in Canali |
+| Riforestazione, pipeline di sei fasi | L'[agente](/docs/Agente/Constructor) della console, o un assistente via [MCP](/docs/Agente/Mcp) |
+
+## Dove continuare
+
+- [Flussi](/docs/Fundamentos/Flujos)
+- [Intenti](/docs/Fundamentos/Intenciones) e [entità](/docs/Fundamentos/Entidades)
+- [Messaggi](/docs/Fundamentos/Mensajes) e [acquisizioni](/docs/Fundamentos/Capturas)
+- [Funzioni](/docs/Avanzado/Funciones): `{ }` e il `$`

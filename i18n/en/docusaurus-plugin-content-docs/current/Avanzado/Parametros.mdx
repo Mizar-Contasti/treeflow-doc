@@ -1,0 +1,213 @@
+---
+sidebar_position: 3
+sidebar_label: Parameters
+---
+
+# Parameters
+
+**Parameters** are the data your tree extracts from what the user writes and
+stores during the conversation: the quantity, the product, the date, the phone number.
+
+## What are parameters?
+
+A parameter is a named slot that:
+
+- is filled with what the user says, through an entity cited in a pattern;
+- stays available for responses and for the tree's logic;
+- can be asked for actively if it is missing and required.
+
+![Settings for a required parameter: the question, the fallback, and the limit](/img/intenciones/ajustes.png)
+
+![The orden parameter in hacer_pedido, read from the composite entity](/img/intenciones/parametros.png)
+
+## Creating parameters
+
+A parameter is born when you cite an [entity](/docs/Fundamentos/Entidades) in an intent pattern.
+
+1. The entity already exists, for example `producto`.
+2. The pattern cites it: `quiero una @producto`.
+3. On save, the intent has the parameter. It is named the same as the entity.
+
+The colon gives it another name. `@producto:producto_pedido` still reads the `producto` entity and the parameter is named `producto_pedido`. In a [composite](/docs/Fundamentos/Entidades#2-entidades-compuestas) it is the same, row by row:
+
+```
+@sys.number:cantidad @producto:producto
+@sys.number:cantidad @producto:producto de @sabor
+```
+
+`cantidad` and `producto` are the parameters. `de` is a word in the row, not a piece of data.
+
+## Parts of a parameter
+
+### Name
+
+The parameter's identifier inside the intent.
+
+### Default value
+
+The value used if the user says nothing. A parameter with a default value never
+blocks the conversation, even if it is marked required.
+
+### Required
+
+If it is checked and there is no value, the tree will ask for it before continuing. That is
+**slot filling**.
+
+### Prompt
+
+The question used to ask for the data: *"What size pizza do you want?"*.
+
+It can live on the parameter, or come from a reusable [capture](/docs/Fundamentos/Capturas):
+on the required parameter you check **Use a defined capture** and choose
+which one. Then the question, the message if it is not understood, and the retries
+come from the capture, not from these fields.
+
+It can interpolate other parameters already captured. The full syntax is in
+[Functions](/docs/Avanzado/Funciones):
+
+```
+¿De qué sabor quieres {$categoria_producto}?
+```
+
+:::caution A prompt that depends on an empty slot is not asked
+If the prompt names other parameters and **all** of them are empty, the tree does not ask that
+question: it would come out as *"What flavor do you want?"*, with no subject. One of them having a
+value is enough. If no question that makes sense is left, the capture is abandoned with a
+message instead of going in circles.
+:::
+
+### Fallback prompt
+
+What is said when the user replies with something that does not fit: *"I didn't catch the
+size. It can be small, medium, or large."*
+
+### Max fallback attempts
+
+How many times to insist on that parameter before giving up. It keeps the user
+from getting stuck repeating the same question.
+
+### Action when the limit is exceeded
+
+What to do when the attempts run out:
+
+| Option | What it does |
+|---|---|
+| **Move on to the next parameter** | Leaves this one and asks for another that is missing |
+| **Reply even if the value is missing** | Replies with whatever is there |
+| **Go to the context node (without replying)** | Abandons the capture and returns to the flow |
+
+If every required parameter exhausts its attempts, the tree abandons the intent with a
+message instead of keeping asking in a circle.
+
+### Can be captured again during slot filling
+
+With this on, the user can **correct** that piece of data while being asked for
+another. If the tree asks for the quantity and the user says *"better make it cheese"*, the flavor
+changes and the quantity is still asked for.
+
+## Using parameters
+
+### In responses {#en-respuestas}
+
+They are interpolated with **`{$parametro}`**:
+
+```
+Has pedido una pizza de tamaño {$tamaño_pizza}
+```
+
+The `$` is required: it is what tells a variable apart from text. Without it,
+`{tamaño_pizza}` prints the word "tamaño_pizza".
+
+Typing `{$` in a response's text brings up a [picker with the parameters you can use](/docs/Avanzado/Funciones#el-selector-de-variables).
+
+Besides yours, there are two parameters the engine builds on its own, without you creating them:
+`{$last_utterance}` (the last thing the user wrote) and `{$last_no_match}` (the
+last phrase the bot did not understand). See [System variables](/docs/Avanzado/Funciones#variables-del-sistema).
+If you create a parameter with one of those names, the engine replaces it.
+
+It also works inside expressions:
+
+```
+{ if $numero > 1 ? "${categoria}s" : $categoria }
+```
+
+A parameter that does not exist yet counts as empty and **does not break the rest of the
+message**: only that part stays blank.
+
+A whole expression fits inside the braces, not only a variable:
+
+| You write | For |
+|---|---|
+| `{$nombre}` | reading a parameter |
+| `{"texto"}` · `{texto}` | a piece of text |
+| `{$edad > 18 ? "adulto" : "menor"}` | choosing based on a condition |
+| `{$edad > 18 ? "adulto"}` | the same, without the other branch |
+| `{$precio * 120}` | calculating |
+| `{$nombre.upper()}` · `{len($nombre)}` | functions and methods |
+| `{$api.estado}` · `{$api.items[0]}` | going down into a tool response |
+
+The rest — nested conditions, lists, and what the engine does not evaluate — is in [Functions](/docs/Avanzado/Funciones).
+
+### In conditions
+
+They are used to choose a response or to decide which branch to take.
+
+### In webhooks
+
+Their values can be sent to external services.
+
+## A parameter with several values
+
+When the same slot appears **more than once in the phrase**, the parameter stops being
+a single value and stores every occurrence, in order:
+
+> *"give me 1 chicken empanada and 2 beef arepas"*
+
+There `categoria_producto` is `empanada` **and** `arepa`. You see one parameter, but
+it contains both.
+
+In responses it is read as a list:
+
+| You write | You get |
+|---|---|
+| `{$producto}` | the first one, as usual |
+| `{$producto[0]}` | the first one |
+| `{$producto[1]}` | the second one |
+| `{count($producto)}` | how many came in |
+
+A parameter that came in only once behaves like a list of one, so
+`{$producto[0]}` works without you having to know in advance how many there were.
+
+:::caution `count()`, not `len()`
+`count($producto)` counts **how many times** the user said it. `len($producto)`
+measures **characters**, which is something else. `len()` used to do both, which is why
+it was renamed.
+:::
+
+:::tip Declare it as plural
+If in the training phrase you write the entity **twice**, you are telling the
+tree that this parameter can come in repeated. With [composite entities](/docs/Fundamentos/Entidades#2-entidades-compuestas)
+each occurrence is a full line — quantity, product, and flavor together — and the tree
+can ask for whatever is missing on **each** one.
+:::
+
+## Parameter lifecycle
+
+1. They are created when the intent fires.
+2. They stay available while the output contexts are active.
+3. They are reused across turns of the conversation.
+4. They expire when their contexts expire.
+
+## Best practices
+
+1. **Descriptive names**: so you can read what the parameter stores.
+2. **Clear prompts**: a concrete question, and examples if you can.
+3. **Default values** when a reasonable option exists.
+4. **An attempt limit** on required ones, so nobody gets stuck.
+5. **Recapture** turned on for data a user usually corrects on the fly.
+
+:::tip Tip
+A good prompt is conversational and makes clear what is expected. If it also names what
+was already captured — *"What flavor do you want for the 3 arepas?"* — the user knows exactly
+which of their items they are being asked about.
+:::

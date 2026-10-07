@@ -1,0 +1,141 @@
+---
+sidebar_position: 7
+sidebar_label: Entità
+---
+
+# Entità
+
+Nel menu si chiamano **Entità**. Sono i dati che il motore estrae da una frase: un prodotto, una data, un numero. L'[intento](./Intenciones) decide che cosa ha voluto dire la persona. L'entità decide quale pezzo della frase si salva.
+
+## L'elenco
+
+**Entità** apre le schede. In alto si cerca per nome. Ci sono quattro schede.
+
+![Elenco delle entità semplici, con ricerca e Nuova entità](/img/entidades/lista.png)
+
+| Scheda | Che cosa salva |
+|---|---|
+| **Semplice** | Un valore e i modi di dirlo |
+| **Composta** | Più entità insieme in una sola frase |
+| **Regex** | Un formato fisso, con un'espressione regolare |
+| **Sistema** | Quelle che TreeFlow porta già (`sys.number`, `sys.date`…) |
+
+- **Nuova entità** apre il modulo. Se sei in Composta o Regex, il tipo è già scelto.
+- Un clic sul nome apre l'editor.
+- La fascia arancione chiede conferma per eliminarla. Se un intento la sta usando, l'eliminazione avvisa.
+- **Sistema** non si elimina né si modifica.
+
+## Il modulo
+
+In alto, **Nome dell'entità** e **Tipo**. **Salva modifiche** scrive l'entità. **Svuota tutto** svuota i valori e chiede conferma.
+
+Il nome è un identificatore. Gli spazi diventano `_`. Al salvataggio resta in minuscolo e senza accenti. La `ñ` si conserva.
+
+Se l'albero ha più di una lingua, accanto al nome ci sono le lingue: ciascuna modifica i propri sinonimi.
+
+In basso c'è il **Tester dell'entità**. Serve a vedere se una frase cade in un valore, senza addestrare l'albero.
+
+## Semplice
+
+Una semplice è un elenco di valori. Ogni valore ha una **chiave** —ciò che si salva— e **sinonimi** —altri modi di dirlo—.
+
+![sabor_producto: carne, pollo, queso e il resto, ogni chiave con i suoi sinonimi](/img/entidades/simple.png)
+
+- La chiave si scrive in basso e si conferma con **Invio**. Più chiavi separate da virgola entrano insieme: `pizza, hamburguesa`.
+- In **Aggiungi sinonimo** succede lo stesso: Invio, o diversi separati da virgola.
+- Anche la chiave conta come modo di dirlo. `pizza` entra anche se non è ripetuta nei sinonimi.
+- Un clic sulla chiave o su un sinonimo lo modifica. La X del sinonimo lo toglie. Il cestino toglie l'intero valore.
+
+`quiero de queso` cade nella chiave `queso`, perché `queso` è uno dei modi di dirlo.
+
+Se in una semplice scrivi `@` per citare un'altra entità, il modulo chiede se la converti in **Composta**.
+
+## Composte {#2-entidades-compuestas}
+
+Una composta legge **più entità insieme**. `2 pizzas` è un numero e un prodotto, ed è una sola riga.
+
+Ogni riga è un modo valido di dirlo. Si scrive il pattern e si conferma con Invio.
+
+![orden: verbo, azione, quantità, categoria, gusto e servizio nella stessa riga](/img/entidades/compuesta.png)
+
+```
+@sys.number @producto
+@sys.number @producto de @sabor
+@producto
+```
+
+- `@producto` cita l'entità `producto`.
+- Le parole in mezzo, come `de`, devono stare nella frase.
+- Il motore sceglie la riga che riempie più campi.
+
+Il nome che va dopo i due punti, come `@producto:producto_pedido`, è quello del [parametro](/docs/Avanzado/Parametros).
+
+Nella riga, ogni `@` si dipinge. Il cestino toglie quella riga.
+
+## Regex {#3-entidades-regex}
+
+Una regex riconosce un formato, non un elenco di parole. Serve per un codice fiscale, una scheda, un codice.
+
+![contacto: un telefono e un'email, entrambi segnati come pattern valido](/img/entidades/regex.png)
+
+Il campo **Pattern regex** avvisa se l'espressione è valida. **Aggiungi variante** aggiunge un altro pattern: basta che uno combaci. Invio nel campo apre la variante successiva.
+
+In `contacto` ci sono due varianti: un telefono e un'email. Basta che la frase combaci con una.
+
+Nel tester di una regex, ciò che scrivi passa in maiuscolo e gli si tolgono gli spazi, per provare il formato pulito.
+
+## Tester
+
+Il tester sta nello stesso modulo. Scrivi una frase e dice se è caduta in un valore.
+
+![quiero de queso: il tester segna corrispondenza trovata](/img/entidades/probador.png)
+
+- **Valore acquisito** è la chiave che si salva.
+- **Tipo** dice se è stata esatta, normalizzata (senza accenti, simile) o dal pattern.
+- Se non ci sono ancora valori, il campo chiede di aggiungerli prima.
+- Quelle di **Sistema** non si provano qui: le rileva il motore.
+
+Il tester non sostituisce l'addestramento. Per vedere la frase dentro una conversazione, si salva, si addestra e si prova nella [console](/docs/Fundamentos/ProbarElBot).
+
+## Sistema
+
+La scheda **Sistema** sono quelle che il motore porta già. Non si creano, non si modificano e non si eliminano. In un pattern di [intento](./Intenciones) si citano con la chiocciola.
+
+Una prenotazione sta in una frase:
+
+```
+quiero mesa para @sys.number el @sys.date a las @sys.time
+```
+
+`quiero mesa para 4 el martes a las 10:30` riempie tre dati: il numero `4`, la data del martedì e l'ora `10:30`.
+
+![Le schede di Sistema: ciascuna dice che cosa riconosce](/img/entidades/sistema.png)
+
+L'icona della scheda apre gli esempi e il formato in cui esce il valore. Il tester di questa pagina non le prova: le rileva il motore durante l'addestramento.
+
+| Si cita | Una frase | Riconosce anche |
+|---|---|---|
+| `@sys.number` | quiero **3** pizzas | `45`, `3.14`, `tres`, `mil doscientos`. Esce il numero: `3` |
+| `@sys.date` | la cita es **mañana** | `10 de mayo`, `martes`, `ayer`, `2024-05-10`. Esce `AAAA-MM-DD` |
+| `@sys.time` | a las **10:30** | `10`, `3pm`, `15:45`, `a las 3`. Esce `HH:MM` |
+| `@sys.month` | en **enero** | `febrero`, `marzo`, … `diciembre`. Esce il mese `01` a `12` |
+| `@sys.email` | escríbeme a **ana@correo.com** | `contacto@empresa.mx` |
+| `@sys.phone` | mi número es **4421234567** | `+52 123 456 7890`, `442-123-4567` |
+| `@sys.currency` | son **100 pesos** | `$25.50`, `€50`, `25 dólares` |
+| `@sys.percentage` | un **25%** de descuento | `50 por ciento`, `10.5%` |
+| `@sys.quantity` | **2 kilos** de tortilla | `5 piezas`, `3.5 litros`, `10 metros` |
+| `@sys.temperature` | está a **25 grados** | `25°C`, `77°F`, `-10 celsius` |
+| `@sys.url` | la página es **https://ejemplo.com** | `http://www.sitio.mx`, `www.ejemplo.com` |
+| `@sys.zipcode` | el código es **76000** | `01000`, `44100`. Sono cinque cifre, formato del Messico |
+| `@sys.coordinates` | en **19.4326, -99.1332** | latitudine e longitudine in decimale |
+| `@sys.ip_address` | la IP **192.168.1.1** | `8.8.8.8`, `2001:0db8::1` |
+| `@sys.sip_address` | llama a **sip:usuario@dominio.com** | `sip:1234@192.168.1.1:5060` |
+| `@sys.any` | el comentario **que sea** | qualsiasi testo, fino a 100 caratteri |
+
+`sys.phone` e `sys.zipcode` sono tarati sul Messico. `sys.month` la riconosce il motore anche se la scheda non ha la sua card. La scheda mostra invece `sys.geo-city`, con esempi come Querétaro, Monterrey e Città del Messico.
+
+## Addestrare
+
+**Salva modifiche** lascia l'albero non aggiornato. I valori nuovi entrano nella conversazione quando si addestra, con il pulsante **Addestra** in basso nel menu.
+
+Un'entità entra nella frase quando un [pattern](./Intenciones) la cita.

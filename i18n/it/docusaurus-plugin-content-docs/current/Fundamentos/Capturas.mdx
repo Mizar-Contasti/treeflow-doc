@@ -1,0 +1,67 @@
+---
+sidebar_position: 9
+sidebar_label: Acquisizioni
+---
+
+# Acquisizioni
+
+Un'**acquisizione** è il modo di chiedere un dato, salvato con un nome per usarlo in più [parametri](/docs/Avanzado/Parametros). Il parametro dice quale manca. L'acquisizione dice come si chiede, che cosa rispondere se non si capisce e quante volte insistere.
+
+Sta in **Conversazione → Acquisizioni**.
+
+## L'elenco
+
+In alto si cerca per nome. **Nuova acquisizione** apre l'editor vuoto.
+
+![Elenco delle acquisizioni: Contatto, Descrizione, Scegli con pulsanti, Nome e Testo libero](/img/capturas/lista.png)
+
+- Un clic sul nome apre l'acquisizione.
+- La fascia arancione chiede conferma per eliminarla. I parametri che la usavano tornano alla propria domanda.
+
+## L'editor
+
+In alto a destra, **Salva**. La scheda si chiama **Acquisizione**.
+
+![Contatto: nome, domanda, messaggio se non si capisce, due tentativi e passaggio al parametro successivo](/img/capturas/editor.png)
+
+### Nome
+
+Così compare nell'elenco e nel parametro, quando si seleziona **Usa acquisizione definita**.
+
+### Domanda
+
+Quello che il bot dice per chiedere il dato. Il sottotitolo lo dice allo stesso modo: «Quello che il bot dice per chiedere il dato.»
+
+Il campo **Messaggio** sceglie da dove arriva:
+
+- **Messaggio personalizzato.** Il testo o i blocchi si scrivono qui, con le stesse schede di [Messaggi](./Mensajes): Default in testo, e Web con elementi avanzati se serve. `Elegir con botones` è di questo tipo: la domanda contiene pulsanti.
+- **+ Crea modello.** Crea un messaggio nell'elenco Messaggi e lo lascia selezionato.
+- Un modello che esiste già, per nome. La matita lo apre. La X lo toglie da questa acquisizione.
+
+In `Contacto` la domanda personalizzata è `¿Me das tu correo o tu teléfono?`.
+
+### Se non si capisce
+
+Che cosa risponde quando la risposta non riempie il dato, e che cosa fa quando i tentativi sono esauriti. Il messaggio si sceglie come la domanda: personalizzato o modello.
+
+In `Contacto`: `Necesito un correo o un número de teléfono.`
+
+**Tentativi max.** Quante volte si ripete quel messaggio prima dell'azione di limite. In `Contacto` sono 2.
+
+**Azione al superamento del limite.**
+
+| Azione | Che cosa fa |
+|---|---|
+| Passa al parametro successivo | Lascia questo e chiede un altro che manca |
+| Rispondi anche se manca il valore | Continua con quello che c'è |
+| Vai al nodo di contesto | Abbandona la domanda e torna al flusso |
+
+Nella domanda e nel messaggio di «se non si capisce» ci stanno le [funzioni](/docs/Avanzado/Funciones): `{$nombre}`.
+
+## Nel parametro
+
+L'acquisizione non parte da sola. Nell'[intento](./Intenciones), il parametro è segnato **Obbligatorio** e, nelle sue impostazioni, **Usa acquisizione definita**. Lì si sceglie il nome. La matita apre questa stessa acquisizione. La X la stacca da quel parametro.
+
+Con l'acquisizione impostata, la domanda, il «se non si capisce» e i tentativi arrivano da qui. Quei campi non si modificano più nel parametro.
+
+**Dimentica questo valore quando si ricade in questo intento** resta nel parametro, non nell'acquisizione. Ogni volta che l'intento si attiva, quel dato si svuota e va chiesto di nuovo.

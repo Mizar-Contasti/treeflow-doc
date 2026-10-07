@@ -1,0 +1,121 @@
+---
+sidebar_position: 6
+sidebar_label: Help desk
+---
+
+# Help Desk and Transfer to Human
+
+A bot does not resolve everything. The **Help Desk** is the application where a person takes the conversation when the bot hands it off: they see the queue of chats that are waiting, talk with the visitor in real time and, when finished, close the chat or hand it back to the bot.
+
+## How a conversation reaches the Help Desk
+
+```
+Visitante ──► Bot ──► (pide un humano) ──► Cola de la Mesa de Ayuda ──► Operador
+                                              pending_human            human_active
+```
+
+1. The visitor writes something that fires an intent with **transfer to human** (*"I want to talk to an agent"*).
+2. The bot replies with the transfer message (*"I'll connect you with someone on the team"*) and the conversation **enters the queue on that same turn**.
+3. An operator **claims** it: the chat is now handled by a person and the bot stops replying.
+4. The visitor and the operator talk in real time. Each message is stored in the history, marked with who wrote it.
+5. The operator **closes** the chat or **returns it to the bot**, which picks the conversation back up.
+
+:::info For now, the Web channel
+The live conversation between operator and visitor works on the [web widget](/docs/Canales/Web/setup): the operator types in the Help Desk and the widget receives it over WebSocket. To reply from an external help desk there is an inbound reply endpoint (see [below](#helpdesk-externo)).
+:::
+
+## Set up the transfer on a tree
+
+### 1. Mark the intent as a transfer
+
+In the node editor, the intent that should hand off to a person uses **Transfer to a human agent** as its **Transition**. It is the same dropdown used for any other transition, so the canvas draws and edits it like the rest.
+
+:::tip Only the one that should hand off
+Mark only the intent for asking for a human. If you apply the transfer to others, the bot will hand off even when the customer says hello.
+:::
+
+The **Restaurante** template already has this done: its `hablar_con_asesor` intent (24 training phrases and the `accion_transferencia` entity) points at the transfer and seeds an active configuration.
+
+### 2. Adjust the transfer (optional)
+
+Under **Tools → Transfers** you create a tree's transfer configurations:
+
+| Field | What it is for |
+|---|---|
+| **Transfer message** | What the bot says when handing off. Default: *"We're connecting you with a human agent..."* |
+| **The agent will no longer listen to the conversation** | With this on (the default) the bot stays paused while the conversation is with a person, so it does not interfere with the operator. The visitor's messages are saved and reach the operator |
+| **Save the widget conversation** | Keeps the human agent's reply messages in the widget history, even without the agent stepping in |
+| **Send the full conversation history** and its format (`json`, `text`, `markdown`) | Which history travels to the external system, if there is one |
+| **Endpoint URL**, token, and headers | Only for pushing the conversation to an external system. The internal Help Desk does **not** use it |
+| **Active** | The engine uses the tree's first active configuration (or the one the intent sets) |
+
+If the tree has no configuration, the transfer still works with the default message.
+
+:::note The template endpoint
+Templates seed the configuration with a URL under the reserved `.invalid` domain, which never resolves. It is a placeholder: if you want to send conversations to an external system, replace it with yours. For the internal Help Desk you do not need to touch it.
+:::
+
+## The application
+
+In the menu it is under **Operations → Help desk**. **Live inbox** has Waiting, My chats, and All. **History** is what is already closed.
+
+![Help desk: the live inbox, empty](/img/operacion/mesa.png)
+
+- **Waiting** are the ones nobody has claimed.
+- **My chats** are the ones belonging to the person looking.
+- When you pick one, the history is on the right and you write to the visitor.
+
+The operator claims, replies, closes, or returns the conversation to the bot.
+
+### Operations dashboard (administrators)
+
+This is an administrator's default view and summarizes how the workspace is operating:
+
+| Indicator | What it counts |
+|---|---|
+| **Operators online** | How many of the workspace's operators are connected |
+| **Waiting** | Chats waiting for someone to claim them |
+| **Handled by a person** | Active chats with an operator |
+| **Handled by the bot** | Chats the bot is still carrying |
+| **Resolved today** | Chats closed during the day |
+
+Below that, **each operator's status** (online, how many chats they have, when they were last seen) and the **load per bot**.
+
+## Roles and access
+
+Access depends on the role **and** on where you enter:
+
+| Role | Main panel | Help Desk |
+|---|---|---|
+| **Administrator** | ✅ | ✅ (includes the dashboard) |
+| **Developer** | ✅ | ✅ |
+| **Operator** | ❌ | ✅ |
+| **Viewer** | ✅ (read only) | ❌ |
+
+- An **operator** who tries to enter through the main panel gets a notice telling them to use the Help Desk.
+- A **viewer** cannot operate chats.
+
+## External help desk {#helpdesk-externo}
+
+If you handle conversations from your own system instead of TreeFlow's Help Desk, your system can reply to the visitor by calling:
+
+```http
+POST /api/live-chat/external-reply
+Content-Type: application/json
+
+{
+  "tree_id": "…",
+  "session_id": "…",
+  "agent_name": "Ana, de soporte",
+  "message": "Hola, ya reviso tu pedido."
+}
+```
+
+The message is stored in the conversation, marked as written by the agent, and reaches the visitor's widget in real time. If the conversation was still waiting, it becomes *handled*.
+
+## Best practices
+
+1. **Say what happens next**: customize the transfer message (*"I'll pass you to a person; it usually takes a few minutes"*).
+2. **Offer a way back to the bot**: if the operator resolves something quickly, returning the conversation to the bot keeps the visitor from waiting in a chat that nobody closes.
+3. **Test the full path**: ask for a human from the widget, claim it from the Help Desk, and exchange a couple of messages before you publish it.
+4. **Train after changing the intent**: remember that changing phrases on the transfer intent requires [retraining](/docs/Avanzado/Entendimiento).

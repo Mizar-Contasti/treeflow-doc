@@ -1,0 +1,86 @@
+---
+sidebar_position: 99
+sidebar_label: Cronologia
+description: Modifiche, addestramenti e le esecuzioni di script, API e webhook.
+---
+
+# Cronologia
+
+**Gestione → Cronologia** è quello che è già successo nell'albero che hai selezionato in alto a sinistra. Il registro delle versioni del prodotto è nella [cronologia delle modifiche](/docs/changelog). Le copie dell'albero non stanno qui: sono in [Backup](/docs/Avanzado/ImportarExportar).
+
+Tre schede: **Modifiche**, **Addestramenti** e **Integrazioni**. Ognuna ha la sua ricerca, i suoi filtri e l'icona dell'orologio per richiedere di nuovo l'elenco. Sul telefono la ricerca sale nell'intestazione.
+
+## Modifiche
+
+Chi ha creato, modificato, cancellato, attivato o disattivato qualcosa, e quando.
+
+![Modifiche di Cafetería: un canale aggiornato e l'albero creato, con tipo, azione e persona](/img/historial/cambios.png)
+
+Ogni riga porta:
+
+- L'**azione**, in una pillola. Creato e Aggiornato vanno in verde, Attivato in blu, Eliminato e Disattivato in rosso.
+- L'**albero**. Se la modifica è di un utente o del workspace, quella colonna dice Utente o Workspace e il nome.
+- Il **tipo**: Albero, Flusso, Intento, Entità, Messaggio, Canale, Utente o Workspace. Possono comparire anche Contesto, Evento, Addestramento o Conversazione, anche se il filtro del tipo non li elenca.
+- L'**autore**. Se l'ha fatto l'agente, la riga dice che è stato l'agente e il nome di chi l'ha confermato.
+- La **data** e **Vedi dettagli**, a destra.
+
+In alto si filtra per tipo, azione e persona, e si cerca per il nome di quello che è cambiato o per la persona. L'elenco porta fino a 500 modifiche dell'albero e le mostra venti alla volta.
+
+Un nodo della tela non ha una riga propria. Spostarlo o modificare il suo testo lì non compare. Compare il messaggio, il flusso, l'intento, l'entità o il canale se quello è stato salvato a parte.
+
+### Il dettaglio
+
+**Vedi dettagli** apre il prima e il dopo, fianco a fianco.
+
+![Il canale web è passato da un oggetto vuoto a enabled true. Prima in giallo, dopo in verde](/img/historial/cambio-detalle.png)
+
+- **Informazioni generali**, chiusa. Porta l'azione, il tipo, il nome, la data e l'origine: una persona, oppure l'agente e chi l'ha operato.
+- **Modifiche effettuate**. Conta quanti campi sono stati modificati, aggiunti, eliminati o rimasti uguali.
+- **Prima** va a sinistra, in giallo. **Dopo** va a destra, in verde.
+- **Vedi tutto** mostra l'oggetto completo. **Solo modifiche** lascia le righe che differiscono.
+- Le frecce espandono o chiudono gli oggetti. **Copia prima** e **Copia dopo** portano il JSON negli appunti.
+- L'icona degli angoli mette il riquadro a schermo intero.
+- **Metadati aggiuntivi**, chiusa, è il JSON extra di quel registro: per esempio che l'ha scritto l'agente.
+
+## Addestramenti
+
+Ogni volta che si preme **Addestra**.
+
+![Un addestramento di Cafetería: Terminato, modalità Base, 2.0 s, il 3 ottobre](/img/historial/entrenamientos.png)
+
+La scheda dice:
+
+- **Terminato** (verde), **In corso** o **Annullato**.
+- **Base** o **Pro**.
+- L'albero, chi l'ha avviato, quanto ha impiegato e a che ora è iniziato.
+
+In alto si filtra per modalità (Base o Pro), per stato e per date **Da** e **A**. La ricerca guarda l'utente, la modalità e le note. Dieci alla volta. Al termine di un addestramento, questo elenco si aggiorna da solo.
+
+Un clic sulla scheda, o su **Vedi dettagli**, apre il registro.
+
+![Dettaglio: Cafetería, Admin principale, Terminato, Base (TF-IDF), due fasi e 27 intenti con 52 entità](/img/historial/entrenamiento-detalle.png)
+
+- **Informazioni generali**: albero, utente, data di inizio, durata, stato e modalità. Base si annota come TF-IDF. Pro, come spaCy NER + SVM.
+- **Timeline delle fasi**. Base ne ha due: generare i dati degli intenti e generare i dati NER. Ognuna mostra i suoi secondi. Pro ne percorre quattro.
+- **Modifiche applicate**, in tre schede:
+  - **Riepilogo**: quanti intenti e quante entità sono entrati in quell'esecuzione, e il tempo totale.
+  - **Intenti**: ognuno con il numero di frasi. Aprendolo si vedono le frasi.
+  - **Entità**: ognuna con i suoi valori.
+
+![Gli intenti di quell'esecuzione: saludo con 23 frasi, consultar_horario con 20, hacer_pedido con 13](/img/historial/entrenamiento-intenciones.png)
+
+Se lo stato è **Annullato** e c'è un motivo, il riquadro lo mostra in basso, in rosso. Il pulsante **Addestra** del menu è quello che lancia l'esecuzione; qui si consulta soltanto.
+
+## Integrazioni
+
+Le volte in cui uno script, un'API o il webhook **sono stati eseguiti** in una conversazione. Non è la cronologia di chi ha modificato lo strumento: quella, se è stata registrata, sta in **Modifiche**.
+
+![Integrazioni di Cafetería, ancora senza esecuzioni](/img/historial/integraciones.png)
+
+Se l'albero non ne ha ancora chiamata nessuna, la schermata dice: «Non ci sono ancora esecuzioni di integrazioni registrate per questo albero.»
+
+Quando ci sono righe, ognuna porta il nome dello strumento, **OK** o il codice di errore, i millisecondi e la data. Si filtra per **Riusciti** o **Errori**, e per date. La ricerca guarda il nome e il testo dell'errore. Venti alla volta.
+
+Un clic apre il dettaglio: lo stato, il tempo, la data, il messaggio di errore se c'è stato, i **parametri di ingresso** che sono stati inviati e le **uscite** che sono tornate. Se un'uscita non è stata configurata, quella sezione resta vuota.
+
+Per un amministratore, lo stesso errore si può guardare anche in [Diagnostica](/docs/Avanzado/Diagnosticos).

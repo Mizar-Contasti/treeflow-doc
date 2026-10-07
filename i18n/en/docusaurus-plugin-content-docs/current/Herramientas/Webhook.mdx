@@ -1,0 +1,38 @@
+---
+sidebar_position: 4
+sidebar_label: Webhook
+description: The tree's only URL. You edit it like an API, and a node calls it with a switch.
+---
+
+# Webhook
+
+The **Webhook** tab has no search box and no create button. There is a single card, **Webhook**. It cannot be deleted and it cannot be duplicated. It does not appear in **Add tool…**: the node requests it separately.
+
+![The Webhook tab, with a single card](/img/herramientas/webhook-lista.png)
+
+## The editor
+
+It opens the same way as an API. The **name** is fixed as Webhook. The default description is "Main system webhook". The method is **POST** and the default timeout is **30000** ms. Authentication can stay at none, or switch to Basic or Bearer.
+
+![Webhook: POST, 30000 ms, empty body, and the {$variable} notice](/img/herramientas/webhook-editor.png)
+
+The **URL** has to start with `http://` or `https://`. Empty, or with the switch off, the engine calls nothing. The switch is in the editor header, next to **Save changes**.
+
+The body is JSON. The notice in that box shows how to insert data:
+
+```
+{$variable}
+{ $valor ? 'Sí' : 'No' }
+```
+
+**Input** and **Output** work as they do in an [API](./Apis): what the body will read, and what you want to save from the response. **Tests** makes the call. **Deploy** marks it. An on switch and an http(s) URL are enough for the node to use it: the status on the screen does not replace that.
+
+**Message if it fails** is what the person sees if that URL does not respond and there is no fallback value.
+
+## When it runs
+
+On the node, **Functionality** tab, **Call webhook on this node**. If it is on, the engine calls this URL when the conversation passes through, after the scripts and before the APIs on that node. If the tree has no active webhook, the switch does nothing.
+
+The context, the intent, and the event can carry it. If the source node and the destination node both request it, it is called once, and the destination node's call is the one that counts.
+
+This is not a channel webhook. The platform (Meta, Slack, Discord) configures that one to deliver messages to TreeFlow, and it lives in [Channels](/docs/Canales/CanalesDeComunicacion).

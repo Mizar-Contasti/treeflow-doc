@@ -1,0 +1,52 @@
+---
+sidebar_position: 3
+sidebar_label: Demander une donnée manquante
+---
+
+# Demander une donnée manquante
+
+Dans Cafetería, « je veux des empanadas » n'apporte pas la saveur. Le bot n'invente pas la commande : il demande ce qui manque et il attend.
+
+## D'où vient la question
+
+Ouvrez **Intentions** et entrez dans `hacer_pedido`. En bas se trouvent les paramètres : la donnée, et l'entité dont elle sort.
+
+![Paramètres de hacer_pedido](/img/intenciones/parametros.png)
+
+L'engrenage ouvre **Réglages du paramètre**. Avec **Requis** coché, si la valeur n'est pas venue dans la phrase, le bot la demande avant de continuer.
+
+![Réglages du paramètre : requis, la question et la limite de tentatives](/img/intenciones/ajustes.png)
+
+Au même endroit, on écrit la **Question** et le texte de **Si ce n'est pas compris**, combien de fois insister et quoi faire quand les tentatives sont épuisées : passer à la donnée suivante, répondre avec ce qu'il y a, ou revenir au contexte.
+
+**Utiliser une capture définie** tire ces trois textes d'une capture nommée, pour répéter la même question dans plusieurs intentions. Le paramètre choisit seulement laquelle.
+
+## La capture
+
+**Conversation → Captures**. **Nouvelle capture** ouvre l'éditeur vide.
+
+![Liste des captures](/img/capturas/lista.png)
+
+`Contacto` demande un e-mail ou un téléphone, avertit si ce n'est pas compris, insiste deux fois et, si les tentatives sont épuisées, passe au paramètre suivant.
+
+![Contacto : question, si ce n'est pas compris, et deux tentatives](/img/capturas/editor.png)
+
+Au restaurant, la question de la quantité utilise ce qui a déjà été capturé. Le `$` est la variable :
+
+```
+¿Cuántas {$categoria_producto}s de {$sabor_producto} te preparo?
+```
+
+![Question de quantité, avec la catégorie et la saveur](/img/funciones/pregunta.png)
+
+**Enregistrer**. Une capture ou une question se lit sur le moment : il n'est pas nécessaire d'entraîner pour le texte. Il faut entraîner si vous avez créé le paramètre ou changé l'entité.
+
+## L'essayer
+
+Dans la console, flux **Restaurante**. Écrivez `quiero empanada`. Si la saveur n'est pas encore là, la question nomme la catégorie qui, elle, est venue.
+
+![La console substitue la catégorie : de quelle saveur voulez-vous une empanada ?](/img/funciones/consola.png)
+
+Activez le mode debug. Un paramètre vide est la donnée que le tour suivant devrait demander. Si le bot ne pose pas la question, le paramètre n'est pas en requis ou la capture n'a pas de question.
+
+Quand les données sont là, le nœud envoie le message de la commande. Le détail est dans [Captures](/docs/Fundamentos/Capturas) et dans [Paramètres](/docs/Avanzado/Parametros).

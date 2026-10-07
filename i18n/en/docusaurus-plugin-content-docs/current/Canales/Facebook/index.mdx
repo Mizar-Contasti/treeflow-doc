@@ -1,0 +1,50 @@
+---
+sidebar_position: 1
+---
+
+# Facebook Messenger
+
+Connect your bot to Messenger for a **Facebook page**. It is a **Beta** channel.
+
+![The Facebook Messenger screen in Channels: the URL for Meta and the page credentials](/img/canales/facebook.png)
+
+## What you need from Meta
+
+A Facebook page and an app in [Meta for Developers](https://developers.facebook.com/) with the **Messenger** product.
+
+| Field in TreeFlow | Where it comes from |
+|---|---|
+| **Facebook Page ID** | The numeric ID of your page |
+| **Verify Token** | You choose it: any text |
+| **Page Access Token** | The page token, with the messaging permission (*messaging*) |
+| **App Secret** | Your app → Settings → Basic → App secret |
+
+The **App Secret** lets TreeFlow check that each message really comes from Meta. Without it, TreeFlow does not reply.
+
+## Turn it on
+
+1. Choose your bot in the selector at the top left.
+2. Open **Integration → Channels → Facebook Messenger**.
+3. **Step 1.** Copy the **Callback URL** and paste it in your Meta app → Messenger → Settings → Webhooks. In Meta's **Verify token** field, enter the same value you will put in TreeFlow.
+4. In Meta, subscribe the page to the **messages** and **messaging_postbacks** events.
+5. **Step 2.** Fill in Facebook Page ID, Verify Token, Page Access Token, and App Secret.
+6. Click **Save and Integrate Facebook**. The channel is turned on.
+
+The **ON/OFF** switch at the top turns it off and on without deleting what is saved.
+
+## What the bot sends
+
+Text, **cards** (generic template, including as a carousel), and **quick replies**.
+
+When someone taps a button or a quick reply, the bot receives what that button carries, not the text shown on it.
+
+:::note One page, one bot
+The bot that replies is the one you had selected when you saved. The same Facebook page cannot be registered in two workspaces.
+:::
+
+## If it does not reply
+
+- The switch is **ON**.
+- Meta's **Verify Token** is identical to the one in TreeFlow.
+- The **Page ID** is the page that receives the messages.
+- The **App Secret** belongs to the same app that sends the messages.

@@ -1,0 +1,31 @@
+---
+sidebar_position: 6
+sidebar_label: Knowledge base
+description: A two-column CSV that creates a flow, an intent, and a message per row, without a model.
+---
+
+# Knowledge base
+
+The **Knowledge base** tab builds a flow from a file, without a model. The screen calls it **Deterministic Knowledge Base (CSV 1:1)** and marks it **No AI (Free & Exact)**.
+
+![Knowledge base: the flow name, the two checkboxes, and the area where you drop the CSV](/img/herramientas/base-conocimiento.png)
+
+## The file
+
+CSV or TSV. Two columns.
+
+| Column 1 | Column 2 |
+|---|---|
+| The phrase, which becomes the intent | The message the bot replies with |
+
+**Skip first row (column header)** is on by default: the first line is not imported. **Remove accents from phrases/replies** normalizes the text before creating the intents. Off, the accents stay.
+
+**Flow name (Branch) to create in the bot** is the new path. The field example is "Shipping FAQs". Each row becomes an intent in that flow, with its message attached. The screen subtitle says so: column 1 is the phrase and column 2 is the message.
+
+## Import
+
+Drag the file onto the dotted area, or click to browse for it. The **Create Flow and Import Sheets (CSV)** button turns on when there is a file. It processes the rows and draws the flow.
+
+**Train Bot Now** starts training so those phrases enter the console. Without training, the flow is created and the engine keeps the previous training.
+
+Below, **Registered knowledge intents** lists what has already been imported in this tree. If there is nothing yet, the notice asks you to select a file. You can upload another one, with a different flow name: it does not overwrite the previous one.

@@ -1,0 +1,8 @@
+{
+  "label": "Web",
+  "position": 2,
+  "link": {
+    "type": "generated-index",
+    "description": "Le widget web : l'activer, l'intention à l'ouverture, l'apparence et le contrôle depuis la page."
+  }
+}

@@ -1,0 +1,46 @@
+---
+sidebar_position: 5
+sidebar_label: Une réponse pour le web
+---
+
+# Une réponse pour le web
+
+Chaque message a deux sortes d'onglets. **Default** est toujours là : c'est du texte, et c'est ce qui sort quand le canal n'a pas de version propre. **Web** apparaît quand le canal web est connecté. Là, le bloc est fait d'éléments enrichis, et seule la personne qui écrit sur le web le voit.
+
+## Le texte de Default
+
+**Messages** → `restaurante_saludo_response`. Dans **Default**, le type est **Texte**. Le champ s'appelle **Texte de la réponse**.
+
+![Default : la salutation en texte](/img/mensajes/editor.png)
+
+Gras, italique et souligné marquent la sélection avec `**`, `*` et `__`. **Enregistrer les modifications** revient à la liste.
+
+![La liste des messages](/img/mensajes/lista.png)
+
+## L'onglet Web
+
+Passez à **Web**. Le type est **Éléments enrichis**. **Ajouter un élément** ajoute un paragraphe, une image, des boutons, une carte ou un carrousel. On les réordonne en les faisant glisser.
+
+![Web : un bloc avec une image](/img/mensajes/web.png)
+
+| Élément | À quoi il sert |
+|---|---|
+| Paragraphe | Le texte. Il peut y en avoir plusieurs dans le même élément |
+| Image | Une URL et le texte alternatif |
+| Boutons | Chacun avec une étiquette et une action |
+| Carte | Titre, sous-titre, image et boutons |
+| Carrousel | Plusieurs cartes, l'une à côté de l'autre |
+
+Un bouton peut envoyer du texte (c'est ce qu'écrit la personne), ouvrir une URL ou déclencher un événement. Dans le paragraphe, une fonction tient : `{$nombre}`.
+
+S'il y a deux blocs dans le même onglet, le bot en choisit un au hasard. Un bloc vide ne part pas.
+
+## La voir dans la console
+
+Ouvrez la console et mettez le second bouton sur **Web**. `hola` doit afficher le bloc de l'onglet Web.
+
+![La console, avec le canal au-dessus du chat](/img/testeo/consola.png)
+
+Si le paragraphe de Default sort, l'onglet Web de ce message est vide, ou le canal de la console est encore sur **Par défaut**.
+
+Le catalogue d'éléments est dans [Messages](/docs/Fundamentos/Mensajes). Le code pour coller le chat sur un site est dans [Configuration du widget web](/docs/Canales/Web/setup).

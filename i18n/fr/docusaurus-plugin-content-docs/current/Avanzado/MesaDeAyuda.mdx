@@ -1,0 +1,121 @@
+---
+sidebar_position: 6
+sidebar_label: Service d'assistance
+---
+
+# Service d'assistance et transfert vers un humain
+
+Un bot ne résout pas tout. Le **service d'assistance** (helpdesk) est l'application où une personne prend la conversation lorsque le bot la lui confie : elle voit la file des chats qui attendent, parle au visiteur en temps réel et, en terminant, ferme le chat ou le rend au bot.
+
+## Comment une conversation arrive au service d'assistance
+
+```
+Visitante ──► Bot ──► (pide un humano) ──► Cola de la Mesa de Ayuda ──► Operador
+                                              pending_human            human_active
+```
+
+1. Le visiteur écrit quelque chose qui active une intention avec **transfert vers un humain** (*« je veux parler à un conseiller »*).
+2. Le bot répond par le message de transfert (*« Je vous mets en relation avec une personne de l'équipe »*) et la conversation **entre dans la file dans ce même tour**.
+3. Un opérateur la **réclame** : le chat passe à être pris en charge par une personne et le bot cesse de répondre.
+4. Le visiteur et l'opérateur conversent en temps réel. Chaque message reste dans l'historique, marqué avec qui l'a écrit.
+5. L'opérateur **ferme** le chat ou le **rend au bot**, qui reprend la conversation.
+
+:::info Pour l'instant, le canal Web
+La conversation en direct entre l'opérateur et le visiteur fonctionne sur le [widget web](/docs/Canales/Web/setup) : l'opérateur écrit dans le service d'assistance et le widget le reçoit par WebSocket. Pour répondre depuis un helpdesk externe, il y a un endpoint de réponse entrante (voir [plus bas](#helpdesk-externo)).
+:::
+
+## Configurer le transfert dans un arbre
+
+### 1. Marquer l'intention comme transfert
+
+Dans l'éditeur de nœuds, l'intention qui doit confier à une personne porte comme **Transition** l'option *Transfert vers un agent humain*. C'est le même menu déroulant que pour n'importe quelle autre transition, donc le canevas la dessine et l'édite comme le reste.
+
+:::tip Seulement celle qui doit confier
+Marquez uniquement l'intention de demander un humain. Si vous appliquez le transfert à d'autres, le bot confiera même lorsque le client salue.
+:::
+
+Le modèle de **Restaurante** l'apporte déjà fait : son intention `hablar_con_asesor` (24 phrases d'entraînement et l'entité `accion_transferencia`) pointe vers le transfert et sème une configuration active.
+
+### 2. Régler le transfert (facultatif)
+
+Dans **Outils → Transferts** se créent les configurations de transfert d'un arbre :
+
+| Champ | À quoi il sert |
+|---|---|
+| **Message de transfert** | Ce que dit le bot en confiant. Par défaut : *« Nous vous mettons en relation avec un conseiller humain... »* |
+| **L'agent n'écoutera plus la conversation** | Avec ceci actif (par défaut), le bot reste en pause tant que la conversation est avec une personne, pour ne pas gêner l'opérateur. Les messages du visiteur sont gardés et arrivent à l'opérateur |
+| **Garder la conversation du widget** | Maintient dans l'historique du widget les messages de réponse du conseiller humain, même sans intervention de l'agent |
+| **Envoyer l'historique complet de la conversation** et son format (`json`, `text`, `markdown`) | Quel historique voyage vers le système externe, s'il y en a un |
+| **URL de l'endpoint**, jeton et en-têtes | Seulement pour pousser la conversation vers un système externe. Le service d'assistance interne ne l'utilise **pas** |
+| **Active** | Le moteur utilise la première configuration active de l'arbre (ou celle que fixe l'intention) |
+
+Si l'arbre n'a aucune configuration, le transfert fonctionne quand même avec le message par défaut.
+
+:::note L'endpoint des modèles
+Les modèles sèment la configuration avec une URL sous le domaine réservé `.invalid`, qui ne résout jamais. C'est un marqueur : si vous voulez envoyer les conversations vers un système externe, remplacez-la par la vôtre. Pour le service d'assistance interne, il n'est pas nécessaire d'y toucher.
+:::
+
+## L'application
+
+Dans le menu, c'est dans **Exploitation → Service d'assistance**. **Boîte en direct** a En attente, Mes chats et Tous. **Historique** est ce qui est déjà fermé.
+
+![Service d'assistance : la boîte en direct, vide](/img/operacion/mesa.png)
+
+- **En attente** sont celles que personne n'a réclamées.
+- **Mes chats** sont celles de la personne qui regarde.
+- En en choisissant une, à droite se trouve l'historique et on écrit au visiteur.
+
+L'opérateur réclame, répond, ferme ou rend la conversation au bot.
+
+### Tableau de bord des opérations (administrateurs)
+
+C'est la vue par défaut d'un administrateur et il résume l'exploitation du workspace :
+
+| Indicateur | Ce qu'il compte |
+|---|---|
+| **Opérateurs en ligne** | Combien des opérateurs du workspace sont connectés |
+| **En attente** | Des chats qui attendent que quelqu'un les réclame |
+| **Pris en charge par une personne** | Des chats actifs avec un opérateur |
+| **Pris en charge par le bot** | Des chats que le bot continue de mener |
+| **Résolus aujourd'hui** | Des chats fermés dans la journée |
+
+En dessous, l'**état de chaque opérateur** (en ligne, combien de chats il porte, quand on l'a vu pour la dernière fois) et la **charge par bot**.
+
+## Rôles et accès
+
+L'accès dépend du rôle **et** de par où l'on entre :
+
+| Rôle | Tableau de bord principal | Service d'assistance |
+|---|---|---|
+| **Administrateur** | ✅ | ✅ (comprend le tableau de bord) |
+| **Développeur** | ✅ | ✅ |
+| **Opérateur** | ❌ | ✅ |
+| **Lecteur** | ✅ (lecture seule) | ❌ |
+
+- Un **opérateur** qui essaie d'entrer par le tableau de bord principal reçoit un avis qui lui indique d'utiliser le service d'assistance.
+- Un **lecteur** ne peut pas opérer les chats.
+
+## Helpdesk externe {#helpdesk-externo}
+
+Si vous répondez depuis un système propre au lieu du service d'assistance de TreeFlow, votre système peut répondre au visiteur en appelant :
+
+```http
+POST /api/live-chat/external-reply
+Content-Type: application/json
+
+{
+  "tree_id": "…",
+  "session_id": "…",
+  "agent_name": "Ana, de soporte",
+  "message": "Hola, ya reviso tu pedido."
+}
+```
+
+Le message est gardé dans la conversation, marqué comme écrit par l'agent, et arrive au widget du visiteur en temps réel. Si la conversation était encore en attente, elle passe à *prise en charge*.
+
+## Bonnes pratiques
+
+1. **Annoncez ce qui se passe ensuite** : personnalisez le message de transfert (*« Je vous passe à une personne ; cela prend d'habitude quelques minutes »*).
+2. **Offrez une sortie vers le bot** : si l'opérateur résout quelque chose vite, rendre la conversation au bot évite de laisser le visiteur attendre dans un chat que personne ne ferme.
+3. **Testez le parcours complet** : demandez un humain depuis le widget, réclamez-le depuis le service d'assistance et échangez quelques messages avant de le publier.
+4. **Entraînez après avoir changé l'intention** : modifier les phrases de l'intention de transfert exige de [réentraîner](/docs/Avanzado/Entendimiento).

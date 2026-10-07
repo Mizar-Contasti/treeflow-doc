@@ -1,0 +1,81 @@
+---
+sidebar_position: 10
+sidebar_label: Testar o bot
+---
+
+# Testar o bot
+
+O botão laranja embaixo à direita abre o **console**. É um chat com a árvore, sem publicá-la. Tem três abas: **Console**, o chat de teste; **Agente**, o que modifica a árvore com uma chave do workspace; e **Construtor**, para montar turnos de usuário e de bot. Esta página é a aba Console e o modo debug.
+
+O treinamento se lança com o raio do menu, **Treinar**. Se a árvore nunca foi treinada, o console avisa e o campo de texto fica desligado. Se já foi treinada e depois você mudou intenções ou entidades, dá para continuar falando: responde com o último treinamento, até você treinar de novo.
+
+![O console aberto: o fluxo, o canal e o campo para escrever](/img/testeo/consola.png)
+
+## A barra
+
+Em cima do chat há uma barra.
+
+- **Padrão**, o primeiro botão, é o fluxo de partida. Escolha outro fluxo e a conversa reinicia ali.
+- **Padrão** ou **Web**, o segundo, é o canal. O bot manda a variante de [mensagem](./Mensajes) desse canal. Se essa aba estiver vazia, manda Default. WhatsApp, Telegram e o resto só aparecem se o canal estiver conectado.
+- A bandeira, **Executar intenção no início**, escolhe uma intenção ou um evento ancorado no começo do fluxo. Cada vez que você começa ou reinicia, ela dispara sozinha.
+- O inseto liga o **modo debug**.
+- O ícone de copiar guarda o link desta conversa. Ativa quando já há um turno.
+- A seta para trás desfaz o último turno.
+- A seta circular reinicia a conversa.
+
+Embaixo se escreve, ou se usa o microfone. Um botão da mensagem do bot também conta como turno: se o botão envia texto, abre uma URL ou dispara um evento, o console faz isso.
+
+## Um turno
+
+Você escreve e acontece isto, em ordem:
+
+1. O motor olha o fluxo em que você está e a frase.
+2. Escolhe uma [intenção](./Intenciones), ou não reconhece nada.
+3. Extrai os [parâmetros](/docs/Avanzado/Parametros) com as [entidades](./Entidades).
+4. Se faltar um dado obrigatório, pergunta com o texto do parâmetro ou com a [captura](./Capturas), e espera. Esse turno ainda não chega à resposta final.
+5. Quando os dados estão, roda as ferramentas do nó, se houver, e manda a mensagem desse nó para o canal escolhido.
+
+Sua frase sai na bolha laranja. A do bot é a resposta. Se você clicou num botão, a bolha mostra o rótulo, não o valor oculto.
+
+![hola e a resposta do bot no console](/img/testeo/turno.png)
+
+## Modo debug
+
+O inseto fica amarelo. O turno deixa de ser só duas bolhas e mostra como foi decidido.
+
+![Modo debug: a intenção, a confiança, o método, e o nó marcado no fluxo](/img/testeo/debug.png)
+
+Antes da resposta do bot aparece uma linha:
+
+`intención · confianza · cómo coincidió`
+
+A confiança é uma porcentagem. O terceiro dado é o método: entidade, padrão, modelo, ou `no_match` se não reconheceu a frase. Se for `no_match`, a linha se marca. Ao abri-la estão os **parâmetros** e o valor de cada um. Um valor vazio é um dado que ainda não veio: o turno seguinte deveria perguntá-lo.
+
+Se o nó chamou uma ferramenta, o cartão dela aparece ali, na ordem em que rodou, antes da mensagem. Se a conversa passou para uma pessoa, não há bolha do bot: no debug se vê para quem chegou.
+
+Um clique na sua bolha abre o **request**, o que foi enviado. Um clique na do bot abre o **response**, o que o motor respondeu. O quadro tem quatro vistas. **Tudo** é a que fica ao abrir.
+
+| Vista | O que deixa |
+|---|---|
+| Tudo | o JSON completo |
+| Parameters | `parameters` e `session_parameters` |
+| Messages | o texto da pessoa ou a resposta do bot |
+| Metadata | o resto: intenção, tempos, sessão, ferramentas, sentimento |
+
+A busca e copiar usam a vista que estiver aberta. Com o quadro aberto, Ctrl+F vai a essa busca.
+
+![Detalhes da sessão: o response, com a intenção, os parâmetros e o texto](/img/testeo/detalle.png)
+
+Na web e no tablet, a borda esquerda do console se arrasta e se alarga. Ao sair do debug volta à largura. No telefone o painel já ocupa a tela.
+
+Ligar o debug abre o [fluxo](./Flujos) que está em execução. A tela marca o nó deste turno e o caminho já percorrido. Um turno novo continua marcando a tela se você já estiver nela.
+
+O lápis do turno abre essa intenção para editá-la.
+
+## O que revisar
+
+- O nome da intenção. Se não for a que você esperava, o padrão ou a ordem de [entendimento](./Arboles) está decidindo outra.
+- `no_match`. A frase não entrou em nenhuma intenção do fluxo.
+- Os parâmetros. Se faltar um e o bot não perguntar, o parâmetro não está em obrigatório ou a captura não tem pergunta.
+- A resposta. Se você escolheu Web e sai o texto de Default, a aba Web dessa mensagem está vazia.
+- Depois de mudar intenções ou entidades, treinar de novo. Uma mensagem ou uma captura se leem na hora: salvar já basta.

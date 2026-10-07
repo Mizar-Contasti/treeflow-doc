@@ -1,0 +1,38 @@
+---
+sidebar_position: 4
+sidebar_label: Webhook
+description: La seule URL de l'arbre. On l'édite comme une API et un nœud la demande avec un interrupteur.
+---
+
+# Webhook
+
+L'onglet **Webhook** n'a ni champ de recherche ni bouton de création. Il n'y a qu'une seule carte, **Webhook**. On ne la supprime pas et on ne la duplique pas. Elle n'apparaît pas dans **Ajouter un outil…** : le nœud la demande à part.
+
+![L'onglet Webhook, avec une seule carte](/img/herramientas/webhook-lista.png)
+
+## L'éditeur
+
+Il s'ouvre comme une API. Le **nom** est fixé à Webhook. La description d'usine est « Webhook principal du système ». La méthode est **POST** et le timeout d'usine est **30000** ms. L'authentification peut rester sur aucune, ou passer à Basic ou Bearer.
+
+![Webhook : POST, 30000 ms, corps vide et l'avis de {$variable}](/img/herramientas/webhook-editor.png)
+
+L'**URL** doit commencer par `http://` ou `https://`. Vide, ou avec l'interrupteur désactivé, le moteur n'appelle rien. L'interrupteur est dans l'en-tête de l'éditeur, à côté de **Enregistrer les modifications**.
+
+Le corps est un JSON. L'avis de cette zone dit comment insérer des données :
+
+```
+{$variable}
+{ $valor ? 'Sí' : 'No' }
+```
+
+**Entrée** et **Sortie** fonctionnent comme dans une [API](./Apis) : ce que le corps va lire, et ce que vous voulez garder de la réponse. **Tests** fait l'appel. **Déploiement** le marque. Pour que le nœud l'utilise, l'interrupteur activé et une URL http(s) suffisent : l'état de l'écran ne remplace pas cela.
+
+**Message en cas d'échec** est ce que voit la personne si cette URL ne répond pas et qu'il n'y a pas de valeur de repli.
+
+## Quand il s'exécute
+
+Dans le nœud, onglet **Fonctionnalité**, **Appeler le webhook dans ce nœud**. S'il est activé, le moteur appelle cette URL en passant par là, après les scripts et avant les APIs de ce nœud. Si l'arbre n'a pas de webhook actif, l'interrupteur ne fait rien.
+
+Le contexte, l'intention et l'événement le portent. Si le nœud d'origine et celui de destination le demandent tous les deux, l'appel a lieu une fois et c'est celui de destination qui compte.
+
+Ce n'est pas le webhook d'un canal. Celui-là est configuré par la plateforme (Meta, Slack, Discord) pour remettre les messages à TreeFlow, et il vit dans [Canaux](/docs/Canales/CanalesDeComunicacion).

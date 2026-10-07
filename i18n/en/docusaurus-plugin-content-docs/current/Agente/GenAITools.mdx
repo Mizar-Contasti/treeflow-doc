@@ -1,0 +1,52 @@
+---
+sidebar_position: 4
+sidebar_label: What it can change
+---
+
+# What the agent can change
+
+The agent does not have free access to the database: it works with **46 tools**, and each one does one concrete thing. If something is not here, it cannot do it.
+
+Every action it runs appears in the chat with the tool name, so this table is for understanding what you see.
+
+## The tools
+
+**Looks** means it only reads. **Changes** means it modifies the bot.
+
+| Area | Tools | What they allow |
+|---|---|---|
+| **Tree** | `get_tree_data` · `update_tree` | Looks at the full structure: flows, nodes, intents, entities. Changes the name, the description, the purpose, the webhook, the bot mode, and the [Understanding](/docs/Avanzado/Entendimiento) settings: mode, sentiment analysis, and thresholds |
+| **Flows** | `list_branches` · `create_branch` · `update_branch` · `delete_branch` | Looks at the flows. Creates one with its start node. Changes its properties, not its nodes. Deletes a flow **with all of its nodes** |
+| **Nodes** | `list_leafs` · `create_leaf` · `update_leaf` · `delete_leaf` | Looks at a flow's nodes. Creates, modifies, and deletes nodes |
+| **Intents** | `list_intents` · `create_intent` · `update_intent` · `delete_intent` | Looks at the intents. Creates one with its training phrases and parameters. Modifies and deletes |
+| **Entities** | `list_entities` · `create_entity` · `update_entity` · `delete_entity` | Looks at the entities. Creates, modifies, and deletes |
+| **Messages** | `list_message_templates` · `create_message_template` · `update_message_template` · `delete_message_template` | Looks at the message templates. Creates one for structured or rich replies, updates it, or deletes it |
+| **HTTP tools** | `list_fertilizers` · `create_fertilizer` · `update_fertilizer` · `delete_fertilizer` | Looks at, creates, modifies, and deletes the bot's [tools](/docs/Herramientas) that call an API. Authentication secrets are not shown to it |
+| **Training** | `get_bot_training_status` · `trigger_bot_training` · `list_training_history` | Looks at the status and the training history, with its errors. Launches a training |
+| **Test and observe** | `simulate_chat_message` · `list_conversations` · `get_conversation` · `list_logs` · `get_log` | Sends a test message and brings back the reply. Looks at conversations and system logs to debug |
+| **Channels** | `list_integrations` · `configure_integration` | Looks at the [channels](/docs/Canales/CanalesDeComunicacion) and **turns them on or off**. It does not save a channel's credentials |
+| **Voice** | `get_voice_config` · `update_voice_config` | Looks at and changes the voice settings (recognition and synthesis) |
+| **Users** | `list_users` · `create_user` · `update_user` · `delete_user` | Looks at, creates or invites, changes the role or activity, and deletes users in the workspace |
+| **Backups and history** | `list_backups` · `create_backup` · `list_change_history` | Looks at the backups. Creates one. Reads the bot's change history |
+| **Credentials** | `list_credentials` | Looks at which credentials are in the workspace, **without their keys** |
+
+## What it looks at and what it changes
+
+- **They change the bot:** everything that starts with `create_`, `update_`, or `delete_`, plus `trigger_bot_training` and `configure_integration`.
+- **They only look:** `get_`, `list_`, and `simulate_chat_message` (this last one does not change the bot, but it does leave a test conversation).
+
+The **seven** that delete are `delete_branch`, `delete_leaf`, `delete_intent`, `delete_entity`, `delete_message_template`, `delete_fertilizer`, and `delete_user`.
+
+By default the agent **does not run them on its own**: if the create, modify, or delete checkbox is on, it first shows the confirmation card. See [Before you ask for large changes](/docs/Agente/Constructor#antes-de-pedirle-cambios-grandes). If you turn the checkbox off, the ones in that group do run immediately.
+
+## The built-in limits
+
+The server sets these rules, not the model. They do not depend on what the agent "understands" or on what you tell it:
+
+- **Only the selected bot.** The server checks that the bot belongs to your workspace and itself sets the bot, the workspace, and the user on every tool. A model that invents another identifier gets nowhere.
+- **No administrators.** `create_user`, `update_user`, and `delete_user` reject administrators: it does not create them, it does not change them, and it does not delete them.
+- **No keys.** `list_credentials` and `list_fertilizers` do not return secrets.
+
+## What is not here
+
+There is no tool for saving a channel's **credentials** (only for turning it on or off), for uploading files, or for touching other bots or workspaces. There is also none for reading keys.

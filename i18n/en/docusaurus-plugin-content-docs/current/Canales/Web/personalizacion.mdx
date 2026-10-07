@@ -1,0 +1,67 @@
+---
+sidebar_position: 2
+sidebar_label: Appearance
+---
+
+# Appearance
+
+Text, colors, sizes, and behavior by device are edited in the [Web Chatbot Widget](./setup) panel. Save them with **Save Changes**. The site widget requests them on load: the page does not need CSS.
+
+![The widget panel, with the configuration tabs](/img/canales/web.png)
+
+## Text
+
+**Identity and header text**
+
+- **Name on the card / header.** The default is TreeFlow Assistant.
+- **Subtitle / status.** The default is Online.
+
+**Launcher button icon.** The circle in the corner, when the chat is closed. There are five icons (moon, bubble, robot, support, sparkles) or **Upload SVG / PNG**.
+
+**Agent identity in the conversation**
+
+- **Agent name in the chat.** It appears next to the avatar on each bubble. If you leave it empty, the header name is used.
+- **Avatar icon.** **Same as the widget**, or another from the list.
+
+## Colors {#colores}
+
+**Widget dark mode** adapts the background, the bubbles, and the fields.
+
+**Coordinated color palettes** has 30 styles, filtered into Warm, Green, Blue, Earth, Pink, and Neutral. Choosing a palette fills in the tones. Below that, you can change them one by one:
+
+| Group | Tones |
+|---|---|
+| Header and controls | Header background, title and subtitle, header buttons, launcher button |
+| Panel and messages | Chat background, agent bubble and text, the person's bubble and text, avatar background |
+
+## Sizes
+
+**Chat window.** Width from 300 to 600 px, height from 400 to 850 px, and the corner radius.
+
+**Message size and reading.** The bubble font, from 0.80 rem to 1.10 rem, and the inner margin.
+
+**Floating launcher button.** The diameter of the circle and of the icon.
+
+**Bot icon in the header** and **agent avatar in the chat** each have their own size.
+
+## Responsive behavior from the panel
+
+The **Responsive** tab has three chat states: **closed** (icon only), **open** (window), and **maximized** (full screen). At the top, **Desktop / Tablet / Mobile**. Each one stores its own settings.
+
+| | Desktop | Tablet | Mobile |
+|---|---|---|---|
+| Range | Wider than the tablet breakpoint | Up to the tablet breakpoint (1024 px by default) | Up to the mobile breakpoint (640 px by default, from 480 to 768) |
+| Open window | Floating, at the size from **Sizes** | Floating, at most 88% of the width and 82% of the height, if **Smart fit to the viewport** is on | Full screen if **Automatic full screen** is on. Off, a floating window |
+| Maximize | Optional, off by default | Optional, off by default | Not available |
+| Minimize | On by default | On by default | Off by default |
+| Close | Off by default | Off by default | Off by default |
+
+- **Minimize** returns to the icon. Tapping it opens the chat again.
+- **Close** removes the chat from the page, icon included, until reload. Use it only when you want the person to be able to remove the bot.
+- **Maximize** switches between the window and full screen. On a phone it is not there: the chat is either closed or full screen.
+
+Tapping the header strip (the title or the subtitle, not a button) minimizes the chat on any device, whether the minimize button is shown or not.
+
+The tablet breakpoint is set under **Tablet** (from 768 to 1200 px). The mobile one is set under **Mobile**. Desktop is any screen wider than the tablet breakpoint.
+
+The site widget and **Try Now** both apply these settings. They are recalculated when the device is rotated or the window is resized.

@@ -1,0 +1,67 @@
+---
+sidebar_position: 2
+sidebar_label: Aspetto
+---
+
+# Aspetto
+
+Testi, colori, dimensioni e il comportamento per dispositivo si modificano nel pannello di [Web Chatbot Widget](./setup). Si salvano con **Salva modifiche**. Il widget del sito li chiede al caricamento: non serve CSS nella pagina.
+
+![Il pannello del widget, con le schede di configurazione](/img/canales/web.png)
+
+## Testi
+
+**Identità e testi dell'intestazione**
+
+- **Nome nella card / intestazione.** Di default, TreeFlow Assistant.
+- **Sottotitolo / stato.** Di default, In linea.
+
+**Icona del pulsante di avvio.** Il cerchio dell'angolo, quando la chat è chiusa. Ci sono cinque icone (luna, bolla, robot, supporto, scintille) oppure **Carica SVG / PNG**.
+
+**Identità dell'agente nella conversazione**
+
+- **Nome dell'agente nella chat.** Compare accanto all'avatar in ogni bolla. Se si lascia vuoto, usa il nome dell'intestazione.
+- **Icona dell'avatar.** **La stessa del widget**, oppure un'altra dell'elenco.
+
+## Colori {#colores}
+
+**Modalità scura del widget** adatta lo sfondo, le bolle e i campi.
+
+**Tavolozze di colori coordinate** ha 30 stili, filtrati in Caldi, Verdi, Blu, Terra, Rosa e Neutri. Scegliere una tavolozza compila i toni. Sotto si possono cambiare uno a uno:
+
+| Gruppo | Toni |
+|---|---|
+| Intestazione e controlli | Sfondo dell'intestazione, titolo e sottotitolo, pulsanti dell'intestazione, pulsante di avvio |
+| Pannello e messaggi | Sfondo della chat, bolla e testo dell'agente, bolla e testo della persona, sfondo dell'avatar |
+
+## Dimensioni
+
+**Finestra della chat.** Larghezza da 300 a 600 px, altezza da 400 a 850 px, e la curvatura dei bordi.
+
+**Dimensione dei messaggi e lettura.** Il carattere delle bolle, da 0.80 rem a 1.10 rem, e il margine interno.
+
+**Pulsante di avvio flottante.** Il diametro del cerchio e quello dell'icona.
+
+**Icona del bot nell'intestazione** e **avatar dell'agente nella chat** hanno la loro dimensione.
+
+## Comportamento adattivo dal pannello
+
+La scheda **Responsive** ha tre stati della chat: **chiuso** (soltanto l'icona), **aperto** (finestra) e **massimizzato** (tutto lo schermo). In alto, **Desktop / Tablet / Mobile**. Ognuno conserva il suo.
+
+| | Desktop | Tablet | Mobile |
+|---|---|---|---|
+| Intervallo | Più largo del taglio del tablet | Fino al taglio del tablet (1024 px di default) | Fino al taglio mobile (640 px di default, da 480 a 768) |
+| Finestra aperta | Flottante, con la dimensione di **Dimensioni** | Flottante, al massimo l'88 % della larghezza e l'82 % dell'altezza, se **Adattamento intelligente al viewport** è acceso | Schermo intero se **Schermo intero automatico** è acceso. Spento, finestra flottante |
+| Massimizza | Facoltativo, spento di default | Facoltativo, spento di default | Non esiste |
+| Riduci | Acceso di default | Acceso di default | Spento di default |
+| Chiudi | Spento di default | Spento di default | Spento di default |
+
+- **Riduci** torna all'icona. Toccandola si riapre la chat.
+- **Chiudi** toglie la chat dalla pagina, icona inclusa, fino al ricaricamento. Soltanto se vuoi che la persona possa togliere il bot.
+- **Massimizza** alterna finestra e schermo intero. Sul telefono non c'è: la chat è chiusa oppure a schermo intero.
+
+Toccare la fascia dell'intestazione (il titolo o il sottotitolo, non un pulsante) riduce la chat su qualsiasi dispositivo, che ci sia o no il pulsante di riduzione.
+
+Il taglio del tablet si regola in **Tablet** (da 768 a 1200 px). Quello del mobile, in **Mobile**. Desktop è qualsiasi schermo più largo del taglio del tablet.
+
+Queste regolazioni le applicano il widget del sito e **Prova ora**. Si ricalcolano ruotando o cambiando la dimensione della finestra.

@@ -1,0 +1,50 @@
+---
+sidebar_position: 1
+---
+
+# Facebook Messenger
+
+Collega il tuo bot con il Messenger di una **pagina Facebook**. È un canale **Beta**.
+
+![La schermata di Facebook Messenger in Canali: URL per Meta e credenziali della pagina](/img/canales/facebook.png)
+
+## Che cosa ti serve da Meta
+
+Una pagina Facebook e un'app in [Meta for Developers](https://developers.facebook.com/) con il prodotto **Messenger**.
+
+| Campo in TreeFlow | Da dove esce |
+|---|---|
+| **Facebook Page ID** | L'ID numerico della tua pagina |
+| **Verify Token** | Lo inventi tu: qualsiasi testo |
+| **Page Access Token** | Il token della pagina, con permesso di messaggistica (*messaging*) |
+| **App Secret** | La tua app → Configurazione → Base → Chiave segreta dell'app |
+
+L'**App Secret** permette di verificare che ogni messaggio arrivi davvero da Meta. Senza di esso, TreeFlow non risponde.
+
+## Attivarlo
+
+1. Scegli il tuo bot nel selettore in alto a sinistra.
+2. Apri **Integrazione → Canali → Facebook Messenger**.
+3. **Passo 1.** Copia la **Callback URL** e incollala nella tua app di Meta → Messenger → Settings → Webhooks. In **Verify token** di Meta scrivi lo stesso che metterai in TreeFlow.
+4. Su Meta, iscrivi la pagina agli eventi **messages** e **messaging_postbacks**.
+5. **Passo 2.** Compila Facebook Page ID, Verify Token, Page Access Token e App Secret.
+6. Premi **Salva e integra Facebook**. Il canale resta acceso.
+
+L'interruttore **ON/OFF** in alto lo spegne e lo accende senza cancellare quello che è salvato.
+
+## Che cosa manda il bot
+
+Testo, **card** (modello generico, anche in carosello) e **risposte rapide**.
+
+Quando qualcuno preme un pulsante o una risposta rapida, il bot riceve quello che quel pulsante porta, non il testo che si vede su di esso.
+
+:::note Una pagina, un bot
+Il bot che risponde è quello che avevi selezionato al salvataggio. Una stessa pagina Facebook non si può registrare in due workspace.
+:::
+
+## Se non risponde
+
+- Che l'interruttore sia su **ON**.
+- Che il **Verify Token** di Meta sia identico a quello di TreeFlow.
+- Che il **Page ID** sia quello della pagina che riceve i messaggi.
+- Che l'**App Secret** sia quello della stessa app che manda i messaggi.

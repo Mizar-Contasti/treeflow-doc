@@ -1,0 +1,39 @@
+---
+sidebar_position: 0
+sidebar_label: AI in TreeFlow
+---
+
+# AI in TreeFlow
+
+TreeFlow uses a language model to **help you build** the bot. It does not use it to **reply** to your users.
+
+:::info The bot replies with what you build
+When someone writes, the bot detects an intent and replies with the tree's flow and messages. There is no generative model inventing replies in the conversation. That is what makes it predictable: it says what you, or the agent, left written.
+:::
+
+## Where there is AI
+
+| Function | What it is for | Where |
+|---|---|---|
+| [**Builder agent**](/docs/Agente/Constructor) | Create and modify flows, nodes, intents, entities, and messages by talking | Console → **Agent** tab |
+| [**MCP server**](/docs/Agente/Mcp) | Let Claude Desktop, Claude Code, or Cursor do the same from outside | Management → [Credentials](/docs/Avanzado/Credenciales) → **MCP** |
+| **Generative ingestion** | Extract intents and entities from a PDF or a CSV | Integration → Tools → **Generative Ingestion** and **Knowledge Base** |
+
+The agent and ingestion use **your own key** from a model provider: TreeFlow does not ship its own model. See [Providers and models](/docs/Agente/ModelosGenerativos).
+
+## How you reach them
+
+The orange button at the bottom right opens the console. At the top there is a robot icon: that is the agent.
+
+![The console button open, with the agent icon at the top right](/img/agente/abrir.png)
+
+## Where to go next
+
+1. [**First task**](/docs/Agente/PrimerEncargo): connect a provider and ask it for something.
+2. [**The builder agent**](/docs/Agente/Constructor): what it does and how to ask it.
+3. [**What it can change**](/docs/Agente/GenAITools): its 46 tools, by type.
+4. [**Providers and models**](/docs/Agente/ModelosGenerativos): which one to choose and how it is configured.
+5. [**How it works inside**](/docs/Agente/ArquitecturaGenerativa): the cycle, the limits, and the API.
+6. [**MCP**](/docs/Agente/Mcp): the same building, from Claude.
+
+For how the engine understands your users (Basic or Pro mode, thresholds, sentiment), read [Understanding](/docs/Avanzado/Entendimiento).

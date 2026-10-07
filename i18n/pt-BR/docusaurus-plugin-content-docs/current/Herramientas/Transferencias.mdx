@@ -1,0 +1,43 @@
+---
+sidebar_position: 5
+sidebar_label: Transferências
+description: O cartão que um nó usa ao passar a conversa para uma pessoa, dentro ou fora do workspace.
+---
+
+# Transferências
+
+A aba **Transferências**. Cada cartão é uma forma de passar a conversa para uma pessoa. Na Cafetería há uma, **Mesa de ajuda**, marcada **Ativo**. O botão laranja a apaga. **Nova transferência** abre o editor vazio.
+
+![Mesa de ajuda, ativa](/img/herramientas/transferencias-lista.png)
+
+O nó não a escolhe aqui. Escolhe na transição **Transferência para agente humano**. O percurso está em [Passar para uma pessoa](/docs/Tutoriales/PasarAUnAsesor) e a fila, em [Mesa de ajuda](/docs/Avanzado/MesaDeAyuda).
+
+## O editor
+
+Três blocos.
+
+![Mesa de ajuda interna: identificação, destino e comportamento](/img/herramientas/transferencias-editor.png)
+
+### 1. Identificação
+
+- **Nome da transferência.** Obrigatório. É assim que aparece no cartão e no nó.
+- **Descrição.** Opcional. No exemplo: «Transfere para os atendentes deste workspace na mesa de ajuda.»
+- O interruptor **Ativo** / **Inativo** fica no cabeçalho. O motor usa a primeira configuração ativa, ou a que a intenção definir. Se não houver nenhuma, a transferência funciona mesmo assim, com o aviso padrão.
+- **Mensagem de transferência.** O que o bot diz no turno em que encaminha. Se ficar o padrão, é o aviso que o modelo do ramo já traz.
+
+### 2. Conectar com
+
+Duas opções, uma ao lado da outra.
+
+**Mesa de ajuda interna.** A conversa entra na fila deste workspace e um atendente a atende em tempo real. Não pede URL. O aviso da tela diz: não há mais nada para configurar.
+
+**Sistema externo.** Aparecem a **URL do webhook**, o **cabeçalho de autenticação** e o interruptor **Enviar o histórico completo ao transferir**. Desligado, só viaja a mensagem com a qual a pessoa pediu alguém. Ligado, o **formato do histórico** pode ser `json`, texto ou markdown.
+
+Os modelos de ramo plantam uma URL sob o domínio `.invalid`. Isso conta como mesa interna: nenhum servidor é chamado. Para um sistema externo, troca-se pela URL real.
+
+### 3. Comportamento do bot e do widget
+
+Os dois interruptores valem para os dois destinos.
+
+- **O bot deixa de responder enquanto uma pessoa atende.** Ligado, o bot se cala. Desligado, continua respondendo e o atendente vê ao vivo o que os dois dizem.
+- **Manter a conversa do widget ao recarregar.** Ligado, se a pessoa recarregar a página enquanto alguém a atende, recupera as mensagens do bot e do atendente.

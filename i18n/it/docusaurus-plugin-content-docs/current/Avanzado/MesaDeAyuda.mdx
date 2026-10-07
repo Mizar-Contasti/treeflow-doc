@@ -1,0 +1,121 @@
+---
+sidebar_position: 6
+sidebar_label: Sportello di assistenza
+---
+
+# Sportello di assistenza e trasferimento a un umano
+
+Un bot non risolve tutto. Lo **sportello di assistenza** (Helpdesk) è l'applicazione dove una persona prende la conversazione quando il bot la inoltra: vede la coda delle chat in attesa, parla con il visitatore in tempo reale e, al termine, chiude la chat o la restituisce al bot.
+
+## Come arriva una conversazione allo sportello di assistenza
+
+```
+Visitante ──► Bot ──► (pide un humano) ──► Cola de la Mesa de Ayuda ──► Operador
+                                              pending_human            human_active
+```
+
+1. Il visitatore scrive qualcosa che attiva un intento con **trasferimento a un umano** (*"voglio parlare con un consulente"*).
+2. Il bot risponde con il messaggio di trasferimento (*"Ti metto in contatto con una persona del team"*) e la conversazione **entra in coda in quello stesso turno**.
+3. Un operatore la **reclama**: la chat passa a essere gestita da una persona e il bot smette di rispondere.
+4. Il visitatore e l'operatore conversano in tempo reale. Ogni messaggio resta salvato nella cronologia, marcato con chi l'ha scritto.
+5. L'operatore **chiude** la chat o la **restituisce al bot**, che riprende la conversazione.
+
+:::info Per ora, il canale Web
+La conversazione in tempo reale tra operatore e visitatore funziona sul [widget web](/docs/Canales/Web/setup): l'operatore scrive nello sportello di assistenza e il widget la riceve via WebSocket. Per rispondere da un helpdesk esterno c'è un endpoint di risposta in entrata (vedi [più sotto](#helpdesk-externo)).
+:::
+
+## Configurare il trasferimento in un albero
+
+### 1. Marcare l'intento come trasferimento
+
+Nell'editor dei nodi, l'intento che deve inoltrare a una persona ha come **Transizione** l'opzione *Trasferimento a un agente umano*. È lo stesso menu a tendina che si usa per qualsiasi altra transizione, così la tela la disegna e la modifica come il resto.
+
+:::tip Solo quello che deve inoltrare
+Marca solo l'intento di chiedere un umano. Se applichi il trasferimento ad altri, il bot inoltrerà anche quando il cliente saluta.
+:::
+
+Il modello di **Restaurante** lo porta già fatto: il suo intento `hablar_con_asesor` (24 frasi di addestramento e l'entità `accion_transferencia`) punta al trasferimento e semina una configurazione attiva.
+
+### 2. Regolare il trasferimento (facoltativo)
+
+In **Strumenti → Trasferimenti** si creano le configurazioni di trasferimento di un albero:
+
+| Campo | A che cosa serve |
+|---|---|
+| **Messaggio di trasferimento** | Ciò che dice il bot inoltrando. Predefinito: *"Ti stiamo mettendo in contatto con un consulente umano..."* |
+| **L'agente non ascolterà più la conversazione** | Con questo attivo (predefinito) il bot resta in pausa mentre la conversazione è con una persona, così non interferisce con l'operatore. I messaggi del visitatore si salvano e arrivano all'operatore |
+| **Salvare la conversazione del widget** | Mantiene nella cronologia del widget i messaggi di risposta del consulente umano, anche senza intervento dell'agente |
+| **Inviare la cronologia completa della conversazione** e il suo formato (`json`, `text`, `markdown`) | Quale cronologia viaggia al sistema esterno, se c'è |
+| **URL dell'endpoint**, token e intestazioni | Solo per spingere la conversazione a un sistema esterno. Lo sportello di assistenza interno **non** lo usa |
+| **Attiva** | Il motore usa la prima configurazione attiva dell'albero (o quella fissata dall'intento) |
+
+Se l'albero non ha nessuna configurazione, il trasferimento funziona comunque con il messaggio predefinito.
+
+:::note L'endpoint dei modelli
+I modelli seminano la configurazione con un URL sotto il dominio riservato `.invalid`, che non risolve mai. È un segnaposto: se vuoi inviare le conversazioni a un sistema esterno, cambialo con il tuo. Per lo sportello di assistenza interno non serve toccarlo.
+:::
+
+## L'applicazione
+
+Nel menu sta in **Operatività → Sportello di assistenza**. **Cassetta in tempo reale** ha In attesa, Le mie chat e Tutti. **Cronologia** è ciò che è già chiuso.
+
+![Sportello di assistenza: la cassetta in tempo reale, vuota](/img/operacion/mesa.png)
+
+- **In attesa** sono quelle che nessuno ha reclamato.
+- **Le mie chat** sono quelle di chi sta guardando.
+- Scegliendone una, a destra c'è la cronologia e si scrive al visitatore.
+
+L'operatore reclama, risponde, chiude o restituisce la conversazione al bot.
+
+### Dashboard delle operazioni (amministratori)
+
+È la vista predefinita di un amministratore e riassume l'operatività del workspace:
+
+| Indicatore | Che cosa conta |
+|---|---|
+| **Operatori online** | Quanti degli operatori del workspace sono connessi |
+| **In attesa** | Chat che aspettano che qualcuno le reclami |
+| **Gestite da una persona** | Chat attive con un operatore |
+| **Gestite dal bot** | Chat che continua a portare il bot |
+| **Risolte oggi** | Chat chiuse durante la giornata |
+
+Sotto, lo **stato di ogni operatore** (online, quante chat porta, quando è stato visto l'ultima volta) e il **carico per bot**.
+
+## Ruoli e accesso
+
+L'accesso dipende dal ruolo **e** da dove si entra:
+
+| Ruolo | Pannello principale | Sportello di assistenza |
+|---|---|---|
+| **Amministratore** | ✅ | ✅ (include il dashboard) |
+| **Sviluppatore** | ✅ | ✅ |
+| **Operatore** | ❌ | ✅ |
+| **Visualizzatore** | ✅ (sola lettura) | ❌ |
+
+- Un **operatore** che prova a entrare dal pannello principale riceve un avviso che gli indica di usare lo sportello di assistenza.
+- Un **visualizzatore** non può operare sulle chat.
+
+## Helpdesk esterno {#helpdesk-externo}
+
+Se assisti da un sistema tuo invece che dallo sportello di assistenza di TreeFlow, il tuo sistema può rispondere al visitatore chiamando:
+
+```http
+POST /api/live-chat/external-reply
+Content-Type: application/json
+
+{
+  "tree_id": "…",
+  "session_id": "…",
+  "agent_name": "Ana, de soporte",
+  "message": "Hola, ya reviso tu pedido."
+}
+```
+
+Il messaggio si salva nella conversazione, si marca come scritto dall'agente e arriva al widget del visitatore in tempo reale. Se la conversazione era ancora in attesa, passa a *gestita*.
+
+## Buone pratiche
+
+1. **Avvisa di che cosa succede dopo**: personalizza il messaggio di trasferimento (*"Ti passo a una persona; di solito ci vogliono alcuni minuti"*).
+2. **Offri un'uscita verso il bot**: se l'operatore risolve qualcosa in fretta, restituire la conversazione al bot evita di lasciare il visitatore in attesa in una chat che nessuno chiude.
+3. **Prova il percorso completo**: chiedi un umano dal widget, reclamalo dallo sportello di assistenza e scambia un paio di messaggi prima di pubblicarlo.
+4. **Addestra dopo aver cambiato l'intento**: ricorda che modificare le frasi dell'intento di trasferimento richiede di [riaddestrare](/docs/Avanzado/Entendimiento).

@@ -1,0 +1,38 @@
+---
+sidebar_position: 1
+---
+
+# Avatars IA
+
+Un **avatar** qui prononce la réponse, avec une vidéo générée par [HeyGen](https://www.heygen.com/) ou [D-ID](https://www.d-id.com/). Il se trouve dans l'onglet **Voix** de Canaux et c'est un canal **Bêta**.
+
+![L'écran Avatars IA dans Canaux : fournisseur, API Key et Avatar ID](/img/canales/avatars.png)
+
+## Ce qu'il vous faut
+
+Un compte HeyGen ou D-ID, son **API Key** et l'identifiant de l'avatar que vous voulez utiliser.
+
+| Champ dans TreeFlow | Ce que c'est |
+|---|---|
+| **Fournisseur d'avatar** | HeyGen (Interactive Avatar API) ou D-ID |
+| **API Key** | La clé de votre compte, depuis la console du fournisseur |
+| **Avatar ID / Character ID** | L'identifiant de l'avatar ou du personnage à afficher |
+
+## L'activer
+
+1. Choisissez votre bot dans le sélecteur en haut à gauche.
+2. Ouvrez **Intégration → Canaux**, onglet **Voix**, et entrez dans **Avatars IA interactifs**.
+3. Choisissez le **fournisseur**, collez l'**API Key** et l'**Avatar ID**.
+4. Cliquez sur **Enregistrer et intégrer Avatars**. Le canal est activé.
+
+L'interrupteur **ON/OFF** du haut le désactive et l'active sans effacer ce qui est enregistré.
+
+## Où ça se voit
+
+Avec Avatars activé, l'éditeur de messages ajoute à chaque réponse l'onglet **Avatars IA**. C'est le même mécanisme que [n'importe quel canal](/docs/Canales/CanalesDeComunicacion#una-respuesta-distinta-por-canal) : c'est là que vous écrivez ce que dira l'avatar.
+
+## Si ça ne fonctionne pas
+
+- Vérifiez que l'interrupteur est sur **ON**.
+- Vérifiez que l'**API Key** est celle de la plateforme choisie comme fournisseur.
+- Vérifiez que l'**Avatar ID** existe dans votre compte.

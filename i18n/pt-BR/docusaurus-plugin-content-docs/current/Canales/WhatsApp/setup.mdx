@@ -1,0 +1,49 @@
+---
+sidebar_position: 1
+---
+
+# WhatsApp
+
+Conecta o seu bot ao WhatsApp pela **Cloud API da Meta**. É um canal **Beta**.
+
+![A tela do WhatsApp em Canais: estado, URL para a Meta e credenciais](/img/canales/whatsapp.png)
+
+## O que você precisa da Meta
+
+Um app em [Meta for Developers](https://developers.facebook.com/) com o produto **WhatsApp** e um número de telefone. Dali saem estes dados:
+
+| Campo no TreeFlow | De onde vem |
+|---|---|
+| **Phone Number ID** | O identificador do número, em WhatsApp do seu app na Meta |
+| **WABA ID** | O da sua conta de WhatsApp Business. É opcional |
+| **Verify Token** | Você inventa: qualquer texto |
+| **Meta Access Token** | Um token **permanente**, gerado no Meta Business Manager |
+| **App Secret** | Seu app → Configurações → Básico → Chave secreta do app |
+
+O **App Secret** é o que permite conferir que cada mensagem vem mesmo da Meta. Sem ele, o TreeFlow não responde.
+
+## Ativá-lo
+
+1. Escolha seu bot no seletor do canto superior esquerdo.
+2. Abra **Integração → Canais → WhatsApp**.
+3. **Passo 1.** Copie a **Callback URL** e cole em Meta Developers → WhatsApp → Configuration → Webhook. Em **Verify token** da Meta, escreva o mesmo que você vai colocar no TreeFlow.
+4. Na Meta, inscreva o webhook no campo **messages**.
+5. **Passo 2.** Preencha Phone Number ID, Verify Token, Meta Access Token e App Secret (o WABA ID é opcional).
+6. Clique em **Salvar e integrar WhatsApp**. O canal fica ligado.
+
+O interruptor **ON/OFF** de cima desliga e liga o canal sem apagar o que foi salvo.
+
+## O que o bot envia
+
+Texto, e os blocos que o WhatsApp sabe desenhar: **botões**, **listas** e arquivos (imagem, vídeo, documento).
+
+:::info Dentro da janela de 24 horas
+O WhatsApp deixa o bot responder livremente durante as 24 horas seguintes à última mensagem da pessoa. Depois desse prazo, é preciso um modelo aprovado pela Meta, e o TreeFlow não envia modelos.
+:::
+
+## Se não responder
+
+- O interruptor precisa estar em **ON**.
+- O **Verify Token** da Meta precisa ser idêntico ao do TreeFlow.
+- O **App Secret** precisa ser o do mesmo app que envia as mensagens.
+- O webhook precisa estar inscrito em **messages**.

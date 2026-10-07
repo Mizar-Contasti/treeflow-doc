@@ -1,0 +1,91 @@
+---
+sidebar_position: 2
+sidebar_label: Scripts
+description: Código Python que roda no bot. O catálogo, o editor e os oito modelos.
+---
+
+# Scripts
+
+A primeira aba. Um script não sai para a internet: recebe o que a conversa já capturou, roda Python e devolve variáveis.
+
+![A lista: Saudação por horário do dia, com a marca de validado e o botão de apagar](/img/herramientas/scripts-lista.png)
+
+- Um clique no cartão abre o editor.
+- A marca azul indica que o último teste passou.
+- O botão laranja apaga o script. Pede confirmação.
+- **Modelos** abre o catálogo. **Criar script** abre um vazio, só com o nome.
+
+## O catálogo
+
+São oito. Cada cartão indica a categoria, quantas entradas e saídas tem, e permite **Pré-visualizar** o código ou **Usar modelo**. Usá-lo cria o script nesta árvore: ainda não o executa.
+
+![Catálogo de modelos de scripts](/img/herramientas/scripts-plantillas.png)
+
+| Modelo | Categoria | Entradas | Saídas |
+|---|---|---|---|
+| Saudação por horário do dia (México CST) | Tempo e personalização | nenhuma | `saludo_tiempo`, `momento_dia`, `hora_actual`, `fecha_actual`, `hora_numero` |
+| Cálculo de desconto e impostos | Matemática e finanças | `monto_base`, `descuento_pct`, `tasa_iva` | `total_final`, `subtotal`, `ahorro_descuento`, `impuesto`, `tiene_descuento` |
+| Validação de e-mail e domínio | Validação e segurança | `email` | `es_valido`, `email_limpio`, `dominio`, `es_corporativo` |
+| Cálculo de dias e datas | Datas e tempo | `fecha_objetivo` (`YYYY-MM-DD`) | `dias_restantes`, `ha_expirado`, `es_hoy`, `estado` |
+| Extrator de números e limpador | Processamento de texto | `texto` | `codigo_detectado`, `total_numeros`, `texto_limpio`, `tiene_codigo` |
+| Formatador de nome próprio | Processamento de texto | `nombre` | `nombre_completo`, `primer_nombre`, `longitud`, `es_valido` |
+| Gerador de código de confirmação | Validação e segurança | `prefijo`, `longitud` | `folio`, `codigo_puro`, `creado_en` |
+| Sanitizador de telefone | Validação e segurança | `telefono`, `codigo_pais` | `telefono_limpio`, `telefono_e164`, `es_valido`, `digitos_totales` |
+
+A saudação olha a hora de `America/Mexico_City`. Das 5 às 12 diz bom dia, das 12 às 19 boa tarde, e no restante boa noite. O desconto aplica a porcentagem, subtrai e soma o IVA sobre o subtotal (16 se não chegar outro). O e-mail marca corporativo quando o domínio não é gmail, hotmail, yahoo, outlook nem live. O código sai como `ORD-482910`: o prefixo, um hífen e os caracteres aleatórios, sem letras que se confundam com números.
+
+## O editor
+
+Cinco abas. **Salvar alterações** fica no canto superior direito.
+
+### Entrada
+
+Cada linha é um dado que o script espera. A saudação não pede nada: a tela diz **Não há variáveis definidas**.
+
+![Entrada vazia da saudação por horário](/img/herramientas/scripts-entrada.png)
+
+Em um script que pede dados, cada variável tem nome, tipo, um valor de teste e um valor de fallback para o caso de não ter vindo na conversa.
+
+No código, leem-se assim:
+
+```python
+monto_base = float(inputs.get("monto_base", 0))
+```
+
+### Código
+
+Acima vão o **Nome** (obrigatório), o **Timeout** em milissegundos e a **Descrição**. A pessoa não vê a descrição.
+
+O quadro **Python I/O** lembra a forma: `inputs.get("var_name")` para entrar e `outputs = {"resultado": val}` para sair. Abaixo, **Atribuir output** lista os nomes que você já declarou em Saída, para copiá-los ao código.
+
+![Código da saudação: nome, timeout 5000, o editor e a mensagem se falhar](/img/herramientas/scripts-codigo.png)
+
+**Mensagem se falhar** é o que a pessoa recebe quando o script quebra e não há valor de fallback nas saídas. Vazio, o bot usa um padrão no idioma da conversa.
+
+### Saída
+
+Um cartão por variável. **Nome**, **tipo** (String, número, booleano), **JSON Path** e **Valor fallback**.
+
+Em um script, o JSON Path costuma ficar vazio: o valor sai da chave de `outputs` com esse mesmo nome. O fallback é usado se a chave não veio ou o script falhou.
+
+![Saída da saudação: saludo_tiempo, momento_dia, hora_actual e fecha_actual](/img/herramientas/scripts-salida.png)
+
+### Testes
+
+**Executar teste** roda o código com os valores de teste da entrada. Acima ficam o estado e o tempo. Abaixo, o objeto que devolveu.
+
+![Teste da saudação: executado em 114 ms, bom dia às 10:36](/img/herramientas/scripts-pruebas.png)
+
+Esse teste não fala com o bot. Só roda o Python. Se falhar, a mensagem de erro sai no mesmo quadro e a aba de implantação não deixa seguir até corrigir.
+
+### Implantação
+
+Quando o teste passa, o aviso diz **Script validado**. **Implantar agora** o deixa disponível nos fluxos. Sem implantar, o nó não o oferece em **Adicionar script…**.
+
+![Implantação: o script validado e o botão Implantar agora](/img/herramientas/scripts-despliegue.png)
+
+## No nó
+
+Aba **Funcionalidade**, **Adicionar script…**. Rodam na ordem da lista, antes do webhook e das APIs. O **≠** de cada linha troca o nome da variável de sessão se ela não se chamar igual à entrada ou à saída.
+
+Em uma mensagem, a saída se escreve `{$saludo_tiempo}`.

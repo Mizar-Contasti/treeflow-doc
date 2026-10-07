@@ -1,0 +1,50 @@
+---
+sidebar_position: 1
+---
+
+# Facebook Messenger
+
+Connectez votre bot au Messenger d'une **page Facebook**. C'est un canal **Bêta**.
+
+![L'écran Facebook Messenger dans Canaux : URL pour Meta et identifiants de la page](/img/canales/facebook.png)
+
+## Ce qu'il vous faut chez Meta
+
+Une page Facebook et une application sur [Meta for Developers](https://developers.facebook.com/) avec le produit **Messenger**.
+
+| Champ dans TreeFlow | D'où ça vient |
+|---|---|
+| **Facebook Page ID** | L'identifiant numérique de votre page |
+| **Verify Token** | Vous l'inventez : n'importe quel texte |
+| **Page Access Token** | Le jeton de la page, avec l'autorisation de messagerie (*messaging*) |
+| **App Secret** | Votre application → Configuration → De base → Clé secrète de l'application |
+
+L'**App Secret** permet de vérifier que chaque message vient bien de Meta. Sans lui, TreeFlow ne répond pas.
+
+## L'activer
+
+1. Choisissez votre bot dans le sélecteur en haut à gauche.
+2. Ouvrez **Intégration → Canaux → Facebook Messenger**.
+3. **Étape 1.** Copiez la **Callback URL** et collez-la dans votre application Meta → Messenger → Settings → Webhooks. Dans **Verify token** de Meta, saisissez le même que celui que vous mettrez dans TreeFlow.
+4. Dans Meta, abonnez la page aux événements **messages** et **messaging_postbacks**.
+5. **Étape 2.** Renseignez Facebook Page ID, Verify Token, Page Access Token et App Secret.
+6. Cliquez sur **Enregistrer et intégrer Facebook**. Le canal est activé.
+
+L'interrupteur **ON/OFF** du haut le désactive et l'active sans effacer ce qui est enregistré.
+
+## Ce que le bot envoie
+
+Du texte, des **cartes** (modèle générique, y compris en carrousel) et des **réponses rapides**.
+
+Quand quelqu'un appuie sur un bouton ou une réponse rapide, le bot reçoit ce que ce bouton transporte, et non le texte affiché dessus.
+
+:::note Une page, un bot
+Le bot qui répond est celui que vous aviez sélectionné au moment de l'enregistrement. Une même page Facebook ne peut pas être enregistrée dans deux workspaces.
+:::
+
+## S'il ne répond pas
+
+- Vérifiez que l'interrupteur est sur **ON**.
+- Vérifiez que le **Verify Token** de Meta est identique à celui de TreeFlow.
+- Vérifiez que le **Page ID** est celui de la page qui reçoit les messages.
+- Vérifiez que l'**App Secret** est celui de la même application qui envoie les messages.

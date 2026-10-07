@@ -1,0 +1,438 @@
+---
+sidebar_position: 12
+---
+
+# 📜 Histórico de alterações
+
+## 🎉 Versões recentes (2026)
+
+<details open>
+<summary><strong>Novidades desde a V-0.9.0 (setembro–outubro 2026) - Agente, limites, console, Mesa de ajuda e uma só chave</strong></summary>
+
+> Estas alterações ainda não levam número de versão do aplicativo. O widget do CDN, por outro lado, já está publicado: v1.3.6 e v1.3.7. Quando a próxima versão do aplicativo for publicada, esta entrada passa a levá-la.
+
+### 🤖 Agente construtor e MCP
+> - **Anthropic fala o formato dela**: O chat mandava o corpo da OpenAI para `/messages` e lia `choices[0].message`, então falhava mesmo que «Testar conexão» saísse bem. Agora se traduz ao formato nativo da API Messages. O resto dos provedores não muda. Ver [Provedores e modelos](/docs/Agente/ModelosGenerativos).
+> - **46 ferramentas**: O ajudante interno que normaliza valores de entidade já não se oferece ao modelo. Continua sendo usado ao criar ou modificar uma entidade.
+> - **Teto do chat**: 20 mensagens por minuto por usuário, 8 rodadas de ferramentas por pedido e as últimas 14 mensagens da conversa. Passar do minuto responde 429. Ver [Agente construtor](/docs/Agente/Constructor).
+> - **O que cria se pode executar**: Uma ferramenta HTTP que o agente monta se guarda na forma plana que o motor roda, e fica salva na hora, com o mesmo id. `PATCH` já se executa.
+> - **MCP em Credenciais**: Gestão → Credenciais tem a aba MCP, separada das chaves de API. Ver [MCP](/docs/Agente/Mcp).
+
+### 🏢 Painel de administração e tiers
+> - **`admin.tree-flow.com`**: App à parte, com contas de administrador próprias. Um token de usuário de um workspace não abre o painel, nem o contrário. Dali se veem os workspaces (tier, estado, uso), suspendem-se e reativam-se, desligam-se bots soltos ou todos de uma vez, muda-se o tier e registra-se o faturamento na mão. Cada ação fica num registro.
+> - **Desligar não apaga**: Um workspace suspenso responde 403 no login e os bots dele respondem um aviso fixo. Um bot desligado responde esse aviso no widget e no resto dos canais, sem tocar o motor. Reverte-se na hora.
+> - **Quatro tiers**: `free`, `standard`, `premium` e `internal`. Atribuir um copia os tetos dele ao workspace: bots, intenções, entidades, mensagens, fluxos e ferramentas. Baixar de tier não apaga o que já existe: só impede criar mais. Um workspace anterior aos tiers conserva os tetos até que se atribua um.
+> - **Os números**: Free cabe 5 bots, 50 intenções, 100 entidades, 100 mensagens, 10 fluxos e 100 ferramentas por bot. Standard é cinco vezes isso e premium vinte. Internal não tem teto.
+
+### 🗂️ Menu
+> - **Quatro grupos**: Conversa (Fluxos, Intenções, Entidades, Mensagens, Capturas), Integração (Canais, Ferramentas), Operação (Conversas, Mesa de ajuda, Testes) e Gestão (Histórico, Backups, Diagnósticos, Contas, Credenciais). No modo iniciante, Conversa mostra só Fluxos.
+> - **Os nomes do app**: Fluxos, canais e ferramentas. Os endereços são `/flows`, `/channels` e `/tools`.
+> - **O nó se parte em Conversa e Funcionalidade**. Uma árvore nova nasce com `flujo_principal`. A aba Arquitetura da tela já não está.
+> - **Treinar** desceu à fileira de ícones. A cor avança enquanto roda.
+
+### 🧪 Console e histórico
+> - **No debug se alarga** a partir da borda esquerda, e o arraste segue mesmo que o cursor saia da alça. Ver [Testar o bot](/docs/Fundamentos/ProbarElBot).
+> - **A sessão por partes**: parâmetros, mensagens ou metadata. Filtrar não encolhe o quadro: conserva o tamanho do JSON completo.
+> - **Um nó em erro se pinta de vermelho** no fluxo enquanto se depura.
+> - **O antes e o depois, lado a lado**: em Gestão → Histórico, uma alteração se abre como diff. Ver [Histórico](/docs/Misc/HistorialDetallado).
+> - **Um parâmetro, uma só vez**: na sessão fica sob o nome. Antes podia se duplicar.
+
+### 📥 Capturas e parâmetros
+> - **A pergunta sai de uma captura**: o texto de «o que falta?» é uma captura reutilizável, não um texto colado à intenção. Ver [Capturas](/docs/Fundamentos/Capturas).
+> - **Sem transição, volta a quem a chamou**: uma intenção que não tem para onde seguir volta só ao contexto que a invocou.
+> - **No meio de uma pergunta**: outra intenção só tira a captura se esse parâmetro permitir.
+> - **Cada árvore vê as suas**: as capturas de uma árvore só o workspace dela lê e modifica.
+> - **Esquecer ao entrar de novo**: nos ajustes do parâmetro, um check esvazia esse valor quando a conversa cai outra vez na intenção. Numa composta o check vai em cada subparâmetro.
+
+### 📦 Exportar e o telefone
+> - **O JSON leva scripts e APIs**: o import os comia por um campo inválido e um bot restaurado chegava sem eles. Ver [Importar e exportar](/docs/Avanzado/ImportarExportar).
+> - **Paginação distinta**: as listas se paginam à parte na web e no telefone.
+> - **A tela estreita**: a bandeja, as listas de intenções e de entidades, o cabeçalho e o console usam a largura do telefone. O botão do app é um só.
+> - **As de exemplo já não trazem segredos**: saíram a consulta por CURP e as chaves do Google das ferramentas que uma árvore nova semeia.
+
+### 📚 Documentação
+> - **O site usa os nomes do app**: fluxos, nós, intenções, entidades, mensagens, capturas, canais, ferramentas, funções (`{ }` e `$`) e agente. A sintaxe `{{ }}` já não se documenta como válida.
+> - **Onde ficou cada coisa**: as entidades de sistema estão em [Entidades](/docs/Fundamentos/Entidades). Importar, exportar e backups estão em [Avançado](/docs/Avanzado/ImportarExportar). Deploy e túnel saíram do site. Miscelânea fica com o [histórico da árvore](/docs/Misc/HistorialDetallado).
+
+### 🧩 Variáveis do sistema e seletor de variáveis
+> - **`{$last_utterance}` e `{$last_no_match}`**: Duas variáveis que o motor monta sozinho, sem configurar nada. A primeira é o último que o usuário escreveu; a segunda, a última frase que o bot não entendeu. Montam-se com o pedido, então já valem na resposta, nas ferramentas e nos scripts do turno. Ver [Variáveis do sistema](/docs/Avanzado/Funciones#variables-del-sistema).
+> - **Repetir a frase em `sys.no-match`**: `No entendí "{$last_no_match}"` já é possível, sem ativar nada no nó. Retirou-se o interruptor «Salvar a mensagem que não foi entendida» e a variável `{$no_match}`.
+> - **Seletor ao escrever `{$`**: No texto das respostas sai uma lista com os parâmetros do bot e as variáveis do sistema, filtrada conforme você escreve. Setas, Enter ou Tab para escolher e Escape para fechar. Ver [O seletor de variáveis](/docs/Avanzado/Funciones#el-selector-de-variables).
+
+### ✏️ Uma só chave nos templates
+> - **`{$variable}` é a sintaxe**: Antes conviviam duas formas, `{{ ... }}` e `{ ... }`, e não eram dois níveis da mesma coisa: a simples só substituía uma variável solta. Agora há uma só — uma chave, e dentro uma expressão — e o `$` é o que distingue uma variável de um texto. Ver [Parâmetros](/docs/Avanzado/Parametros#en-respuestas).
+> - **`{{ ... }}` deixa de funcionar**: Um texto sem migrar **não dá erro, imprime outra coisa**: `{{$nombre}}` sai como `{Ana}`, com a chave de fora pendurada. As árvores existentes precisam ser migradas.
+> - **Atenção ao migrar, o `$` não é opcional**: `{{nombre}}` passa a `{$nombre}`, **não** a `{nombre}`. Sem o dólar, `{nombre}` imprime a palavra "nombre".
+> - **`count()` conta, `len()` mede**: `len($producto)` contava quantas vezes o parâmetro tinha vindo; agora mede **caracteres**, e contar ocorrências é `count($producto)`.
+> - **O `else` é opcional**: `{$edad > 18 ? "adulto"}` não pinta nada se não se cumprir, sem obrigar a escrever a outra ramificação.
+> - **Condições aninhadas e compostas**: `{ $a > 1 ? ($b > 1 ? "A" : "B") : "C" }` e `{ "Tienes " + $n + " de " + ($a if $a > $b else $b) }`. Antes o `? :` só valia se ocupasse a expressão inteira; composto saía em branco.
+> - **Ler a resposta de uma ferramenta**: Dava para salvar a resposta inteira num parâmetro, mas não lê-la. Agora `{$api.estado}`, `{$api.datos.total}`, `{$api.items[0]}`.
+> - **Aritmética de verdade**: `{$a + $b}` com dois números dá a soma (antes concatenava: "37"), `{$a * $b}` já não sai vazio, e `abs()`, `round()` e `sum()` funcionam sobre valores de sessão.
+> - **O CSS e o JSON se respeitam**: Uma regra de estilo de um bloco HTML, um corpo JSON de ferramenta e os quantificadores de uma regex (`^\d{4}-\d{2}$`) atravessam a interpolação intactos. Um espaço **dentro** de um JSON se resolve.
+> - **A saudação que saía como dicionário**: Um bot respondia `{"key_value": "Buenos días", "name": "saludo_tiempo"}` em vez de "Buenos días". Serializava-se o envelope interno do parâmetro em vez do valor.
+> - **Manual da linguagem**: Variáveis, textos, condições, cálculos, funções, parâmetros repetidos, respostas de ferramentas e limitações conhecidas. Está publicado em [Funções](/docs/Avanzado/Funciones).
+
+### 🎧 Mesa de ajuda (Helpdesk) e transferência para humano
+> - **Aplicativo à parte para operadores**: `helpdesk.tree-flow.com`, com o próprio login. Fila de conversas que esperam uma pessoa, chat com o visitante em tempo real (WebSocket) e painel com os dados do visitante. Ver [Mesa de ajuda](/docs/Avanzado/MesaDeAyuda).
+> - **Reivindicar, responder, fechar ou devolver ao bot**: O operador assume a conversa, responde e, ao terminar, fecha ou devolve ao bot. Também se pode transferir a partir do chat. Ao devolver, o bot retoma desde o início.
+> - **Fecha o operador ou o visitante**. Enquanto o outro escreve se veem três pontos.
+> - **Painel de operações (administradores)**: Operadores online, chats em espera, atendidos por uma pessoa, atendidos pelo bot e resolvidos hoje, mais o estado de cada operador e a carga por bot. É a vista padrão da mesa de ajuda.
+> - **Papel `operador`**: Os operadores só entram pela mesa de ajuda; o papel Viewer não entra nela. O botão **Abrir app** da mesa de ajuda só administradores e desenvolvedores veem.
+> - **Bandeja ao vivo dentro de Conversas**: Mais uma aba para quem trabalha a partir do painel principal.
+> - **O bot se cala enquanto uma pessoa fala**: Enquanto a conversa está com um operador, as mensagens do visitante se salvam e chegam ao operador, e o bot não responde (configurável por transferência).
+> - **O template de Restaurante encaminha de verdade**: A intenção `hablar_con_asesor` já estava, mas voltava ao nó Início e não encaminhava a ninguém. Agora aponta para a transferência para humano e semeia uma configuração de transferência ativa.
+> - **Entra na fila no mesmo turno**: O bot dizia *"te conecto com uma pessoa"* mas a conversa não aparecia na mesa de ajuda até a mensagem seguinte do cliente. Também não entrava se fosse a primeira mensagem da sessão.
+
+### 🧪 Suítes de testes de um bot
+> - **Aba Testes em Conversas**: Guarda casos — conversas de vários turnos com conferências —, executa contra a árvore e deixa o resultado salvo. Ver [Testes](/docs/Avanzado/Pruebas#una-suite).
+> - **CSV como formato**: `caso,turno,mensaje,intencion,respuesta_contiene,slot,parametros,evento`. As colunas vazias não conferem nada, então o CSV mínimo é `caso,turno,mensaje`: executa-se e mostra o que o bot respondeu.
+> - **Editor de turnos**: Os casos se editam na página (mensagens, conferências, acrescentar e tirar) sem exportar e reimportar o CSV.
+> - **Histórico e comparação**: Cada execução guarda com qual treinamento se mediu. Comparar duas execuções diz o que passava e agora falha e o que falhava e agora passa.
+> - **Os vermelhos se explicam**: Os casos falhos se abrem sozinhos, e cada conferência mostra o que se esperava **e o que o bot respondeu**.
+> - **Não se executa sem treinar**: O botão de executar fica desligado enquanto o bot não estiver treinado.
+> - **Roteiro de Restaurante incluído**: O roteiro de QA do template como suíte executável: 40 casos, 72 turnos, 141 conferências, uns 30 segundos.
+> - **Sem conversas falsas**: Cada caso usa a própria sessão e se apaga ao terminar; não suja a página de Conversas.
+> - **Oculta no modo iniciante**: Esses bots não veem intenções nem entidades, então também não a aba.
+
+### 📱 Widget web adaptável
+> - **Widget do CDN v1.3.6 e v1.3.7**: Tudo desta seção chega também ao widget que os clientes instalam, não só ao do app. Os widgets já instalados (que apontam para `@main`) recebem sem mexer no site.
+> - **Aba Responsive por dispositivo**: Um painel **Configuração** com seletor *Desktop / Tablet / Celular*, e em cada um os próprios ajustes: os pontos de corte de celular (480–768 px, 640 por padrão) e tablet (até 1200 px, 1024 por padrão), a **tela cheia automática no celular**, o ajuste inteligente no tablet e os botões do cabeçalho.
+> - **Três estados, e no celular só dois**: O chat está fechado, aberto ou maximizado. Num telefone só há fechado ou tela cheia: ao tocar o ícone ocupa todo o viewport (`100dvh`), e **não há botão de maximizar**. Este é opcional, por dispositivo, só em desktop e tablet.
+> - **Botões de minimizar e de fechar por dispositivo**: *Minimizar* (volta ao ícone) vem ativado em desktop e tablet e desativado no celular. *Fechar* (**elimina o chat da página** até recarregar) vem desativado em todos. Minimizar a partir do maximizado já não restaura a janela: volta ao ícone.
+> - **Tocar a faixa do cabeçalho minimiza o chat** em qualquer dispositivo, esteja ou não ativado o botão de minimizar (no celular desde a v1.3.7 do CDN; no tablet e no desktop desde a v1.3.10). Um toque sobre um botão é atendido pelo botão. Assim sempre há saída, mesmo que minimizar e fechar estejam desativados.
+> - **`widget.destroy()`**: Método novo para tirar o chat da página; `widget.close()` continua deixando só o ícone.
+> - **Autoajuste no tablet**: O widget não transborda a tela: limita-se a 88% da largura e a 82% da altura disponíveis. Reavalia-se ao girar ou redimensionar.
+> - **Interruptor "Habilitar maximizar" fora de Desenvolvedor**: Agora só se escolhe por dispositivo em Responsive.
+> - **Página de teste para compartilhar**: Um botão na integração web abre `/widget-demo/{tree_id}`, uma página com só esse bot carregado, sem login, para mostrar a alguém sem instalar nada.
+> - **Aviso de alterações sem salvar**: A pré-visualização usa o que há na página e a página de teste o que há salvo; agora a configuração avisa quando diferem.
+> - **Contexto padrão**: Na aba *Desenvolvedor* se definem variáveis de contexto que o widget manda em cada pedido. O que a página injetar com `widget.injectContext(...)` as sobrescreve.
+> - **Contexto injetado no primeiro turno**: Antes se perdia justo no turno de boas-vindas e as variáveis saíam vazias.
+> - **Tipografia**: O tamanho de letra padrão baixa a `0.8rem` e o ajuste de *Tamanho da fonte das mensagens* já chega aos parágrafos e botões das mensagens enriquecidas, não só ao texto plano.
+> - **Cores**: O avatar segue a cor do cabeçalho enquanto ninguém o mudar de propósito, *Restabelecer* o restabelece, e o botão lançador já não fica laranja ao passar o mouse com outras paletas.
+
+### 🧱 Bloco HTML em mensagens enriquecidas
+> - **Novo tipo `html`**: Escreva etiquetas (`<h3>`, `<p>`, `<blockquote>`, `<img>`, `<a>`…) ou ponha uma variável de sessão (`{$noticias}`) que uma ferramenta ou uma API devolveu.
+> - **Editor com pré-visualização**: Abas *Código / Variável* e *Pré-visualização*, e vários fragmentos por bloco.
+> - **Sanitizado**: O HTML se limpa antes de ser pintado: não passam `script`, `iframe`, `object`, `embed`, `form` nem `input`, nem atributos de eventos (`onerror`, `onclick`…).
+> - **Listas e JSON como dados**: Uma variável que contém uma lista de elementos (`title`, `image`, `content`/`html`/`excerpt`) se pinta como uma série de fragmentos separados.
+> - **Interpolação de listas e objetos**: `{$variable}` com uma lista ou um objeto agora se insere como JSON em vez de falhar ou mostrar a representação interna.
+> - **Tipos de resposta `html` e `json`**: O motor os aceita como resposta direta e os entrega ao widget como bloco HTML.
+> - **Também no widget do CDN (v1.3.6)**: Pinta o bloco `html` e as respostas do tipo `html` dentro do chat, em vez de mostrar as etiquetas como texto. Saneia com DOMPurify e abre os links numa aba nova com `noopener noreferrer`. O bundle passa de 109 a 144 KiB por incluir DOMPurify.
+
+### 🧠 Treinamento e NLP
+> - **Modo Básico por padrão**: As árvores novas se treinam no modo **Básico**, e também quando o modo não está definido. Antes era Pro.
+> - **Entity masking**: Antes de comparar, o texto do usuário se mascara com as entidades (*"duas pizzas de pepperoni"* → `@sys.number @categoria de @sabor`). Os padrões com `@entidad` agora casam por coincidência exata, e o classificador de Machine Learning se treina e consulta sobre texto mascarado.
+> - **Treinamento mais leve**: O reconhecedor de entidades treina por lotes e com menos voltas em árvores grandes, o gerador de frases já não multiplica todas as combinações, e o treinamento tem um teto de memória e de tempo (5 minutos por passo).
+> - **Uma falha já não se anuncia como sucesso**: Um treinamento que estourava saía como *"sem treinar"* e a interface dava por bom. Agora o estado é `error`.
+> - **O treinamento voltou a funcionar**: Desde 7-set as fases 1 e 2 morriam com `ModuleNotFoundError` em qualquer ambiente.
+> - **Treinar forçado**: Quando o botão está em *"atualizado"* dá para retreinar mesmo assim (`?force=true`), e não se lança um segundo treinamento sobre um em curso. Os treinamentos travados há mais de 20 minutos se dão por falhos.
+> - **Templates e o agente marcam a árvore como desatualizada**: Aplicar um template ou substituir intenções em bloco agora avisa que é preciso retreinar. Antes o motor seguia com o modelo velho sem dizer nada.
+> - **Ao abrir o aplicativo**: Abre-se a última árvore com a qual você trabalhou e, se não houver nenhuma lembrada, uma das existentes.
+
+### 🛠️ Ferramentas e scripts
+> - **Três estados de execução**: `ok` (✓ 200), `sin datos` (⚠ 200 sem nenhuma variável de saída: o fluxo segue com os valores de respaldo) e `error` (✗). Antes uma resposta correta sem saídas configuradas contava como erro.
+> - **Mensagem se falhar**: Cada ferramenta e script tem a mensagem amigável por idioma. O usuário final já não lê o texto técnico; este fica no modo debug.
+> - **Testes pelo backend**: O botão *Testar* executa a ferramenta com o mesmo executor da conversa, sem CORS nem critérios distintos. Só fica validada com estado `ok`.
+> - **Lápis para editar sem sair**: Nos cartões de ferramentas e scripts do editor de nós e nas fichas do modo debug do console, com o mesmo editor da página de Ferramentas.
+> - **Scripts com o ícone**: As fichas de debug distinguem scripts (`<>`) de ferramentas.
+> - **Segurança**: Listar, salvar, mudar o estado e ler os logs de execução das ferramentas de uma árvore agora exige sessão (ou API key) e que a árvore seja do seu workspace. Antes alguns desses endpoints respondiam sem autenticar.
+
+### 💬 Respostas por canal
+> - **Nomes novos**: A seção se chama *Respostas por canal* e a aba padrão, *Geral*. Um só botão **Adicionar bloco**; dentro se escolhem os elementos, e os blocos vão numerados.
+> - **Com vários blocos o bot escolhe um ao acaso** em cada resposta e manda todos os elementos. Agora a página diz isso.
+> - **Geral admite blocos de elementos**, igual ao resto das abas. Os canais que não sabem pintá-los convertem a texto.
+> - **Acabou o sorteio entre duas cópias**: Editar um template na página deixava viva a versão anterior e o bot alternava entre as duas (*"às vezes saem três botões e às vezes cinco"*). Manda a tradução.
+> - **Um bloco vazio não viaja nem entra no sorteio**: Já não aparecem bolhas em branco.
+> - **O texto de um template não se inventa**: Desaparecem os preenchimentos *"Conteúdo de mensagem enriquecida"* e *"Mensagem enriquecida"*.
+
+### 🔌 Canais de mensageria
+> - **WhatsApp, Messenger, Instagram, Slack, Discord e Email respondem de verdade**: Chamavam o motor com os argumentos errados e respondiam sempre uma saudação fixa.
+> - **Cada canal com as credenciais do workspace**: Antes tomavam a primeira credencial de qualquer workspace.
+> - **Assinatura dos webhooks**: Meta, Slack, Discord, Telegram e Resend verificam a assinatura; sem segredo configurado, não passam.
+> - **Telegram**: A sessão é por bot (uma pessoa falando com dois bots já não arrasta o nó do primeiro), as conversas se salvam no histórico, o webhook se registra ao conectar, e localização, cartões e botões de link se enviam bem.
+> - **Segredos**: Salvar com o campo de token vazio já não o apaga, e as páginas já não recebem o *Signing Secret* do Slack nem o token do Telegram.
+
+### 🗄️ Backups e conteúdo por idioma
+> - **Backups incrementais**: Cada backup automático guarda as conversas ocorridas desde o anterior, não todo o histórico. Num bot com tráfego baixavam de 18 MB por cópia e subindo. A primeira cópia e as exportações manuais continuam levando tudo.
+> - **Listagem com paginação**: A listagem de backups demorava minutos por carregar o conteúdo de cada um; agora pede só o que mostra e pagina de vinte em vinte (35 vezes mais rápido na medição).
+> - **Restaurar, importar ou aplicar um template já não apaga o que foi escrito na página**: A sincronização de traduções sobrescrevia frases de treinamento e blocos com valores vazios; agora semeia sem sobrescrever. Uma árvore importada ficava sem traduções e o bot não reconhecia nada até retreinar na mão.
+> - **Os backups incluem as traduções**, que é onde vive o conteúdo.
+> - **Diagnóstico**: `scripts/diagnostico_respuestas_divididas.py` (somente leitura) detecta conteúdo duplicado entre a coluna base e a tradução.
+
+### 🩺 Operação e deploy
+> - **`/api/health`**: Confere também a base de dados, e o Docker vigia o backend com ele. `/api/ping` continua medindo só que o processo responda.
+> - **Atualizar templates numa base já criada**: Um script aplica as alterações de templates (que são dados, não código) a uma base de dados existente; o deploy não os movia.
+> - **Voz em produção**: O backend buscava o serviço de voz na porta errada e STT/TTS estavam caídos sem aviso.
+> - **Hook de Git**: `pre-push` cancela o push se o frontend não compilar. Ativa-se uma vez por cópia com `git config core.hooksPath .githooks`.
+> - **Desenvolvimento**: Os serviços do `docker-compose.yml` de desenvolvimento levam o próprio nome, volumes e portas configuráveis (`DEV_DB_PORT`, `DEV_PGADMIN_PORT`) e tetos de CPU e memória, para conviver com produção na mesma máquina.
+> - **Links quebrados**: O *"Ler documentação"* de ramos ligados e o cabeçalho de atribuição do OpenRouter apontavam para domínios que já não existem.
+
+### 🐞 Correções
+> - **Um pedido completo de uma vez perdia as linhas**: *"me dá 1 empada de frango e 2 arepas de carne"* confirmava as duas e, ao fechar, só a primeira; e uma correção se aplicava à linha errada.
+> - **Criar árvore com lag duplicava árvores**: Cada clique extra com o servidor lento criava outra. O botão de importar tinha o mesmo defeito.
+> - **Salvar uma folha nova a partir do editor**: `PUT /design/leaves` cria a folha se ainda não existia na base, em vez de responder 404.
+> - **Ramos ligados com ID composto**: O editor de intenções mandava um ID com sufixo e o servidor respondia 422; agora interpreta.
+> - **Atualizações parciais**: `PUT` de intenções e entidades aceita só os campos que mudam e não esvazia o resto. As entidades também se localizam por nome.
+> - **Botão "Pronto"** dizia *"Pronto, já salvei minha chave"* em todo o aplicativo, e faltava em alemão, francês e italiano.
+> - **Passar a um bot de iniciante a partir da aba Testes** deixava a vista de Conversas em branco; agora volta ao Histórico.
+> - **O console respeita o canal escolhido** e não volta a sortear no cliente.
+> - **Refator de frontend e backend**: Modularização de design, backups, auditoria, canvas, autenticação e padrões, com a correção dos erros de tipos que deixou.
+> - **O console fechado deslocava todo o layout para a direita**: Ao trocar de árvore, o conteúdo ficava sob a sidebar e sobrava um vão da largura do console. A caixa do console fechado media 0 mas não recortava o painel, e o `scrollIntoView` do chat do console, ao montar, deslocava o layout inteiro.
+
+</details>
+
+<details>
+<summary><strong>V-0.9.0 (setembro 2026) - Entidades compostas com alias, pedidos de várias linhas e slot filling que não prende</strong></summary>
+
+### 🧩 Folhas compostas: linhas de combinação e alias de parâmetro
+> - **Definição por linhas**: Uma folha composta se define agora com várias linhas, igual às frases de uma intenção. Cada linha é uma forma válida de dizer a mesma coisa — o pedido em outra ordem, ou com uma parte a menos — e ganha a que preenche mais espaços.
+> - **Alias com dois pontos**: `@Productos:producto` guarda a folha `Productos` sob o nome de parâmetro `producto`. Sem os dois pontos, o parâmetro se chama igual à folha.
+> - **Palavras literais nas linhas**: Uma linha admite texto fixo entre os espaços (`@categoria:cat de @sabor:sab`); se estiver escrito, tem que aparecer na frase.
+> - **Destaque do token completo**: No editor, o destaque cobre `@Productos:producto` inteiro. Antes o alias ficava de fora e parecia texto solto da frase.
+
+### 📋 Um parâmetro pode trazer vários valores
+> - **Ocorrências múltiplas**: Se a mesma folha aparece duas vezes na frase, o parâmetro guarda **as duas**, em ordem. Até agora a segunda sobrescrevia a primeira e desaparecia sem aviso.
+> - **Acesso como lista**: `{{$producto[0]}}`, `{{$producto[1]}}` e `{{len($producto)}}`. Um parâmetro que veio uma só vez se comporta como uma lista de um, então `[0]` funciona sempre.
+> - **Declarar no plural**: Escrever a folha duas vezes na frase de treinamento diz à árvore que esse parâmetro pode vir repetido.
+
+### 🧾 Pedidos de várias linhas
+> - **Enumeração**: *"me dá 1 empada de frango e 2 arepas de carne"* se anota e se confirma como as duas coisas. Antes se confirmava só a primeira e a segunda se perdia em silêncio.
+> - **Perguntar por cada linha**: Com duas linhas incompletas, a árvore pergunta por cada um e nomeia de qual fala: *"De que sabor você quer as 3 arepas?"*. Antes, assim que uma linha trazia o dado, o requisito se dava por cumprido e o pedido se fechava incompleto.
+> - **Somar frente a corrigir**: *"e além disso três arepas"* acrescenta; *"não, espera, melhor de carne"* corrige a última e herda o que a frase não menciona. Exige-se um marcador explícito para somar, porque anotar comida que ninguém pediu é pior do que corrigir demais.
+> - **O pedido termina ao fechá-lo**: Fechar ou cancelar esvazia o pedido. Antes o seguinte herdava o anterior.
+
+### 🎛️ Slot filling que não deixa o usuário preso
+> - **Interruptor "Encerra uma captura em andamento"**: Opção nova por nó de intenção. Cancelar ou se despedir encerram a captura; uma dúvida de passagem, como perguntar o horário, só a pausa e depois se retoma.
+> - **Máximo de tentativas e ação ao superar**: `Passar ao próximo parâmetro`, `Responder mesmo faltando o valor` ou `Ir ao nó de contexto`. Se todos os obrigatórios esgotarem as tentativas, a árvore abandona com uma mensagem em vez de dar voltas.
+> - **Não se pergunta o que não tem sujeito**: Um enunciado que se apoia em outros parâmetros não se pergunta se todos estão vazios. Acabou o *"De que sabor você quer?"* — de nada — e a quantidade de nada atrás.
+> - **Recaptura**: Os parâmetros marcados como recapturáveis podem ser corrigidos enquanto se pergunta por outro.
+
+### 🔤 Linguagem de templates
+> - **`{{$variable}}` é a sintaxe**: O `$` é obrigatório para ler um parâmetro. Também dentro de expressões: `{{ if $numero > 1 ? "${producto}s" : $producto }}`.
+> - **Comparadores**: `$numero > 1` e o resto das comparações funcionam sobre parâmetros.
+> - **`${var}` dentro de cadeias**: Interpolação dentro de um literal de texto.
+> - **Um parâmetro inexistente já não quebra a mensagem**: Vale como vazio e só fica em branco essa parte, em vez de derrubar a expressão inteira e deixar a resposta muda.
+> - **Sem conectores órfãos**: Um espaço vazio já não deixa *"¿Cuántas empanada de  te preparo?"*.
+
+### 🎯 Detecção: cada palavra-chave na intenção
+> - **Limites de palavra**: As frases de uma folha casam por palavras completas. Antes `"el bar"` casava dentro de `"el BARrio"` e `"a m"` dentro de `"modificA MI pedido"`.
+> - **Nome bem escrito nas respostas**: O bot confirma com o nome correto, não com o erro do usuário: *"kiero 2 empanads de keso"* se anota como *"2 empanadas de queso"*.
+> - **Um pedaço de frase não preenche dois espaços**: Em *"amanhã às 8 da noite"*, o 8 é a hora e não também o número de pessoas.
+> - **Palavras-chave compartilhadas**: Várias intenções que compartilhavam vocabulário deixavam a repartição à sorte; cada uma tem agora o discriminador.
+
+### 📦 Exportação
+> - **"Incluir conversas" se respeita**: A caixa já funciona. Desativada — por padrão — o arquivo não arrasta o histórico, que num bot em produção são milhares de turnos com dados de clientes.
+
+### ⚡ Desempenho do editor
+> - **Contextos memorizados**: Os contextos globais criavam um objeto novo em cada render, então re-renderizavam todos os consumidores mesmo que nenhum dado mudasse. Medido com 100 consumidores: de 100 renders por ciclo a 0.
+
+### 🏷️ Versão visível
+> - **A versão aparece no rodapé do login**: Em letra pequena, bem embaixo. Num ambiente local sai com o sufixo `· dev`; em produção, só o número. Serve para saber de relance contra o que você está falando quando reporta algo.
+
+### 🔐 Credenciais
+> - **O Chrome já não autopreenche as API keys**: Os campos de chave e de bot token se marcam como senha para ocultá-los, e o gerenciador de senhas do navegador metia uma credencial salva. Afetava os 20 campos de integrações, incluída a chave do provedor de IA.
+
+</details>
+
+<details>
+<summary><strong>V-0.8.0 (agosto 2026) - Presença em tempo real, debug visual, Dialog Builder e autenticação melhorada</strong></summary>
+
+### 👥 Sistema de presença em tempo real
+> - **Cursores ao vivo (Live Cursors)**: Os administradores veem o cursor de cada colaborador em tempo real sobre o canvas e a árvore conversacional, por WebSocket.
+> - **Avatares de usuários conectados**: Indicadores visuais no Dashboard, Navbar, canvas (cabeçalho de ramo + badges por nó), e nos editores de Intenções e Entidades.
+> - **Follow Mode**: Modo de acompanhamento flutuante — um admin pode sincronizar a vista com a de outro usuário conectado com um só clique.
+> - **Seleção destacada**: Ao selecionar um nó, os outros usuários conectados veem um anel de cor única ao redor do elemento selecionado.
+> - **Restrição a administradores**: A interação em tempo real, cursores e follow mode estão restritos exclusivamente a usuários com papel `admin`.
+> - **Endpoint de presença global**: Novo endpoint `GET /trees/{tree_id}/presence/overview` que devolve a lista de usuários ativos com a localização atual na árvore.
+
+### 🐛 Debug visual no canvas
+> - **Traçado em tempo real**: Durante os testes no console, os nós visitados pelo motor se destacam visualmente no canvas com uma cor diferenciada.
+> - **Autonavegação de ramos**: O canvas navega automaticamente para o ramo ativo durante a sessão de debug, mantendo o foco no fluxo em execução.
+> - **Conexões traçadas**: As arestas (conexões) entre nós também se destacam para visualizar o caminho de decisão tomado pelo motor.
+
+### 🏗️ Dialog Builder — nova aba do console
+> - **Terceira aba no console**: Acrescentou-se uma aba dedicada *Dialog Builder* no console lateral do editor, junto a Chat e Debug.
+> - **Histórico de chat como bolhas**: A janela de conversa foi redesenhada por completo com um estilo de histórico de bolhas moderno, diferenciando visualmente turnos do usuário (laranja primário) e do bot.
+> - **Debug Accordions inline**: Os dados de debug (confidence score, entidades extraídas, ramo executado) se mostram como acordeões recolhíveis diretamente dentro do histórico, sem interromper o fluxo da conversa.
+> - **Modo QA restrito**: O toggle de nó e o seletor de ramo estão desativados no modo console para evitar modificações acidentais durante os testes.
+
+### 🔐 Autenticação melhorada
+> - **Logout automático por inatividade**: Encerramento de sessão automático após 1 hora sem atividade do usuário, com aviso prévio.
+> - **Caixa "Lembrar credenciais"**: Opção no formulário de login para persistir as credenciais entre sessões do navegador.
+
+### 🌿 Duplicação de ramos
+> - **Ação de duplicar ramo**: Opção nova na vista `/branches` (modo teste/experiente) para duplicar um ramo completo com um prompt de nome personalizado.
+
+### 🔧 Correções de motor (regex e API)
+> - **Estratégias de matching (`utils.py`)**: Correções nos utilitários de estratégias de matching regex do motor determinístico.
+> - **Endpoints de conversas**: Alinhamento dos endpoints de conversas com o path canônico `/trees/{tree_id}/conversations` e alias `/api/trees/` em `app.py`.
+> - **Fix TypeScript**: Eliminação de importações não utilizadas e correção de tipos em componentes UI (`NavIcons`, `GeneralTab`, `ConsoleChatWindow`).
+
+</details>
+
+<details>
+<summary><strong>V-0.7.0 (julho 2026) - Multicanalidade avançada, modais padronizados e payloads nativos por plataforma</strong></summary>
+
+### 🔌 Novas integrações e reorganização de canais (`backend/api/integrations/`)
+> - **Slack App (Events API)**: Integração em tempo real com Slack API e renderização nativa **Block Kit** (`section`, `actions`, `button`, `image`).
+> - **Discord Bot API**: Suporte para **Rich Embeds** e componentes `ActionRow` interativos com resposta de verificação ED25519 (`type=1`).
+> - **ElevenLabs Voice AI**: Síntese neuronal de voz multilíngue (`eleven_multilingual_v2`) com seletor de vozes.
+> - **Avatares IA**: Geração de vídeo-respostas interativas com avatares de HeyGen e D-ID.
+> - **Estrutura limpa de integrações**: Routers modularizados em `backend/api/integrations/` e clientes API cliente em `frontend/src/api/integrations/`.
+
+### 🎛️ Padronização de modais e interface UI
+> - **Cartão de estado e interruptor ON/OFF**: Reorganização dos 8 modais de integrações com cartão visual de estado (`IntegrationStatusCard.tsx`) e interruptor ON/OFF interno para ativar/desativar conexões sem sair do modal.
+> - **Categorização de integrações (`IntegrationsView.tsx`)**: Etiquetas padronizadas: 🟢 **Estável** (Telegram, Web), 🟡 **Instável** (WhatsApp, Facebook, Slack, Email, Instagram, Discord, ElevenLabs, Avatares IA) e ⚪ **Pendente implementar** (SMS, BYOC).
+
+### 💬 Blocos visuais e payloads nativos por plataforma
+> - **Abas dinâmicas por canal**: No editor de respostas (`ResponsesSection.tsx`), cada integração ativa conta com a aba dedicada para criar respostas e blocos enriquecidos à medida do canal.
+> - **Tradutor nativo multiplataforma (`native_rich_messages.py`)**: Tradução inteligente de blocos visuais do Treeflow para estruturas nativas oficiais de WhatsApp (botões/listas interativas), Facebook (Generic Templates/Quick Replies), Slack (Block Kit), Discord (Rich Embeds/Buttons) e Resend Email (HTML responsivo com CTAs).
+</details>
+
+<details>
+<summary><strong>V-0.6.0 (julho 2026) - AI Builder Agent, segurança multitenant e otimização de produção</strong></summary>
+
+### 🤖 Treeflow AI Builder Agent
+> - **Console assistido de IA**: Console inteligente capaz de criar, consultar e modificar ramos, nós, intenções, entidades, templates de mensagens, usuários e fertilizantes em tempo real.
+> - **Protocolo antiduplicados de 2 camadas**: Regra obrigatória no System Prompt e validações de backend em `create_branch`, `create_leaf`, `create_intent`, `create_entity`, `create_message_template` e `create_fertilizer` que impedem criar recursos duplicados por nome.
+> - **Savepoints transacionais (`db.begin_nested()`)**: Execução segura de ferramentas com rollback automático em caso de erro para proteger a integridade da árvore.
+
+### 🛡️ Segurança e isolamento multitenant
+> - **Verificação de propriedade (`verify_tree_ownership`)**: Validação de pertencimento da árvore ao workspace (`tree.workspace_id == current_user.workspace_id`) em `/chat`, `/confirm` e `/sessions`.
+> - **Imunidade a prompt injection / alucinações**: Sobrescrita forçada no backend dos parâmetros `tree_id` e `workspace_id` ao executar as ferramentas do agente.
+> - **Filtros joins de BD e cabeçalhos HTTP**: Isolamento estrito por `tree_id` em PostgreSQL e injeção automática de cabeçalhos de segurança (`X-Content-Type-Options`, `X-Frame-Options`, `X-XSS-Protection`, `Referrer-Policy`).
+
+### ⚡ Desempenho, rate limiting e produção
+> - **Rate limiting (120 req/min)**: Proteção por meio de janela deslizante no motor determinístico (`/api/process-message`) e webhooks de canais (`/api/webhooks/telegram/{tree_id}`) contra ataques de flooding (DoS).
+> - **Compressão GZip (`GZipMiddleware`)**: Redução de tamanho de transferência de 80-90% para payloads > 1KB (aceleração visual de canvas e listagens).
+> - **Indexação B-Tree**: Índices em `Leaf.branch_id` e `Branch.tree_id` em PostgreSQL para consultas abaixo de milissegundo.
+</details>
+
+<details>
+<summary><strong>V-0.5.0 (junho 2026) - Templates, Telegram e blocos ricos</strong></summary>
+
+### 🔌 Integrações e webhooks avançados
+> - **Telegram oficial**: Conexão nativa com Telegram, renderização de 14 blocos ricos (carrosséis, botões, multimídia) com testes end-to-end.
+> - **Webhooks de terceiros**: Suporte e estabilidade de webhooks (`Fertilizantes`).
+
+### 🤖 Geração e templates
+> - **Modelos industriais**: Refatoração profunda de templates.
+> - **Reflorestação complexa**: Modificações e melhorias no parse natural e no destaque no editor.
+> - **Suporte de entidades relativas**: Captura de datas dinâmicas e nomes próprios complexos em templates.
+</details>
+
+<details>
+<summary><strong>V-0.4.2 (maio 2026) - Estabilidade de UI e testes</strong></summary>
+
+### 🎨 Experiência e QA
+> - **Responsividade total**: Ajustes completos para o TreeFlow funcionar em todos os tamanhos de tela.
+> - **Agentes predefinidos**: Adição de bots e agentes pré-carregados para começar rápido.
+> - **Testes automatizados**: Integração com Playwright para testes E2E robustos.
+</details>
+
+<details>
+<summary><strong>V-0.4.1 (abril 2026) - Estabilização de motor</strong></summary>
+
+### 🛠️ Melhorias de core
+> - Fix global para salvamento de ramos e estado.
+> - Correção na habilitação e desabilitação de parâmetros (slot-filling).
+> - Traduções finais da interface.
+</details>
+
+<details>
+<summary><strong>V-0.4.0 (março 2026) - IA generativa aplicada e infraestrutura</strong></summary>
+
+### 🤖 GenAI e UI
+> - **Ferramentas de IA (Tools)**: Motor generativo capaz de usar ferramentas externas em tempo real.
+> - **Modo iniciante**: Introdução de tutoriais interativos e modos simplificados.
+
+### 🚀 Deploy e DevOps
+> - **Ambiente staging**: Configuração de URLs dinâmicas através de Cloudflared.
+> - **CORS dinâmico**: Solução para convivência de frontend, backend e Grafana em portas separadas.
+</details>
+
+<details>
+<summary><strong>V-0.3.2 (fevereiro 2026) - Arquitetura e segurança</strong></summary>
+
+### 🛡️ Segurança
+> - Correção profunda nas políticas de início de sessão (Login) e propriedades de segurança.
+> - Arquitetura técnica documentada.
+</details>
+
+<details>
+<summary><strong>V-0.3.1 (janeiro 2026) - Slotfilling e variáveis dinâmicas</strong></summary>
+
+### 💬 Respostas inteligentes
+> - Suporte para injetar e utilizar variáveis de parâmetros diretamente nas mensagens de texto (`{variable}`).
+> - Multiparâmetros (slotfilling) otimizado para várias entidades numa mesma intenção.
+</details>
+
+
+## 📜 Histórico base (2025)
+
+<details>
+<summary><strong>V-0.3.0 (dezembro 2025) - A tela conversacional (Canvas)</strong></summary>
+
+### 🎨 Canvas Engine
+> - **Lançamento do editor visual (Canvas)**: Interface gráfica de arrastar e soltar funcional com o Matcher.
+> - **Sistema de mensagens integrado**: As intenções agora renderizam conteúdo diretamente no nó.
+</details>
+
+<details>
+<summary><strong>V-0.2.3 (novembro 2025) - Analítica e STT</strong></summary>
+
+### 📊 Monitoramento
+> - Dashboard operacional de **Grafana e Prometheus** integrado.
+> - Histórico conversacional completo com **análise de sentimentos**.
+> - Inserção de logs de Speech-to-Text (STT).
+</details>
+
+<details>
+<summary><strong>V-0.2.2 (outubro 2025) - Geração de IA por fases</strong></summary>
+
+### 🤖 Reflorestação e destaque
+> - **Pipeline de IA de 6 fases**: Análise conversacional, estruturação semântica, sinônimos e aplicação (Groq Models).
+> - **Modo escuro**: Implementação nativa e cache inteligente.
+> - Destaque visual interativo (`Highlight`) de entidades reconhecidas nos quadros de texto.
+</details>
+
+<details>
+<summary><strong>V-0.2.1 (setembro 2025) - Base generativa</strong></summary>
+
+### 🧠 Modelos fundacionais
+> - Modificação de endpoints para modelos NER (Named Entity Recognition).
+> - Refatoração de prompts base do sistema generativo.
+</details>
+
+<details>
+<summary><strong>V-0.2.0 (agosto 2025) - IA multimodal e web widgets</strong></summary>
+
+### 🎨 Design e widget
+> - **Widget Web V2**: Lançamento do widget web interativo e incorporável (Shadow DOM).
+> - Backend generativo isolado e painel de controle de usuários.
+</details>
+
+<details>
+<summary><strong>V-0.1.0 (julho 2025) - Workspaces e fertilizantes</strong></summary>
+
+### 🏢 Estrutura multiambiente
+> - Lançamento oficial do sistema de **workspaces** (contas independentes e segregação de usuários).
+> - Implementação do modal interativo de testes ao vivo para **webhooks**.
+</details>
+
+<details>
+<summary><strong>V-0.0.2 (junho 2025) - Metadados avançados</strong></summary>
+
+### ⚙️ Parâmetros e contextos
+> - Manejo global de metadados de usuário (sys variables) e contextos funcionais de entrada e saída.
+> - Requisito lógico de parâmetros do usuário para validação.
+</details>
+
+<details>
+<summary><strong>V-0.0.1 (maio 2025) - Lançamento inicial</strong></summary>
+
+### 🌱 A semente do TreeFlow
+> - Base arquitetônica de Trees, Branches e Leaves.
+> - Implementação nativa de entidades `@sys` base e detectores lógicos com FastApi + React.
+> - Ajustes de limiares Machine Learning vs Fuzzy Logic.
+</details>

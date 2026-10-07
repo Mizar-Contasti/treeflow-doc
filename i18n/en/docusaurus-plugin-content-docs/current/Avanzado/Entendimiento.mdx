@@ -1,0 +1,70 @@
+---
+sidebar_position: 4
+sidebar_label: Understanding
+---
+
+# Understanding
+
+The screen is in the tree settings, on the **Understanding** tab. There you choose the mode, sentiment analysis, the thresholds, and the order. This page is what each one does.
+
+![Understanding: the mode, sentiment, the thresholds, and the order](/img/arboles/entendimiento.png)
+
+## Basic or Pro
+
+A new tree starts in **Basic**. Basic is also used when the mode is not set.
+
+In Basic, training is short. It recognizes by text and pattern match, exact and approximate. The model is not in the list: there is none to query.
+
+**Pro** trains a classifier. It is a scikit-learn logistic regression over the phrase text, not a neural network. Use it when the person does not write the same words as the pattern. It takes longer. You cannot change the level while it is training.
+
+Start in Basic while you build the flow. Switch to Pro when the tree will talk to people who do not use your phrases.
+
+## Mask the phrase
+
+Before comparing, the engine replaces what it already recognized as an entity with its name:
+
+```
+Usuario:      hola quiero dos pizzas de pepperoni para llevar
+Enmascarado:  hola quiero @sys.number @categoria_producto de @sabor_producto @tipo_servicio
+```
+
+A pattern `quiero @sys.number @categoria_producto` matches "I want two pizzas" and "I want five empanadas" without writing every combination. In Pro, the classifier is also trained and queried on that masked text: it learns the shape of the phrase, not each value.
+
+If several matches overlap, the longest one wins. Entities are read as whole words. `sys.number` also understands a number written out in words.
+
+## When training
+
+The lightning bolt in the menu starts training. When it finishes, the status is **up to date**. If it fails, the status is **error** and the bot keeps the previous model until one finishes successfully.
+
+Two trainings do not run at the same time on the same tree. One that runs for more than 20 minutes is treated as failed, so it does not block the next one. If the button says there are no changes and you still want to retrain, you can force it.
+
+Applying a template, or replacing intents in bulk, leaves the tree **out of date**. Train again so the engine uses what is new. A message or a capture does not go through here: they are read at reply time.
+
+## Order
+
+The tree tries several methods and keeps the first one that matches well. You drag the order in **Priority order**. The one at the top goes first.
+
+![The order: the method on top carries more weight](/img/arboles/prioridad.png)
+
+| Method | What it looks at |
+|---|---|
+| Exact entity match | A value or a synonym written on the entity |
+| Approximate entity match | The same, tolerating typos |
+| Exact pattern match | The phrase against the training phrases |
+| Approximate pattern match | The same, tolerating differences |
+| Model | The Pro classifier. In Basic this row is absent |
+
+Out of the box they run from the most literal to the loosest. Moving approximate match above exact match lets a similar phrase beat an identical one. "hola" is close enough to "hora" that "a qué hora abren" ("what time do you open") lands on the greeting. If you change the order, test the usual phrases before you leave it that way.
+
+### Thresholds
+
+Both start at 70%.
+
+- **ML threshold.** The minimum confidence the model needs before it accepts the intent. Higher means fewer chance hits and more `no_match`.
+- **Approximate match threshold.** The minimum similarity when the phrase is not exact.
+
+## Sentiment
+
+The **Sentiment analysis** switch marks each message as positive, neutral, or negative. Use it to see frustration on the dashboard and to suggest that the conversation pass to a person. It is not a condition you write in the flow.
+
+Composite entities, regex, and system entities are covered in [Entities](/docs/Fundamentos/Entidades).

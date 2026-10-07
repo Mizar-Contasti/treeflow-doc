@@ -1,0 +1,65 @@
+---
+sidebar_position: 4
+sidebar_label: Un messaggio con una funzione
+---
+
+# Un messaggio con una funzione
+
+Quello che dice il bot può avere un vuoto. Si scrive tra parentesi graffe e il `$` segna la variabile. Senza `$`, è testo fisso.
+
+```
+{$nombre}     el valor de la variable nombre
+{nombre}      la palabra "nombre"
+```
+
+## L'ordine di Cafetería
+
+**Messaggi** apre l'elenco. Entra in `restaurante_hacer_pedido_response`. Nella scheda **Default**, il testo nomina quello che è stato annotato se c'è già un ordine e, se no, chiede che cosa preparare.
+
+![restaurante_hacer_pedido_response: la funzione con $pedido](/img/funciones/mensaje.png)
+
+```
+{("¡Listo! Anoté " + $pedido + ". Te lo preparamos enseguida.") if $pedido else "¡Con gusto! ¿Qué te preparo?"}
+```
+
+| È arrivato | Esce |
+|---|---|
+| `$pedido` = `2 empanadas de queso` | Fatto! Ho annotato 2 empanadas al formaggio. Te le prepariamo subito. |
+| `$pedido` vuoto | Con piacere! Che cosa ti preparo? |
+
+**Salva modifiche**. Il testo si legge al momento della risposta: non serve addestrare.
+
+La stessa sintassi entra nella domanda di un parametro o di un'acquisizione.
+
+![Domanda di numero: {$categoria_producto} e {$sabor_producto}](/img/funciones/pregunta.png)
+
+```
+¿Cuántas {$categoria_producto}s de {$sabor_producto} te preparo?
+```
+
+## Quelle che ci sono già
+
+Non serve crearle. In qualsiasi messaggio il motore ne lascia due:
+
+| Variabile | Che cosa contiene |
+|---|---|
+| `{$last_utterance}` | L'ultima cosa che ha scritto la persona |
+| `{$last_no_match}` | L'ultima frase che il bot non ha capito |
+
+```
+No entendí "{$last_no_match}", ¿puedes decirlo de otra forma?
+```
+
+Digitando `{$` compaiono nel selettore, segnate come *Sistema*. Quando cambia ognuna è in [Variabili di sistema](/docs/Avanzado/Funciones#variables-del-sistema).
+
+## Verificarlo
+
+Apri la console, flusso **Restaurante**, canale **Predefinito**. Completa l'ordine. La risposta deve nominare quello che è stato acquisito.
+
+![La console ha già sostituito la categoria nella domanda](/img/funciones/consola.png)
+
+Se nella bolla si vede una graffa isolata, manca il `$` oppure l'espressione non si è chiusa con `}`. Una variabile che non esiste esce vuota e non rompe il messaggio.
+
+`{$nombre.original_value}` è come l'ha scritto la persona. `{$nombre.key_value}` è il valore normalizzato.
+
+L'elenco completo — condizioni, conti, `len`, liste — è in [Funzioni](/docs/Avanzado/Funciones).

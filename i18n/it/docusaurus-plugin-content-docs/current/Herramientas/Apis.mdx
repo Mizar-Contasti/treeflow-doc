@@ -1,0 +1,80 @@
+---
+sidebar_position: 3
+sidebar_label: API
+description: Chiamate HTTP. Il catalogo di dieci modelli e l'editor, campo per campo.
+---
+
+# API
+
+La seconda scheda. Ogni card è una chiamata HTTP. In Cafetería ce ne sono già tre: `picsum_image`, `gcp` e `gemini_explainer`. La ricerca dice **Cerca API…**. **Crea strumento** ne apre una vuota. **Modelli** apre il catalogo.
+
+![API di Cafetería](/img/herramientas/apis-lista.png)
+
+L'albero ha un tetto. Arrivati al limite, **Crea strumento** si sostituisce con l'avviso del limite.
+
+## Il catalogo
+
+Si chiama **Catalogo dei modelli di strumenti**. Dieci card. Ognuna mostra il metodo (GET o POST), quanti ingressi e uscite, e se porta autenticazione Bearer. **Anteprima** mostra l'URL e il corpo. **Usa modello** la copia in questo albero.
+
+![I dieci modelli, con il metodo e l'autenticazione](/img/herramientas/apis-plantillas.png)
+
+### Quelle che chiamano un servizio pubblico
+
+Non chiedono una chiave. L'URL punta già al servizio.
+
+| Modello | Metodo | Che cosa chiede | Che cosa restituisce |
+|---|---|---|---|
+| Previsioni meteo in tempo reale (Open-Meteo) | GET | `latitud`, `longitud` | `temperatura`, `velocidad_viento`, `hora_medicion` |
+| Tasso di cambio e conversione di valute | GET | `moneda_base` (USD, EUR, MXN) | `tasa_mxn`, `tasa_eur`, `tasa_usd`, `fecha_actualizacion` |
+| Ricerca di codice postale e località (Zippopotam) | GET | `codigo_postal` del Messico, 5 cifre | `estado`, `colonia`, `pais` |
+
+### Quelle che portano un server di esempio
+
+L'URL è `api.ejemplo.com`. Va cambiato con quello del sistema reale prima di provare. Il corpo e i nomi delle variabili sono già impostati.
+
+| Modello | Metodo | Che cosa fa |
+|---|---|---|
+| Creazione di ticket di supporto / CRM | POST | Apre un ticket con oggetto, descrizione, priorità, nome, email e telefono. Restituisce `ticket_id`, `estado` e `tiempo_estimado` |
+| Pianificazione di appuntamenti e prenotazioni | POST | Prenota con cliente, servizio, data, ora e filiale. Restituisce `codigo_reserva`, `estado_cita` e `especialista` |
+| Consultazione di stock e prezzi di prodotto | POST | Giacenze e prezzo a partire da uno SKU e una filiale. Restituisce `stock_disponible`, `precio_unitario`, `nombre_producto` e `tiene_stock` |
+| Tracciamento e monitoraggio delle spedizioni | GET | Stato, data stimata e ultima posizione di una lettera di vettura e di un corriere |
+| Generazione di link di pagamento / checkout | POST | Crea un addebito e restituisce `url_pago`. Porta autenticazione Bearer |
+| Invio di messaggi SMS / WhatsApp | POST | Manda un avviso via `whatsapp` o `sms` a un numero. Porta Bearer. Non è il [canale](/docs/Canales/CanalesDeComunicacion) WhatsApp del bot |
+| Autenticazione e ottenimento del token JWT | POST | Chiede `token_acceso` con `client_id` e `client_secret` |
+
+## L'editor
+
+Le stesse cinque schede di uno script. In **Codice** non c'è Python: c'è la chiamata.
+
+![picsum_image: URL con {$image_id}, metodo GET, timeout 15000 e autenticazione nessuna](/img/herramientas/apis-editor.png)
+
+**Informazioni generali**
+
+- **Nome.** Così compare nella card e nel nodo.
+- **Descrizione.** Per ricordare a che cosa serve. La persona non la vede.
+- **URL.** Una variabile si scrive `{$image_id}`. Ci entra anche una condizione: `{ $valor ? 'Sí' : 'No' }`. È la stessa sintassi di un [messaggio](/docs/Avanzado/Funciones).
+- **Metodo.** GET, POST, PUT, PATCH o DELETE.
+- **Timeout.** Millisecondi prima di dare la chiamata per fallita. In `picsum_image` sono 15000. Nel webhook di fabbrica, 30000.
+- **Tipo di autenticazione.** Nessuna, Basic (utente e password) o Bearer (un token).
+
+Se il metodo porta un corpo, sotto c'è il JSON. L'avviso della schermata lo dice: `{$variable}` inserisce il dato. **Formatta JSON** sistema il testo.
+
+**Messaggio se fallisce** è quello che riceve la persona quando la chiamata non risponde o non porta il dato, e l'uscita non ha un valore di riserva. Vuoto, si usa quello di fabbrica nella lingua della conversazione.
+
+### Ingresso
+
+Una riga per dato che l'URL o il corpo chiederanno. **Nome**, **tipo**, **valore di test** (con quello gira **Test**) e **valore fallback** se nella conversazione non è arrivato.
+
+In `picsum_image` l'unico ingresso è `image_id`, tipo String, valore di test `237`.
+
+### Uscita
+
+Una riga per dato che vuoi conservare della risposta. **JSON Path** è il percorso dentro il JSON, per esempio `$.download_url` o `$.current_weather.temperature`. **Valore fallback** si usa se quel percorso non è arrivato.
+
+### Test e distribuzione
+
+**Esegui test** fa la chiamata vera, con i valori di test, e mostra il JSON. **Distribuisci ora** la lascia in **Aggiungi strumento…** del nodo. Senza distribuire, il nodo non la elenca.
+
+## Nel nodo
+
+Scheda **Funzionalità**, **Aggiungi strumento…**. Gira dopo gli script e il webhook, quando il turno ha già i suoi dati. Il **≠** di ogni riga cambia il nome della variabile di sessione. Nel messaggio si legge `{$temperatura}`.

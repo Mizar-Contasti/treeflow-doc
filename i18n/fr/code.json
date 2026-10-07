@@ -1,0 +1,50 @@
+{
+  "futureFeature.title": {
+    "message": "Fonctionnalité en développement",
+    "description": "Title of the notice for a feature that is not released yet"
+  },
+  "futureFeature.body": {
+    "message": "Cette fonctionnalité sera disponible dans la prochaine version ({version}). Cette documentation est préliminaire et peut changer.",
+    "description": "Body of the notice for a feature that is not released yet"
+  },
+  "homepage.tagline": {
+    "message": "Des conversations qui génèrent du business",
+    "description": "Homepage hero subtitle"
+  },
+  "homepage.cta": {
+    "message": "Commençons à planter 🍂",
+    "description": "Homepage call to action button"
+  },
+  "homepage.layoutTitle": {
+    "message": "TreeFlow | Des conversations qui génèrent du business",
+    "description": "The HTML title of the homepage"
+  },
+  "homepage.layoutDescription": {
+    "message": "Des flux de conversation déterministes à l'ère de l'IA générative",
+    "description": "The meta description of the homepage"
+  },
+  "homepage.features.plan.title": {
+    "message": "Planifiez",
+    "description": "Homepage feature title: plan"
+  },
+  "homepage.features.plan.description": {
+    "message": "Concevez votre flux conversationnel, gérez les exceptions et définissez ce dont vous avez besoin.",
+    "description": "Homepage feature description: plan"
+  },
+  "homepage.features.plant.title": {
+    "message": "Plantez",
+    "description": "Homepage feature title: plant"
+  },
+  "homepage.features.plant.description": {
+    "message": "Plantez le premier arbre de la forêt, à partir de votre flux conversationnel déterministe.",
+    "description": "Homepage feature description: plant"
+  },
+  "homepage.features.scale.title": {
+    "message": "Passez à l'échelle",
+    "description": "Homepage feature title: scale"
+  },
+  "homepage.features.scale.description": {
+    "message": "Faites grandir vos arbres grâce aux outils génératifs, qui étendent l'approche déterministe et couvrent ses angles morts.",
+    "description": "Homepage feature description: scale"
+  }
+}

@@ -1,0 +1,99 @@
+---
+sidebar_position: 1
+sidebar_label: Agente costruttore
+---
+
+# Agente costruttore IA
+
+L'agente costruisce il bot **parlando con te**. Gli dici che cosa vuoi — «aggiungi un flusso per consultare l'orario» — e lui crea gli intenti, i nodi e i messaggi, li collega e ti racconta che cosa ha fatto e dove.
+
+Lavora sul **bot che hai selezionato** nel selettore in alto a sinistra. Si apre dalla console, con l'icona del robot. Per collegarlo a un provider, segui [Primo incarico](/docs/Agente/PrimerEncargo).
+
+## Che cosa fa
+
+- **Crea e modifica** flussi, nodi, intenti, entità, messaggi e strumenti HTTP.
+- **Collega** quello che crea: un intento nuovo non serve se nessun nodo di contesto lo ascolta, quindi lo aggancia anche.
+- **Consulta**: la struttura del bot, lo stato dell'addestramento, conversazioni e registri, e può **simulare un messaggio** per vedere che cosa risponderebbe.
+- **Addestra** il bot se glielo chiedi, e consulta lo stato e la cronologia degli addestramenti.
+- **Spiega** al termine: il flusso interessato, i nodi e gli intenti toccati e frasi per provare il risultato.
+
+L'elenco completo è in [Che cosa può toccare](/docs/Agente/GenAITools).
+
+## Come chiederglielo
+
+Parlagli come a una persona che conosce già il tuo bot. Più sei concreto, meglio esce.
+
+| Invece di | Prova con |
+|---|---|
+| «Migliora il bot» | «Aggiungi un intento per consultare l'orario, con 8 frasi di esempio, e fagli rispondere con l'orario dal lunedì al venerdì» |
+| «Sistema il saluto» | «Il saluto risponde due volte. Controlla il nodo dell'intento `saludo` e dimmi che cosa vedi prima di cambiarlo» |
+| «Crea un flusso di prenotazioni» | «Crea un flusso `reservas` con un intento `reservar_mesa` che chieda data e numero di persone» |
+
+Può **chiederti** quello che manca. Non inventa indirizzi, chiavi né token degli strumenti HTTP: te li chiede.
+
+## Come lavora
+
+1. **Guarda prima di creare.** Elenca quello che esiste già — intenti, entità, flussi, nodi, messaggi, strumenti — per non duplicare.
+2. **Sceglie il flusso.** Di default, quello principale; se ne vuoi un altro, dillo.
+3. **Crea e collega.** L'intento, il suo nodo con la risposta, e il riferimento nel nodo di contesto che lo ascolta.
+4. **Te lo racconta.** Che cosa è cambiato, dove e con quali frasi provarlo.
+
+Scrive nella **lingua principale del bot** — spagnolo, inglese, francese, italiano, portoghese o tedesco —: gli intenti, le frasi di addestramento, le risposte e i sinonimi escono in quella lingua. Nei nomi toglie gli accenti e cambia gli spazi con il trattino basso (`consultar_horario`).
+
+## Quello che vedi nella chat
+
+Ogni risposta dell'agente porta sotto l'elenco delle **azioni** che ha eseguito, con un segno verde se è andata bene e rosso se lo strumento ha restituito un errore. Si può aprire ognuna per vedere lo strumento, gli argomenti e quello che ha restituito. Se l'agente ha proposto modifiche che aspettano il tuo via libera, al suo posto vedrai la card di conferma.
+
+Quando l'agente cambia qualcosa, il pannello si aggiorna da solo. Se qualcosa non compare, ricarica la pagina.
+
+Le conversazioni si **salvano per bot**: puoi aprirne una precedente dalla cronologia, iniziarne un'altra o cancellarne una.
+
+## Prima di chiedergli modifiche grandi {#antes-de-pedirle-cambios-grandes}
+
+Di default l'agente **ti chiede prima di cambiare qualsiasi cosa**. Quando decide di creare, modificare o eliminare qualcosa, non lo esegue: ti mostra una card **Conferma le modifiche proposte** con ogni azione (quale strumento e su che cosa), e non succede nulla finché non premi **Conferma**. Con **Rifiuta** si scarta tutto. Puoi aprire ogni azione della card per vedere gli argomenti completi prima di decidere.
+
+Le consultazioni — elencare, vedere la struttura, simulare un messaggio — non cambiano nulla e si eseguono sempre senza chiedere.
+
+### Le tre caselle
+
+Nella configurazione dell'agente ci sono tre caselle, **attive di default**, e ognuna governa un gruppo di azioni:
+
+| Casella | Che cosa ferma |
+|---|---|
+| **Chiedi conferma per creare** | Creare flussi, nodi, intenti, entità, modelli di messaggio, strumenti, utenti e backup |
+| **Chiedi conferma per modificare** | Modificare il bot, flussi, nodi, intenti, entità, modelli, strumenti, utenti, canali e la voce; anche **addestrare** il bot |
+| **Chiedi conferma per eliminare** | Eliminare flussi, nodi, intenti, entità, modelli, strumenti e utenti |
+
+Se ne spegni una, le azioni di quel gruppo si eseguono subito, come prima. È la credenziale che conserva le caselle, quindi ogni credenziale può avere le sue.
+
+:::tip Che cosa succede alla conferma
+La card applica le azioni **in ordine**. Se una fallisce, si ferma su quella: le precedenti sono già state fatte (ed escono dalla card, così un nuovo tentativo non le ripete) e si mostra il motivo.
+:::
+
+### Anche così, prima di una modifica grande
+
+- **Chiedigli prima un backup.** Ha uno strumento per crearlo, e [Importare ed esportare](/docs/Avanzado/ImportarExportar) spiega come ripristinarne uno. Creare un backup chiede conferma anche mentre la casella di creazione è attiva.
+- **Chiedi prima il piano.** «Dimmi che cosa cambierai, senza cambiarlo ancora» aiuta l'agente a descriverlo prima di proporlo.
+- Se hai spento le caselle, controlla l'elenco delle **azioni** di ogni risposta: sono già state eseguite.
+- Le creazioni, le modifiche e le cancellazioni di **flussi, entità e intenti** restano nella cronologia delle modifiche del bot, che l'agente può anche consultare. Quelle di nodi e messaggi non si registrano lì.
+
+## Che cosa non fa
+
+- **Non risponde ai tuoi utenti.** Costruisce il bot; la conversazione la porta il motore con quello che è stato costruito. Vedi [L'IA in TreeFlow](/docs/Agente/Introduccion).
+- **Non tocca altri bot né altri workspace.** Soltanto quello selezionato, e lo fissa il server, non il modello.
+- **Non crea né modifica amministratori.** Può gestire utenti di altri ruoli, ma non amministratori.
+- **Non vede le tue chiavi.** Quando elenca le credenziali, la configurazione segreta non gli viene restituita.
+- **Ricorda poco.** Lavora con gli ultimi 14 messaggi della conversazione, quindi in una conversazione molto lunga conviene ricordargli il contesto.
+
+## Se qualcosa fallisce
+
+| Messaggio | Che cosa è successo |
+|---|---|
+| *API Key richiesta* | Non c'è nessuna credenziale di IA nel workspace |
+| Errore **401** | La chiave non è valida o è scaduta |
+| Errore **404** | Il modello scelto non esiste in quel provider |
+| Errore **429** | Hai raggiunto il limite di richieste, quello dell'agente stesso (20 messaggi al minuto per utente) o quello del tuo provider: aspetta un momento |
+| Errore **503** | Il servizio del provider non è disponibile: riprova |
+| *Limite di iterazioni raggiunto senza una risposta finale* | La richiesta ha avuto bisogno di più di 8 giri di strumenti: chiedila in passi più piccoli |
+
+Se il messaggio non è arrivato, la chat lascia **reinviarlo** o **modificarlo**.

@@ -1,0 +1,64 @@
+---
+sidebar_position: 12
+sidebar_label: Buone pratiche
+---
+
+# Buone pratiche
+
+Questo è ciò che evita che un albero risponda un'altra cosa. L'esempio è il flusso **Restaurante** di Cafetería.
+
+## Più frasi, un intento
+
+Un intento è uno scenario, non una formulazione. `hacer_pedido` ha molti modi di chiedere la stessa cosa.
+
+![hacer_pedido: lo stesso ordine detto in più modi](/img/intenciones/editor.png)
+
+Una frase troppo corta ne assorbe altre. `saludo` non dovrebbe avere un pattern così largo che «a che ora aprite» ci finisca dentro. Se due intenti possono leggere la stessa frase, vince quello che riempie più dati e, a parità, quello più in alto nell'ordine di [comprensione](./Arboles).
+
+## Il dato si chiede, non si disegna
+
+Una prenotazione non è un nodo per ogni dato. L'[entità](./Entidades) estrae il valore dalla frase. Se manca e il parametro è **Obbligatorio**, il bot lo chiede.
+
+![numero, obbligatorio, con la domanda e il limite di tentativi](/img/intenciones/ajustes.png)
+
+La domanda nomina ciò che è già stato acquisito, così la persona vede come è stato capito. Se quella domanda si userà in più intenti, va in un'[acquisizione](./Capturas).
+
+## Si sente solo ciò che è nel contesto
+
+Il nodo verde aspetta. Gli intenti collegati lì sono gli unici che il motore prova in quel tratto.
+
+![Inizio, con gli intenti di quel tratto](/img/flujos/contexto.png)
+
+Un intento che esiste nell'albero e non è collegato non scatta. Dopo aver risposto, quasi tutti i nodi tornano a Inizio: così la frase successiva si sente di nuovo.
+
+![saludo torna a Inizio](/img/flujos/conversacion.png)
+
+Quello che passa a una persona non torna. `hablar_con_asesor` trasferisce e chiude la domanda rimasta a metà.
+
+## Quando non combacia
+
+Ogni contesto ha il suo `sys.no-match`. Il messaggio dice che non ha capito e chiede di ripetere. La transizione abituale è tornare allo stesso contesto.
+
+![L'evento sys.no-match](/img/flujos/evento.png)
+
+Il limite di tentativi del parametro fa lo stesso con un dato: insiste e, superato il limite, continua con il successivo o lascia l'acquisizione. Non lasciare un obbligatorio senza domanda né senza tetto.
+
+## Il nome è un identificatore
+
+Intenti, entità, messaggi e acquisizioni si salvano in minuscolo, con `_` al posto degli spazi. `Consulta de precio` diventa `consulta_de_precio`. La `ñ` si conserva.
+
+Quel nome è quello che citano il flusso, il parametro e il modello `{$nombre}`. Cambiarlo dopo rompe quelle citazioni.
+
+## Addestrare ciò che il motore memorizza
+
+Intenti ed entità entrano nell'addestramento. Un messaggio o un'acquisizione si leggono al momento della risposta: salvare basta. Il fulmine del menu è **Addestra**. Il pannello lo segna in verde quando è aggiornato.
+
+![Il pannello, con l'addestramento aggiornato](/img/intro/panel.png)
+
+## Provare il flusso che stai progettando
+
+La console parte dal flusso **Principale** se il primo pulsante dice **Predefinito**. La mappa di Restaurante è un altro flusso: va scelto. Altrimenti `hola` risponde con il saluto del principale.
+
+![Console su Restaurante: hola e il nodo di questo turno](/img/diseno/recorrido.png)
+
+Con la modalità debug si vedono l'intento, la confidenza e il percorso sulla tela. Il dettaglio è in [Provare il bot](./ProbarElBot).

@@ -1,0 +1,50 @@
+{
+  "futureFeature.title": {
+    "message": "Funzionalità in sviluppo",
+    "description": "Title of the notice for a feature that is not released yet"
+  },
+  "futureFeature.body": {
+    "message": "Questa funzionalità sarà disponibile nella prossima versione ({version}). Questa documentazione è preliminare e può cambiare.",
+    "description": "Body of the notice for a feature that is not released yet"
+  },
+  "homepage.tagline": {
+    "message": "Conversazioni che generano business",
+    "description": "Homepage hero subtitle"
+  },
+  "homepage.cta": {
+    "message": "Iniziamo a piantare 🍂",
+    "description": "Homepage call to action button"
+  },
+  "homepage.layoutTitle": {
+    "message": "TreeFlow | Conversazioni che generano business",
+    "description": "The HTML title of the homepage"
+  },
+  "homepage.layoutDescription": {
+    "message": "Flussi di conversazione deterministici nell'era dell'IA generativa",
+    "description": "The meta description of the homepage"
+  },
+  "homepage.features.plan.title": {
+    "message": "Pianifica",
+    "description": "Homepage feature title: plan"
+  },
+  "homepage.features.plan.description": {
+    "message": "Disegna il flusso conversazionale, gestisci le eccezioni e definisci ciò che ti serve.",
+    "description": "Homepage feature description: plan"
+  },
+  "homepage.features.plant.title": {
+    "message": "Pianta",
+    "description": "Homepage feature title: plant"
+  },
+  "homepage.features.plant.description": {
+    "message": "Pianta il primo albero della foresta, a partire dal tuo flusso conversazionale deterministico.",
+    "description": "Homepage feature description: plant"
+  },
+  "homepage.features.scale.title": {
+    "message": "Scala",
+    "description": "Homepage feature title: scale"
+  },
+  "homepage.features.scale.description": {
+    "message": "Scala i tuoi alberi con gli strumenti generativi, che estendono l'approccio deterministico e coprono i suoi punti ciechi.",
+    "description": "Homepage feature description: scale"
+  }
+}

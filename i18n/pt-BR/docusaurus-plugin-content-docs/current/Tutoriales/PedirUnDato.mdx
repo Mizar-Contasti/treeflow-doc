@@ -1,0 +1,52 @@
+---
+sidebar_position: 3
+sidebar_label: Pedir um dado que falta
+---
+
+# Pedir um dado que falta
+
+Na Cafetería, «quiero empanadas» não traz o sabor. O bot não inventa o pedido: pergunta o que falta e espera.
+
+## De onde sai a pergunta
+
+Abra **Intenções** e entre em `hacer_pedido`. Abaixo estão os parâmetros: o dado, e a entidade da qual ele sai.
+
+![Parâmetros de hacer_pedido](/img/intenciones/parametros.png)
+
+A engrenagem abre **Ajustes do parâmetro**. Com **Obrigatório** marcado, se o valor não veio na frase o bot pergunta antes de seguir.
+
+![Ajustes do parâmetro: obrigatório, a pergunta e o limite de tentativas](/img/intenciones/ajustes.png)
+
+Ali mesmo se escreve a **Pergunta** e o texto de **Se não for entendido**, quantas vezes insistir e o que fazer ao esgotar as tentativas: passar ao dado seguinte, responder com o que houver, ou voltar ao contexto.
+
+**Usar captura definida** tira esses três textos de uma captura com nome, para repetir a mesma pergunta em várias intenções. O parâmetro só escolhe qual.
+
+## A captura
+
+**Conversa → Capturas**. **Nova captura** abre o editor vazio.
+
+![Lista de capturas](/img/capturas/lista.png)
+
+`Contacto` pede um e-mail ou um telefone, avisa se não for entendido, insiste duas vezes e, se esgotar, passa ao parâmetro seguinte.
+
+![Contacto: pergunta, se não for entendido e duas tentativas](/img/capturas/editor.png)
+
+No restaurante, a pergunta da quantidade usa o que já foi capturado. O `$` é a variável:
+
+```
+¿Cuántas {$categoria_producto}s de {$sabor_producto} te preparo?
+```
+
+![Pergunta de numero, com a categoria e o sabor](/img/funciones/pregunta.png)
+
+**Salvar**. Uma captura ou uma pergunta são lidas na hora: não é preciso treinar por causa do texto. É preciso treinar se você criou o parâmetro ou mudou a entidade.
+
+## Testar
+
+No console, fluxo **Restaurante**. Escreva `quiero empanada`. Se o sabor ainda não estiver, a pergunta nomeia a categoria que veio.
+
+![O console substitui a categoria: ¿De qué sabor quieres empanada?](/img/funciones/consola.png)
+
+Ligue o modo debug. Um parâmetro vazio é o dado que o turno seguinte deveria pedir. Se o bot não perguntar, o parâmetro não está em obrigatório ou a captura não tem pergunta.
+
+Quando os dados estão, o nó envia a mensagem do pedido. O detalhe está em [Capturas](/docs/Fundamentos/Capturas) e em [Parâmetros](/docs/Avanzado/Parametros).

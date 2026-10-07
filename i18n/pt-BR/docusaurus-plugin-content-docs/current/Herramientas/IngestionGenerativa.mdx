@@ -1,0 +1,40 @@
+---
+sidebar_position: 7
+sidebar_label: Ingestão generativa
+description: Um PDF, Excel ou TXT do qual um modelo extrai intenções. Primeiro pede uma credencial de IA.
+---
+
+# Ingestão generativa
+
+A aba **Ingestão generativa** lê um documento e pede a um modelo que extraia perguntas, respostas e variações, e as integre ao fluxo. A tela chama isso de **Ingestão generativa com IA**.
+
+![Ingestão generativa: provedor, modelo e chave, com o envio ainda fechado](/img/herramientas/ingestion-generativa.png)
+
+## A credencial
+
+Enquanto não houver uma credencial de IA salva neste workspace, a zona de envio fica fechada. O aviso diz: informe e salve uma credencial para desbloqueá-la.
+
+O formulário de cima é **Configurar credencial de IA exigida para este workspace**.
+
+| Campo | O que é |
+|---|---|
+| Provedor | Anthropic, Groq, Gemini, OpenAI, OpenRouter, Cerebras e os demais que o workspace aceita |
+| Modelo padrão | O que vai ler o arquivo. Na captura, `gemini-3.0-flash` |
+| Nome da chave | Como você vai reconhecê-la depois. Na captura, «Gemini Key» |
+| API Key | A chave dessa conta |
+
+Ao salvar, a mesma credencial fica em [Credenciais](/docs/Avanzado/Credenciales) e pode ser reutilizada.
+
+## O arquivo
+
+Quando a credencial está salva, aparece a zona de envio. Aceita PDF, Excel e TXT. Arrasta-se ou escolhe-se.
+
+**Nome do fluxo** é o percurso onde as intenções novas vão ficar.
+
+**Prompt ou instrução adicional** é opcional. Diz ao modelo em quais temas se concentrar, por exemplo devoluções, pagamentos e envios.
+
+## Gerar
+
+**Gerar e integrar no bot** envia o arquivo ao modelo escolhido. Ao terminar, as intenções aparecem nesse fluxo e na lista de baixo. **Treinar bot agora** as coloca no motor. Sem esse passo, o console não as reconhece.
+
+Não substitui a [base de conhecimento](./BaseDeConocimiento). Essa copia um CSV linha por linha e não inventa frases. Esta interpreta um documento e pode propor variações que o arquivo não traz escritas: convém ler a lista antes de treinar.

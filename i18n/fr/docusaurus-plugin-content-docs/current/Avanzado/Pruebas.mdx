@@ -1,0 +1,53 @@
+---
+sidebar_position: 5
+sidebar_label: Tests
+---
+
+# Tests
+
+Parler à l'arbre, tour par tour, c'est la [console](/docs/Fundamentos/ProbarElBot). Cette page est l'autre test : une **suite**, une liste de conversations avec ce que le bot doit répondre à chaque tour.
+
+![Tests : il n'y a pas encore de suites. On les crée et on téléverse un CSV](/img/pruebas/lista.png)
+
+## La console
+
+Le bouton orange ouvre le chat. Le mode debug montre l'intention, la confiance et le nœud de ce tour.
+
+![Un tour dans la console, avec le mode debug](/img/testeo/debug.png)
+
+## Une suite {#una-suite}
+
+C'est dans **Exploitation → Tests**. Une suite est une liste de conversations. On l'écrit à l'écran ou on la téléverse en CSV, et elle s'exécute contre l'arbre déjà entraîné. Chaque cas démarre avec sa propre session : la commande précédente ne filtre pas vers la suivante. Les sessions de la passe ne restent pas dans Conversations.
+
+![Le tableau de bord, avec l'entraînement à jour : sans cela, la suite ne peut pas tourner](/img/intro/panel.png)
+
+### Ce que l'on peut vérifier
+
+| Colonne | Ce qu'elle exige |
+|---|---|
+| `intencion` | L'intention détectée est celle-là |
+| `respuesta_contiene` | La réponse du bot contient ce texte, sans distinguer les majuscules |
+| `slot` | Le paramètre que le bot demande à ce tour est celui-là |
+| `parametros` | Les paramètres capturés ont ces valeurs |
+| `evento` | L'événement résultant est celui-là |
+
+### Le CSV
+
+Une ligne par tour, regroupée par cas :
+
+```csv
+caso,turno,mensaje,intencion,respuesta_contiene,slot,parametros,evento
+pedido por partes,1,quiero empanadas,hacer_pedido,¿De qué sabor,sabor_producto,,
+pedido por partes,2,de queso,,¿Cuántas,numero,,
+pedido por partes,3,dos,,Anoté,,numero=2;sabor_producto=queso,
+```
+
+Les colonnes vides ne vérifient rien. Le CSV minimal est `caso,turno,mensaje`. Dans `parametros`, il y en a plusieurs dans la même cellule : `nombre=valor;nombre=valor`. Si le fichier est mauvais, l'écran montre la ligne et le motif.
+
+Le crayon ouvre le cas à l'écran. **Enregistrer** écrit les modifications. **Abandonner** les lâche.
+
+### Le résultat
+
+Dans la liste, exécuter fait tourner cette suite. L'historique garde avec quel entraînement elle a été mesurée. Les cas qui échouent s'ouvrent et montrent ce qui était attendu et ce qu'a répondu le bot. Comparer deux passes dit ce qui passait avant et échoue maintenant, et ce qui échouait et passe maintenant.
+
+Le bouton d'exécution reste éteint si l'arbre n'est pas entraîné.

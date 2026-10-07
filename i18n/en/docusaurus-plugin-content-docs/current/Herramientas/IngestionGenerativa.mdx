@@ -1,0 +1,40 @@
+---
+sidebar_position: 7
+sidebar_label: Generative ingestion
+description: A PDF, Excel, or TXT file from which a model extracts intents. It asks for an AI credential first.
+---
+
+# Generative ingestion
+
+The **Generative ingestion** tab reads a document and asks a model to extract questions, answers, and variations, then add them to the flow. The screen calls it **Generative Ingestion with AI**.
+
+![Generative ingestion: provider, model, and key, with the upload area still closed](/img/herramientas/ingestion-generativa.png)
+
+## The credential
+
+Until an AI credential is saved in this workspace, the upload area stays closed. The notice says so: enter and save a credential to unlock it.
+
+The form above is **Configure the AI credential required for this workspace**.
+
+| Field | What it is |
+|---|---|
+| Provider | Anthropic, Groq, Gemini, OpenAI, OpenRouter, Cerebras, and the rest of the ones the workspace accepts |
+| Default model | The one that will read the file. In the screenshot, `gemini-3.0-flash` |
+| Key name | How you will recognize it later. In the screenshot, "Gemini Key" |
+| API Key | The key for that account |
+
+On save, the same credential is stored in [Credentials](/docs/Avanzado/Credenciales) and can be reused.
+
+## The file
+
+When the credential is saved, the upload area appears. It accepts PDF, Excel, and TXT. Drag a file in, or choose one.
+
+**Flow name** is the path where the new intents will land.
+
+**Prompt or additional instruction** is optional. It tells the model which topics to focus on, for example returns, payments, and shipping.
+
+## Generate
+
+**Generate and integrate into the bot** sends the file to the chosen model. When it finishes, the intents appear in that flow and in the list below. **Train Bot Now** loads them into the engine. Without that step, the console does not recognize them.
+
+It does not replace the [knowledge base](./BaseDeConocimiento). That one copies a CSV row by row and does not invent phrases. This one interprets a document and can propose variations the file does not contain in writing. Read the list before you train.

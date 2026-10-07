@@ -1,0 +1,50 @@
+---
+sidebar_position: 1
+---
+
+# Slack
+
+Votre bot répond dans Slack, dans les canaux et dans les messages directs, avec les blocs natifs de Slack. C'est un canal **Stable**.
+
+![L'écran Slack dans Canaux : Request URL et identifiants de l'application](/img/canales/slack.png)
+
+## Ce qu'il vous faut dans Slack
+
+Une application créée sur [api.slack.com/apps](https://api.slack.com/apps) et installée dans votre workspace.
+
+| Champ dans TreeFlow | D'où ça vient |
+|---|---|
+| **Bot User OAuth Token** | OAuth & Permissions → *Bot User OAuth Token*. Il commence par `xoxb-` |
+| **Signing Secret** | Basic Information → App Credentials |
+
+Le **Signing Secret** permet de vérifier que chaque événement vient bien de Slack. Sans lui, TreeFlow ne répond pas.
+
+Le bot a besoin de l'autorisation `chat:write` pour pouvoir répondre.
+
+## L'activer
+
+L'URL que vous collez dans Slack est vérifiée avec votre Signing Secret. Enregistrez donc d'abord les identifiants dans TreeFlow, puis collez l'URL dans Slack.
+
+1. Choisissez votre bot dans le sélecteur en haut à gauche.
+2. Ouvrez **Intégration → Canaux → Slack**.
+3. Renseignez **Bot User OAuth Token** et **Signing Secret**, puis cliquez sur **Enregistrer et intégrer Slack**. Le canal est activé.
+4. Copiez la **Request URL** de ce même écran.
+5. Dans votre application Slack → **Event Subscriptions**, activez *Enable Events* et collez l'URL dans **Request URL**. Slack la vérifie aussitôt.
+6. Dans *Subscribe to bot events*, ajoutez `message.channels`, `message.im` et `app_mention`.
+7. Pour que les **boutons** fonctionnent, dans **Interactivity & Shortcuts** activez *Interactivity* et collez la même URL.
+
+L'interrupteur **ON/OFF** du haut le désactive et l'active sans effacer ce qui est enregistré.
+
+## Ce que fait le bot
+
+- Il répond aux **messages** des personnes et aux **mentions** (`@tubot`). Il ignore les messages de bots, les modifications et les suppressions.
+- Il répond **dans le fil** du message.
+- Il envoie des blocs Slack : paragraphes, images et boutons.
+- Quand quelqu'un appuie sur un bouton, le bot reçoit la valeur de ce bouton comme si la personne l'avait écrite.
+
+## S'il ne répond pas
+
+- Vérifiez que l'interrupteur est sur **ON**.
+- Vérifiez que le **Signing Secret** est celui de la même application qui envoie les événements.
+- Vérifiez que le bot est **invité dans le canal** où vous lui écrivez.
+- Vérifiez que les événements de l'étape 6 sont bien abonnés.

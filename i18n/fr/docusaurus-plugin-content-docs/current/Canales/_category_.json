@@ -1,0 +1,8 @@
+{
+  "label": "Canaux",
+  "position": 5,
+  "link": {
+    "type": "generated-index",
+    "description": "Guides pour connecter TreeFlow à différents canaux de communication et plateformes."
+  }
+}

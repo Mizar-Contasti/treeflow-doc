@@ -1,0 +1,35 @@
+---
+sidebar_position: 1
+sidebar_label: Ferramentas
+slug: /Herramientas
+description: As seis abas de Integração → Ferramentas, e em que ordem um nó as chama.
+---
+
+# Ferramentas
+
+No menu, ficam em **Integração → Ferramentas**. Um [canal](/docs/Canales/CanalesDeComunicacion) é por onde a pessoa fala. Uma ferramenta é o que o bot chama enquanto percorre um nó.
+
+![Cafetería, aba Scripts: o buscador, as seis abas e o script da saudação](/img/herramientas/scripts-lista.png)
+
+Acima, o buscador muda conforme a aba: **Buscar scripts…** ou **Buscar APIs…**. À direita estão **Modelos** e o botão de criar (**Criar script** ou **Criar Tool**). Essas duas ações não estão em Webhook, Transferências, Base de conhecimento nem Ingestão generativa.
+
+| Aba | O que guarda |
+|---|---|
+| [Scripts](/docs/Herramientas/Scripts) | Código Python que roda dentro do bot. Oito modelos |
+| [APIs](/docs/Herramientas/Apis) | Uma chamada HTTP. Dez modelos, mais os que você criar |
+| [Webhook](/docs/Herramientas/Webhook) | Um único cartão, a URL da árvore |
+| [Transferências](/docs/Herramientas/Transferencias) | Como a conversa passa para uma pessoa |
+| [Base de conhecimento](/docs/Herramientas/BaseDeConocimiento) | Um CSV que cria um fluxo, uma linha por intenção |
+| [Ingestão generativa](/docs/Herramientas/IngestionGenerativa) | Um PDF, Excel ou TXT do qual um modelo extrai intenções |
+
+## No nó
+
+Escolhem-se no nó do fluxo, aba **Funcionalidade**. A ordem em que rodam é fixa:
+
+1. Os scripts de **Adicionar script…**, na ordem da lista.
+2. O webhook, se **Chamar webhook neste nó** estiver ligado e a árvore tiver URL.
+3. As APIs de **Adicionar ferramenta…**, quando o turno já tem os dados.
+
+Se o nome da variável de sessão não coincidir com o da entrada ou da saída, o **≠** dessa linha deixa escrever o outro nome. **=** usa o mesmo. A saída fica na conversa e uma mensagem a lê com `{$saludo_tiempo}`.
+
+O detalhe de cada tela está na página dela. O mapa do nó, em [Fluxos](/docs/Avanzado/FlujosConversacionales#funcionalidad).

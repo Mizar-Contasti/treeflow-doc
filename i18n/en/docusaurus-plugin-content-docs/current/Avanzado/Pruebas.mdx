@@ -1,0 +1,53 @@
+---
+sidebar_position: 5
+sidebar_label: Tests
+---
+
+# Tests
+
+Talking to the tree, turn by turn, is the [console](/docs/Fundamentos/ProbarElBot). This page is the other kind of test: a **suite**, a list of conversations with what the bot should reply on each turn.
+
+![Tests: there are no suites yet. You create them and upload a CSV](/img/pruebas/lista.png)
+
+## The console
+
+The orange button opens the chat. Debug mode shows the intent, the confidence, and the node for that turn.
+
+![A turn in the console, with debug mode](/img/testeo/debug.png)
+
+## A suite {#una-suite}
+
+It lives under **Operations → Tests**. A suite is a list of conversations. You write it on the screen or upload it as a CSV, and it runs against the tree that is already trained. Each case starts with its own session: the previous order does not leak into the next one. Sessions from the run are not kept in Conversations.
+
+![The dashboard, with training up to date: without that the suite cannot run](/img/intro/panel.png)
+
+### What you can check
+
+| Column | What it requires |
+|---|---|
+| `intencion` | The detected intent is that one |
+| `respuesta_contiene` | The bot's reply contains that text, case-insensitive |
+| `slot` | The parameter the bot is asking for on that turn is that one |
+| `parametros` | The captured parameters have those values |
+| `evento` | The resulting event is that one |
+
+### The CSV
+
+One row per turn, grouped by case:
+
+```csv
+caso,turno,mensaje,intencion,respuesta_contiene,slot,parametros,evento
+pedido por partes,1,quiero empanadas,hacer_pedido,¿De qué sabor,sabor_producto,,
+pedido por partes,2,de queso,,¿Cuántas,numero,,
+pedido por partes,3,dos,,Anoté,,numero=2;sabor_producto=queso,
+```
+
+Empty columns check nothing. The minimum CSV is `caso,turno,mensaje`. In `parametros`, several values go in the same cell: `nombre=valor;nombre=valor`. If the file is wrong, the screen shows the row and the reason.
+
+The pencil opens the case on the screen. **Save** writes the changes. **Discard** drops them.
+
+### The result
+
+In the list, run executes that suite. The history records which training it was measured against. Cases that fail open and show what was expected and what the bot replied. Comparing two runs shows what used to pass and now fails, and what used to fail and now passes.
+
+The run button stays disabled if the tree is not trained.

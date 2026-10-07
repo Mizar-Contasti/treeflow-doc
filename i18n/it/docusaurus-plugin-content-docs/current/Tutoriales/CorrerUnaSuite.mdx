@@ -1,0 +1,51 @@
+---
+sidebar_position: 7
+sidebar_label: Eseguire una suite
+---
+
+# Eseguire una suite di test
+
+La [console](./ProbarEnLaConsola) è una chat, turno per turno. Una **suite** è un elenco di conversazioni con quello che il bot deve rispondere. Serve a ripetere lo stesso ordine dopo aver cambiato un pattern.
+
+## Addestrare prima
+
+Il pulsante di esecuzione resta spento se l'albero non è addestrato. Il fulmine del menu in verde è il segnale che l'addestramento è aggiornato.
+
+![Il pannello, con l'addestramento aggiornato](/img/intro/panel.png)
+
+## Dove si trova
+
+**Operazioni → Test**. Se non ci sono ancora suite, se ne crea una e si carica un CSV, oppure si scrivono i turni nella schermata.
+
+![Test: si creano e si carica un CSV](/img/pruebas/lista.png)
+
+## Il file
+
+Una riga per turno. Lo stesso `caso` è una conversazione. Ogni caso parte con la propria sessione: l'ordine precedente non passa al successivo.
+
+```csv
+caso,turno,mensaje,intencion,respuesta_contiene,slot,parametros,evento
+pedido por partes,1,quiero empanadas,hacer_pedido,¿De qué sabor,sabor_producto,,
+pedido por partes,2,de queso,,¿Cuántas,numero,,
+pedido por partes,3,dos,,Anoté,,numero=2;sabor_producto=queso,
+```
+
+| Colonna | Che cosa esige |
+|---|---|
+| `intencion` | L'intento rilevato è quello |
+| `respuesta_contiene` | La risposta contiene quel testo, senza distinguere maiuscole e minuscole |
+| `slot` | Il parametro che il bot sta chiedendo in quel turno |
+| `parametros` | I valori acquisiti. Diversi nella stessa cella: `nombre=valor;nombre=valor` |
+| `evento` | L'evento risultante |
+
+Le colonne vuote non verificano nulla. Il CSV minimo è `caso,turno,mensaje`. Se il file è sbagliato, la schermata mostra la riga e il motivo.
+
+La matita apre il caso. **Salva** scrive le modifiche. **Scarta** le lascia andare.
+
+## Il risultato
+
+Esegui lancia quella suite contro l'addestramento attuale. La cronologia conserva con quale è stata misurata. I casi che falliscono si aprono e mostrano che cosa ci si aspettava e che cosa ha risposto il bot. Confrontare due esecuzioni dice che cosa prima passava e ora fallisce, e che cosa falliva e ora passa.
+
+Le sessioni dell'esecuzione non restano in Conversazioni.
+
+Per guardare un turno isolato, con l'intento e i parametri, usa la console in modalità debug. Il dettaglio della suite è in [Test](/docs/Avanzado/Pruebas).

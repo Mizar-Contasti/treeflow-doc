@@ -1,0 +1,65 @@
+---
+sidebar_position: 4
+sidebar_label: Uma mensagem com uma função
+---
+
+# Uma mensagem com uma função
+
+O que o bot diz pode ter uma lacuna. Escreve-se entre chaves e o `$` marca a variável. Sem `$`, é texto fixo.
+
+```
+{$nombre}     el valor de la variable nombre
+{nombre}      la palabra "nombre"
+```
+
+## O pedido da Cafetería
+
+**Mensagens** abre a lista. Entre em `restaurante_hacer_pedido_response`. Na aba **Default**, o texto nomeia o que foi anotado se já houver pedido e, se não, pergunta o que preparar.
+
+![restaurante_hacer_pedido_response: a função com $pedido](/img/funciones/mensaje.png)
+
+```
+{("¡Listo! Anoté " + $pedido + ". Te lo preparamos enseguida.") if $pedido else "¡Con gusto! ¿Qué te preparo?"}
+```
+
+| Chegou | Sai |
+|---|---|
+| `$pedido` = `2 empanadas de queso` | ¡Listo! Anoté 2 empanadas de queso. Te lo preparamos enseguida. |
+| `$pedido` vazio | ¡Con gusto! ¿Qué te preparo? |
+
+**Salvar alterações**. O texto é lido ao responder: não é preciso treinar.
+
+A mesma sintaxe cabe na pergunta de um parâmetro ou de uma captura.
+
+![Pergunta de numero: {$categoria_producto} e {$sabor_producto}](/img/funciones/pregunta.png)
+
+```
+¿Cuántas {$categoria_producto}s de {$sabor_producto} te preparo?
+```
+
+## As que já vêm
+
+Não é preciso criá-las. Em qualquer mensagem o motor deixa duas:
+
+| Variável | O que contém |
+|---|---|
+| `{$last_utterance}` | O último que a pessoa escreveu |
+| `{$last_no_match}` | A última frase que o bot não entendeu |
+
+```
+No entendí "{$last_no_match}", ¿puedes decirlo de otra forma?
+```
+
+Ao digitar `{$` elas aparecem no seletor, marcadas como *Sistema*. Quando cada uma muda está em [Variáveis do sistema](/docs/Avanzado/Funciones#variables-del-sistema).
+
+## Conferir
+
+Abra o console, fluxo **Restaurante**, canal **Padrão**. Complete o pedido. A resposta deve nomear o que foi capturado.
+
+![O console já substituiu a categoria na pergunta](/img/funciones/consola.png)
+
+Se no balão aparecer uma chave solta, falta o `$` ou a expressão não fechou com `}`. Uma variável que não existe sai em branco e não quebra a mensagem.
+
+`{$nombre.original_value}` é como a pessoa escreveu. `{$nombre.key_value}` é o valor normalizado.
+
+A lista completa — condições, contagens, `len`, listas — está em [Funções](/docs/Avanzado/Funciones).

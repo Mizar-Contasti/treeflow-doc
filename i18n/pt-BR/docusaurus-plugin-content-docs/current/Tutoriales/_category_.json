@@ -1,0 +1,8 @@
+{
+  "label": "Tutoriais",
+  "position": 4,
+  "link": {
+    "type": "generated-index",
+    "description": "Percursos com as telas da Cafetería: plantar, testar, pedir um dado, publicar na web e passar para uma pessoa."
+  }
+}

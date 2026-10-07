@@ -1,0 +1,67 @@
+---
+sidebar_position: 2
+sidebar_label: Aparência
+---
+
+# Aparência
+
+Textos, cores, tamanhos e o comportamento por dispositivo são editados no painel de [Web Chatbot Widget](./setup). Salvam-se com **Salvar alterações**. O widget do site os pede ao carregar: não é preciso CSS na página.
+
+![O painel do widget, com as abas de configuração](/img/canales/web.png)
+
+## Textos
+
+**Identidade e textos do cabeçalho**
+
+- **Nome no cartão / cabeçalho.** Por padrão, TreeFlow Assistant.
+- **Subtítulo / estado.** Por padrão, Online.
+
+**Ícone do botão flutuante.** O círculo do canto, quando o chat está fechado. Há cinco ícones (lua, balão, robô, suporte, faíscas) ou **Carregar SVG / PNG**.
+
+**Identidade do agente na conversa**
+
+- **Nome do agente no chat.** Aparece ao lado do avatar em cada balão. Se ficar vazio, usa o nome do cabeçalho.
+- **Ícone do avatar.** **O mesmo do widget**, ou outro da lista.
+
+## Cores {#colores}
+
+**Modo escuro do widget** adapta o fundo, os balões e os campos.
+
+**Paletas de cores coordenadas** tem 30 estilos, filtrados em Quentes, Verdes, Azuis, Terra, Rosas e Neutros. Escolher uma paleta preenche os tons. Abaixo, é possível mudar um a um:
+
+| Grupo | Tons |
+|---|---|
+| Cabeçalho e controles | Fundo do cabeçalho, título e subtítulo, botões do cabeçalho, botão flutuante |
+| Painel e mensagens | Fundo do chat, balão e texto do agente, balão e texto da pessoa, fundo do avatar |
+
+## Tamanhos
+
+**Janela do chat.** Largura de 300 a 600 px, altura de 400 a 850 px e a curvatura das bordas.
+
+**Tamanho das mensagens e da leitura.** A fonte dos balões, de 0.80 rem a 1.10 rem, e a margem interna.
+
+**Botão flutuante.** O diâmetro do círculo e o do ícone.
+
+**Ícone do bot no cabeçalho** e **avatar do agente no chat** têm o próprio tamanho.
+
+## Comportamento adaptável a partir do painel
+
+A aba **Responsivo** tem três estados do chat: **fechado** (só o ícone), **aberto** (janela) e **maximizado** (tela inteira). Acima, **Desktop / Tablet / Celular**. Cada um guarda o seu.
+
+| | Desktop | Tablet | Celular |
+|---|---|---|---|
+| Faixa | Mais largo que o limite do tablet | Até o limite do tablet (1024 px por padrão) | Até o limite do celular (640 px por padrão, de 480 a 768) |
+| Janela aberta | Flutuante, com o tamanho de **Tamanhos** | Flutuante, no máximo 88% da largura e 82% da altura, se **Ajuste inteligente ao viewport** estiver ligado | Tela cheia se **Tela cheia automática** estiver ligada. Desligada, janela flutuante |
+| Maximizar | Opcional, desligado por padrão | Opcional, desligado por padrão | Não existe |
+| Minimizar | Ligado por padrão | Ligado por padrão | Desligado por padrão |
+| Fechar | Desligado por padrão | Desligado por padrão | Desligado por padrão |
+
+- **Minimizar** volta ao ícone. Tocá-lo abre o chat de novo.
+- **Fechar** tira o chat da página, ícone incluído, até recarregar. Só se você quiser que a pessoa possa remover o bot.
+- **Maximizar** alterna entre janela e tela cheia. No celular não existe: o chat está fechado ou em tela cheia.
+
+Tocar a faixa do cabeçalho (o título ou o subtítulo, não um botão) minimiza o chat em qualquer dispositivo, esteja ou não o botão de minimizar.
+
+O limite do tablet se ajusta em **Tablet** (de 768 a 1200 px). O do celular, em **Celular**. Desktop é qualquer tela mais larga que o limite do tablet.
+
+Esses ajustes valem para o widget do site e para **Testar agora**. São recalculados ao girar ou mudar o tamanho da janela.

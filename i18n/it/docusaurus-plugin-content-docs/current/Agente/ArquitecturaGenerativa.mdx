@@ -1,0 +1,56 @@
+---
+sidebar_position: 5
+sidebar_label: Come funziona internamente
+---
+
+# Come funziona internamente
+
+Per chi integra, fa debug o vuole sapere che cosa succede tra il momento in cui scrivi un incarico e quello in cui il bot cambia.
+
+L'agente vive **dentro il backend principale** (`backend/core/builder_agent/`). Non c'è un servizio a parte: il servizio generativo indipendente della porta 8001 è stato ritirato. Si usa attraverso l'API `/api/builder-agent`.
+
+## Che cosa succede con ogni messaggio
+
+1. **La console invia** il bot, la cronologia della conversazione e, se l'ha scelto l'utente, la credenziale e il modello.
+2. **Il server verifica** che il bot sia del workspace di chi chiede.
+3. **Sceglie la credenziale**: quella indicata (deve essere del workspace) oppure, se non si indica, la prima credenziale di IA del workspace. Senza nessuna, risponde che serve una chiave.
+4. **Compone le istruzioni** del modello nella **lingua principale del bot**: l'identificatore, il nome e lo scopo del bot, l'elenco dei suoi flussi, le regole dei nomi, dove applicare le modifiche e il protocollo di **guardare prima di creare**.
+5. **Taglia la cronologia** agli **ultimi 14 messaggi**.
+6. **Chiama il modello** con le istruzioni, la cronologia e i **46 strumenti**, descritti nella lingua del bot. Ogni chiamata aspetta fino a 60 secondi.
+7. **Se il modello chiede strumenti**, il server li esegue e gli restituisce il risultato. Ripete fino a **8 giri**.
+8. **Se il modello risponde senza chiederne altri**, quel testo è la risposta. Si salva la conversazione con le azioni eseguite e torna alla console.
+
+Se arriva a 8 giri senza una risposta finale, restituisce *Limite di iterazioni raggiunto senza una risposta finale*, con le azioni che è riuscito a eseguire.
+
+## Come si esegue uno strumento
+
+Il server chiama lo strumento con gli argomenti che ha dato il modello **più il contesto della sessione**: il bot, il workspace e l'utente. Il contesto della sessione **vince** su quello che il modello ha scritto. Un modello che sbaglia — o che riceve un'istruzione malevola dentro un testo — non può uscire dal bot né dal workspace.
+
+Se uno strumento fallisce, l'errore torna al modello come risultato perché lo spieghi o lo riprovi in un altro modo.
+
+## Come parla con i provider
+
+Con **Anthropic** usa la sua API nativa (`/messages`): le istruzioni vanno a parte, gli strumenti si descrivono con il loro schema di ingresso, e il risultato di ogni strumento torna come un blocco `tool_result`. Con **tutti gli altri provider** usa il **formato di chat di OpenAI** (`/chat/completions`, con gli strumenti come funzioni): Gemini e gli altri espongono un percorso compatibile; con Ollama o un server proprio, sei tu a mettere l'URL di base. Il ciclo è lo stesso in entrambi i casi; cambia soltanto come si traducono la richiesta e la risposta. Vedi [Provider e modelli](/docs/Agente/ModelosGenerativos).
+
+## Endpoint
+
+Tutti esigono una sessione avviata e lavorano su un bot del workspace.
+
+| Metodo e percorso | A che cosa serve |
+|---|---|
+| `POST /api/builder-agent/chat` | Un turno dell'agente: restituisce il testo, le azioni e il `session_id` |
+| `POST /api/builder-agent/confirm` | Esegue uno strumento già deciso, dopo il via libera dell'utente |
+| `GET /api/builder-agent/sessions` | Le conversazioni salvate di un bot, la più recente per prima |
+| `GET /api/builder-agent/sessions/{id}` | Una conversazione intera |
+| `PUT /api/builder-agent/sessions/{id}/messages` | Sostituisce i messaggi salvati di una conversazione |
+| `DELETE /api/builder-agent/sessions/{id}` | Cancella una conversazione |
+
+Se non c'è una credenziale, `chat` risponde `400` con `key_required: true`; la console apre allora la configurazione.
+
+`chat` chiama un modello a pagamento, quindi ha un limite di **20 messaggi al minuto per utente**: superato quel limite risponde `429` con un avviso, senza chiamare il provider.
+
+## Quello che si salva
+
+Ogni conversazione resta nella tabella delle sessioni dell'agente, con il suo bot, il suo workspace, l'utente, un **titolo** (i primi 60 caratteri del primo messaggio), i messaggi e le azioni. Si elencano per bot, e per questo la cronologia è per bot.
+
+Le **credenziali di IA** si salvano nella stessa tabella delle credenziali del workspace di quelle dei canali, con il tipo del provider e la sua configurazione: la chiave, l'URL di base e il modello.

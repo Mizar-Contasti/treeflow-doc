@@ -1,0 +1,100 @@
+---
+sidebar_position: 8
+sidebar_label: Messages
+---
+
+# Messages
+
+**Messages** stores the texts the bot can repeat. A node in the [flow](./Flujos) or a [capture](./Capturas) points at one of these, instead of writing the same paragraph in every place.
+
+Saving already leaves the text ready: it is read from the database on every turn.
+
+## The list
+
+At the top you search by name. **New Message** opens the empty editor.
+
+![Message list: cards, search, and New Message](/img/mensajes/lista.png)
+
+- A click on the name opens the message.
+- The orange strip asks for confirmation before deleting it.
+- If there are many cards, the pages are at the bottom.
+
+## The editor
+
+**Message name** is required. Spaces become `_` and, on save, it is stored in lowercase, without accents. The `ñ` is kept. **Description** is optional: it helps you remember what it is for, and the user does not see it.
+
+![restaurante_saludo_response: the name, the description, and the greeting on Default](/img/mensajes/editor.png)
+
+**Save changes** returns to the list. If the tree has more than one language, the languages sit next to the name: each one edits its own text.
+
+## Responses by channel
+
+The accordion is called **Responses by channel**. There are two kinds of tab.
+
+**Default** is always there. On it the block type is **Text**: what the bot says when the channel does not bring its own version.
+
+**Web** appears when the web channel is connected. On it the block type is **Rich elements**: paragraph, buttons, image, and the rest. WhatsApp, Telegram, Facebook, Instagram, Email, Slack, Discord, ElevenLabs, and AI Avatars open their tab the same way as Web, only if that channel is connected, and the block is also rich elements.
+
+In `restaurante_saludo_response`, Default is the greeting in text. If the web channel is connected, its tab can carry rich elements: in `prompt_image_response` it is an image. Whoever writes on the web receives the Web block. Another channel, if its tab is empty, receives the Default text.
+
+Inside the same tab, each **Block** is a variant. If there are two, the bot picks **one at random** on each turn. An empty block is not sent and does not enter the draw. **Add Block** adds another variant on the open tab.
+
+In the text, on both tabs, [functions](/docs/Avanzado/Funciones) fit: `{$nombre}` reads a parameter from an intent.
+
+The engine also leaves two variables on every bot. You do not have to create them. When you type `{$` they appear in the selector, marked as *System*.
+
+| Variable | What it contains |
+|---|---|
+| `{$last_utterance}` | The last thing the person wrote. It changes on every message |
+| `{$last_no_match}` | The last utterance the bot did not understand. A turn that was understood does not change it |
+
+```
+No entendí "{$last_no_match}", ¿puedes decirlo de otra forma?
+```
+
+When each one is saved, and what happens if there has not been a no-match yet, is in [System variables](/docs/Avanzado/Funciones#variables-del-sistema).
+
+## Default
+
+On Default the type is **Text**. The field is called **Response text**. Above it there are three buttons:
+
+![Default: the text block, with bold, italic, and underline](/img/mensajes/editor.png)
+
+- **Bold.** The selection is wrapped in `**`, and it is shown in bold.
+- **Italic.** It is wrapped in `*`.
+- **Underline.** It is wrapped in `__`.
+
+The text comes out as written, with that formatting. **JSON content**, in the same type dropdown, stores an object by hand when the channel expects that format.
+
+## Web
+
+On Web the type is **Rich elements**. **Add Element** builds the list, and they are reordered by dragging.
+
+![Web: the rich elements block, with an image](/img/mensajes/web.png)
+
+| Element | What it is for |
+|---|---|
+| Paragraph | The text. There can be several in the same element |
+| Image | A URL and the alternative text |
+| Video | URL, title, and whether it starts on its own |
+| Audio | URL and title |
+| File | URL, name, and, if you want, size and extension |
+| Buttons | Each one with a label and an action |
+| Quick replies | Short options, like the buttons |
+| Accordion | A title that opens a piece of content |
+| Dropdown | Options and a button to send the chosen one |
+| Location | Title, address, latitude, and longitude |
+| Divider | A line, with an optional label |
+| Card | Title, subtitle, image, and buttons |
+| Carousel | Several cards, side by side |
+| HTML / Web | Tags or a variable |
+
+A button can **send text** (that is what the user writes), send a **hidden response**, **open a URL**, or **fire an event**. It also accepts an icon and a color.
+
+The HTML is cleaned before it is rendered. Headings, paragraphs, links, images, and lists get through. `script`, `iframe`, and `form` do not. A variable is written `{$noticias}`.
+
+## Where it is used
+
+- In this list, with a name, so it can be reused.
+- On the [flow](./Flujos) node, **Conversation** tab: the text is written there or one of these messages is chosen.
+- In a [capture](./Capturas), as its own question or as a message already saved.

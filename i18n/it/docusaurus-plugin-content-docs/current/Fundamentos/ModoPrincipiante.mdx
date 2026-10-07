@@ -1,0 +1,128 @@
+---
+sidebar_position: 3
+sidebar_label: Modalità principiante
+---
+
+# Modalità principiante
+
+La modalità si sceglie quando si [pianta l'albero](./Empezando). **Prima volta** lo lascia in principiante e accende la guida. **Esperto** lo lascia in avanzato, con il menu completo e dati di prova.
+
+Nel selettore del bot, sotto il nome, dice **Principiante** o **Avanzato**. Ogni albero ha la sua: uno può essere principiante e quello accanto, avanzato.
+
+![Piantare un albero inizia scegliendo di crearne uno nuovo o di importare](/img/empezando/plantar.png)
+
+La modalità principiante serve a costruire la conversazione e provarla. Le schermate di dettaglio si nascondono. I pezzi continuano a esistere: un intento nuovo si crea dal flusso semplice, con il suo nome, le sue parole e la sua risposta.
+
+## Che cosa mostra il menu
+
+Durante la guida il menu si apre per intero, per poter indicare ogni voce.
+
+![Il menu di un albero principiante: Flussi, Canali, Conversazioni, Sportello di assistenza, Diagnostica, Account e Credenziali](/img/principiante/menu.png)
+
+| Si vede | A che cosa serve |
+|---|---|
+| **Pannello** | Il riepilogo dell'albero: conversazioni, flussi, addestramento |
+| **Flussi** | L'editor semplice |
+| **Canali** | Da dove parla la persona: il widget, WhatsApp, Telegram |
+| **Conversazioni** | Ciò che è già stato detto |
+| **Sportello di assistenza** | Una persona prende la chat e può restituirla al bot |
+| **Account** | Gli utenti del workspace |
+| **Credenziali** | Le chiavi del workspace, e l'accesso via MCP |
+
+**Diagnostica** resta solo per gli amministratori, in entrambe le modalità.
+
+In principiante il menu non mostra Intenti, Entità, Messaggi, Acquisizioni, Strumenti, Test, Cronologia né Backup. Se entri in uno di quegli indirizzi a mano, l'app torna al pannello.
+
+## Il flusso semplice
+
+**Flussi** apre l'elenco. C'è un flusso principale, segnato **Principale**. **Nuovo flusso** apre il dialogo dell'intento.
+
+![L'elenco: il flusso principale e il pulsante Nuovo flusso](/img/principiante/flujos.png)
+
+Il dialogo ha tre campi, e la guida li percorre uno per uno:
+
+1. **Nome.** Lo scopo di quella parte della conversazione. La guida propone `saludar`.
+2. **Parole chiave.** Ciò che la persona scrive per attivarla: `hola`, `buenos días`. Si aggiunge con Invio o con il pulsante **+**. Ne serve almeno una.
+3. **Risposta.** Ciò che il bot risponde quando riconosce quelle parole.
+
+![Il dialogo dell'intento, con il nome, la parola hola e la risposta](/img/principiante/dialogo.png)
+
+Al salvataggio, quell'intento resta sulla tela: il nodo di inizio, dove il bot aspetta, e il nodo dell'intento. Riaprire il nodo apre lo stesso dialogo, in modifica.
+
+Il settore scelto al momento di piantare (ristorante, hotel, clinica) continua a portare il suo modello. L'editor semplice è il modo di aggiungere e ritoccare passi senza aprire le altre schermate.
+
+## La guida
+
+Se al momento di piantare scegli **Prima volta**, prima di entrare chiede se vuoi il percorso.
+
+![La domanda alla creazione dell'albero: vedere il tutorial o saltarlo](/img/principiante/pregunta.png)
+
+**Vedi il tutorial** lo avvia. **Salta il tutorial** lascia l'albero com'è e lo percorri tu. Il pulsante di aiuto del menu riapre la guida di quell'albero.
+
+### 1. Il pannello
+
+Apre il pannello e indica le schede, una per una: quanti flussi ci sono, gli intenti, le entità, se l'addestramento è aggiornato, e le conversazioni del giorno. In un albero appena piantato l'addestramento dice **Non addestrato**.
+
+![Passo della guida nel pannello, sulla scheda dei flussi](/img/principiante/panel.png)
+
+Al termine di questo tratto, la guida ti porta a Flussi.
+
+### 2. Il flusso principale
+
+Lì c'è la scheda del flusso predefinito. **Avanti** apre l'editor da sola: non bisogna premere la scheda.
+
+![La guida indica il flusso principale](/img/principiante/flujos.png)
+
+### 3. La tela
+
+Prima il nodo di inizio: lì comincia la conversazione, il bot aspetta la persona. Poi l'intento di saluto, ancora vuoto. **Avanti** apre l'editor per riempirlo.
+
+![La tela, con l'inizio e l'intento vuoto](/img/principiante/lienzo.png)
+
+### 4. Nome, parole e risposta
+
+La guida chiede tre cose, in ordine:
+
+1. Il nome `saludar`.
+2. Una parola come `hola` o `buenos días`. Senza almeno una, non lascia continuare.
+3. La risposta, per esempio «Ciao! Benvenuto». **Avanti** salva il flusso.
+
+![La guida sulla risposta, con saludar e hola già scritti](/img/principiante/dialogo.png)
+
+### 5. Addestrare
+
+Il fumetto resta accanto al fulmine del menu. **Avanti** lancia lo stesso addestramento di premere il fulmine. Finché non termina, il bot non usa ciò che hai appena scritto.
+
+![La guida chiede di addestrare con il fulmine del menu](/img/principiante/entrenar.png)
+
+### 6. La console
+
+Con l'addestramento pronto si apre la console, il pannello a destra. Bisogna scrivere una frase che hai già configurato. `hola` riceve la risposta che hai salvato. Se scrivi qualcosa che il bot non riconosce, la risposta è un'altra.
+
+![Nella console, hola riceve la risposta del saluto](/img/principiante/consola.png)
+
+### 7. Il menu
+
+Chiudendo quella prova, la guida percorre il menu: il bot in cui ti trovi, il pannello, i flussi, i canali, le conversazioni, e di nuovo il fulmine. Lì l'addestramento dice già **Aggiornato**.
+
+![L'ultimo tratto indica Flussi nel menu](/img/principiante/menu.png)
+
+## Addestrare e provare
+
+Il fulmine del menu dice lo stato. **Addestramento in sospeso** è arancione: un clic addestra. In verde dice **IA addestrata**. Finché non addestri, il bot risponde con l'addestramento precedente.
+
+La [console](/docs/Fundamentos/ProbarElBot) è la chat di prova. **Canali** è il passo successivo, quando qualcuno da fuori deve parlare con il bot.
+
+## La modalità avanzata
+
+**Esperto**, al momento di piantare, apre lo stesso **Flussi** nell'[editor completo](./Flujos): nodi sciolti, frecce, e in ogni nodo le schede Conversazione e Funzionalità.
+
+Con quella modalità il menu mostra anche:
+
+- [Intenti](./Intenciones) ed [entità](./Entidades), per pattern, parametri e i dati della frase
+- [Messaggi](./Mensajes) e [acquisizioni](./Capturas), per risposte riutilizzabili e per chiedere un dato che manca
+- [Strumenti](/docs/Herramientas), per chiamare uno script, un'API o il webhook
+- [Test](./ProbarElBot), casi di più turni
+- Cronologia e Backup
+
+Questa è la modalità per un bot che estrae dati, chiama sistemi esterni o si prova con una suite salvata.

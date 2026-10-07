@@ -1,0 +1,53 @@
+---
+sidebar_position: 5
+sidebar_label: Test
+---
+
+# Test
+
+Parlare con l'albero, turno per turno, è la [console](/docs/Fundamentos/ProbarElBot). Questa pagina è l'altra prova: una **suite**, un elenco di conversazioni con quello che il bot deve rispondere a ogni turno.
+
+![Test: non ci sono ancora suite. Si creano e si carica un CSV](/img/pruebas/lista.png)
+
+## La console
+
+Il pulsante arancione apre la chat. La modalità debug mostra l'intento, la confidenza e il nodo di quel turno.
+
+![Un turno nella console, con la modalità debug](/img/testeo/debug.png)
+
+## Una suite {#una-suite}
+
+Sta in **Operatività → Test**. Una suite è un elenco di conversazioni. Si scrive nella schermata o si carica come CSV, e si esegue sull'albero già addestrato. Ogni caso parte con la propria sessione: l'ordine precedente non passa al successivo. Le sessioni dell'esecuzione non restano in Conversazioni.
+
+![Il pannello, con l'addestramento aggiornato: senza, la suite non si può eseguire](/img/intro/panel.png)
+
+### Che cosa si può verificare
+
+| Colonna | Che cosa richiede |
+|---|---|
+| `intencion` | L'intento rilevato è quello |
+| `respuesta_contiene` | La risposta del bot contiene quel testo, senza distinguere maiuscole e minuscole |
+| `slot` | Il parametro che il bot sta chiedendo in quel turno è quello |
+| `parametros` | I parametri acquisiti hanno quei valori |
+| `evento` | L'evento risultante è quello |
+
+### Il CSV
+
+Una riga per turno, raggruppata per caso:
+
+```csv
+caso,turno,mensaje,intencion,respuesta_contiene,slot,parametros,evento
+pedido por partes,1,quiero empanadas,hacer_pedido,¿De qué sabor,sabor_producto,,
+pedido por partes,2,de queso,,¿Cuántas,numero,,
+pedido por partes,3,dos,,Anoté,,numero=2;sabor_producto=queso,
+```
+
+Le colonne vuote non verificano nulla. Il CSV minimo è `caso,turno,mensaje`. In `parametros` ne vanno diversi nella stessa cella: `nombre=valor;nombre=valor`. Se il file è errato, la schermata mostra la riga e il motivo.
+
+La matita apre il caso nella schermata. **Salva** scrive le modifiche. **Annulla** le lascia andare.
+
+### Il risultato
+
+Nell'elenco, eseguire lancia quella suite. La cronologia salva con quale addestramento è stata misurata. I casi che falliscono si aprono e mostrano che cosa ci si aspettava e che cosa ha risposto il bot. Confrontare due esecuzioni dice che cosa prima passava e ora fallisce, e che cosa falliva e ora passa.
+
+Il pulsante di esecuzione resta spento se l'albero non è addestrato.

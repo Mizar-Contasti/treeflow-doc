@@ -1,0 +1,64 @@
+---
+sidebar_position: 12
+sidebar_label: Bonnes pratiques
+---
+
+# Bonnes pratiques
+
+Voici ce qui évite qu'un arbre réponde autre chose. L'exemple est le flux **Restaurante** de Cafetería.
+
+## Plusieurs phrases, une intention
+
+Une intention est un scénario, pas une rédaction. `hacer_pedido` a beaucoup de façons de demander la même chose.
+
+![hacer_pedido : la même commande dite de plusieurs manières](/img/intenciones/editor.png)
+
+Une phrase trop courte en avale d'autres. `saludo` ne devrait pas porter un motif si lâche que « à quelle heure vous ouvrez » y tombe. Si deux intentions peuvent lire la même phrase, celle qui remplit le plus de données gagne, et en cas d'égalité celle qui est le plus haut dans l'ordre de [compréhension](./Arboles).
+
+## La donnée se demande, elle ne se dessine pas
+
+Une réservation n'est pas un nœud par donnée. L'[entité](./Entidades) extrait la valeur de la phrase. Si elle manque et que le paramètre est en **Requis**, le bot la demande.
+
+![numero, requis, avec la question et la limite de tentatives](/img/intenciones/ajustes.png)
+
+La question nomme ce qui a déjà été capturé, pour que la personne voie comment c'est compris. Si cette question doit servir dans plusieurs intentions, elle va dans une [capture](./Capturas).
+
+## On n'entend que ce qui est dans le contexte
+
+Le nœud vert attend. Les intentions liées là sont les seules que le moteur essaie dans ce tronçon.
+
+![Inicio, avec les intentions de ce tronçon](/img/flujos/contexto.png)
+
+Une intention qui existe dans l'arbre et qui n'est pas liée ne se déclenche pas. Après avoir répondu, presque tous les nœuds reviennent à Inicio : ainsi la phrase suivante s'entend de nouveau.
+
+![saludo revient à Inicio](/img/flujos/conversacion.png)
+
+Celle qui passe à une personne ne revient pas. `hablar_con_asesor` transfère et ferme la question qui était à moitié faite.
+
+## Lorsqu'elle ne correspond pas
+
+Chaque contexte a son `sys.no-match`. Le message dit qu'il n'a pas compris et demande de répéter. La transition habituelle est de revenir au même contexte.
+
+![L'événement sys.no-match](/img/flujos/evento.png)
+
+La limite de tentatives du paramètre fait la même chose avec une donnée : il insiste, et une fois dépassée il continue avec la suivante ou lâche la capture. Ne laissez pas un requis sans question ni sans plafond.
+
+## Le nom est un identifiant
+
+Intentions, entités, messages et captures s'enregistrent en minuscules, avec `_` à la place des espaces. `Consulta de precio` devient `consulta_de_precio`. Le `ñ` est conservé.
+
+Ce nom est celui que citent le flux, le paramètre et le modèle `{$nombre}`. Le changer ensuite casse ces citations.
+
+## Entraîner ce que le moteur mémorise
+
+Intentions et entités entrent dans l'entraînement. Un message ou une capture se lisent au moment de répondre : enregistrer suffit. L'éclair du menu est **Entraîner**. Le tableau de bord le marque en vert lorsqu'il est à jour.
+
+![Le tableau de bord, avec l'entraînement à jour](/img/intro/panel.png)
+
+## Tester le flux que vous concevez
+
+La console démarre dans le flux **Principal** si le premier bouton dit **Par défaut**. La carte de Restaurante est un autre flux : il faut le choisir. Sinon, `hola` répond par le salut du principal.
+
+![Console dans Restaurante : hola et le nœud de ce tour](/img/diseno/recorrido.png)
+
+Avec le mode debug, on voit l'intention, la confiance et le chemin sur le canevas. Le détail est dans [Tester le bot](./ProbarElBot).

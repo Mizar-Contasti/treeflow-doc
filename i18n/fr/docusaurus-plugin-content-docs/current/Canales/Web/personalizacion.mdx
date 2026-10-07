@@ -1,0 +1,67 @@
+---
+sidebar_position: 2
+sidebar_label: Apparence
+---
+
+# Apparence
+
+Les textes, les couleurs, les tailles et le comportement selon l'appareil se règlent dans le panneau de [Web Chatbot Widget](./setup). On les enregistre avec **Enregistrer les modifications**. Le widget du site les demande au chargement : pas besoin de CSS sur la page.
+
+![Le panneau du widget, avec les onglets de configuration](/img/canales/web.png)
+
+## Textes
+
+**Identité et textes de l'en-tête**
+
+- **Nom sur la carte / l'en-tête.** Par défaut, TreeFlow Assistant.
+- **Sous-titre / état.** Par défaut, En ligne.
+
+**Icône du bouton lanceur.** Le cercle du coin, quand le chat est fermé. Il y a cinq icônes (lune, bulle, robot, assistance, étincelles) ou **Importer un SVG / PNG**.
+
+**Identité de l'agent dans la conversation**
+
+- **Nom de l'agent dans le chat.** Il apparaît à côté de l'avatar dans chaque bulle. S'il est laissé vide, le nom de l'en-tête est utilisé.
+- **Icône de l'avatar.** **Identique au widget**, ou une autre de la liste.
+
+## Couleurs {#colores}
+
+**Mode sombre du widget** adapte le fond, les bulles et les champs.
+
+**Palettes de couleurs coordonnées** propose 30 styles, filtrés en Chauds, Verts, Bleus, Terre, Roses et Neutres. Choisir une palette remplit les tons. En dessous, on peut les changer un par un :
+
+| Groupe | Tons |
+|---|---|
+| En-tête et commandes | Fond de l'en-tête, titre et sous-titre, boutons de l'en-tête, bouton lanceur |
+| Panneau et messages | Fond du chat, bulle et texte de l'agent, bulle et texte de la personne, fond de l'avatar |
+
+## Tailles
+
+**Fenêtre du chat.** Largeur de 300 à 600 px, hauteur de 400 à 850 px, et la courbure des bords.
+
+**Taille des messages et lecture.** La police des bulles, de 0.80 rem à 1.10 rem, et la marge interne.
+
+**Bouton lanceur flottant.** Le diamètre du cercle et celui de l'icône.
+
+**Icône du bot dans l'en-tête** et **avatar de l'agent dans le chat** ont leur propre taille.
+
+## Comportement adaptable depuis le panneau
+
+L'onglet **Responsive** a trois états du chat : **fermé** (seulement l'icône), **ouvert** (fenêtre) et **agrandi** (tout l'écran). En haut, **Desktop / Tablet / Mobile**. Chacun enregistre les siens.
+
+| | Desktop | Tablet | Mobile |
+|---|---|---|---|
+| Plage | Plus large que le seuil tablette | Jusqu'au seuil tablette (1024 px par défaut) | Jusqu'au seuil mobile (640 px par défaut, de 480 à 768) |
+| Fenêtre ouverte | Flottante, à la taille de **Tailles** | Flottante, au maximum 88 % de la largeur et 82 % de la hauteur, si **Ajustement intelligent au viewport** est activé | Plein écran si **Plein écran automatique** est activé. Désactivé, fenêtre flottante |
+| Agrandir | Facultatif, désactivé par défaut | Facultatif, désactivé par défaut | N'existe pas |
+| Réduire | Activé par défaut | Activé par défaut | Désactivé par défaut |
+| Fermer | Désactivé par défaut | Désactivé par défaut | Désactivé par défaut |
+
+- **Réduire** revient à l'icône. La toucher rouvre le chat.
+- **Fermer** retire le chat de la page, icône comprise, jusqu'au rechargement. Seulement si vous voulez que la personne puisse retirer le bot.
+- **Agrandir** alterne entre fenêtre et plein écran. Sur le téléphone, il n'est pas là : le chat est fermé ou en plein écran.
+
+Toucher la bande de l'en-tête (le titre ou le sous-titre, pas un bouton) réduit le chat sur n'importe quel appareil, que le bouton réduire soit présent ou non.
+
+Le seuil tablette se règle dans **Tablet** (de 768 à 1200 px). Celui du mobile, dans **Mobile**. Desktop est tout écran plus large que le seuil tablette.
+
+Ces réglages s'appliquent au widget du site et à **Essayer maintenant**. Ils sont recalculés quand on tourne l'appareil ou qu'on change la taille de la fenêtre.

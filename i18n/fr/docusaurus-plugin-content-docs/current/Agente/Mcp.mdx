@@ -1,0 +1,90 @@
+---
+sidebar_position: 6
+sidebar_label: MCP
+description: Connecter Claude Desktop, Claude Code ou Cursor au workspace avec une clé MCP.
+---
+
+# MCP
+
+MCP (Model Context Protocol) est la façon pour un assistant extérieur — Claude Desktop, Claude Code ou Cursor — de construire le bot sans ouvrir la console. Il entre dans le workspace avec une clé, l'URL de l'API et l'identifiant du workspace.
+
+Ce n'est pas l'[agent de la console](./Constructor). Celui-là utilise la clé d'un fournisseur de modèles et tourne dans TreeFlow. MCP utilise une clé que **vous** donnez à Claude, et Claude appelle TreeFlow.
+
+![Identifiants, onglet Clés d'API. MCP est l'onglet d'à côté](/img/gestion/credenciales.png)
+
+## Créer la connexion
+
+Seul un administrateur peut créer la clé.
+
+1. **Gestion → Identifiants**.
+2. Onglet **MCP**.
+3. **Nouvelle connexion MCP**. Donnez-lui un nom, par exemple « Claude Desktop », et assignez-la à un utilisateur du workspace.
+4. À la création, la clé complète s'affiche **une fois**. Copiez-la. Ensuite, il ne reste que l'identificateur.
+5. Dans le même cadre, l'onglet **Claude Desktop (MCP Config)** apporte le JSON déjà rempli : l'URL de cette installation, la clé et l'identifiant du workspace. **Copier le JSON**.
+
+Le fragment a cette forme. Les trois valeurs sont mises par l'application. Inutile de les inventer.
+
+```json
+{
+  "mcpServers": {
+    "treeflow": {
+      "command": "npx",
+      "args": ["-y", "github:Mizar-Contasti/tree-flow-mcp"],
+      "env": {
+        "TREEFLOW_URL": "https://tu-servidor",
+        "TREEFLOW_API_KEY": "tf_live_…",
+        "TREEFLOW_WORKSPACE_ID": "botsmexico"
+      }
+    }
+  }
+}
+```
+
+| Variable | Ce que c'est |
+|---|---|
+| `TREEFLOW_URL` | L'API de cette installation, sans barre à la fin. En local, c'est souvent `http://localhost:8000` |
+| `TREEFLOW_API_KEY` | La clé `tf_live_…` que vous venez de créer. Le workspace et le rôle en sortent |
+| `TREEFLOW_WORKSPACE_ID` | Le même workspace que celui avec lequel vous entrez. Il doit être le propriétaire de la clé |
+
+Il faut Node.js sur la machine où tourne Claude : le client se télécharge avec `npx` depuis `github:Mizar-Contasti/tree-flow-mcp`.
+
+## Le coller dans Claude Desktop
+
+Le fichier s'appelle `claude_desktop_config.json`.
+
+- Sous Windows : `%APPDATA%\Claude\claude_desktop_config.json`
+- Sur Mac : `~/Library/Application Support/Claude/claude_desktop_config.json`
+
+Si le fichier a déjà d'autres serveurs, mettez `treeflow` dans `mcpServers`, sans remplacer le fichier entier. Enregistrez, fermez Claude Desktop et rouvrez-le. L'icône du marteau indique que TreeFlow est connecté.
+
+Claude Code et Cursor utilisent le même JSON de serveur MCP. Dans Cursor, on le colle dans la configuration MCP du projet ou de l'utilisateur.
+
+## Ce qu'il peut faire
+
+Les outils s'appellent `treeflow_…`. Claude les voit en se connectant. Groupés :
+
+| Domaine | Ce qu'il fait |
+|---|---|
+| Bots | Liste, lit, crée et change des arbres. Il ne peut pas supprimer un bot |
+| Flux et nœuds | `treeflow_list_branches`, `treeflow_create_branch`, `treeflow_update_branch`, `treeflow_delete_branch`, et la même chose pour les nœuds (`treeflow_list_leafs`, `treeflow_create_leaf`, `treeflow_update_leaf`, `treeflow_delete_leaf`) |
+| Intentions et entités | Créer, changer et supprimer, avec phrases, paramètres et synonymes |
+| Messages | Modèles, y compris avec des blocs enrichis |
+| APIs et scripts | Créer, changer, supprimer et **tester** une API ou un script. Les mots de passe sortent masqués |
+| Captures | La question réutilisable d'un paramètre. Il n'est pas nécessaire d'entraîner pour que cela prenne effet |
+| Transferts | La configuration pour passer à une personne, et un test de l'endpoint |
+| Tests | Suites, le CSV, exécuter une passe et en comparer deux |
+| Service d'assistance | Lecture seule : la file, l'historique et une session |
+| Canaux | Voir l'état et activer ou désactiver |
+| Voix | STT et TTS |
+| Entraînement | Le lancer, voir s'il est terminé et l'historique |
+| Conversations | Simuler un message et lire des sessions |
+| Sauvegardes | Lister, créer, restaurer (exige `confirm: true` et enregistre d'abord une autre sauvegarde), exporter et importer un nouveau bot |
+| Utilisateurs | Lister, inviter et changer le rôle. Ne supprime pas les utilisateurs |
+
+Supprimer un bot ou un utilisateur n'est pas parmi les outils : cela se fait dans le panneau.
+
+## La révoquer
+
+Dans le même tableau, l'icône de suppression **révoque** la clé. Claude cesse d'entrer à ce moment-là. On ne peut plus revoir la clé : on crée une autre connexion et on colle le nouveau JSON.
+
+Ne confondez pas cette clé avec celle du [fournisseur de modèles](./ModelosGenerativos). Celle-là est utilisée par l'agent de la console pour réfléchir. Celle-ci est utilisée par Claude pour entrer dans TreeFlow.

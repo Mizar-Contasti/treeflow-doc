@@ -1,0 +1,51 @@
+---
+sidebar_position: 7
+sidebar_label: Run a suite
+---
+
+# Run a test suite
+
+The [console](./ProbarEnLaConsola) is a chat, turn by turn. A **suite** is a list of conversations with what the bot should reply. It is for repeating the same order after you change a pattern.
+
+## Train first
+
+The run button stays off if the tree is not trained. The lightning bolt in the menu, in green, is the sign that training is up to date.
+
+![The panel, with training up to date](/img/intro/panel.png)
+
+## Where it is
+
+**Operations → Tests**. If there are no suites yet, create one and upload a CSV, or write the turns on the screen.
+
+![Tests: they are created and a CSV is uploaded](/img/pruebas/lista.png)
+
+## The file
+
+One row per turn. The same `caso` is one conversation. Each case starts with its own session: the previous order does not leak into the next one.
+
+```csv
+caso,turno,mensaje,intencion,respuesta_contiene,slot,parametros,evento
+pedido por partes,1,quiero empanadas,hacer_pedido,¿De qué sabor,sabor_producto,,
+pedido por partes,2,de queso,,¿Cuántas,numero,,
+pedido por partes,3,dos,,Anoté,,numero=2;sabor_producto=queso,
+```
+
+| Column | What it requires |
+|---|---|
+| `intencion` | The detected intent is that one |
+| `respuesta_contiene` | The reply contains that text, without distinguishing capitals |
+| `slot` | The parameter the bot is asking for on that turn |
+| `parametros` | The captured values. Several in the same cell: `nombre=valor;nombre=valor` |
+| `evento` | The resulting event |
+
+Empty columns check nothing. The minimum CSV is `caso,turno,mensaje`. If the file is wrong, the screen shows the row and the reason.
+
+The pencil opens the case. **Save** writes the changes. **Discard** drops them.
+
+## The result
+
+Run executes that suite against the current training. The history stores which training it was measured with. The cases that fail open and show what was expected and what the bot replied. Comparing two runs shows what used to pass and now fails, and what used to fail and now passes.
+
+The run's sessions do not stay in Conversations.
+
+To look at a single turn, with the intent and the parameters, use the console in debug mode. The suite detail is in [Tests](/docs/Avanzado/Pruebas).

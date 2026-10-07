@@ -1,0 +1,113 @@
+---
+sidebar_position: 1
+sidebar_label: Flows
+---
+
+# Flows
+
+A flow is the drawing of the conversation: nodes and arrows. The tree can have several. One is marked **Primary** and is the one that starts if the first button in the console says **Default**.
+
+In Cafetería the primary one is **flujo_principal**. **Restaurante** is the map of the place. The screen, button by button, is in [Flows](/docs/Fundamentos/Flujos). This page walks through that map.
+
+## The list
+
+**Flows** opens the cards. You search by name. **New flow** creates an empty one. The copy icon duplicates it. The trash deletes it, except the primary one. **Templates** applies a business type: intents, entities, and the drawing. Applying it again does not overwrite the question of a parameter that already existed.
+
+![flujo_principal marked Primary, and the Restaurante flow](/img/flujos/lista.png)
+
+## Settings
+
+When you open a flow there are two tabs: **Design** and **Settings**.
+
+![Name, description, and the primary flow switch](/img/flujos/configuracion.png)
+
+- **Flow name.** This is the identifier. In the console it shows on the first button.
+- **Description.** So you remember what it is for. The person does not see it.
+- **Primary flow.** There can be only one. The one that already is primary cannot be turned off from here: you turn it on in the other flow and save. The primary flow cannot be deleted. It is the starting point when the console says **Default**.
+
+At the top right, the save icon turns on when something is unsaved: a moved node, an arrow, the name, the switch. Closing the editor does not save on its own. Moving a node does not change what the bot replies. Changing the intent, a pattern, or an entity does: the lightning bolt in the menu turns orange again and you have to train.
+
+## The canvas
+
+**Design** is the map. Each node can be dragged. At the bottom left are zoom, center, and **Tidy Up**, which arranges the nodes.
+
+![Start, the restaurant intents, the event, and the jump to flujo_principal](/img/flujos/lienzo.png)
+
+The orange **+** creates the node according to where you start from. From a context it offers an intent or an event. From an intent or an event it offers a context. The brown arrow, under the +, is dragged to another node to connect them. The solid line is the path. The dotted line is an event.
+
+| Node | What it is |
+|---|---|
+| Context, green | Where the bot waits. In Restaurante it is named **Inicio** |
+| Intent, orange | It fires when the engine recognizes that intent |
+| Event, the lightning bolt | It did not understand (`sys.no-match`) or nothing arrived (`sys.no-input`) |
+
+The `flujo_principal` pill is a link: from this drawing you can also jump to that flow.
+
+## Where it waits
+
+The context does not say a phrase. It lists what can be recognized while the conversation is there.
+
+![Inicio, with the intents and the event for that stretch](/img/flujos/contexto.png)
+
+- **Intents.** The ones for this stretch. You pick a node that already exists, or you create one. Removing the link does not delete the intent.
+- **Events.** The one for not understanding, the one for silence, or a name that another step fires.
+- **Linked flows.** From here the other flow's intents count too. If both have `saludo`, while you are in one of them the node from that flow runs, not the one from the other.
+
+The primary flow links to Restaurante. That is why, starting on **Default**, you can also order or book. The greeting that replies is the one from the flow you are in.
+
+## A step, and back
+
+The orange node does not train the intent. It points at it. Patterns and parameters are edited in [Intents](/docs/Fundamentos/Intenciones).
+
+![saludo: the intent, the message, and the return to Inicio](/img/flujos/conversacion.png)
+
+**Conversation**
+
+- **Intent.** If it is already in this flow, or in a linked one, the picker marks it **In use**.
+- **Response.** A [message](/docs/Fundamentos/Mensajes) template, **+ Create template**, or **Custom message**. It is sent once the data is in, after this node's tools.
+- **Transition.** Where it goes next:
+  - **None.**
+  - A context on the canvas, or a new one.
+  - **Switch flow**, to the start of another one.
+  - **Restart current flow.**
+  - **Transfer to human.** Hands the conversation to the [help desk](./MesaDeAyuda).
+
+`saludo`, the hours, the menu, and the order go back to **Inicio**. That is why the next phrase is heard again.
+
+## Functionality {#funcionalidad}
+
+Until an intent is chosen, this tab asks you to go back to Conversation.
+
+![Scripts, tools, end the capture, and the webhook](/img/flujos/funcionalidad.png)
+
+- **Scripts** and **tools.** What this step calls outside. They are created in [Tools](/docs/Herramientas).
+- **Ends a capture in progress.** If the person says this while the bot is asking for data. On, the question is treated as finished: cancel or say goodbye. Off, which is the default, the bot replies and picks the question back up, with what was already written.
+- **Call webhook on this node.** The tree's webhook runs when passing through here, before the tools. If there is no active one, nothing happens.
+
+The context has no response and no "ends a capture". The event does not close the capture either: that belongs to the intent.
+
+## If it does not recognize the phrase
+
+![sys.no-match and its message](/img/flujos/evento.png)
+
+The lightning bolt is chosen or typed. The ones the engine fires on its own are `sys.no-match` and `sys.no-input`. A name of your own is fired by another step; if it is already on another event in the flow, it is marked **In use**.
+
+In Restaurante the message is "Sorry, I didn't understand that. Could you say it again?". The transition is the same list as on the intent. The usual choice is to return to the context.
+
+In that message, and in the node's tools and scripts, the phrase that was not understood is in **`{$last_no_match}`**: `No entendí "{$last_no_match}", ¿puedes decirlo de otra forma?`. Nothing has to be turned on. See [System variables](/docs/Avanzado/Funciones#variables-del-sistema).
+
+## When they ask for a person
+
+`hablar_con_asesor` does not return to Inicio. The transition is **Transfer to a human agent**.
+
+![hablar_con_asesor: the message and the help desk](/img/diseno/asesor.png)
+
+It warns first: "I'll connect you with someone on the team". **Ends a capture in progress** is on: if they say it in the middle of an order, it stops asking and hands the conversation over.
+
+## Try this map
+
+In the console, set the first button to **Restaurante**. `hola` lands on `saludo` and replies with that flow's welcome. With debug mode, Inicio stays as the path and `saludo` as the node for this turn.
+
+![Console on Restaurante and the canvas highlighted](/img/diseno/recorrido.png)
+
+The chat details are in [Test the bot](/docs/Fundamentos/ProbarElBot).

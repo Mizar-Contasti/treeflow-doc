@@ -1,0 +1,8 @@
+{
+  "label": "AI Avatars",
+  "position": 11,
+  "link": {
+    "type": "generated-index",
+    "description": "Interactive video replies with HeyGen and D-ID avatars"
+  }
+}

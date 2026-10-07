@@ -1,0 +1,35 @@
+---
+sidebar_position: 1
+sidebar_label: Outils
+slug: /Herramientas
+description: Les six onglets d'Intégration → Outils, et l'ordre dans lequel un nœud les appelle.
+---
+
+# Outils
+
+Dans le menu, ils se trouvent sous **Intégration → Outils**. Un [canal](/docs/Canales/CanalesDeComunicacion) est le moyen par lequel la personne parle. Un outil est ce que le bot appelle pendant qu'il parcourt un nœud.
+
+![Cafetería, onglet Scripts : le champ de recherche, les six onglets et le script de salutation](/img/herramientas/scripts-lista.png)
+
+En haut, le champ de recherche change selon l'onglet : **Rechercher des scripts…** ou **Rechercher des APIs…**. À droite se trouvent **Modèles** et le bouton de création (**Créer un script** ou **Créer un outil**). Ces deux actions ne sont pas dans Webhook, Transferts, Base de connaissances ni Ingestion générative.
+
+| Onglet | Ce qu'il enregistre |
+|---|---|
+| [Scripts](/docs/Herramientas/Scripts) | Du code Python qui s'exécute dans le bot. Huit modèles |
+| [APIs](/docs/Herramientas/Apis) | Un appel HTTP. Dix modèles, plus ceux que vous créez |
+| [Webhook](/docs/Herramientas/Webhook) | Une seule carte, l'URL de l'arbre |
+| [Transferts](/docs/Herramientas/Transferencias) | Comment la conversation est passée à une personne |
+| [Base de connaissances](/docs/Herramientas/BaseDeConocimiento) | Un CSV qui crée un flux, une ligne par intention |
+| [Ingestion générative](/docs/Herramientas/IngestionGenerativa) | Un PDF, un Excel ou un TXT dont un modèle extrait des intentions |
+
+## Dans le nœud
+
+On les choisit dans le nœud du flux, onglet **Fonctionnalité**. L'ordre d'exécution est fixe :
+
+1. Les scripts de **Ajouter un script…**, dans l'ordre de la liste.
+2. Le webhook, si **Appeler le webhook dans ce nœud** est activé et que l'arbre a une URL.
+3. Les APIs de **Ajouter un outil…**, quand le tour a déjà ses données.
+
+Si le nom de la variable de session ne coïncide pas avec celui de l'entrée ou de la sortie, le **≠** de cette ligne permet d'écrire l'autre nom. **=** utilise le même. La sortie reste dans la conversation et un message la lit avec `{$saludo_tiempo}`.
+
+Le détail de chaque écran est sur sa page. La carte du nœud, dans [Flux](/docs/Avanzado/FlujosConversacionales#funcionalidad).

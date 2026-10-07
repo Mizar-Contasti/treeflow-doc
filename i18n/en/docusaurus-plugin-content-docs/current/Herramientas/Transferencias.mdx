@@ -1,0 +1,43 @@
+---
+sidebar_position: 5
+sidebar_label: Transfers
+description: The card a node uses when it hands the conversation to a person, inside or outside the workspace.
+---
+
+# Transfers
+
+The **Transfers** tab. Each card is a way to hand the conversation to a person. Cafetería has one, **Help desk**, marked **Active**. The orange button deletes it. **New transfer** opens the empty editor.
+
+![Help desk, active](/img/herramientas/transferencias-lista.png)
+
+The node does not choose it here. It chooses it on the **Transfer to a human agent** transition. The path is in [Hand off to a person](/docs/Tutoriales/PasarAUnAsesor), and the queue is in [Help desk](/docs/Avanzado/MesaDeAyuda).
+
+## The editor
+
+Three blocks.
+
+![Internal help desk: identification, destination, and behavior](/img/herramientas/transferencias-editor.png)
+
+### 1. Identification
+
+- **Transfer name.** Required. This is how it shows up on the card and on the node.
+- **Description.** Optional. In the example: "Transfers to the agents in this workspace on the help desk."
+- The **Active** / **Inactive** switch is in the header. The engine uses the first active configuration, or the one the intent sets. If there is none, the transfer still works, with the default notice.
+- **Transfer message.** What the bot says on the turn it hands off. If you leave the default, it is the notice the industry template already includes.
+
+### 2. Connect to
+
+Two options, side by side.
+
+**Internal help desk.** The conversation enters this workspace's queue and an agent handles it in real time. It does not ask for a URL. The notice on the screen says so: there is nothing else to configure.
+
+**External system.** The **webhook URL**, the **authentication header**, and the **Send the full history on transfer** switch appear. Off, only the message the person used to ask for someone is sent. On, the **history format** can be `json`, text, or markdown.
+
+Industry templates seed a URL under the `.invalid` domain. That counts as an internal help desk: no server is called. For an external system, replace it with the real URL.
+
+### 3. Bot and widget behavior
+
+Both switches apply to both destinations.
+
+- **The bot stops replying while a person is handling the conversation.** On, the bot stays quiet. Off, it keeps responding, and the agent sees live what both of them say.
+- **Keep the widget conversation on reload.** On, if the person reloads the page while someone is handling them, they get the bot's and the agent's messages back.

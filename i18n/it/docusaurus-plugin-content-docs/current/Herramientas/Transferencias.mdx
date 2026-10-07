@@ -1,0 +1,43 @@
+---
+sidebar_position: 5
+sidebar_label: Trasferimenti
+description: La scheda che usa un nodo passando la conversazione a una persona, dentro o fuori dal workspace.
+---
+
+# Trasferimenti
+
+La scheda **Trasferimenti**. Ogni card è un modo di passare la conversazione a una persona. In Cafetería ce n'è una, **Sportello di assistenza**, segnata **Attivo**. Il pulsante arancione la cancella. **Nuovo trasferimento** apre l'editor vuoto.
+
+![Sportello di assistenza, attivo](/img/herramientas/transferencias-lista.png)
+
+Il nodo non la sceglie qui. La sceglie nella transizione **Trasferimento a un agente umano**. Il percorso è in [Passare a una persona](/docs/Tutoriales/PasarAUnAsesor) e la coda, in [Sportello di assistenza](/docs/Avanzado/MesaDeAyuda).
+
+## L'editor
+
+Tre blocchi.
+
+![Sportello di assistenza interno: identificazione, destinazione e comportamento](/img/herramientas/transferencias-editor.png)
+
+### 1. Identificazione
+
+- **Nome del trasferimento.** Obbligatorio. Così compare nella card e nel nodo.
+- **Descrizione.** Facoltativa. Nell'esempio: «Trasferisce ai consulenti di questo workspace nello sportello di assistenza.»
+- L'interruttore **Attivo** / **Inattivo** è nell'intestazione. Il motore usa la prima configurazione attiva, o quella fissata dall'intento. Se non ce n'è nessuna, il trasferimento funziona lo stesso, con l'avviso di fabbrica.
+- **Messaggio di trasferimento.** Quello che dice il bot nel turno in cui trasferisce. Se si lascia quello di fabbrica, è l'avviso che porta già il modello del settore.
+
+### 2. Collegare con
+
+Due opzioni, una accanto all'altra.
+
+**Sportello di assistenza interno.** La conversazione entra nella coda di questo workspace e un consulente la segue in tempo reale. Non chiede un URL. L'avviso della schermata lo dice: non c'è nient'altro da configurare.
+
+**Sistema esterno.** Compaiono l'**URL del webhook**, l'**intestazione di autenticazione** e l'interruttore **Invia la cronologia completa al trasferimento**. Spento, viaggia soltanto il messaggio con cui la persona ha chiesto qualcuno. Acceso, il **formato della cronologia** può essere `json`, testo o markdown.
+
+I modelli di settore seminano un URL sotto il dominio `.invalid`. Questo conta come sportello interno: non si chiama nessun server. Per un sistema esterno si sostituisce con l'URL reale.
+
+### 3. Comportamento del bot e del widget
+
+I due interruttori valgono per entrambe le destinazioni.
+
+- **Il bot smette di rispondere mentre risponde una persona.** Acceso, il bot tace. Spento, continua a rispondere e il consulente vede in diretta quello che dicono entrambi.
+- **Conserva la conversazione del widget al ricaricamento.** Acceso, se la persona ricarica la pagina mentre la segue qualcuno, recupera i messaggi del bot e del consulente.

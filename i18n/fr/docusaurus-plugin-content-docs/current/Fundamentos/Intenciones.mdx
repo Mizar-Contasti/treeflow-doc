@@ -1,0 +1,166 @@
+---
+sidebar_position: 6
+sidebar_label: Intentions
+---
+
+# Intentions
+
+Dans le menu, elles s'appellent **Intentions**. C'est ce que le moteur reconnaît dans une phrase. Le parcours de la conversation est autre chose : il vit dans les [flux](./Flujos).
+
+Une intention garde trois choses :
+
+- un **nom**, l'identifiant
+- les **motifs**, des phrases d'exemple
+- les **paramètres**, les données extraites de ces phrases
+
+Ce que le bot répond s'écrit dans le nœud d'intention du flux, et les textes réutilisables dans [Messages](./Mensajes).
+
+## La liste
+
+**Intentions** ouvre les cartes. En haut, on peut chercher par nom. L'onglet est **Conversationnel** : chaque carte est une intention qui s'ouvre et s'édite.
+
+![Liste d'intentions : recherche, cartes et Nouvelle intention](/img/intenciones/lista.png)
+
+- **Nouvelle intention** en crée une vide.
+- Un clic sur le nom ouvre l'éditeur.
+- La bande orange demande une confirmation pour la supprimer. L'intention, ses motifs et ses paramètres partent.
+- S'il y en a beaucoup, les pages sont en bas. Combien tiennent par page se configure dans l'[arbre](./Arboles), dans **Pagination**.
+
+## En créer une
+
+**Nouvelle intention** ne demande que le nom. La puce **Conversationnel** indique le type : c'est le seul que cet écran crée.
+
+![Nouvelle intention : le nom et le type conversationnel](/img/intenciones/crear.png)
+
+Le nom est un identifiant. Pendant la saisie, les espaces et les signes deviennent `_`. En appuyant sur **Créer l'intention**, il reste en minuscules et sans accents : `Consulta de precio` sort comme `consulta_de_precio`. Le `ñ` est conservé.
+
+La carte apparaît dans la liste, vide. Il faut l'ouvrir pour mettre des motifs.
+
+## L'éditeur
+
+En haut à droite, **Enregistrer les modifications** écrit l'intention. **Tout effacer** vide les motifs et les paramètres de cette intention ; il demande une confirmation.
+
+![Éditeur de hacer_pedido : le nom et les motifs, avec les données déjà colorées](/img/intenciones/editor.png)
+
+Le champ **Nom de l'intention** est le même identifiant. Si l'arbre a plus d'une langue, à côté du nom apparaissent les langues : chacune édite ses propres motifs.
+
+## Motifs
+
+Un motif est une phrase qui devrait activer cette intention. Plus il y a de formes naturelles, mieux le moteur reconnaît. Dans `hacer_pedido` se trouvent `quiero ordenar 2 empanada de carne para comer aquí`, `ordenan 2 empanada de carne` et `dame 2 empanada de carne`.
+
+Chaque ligne peut se corriger sur place. **Entrée** ferme l'édition. L'icône de copie duplique le texte ; celle de la corbeille retire cette phrase.
+
+En bas, le champ **Écrivez un nouveau motif et appuyez sur Entrée** ajoute une phrase. **Ajouter un motif** ouvre le cadre pour une phrase plus longue.
+
+![Nouveau motif : une phrase, ou plusieurs séparées par des virgules](/img/intenciones/nuevo-patron.png)
+
+Si le texte contient des virgules, chaque morceau entre comme motif à part. `hola, buenas tardes` en crée deux.
+
+Lorsqu'il y a beaucoup de phrases, l'en-tête **Motifs** montre la plage et les pages, par exemple `1–10 / 47`.
+
+Les mots en couleur sont déjà liés à une [entité](./Entidades). Dans la capture, `quiero` est lié à `verbo_deseo`. La couleur du mot est la même que la barre du paramètre.
+
+Cela peut arriver sans rien écrire de spécial : en enregistrant la phrase, l'éditeur marque les mots qui coïncident déjà avec une valeur ou un synonyme d'une entité.
+
+## Marquer une donnée
+
+Pour forcer la marque, écrivez `@` avec un espace devant. **Modifier le surlignage** s'ouvre.
+
+![En écrivant @ on choisit l'entité de ce fragment](/img/intenciones/arroba.png)
+
+1. **Sélectionner l'entité.** La liste est celle des Entités, y compris celles du système (`sys.number`, `sys.time`, `sys.date`…).
+2. **Texte.** Le fragment qui reste marqué. Si vous avez ouvert le cadre avec `@`, le texte commence par `@` : remplacez-le par le mot, par exemple `pizzas`.
+3. Comment le mot est conservé dans l'entité :
+   - **Ajouter comme synonyme.** L'ajoute aux synonymes de la première valeur.
+   - **Ajouter comme nouvelle ligne.** Crée une nouvelle valeur dans l'entité.
+   - **Ajouter comme référence.** Marque seulement ce fragment. L'entité ne change pas.
+
+Une entité du système n'admet que **Ajouter comme référence**. Une composée, aussi. Si le mot existait déjà dans l'entité, il reste comme référence.
+
+On peut aussi écrire la référence à la main : `@producto`. Avec un autre nom de paramètre, `@producto:producto_pedido` : l'entité est `producto` et le paramètre s'appelle `producto_pedido`.
+
+Au moment de marquer, si cette entité n'avait pas encore de paramètre dans l'intention, il s'en crée un.
+
+Un clic sur un mot déjà coloré ouvre **Entité dans le motif**. On y voit l'entité et le texte. **Supprimer** retire la marque de ce fragment ; l'entité continue d'exister.
+
+![Clic sur un mot coloré : l'entité, le texte et retirer la marque](/img/intenciones/marca.png)
+
+## Paramètres
+
+Un paramètre est la donnée que l'intention conserve : le produit, la quantité, la date. En bas de l'éditeur, chaque ligne a le **nom du paramètre**, l'**entité** et trois icônes.
+
+![Paramètres de hacer_pedido : la donnée orden, avec l'entité composée du même nom](/img/intenciones/parametros.png)
+
+- **Nom du paramètre.** C'est ainsi qu'il s'utilise ensuite dans les réponses, comme `{$producto_pedido}`. S'il est laissé vide, on utilise le nom de l'entité.
+- **Entité.** D'où vient la valeur. On la cherche dans la liste ou on l'écrit.
+- Le crayon ouvre cette entité. Pour une du système, comme `sys.number`, le crayon est éteint : elles ne s'éditent pas.
+- L'engrenage ouvre **Réglages du paramètre**.
+- La corbeille retire le paramètre de cette intention.
+
+**Ajouter un paramètre** demande le nom et l'entité, sans passer par un motif. Cela sert lorsque la donnée va être demandée et qu'il n'est pas nécessaire qu'elle soit écrite dans une phrase d'exemple.
+
+La barre de couleur de la ligne est la même que celle des mots colorés dans les motifs.
+
+Si l'entité est composée, sous la ligne sortent ses sous-paramètres. La case pour oublier la valeur est sur chaque sous-paramètre.
+
+L'ordre dans lequel le moteur essaie une phrase — entité exacte, entité approximative, motif, modèle — est dans [Arbres](./Arboles), dans **Compréhension**.
+
+## Réglages du paramètre
+
+L'engrenage ouvre ceci. **Enregistrer** ferme le cadre ; l'intention est persistée avec **Enregistrer les modifications** de l'éditeur.
+
+![Réglages de numero, dans reservar_mesa : requis, la question, le repli et la limite de tentatives](/img/intenciones/ajustes.png)
+
+**Nom du paramètre** et **Valeur par défaut.** La valeur par défaut est utilisée si la personne ne la dit pas. Avec une valeur par défaut, le paramètre ne bloque pas la conversation.
+
+**Requis.** Si la valeur manque, le bot la demande avant de continuer. C'est le slot filling. Le reste des champs du dessous apparaît lorsqu'il est coché.
+
+**Oublier cette valeur en retombant sur cette intention.** La prochaine fois que l'intention s'active, elle ne réutilise pas ce qui précède.
+
+- S'il y a une valeur par défaut, elle revient à cette valeur.
+- S'il est requis, elle le redemande, même s'il était déjà là ou s'il vient dans la phrase.
+- S'il n'est pas requis, elle l'écarte et il ne se remplit que s'il vient dans la nouvelle phrase.
+
+**Utiliser une capture définie.** La question, le message « si on ne comprend pas » et les nouvelles tentatives viennent d'une [capture](./Capturas). Le paramètre choisit seulement laquelle. Le crayon ouvre cette capture ; la croix la détache.
+
+Sans capture, ces champs sont ceux de l'intention :
+
+**Peut être recapturé pendant le slot filling.** Tant qu'il reste des données à demander, n'importe quelle phrase peut remplir ou changer ce paramètre, même si le bot demande autre chose. S'il demande la quantité et que la personne dit « plutôt au fromage », le produit change et la quantité continue d'être demandée.
+
+**Demander avec un bloc enrichi.** Éteint, la **Question** est un texte : `¿Qué producto te gustaría pedir?`. Allumé, la question s'assemble avec des blocs, comme dans Messages : le texte d'un bouton est ce qui remplit la donnée.
+
+Dans la question, des [fonctions](/docs/Avanzado/Funciones) ont leur place, par exemple `{$categoria_producto}`.
+
+**Si on ne comprend pas.** Ce qu'il dit lorsque la réponse ne remplit pas la donnée. Dans l'exemple : `No entendí el producto. ¿Podrías decirme qué deseas? Por ejemplo: pizza, hamburguesa…`
+
+**Max. tentatives.** Combien de fois il répète ce message avant l'action de limite. `1` signifie une nouvelle tentative.
+
+**Action au dépassement de la limite.**
+
+| Action | Ce qu'elle fait |
+|---|---|
+| Passer au paramètre suivant | Laisse celui-ci et demande un autre qui manque |
+| Répondre même si la valeur manque | Continue avec ce qu'il y a |
+| Aller au nœud de contexte | Abandonne la question et revient au flux |
+
+**Autoriser une autre intention en demandant cette donnée.** Si ce qui est écrit correspond à une autre intention, le bot s'en occupe et laisse cette capture. Si cela ne correspond pas, cela compte comme un échec et envoie le message « si on ne comprend pas ».
+
+Le détail de la façon dont ils se remplissent, s'interpolent et s'abandonnent est dans [Paramètres](/docs/Avanzado/Parametros).
+
+## Où il s'utilise
+
+La valeur reste dans la conversation avec le nom du paramètre. Une réponse du nœud, un message ou un outil la lit avec `{$producto_pedido}`. Le `$` est ce qui la distingue d'un texte fixe.
+
+La phrase que le bot dit en reconnaissant l'intention se configure dans le nœud du [flux](./Flujos), dans l'onglet **Conversation**. Si personne ne la comprend, le chemin est le nœud d'événement de ce flux, pas un champ de cet écran.
+
+## Entraîner
+
+**Enregistrer les modifications** laisse l'arbre obsolète. Les nouveaux motifs entrent dans la conversation lorsqu'on entraîne : le bouton **Entraîner**, en bas du menu, celui de l'éclair. Jusque-là, la [console](/docs/Fundamentos/ProbarElBot) continue avec l'entraînement précédent.
+
+## Comment il vaut mieux les assembler
+
+- Un nom qui dit l'action : `consultar_becas`, `hacer_pedido`, `solicitar_hora`.
+- Des phrases comme une personne les dit, pas une seule formule répétée.
+- Une intention, une action. `saludo` et `hacer_pedido` séparés se maintiennent mieux qu'une intention qui fait les deux.
+- Le paramètre requis porte une question et un « si on ne comprend pas » qui donne un exemple.
+- Après avoir enregistré, entraîner, et tester la phrase dans la console.

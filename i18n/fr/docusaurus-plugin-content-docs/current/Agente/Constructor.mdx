@@ -1,0 +1,99 @@
+---
+sidebar_position: 1
+sidebar_label: Agent constructeur
+---
+
+# Agent constructeur IA
+
+L'agent construit le bot **en conversant avec vous**. Vous lui dites ce que vous voulez — « ajoute un flux pour consulter les horaires » — et il crée les intentions, les nœuds et les messages, les relie et vous raconte ce qu'il a fait et où.
+
+Il travaille sur le **bot que vous avez sélectionné** dans le sélecteur en haut à gauche. Il s'ouvre depuis la console, avec l'icône du robot. Pour le connecter à un fournisseur, suivez [Première tâche](/docs/Agente/PrimerEncargo).
+
+## Ce qu'il fait
+
+- **Crée et modifie** des flux, des nœuds, des intentions, des entités, des messages et des outils HTTP.
+- **Relie** ce qu'il crée : une intention nouvelle ne sert à rien si aucun nœud de contexte ne l'écoute, donc il la relie aussi.
+- **Consulte** : la structure du bot, l'état de l'entraînement, les conversations et les journaux, et il peut **simuler un message** pour voir ce qu'il répondrait.
+- **Entraîne** le bot si vous le lui demandez, et consulte l'état et l'historique des entraînements.
+- **Explique** à la fin : le flux concerné, les nœuds et intentions touchés, et des phrases pour essayer le résultat.
+
+La liste complète est dans [Ce qu'il peut toucher](/docs/Agente/GenAITools).
+
+## Comment le lui demander
+
+Parlez-lui comme à une personne qui connaît déjà votre bot. Plus c'est concret, mieux ça sort.
+
+| Au lieu de | Essayez |
+|---|---|
+| « Améliore le bot » | « Ajoute une intention pour consulter les horaires, avec 8 phrases d'exemple, et qu'elle réponde avec les horaires du lundi au vendredi » |
+| « Répare la salutation » | « La salutation répond deux fois. Examine le nœud de l'intention `saludo` et dis-moi ce que tu vois avant de le changer » |
+| « Crée un flux de réservations » | « Crée un flux `reservas` avec une intention `reservar_mesa` qui demande la date et le nombre de personnes » |
+
+Il peut **vous demander** ce qui manque. Il n'invente pas d'adresses, de clés ni de jetons d'outils HTTP : il vous les demande.
+
+## Comment il travaille
+
+1. **Il regarde avant de créer.** Il liste ce qui existe déjà — intentions, entités, flux, nœuds, messages, outils — pour ne pas dupliquer.
+2. **Il choisit le flux.** Par défaut, le principal. Si vous en voulez un autre, dites-le.
+3. **Il crée et relie.** L'intention, son nœud avec la réponse, et la référence dans le nœud de contexte qui l'écoute.
+4. **Il vous le raconte.** Ce qui a changé, où, et avec quelles phrases l'essayer.
+
+Il écrit dans la **langue principale du bot** — espagnol, anglais, français, italien, portugais ou allemand : les intentions, les phrases d'entraînement, les réponses et les synonymes sortent dans cette langue. Dans les noms, il retire les accents et remplace les espaces par un trait de soulignement (`consultar_horario`).
+
+## Ce que vous voyez dans le chat
+
+Chaque réponse de l'agent apporte en dessous la liste des **actions** qu'il a exécutées, avec une marque verte si ça s'est bien passé et rouge si l'outil a renvoyé une erreur. On peut ouvrir chacune pour voir l'outil, les arguments et ce qu'il a renvoyé. Si l'agent a proposé des changements qui attendent votre accord, vous verrez à la place la carte de confirmation.
+
+Quand l'agent change quelque chose, le panneau se met à jour tout seul. Si quelque chose n'apparaît pas, rechargez la page.
+
+Les conversations sont **enregistrées par bot** : vous pouvez en ouvrir une précédente depuis l'historique, en commencer une autre ou en supprimer une.
+
+## Avant de lui demander de grands changements {#antes-de-pedirle-cambios-grandes}
+
+Par défaut, l'agent **vous demande avant de rien changer**. Quand il décide de créer, modifier ou supprimer quelque chose, il ne l'exécute pas : il vous montre une carte **Confirmer les changements proposés** avec chaque action (quel outil et sur quoi), et rien ne se passe tant que vous n'avez pas cliqué sur **Confirmer**. Avec **Rejeter**, tout est écarté. Vous pouvez ouvrir chaque action de la carte pour voir les arguments complets avant de décider.
+
+Les consultations — lister, voir la structure, simuler un message — ne changent rien et s'exécutent toujours sans demander.
+
+### Les trois cases
+
+Dans la configuration de l'agent, il y a trois cases, **actives par défaut**, et chacune gouverne un groupe d'actions :
+
+| Case | Ce qu'elle arrête |
+|---|---|
+| **Demander une confirmation pour créer** | Créer des flux, des nœuds, des intentions, des entités, des modèles de message, des outils, des utilisateurs et des sauvegardes |
+| **Demander une confirmation pour modifier** | Modifier le bot, les flux, les nœuds, les intentions, les entités, les modèles, les outils, les utilisateurs, les canaux et la voix ; aussi **entraîner** le bot |
+| **Demander une confirmation pour supprimer** | Supprimer des flux, des nœuds, des intentions, des entités, des modèles, des outils et des utilisateurs |
+
+Si vous en désactivez une, les actions de ce groupe s'exécutent sur le moment, comme avant. C'est l'identifiant qui garde les cases, donc chaque identifiant peut avoir les siennes.
+
+:::tip Ce qui se passe à la confirmation
+La carte applique les actions **dans l'ordre**. Si l'une échoue, elle s'arrête dessus : les précédentes sont déjà faites (et sortent de la carte, pour qu'un nouvel essai ne les répète pas) et le motif s'affiche.
+:::
+
+### Quand même, avant un grand changement
+
+- **Demandez-lui une sauvegarde avant.** Il a un outil pour la créer, et [Importer et exporter](/docs/Avanzado/ImportarExportar) explique comment en restaurer une. Créer une sauvegarde demande aussi une confirmation tant que la case de création est active.
+- **Demandez d'abord le plan.** « Dis-moi ce que tu vas changer, sans le changer encore » aide l'agent à le décrire avant de le proposer.
+- Si vous avez désactivé les cases, relisez la liste des **actions** de chaque réponse : elles se sont déjà exécutées.
+- Les créations, modifications et suppressions de **flux, entités et intentions** restent dans l'historique des changements du bot, que l'agent peut aussi consulter. Ceux des nœuds et des messages n'y sont pas enregistrés.
+
+## Ce qu'il ne fait pas
+
+- **Il ne répond pas à vos utilisateurs.** Il construit le bot ; la conversation est menée par le moteur avec ce qui est construit. Voir [L'IA dans TreeFlow](/docs/Agente/Introduccion).
+- **Il ne touche pas aux autres bots ni aux autres workspaces.** Seulement celui qui est sélectionné, et c'est le serveur qui le fixe, pas le modèle.
+- **Il ne crée ni ne modifie d'administrateurs.** Il peut gérer les utilisateurs d'autres rôles, mais pas les administrateurs.
+- **Il ne voit pas vos clés.** Quand il liste les identifiants, la configuration secrète ne lui est pas renvoyée.
+- **Il se souvient de peu.** Il travaille avec les 14 derniers messages de la conversation, donc dans une conversation très longue il vaut mieux lui rappeler le contexte.
+
+## Si quelque chose échoue
+
+| Message | Ce qui s'est passé |
+|---|---|
+| *Clé API requise* | Il n'y a aucun identifiant d'IA dans le workspace |
+| Erreur **401** | La clé n'est pas valide ou a expiré |
+| Erreur **404** | Le modèle choisi n'existe pas chez ce fournisseur |
+| Erreur **429** | Vous avez atteint la limite de requêtes, celle de l'agent lui-même (20 messages par minute et par utilisateur) ou celle de votre fournisseur : attendez un moment |
+| Erreur **503** | Le service du fournisseur n'est pas disponible : réessayez |
+| *Limite d'itérations atteinte sans réponse finale* | La requête a eu besoin de plus de 8 tours d'outils : demandez-la en étapes plus petites |
+
+Si le message n'est pas arrivé, le chat permet de le **renvoyer** ou de le **modifier**.

@@ -1,0 +1,67 @@
+---
+sidebar_position: 9
+sidebar_label: Captures
+---
+
+# Captures
+
+A **capture** is the way of asking for a piece of data, saved with a name so it can be used on several [parameters](/docs/Avanzado/Parametros). The parameter says which one is missing. The capture says how it is asked, what to answer if it is not understood, and how many times to insist.
+
+It lives in **Conversation → Captures**.
+
+## The list
+
+At the top you search by name. **New capture** opens the empty editor.
+
+![Capture list: Contact, Description, Choose with buttons, Name, and Free text](/img/capturas/lista.png)
+
+- A click on the name opens the capture.
+- The orange strip asks for confirmation before deleting it. The parameters that used it go back to their own question.
+
+## The editor
+
+At the top right, **Save**. The tab is called **Capture**.
+
+![Contacto: name, question, message if it is not understood, two attempts, and move on to the next parameter](/img/capturas/editor.png)
+
+### Name
+
+This is how it appears in the list and on the parameter, when you check **Use a defined capture**.
+
+### Question
+
+What the bot says to ask for the data. The subtitle says the same thing: "What the bot says to ask for the data."
+
+The **Message** field chooses where it comes from:
+
+- **Custom message.** The text or the blocks are written here, with the same tabs as in [Messages](./Mensajes): Default in text, and Web with rich elements if needed. `Elegir con botones` is this type: the question brings buttons.
+- **+ Create template.** Creates a message in the Messages list and leaves it selected.
+- A template that already exists, by its name. The pencil opens it. The X removes it from this capture.
+
+In `Contacto` the custom question is `¿Me das tu correo o tu teléfono?`.
+
+### If it is not understood
+
+What it answers when the response does not fill the data, and what it does when the attempts run out. The message is chosen the same way as the question: custom or template.
+
+In `Contacto`: `Necesito un correo o un número de teléfono.`
+
+**Max attempts.** How many times that message is repeated before the limit action. In `Contacto` it is 2.
+
+**Action when the limit is exceeded.**
+
+| Action | What it does |
+|---|---|
+| Move on to the next parameter | Leaves this one and asks for another one that is missing |
+| Reply even if the value is missing | Continues with whatever it has |
+| Go to the context node | Abandons the question and returns to the flow |
+
+[Functions](/docs/Avanzado/Funciones) fit in the question and in the "if it is not understood" message: `{$nombre}`.
+
+## On the parameter
+
+The capture does not fire on its own. On the [intent](./Intenciones), the parameter is marked **Required** and, in its settings, **Use a defined capture**. There you choose the name. The pencil opens this same capture. The X detaches it from that parameter.
+
+With the capture in place, the question, the "if it is not understood", and the attempts come from here. Those fields can no longer be edited on the parameter.
+
+**Forget this value when this intent is reached again** stays on the parameter, not on the capture. Every time the intent activates, that data is cleared and has to be asked for again.

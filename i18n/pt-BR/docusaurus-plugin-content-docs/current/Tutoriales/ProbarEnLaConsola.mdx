@@ -1,0 +1,61 @@
+---
+sidebar_position: 2
+sidebar_label: Testar no console
+---
+
+# Testar no console
+
+O console é o chat de teste. Não publica a árvore. Na Cafetería, abre-se com o botão laranja, embaixo à direita.
+
+Antes, a árvore precisa existir. Se ainda não existir, comece por [Criar uma árvore](./CrearChatbotBasico).
+
+## Antes de escrever
+
+O raio do menu é **Treinar**. Em verde, o treinamento está em dia. Se a árvore nunca foi treinada, o campo de texto fica desligado.
+
+![Painel da Cafetería, com o treinamento em dia](/img/intro/panel.png)
+
+## Abrir
+
+Acima da conversa há uma barra.
+
+![O console: o fluxo, o canal e o campo para escrever](/img/testeo/consola.png)
+
+1. O primeiro botão é o fluxo. Para o mapa do local, escolha **Restaurante**. Mudá-lo reinicia a conversa nesse fluxo.
+2. O segundo é o canal. **Padrão** envia o texto da aba Default. **Web** envia a aba Web da mensagem, se tiver conteúdo.
+3. Escreva e envie.
+
+`hola` cai na intenção `saludo` e responde a boas-vindas.
+
+![hola e a resposta do bot](/img/testeo/turno.png)
+
+A seta circular reinicia. A seta para trás desfaz o último turno.
+
+## Ver como decidiu
+
+O inseto liga o modo debug e fica amarelo. Antes da resposta aparece uma linha: a intenção, a confiança e como coincidiu. O terceiro dado pode ser entidade, padrão, modelo, ou `no_match` se não reconheceu a frase.
+
+![Modo debug: a intenção, a confiança e o nó marcado](/img/testeo/debug.png)
+
+Um clique no seu balão abre o que foi enviado. Um clique no do bot abre o que o motor respondeu.
+
+| Vista | O que deixa |
+|---|---|
+| Tudo | o JSON completo |
+| Parameters | os dados capturados e os da sessão |
+| Messages | o texto da pessoa ou a resposta do bot |
+| Metadata | intenção, tempos, sessão, ferramentas, sentimento |
+
+![O response: intenção, parâmetros e texto](/img/testeo/detalle.png)
+
+A tela do fluxo se abre e marca o nó deste turno.
+
+![Console em Restaurante e a tela marcada](/img/diseno/recorrido.png)
+
+## Se não bater
+
+- A intenção não é a que você esperava. O padrão ou a ordem de entendimento escolheu outra. O lápis do turno abre essa intenção.
+- Sai `no_match`. Nenhuma intenção deste fluxo encaixou. O caminho é o evento `sys.no-match`.
+- Você mudou intenções ou entidades. Treine de novo. Uma mensagem ou uma captura são lidas ao salvar: por isso não é preciso treinar.
+
+O detalhe de cada controle está em [Testar o bot](/docs/Fundamentos/ProbarElBot).

@@ -1,0 +1,115 @@
+---
+sidebar_position: 1
+---
+
+import Tabs from '@theme/Tabs';
+import TabItem from '@theme/TabItem';
+
+# Terminology
+
+Each name in the menu is a different thing. This page is the map: what each one is, and how they connect.
+
+![The dashboard, with the app menu: flows, intents, entities, and channels](/img/intro/panel.png)
+
+## The map
+
+| In the menu | What it is |
+|---|---|
+| **Tree** | The bot. Creating one is also called "a new bot". It holds the training, the flows, and everything else. |
+| **Flow** | The drawing on the canvas: nodes and arrows. It sets the path. |
+| **Node** | One step on that canvas: a message, an intent, a validation, or something else. |
+| **Intent** | What the engine recognizes in an utterance: patterns, parameters, and the response. |
+| **Entity** | A type of data extracted from the utterance: a flavor, a date, a number. Simple, composite, or regex. |
+| **Parameter** | The named slot where that data lands (`@sabor:sabor` → the `sabor` parameter). |
+| **Message** | A reusable response: text, buttons, carousel, HTML. |
+| **Capture** | How a missing piece of data is requested, and what is said if it is not understood. |
+| **Channel** | Where the person talks: the web widget, Telegram, WhatsApp, and the rest. |
+| **Tool** | What the bot calls outside: a script, an API, the webhook, a transfer. |
+| **Console** | The panel on the right. You test the bot there and, if you want, the AI designs it there. |
+
+## How they connect
+
+A restaurant order, using the names from the app:
+
+1. The person writes on a **channel** (the page widget, for example).
+2. The **tree** receives the utterance. An **intent** (`pedir`) recognizes it because it resembles its patterns.
+3. In the pattern, `@sabor` points to an **entity**. From "cheese" comes the `sabor` **parameter**.
+4. If the size is missing, a **capture** asks "what size?" and, if the answer does not work, asks again.
+5. The **flow** decides the next node. That node shows a **message** ("Done, a large cheese") or calls a **tool** (inventory, the register).
+6. The response comes back through the same channel.
+
+If a person is needed at that moment, the [help desk](/docs/Avanzado/MesaDeAyuda) takes the conversation and can hand it back to the bot.
+
+![A flow on the canvas: nodes joined by arrows](/img/intro/flujo.png)
+
+## Three trees
+
+The same map, in three lines of work.
+
+<Tabs>
+  <TabItem value="restaurante" label="Restaurant" default>
+    <ul>
+      <li><strong>Intents:</strong> <code>reservar_mesa</code>, <code>consultar_menu</code>, <code>pedir</code>.</li>
+      <li><strong>Entities:</strong> date, time, number of people, dish.</li>
+      <li><strong>Capture:</strong> if the time is missing, the bot asks for it.</li>
+      <li><strong>Message:</strong> confirms the reservation with that data.</li>
+      <li><strong>Channel:</strong> the page widget, or WhatsApp.</li>
+      <li><strong>Tool:</strong> records the reservation in the venue's system.</li>
+    </ul>
+  </TabItem>
+  <TabItem value="tienda" label="Store">
+    <ul>
+      <li><strong>Intents:</strong> <code>consulta_producto</code>, <code>proceso_compra</code>, <code>seguimiento_pedido</code>.</li>
+      <li><strong>Entities:</strong> product, quantity, payment method.</li>
+      <li><strong>Tool:</strong> checks inventory and builds the order.</li>
+      <li><strong>Message:</strong> replies with what is available.</li>
+    </ul>
+  </TabItem>
+  <TabItem value="soporte" label="Support">
+    <ul>
+      <li><strong>Intents:</strong> <code>problema_hardware</code>, <code>problema_software</code>, <code>consulta_garantia</code>.</li>
+      <li><strong>Entities:</strong> device, symptom, version.</li>
+      <li><strong>Flow:</strong> guides the diagnosis, one node per step.</li>
+      <li><strong>Help desk:</strong> if the flow cannot resolve it, a person steps in.</li>
+    </ul>
+  </TabItem>
+</Tabs>
+
+## When to use each one
+
+**Channels**, when the person has to talk to the bot somewhere else: the web, WhatsApp, Telegram.
+
+**Tools**, when the bot has to read or write in another system: stock, a CRM, an email, a validation.
+
+**Workspace**, when there is another customer, another team, or another environment. Each one has its own trees, channels, and keys. Inside a workspace, a new tree does not ask for another workspace.
+
+The long explanation of each one continues on its own page: [workspaces](/docs/Avanzado/Workspaces), [channels](/docs/Canales/CanalesDeComunicacion), and [tools](/docs/Herramientas).
+
+## Design, rather than filling in forms
+
+Design is deciding the path, the questions, and the answers. The AI can do the work inside the app, because it has tools to create and modify flows, intents, entities, and messages, and to train and test.
+
+- In the [console](/docs/Fundamentos/ProbarElBot), on the Agent tab, you tell it right there.
+- From outside, an [MCP](/docs/Avanzado/Credenciales) key lets another assistant (for example Claude Desktop) enter the workspace and operate the same pieces.
+
+## The earlier names
+
+If an old page does not match the menu, this is the translation.
+
+| Before | Now |
+|---|---|
+| Branch | Intent. The canvas is called a flow. |
+| Canvas leaf | Node |
+| Leaf, when it meant extracting data | Entity |
+| Visual editor, Canvas Engine | Flows |
+| Graft | Channel |
+| Fertilizer | Tool. The global webhook is the Webhook tab. |
+| QWidget | The web widget, under Channels |
+| Reforestation, six-phase pipeline | The console [agent](/docs/Agente/Constructor), or an assistant over [MCP](/docs/Agente/Mcp) |
+
+## Where to go next
+
+- [Flows](/docs/Fundamentos/Flujos)
+- [Intents](/docs/Fundamentos/Intenciones) and [entities](/docs/Fundamentos/Entidades)
+- [Messages](/docs/Fundamentos/Mensajes) and [captures](/docs/Fundamentos/Capturas)
+- [Functions](/docs/Avanzado/Funciones): `{ }` and the `$`

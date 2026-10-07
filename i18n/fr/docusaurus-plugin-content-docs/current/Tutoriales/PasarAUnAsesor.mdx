@@ -1,0 +1,46 @@
+---
+sidebar_position: 6
+sidebar_label: Passer à une personne
+---
+
+# Passer la conversation à une personne
+
+Dans Restaurante, `hablar_con_asesor` ne revient pas à Inicio. La transition du nœud est **Transfert vers un agent humain** : le bot prévient et la conversation entre dans la file dans ce même tour.
+
+## Le nœud
+
+**Flux** → ouvrez **Restaurante** → le nœud `hablar_con_asesor`.
+
+Dans **Conversation** :
+
+- **Intention :** `hablar_con_asesor`.
+- **Réponse :** l'avis. Dans le modèle, c'est « Je vous mets en relation avec une personne de l'équipe ».
+- **Transition :** **Transfert vers un agent humain**.
+
+Dans **Fonctionnalité**, **Termine une capture en cours** est actif. Si la personne le dit au milieu d'une commande, le bot cesse de poser des questions et passe la conversation.
+
+![hablar_con_asesor : le message et le transfert](/img/diseno/asesor.png)
+
+Ne marquez que cette intention. Si la même transition est sur `saludo`, le bot oriente même quand la personne salue.
+
+Le texte de l'avis peut aussi se changer dans **Outils → Transferts**, dans **Message de transfert**. Si l'arbre n'a aucune configuration, cela fonctionne quand même, avec l'avis d'usine.
+
+## Tester l'avis
+
+Console, flux **Restaurante**. Écrivez `quiero hablar con un asesor`.
+
+Le bot envoie l'avis. En mode debug, après cet avis il n'y a pas d'autre bulle du bot : on voit à qui c'est arrivé. Le bot cesse de répondre tant que la conversation est avec une personne.
+
+![La console dans le flux Restaurante](/img/diseno/recorrido.png)
+
+## Le service
+
+**Opération → Service d'assistance**. **Boîte en direct** sépare En attente, Mes chats et Tous. **Historique** est ce qui est déjà fermé.
+
+![Service d'assistance : la boîte en direct](/img/operacion/mesa.png)
+
+- **En attente** sont celles que personne n'a encore prises.
+- Quand on en choisit une, l'historique est à droite et on écrit au visiteur.
+- L'opérateur prend en charge, répond, ferme ou rend la conversation au bot.
+
+La conversation en direct entre l'opérateur et le visiteur fonctionne sur le widget web. Le détail de la file, de la clôture et d'un helpdesk externe est dans [Service d'assistance](/docs/Avanzado/MesaDeAyuda).

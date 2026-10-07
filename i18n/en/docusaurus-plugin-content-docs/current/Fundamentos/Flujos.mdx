@@ -1,0 +1,121 @@
+---
+sidebar_position: 5
+sidebar_label: Flows
+---
+
+# Flows
+
+A **flow** is a path: nodes and arrows. The tree can have several. One is marked **Main**: that is the one that starts the conversation.
+
+In [beginner mode](./ModoPrincipiante) this same screen is the simple editor, the one with three fields. In advanced it is the full canvas. The address is the same; what changes is the tree's mode.
+
+## The list
+
+**Flows** opens the cards. You can search by name.
+
+![The flow list: the main one, duplicate, and New Flow](/img/flujos/lista.png)
+
+- **New Flow** creates another path, empty.
+- **Main** is the one that starts. There is always one. It cannot be deleted.
+- The copy icon duplicates the flow, with another name.
+- The trash icon deletes it, if it is not the main one.
+- **Templates** applies an industry template to the tree: intents, entities, and the drawing. Applying it again does not overwrite the questions of a parameter that already existed.
+
+Opening a card opens the editor. At the top there are two tabs: **Design**, the canvas, and **Settings**, the flow name and whether it is the main one.
+
+## The canvas
+
+![The canvas: the start, an intent, an event, and a jump to another flow](/img/flujos/lienzo.png)
+
+Each node can be dragged. At the bottom left are zoom, center, and **Tidy Up**, which arranges the nodes.
+
+The orange **+** creates the node that fits depending on where you start:
+
+- From a **context**, it offers **Intent** or **Event**.
+- From an intent or an event, it offers **Context**.
+
+The brown arrow, under the +, is dragged to another node to join them. The solid line is the conversation path. The dotted line is an event.
+
+| Node | What it is |
+|---|---|
+| **Context** (green) | Where the bot waits. In the Restaurant flow it is called **Start**. The intents for that stretch are available there. |
+| **Intent** (orange) | A step that activates when the engine recognizes that intent. The intent text is edited in [Intents](./Intenciones); the node places it on the path. |
+| **Event** (lightning bolt) | What is not an intent: it did not understand (`sys.no-match`) or nothing arrived (`sys.no-input`). |
+
+A pill with the name of another flow, such as `flujo_principal`, is a link: from this drawing you can also jump to that one. The path with the captures is in [Flows](/docs/Avanzado/FlujosConversacionales).
+
+## What they share
+
+A click opens the column on the right. At the top are the **node name** and **Active node**. Turned off, the node stays drawn and does not take part. There you also close the editor and delete the block.
+
+All three have **Conversation** and **Functionality**. The tab stays where you left it when you jump from one node to another.
+
+On Functionality, all three can carry scripts, tools, and **Call webhook on this node**. The agent's webhook is called when the path passes through here, before the tools. If there is no active one, nothing happens. Those pieces are created in [Tools](/docs/Herramientas).
+
+## Context
+
+The context does not say a phrase. It says what can be done while the conversation is there.
+
+![The Start context: intents, events, and linked flows](/img/flujos/contexto.png)
+
+**Conversation**
+
+- **Intents.** The ones the engine can recognize in this stretch. You choose an intent node that already exists, or **Create new intent node**. Removing the link does not delete the node.
+- **Events.** The same with event nodes: it did not understand, silence, or another one. **Create new event node** adds it and links it.
+- **Linked flows.** Another flow, and that flow's context. From here you can also use the intents and events from there. If both have the same intent, while you are in one of them the node of that flow runs.
+
+**Functionality**
+
+Scripts, tools, and the webhook. The context has no response and no "ends a capture": that lives on the intent.
+
+## Intent
+
+The orange node does not train the intent. It points at it. The text, the patterns, and the parameters are edited in [Intents](./Intenciones).
+
+![The intent: what triggers it, which message it sends, and which context it continues to](/img/flujos/conversacion.png)
+
+**Conversation**
+
+- **Intent that activates the node.** If it is already in this flow, or in a linked flow, the selector marks it **In use**.
+- **Response.** A [message](./Mensajes) template, **+ Create template**, or **Custom message**. It is sent once the intent has been captured, after asking for the data that was missing, and after this node's tools.
+- **Transition.** Where it continues, once the response has been sent:
+  - **None.**
+  - **Create new context**, or a context that is already on the canvas.
+  - **Switch flow**, to the start of another one.
+  - **Restart current flow.**
+  - **Transfer to a human.** Hands the conversation to the [help desk](/docs/Avanzado/MesaDeAyuda). There you choose the transfer.
+
+**Functionality**
+
+Until an intent is chosen, this tab asks you to go back to Conversation.
+
+![Intent functionality: scripts, tools, the capture, and the webhook](/img/flujos/funcionalidad.png)
+
+- **Scripts** and **tools.** What this step calls outside.
+- **Ends a capture in progress.** If the person says this *while* the bot is asking for data. On, the capture is treated as finished: cancel or say goodbye. Off, which is the factory setting, it only pauses: the bot answers and picks the question back up, with what was already written. Asking for the hours in the middle of an order should not cost them the order; saying "cancel" should.
+- **Call webhook on this node.**
+
+## Event
+
+The lightning bolt is what happens when no intent has matched.
+
+![The No_entiendo event: sys.no-match, its message, and the context it returns to](/img/flujos/evento.png)
+
+**Conversation**
+
+- **Event that activates the node.** You choose one or type one. The ones the engine fires on its own are:
+  - `sys.no-match`, when it did not recognize the utterance in this context.
+  - `sys.no-input`, when nothing arrived.
+  - A name of your own, if another step fires it. If that name is already on another event node in the flow, it is **In use**.
+- **Response.** The message for that case. It is sent after the node's tools. `sys.no-match` usually carries the "I didn't understand". In that message the utterance that did not match is in `{$last_no_match}`, and the last thing the person wrote is in `{$last_utterance}`. You do not have to turn them on. See [System variables](/docs/Avanzado/Funciones#variables-del-sistema).
+- **Transition.** The same as on the intent: a context, another flow, restart this one, or a person. The usual choice is to return to the context where the conversation can continue.
+
+**Functionality**
+
+Scripts, tools, and the webhook. Until an event is chosen, this tab cannot be configured. The event has no "ends a capture": that belongs to the intent.
+
+## Save
+
+**Save changes**, at the top right, lights up when something is unsaved: a moved node, an arrow, a response. Closing the editor does not publish on its own.
+
+If you also changed what the engine recognizes — the intent, its patterns, an entity — the lightning bolt in the menu turns orange again and you have to train. Moving a node does not change what the bot answers; changing the intent does.

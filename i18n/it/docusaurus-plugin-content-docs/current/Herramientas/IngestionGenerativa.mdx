@@ -1,0 +1,40 @@
+---
+sidebar_position: 7
+sidebar_label: Ingestione generativa
+description: Un PDF, Excel o TXT da cui un modello estrae intenti. Prima chiede una credenziale di IA.
+---
+
+# Ingestione generativa
+
+La scheda **Ingestione generativa** legge un documento e chiede a un modello di estrarre domande, risposte e variazioni, e di integrarle nel flusso. La schermata lo chiama **Ingestione generativa con IA**.
+
+![Ingestione generativa: provider, modello e chiave, con il caricamento ancora chiuso](/img/herramientas/ingestion-generativa.png)
+
+## La credenziale
+
+Finché non c'è una credenziale di IA salvata in questo workspace, la zona di caricamento è chiusa. L'avviso lo dice: inserisci e salva una credenziale per sbloccarla.
+
+Il modulo in alto è **Configura la credenziale di IA richiesta per questo workspace**.
+
+| Campo | Che cos'è |
+|---|---|
+| Provider | Anthropic, Groq, Gemini, OpenAI, OpenRouter, Cerebras e gli altri che accetta il workspace |
+| Modello predefinito | Quello che leggerà il file. Nella schermata, `gemini-3.0-flash` |
+| Nome della chiave | Come la riconoscerai dopo. Nella schermata, «Gemini Key» |
+| API Key | La chiave di quell'account |
+
+Al salvataggio, la stessa credenziale resta in [Credenziali](/docs/Avanzado/Credenciales) e si può riutilizzare.
+
+## Il file
+
+Quando la credenziale è salvata compare la zona di caricamento. Accetta PDF, Excel e TXT. Si trascina o si sceglie.
+
+**Nome del flusso** è il percorso dove resteranno gli intenti nuovi.
+
+**Prompt o istruzione aggiuntiva** è facoltativo. Dice al modello su quali temi concentrarsi, per esempio resi, pagamenti e spedizioni.
+
+## Generare
+
+**Genera e integra nel bot** manda il file al modello scelto. Al termine, gli intenti compaiono in quel flusso e nell'elenco in basso. **Addestra il bot ora** li mette nel motore. Senza quel passo, la console non li riconosce.
+
+Non sostituisce la [base di conoscenza](./BaseDeConocimiento). Quella copia un CSV riga per riga e non inventa frasi. Questa interpreta un documento e può proporre variazioni che il file non ha scritte: conviene leggere l'elenco prima di addestrare.

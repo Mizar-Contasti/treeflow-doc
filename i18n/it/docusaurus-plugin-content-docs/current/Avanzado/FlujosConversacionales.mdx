@@ -1,0 +1,113 @@
+---
+sidebar_position: 1
+sidebar_label: Flussi
+---
+
+# Flussi
+
+Un flusso è il disegno della conversazione: nodi e frecce. L'albero può averne diversi. Uno è segnato **Principale** ed è quello che parte se nella console il primo pulsante dice **Predefinito**.
+
+In Cafetería il principale è **flujo_principal**. **Restaurante** è la mappa del locale. La schermata, pulsante per pulsante, è in [Flussi](/docs/Fundamentos/Flujos). Questa pagina percorre quella mappa.
+
+## L'elenco
+
+**Flussi** apre le schede. Si cerca per nome. **Nuovo flusso** ne crea uno vuoto. L'icona di copia lo duplica. Il cestino cancella, tranne il principale. **Modelli** applica un settore: intenti, entità e il disegno. Riapplicare non sovrascrive la domanda di un parametro che esisteva già.
+
+![flujo_principal segnato Principale, e il flusso Restaurante](/img/flujos/lista.png)
+
+## Configurazione
+
+Aprendo un flusso ci sono due schede: **Progettazione** e **Configurazione**.
+
+![Nome, descrizione e l'interruttore di flusso principale](/img/flujos/configuracion.png)
+
+- **Nome del flusso.** È l'identificatore. Nella console esce nel primo pulsante.
+- **Descrizione.** Per ricordare di che cosa si tratta. La persona non la vede.
+- **Flusso principale.** Ce ne può essere solo uno. Quello che lo è già non si spegne da qui: si accende nell'altro flusso e si salva. Il principale non si elimina. È il punto di partenza quando la console dice **Predefinito**.
+
+In alto a destra, l'icona di salvataggio si accende quando c'è qualcosa di non salvato: un nodo spostato, una freccia, il nome, l'interruttore. Chiudere l'editor non salva da solo. Spostare un nodo non cambia ciò che il bot risponde. Cambiare l'intento, un pattern o un'entità sì: il fulmine del menu torna arancione e bisogna addestrare.
+
+## La tela
+
+**Progettazione** è la mappa. Ogni nodo si trascina. In basso a sinistra ci sono lo zoom, centra e **Tidy Up**, che sistema i nodi.
+
+![Inizio, gli intenti del ristorante, l'evento e il salto a flujo_principal](/img/flujos/lienzo.png)
+
+Il **+** arancione crea il nodo a seconda di dove esci. Da un contesto offre intento o evento. Da un intento o da un evento offre un contesto. La freccia marrone, sotto il +, si trascina fino a un altro nodo per unirli. La linea continua è il cammino. Quella tratteggiata è un evento.
+
+| Nodo | Che cosa è |
+|---|---|
+| Contesto, verde | Dove il bot aspetta. In Restaurante si chiama **Inizio** |
+| Intento, arancione | Si attiva quando il motore riconosce quell'intento |
+| Evento, il fulmine | Non ha capito (`sys.no-match`) o non è arrivato nulla (`sys.no-input`) |
+
+La pillola `flujo_principal` è un collegamento: da questo disegno si può saltare anche a quel flusso.
+
+## Dove aspetta
+
+Il contesto non dice una frase. Elenca ciò che si può riconoscere mentre la conversazione è lì.
+
+![Inizio, con gli intenti e l'evento di quel tratto](/img/flujos/contexto.png)
+
+- **Intenti.** Quelli di questo tratto. Si sceglie un nodo che esiste già, o se ne crea uno. Togliere il collegamento non elimina l'intento.
+- **Eventi.** Quello di non capire, quello di silenzio, o un nome che un altro passo fa scattare.
+- **Flussi collegati.** Da qui valgono anche gli intenti dell'altro flusso. Se entrambi hanno `saludo`, stando in uno gira il nodo di quel flusso, non quello dell'altro.
+
+Il flusso principale si collega a Restaurante. Per questo, partendo da **Predefinito**, si può anche ordinare o prenotare. Il saluto che risponde è quello del flusso in cui ti trovi.
+
+## Un passo, e ritorno
+
+Il nodo arancione non addestra l'intento. Lo indica. Pattern e parametri si modificano in [Intenti](/docs/Fundamentos/Intenciones).
+
+![saludo: l'intento, il messaggio e il ritorno a Inizio](/img/flujos/conversacion.png)
+
+**Conversazione**
+
+- **Intento.** Se è già in questo flusso, o in uno collegato, il selettore lo marca **In uso**.
+- **Risposta.** Un modello di [messaggio](/docs/Fundamentos/Mensajes), **+ Crea modello**, o **Messaggio personalizzato**. Si manda quando i dati ci sono già, dopo gli strumenti di questo nodo.
+- **Transizione.** Dove continua:
+  - **Nessuno.**
+  - Un contesto della tela, o uno nuovo.
+  - **Cambia flusso**, all'inizio di un altro.
+  - **Riavvia il flusso attuale.**
+  - **Trasferisci a un umano.** Passa la conversazione allo [sportello di assistenza](./MesaDeAyuda).
+
+`saludo`, l'orario, il menu e l'ordine tornano a **Inizio**. Per questo la frase successiva si sente di nuovo.
+
+## Funzionalità {#funcionalidad}
+
+Finché non c'è un intento scelto, questa scheda chiede di tornare a Conversazione.
+
+![Script, strumenti, terminare l'acquisizione e il webhook](/img/flujos/funcionalidad.png)
+
+- **Script** e **strumenti.** Ciò che questo passo chiama fuori. Si creano in [Strumenti](/docs/Herramientas).
+- **Termina un'acquisizione in corso.** Se la persona dice questo mentre il bot chiede dei dati. Attivato, la domanda si dà per terminata: annullare o congedarsi. Spento, che è il valore di fabbrica, il bot risponde e riprende la domanda, con ciò che è già stato scritto.
+- **Chiama il webhook in questo nodo.** Il webhook dell'albero gira passando di qui, prima degli strumenti. Se non ce n'è uno attivo, non succede nulla.
+
+Il contesto non ha risposta né «termina un'acquisizione». Nemmeno l'evento chiude l'acquisizione: quello è dell'intento.
+
+## Se non riconosce la frase
+
+![sys.no-match e il suo messaggio](/img/flujos/evento.png)
+
+Il fulmine si sceglie o si scrive. Quelli che il motore fa scattare da solo sono `sys.no-match` e `sys.no-input`. Un nome proprio lo fa scattare un altro passo; se è già in un altro evento del flusso, resta **In uso**.
+
+In Restaurante il messaggio è «Mi dispiace, non ho capito. Puoi ripetere?». La transizione è la stessa lista dell'intento. L'abitudine è tornare al contesto.
+
+In quel messaggio, e negli strumenti e script del nodo, la frase che non è stata capita sta in **`{$last_no_match}`**: `No entendí "{$last_no_match}", ¿puedes decirlo de otra forma?`. Non bisogna attivare nulla. Vedi [Variabili di sistema](/docs/Avanzado/Funciones#variables-del-sistema).
+
+## Quando chiede una persona
+
+`hablar_con_asesor` non torna a Inizio. La transizione è **Trasferimento a un agente umano**.
+
+![hablar_con_asesor: il messaggio e lo sportello di assistenza](/img/diseno/asesor.png)
+
+Prima avvisa: «Ti metto in contatto con una persona del team». **Termina un'acquisizione in corso** è attivo: se lo dice a metà di un ordine, smette di chiedere e passa la conversazione.
+
+## Provare questa mappa
+
+Nella console, il primo pulsante su **Restaurante**. `hola` cade in `saludo` e risponde con il benvenuto di quel flusso. Con la modalità debug, Inizio resta come percorso e `saludo` come il nodo di questo turno.
+
+![Console su Restaurante e la tela segnata](/img/diseno/recorrido.png)
+
+Il dettaglio della chat è in [Provare il bot](/docs/Fundamentos/ProbarElBot).

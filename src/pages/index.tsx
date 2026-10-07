@@ -1,6 +1,7 @@
 import type {ReactNode} from 'react';
 import clsx from 'clsx';
 import Link from '@docusaurus/Link';
+import Translate, {translate} from '@docusaurus/Translate';
 import useDocusaurusContext from '@docusaurus/useDocusaurusContext';
 import Layout from '@theme/Layout';
 import HomepageFeatures from '@site/src/components/HomepageFeatures';
@@ -16,12 +17,18 @@ function HomepageHeader() {
         <Heading as="h1" className="hero__title">
           {siteConfig.title}
         </Heading>
-        <p className="hero__subtitle">{siteConfig.tagline}</p>
+        <p className="hero__subtitle">
+          <Translate id="homepage.tagline" description="Homepage hero subtitle">
+            Conversaciones que Generan Negocio
+          </Translate>
+        </p>
         <div className={styles.buttons}>
           <Link
             className="button button--secondary button--lg"
             to="/docs/intro">
-           ¡ Empecemos a Sembrar 🍂 !
+            <Translate id="homepage.cta" description="Homepage call to action button">
+              ¡ Empecemos a Sembrar 🍂 !
+            </Translate>
           </Link>
         </div>
       </div>
@@ -30,11 +37,18 @@ function HomepageHeader() {
 }
 
 export default function Home(): ReactNode {
-  const {siteConfig} = useDocusaurusContext();
   return (
     <Layout
-      title={`${siteConfig.title} | Conversaciones que Generan Negocio`}
-      description="Flujos de conversación deterministas en tiempos de IA generativa">
+      title={translate({
+        id: 'homepage.layoutTitle',
+        message: 'TreeFlow | Conversaciones que Generan Negocio',
+        description: 'The HTML title of the homepage',
+      })}
+      description={translate({
+        id: 'homepage.layoutDescription',
+        message: 'Flujos de conversación deterministas en tiempos de IA generativa',
+        description: 'The meta description of the homepage',
+      })}>
       <HomepageHeader />
       <main>
         <HomepageFeatures />

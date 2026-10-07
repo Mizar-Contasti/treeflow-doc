@@ -1,0 +1,53 @@
+---
+sidebar_position: 5
+sidebar_label: Testes
+---
+
+# Testes
+
+Falar com a árvore, turno a turno, é o [console](/docs/Fundamentos/ProbarElBot). Esta página é o outro teste: uma **suíte**, uma lista de conversas com o que o bot deve responder em cada turno.
+
+![Testes: ainda não há suítes. Criam-se e se sobe um CSV](/img/pruebas/lista.png)
+
+## O console
+
+O botão laranja abre o chat. O modo debug mostra a intenção, a confiança e o nó desse turno.
+
+![Um turno no console, com o modo debug](/img/testeo/debug.png)
+
+## Uma suíte {#una-suite}
+
+Está em **Operação → Testes**. Uma suíte é uma lista de conversas. Escreve-se na página ou se sobe como CSV, e se executa contra a árvore já treinada. Cada caso começa com a própria sessão: o pedido anterior não vaza para o seguinte. As sessões da execução não ficam em Conversas.
+
+![O painel, com o treinamento em dia: sem isso a suíte não pode ser executada](/img/intro/panel.png)
+
+### O que se pode conferir
+
+| Coluna | O que exige |
+|---|---|
+| `intencion` | A intenção detectada é essa |
+| `respuesta_contiene` | A resposta do bot contém esse texto, sem distinguir maiúsculas |
+| `slot` | O parâmetro que o bot está pedindo nesse turno é esse |
+| `parametros` | Os parâmetros capturados têm esses valores |
+| `evento` | O evento resultante é esse |
+
+### O CSV
+
+Uma linha por turno, agrupada por caso:
+
+```csv
+caso,turno,mensaje,intencion,respuesta_contiene,slot,parametros,evento
+pedido por partes,1,quiero empanadas,hacer_pedido,¿De qué sabor,sabor_producto,,
+pedido por partes,2,de queso,,¿Cuántas,numero,,
+pedido por partes,3,dos,,Anoté,,numero=2;sabor_producto=queso,
+```
+
+As colunas vazias não conferem nada. O CSV mínimo é `caso,turno,mensaje`. Em `parametros` vão vários na mesma célula: `nombre=valor;nombre=valor`. Se o arquivo estiver errado, a página mostra a linha e o motivo.
+
+O lápis abre o caso na página. **Salvar** grava as alterações. **Descartar** solta.
+
+### O resultado
+
+Na lista, executar roda essa suíte. O histórico guarda com qual treinamento se mediu. Os casos que falham se abrem e mostram o que se esperava e o que o bot respondeu. Comparar duas execuções diz o que antes passava e agora falha, e o que falhava e agora passa.
+
+O botão de executar fica desligado se a árvore não estiver treinada.

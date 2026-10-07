@@ -1,0 +1,22 @@
+---
+sidebar_position: 7
+sidebar_label: Credenziali
+---
+
+# Credenziali
+
+**Credenziali** sta in Gestione. Lì si creano le chiavi con cui qualcosa di
+esterno parla con il workspace.
+
+Ci sono due schede ed entrambe leggono la stessa tabella:
+
+- **Chiavi API.** Per CI, un SDK o uno script.
+- **MCP.** Perché Claude Desktop, Claude Code o Cursor usino l'albero. Quando si crea la chiave, l'app copia il JSON pronto. Il percorso è in [MCP](/docs/Agente/Mcp).
+
+Crearle è da amministratore. La chiave completa si mostra una sola volta, alla creazione.
+Dopo resta solo l'identificatore.
+
+![Credenziali, scheda Chiavi API. L'altra scheda è MCP](/img/gestion/credenciales.png)
+
+Da non confondere con le chiavi dei modelli di IA dell'agente costruttore: quelle
+si salvano per workspace nella configurazione dell'agente, non in questa schermata.

@@ -1,0 +1,8 @@
+{
+  "label": "Slack",
+  "position": 7,
+  "link": {
+    "type": "generated-index",
+    "description": "Integrazione con i canali Slack e i messaggi interattivi (Block Kit)"
+  }
+}

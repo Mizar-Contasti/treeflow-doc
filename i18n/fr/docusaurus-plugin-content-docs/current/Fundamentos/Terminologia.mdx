@@ -1,0 +1,115 @@
+---
+sidebar_position: 1
+---
+
+import Tabs from '@theme/Tabs';
+import TabItem from '@theme/TabItem';
+
+# Terminologie
+
+Chaque nom du menu est une chose distincte. Cette page est la carte : ce qu'est chacune et comment elles s'enchaînent.
+
+![Le tableau de bord, avec le menu de l'application : flux, intentions, entités et canaux](/img/intro/panel.png)
+
+## La carte
+
+| Dans le menu | Ce que c'est |
+|---|---|
+| **Arbre** | Le bot. On le crée aussi comme « un nouveau bot ». Il garde l'entraînement, les flux et tout le reste. |
+| **Flux** | Le dessin du canevas : des nœuds et des flèches. Il ordonne le parcours. |
+| **Nœud** | Un pas de ce canevas : un message, une intention, une validation ou autre chose. |
+| **Intention** | Ce que le moteur reconnaît dans une phrase : des motifs, des paramètres et la réponse. |
+| **Entité** | Un type de donnée extrait de la phrase : une saveur, une date, un nombre. Simple, composée ou regex. |
+| **Paramètre** | Le trou nommé où tombe cette donnée (`@sabor:sabor` → le paramètre `sabor`). |
+| **Message** | Une réponse réutilisable : texte, boutons, carrousel, HTML. |
+| **Capture** | Comment on demande une donnée qui manque, et ce qu'on dit si on ne comprend pas. |
+| **Canal** | Par où parle la personne : le widget web, Telegram, WhatsApp et le reste. |
+| **Outil** | Ce que le bot appelle à l'extérieur : un script, une API, le webhook, un transfert. |
+| **Console** | Le panneau de droite. On y teste le bot et, si vous voulez, l'IA le conçoit. |
+
+## Comment elles s'enchaînent
+
+Une commande dans un restaurant, avec les noms de l'application :
+
+1. La personne écrit dans un **canal** (le widget de la page, par exemple).
+2. L'**arbre** reçoit la phrase. Une **intention** (`pedir`) la reconnaît parce qu'elle ressemble à ses motifs.
+3. Dans le motif, `@sabor` pointe vers une **entité**. De « au fromage » sort le **paramètre** `sabor`.
+4. Si la taille manque, une **capture** demande « de quelle taille ? » et, si la réponse ne convient pas, elle insiste.
+5. Le **flux** décide du nœud suivant. Ce nœud montre un **message** (« C'est noté, une grande au fromage ») ou appelle un **outil** (l'inventaire, la caisse).
+6. La réponse revient par le même canal.
+
+Si à ce moment-là il faut une personne, le [service d'assistance](/docs/Avanzado/MesaDeAyuda) prend la conversation et peut la rendre au bot.
+
+![Un flux sur le canevas : des nœuds reliés par des flèches](/img/intro/flujo.png)
+
+## Trois arbres
+
+La même carte, dans trois métiers.
+
+<Tabs>
+  <TabItem value="restaurante" label="Restaurant" default>
+    <ul>
+      <li><strong>Intentions :</strong> <code>reservar_mesa</code>, <code>consultar_menu</code>, <code>pedir</code>.</li>
+      <li><strong>Entités :</strong> date, heure, nombre de personnes, plat.</li>
+      <li><strong>Capture :</strong> si l'heure manque, le bot la demande.</li>
+      <li><strong>Message :</strong> confirme la réservation avec ces données.</li>
+      <li><strong>Canal :</strong> le widget de la page, ou WhatsApp.</li>
+      <li><strong>Outil :</strong> note la réservation dans le système du lieu.</li>
+    </ul>
+  </TabItem>
+  <TabItem value="tienda" label="Boutique">
+    <ul>
+      <li><strong>Intentions :</strong> <code>consulta_producto</code>, <code>proceso_compra</code>, <code>seguimiento_pedido</code>.</li>
+      <li><strong>Entités :</strong> produit, quantité, moyen de paiement.</li>
+      <li><strong>Outil :</strong> consulte l'inventaire et assemble la commande.</li>
+      <li><strong>Message :</strong> répond avec ce qu'il y a.</li>
+    </ul>
+  </TabItem>
+  <TabItem value="soporte" label="Assistance">
+    <ul>
+      <li><strong>Intentions :</strong> <code>problema_hardware</code>, <code>problema_software</code>, <code>consulta_garantia</code>.</li>
+      <li><strong>Entités :</strong> appareil, symptôme, version.</li>
+      <li><strong>Flux :</strong> guide le diagnostic, un nœud par pas.</li>
+      <li><strong>Service d'assistance :</strong> si le flux ne le résout pas, une personne entre.</li>
+    </ul>
+  </TabItem>
+</Tabs>
+
+## Quand utiliser chaque chose
+
+**Canaux**, lorsque la personne doit parler au bot par un autre côté : le web, WhatsApp, Telegram.
+
+**Outils**, lorsque le bot doit lire ou écrire dans un autre système : le stock, un CRM, un e-mail, une validation.
+
+**Workspace**, lorsqu'il y a un autre client, une autre équipe ou un autre environnement. Chacun a ses arbres, ses canaux et ses clés. Dans un workspace, un nouvel arbre ne demande pas un autre workspace.
+
+Le détail long de chacun suit sur sa page : [workspaces](/docs/Avanzado/Workspaces), [canaux](/docs/Canales/CanalesDeComunicacion) et [outils](/docs/Herramientas).
+
+## Concevoir, pas remplir des formulaires
+
+La conception, c'est décider le parcours, les questions et les réponses. L'IA peut faire le travail de l'application, parce qu'elle a des outils pour créer et modifier des flux, des intentions, des entités et des messages, et pour entraîner et tester.
+
+- Dans la [console](/docs/Fundamentos/ProbarElBot), onglet Agent, vous le lui racontez sur place.
+- De l'extérieur, une clé [MCP](/docs/Avanzado/Credenciales) laisse un autre assistant (par exemple Claude Desktop) entrer dans le workspace et opérer les mêmes pièces.
+
+## Les noms d'avant
+
+Si une vieille page ne coïncide pas avec le menu, voici la traduction.
+
+| Avant | Maintenant |
+|---|---|
+| Branche | Intention. Le canevas s'appelle flux. |
+| Feuille du canevas | Nœud |
+| Feuille, lorsqu'on parlait d'extraire des données | Entité |
+| Éditeur visuel, Canvas Engine | Flux |
+| Greffe | Canal |
+| Engrais | Outil. Le webhook global est l'onglet Webhook. |
+| QWidget | Le widget web, dans Canaux |
+| Reboisement, pipeline en six phases | L'[agent](/docs/Agente/Constructor) de la console, ou un assistant par [MCP](/docs/Agente/Mcp) |
+
+## Où continuer
+
+- [Flux](/docs/Fundamentos/Flujos)
+- [Intentions](/docs/Fundamentos/Intenciones) et [entités](/docs/Fundamentos/Entidades)
+- [Messages](/docs/Fundamentos/Mensajes) et [captures](/docs/Fundamentos/Capturas)
+- [Fonctions](/docs/Avanzado/Funciones) : `{ }` et le `$`

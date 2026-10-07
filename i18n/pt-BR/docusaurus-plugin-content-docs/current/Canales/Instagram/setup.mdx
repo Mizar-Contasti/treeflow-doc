@@ -1,0 +1,46 @@
+---
+sidebar_position: 1
+---
+
+# Instagram Direct
+
+Conecta o seu bot às **mensagens diretas** de uma conta profissional do Instagram. É um canal **Beta**.
+
+![A tela do Instagram Direct em Canais: URL para a Meta e credenciais da conta](/img/canales/instagram.png)
+
+## O que você precisa da Meta
+
+Uma **conta profissional** do Instagram (Business ou Creator) e um app em [Meta for Developers](https://developers.facebook.com/) com acesso às mensagens do Instagram.
+
+| Campo no TreeFlow | De onde vem |
+|---|---|
+| **Instagram Account ID** | O ID da conta do Instagram para empresas |
+| **Verify Token** | Você inventa: qualquer texto |
+| **Instagram Access Token** | Um token com a permissão `instagram_manage_messages` |
+| **App Secret** | Seu app → Configurações → Básico → Chave secreta do app |
+
+O **App Secret** permite conferir que cada mensagem vem mesmo da Meta. Sem ele, o TreeFlow não responde.
+
+## Ativá-lo
+
+1. Escolha seu bot no seletor do canto superior esquerdo.
+2. Abra **Integração → Canais → Instagram Direct**.
+3. **Passo 1.** Copie a **Callback URL** e cole em Meta Developers → Instagram → Webhook. Em **Verify token** da Meta, escreva o mesmo que você vai colocar no TreeFlow.
+4. Na Meta, inscreva o webhook no campo **messages**.
+5. **Passo 2.** Preencha Instagram Account ID, Verify Token, Instagram Access Token e App Secret.
+6. Clique em **Salvar e integrar Instagram**. O canal fica ligado.
+
+O interruptor **ON/OFF** de cima desliga e liga o canal sem apagar o que foi salvo.
+
+## O que recebe e o que envia
+
+O bot lê as mensagens de texto, as respostas rápidas e os botões que a pessoa toca.
+
+Responde com **texto** (até 1000 caracteres). Os botões da resposta saem como **respostas rápidas**, até 13; os botões de link, não.
+
+## Se não responder
+
+- O interruptor precisa estar em **ON**.
+- O **Verify Token** da Meta precisa ser idêntico ao do TreeFlow.
+- O **Account ID** precisa ser o da conta que recebe as mensagens.
+- O **App Secret** precisa ser o do mesmo app que envia as mensagens.

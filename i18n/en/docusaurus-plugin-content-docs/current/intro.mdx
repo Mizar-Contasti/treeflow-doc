@@ -1,0 +1,76 @@
+---
+sidebar_position: 1
+---
+
+import AppUrl from '@site/src/components/AppUrl';
+
+# Start Here
+
+**TreeFlow** is a platform for building deterministic chatbots that drive business, combining precise control of conversational flows with the power of generative models.
+
+![Dashboard: tree statistics, with flows, intents, entities, and channels](/img/intro/panel.png)
+
+## Before You Start
+
+> **Recommendation**: Start with the [Terminology](/docs/Fundamentos/Terminologia). The menu separates flows, intents, entities, messages, and captures, and they are not the same thing.
+
+## Platform Access
+
+![Sign-in: the workspace is entered first](/img/intro/login.png)
+
+## First Steps
+
+1. **Get familiar with the terminology** - Understand TreeFlow's [basic concepts](/docs/Fundamentos/Terminologia)
+2. **Set up your workspace** - Learn about [workspaces](/docs/Avanzado/Workspaces) so you can organize your projects
+3. **Create your first tree** - Follow the [tutorials](/docs/Tutoriales/Introduccion) or the [getting started](/docs/Fundamentos/Empezando) guide
+4. **Write intents** - [Conversation patterns](/docs/Fundamentos/Intenciones) live in Intents
+5. **Define entities** - Configure [entities](/docs/Fundamentos/Entidades) to extract data from the utterance
+6. **Draw the flow** - Arrange the nodes in the [visual editor](/docs/Fundamentos/Flujos)
+7. **Integrate with the world** - Connect your chatbot through [Channels](/docs/Canales/CanalesDeComunicacion) and call external systems from [Tools](/docs/Herramientas)
+
+## Main Features
+
+![Flow editor: the canvas with the tree's nodes](/img/intro/flujo.png)
+
+### You design the conversation
+Your work is the design: what should happen, what gets asked, and what gets answered. The AI does the rest inside the app, because it can create and modify flows, intents, entities, messages, and tools, and it can also train and test.
+
+There are two ways in, and both talk to the same pieces of the tree:
+
+- **The [console](/docs/Fundamentos/ProbarElBot) agent.** You describe the design on the Agent tab. It uses the key of the provider you choose and a set of tools that operate the tree. You can require confirmation before it creates, modifies, or deletes anything.
+- **An outside assistant, through [MCP](/docs/Avanzado/Credenciales).** In Credentials → MCP you create a key and copy the configuration (for example for Claude Desktop). That assistant enters the workspace and uses the app the same way: you do not have to walk through every form.
+
+### Conversation
+What the bot knows how to say, and in what order.
+
+- **[Flows](/docs/Fundamentos/Flujos)**: the canvas. Each node has **Conversation** and **Functionality**.
+- **[Intents](/docs/Fundamentos/Intenciones)** and **[entities](/docs/Fundamentos/Entidades)**: they recognize the utterance and pull out the data. You train afterward.
+- **[Messages](/docs/Fundamentos/Mensajes)**: reusable responses, with blocks (text, buttons, carousel, HTML).
+- **[Captures](/docs/Fundamentos/Capturas)**: how the bot asks for a missing piece of data, and what it does if it does not understand.
+- **[Functions](/docs/Avanzado/Funciones)**: what you write inside `{ }`. The `$` is what distinguishes a variable from text.
+
+### Console
+The panel on the right, for testing the tree without publishing it.
+
+- The test chat and [debug mode](/docs/Fundamentos/ProbarElBot), with the request and the response split into parameters, messages, and metadata.
+- The **builder agent**, the in-app way for the AI to assemble the design.
+- The **dialog builder**, for assembling user turns and bot turns.
+
+### Integration
+Where the person talks, and which systems the bot calls.
+
+- **[Channels](/docs/Canales/CanalesDeComunicacion)**: the web widget for embedding the chat, and the rest (Telegram, WhatsApp, and the others) from the same screen.
+- **[Tools](/docs/Herramientas)**: scripts, APIs, the workspace webhook, and transfers to a person. You test them on the same page.
+
+### Operations
+What happens once the bot is in use.
+
+- **Conversations**: the history of what was said.
+- **[Help desk](/docs/Avanzado/MesaDeAyuda)**: a person takes the conversation, replies, and can hand it back to the bot.
+- **[Tests](/docs/Avanzado/Pruebas)**: multi-turn cases that run against the tree and stay saved.
+
+## Additional Resources
+
+- [Changelog](/docs/changelog) - Latest updates and improvements
+- [Best practices](/docs/Fundamentos/MejoresPracticas) - Recommendations for creating effective conversational experiences
+- [Console and builder agent](/docs/Fundamentos/ProbarElBot) - Test the tree and ask the AI to modify it

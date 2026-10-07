@@ -1,0 +1,347 @@
+---
+sidebar_position: 9
+sidebar_label: Workspaces
+---
+
+import AppUrl from '@site/src/components/AppUrl';
+
+# Workspaces (espaços de trabalho)
+
+:::info Novo no TreeFlow
+
+Os **workspaces** são uma funcionalidade chave do TreeFlow que permite organizar e gerenciar vários projetos de chatbot de forma eficiente e isolada.
+
+:::
+
+## O que é um workspace?
+
+Um **workspace** (espaço de trabalho) é um ambiente completamente independente dentro do TreeFlow que contém:
+
+- **Árvores conversacionais**: todos os seus chatbots e fluxos
+- **Integrações e canais**: configurações de canais e APIs
+- **Ferramentas (webhooks)**: endpoints e configurações de integração
+- **Configurações específicas**: personalizações do ambiente
+- **Usuários e permissões**: controle de acesso ao workspace
+
+## Benefícios dos workspaces
+
+### **Organização por projeto**
+- Separe clientes ou projetos diferentes
+- Mantenha configurações independentes
+- Evite conflitos entre ambientes diferentes
+
+### **Colaboração eficiente**
+- Convide usuários específicos para cada workspace
+- Defina permissões granulares por projeto
+- Mantenha a privacidade entre clientes diferentes
+
+### **Gestão simplificada**
+- Troque rápido entre projetos
+- Configurações específicas por workspace
+- Backup e restauração independentes
+
+### **Escalabilidade**
+- Crie tantos workspaces quantos precisar
+- Cada um com os próprios recursos
+- Crescimento orgânico por projeto
+
+## Criar o primeiro workspace
+
+### Processo de criação
+
+1. **Acesso inicial**: ao entrar pela primeira vez, você é levado automaticamente a criar o primeiro workspace
+
+2. **Informação básica**:
+   ```
+   Nombre del Workspace: Mi Empresa Chatbots
+   Descripción: Workspace para todos los chatbots de mi empresa
+   ```
+
+3. **Configuração inicial**: o TreeFlow configura automaticamente:
+   - Estrutura base do workspace
+   - Permissões iniciais
+   - Configurações padrão
+
+4. **Acesso imediato**: depois de criado, você entra direto no novo workspace
+
+![O espaço de trabalho se escreve ao entrar](/img/intro/login.png)
+
+![O espaço ativo, botsmexico, em cima à esquerda](/img/intro/panel.png)
+
+### Boas práticas para nomear
+
+#### **Por cliente**
+```
+Workspace: "Cliente ABC - Soporte"
+Descripción: "Chatbots de atención al cliente para ABC Corp"
+```
+
+#### **Por departamento**
+```
+Workspace: "Ventas - Lead Generation"
+Descripción: "Chatbots para captura y calificación de leads"
+```
+
+#### **Por projeto**
+```
+Workspace: "E-commerce Bot v2.0"
+Descripción: "Nueva versión del chatbot de e-commerce"
+```
+
+#### **Por ambiente**
+```
+Workspace: "Producción - Soporte Cliente"
+Workspace: "Testing - Soporte Cliente"
+Workspace: "Desarrollo - Soporte Cliente"
+```
+
+## Gerenciar vários workspaces
+
+### Seletor de workspace
+
+Na barra superior do TreeFlow está o **seletor de workspace**:
+
+1. **Workspace atual**: mostra-se o nome do workspace ativo
+2. **Trocar workspace**: clique para ver todos os seus workspaces
+3. **Troca rápida**: selecione qualquer workspace para mudar na hora
+
+![O espaço ativo fica na barra](/img/intro/panel.png)
+
+### Criar workspaces adicionais
+
+1. **A partir do seletor**: clique no seletor de workspace
+2. **Opção "Novo workspace"**: aparece no fim da lista
+3. **Formulário de criação**: preencha nome e descrição
+4. **Criação imediata**: o novo workspace fica disponível na hora
+
+### Configurações por workspace
+
+Cada workspace mantém configurações independentes:
+
+#### **Integrações**
+- Cada workspace tem os próprios canais
+- Configurações de canais específicas
+- APIs e webhooks independentes
+
+#### **Ferramentas**
+- Webhooks específicos por projeto
+- Configurações de endpoints únicas
+- Testes independentes por workspace
+
+#### **Usuários e permissões**
+
+Cada usuário pertence a um workspace e tem um destes papéis:
+
+| Papel | O que pode fazer |
+|---|---|
+| **Administrador** | Tudo: criar e apagar árvores, gerir usuários e integrações. Na Mesa de ajuda vê ainda o painel de operações |
+| **Desenvolvedor** | Desenhar e editar árvores, intenções, entidades e fluxos. Também pode atender chats na Mesa de ajuda |
+| **Visualizador** | Consultar sem modificar: conversas, analítica, configuração. Não pode operar na Mesa de ajuda |
+| **Operador** | Atender conversas que o bot encaminha a uma pessoa. **Só entra pela [Mesa de ajuda](/docs/Avanzado/MesaDeAyuda)**, não pelo painel principal |
+
+Os usuários se convidam em **Contas**, e o convite chega com um link de cadastro.
+Algumas funções de trabalho em tempo real — cursores ao vivo, follow mode — estão
+restritas a administradores.
+
+#### **Configurações visuais**
+- Branding personalizado por cliente
+- Cores e logos específicos
+- Personalizações do workspace
+
+## Casos de uso comuns
+
+### **Agência de marketing digital**
+
+```
+Workspace: "Cliente A - E-commerce"
+├── Árbol: Bot de Ventas
+├── Árbol: Soporte Post-Venta
+├── Canal: Integración Web
+└── Herramientas: Salesforce, Email
+
+Workspace: "Cliente B - Servicios"
+├── Árbol: Bot de Citas
+├── Árbol: FAQ Automático
+├── Canal: WhatsApp Business
+└── Herramientas: Google Calendar, CRM
+```
+
+### **Empresa interna**
+
+```
+Workspace: "Atención al Cliente"
+├── Árbol: Soporte Técnico
+├── Árbol: Facturación
+├── Canal: Web Widget
+└── Herramientas: Zendesk, Slack
+
+Workspace: "Recursos Humanos"
+├── Árbol: Onboarding
+├── Árbol: Consultas HR
+├── Canal: Intranet
+└── Herramientas: HRIS, Email
+```
+
+### **Desenvolvimento e testes**
+
+```
+Workspace: "Desarrollo"
+├── Árboles en desarrollo
+├── Configuraciones de prueba
+├── Endpoints de testing
+└── Debug habilitado
+
+Workspace: "Staging"
+├── Versiones pre-producción
+├── Testing con datos reales
+├── Validación final
+└── Métricas de rendimiento
+
+Workspace: "Producción"
+├── Versiones estables
+├── Configuraciones optimizadas
+├── Monitoreo activo
+└── Backups automáticos
+```
+
+## Administração de workspaces
+
+### Configuração do workspace
+
+Acesse a configuração a partir do menu do workspace:
+
+#### **Informação geral**
+- Editar nome e descrição
+- Mudar configurações básicas
+- Ver estatísticas de uso
+
+#### **Integrações**
+- Gerenciar canais ativos
+- Configurar canais novos
+- Monitorar conexões
+
+#### **Ferramentas**
+- Administrar webhooks
+- Configurar endpoints
+- Testes de integrações
+
+#### **Usuários**
+- Convidar colaboradores por e-mail, com link de cadastro
+- Atribuir papel: Administrador, Desenvolvedor ou Visualizador
+- Auditoria de alterações, em **Histórico**: quem mexeu no quê e quando, por árvore e por
+  workspace
+
+### Backup e restauração
+
+#### **Backup automático**
+- O TreeFlow faz backup automático de cada workspace
+- Inclui árvores, configurações e integrações
+- Retenção configurável por plano
+
+#### **Exportação manual**
+- Exporte o workspace completo
+- Formato JSON estruturado
+- Inclui toda a configuração
+
+#### **Restauração**
+- Restaure a partir do backup automático
+- Importe um workspace exportado
+- Migração entre instâncias
+
+## Limites e cotas
+
+### Plano gratuito
+- **Workspaces**: 2 workspaces
+- **Árvores por workspace**: 5 árvores
+- **Integrações**: básicas
+- **Storage**: 100MB por workspace
+
+### Plano Pro
+- **Workspaces**: 10 workspaces
+- **Árvores por workspace**: ilimitadas
+- **Integrações**: todas disponíveis
+- **Storage**: 1GB por workspace
+
+### Plano Enterprise
+- **Workspaces**: ilimitados
+- **Árvores por workspace**: ilimitadas
+- **Integrações**: todas + personalizadas
+- **Storage**: 10GB por workspace
+
+## Migração e transferência
+
+### Mover árvores entre workspaces
+
+1. **Exportar árvore**: a partir do workspace de origem
+2. **Trocar workspace**: para o workspace de destino
+3. **Importar árvore**: no novo workspace
+4. **Validar configuração**: revisar integrações
+
+### Duplicar workspace
+
+1. **Exportar workspace completo**
+2. **Criar novo workspace**
+3. **Importar configuração**
+4. **Ajustar configurações específicas**
+
+### Transferir propriedade (em breve)
+
+- Transferir workspace a outro usuário
+- Mudar o administrador principal
+- Migrar entre organizações
+
+## Boas práticas
+
+### **Organização**
+1. **Use nomes descritivos**: facilita a identificação
+2. **Agrupe por propósito**: cliente, projeto ou departamento
+3. **Mantenha consistência**: use convenções de nomenclatura
+4. **Documente o propósito**: use o campo descrição
+
+### **Segurança**
+1. **Separe ambientes**: desenvolvimento, testes, produção
+2. **Controle acessos**: só os usuários necessários por workspace
+3. **Audite com regularidade**: revise quem tem acesso
+4. **Backup frequente**: especialmente antes de alterações grandes
+
+### **Desempenho**
+1. **Não sobrecarregue**: mantenha um número razoável de árvores
+2. **Limpe com regularidade**: elimine árvores obsoletas
+3. **Monitore o uso**: revise métricas de desempenho
+4. **Otimize configurações**: ajuste segundo as necessidades
+
+### **Colaboração**
+1. **Defina papéis claros**: quem pode fazer o quê
+2. **Comunique alterações**: informe a equipe sobre modificações
+3. **Use descrições**: documente o propósito de cada workspace
+4. **Estabeleça processos**: para criação e gestão
+
+## Solução de problemas
+
+### Não consigo criar workspace
+- Verifique os limites do seu plano
+- Revise as permissões de usuário
+- Fale com o suporte se persistir
+
+### O workspace não aparece
+- Verifique se você tem acesso
+- Atualize a página
+- Revise o seletor de workspace
+
+### Erro ao trocar de workspace
+- Verifique a conexão com a internet
+- Limpe o cache do navegador
+- Tente a partir de outro navegador
+
+### As configurações não se salvam
+- Verifique as permissões de edição
+- Revise a conexão de rede
+- Fale com o suporte técnico
+
+:::tip Recomendação
+
+Comece com um workspace para se familiarizar com o TreeFlow. Quando dominar as funcionalidades básicas, você pode criar workspaces adicionais para organizar melhor os projetos.
+
+:::
+
+Os workspaces do TreeFlow dão a flexibilidade de organizar os projetos de chatbot do jeito que melhor se adapta ao seu fluxo de trabalho, mantendo tudo ordenado, seguro e eficiente.

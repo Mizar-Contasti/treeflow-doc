@@ -1,0 +1,61 @@
+---
+sidebar_position: 2
+sidebar_label: Tester dans la console
+---
+
+# Tester dans la console
+
+La console est le chat d'essai. Elle ne publie pas l'arbre. Dans Cafetería, elle s'ouvre avec le bouton orange, en bas à droite.
+
+L'arbre doit déjà exister. S'il n'existe pas encore, commencez par [Créer un arbre](./CrearChatbotBasico).
+
+## Avant d'écrire
+
+L'éclair du menu est **Entraîner**. En vert, l'entraînement est à jour. Si l'arbre n'a jamais été entraîné, le champ de texte reste désactivé.
+
+![Panneau de Cafetería, avec l'entraînement à jour](/img/intro/panel.png)
+
+## L'ouvrir
+
+Au-dessus de la conversation, il y a une barre.
+
+![La console : le flux, le canal et le champ pour écrire](/img/testeo/consola.png)
+
+1. Le premier bouton est le flux. Pour la carte du lieu, choisissez **Restaurante**. Le changer relance la conversation dans ce flux.
+2. Le second est le canal. **Par défaut** envoie le texte de l'onglet Default. **Web** envoie l'onglet Web du message, s'il a du contenu.
+3. Écrivez et envoyez.
+
+`hola` tombe dans l'intention `saludo` et répond par l'accueil.
+
+![hola et la réponse du bot](/img/testeo/turno.png)
+
+La flèche circulaire relance. La flèche vers l'arrière annule le dernier tour.
+
+## Voir comment il a décidé
+
+L'insecte active le mode debug et devient jaune. Avant la réponse apparaît une ligne : l'intention, la confiance et la façon dont ça a coïncidé. La troisième donnée peut être entité, motif, modèle, ou `no_match` si la phrase n'a pas été reconnue.
+
+![Mode debug : l'intention, la confiance et le nœud marqué](/img/testeo/debug.png)
+
+Un clic sur votre bulle ouvre ce qui a été envoyé. Un clic sur celle du bot ouvre ce que le moteur a répondu.
+
+| Vue | Ce qu'elle laisse |
+|---|---|
+| Tout | le JSON complet |
+| Parameters | les données capturées et celles de la session |
+| Messages | le texte de la personne ou la réponse du bot |
+| Metadata | intention, temps, session, outils, sentiment |
+
+![La réponse : intention, paramètres et texte](/img/testeo/detalle.png)
+
+Le canevas du flux s'ouvre et marque le nœud de ce tour.
+
+![Console dans Restaurante et le canevas marqué](/img/diseno/recorrido.png)
+
+## Si ça ne correspond pas
+
+- L'intention n'est pas celle que vous attendiez. Le motif ou l'ordre de compréhension en a choisi une autre. Le crayon du tour ouvre cette intention.
+- Il sort `no_match`. Aucune intention de ce flux n'a correspondu. Le chemin est l'événement `sys.no-match`.
+- Vous avez changé des intentions ou des entités. Entraînez de nouveau. Un message ou une capture se lit à l'enregistrement : c'est pour cela qu'il n'est pas nécessaire d'entraîner.
+
+Le détail de chaque commande est dans [Tester le bot](/docs/Fundamentos/ProbarElBot).

@@ -1,0 +1,56 @@
+---
+sidebar_position: 5
+sidebar_label: How it works inside
+---
+
+# How it works inside
+
+For someone who integrates, debugs, or wants to know what happens between writing a task and the bot changing.
+
+The agent lives **inside the main backend** (`backend/core/builder_agent/`). There is no separate service: the standalone generative service on port 8001 was removed. It is used through the `/api/builder-agent` API.
+
+## What happens with each message
+
+1. **The console sends** the bot, the conversation history, and, if the user chose them, the credential and the model.
+2. **The server checks** that the bot belongs to the workspace of whoever is asking.
+3. **It chooses the credential**: the one indicated (it has to belong to the workspace) or, if none is indicated, the first AI credential in the workspace. With none, it replies that a key is required.
+4. **It builds the model's instructions** in the **bot's primary language**: the bot's identifier, name, and purpose, the list of its flows, the naming rules, where to apply the changes, and the **look before you create** protocol.
+5. **It trims the history** to the **last 14 messages**.
+6. **It calls the model** with the instructions, the history, and the **46 tools**, described in the bot's language. Each call waits up to 60 seconds.
+7. **If the model asks for tools**, the server runs them and returns the result. It repeats up to **8 rounds**.
+8. **If the model replies without asking for more**, that text is the reply. The conversation is saved with the actions that ran, and it returns to the console.
+
+If it reaches 8 rounds without a final reply, it returns *Iteration limit reached without a final response*, with the actions it did manage to run.
+
+## How a tool is run
+
+The server calls the tool with the arguments the model gave **plus the session context**: the bot, the workspace, and the user. The session context **wins** over whatever the model wrote. A model that gets it wrong — or that receives a malicious instruction inside a piece of text — cannot leave the bot or the workspace.
+
+If a tool fails, the error goes back to the model as a result so it can explain it or try another way.
+
+## How it talks to the providers
+
+With **Anthropic** it uses its native API (`/messages`): the instructions go separately, the tools are described with their input schema, and each tool's result comes back as a `tool_result` block. With **every other provider** it uses the **OpenAI chat format** (`/chat/completions`, with the tools as functions): Gemini and the others expose a compatible route; with Ollama or your own server, you set the base URL. The cycle is the same in both cases; only the way the request and the reply are translated changes. See [Providers and models](/docs/Agente/ModelosGenerativos).
+
+## Endpoints
+
+All of them require a signed-in session and work on a bot in the workspace.
+
+| Method and route | What it is for |
+|---|---|
+| `POST /api/builder-agent/chat` | One agent turn: it returns the text, the actions, and the `session_id` |
+| `POST /api/builder-agent/confirm` | Runs a tool already decided, after the user's approval |
+| `GET /api/builder-agent/sessions` | A bot's saved conversations, the most recent first |
+| `GET /api/builder-agent/sessions/{id}` | A whole conversation |
+| `PUT /api/builder-agent/sessions/{id}/messages` | Replaces a conversation's saved messages |
+| `DELETE /api/builder-agent/sessions/{id}` | Deletes a conversation |
+
+If there is no credential, `chat` replies `400` with `key_required: true`; the console then opens the settings.
+
+`chat` calls a paid model, so it has a limit of **20 messages per minute per user**: past that limit it replies `429` with a notice, without calling the provider.
+
+## What is saved
+
+Each conversation stays in the agent sessions table, with its bot, its workspace, the user, a **title** (the first 60 characters of the first message), the messages, and the actions. They are listed by bot, and that is why the history is per bot.
+
+**AI credentials** are stored in the same workspace credentials table as the channel ones, with the provider type and its configuration: the key, the base URL, and the model.

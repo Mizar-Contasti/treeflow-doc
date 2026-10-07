@@ -1,0 +1,86 @@
+---
+sidebar_position: 99
+sidebar_label: Histórico
+description: Alterações, treinamentos e as execuções de scripts, APIs e webhook.
+---
+
+# Histórico
+
+**Gestão → Histórico** é o que já aconteceu na árvore selecionada no canto superior esquerdo. O registro de versões do produto está no [histórico de alterações](/docs/changelog). As cópias da árvore não ficam aqui: estão em [Backups](/docs/Avanzado/ImportarExportar).
+
+Três abas: **Alterações**, **Treinamentos** e **Integrações**. Cada uma tem o buscador, os filtros e o ícone de relógio para pedir a lista de novo. No celular, o buscador sobe para o cabeçalho.
+
+## Alterações
+
+Quem criou, modificou, apagou, ativou ou desativou algo, e quando.
+
+![Alterações da Cafetería: um canal atualizado e a árvore criada, com tipo, ação e pessoa](/img/historial/cambios.png)
+
+Cada linha traz:
+
+- A **ação**, em uma etiqueta. Criado e Atualizado vão em verde, Ativado em azul, Excluído e Desativado em vermelho.
+- A **árvore**. Se a alteração for de um usuário ou do workspace, essa coluna diz Usuário ou Workspace e o nome.
+- O **tipo**: Árvore, Fluxo, Intenção, Entidade, Mensagem, Canal, Usuário ou Workspace. Também podem aparecer Contexto, Evento, Treinamento ou Conversa, embora o filtro de tipo não os liste.
+- O **autor**. Se foi o agente, a linha diz que foi o agente e o nome de quem confirmou.
+- A **data** e **Ver detalhes**, à direita.
+
+Acima filtra-se por tipo, ação e pessoa, e busca-se pelo nome do que mudou ou pela pessoa. A lista traz até 500 alterações da árvore e as mostra de vinte em vinte.
+
+Um nó da tela não tem linha própria. Movê-lo ou editar o texto ali não aparece. Aparece a mensagem, o fluxo, a intenção, a entidade ou o canal se isso foi salvo à parte.
+
+### O detalhe
+
+**Ver detalhes** abre o antes e o depois, lado a lado.
+
+![O canal web passou de um objeto vazio para enabled true. Antes em amarelo, depois em verde](/img/historial/cambio-detalle.png)
+
+- **Informações gerais**, recolhida. Traz a ação, o tipo, o nome, a data e a origem: uma pessoa, ou o agente e quem o operou.
+- **Alterações realizadas**. Conta quantos campos foram modificados, adicionados, excluídos ou ficaram iguais.
+- **Antes** fica à esquerda, em amarelo. **Depois** fica à direita, em verde.
+- **Ver tudo** mostra o objeto completo. **Só alterações** deixa as linhas que diferem.
+- As setas expandem ou recolhem os objetos. **Copiar antes** e **Copiar depois** levam o JSON para a área de transferência.
+- O ícone dos cantos coloca o quadro em tela cheia.
+- **Metadados adicionais**, recolhida, é o JSON extra desse registro: por exemplo, que o agente escreveu.
+
+## Treinamentos
+
+Cada vez que se clica em **Treinar**.
+
+![Um treinamento da Cafetería: Concluído, modo Básico, 2,0 s, 3 de outubro](/img/historial/entrenamientos.png)
+
+O cartão diz:
+
+- **Concluído** (verde), **Em andamento** ou **Cancelado**.
+- **Básico** ou **Pro**.
+- A árvore, quem disparou, quanto demorou e a que horas começou.
+
+Acima filtra-se por modo (Básico ou Pro), por estado e por datas **De** e **Até**. O buscador olha o usuário, o modo e as notas. De dez em dez. Ao terminar um treinamento, esta lista se atualiza sozinha.
+
+Um clique no cartão, ou em **Ver detalhes**, abre o registro.
+
+![Detalhe: Cafetería, Admin Principal, Concluído, Básico (TF-IDF), duas fases e 27 intenções com 52 entidades](/img/historial/entrenamiento-detalle.png)
+
+- **Informações gerais**: árvore, usuário, data de início, duração, estado e modo. Básico é anotado como TF-IDF. Pro, como spaCy NER + SVM.
+- **Linha do tempo das fases**. Básico tem duas: gerar os dados das intenções e gerar os dados NER. Cada uma mostra os segundos. Pro percorre quatro.
+- **Alterações aplicadas**, em três abas:
+  - **Resumo**: quantas intenções e quantas entidades entraram nessa execução, e o tempo total.
+  - **Intenções**: cada uma com o número de frases. Ao abri-la, veem-se as frases.
+  - **Entidades**: cada uma com os valores.
+
+![As intenções dessa execução: saludo com 23 frases, consultar_horario com 20, hacer_pedido com 13](/img/historial/entrenamiento-intenciones.png)
+
+Se o estado for **Cancelado** e houver um motivo, o quadro o pinta embaixo, em vermelho. O botão **Treinar** do menu é o que dispara a execução; aqui só se consulta.
+
+## Integrações
+
+As vezes em que um script, uma API ou o webhook **foram executados** em uma conversa. Não é o histórico de quem editou a ferramenta: isso, se ficou registrado, está em **Alterações**.
+
+![Integrações da Cafetería, ainda sem execuções](/img/historial/integraciones.png)
+
+Se a árvore ainda não chamou nenhuma, a tela diz: «Ainda não há execuções de integrações registradas para esta árvore.»
+
+Quando há linhas, cada uma traz o nome da ferramenta, **OK** ou o código de erro, os milissegundos e a data. Filtra-se por **Bem-sucedidos** ou **Erros**, e por datas. O buscador olha o nome e o texto do erro. De vinte em vinte.
+
+Um clique abre o detalhe: o estado, o tempo, a data, a mensagem de erro se houve, os **parâmetros de entrada** que foram enviados e as **saídas** que voltaram. Se uma saída não foi configurada, essa seção fica vazia.
+
+Para um administrador, a mesma falha também pode ser vista em [Diagnósticos](/docs/Avanzado/Diagnosticos).

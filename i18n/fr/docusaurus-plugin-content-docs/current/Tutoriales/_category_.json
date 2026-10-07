@@ -1,0 +1,8 @@
+{
+  "label": "Tutoriels",
+  "position": 4,
+  "link": {
+    "type": "generated-index",
+    "description": "Parcours avec les écrans de Cafetería : planter, tester, demander une valeur, publier sur le web et passer le relais à une personne."
+  }
+}

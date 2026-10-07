@@ -1,0 +1,40 @@
+---
+sidebar_position: 1
+---
+
+# ElevenLabs
+
+Convertit le texte des réponses en **audio** avec les voix d'[ElevenLabs](https://elevenlabs.io/). Il se trouve dans l'onglet **Voix** de Canaux et c'est un canal **Stable**.
+
+![L'écran ElevenLabs dans Canaux : API Key, voix et modèle](/img/canales/elevenlabs.png)
+
+## Ce qu'il vous faut
+
+Un compte ElevenLabs et son **API Key** : Profile Settings → API Keys.
+
+| Champ dans TreeFlow | Ce que c'est |
+|---|---|
+| **ElevenLabs API Key** | La clé de votre compte (`xi-api-key`) |
+| **Voix par défaut** | La voix utilisée pour la synthèse. Par défaut, *Rachel* |
+| **ID du modèle TTS** | Le modèle de synthèse, par exemple `eleven_multilingual_v2` ou `eleven_turbo_v2` |
+
+## L'activer
+
+1. Choisissez votre bot dans le sélecteur en haut à gauche.
+2. Ouvrez **Intégration → Canaux**, onglet **Voix**, et entrez dans **ElevenLabs Audio AI**.
+3. Collez l'**API Key**, choisissez la **voix** et laissez ou changez le **modèle**.
+4. Cliquez sur **Enregistrer et intégrer ElevenLabs**. Le canal est activé.
+
+L'interrupteur **ON/OFF** du haut le désactive et l'active sans effacer ce qui est enregistré.
+
+## Où ça se voit
+
+Avec ElevenLabs activé, l'éditeur de messages ajoute à chaque réponse l'onglet **ElevenLabs**. C'est le même mécanisme que [n'importe quel canal](/docs/Canales/CanalesDeComunicacion#una-respuesta-distinta-por-canal) : c'est là que vous écrivez ce qui sera dit à voix haute.
+
+L'audio sort en **MP3**.
+
+## Si ça ne fonctionne pas
+
+- Vérifiez que l'interrupteur est sur **ON**.
+- Vérifiez que l'**API Key** est valide et qu'il reste du crédit chez ElevenLabs.
+- Vérifiez que l'**ID du modèle** existe dans votre compte.

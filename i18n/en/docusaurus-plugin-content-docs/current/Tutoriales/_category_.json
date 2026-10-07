@@ -1,0 +1,8 @@
+{
+  "label": "Tutorials",
+  "position": 4,
+  "link": {
+    "type": "generated-index",
+    "description": "Walkthroughs with the Cafetería screens: plant, test, ask for a value, publish on the web, and hand off to a person."
+  }
+}

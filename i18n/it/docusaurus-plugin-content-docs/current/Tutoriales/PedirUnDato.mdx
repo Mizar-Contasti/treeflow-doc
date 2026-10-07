@@ -1,0 +1,52 @@
+---
+sidebar_position: 3
+sidebar_label: Chiedere un dato mancante
+---
+
+# Chiedere un dato mancante
+
+In Cafetería, «quiero empanadas» non porta il gusto. Il bot non inventa l'ordine: chiede quello che manca e aspetta.
+
+## Da dove arriva la domanda
+
+Apri **Intenti** ed entra in `hacer_pedido`. In basso ci sono i parametri: il dato, e l'entità da cui esce.
+
+![Parametri di hacer_pedido](/img/intenciones/parametros.png)
+
+L'ingranaggio apre **Impostazioni del parametro**. Con **Obbligatorio** selezionato, se il valore non era nella frase il bot lo chiede prima di continuare.
+
+![Impostazioni del parametro: obbligatorio, la domanda e il limite di tentativi](/img/intenciones/ajustes.png)
+
+Lì si scrivono la **Domanda** e il testo di **Se non si capisce**, quante volte insistere e che cosa fare esauriti i tentativi: passare al dato successivo, rispondere con quello che c'è, oppure tornare al contesto.
+
+**Usa acquisizione definita** prende quei tre testi da un'acquisizione con nome, per ripetere la stessa domanda in più intenti. Il parametro sceglie soltanto quale.
+
+## L'acquisizione
+
+**Conversazione → Acquisizioni**. **Nuova acquisizione** apre l'editor vuoto.
+
+![Elenco delle acquisizioni](/img/capturas/lista.png)
+
+`Contacto` chiede un'email o un telefono, avvisa se non si capisce, insiste due volte e, se i tentativi finiscono, passa al parametro successivo.
+
+![Contacto: domanda, se non si capisce e due tentativi](/img/capturas/editor.png)
+
+Nel ristorante la domanda della quantità usa quello che è già stato acquisito. Il `$` è la variabile:
+
+```
+¿Cuántas {$categoria_producto}s de {$sabor_producto} te preparo?
+```
+
+![Domanda del numero, con la categoria e il gusto](/img/funciones/pregunta.png)
+
+**Salva**. Un'acquisizione o una domanda si leggono in quel momento: non serve addestrare per il testo. Serve addestrare se hai creato il parametro o hai cambiato l'entità.
+
+## Provarlo
+
+Nella console, flusso **Restaurante**. Scrivi `quiero empanada`. Se il gusto non c'è ancora, la domanda nomina la categoria che invece è arrivata.
+
+![La console sostituisce la categoria: Di che gusto vuoi l'empanada?](/img/funciones/consola.png)
+
+Attiva la modalità debug. Un parametro vuoto è il dato che il turno successivo dovrebbe chiedere. Se il bot non chiede, il parametro non è obbligatorio oppure l'acquisizione non ha una domanda.
+
+Quando i dati ci sono, il nodo invia il messaggio dell'ordine. Il dettaglio è in [Acquisizioni](/docs/Fundamentos/Capturas) e in [Parametri](/docs/Avanzado/Parametros).

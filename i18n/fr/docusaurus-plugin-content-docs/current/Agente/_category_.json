@@ -1,0 +1,8 @@
+{
+  "label": "Agent",
+  "position": 7,
+  "link": {
+    "type": "generated-index",
+    "description": "L'agent constructeur de la console, les fournisseurs de modèles et le serveur MCP pour Claude."
+  }
+}

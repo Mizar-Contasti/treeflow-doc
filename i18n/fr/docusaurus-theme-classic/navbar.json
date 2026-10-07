@@ -1,0 +1,14 @@
+{
+  "title": {
+    "message": "TreeFlow",
+    "description": "The title in the navbar"
+  },
+  "logo.alt": {
+    "message": "TreeFlow",
+    "description": "The alt text of navbar logo"
+  },
+  "item.label.Documentación": {
+    "message": "Documentation",
+    "description": "Navbar item with label Documentación"
+  }
+}

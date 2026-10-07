@@ -1,0 +1,8 @@
+{
+  "label": "Telegram",
+  "position": 4,
+  "link": {
+    "type": "generated-index",
+    "description": "Intégration avec l'API Telegram Bot pour l'une des plateformes les plus utilisées."
+  }
+}

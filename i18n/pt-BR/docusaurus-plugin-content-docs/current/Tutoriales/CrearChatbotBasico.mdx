@@ -1,0 +1,62 @@
+---
+sidebar_position: 1
+sidebar_label: Criar uma árvore
+---
+
+# Criar uma árvore
+
+Este percurso monta um bot de restaurante: cumprimenta, anota um pedido e, se fizer falta, pergunta o dado que faltou. A árvore das capturas se chama **Cafetería** e foi plantada com o ramo Restaurante.
+
+## Entrar
+
+Primeiro o workspace, depois o usuário.
+
+![Login: o workspace](/img/intro/login.png)
+
+## Plantar
+
+O **+** de cima abre **Plantar uma nova árvore**. Ali se escolhe criar uma ou importar um backup.
+
+![Plantar: criar uma nova ou importar](/img/empezando/plantar.png)
+
+Ao criá-la, pedem-se o nome, o ramo e o idioma. O ramo **Restaurante** deixa intenções, entidades, mensagens e o fluxo já desenhados. **Experiente** deixa em modo avançado, que é o destas capturas. **Primeira vez** deixa em [modo iniciante](/docs/Fundamentos/ModoPrincipiante).
+
+O painel fica com a árvore escolhida. O raio do menu treina. Em verde, o treinamento está em dia.
+
+![Painel da Cafetería, com o treinamento em dia](/img/intro/panel.png)
+
+## O que já vem
+
+**Intenções** são os cenários: saudação, cardápio, pedido, reserva.
+
+![Lista de intenções do restaurante](/img/intenciones/lista.png)
+
+`hacer_pedido` guarda as frases e o parâmetro `orden`.
+
+![Editor de hacer_pedido](/img/intenciones/editor.png)
+
+**Entidades** são os dados. `sabor_producto` é carne, frango, queijo e o restante.
+
+![sabor_producto, com chaves e sinônimos](/img/entidades/simple.png)
+
+**Mensagens** são o que o bot repete. A saudação diz para que serve.
+
+![A saudação na aba Default](/img/mensajes/editor.png)
+
+## O percurso
+
+**Fluxos** abre o desenho. **Restaurante** tem o contexto **Início**, uma intenção por cenário e o evento de quando nenhuma encaixa.
+
+![A tela de Restaurante](/img/flujos/lienzo.png)
+
+`saludo` envia a mensagem e volta a Início. `reservar_mesa` pergunta as pessoas se não vieram na frase. `hablar_con_asesor` passa para uma pessoa.
+
+![saludo: intenção, mensagem e volta a Início](/img/flujos/conversacion.png)
+
+## Testar
+
+O console é o botão laranja. O primeiro botão escolhe o fluxo. Para este mapa, **Restaurante**. `hola` responde a boas-vindas.
+
+![hola no fluxo Restaurante](/img/diseno/recorrido.png)
+
+Se você mudar intenções ou entidades, treine de novo. Uma mensagem ou uma captura são lidas ao salvar. O detalhe está em [Testar o bot](/docs/Fundamentos/ProbarElBot).

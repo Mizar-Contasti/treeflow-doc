@@ -1,0 +1,72 @@
+---
+sidebar_position: 11
+sidebar_label: Conversational design
+---
+
+# Conversational design
+
+The design is the [flow](./Flujos). That is where you decide what the person can say, what the bot answers, and where it continues. Intents, entities, messages, and captures are the pieces; the canvas is the order.
+
+The example is the **Restaurant** flow. The one that starts the conversation is another: **flujo_principal**, marked **Main**. In the console, the first button chooses which one is tested. **Default** uses the main one.
+
+## Where it waits
+
+The green node does not say a phrase. It waits. In Restaurant it is called **Start**. The intents for that stretch are there: greeting, the menu, the order, the reservation, the hours.
+
+![Start: the intents the engine can recognize while the conversation is there](/img/flujos/contexto.png)
+
+While the conversation is on Start, the engine only tries those. An intent that exists on the tree and is not linked here does not fire. The lightning bolt beside it is the event for when none of them match.
+
+The main flow links to Restaurant. From its start you can also use this map's intents. If both have the same one, such as `saludo`, the node of the flow you are in wins.
+
+## One step, and back
+
+Each orange intent is a door. `saludo` activates with that [intent](./Intenciones), sends its [message](./Mensajes), and the transition returns it to **Start**.
+
+![saludo: the intent, the welcome message, and the return to Start](/img/flujos/conversacion.png)
+
+That is why, after the greeting, "what time do you open?" is heard again. The conversation did not stay inside the greeting: it returned to the place where the other doors are. Hours, menu, price, and goodbye do the same thing.
+
+The welcome text is not written on the node. The node points at the message. On Default it says what the bot is for: menu, order, reservation, hours, and location.
+
+## What is missing gets asked
+
+A reservation is not a node for each piece of data. `reservar_mesa` has parameters. The one set to **Required** is asked for on its own, with its text, before the confirmation is sent.
+
+![numero, on reservar_mesa: the question, what to say if it is not understood, and how many times to insist](/img/intenciones/ajustes.png)
+
+"I want a table" does not bring the number of people. The bot asks "How many people is the reservation for?". If the answer is not a number, it uses the other text, up to the limit. Then it sends the confirmation and returns to Start.
+
+`hacer_pedido` asks, in order, for whatever is missing: the category, the flavor, the quantity. The question can name what was already said, so the person can see how it was understood. Those texts live on the [parameter](/docs/Avanzado/Parametros). If the same question is going to be reused, it is saved as a [capture](./Capturas).
+
+## If it does not recognize the utterance
+
+The lightning bolt is `sys.no-match`. It is not an intent: it is what happens when, in this context, none of them matched.
+
+![The not-understood event: sys.no-match and its message](/img/flujos/evento.png)
+
+The message is "Sorry, I didn't understand that. Could you repeat it?". The transition is chosen the same way as on an intent. The usual choice is to return to the context, so the next attempt is heard again.
+
+## When they ask for a person
+
+`hablar_con_asesor` does not return to Start. The transition is **Transfer to a human agent**, with the help desk.
+
+![hablar_con_asesor: the message, the transfer to a person, and the help desk](/img/diseno/asesor.png)
+
+It warns first: "I'll connect you with someone on the team". On Functionality, **Ends a capture in progress** is on. If they say it in the middle of an order, the bot stops asking for the data and hands over the conversation. `cancelar_pedido` and `despedida` also close that question, and then return to Start.
+
+## Test the map
+
+In the console, the first button on **Restaurant**. `hola` lands on `saludo` and answers with that flow's welcome, not the main one's.
+
+![Console on Restaurant: hello, the welcome, and the canvas with Start already visited and saludo on this turn](/img/diseno/recorrido.png)
+
+With debug mode, Start is shown as already visited and `saludo` as this turn's node. The console details are in [Test the bot](./ProbarElBot).
+
+## The order to build it
+
+1. The [intents](./Intenciones): one per scenario. Greeting, hours, reservation, order, person.
+2. The [entities](./Entidades) and the parameters: which piece of data comes out of the utterance.
+3. The parameter's question, or a [capture](./Capturas), for what did not come in.
+4. The [message](./Mensajes) for when the data is already there.
+5. The node on the flow: which intent fires it, which message it sends, and where it continues. Almost all of them return to the context. The one that hands off to a person does not.

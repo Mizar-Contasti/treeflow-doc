@@ -1,0 +1,73 @@
+---
+sidebar_position: 1
+---
+
+# Channels
+
+A **channel** is where people talk to your bot: the web, Telegram, WhatsApp… In the menu it is under **Integration → Channels**.
+
+![The chat channel list: the web widget on and the rest off](/img/canales/lista.png)
+
+The screen has two tabs:
+
+- **Chat**: the channels where the person types.
+- **Voice**: what gives the bot a voice or a face.
+
+Each card says whether the channel is **On** or **Off** for the bot you have selected at the top left.
+
+![The Voice tab: ElevenLabs and AI avatars](/img/canales/voz.png)
+
+## The channels
+
+| Channel | Tab | Status | What the person receives |
+|---|---|---|---|
+| [Web widget](/docs/Canales/Web/setup) | Chat | Stable | The rich elements from the Web tab |
+| [Telegram](/docs/Canales/Telegram) | Chat | Stable | Native buttons, keyboards, and media |
+| [Slack](/docs/Canales/Slack/setup) | Chat | Stable | Slack blocks, in channels and direct messages |
+| [Discord](/docs/Canales/Discord/setup) | Chat | Stable | Replies to commands and buttons, with cards |
+| [Email (Resend)](/docs/Canales/Email) | Chat | Stable | A reply email, in text and HTML |
+| [WhatsApp](/docs/Canales/WhatsApp/setup) | Chat | Beta | Text, buttons, lists, and media |
+| [Facebook Messenger](/docs/Canales/Facebook) | Chat | Beta | Text, cards, and quick replies |
+| [Instagram Direct](/docs/Canales/Instagram/setup) | Chat | Beta | Direct messages |
+| [ElevenLabs](/docs/Canales/ElevenLabs/setup) | Voice | Stable | The reply as audio |
+| [AI avatars](/docs/Canales/Avatares/setup) | Voice | Beta | An avatar that speaks the reply |
+
+**Stable** and **Beta** are the labels the app gives each channel.
+
+:::note What you see in the list that is not covered here
+The app also shows **SMS** and **BYOC** (your own telephony), with a notice that they are coming soon. There is nothing behind them yet, so they have no guide.
+:::
+
+## How to turn a channel on
+
+They all follow the same path. What changes is where you get the credentials.
+
+1. **Choose the bot.** The selector at the top left. The channel replies with the bot you have selected when you save.
+2. **Open the channel** from its card.
+3. **Copy the URL** the screen shows (on the channels that have one) and paste it into the channel's platform.
+4. **Paste the credentials** that platform gives you.
+5. Click **Save and Integrate**. They are saved and the channel **is turned on**.
+
+![The WhatsApp screen: the status switch, the URL for Meta, and the credential fields](/img/canales/whatsapp.png)
+
+The **switch** at the top (ON/OFF) turns the channel off or on without changing what is saved. To pause it, you do not have to delete anything.
+
+:::info Secrets are not shown again
+Tokens and keys are saved and are not shown again. The next time you save, a secret you leave empty is kept. Type a new one only when you want to change it.
+:::
+
+## The URL you copy
+
+On WhatsApp, Facebook, Instagram, Slack, Discord, and Email the screen shows a **webhook** URL: the address where the platform sends messages to TreeFlow. Each one checks the platform's signature on every message. Without a valid signature, TreeFlow does not reply.
+
+Telegram is the exception: TreeFlow registers its webhook on its own when you save the token.
+
+## A different reply per channel {#una-respuesta-distinta-por-canal}
+
+When a channel is on, the message editor adds a **tab** to each reply. **General** is the usual one and applies to every channel. If you want the bot to say something else on Telegram, on WhatsApp, or in email, write it on that channel's tab. Channels that are off have no tab.
+
+The possible tabs are General, Web, Telegram, WhatsApp, Facebook, Email, Instagram, Slack, Discord, ElevenLabs, and AI avatars.
+
+## Try it
+
+With the channel on, write to the bot from the platform and watch it in **Conversations**. The web widget also has **Try Now** and **Open test page** at the top right.

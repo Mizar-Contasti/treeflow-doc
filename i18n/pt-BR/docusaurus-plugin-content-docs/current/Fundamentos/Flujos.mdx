@@ -1,0 +1,121 @@
+---
+sidebar_position: 5
+sidebar_label: Fluxos
+---
+
+# Fluxos
+
+Um **fluxo** é um percurso: nós e setas. A árvore pode ter vários. Um está marcado **Principal**: é o que inicia a conversa.
+
+No [modo iniciante](./ModoPrincipiante) esta mesma página é o editor simples, o de três campos. No avançado é a tela completa. A direção é a mesma; muda o modo da árvore.
+
+## A lista
+
+**Fluxos** abre os cartões. Dá para buscar por nome.
+
+![A lista de fluxos: o principal, duplicar e Novo fluxo](/img/flujos/lista.png)
+
+- **Novo fluxo** cria outro percurso, vazio.
+- **Principal** é o de partida. Sempre há um. Não se apaga.
+- O ícone de copiar duplica o fluxo, com outro nome.
+- O ícone de lixeira elimina, se não for o principal.
+- **Templates** aplica um template de setor sobre a árvore: intenções, entidades e o desenho. Reaplicar não sobrescreve as perguntas de um parâmetro que já existia.
+
+Ao entrar num cartão se abre o editor. Em cima há duas abas: **Design**, a tela, e **Configuração**, o nome do fluxo e se é o principal.
+
+## A tela
+
+![A tela: o início, uma intenção, um evento e um salto para outro fluxo](/img/flujos/lienzo.png)
+
+Cada nó se arrasta. Embaixo à esquerda estão o zoom, centralizar e **Tidy Up**, que ajeita os nós.
+
+O **+** laranja cria o nó que cabe conforme de onde você sai:
+
+- A partir de um **contexto**, oferece **Intenção** ou **Evento**.
+- A partir de uma intenção ou de um evento, oferece **Contexto**.
+
+A seta marrom, debaixo do +, se arrasta até outro nó para uni-los. A linha contínua é o caminho da conversa. A pontilhada é um evento.
+
+| Nó | O que é |
+|---|---|
+| **Contexto** (verde) | Onde o bot espera. No fluxo Restaurante se chama **Início**. Ali estão disponíveis as intenções desse trecho. |
+| **Intenção** (laranja) | Um passo que se ativa quando o motor reconhece essa intenção. O texto da intenção se edita em [Intenções](./Intenciones); o nó a coloca no percurso. |
+| **Evento** (raio) | O que não é uma intenção: não entendeu (`sys.no-match`) ou não chegou nada (`sys.no-input`). |
+
+Uma pílula com o nome de outro fluxo, como `flujo_principal`, é um link: a partir deste desenho também se pode saltar para esse. O percurso com as capturas está em [Fluxos](/docs/Avanzado/FlujosConversacionales).
+
+## O que compartilham
+
+Um clique abre a coluna da direita. Em cima vão o **nome do nó** e **Nó ativo**. Desligado, o nó fica desenhado e não participa. Ali também se fecha o editor e se apaga o bloco.
+
+Os três têm **Conversa** e **Funcionalidade**. A aba fica onde você a deixou ao saltar de um nó para outro.
+
+Em Funcionalidade, os três podem levar scripts, ferramentas e **Chamar webhook neste nó**. O webhook do agente se chama ao passar por aqui, antes das ferramentas. Se não houver um ativo, não acontece nada. Essas peças se criam em [Ferramentas](/docs/Herramientas).
+
+## Contexto
+
+O contexto não diz uma frase. Diz o que se pode fazer enquanto a conversa está ali.
+
+![O contexto Start: intenções, eventos e fluxos ligados](/img/flujos/contexto.png)
+
+**Conversa**
+
+- **Intenções.** As que o motor pode reconhecer neste trecho. Escolhe-se um nó de intenção que já exista, ou **Criar novo nó de intenção**. Tirar o link não apaga o nó.
+- **Eventos.** O mesmo com os nós de evento: não entendeu, silêncio, ou outro. **Criar novo nó de evento** adiciona e liga.
+- **Fluxos ligados.** Outro fluxo, e o contexto desse fluxo. Daqui também se podem usar as intenções e eventos de lá. Se os dois têm a mesma intenção, ao estar num corre o nó desse fluxo.
+
+**Funcionalidade**
+
+Scripts, ferramentas e o webhook. O contexto não tem resposta nem «encerra uma captura»: isso fica na intenção.
+
+## Intenção
+
+O nó laranja não treina a intenção. Aponta para ela. O texto, os padrões e os parâmetros se editam em [Intenções](./Intenciones).
+
+![A intenção: qual a dispara, que mensagem manda e a que contexto segue](/img/flujos/conversacion.png)
+
+**Conversa**
+
+- **Intenção que ativa o nó.** Se já está neste fluxo, ou num fluxo ligado, o seletor a marca **Em uso**.
+- **Resposta.** Um template de [mensagem](./Mensajes), **+ Criar template**, ou **Mensagem personalizada**. Manda-se quando a intenção já foi capturada, depois de pedir os dados que faltavam e depois das ferramentas deste nó.
+- **Transição.** Para onde segue, já enviada a resposta:
+  - **Nenhum.**
+  - **Criar novo contexto**, ou um contexto que já está na tela.
+  - **Mudar de fluxo**, para o início de outro.
+  - **Reiniciar fluxo atual.**
+  - **Transferir para humano.** Passa a conversa para a [mesa de ajuda](/docs/Avanzado/MesaDeAyuda). Ali se escolhe a transferência.
+
+**Funcionalidade**
+
+Enquanto não houver uma intenção escolhida, esta aba pede voltar a Conversa.
+
+![Funcionalidade da intenção: scripts, ferramentas, a captura e o webhook](/img/flujos/funcionalidad.png)
+
+- **Scripts** e **ferramentas.** O que este passo chama fora.
+- **Encerra uma captura em andamento.** Se a pessoa diz isto *enquanto* o bot pede dados. Ativado, a captura se dá por encerrada: cancelar ou se despedir. Desativado, que é o de fábrica, só se pausa: o bot responde e retoma a pergunta, com o já escrito. Perguntar o horário no meio do pedido não deveria custar o pedido; dizer «cancela» sim.
+- **Chamar webhook neste nó.**
+
+## Evento
+
+O raio é o que acontece sem que uma intenção tenha encaixado.
+
+![O evento No_entiendo: sys.no-match, sua mensagem e o contexto para o qual volta](/img/flujos/evento.png)
+
+**Conversa**
+
+- **Evento que ativa o nó.** Escolhe-se ou se escreve. Os que o motor dispara sozinho são:
+  - `sys.no-match`, quando neste contexto não reconheceu a frase.
+  - `sys.no-input`, quando não chegou nada.
+  - Um nome próprio, se outro passo o dispara. Se esse nome já está em outro nó de evento do fluxo, fica **Em uso**.
+- **Resposta.** A mensagem desse caso. Manda-se depois das ferramentas do nó. `sys.no-match` costuma levar o «não entendi». Nessa mensagem a frase que não encaixou está em `{$last_no_match}`, e o último que a pessoa escreveu, em `{$last_utterance}`. Não é preciso ativá-las. Ver [Variáveis do sistema](/docs/Avanzado/Funciones#variables-del-sistema).
+- **Transição.** Igual à intenção: um contexto, outro fluxo, reiniciar este, ou uma pessoa. O habitual é voltar ao contexto onde se pode continuar falando.
+
+**Funcionalidade**
+
+Scripts, ferramentas e o webhook. Enquanto não houver um evento escolhido, esta aba não se configura. O evento não tem «encerra uma captura»: isso é da intenção.
+
+## Salvar
+
+**Salvar alterações**, em cima à direita, acende quando há algo sem salvar: um nó movido, uma seta, uma resposta. Fechar o editor não publica sozinho.
+
+Se além disso você mudou o que o motor reconhece — a intenção, os padrões dela, uma entidade —, o raio do menu volta a laranja e é preciso treinar. Mover um nó de lugar não muda o que o bot responde; mudar a intenção sim.

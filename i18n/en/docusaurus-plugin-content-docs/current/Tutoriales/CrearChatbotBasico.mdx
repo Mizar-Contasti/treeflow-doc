@@ -1,0 +1,62 @@
+---
+sidebar_position: 1
+sidebar_label: Create a tree
+---
+
+# Create a tree
+
+This walkthrough builds a restaurant bot: it greets, takes an order, and, if needed, asks for the value that was missing. The tree in the screenshots is called **Cafetería** and was planted with the Restaurant industry.
+
+## Sign in
+
+First the workspace, then the user.
+
+![Sign-in: the workspace](/img/intro/login.png)
+
+## Plant
+
+The **+** at the top opens **Plant a New Tree**. There you choose to create one or import a backup.
+
+![Plant: create a new one or import](/img/empezando/plantar.png)
+
+Creating it asks for the name, the industry, and the language. The **Restaurant** industry leaves intents, entities, messages, and the flow already drawn. **Experienced** leaves it in advanced mode, which is the one in these screenshots. **First time** leaves it in [beginner mode](/docs/Fundamentos/ModoPrincipiante).
+
+The panel stays on the selected tree. The lightning bolt in the menu trains. In green, training is up to date.
+
+![Cafetería panel, with training up to date](/img/intro/panel.png)
+
+## What it already includes
+
+**Intents** are the scenarios: greeting, menu, order, reservation.
+
+![Restaurant intent list](/img/intenciones/lista.png)
+
+`hacer_pedido` stores the phrases and the `orden` parameter.
+
+![hacer_pedido editor](/img/intenciones/editor.png)
+
+**Entities** are the data. `sabor_producto` is meat, chicken, cheese, and the rest.
+
+![sabor_producto, with keys and synonyms](/img/entidades/simple.png)
+
+**Messages** are what the bot repeats. The greeting says what it is for.
+
+![The greeting on the Default tab](/img/mensajes/editor.png)
+
+## The path
+
+**Flows** opens the drawing. **Restaurante** has the **Start** context, one intent per scenario, and the event for when none of them match.
+
+![The Restaurante canvas](/img/flujos/lienzo.png)
+
+`saludo` sends the message and returns to Start. `reservar_mesa` asks for the number of people if they did not come in the phrase. `hablar_con_asesor` hands off to a person.
+
+![saludo: intent, message, and return to Start](/img/flujos/conversacion.png)
+
+## Try it
+
+The console is the orange button. The first button chooses the flow. For this map, **Restaurante**. `hola` replies with the welcome.
+
+![hola in the Restaurante flow](/img/diseno/recorrido.png)
+
+If you change intents or entities, train again. A message or a capture is read on save. The detail is in [Test the bot](/docs/Fundamentos/ProbarElBot).

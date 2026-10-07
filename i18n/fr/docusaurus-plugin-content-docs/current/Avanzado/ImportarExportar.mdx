@@ -1,0 +1,45 @@
+---
+sidebar_position: 10
+sidebar_label: Importer et exporter
+description: Le JSON de l'arbre, la case des conversations et les sauvegardes de Gestion.
+---
+
+# Importer et exporter
+
+Un arbre se déplace comme un fichier JSON : la configuration, les flux, les nœuds, les intentions, les entités, les messages, les scripts et les API. Les clés des canaux ne voyagent pas.
+
+## Exporter
+
+Dans la liste des arbres, l'icône de téléchargement d'une carte ouvre **Exporter l'arbre**.
+
+La case **Inclure les conversations** est éteinte. Ainsi le fichier sert à cloner ou à garder la conception, sans l'historique de ceux qui ont écrit. Allumée, le fichier grossit : dans un bot avec du trafic, ce sont des milliers de tours.
+
+Cet historique peut apporter des noms, des téléphones et des adresses. Traitez-le comme des données de clients.
+
+L'avis de l'écran dit que le fichier emporte la configuration, les flux, les entités et les outils, sans identifiants. Les traductions y vont aussi : les phrases, les valeurs et les réponses de chaque langue. Sans elles, à la restauration, ces colonnes restent vides.
+
+## Importer
+
+**Importer un arbre**, en haut de la liste, crée un nouvel arbre à partir du JSON.
+
+L'icône de restauration d'une carte, **Restaurer et écraser cet arbre**, écrase l'arbre choisi avec le fichier. Ce n'est pas un mélange : le contenu du fichier remplace celui qui était là.
+
+On peut aussi planter en important, depuis le **+** du haut, dans **Planter un nouvel arbre**.
+
+## Sauvegardes
+
+**Gestion → Sauvegardes** garde des copies à l'intérieur de TreeFlow, sans télécharger un fichier.
+
+L'onglet **Basique** liste les copies : type (automatique ou manuelle), étiquette, date, taille et qui l'a générée. De vingt en vingt. Restaurer applique cette copie sur l'arbre actuel. S'il n'y en a aucune, l'écran le dit et propose d'en créer une à la main.
+
+**Configuration de sauvegarde** a l'interrupteur **Activer les sauvegardes automatiques** et la fréquence : chaque heure, chaque jour ou chaque semaine. On y voit la dernière sauvegarde et la prochaine exécution.
+
+Chaque copie automatique emporte les conversations qui ont commencé depuis la précédente, pas tout l'historique de nouveau. Une conversation ouverte entre deux copies est gardée entière dans la première. La première sauvegarde d'un arbre emporte bien ce qu'il y a. La série complète couvre l'historique sans répéter le même tour dans chaque fichier.
+
+## Autres téléchargements
+
+- **Conversations** télécharge un CSV de la liste que vous voyez, avec le filtre appliqué.
+- **Tests** importe et exporte le CSV d'une [suite](/docs/Avanzado/Pruebas).
+- La [base de connaissances](/docs/Herramientas/BaseDeConocimiento) lit un CSV de deux colonnes et crée un flux. Ce n'est pas ce JSON.
+
+Il n'y a pas d'exportation d'un flux isolé, ni d'importeur Dialogflow ou Rasa.

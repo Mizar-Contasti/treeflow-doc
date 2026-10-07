@@ -1,0 +1,90 @@
+---
+sidebar_position: 6
+sidebar_label: MCP
+description: Connect Claude Desktop, Claude Code, or Cursor to the workspace with an MCP key.
+---
+
+# MCP
+
+MCP (Model Context Protocol) is how an outside assistant — Claude Desktop, Claude Code, or Cursor — builds the bot without opening the console. It enters the workspace with a key, the API URL, and the workspace id.
+
+This is separate from the [console agent](./Constructor). That one uses a model provider's key and runs inside TreeFlow. MCP uses a key that **you** give to Claude, and Claude calls TreeFlow.
+
+![Credentials, API keys tab. MCP is the tab next to it](/img/gestion/credenciales.png)
+
+## Create the connection
+
+Only an administrator can create the key.
+
+1. **Management → Credentials**.
+2. **MCP** tab.
+3. **New MCP connection**. Give it a name, for example "Claude Desktop", and assign it to a user in the workspace.
+4. When you create it, the full key is shown **once**. Copy it. After that only the identifier remains.
+5. In the same dialog, the **Claude Desktop (MCP Config)** tab brings the JSON already filled in: this installation's URL, the key, and the workspace id. **Copy JSON**.
+
+The fragment has this shape. The app fills in the three values; you do not need to invent them.
+
+```json
+{
+  "mcpServers": {
+    "treeflow": {
+      "command": "npx",
+      "args": ["-y", "github:Mizar-Contasti/tree-flow-mcp"],
+      "env": {
+        "TREEFLOW_URL": "https://tu-servidor",
+        "TREEFLOW_API_KEY": "tf_live_…",
+        "TREEFLOW_WORKSPACE_ID": "botsmexico"
+      }
+    }
+  }
+}
+```
+
+| Variable | What it is |
+|---|---|
+| `TREEFLOW_URL` | This installation's API, with no trailing slash. Locally it is usually `http://localhost:8000` |
+| `TREEFLOW_API_KEY` | The `tf_live_…` key you just created. The workspace and the role come from it |
+| `TREEFLOW_WORKSPACE_ID` | The same workspace you sign in with. It has to be the owner of the key |
+
+Node.js is required on the machine where Claude runs: the client is downloaded with `npx` from `github:Mizar-Contasti/tree-flow-mcp`.
+
+## Paste it into Claude Desktop
+
+The file is called `claude_desktop_config.json`.
+
+- On Windows: `%APPDATA%\Claude\claude_desktop_config.json`
+- On Mac: `~/Library/Application Support/Claude/claude_desktop_config.json`
+
+If the file already has other servers, put `treeflow` inside `mcpServers`; do not replace the whole file. Save, close Claude Desktop, and open it again. The hammer icon shows that TreeFlow is connected.
+
+Claude Code and Cursor use the same MCP server JSON. In Cursor it is pasted into the project's or the user's MCP configuration.
+
+## What it can do
+
+The tools are named `treeflow_…`. Claude sees them when it connects. Grouped:
+
+| Area | What it does |
+|---|---|
+| Bots | Lists, reads, creates, and changes trees. It cannot delete a bot |
+| Flows and nodes | `treeflow_list_branches`, `treeflow_create_branch`, `treeflow_update_branch`, `treeflow_delete_branch`, and the same for nodes (`treeflow_list_leafs`, `treeflow_create_leaf`, `treeflow_update_leaf`, `treeflow_delete_leaf`) |
+| Intents and entities | Create, change, and delete, with phrases, parameters, and synonyms |
+| Messages | Templates, including rich blocks |
+| APIs and scripts | Create, change, delete, and **test** an API or a script. Passwords come out masked |
+| Captures | The reusable question for a parameter. Training is not required for it to take effect |
+| Transfers | The configuration for handing off to a person, and a test of the endpoint |
+| Tests | Suites, the CSV, run a run, and compare two |
+| Help desk | Read only: the queue, the history, and a session |
+| Channels | See the status and turn them on or off |
+| Voice | STT and TTS |
+| Training | Launch it, see whether it finished, and the history |
+| Conversations | Simulate a message and read sessions |
+| Backups | List, create, restore (requires `confirm: true` and saves another backup first), export and import a new bot |
+| Users | List, invite, and change the role. It does not delete users |
+
+Deleting a bot or a user is not among the tools: that is done in the panel.
+
+## Revoke it
+
+In the same table, the delete icon **revokes** the key. Claude stops getting in at that moment. The key cannot be seen again: create another connection and paste the new JSON.
+
+Do not confuse this key with the [model provider](./ModelosGenerativos) key. That one is what the console agent uses to think. This one is what Claude uses to enter TreeFlow.

@@ -1,0 +1,49 @@
+---
+sidebar_position: 1
+---
+
+# WhatsApp
+
+Connect your bot to WhatsApp through the **Meta Cloud API**. It is a **Beta** channel.
+
+![The WhatsApp screen in Channels: status, the URL for Meta, and credentials](/img/canales/whatsapp.png)
+
+## What you need from Meta
+
+An app in [Meta for Developers](https://developers.facebook.com/) with the **WhatsApp** product and a phone number. These values come from there:
+
+| Field in TreeFlow | Where it comes from |
+|---|---|
+| **Phone Number ID** | The number's identifier, in WhatsApp for your app in Meta |
+| **WABA ID** | The ID of your WhatsApp Business account. It is optional |
+| **Verify Token** | You choose it: any text |
+| **Meta Access Token** | A **permanent** token, generated in Meta Business Manager |
+| **App Secret** | Your app → Settings → Basic → App secret |
+
+The **App Secret** is what lets TreeFlow check that each message really comes from Meta. Without it, TreeFlow does not reply.
+
+## Turn it on
+
+1. Choose your bot in the selector at the top left.
+2. Open **Integration → Channels → WhatsApp**.
+3. **Step 1.** Copy the **Callback URL** and paste it in Meta Developers → WhatsApp → Configuration → Webhook. In Meta's **Verify token** field, enter the same value you will put in TreeFlow.
+4. In Meta, subscribe the webhook to the **messages** field.
+5. **Step 2.** Fill in Phone Number ID, Verify Token, Meta Access Token, and App Secret (WABA ID is optional).
+6. Click **Save and Integrate WhatsApp**. The channel is turned on.
+
+The **ON/OFF** switch at the top turns it off and on without deleting what is saved.
+
+## What the bot sends
+
+Text, and the blocks WhatsApp can draw: **buttons**, **lists**, and files (image, video, document).
+
+:::info Inside the 24-hour window
+WhatsApp lets the bot reply freely for 24 hours after the person's last message. After that, an approved Meta template is required, and TreeFlow does not send templates.
+:::
+
+## If it does not reply
+
+- The switch is **ON**.
+- Meta's **Verify Token** is identical to the one in TreeFlow.
+- The **App Secret** belongs to the same app that sends the messages.
+- The webhook is subscribed to **messages**.

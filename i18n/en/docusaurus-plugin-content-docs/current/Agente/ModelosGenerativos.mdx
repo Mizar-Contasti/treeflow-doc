@@ -1,0 +1,63 @@
+---
+sidebar_position: 3
+sidebar_label: Providers and models
+---
+
+# Providers and models
+
+The agent does not ship its own model: it talks to **your provider's**, with your key. This page says which ones there are, what is configured for each, and how to switch without losing anything.
+
+![The provider dropdown in the agent settings](/img/agente/proveedores.png)
+
+## The providers
+
+| Provider | Model it suggests | Base URL it suggests |
+|---|---|---|
+| Anthropic (Claude) | `claude-3-7-sonnet-20250219` | `https://api.anthropic.com/v1` |
+| Gemini (Google) | `gemini-2.0-flash` | Google's (OpenAI-compatible) |
+| Groq | `llama-3.3-70b-versatile` | `https://api.groq.com/openai/v1` |
+| OpenRouter | `google/gemma-3-12b-it:free` | `https://openrouter.ai/api/v1` |
+| Cerebras | `llama3.1-70b` | `https://api.cerebras.ai/v1` |
+| xAI Grok | `grok-2-latest` | `https://api.x.ai/v1` |
+| Mistral AI | `mistral-small-latest` | `https://api.mistral.ai/v1` |
+| OpenAI | `gpt-4o-mini` | `https://api.openai.com/v1` |
+| Ollama (Local) | `llama3` | `http://localhost:11434/v1` |
+| Custom / Local LLM | `local-model` | `http://localhost:1234/v1` |
+
+These are the values the screen fills in when you choose the provider. **Groq** and **OpenRouter** carry the *Free* label in the list, and **Cerebras** the *Ultra-fast* one: they are hints from the app, not promises about terms. Check each provider's plan before you depend on it.
+
+## What is configured
+
+| Field | What it is |
+|---|---|
+| **Provider** | One of the ten above |
+| **Credential name** | So you can recognize it. By default, the model name |
+| **API Key** | The key. Required for all except Ollama and Custom |
+| **Base URL** | The server's. It fills in on its own; you change it for your own server or a *proxy* |
+| **Default model** | One from the list, or the name of any other |
+
+The model has to support **tool calls** (*function calling*): the agent works by asking it for tools, and a model that does not support them cannot build anything. If the provider replies that the model does not exist (404), check the name.
+
+## Your own server
+
+**Ollama** and **Custom / Local LLM** are for a model that runs on your machine or on your network. They need the base URL and do not ask for a key. Any server that understands the OpenAI chat format works (`/chat/completions`).
+
+:::note TreeFlow in Docker
+The URL `http://localhost:11434` points at the machine where the **backend** runs. If the backend is in a container, `localhost` is the container and not your computer: use the address of the machine that hosts it.
+:::
+
+## Several credentials
+
+You can save **several** credentials in the workspace — for example one from Groq for tests and another from OpenAI for serious work — and switch between them above the agent's chat. You can also switch **model** without leaving.
+
+- A credential is **edited** or **added** from the same controls.
+- A task can be **repeated with another model** to compare the result.
+- The credential belongs to the **workspace**: every bot and every person shares it.
+
+When the chat does not indicate one, the agent uses the **first** AI credential in the workspace.
+
+## The same key somewhere else
+
+The Knowledge Base's **generative ingestion**, which extracts intents and entities from a PDF or a CSV, also uses an AI credential from the workspace. See [AI in TreeFlow](/docs/Agente/Introduccion).
+
+It is not the same as the **API keys** in [Credentials](/docs/Avanzado/Credenciales): those let an external program talk to TreeFlow, not the agent.

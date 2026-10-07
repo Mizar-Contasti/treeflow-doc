@@ -1,0 +1,86 @@
+---
+sidebar_position: 2
+sidebar_label: Primi passi
+---
+
+import AppUrl from '@site/src/components/AppUrl';
+
+# Primi passi
+
+Entri, pianti un albero e lo provi. Il nome di ogni pezzo è nella [terminologia](/docs/Fundamentos/Terminologia).
+
+## Entra
+
+![Accesso: prima lo spazio di lavoro, poi l'utente](/img/intro/login.png)
+
+1. Apri <AppUrl>TreeFlow</AppUrl>.
+2. Scrivi lo **spazio di lavoro** e premi **Continua**.
+3. Scrivi l'utente e la password, e premi **Accedi**.
+
+Se non hai ancora un account, **Registra il tuo workspace**. Chiede il nome dello spazio, l'email, l'utente amministratore e la password. Arriva un codice di sei cifre; verificandolo l'account è creato e puoi scaricare le credenziali.
+
+**Hai dimenticato il workspace?** e **Hai dimenticato la password?** usano la stessa email.
+
+Nell'intestazione, una volta dentro, si vede il nome del workspace. Lì vivono gli utenti, le chiavi e gli alberi. Un altro cliente è un altro workspace: si entra di nuovo con il suo nome.
+
+## Pianta il primo albero
+
+Un workspace vuoto dice **Non ci sono alberi nella tua foresta**. Il pulsante è **Pianta il primo albero**.
+
+Se ci sono già alberi, nel menu c'è **Crea un nuovo bot**. Nell'elenco, **Nuovo albero** apre la stessa schermata, **Pianta un nuovo albero**. Si può anche **Importare un albero** da un backup.
+
+![Pianta un nuovo albero: crearne uno o importare un backup](/img/empezando/plantar.png)
+
+Il dialogo ha due parti.
+
+**Come vuoi iniziare.**
+
+- **Prima volta** accende i tutorial e lascia l'albero in [modalità principiante](./ModoPrincipiante): il menu mostra la tela e nasconde intenti, entità, messaggi e acquisizioni. Al termine puoi vedere la guida o saltarla.
+- **Esperto** carica dati di prova e lascia il menu completo. Nel selettore dell'albero quella modalità si chiama **Avanzato**.
+
+**I dati dell'albero.**
+
+- **Nome**, obbligatorio.
+- **Descrizione**, se vuoi.
+- **Settore dell'agente**, obbligatorio. Ristorante, hotel, clinica e gli altri portano un modello di intenti, entità e flusso. **Senza settore** lascia il bot di base.
+- **Lingua di base**, quella dell'addestramento e dell'interfaccia.
+
+**Pianta albero** lo crea e apre il pannello.
+
+![Il pannello, con l'albero già scelto](/img/intro/panel.png)
+
+In alto si sceglie l'albero e l'intervallo. **Ultimo giorno** è quello che resta all'apertura.
+
+| Scheda | Che cosa conta |
+|---|---|
+| Conversazioni | Quante ce ne sono state nell'intervallo |
+| Tasso di fallimento | Quale parte non è stata risolta |
+| Sentiment dell'utente | Se l'analisi del sentiment è accesa |
+| Passaggio a un umano | Quante sono passate a una persona |
+| Flussi, intenti, entità | Quanti ce ne sono nell'albero |
+| Canali | Quanti sono collegati |
+| Addestramento | Se è aggiornato. In verde, sì |
+
+## Provalo
+
+1. Il percorso si disegna in [Flussi](./Flujos). Ogni passo della tela è un nodo.
+
+![Un flusso sulla tela](/img/intro/flujo.png)
+
+2. Se preferisci descrivere il progetto e far sì che l'app lo costruisca, c'è la scheda **Agente** della [console](/docs/Fundamentos/ProbarElBot).
+3. In fondo al menu, il fulmine dice lo stato dell'addestramento. **Addestramento in sospeso** è arancione: un clic lo addestra. In verde dice **IA addestrata**. Finché non addestri, il bot risponde con l'addestramento precedente.
+4. La console, il pannello a destra, è la chat di prova. Scrivi come farebbe la persona.
+
+![La console aperta a destra del pannello](/img/empezando/consola.png)
+
+Ogni modifica a intenti o entità chiede un altro addestramento. Il fulmine torna arancione quando c'è qualcosa in sospeso.
+
+## Continua da qui
+
+1. [Modalità principiante](./ModoPrincipiante), se l'albero nasconde parte del menu
+2. [Alberi](./Arboles), per crearne un altro o cambiare bot
+3. [Flussi](./Flujos), la tela
+4. [Intenti](./Intenciones) ed [entità](./Entidades), ciò che il motore riconosce
+5. [Messaggi](./Mensajes) e [acquisizioni](./Capturas), ciò che il bot dice e come chiede un dato
+6. [Provare il bot](./ProbarElBot), casi di più turni
+7. [Canali](/docs/Canales/CanalesDeComunicacion), quando qualcuno da fuori deve parlargli

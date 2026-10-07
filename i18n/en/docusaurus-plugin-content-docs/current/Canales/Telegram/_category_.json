@@ -1,0 +1,8 @@
+{
+  "label": "Telegram",
+  "position": 4,
+  "link": {
+    "type": "generated-index",
+    "description": "Telegram Bot API integration for one of the most widely used platforms."
+  }
+}

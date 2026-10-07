@@ -1,0 +1,72 @@
+---
+sidebar_position: 11
+sidebar_label: Conception conversationnelle
+---
+
+# Conception conversationnelle
+
+La conception, c'est le [flux](./Flujos). C'est là que l'on décide ce que la personne peut dire, ce que le bot répond et où la conversation continue. Intentions, entités, messages et captures sont les pièces ; le canevas est l'ordre.
+
+L'exemple est le flux **Restaurante**. Celui qui démarre la conversation en est un autre : **flujo_principal**, marqué **Principal**. Dans la console, le premier bouton choisit avec lequel on teste. **Par défaut** utilise le principal.
+
+## Où il attend
+
+Le nœud vert ne dit pas une phrase. Il attend. Dans Restaurante, il s'appelle **Inicio**. C'est là que se trouvent les intentions de ce tronçon : le salut, le menu, la commande, la réservation, les horaires.
+
+![Inicio : les intentions que le moteur peut reconnaître tant que la conversation est là](/img/flujos/contexto.png)
+
+Tant que la conversation est dans Inicio, le moteur n'essaie que celles-là. Une intention qui existe dans l'arbre et qui n'est pas liée ici ne se déclenche pas. L'éclair à côté est l'événement de lorsqu'aucune ne correspond.
+
+Le flux principal est lié à Restaurante. Depuis son début, on peut aussi utiliser les intentions de cette carte. Si les deux ont la même, comme `saludo`, c'est le nœud du flux dans lequel vous êtes qui gagne.
+
+## Un pas, et le retour
+
+Chaque intention orange est une porte. `saludo` s'active avec cette [intention](./Intenciones), envoie son [message](./Mensajes) et la transition le ramène à **Inicio**.
+
+![saludo : l'intention, le message de bienvenue et le retour à Inicio](/img/flujos/conversacion.png)
+
+C'est pour cela qu'après le salut, « À quelle heure vous ouvrez ? » s'entend de nouveau. La conversation ne s'est pas arrêtée dans le salut : elle est revenue à l'endroit où se trouvent les autres portes. Horaires, menu, prix et au revoir font la même chose.
+
+Le texte de bienvenue ne s'écrit pas dans le nœud. Le nœud pointe vers le message. Dans Default, il dit à quoi sert le bot : menu, commande, réservation, horaires et adresse.
+
+## Ce qui manque se demande
+
+Une réservation n'est pas un nœud par donnée. `reservar_mesa` a des paramètres. Celui qui est en **Requis** se demande tout seul, avec son texte, avant d'envoyer la confirmation.
+
+![numero, dans reservar_mesa : la question, quoi dire si on ne comprend pas, et combien de fois insister](/img/intenciones/ajustes.png)
+
+« Je voudrais une table » n'apporte pas le nombre de personnes. Le bot demande « Pour combien de personnes est la réservation ? ». Si la réponse n'est pas un nombre, il utilise l'autre texte, jusqu'à la limite. Ensuite il envoie la confirmation et revient à Inicio.
+
+`hacer_pedido` demande dans l'ordre ce qui manque : la catégorie, la saveur, la quantité. La question peut nommer ce qui a déjà été dit, pour que la personne voie comment c'est compris. Ces textes vivent dans le [paramètre](/docs/Avanzado/Parametros). Si la même question doit être réutilisée, on l'enregistre comme [capture](./Capturas).
+
+## S'il ne reconnaît pas la phrase
+
+L'éclair est `sys.no-match`. Ce n'est pas une intention : c'est ce qui se passe lorsque, dans ce contexte, aucune n'a correspondu.
+
+![L'événement de ne pas comprendre : sys.no-match et son message](/img/flujos/evento.png)
+
+Le message est « Désolé, je n'ai pas compris. Pourriez-vous répéter ? ». La transition se choisit comme pour une intention. L'habitude est de revenir au contexte, pour que la tentative suivante s'entende de nouveau.
+
+## Lorsqu'on demande une personne
+
+`hablar_con_asesor` ne revient pas à Inicio. La transition est **Transfert vers un agent humain**, avec le service d'assistance.
+
+![hablar_con_asesor : le message, le transfert vers une personne et le service d'assistance](/img/diseno/asesor.png)
+
+Avant, il prévient : « Je vous mets en relation avec une personne de l'équipe ». Dans Fonctionnalité, **Termine une capture en cours** est actif. Si on le dit au milieu d'une commande, le bot cesse de demander les données et passe la conversation. `cancelar_pedido` et `despedida` ferment aussi cette question, puis reviennent à Inicio.
+
+## Tester la carte
+
+Dans la console, le premier bouton sur **Restaurante**. `hola` tombe dans `saludo` et répond par la bienvenue de ce flux, pas celle du principal.
+
+![Console dans Restaurante : hola, la bienvenue, et le canevas avec Inicio déjà parcouru et saludo sur ce tour](/img/diseno/recorrido.png)
+
+Avec le mode debug, Inicio reste comme déjà parcouru et `saludo` comme le nœud de ce tour. Le détail de la console est dans [Tester le bot](./ProbarElBot).
+
+## Dans quel ordre on l'assemble
+
+1. Les [intentions](./Intenciones) : une par scénario. Salut, horaires, réservation, commande, personne.
+2. Les [entités](./Entidades) et les paramètres : quelle donnée sort de la phrase.
+3. La question du paramètre, ou une [capture](./Capturas), pour ce qui n'est pas venu.
+4. Le [message](./Mensajes) de lorsque les données sont là.
+5. Le nœud dans le flux : quelle intention le déclenche, quel message il envoie et où il continue. Presque tous reviennent au contexte. Celui qui passe à une personne, non.

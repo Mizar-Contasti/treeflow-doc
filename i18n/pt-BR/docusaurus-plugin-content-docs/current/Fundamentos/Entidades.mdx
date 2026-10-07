@@ -1,0 +1,141 @@
+---
+sidebar_position: 7
+sidebar_label: Entidades
+---
+
+# Entidades
+
+No menu se chamam **Entidades**. São os dados que o motor tira de uma frase: um produto, uma data, um número. A [intenção](./Intenciones) decide o que a pessoa quis dizer. A entidade decide que pedaço da frase se guarda.
+
+## A lista
+
+**Entidades** abre os cartões. Em cima se busca por nome. Há quatro abas.
+
+![Lista de entidades simples, com busca e Nova entidade](/img/entidades/lista.png)
+
+| Aba | O que guarda |
+|---|---|
+| **Simples** | Um valor e as formas de dizê-lo |
+| **Composta** | Várias entidades juntas numa só frase |
+| **Regex** | Um formato fixo, com uma expressão regular |
+| **Sistema** | As que o Treeflow já traz (`sys.number`, `sys.date`…) |
+
+- **Nova entidade** abre o formulário. Se você está em Composta ou Regex, o tipo já vem escolhido.
+- Um clique no nome abre o editor.
+- A faixa laranja pede confirmação para apagá-la. Se uma intenção a estiver usando, a exclusão avisa.
+- **Sistema** não se apaga nem se edita.
+
+## O formulário
+
+Em cima, **Nome da entidade** e **Tipo**. **Salvar alterações** grava a entidade. **Limpar tudo** esvazia os valores e pede confirmação.
+
+O nome é um identificador. Os espaços viram `_`. Ao salvar fica em minúsculas e sem acentos. O `ñ` é mantido.
+
+Se a árvore tiver mais de um idioma, junto ao nome estão os idiomas: cada um edita os sinônimos.
+
+Embaixo está o **Testador de entidade**. Serve para ver se uma frase cai num valor, sem treinar a árvore.
+
+## Simples
+
+Uma simples é uma lista de valores. Cada valor tem uma **chave** — o que se guarda — e **sinônimos** — outras formas de dizê-lo.
+
+![sabor_producto: carne, frango, queijo e o resto, cada chave com os sinônimos](/img/entidades/simple.png)
+
+- A chave se escreve embaixo e se confirma com **Enter**. Várias chaves separadas por vírgula entram de uma vez: `pizza, hamburguesa`.
+- Em **Adicionar sinônimo** acontece o mesmo: Enter, ou vários separados por vírgula.
+- A chave também conta como forma de dizê-lo. `pizza` entra mesmo que não esteja repetida nos sinônimos.
+- Um clique na chave ou num sinônimo o edita. O X do sinônimo o tira. A lixeira tira o valor inteiro.
+
+`quiero de queso` cai na chave `queso`, porque `queso` é uma das formas de dizê-lo.
+
+Se numa simples você escreve `@` para citar outra entidade, o formulário pergunta se você a converte para **Composta**.
+
+## Compostas {#2-entidades-compuestas}
+
+Uma composta lê **várias entidades ao mesmo tempo**. `2 pizzas` é um número e um produto, e é uma só linha.
+
+Cada linha é uma forma válida de dizê-lo. Escreve-se o padrão e se confirma com Enter.
+
+![orden: verbo, ação, quantidade, categoria, sabor e serviço na mesma linha](/img/entidades/compuesta.png)
+
+```
+@sys.number @producto
+@sys.number @producto de @sabor
+@producto
+```
+
+- `@producto` cita a entidade `producto`.
+- As palavras no meio, como `de`, têm que estar na frase.
+- O motor fica com a linha que preencher mais espaços.
+
+O nome que vai depois dos dois pontos, como `@producto:producto_pedido`, é o do [parâmetro](/docs/Avanzado/Parametros).
+
+Na linha, cada `@` se pinta. A lixeira tira essa linha.
+
+## Regex {#3-entidades-regex}
+
+Uma regex reconhece um formato, não uma lista de palavras. Serve para uma CURP, uma ficha, um código.
+
+![contato: um telefone e um e-mail, os dois marcados como padrão válido](/img/entidades/regex.png)
+
+O campo **Padrão regex** avisa se a expressão é válida. **Adicionar variante** soma outro padrão: basta que um coincida. Enter no campo abre a variante seguinte.
+
+Em `contacto` há duas variantes: um telefone e um e-mail. Basta que a frase coincida com uma.
+
+No testador de uma regex, o que você escreve passa a maiúsculas e se tiram os espaços, para testar o formato limpo.
+
+## Testador
+
+O testador está no mesmo formulário. Você escreve uma frase e ele diz se caiu num valor.
+
+![quiero de queso: o testador marca coincidência encontrada](/img/entidades/probador.png)
+
+- **Valor capturado** é a chave que se guarda.
+- **Tipo** diz se foi exata, normalizada (sem acentos, parecida) ou pelo padrão.
+- Se ainda não houver valores, o campo pede que você os adicione primeiro.
+- As de **Sistema** não se testam aqui: o motor as detecta.
+
+O testador não substitui o treinamento. Para ver a frase dentro de uma conversa, salva-se, treina-se e testa-se no [console](/docs/Fundamentos/ProbarElBot).
+
+## Sistema
+
+A aba **Sistema** são as que o motor já traz. Não se criam, não se editam e não se apagam. Num padrão de [intenção](./Intenciones) se citam com arroba.
+
+Uma reserva cabe numa frase:
+
+```
+quiero mesa para @sys.number el @sys.date a las @sys.time
+```
+
+`quiero mesa para 4 el martes a las 10:30` preenche três dados: o número `4`, a data da terça e a hora `10:30`.
+
+![Os cartões de Sistema: cada um diz o que reconhece](/img/entidades/sistema.png)
+
+O ícone do cartão abre os exemplos e o formato em que sai o valor. O testador desta página não as testa: o motor as detecta ao treinar.
+
+| Cita-se | Uma frase | Também reconhece |
+|---|---|---|
+| `@sys.number` | quero **3** pizzas | `45`, `3.14`, `tres`, `mil doscientos`. Sai o número: `3` |
+| `@sys.date` | a consulta é **amanhã** | `10 de mayo`, `martes`, `ayer`, `2024-05-10`. Sai `AAAA-MM-DD` |
+| `@sys.time` | às **10:30** | `10`, `3pm`, `15:45`, `a las 3`. Sai `HH:MM` |
+| `@sys.month` | em **janeiro** | `febrero`, `marzo`, … `diciembre`. Sai o mês `01` a `12` |
+| `@sys.email` | escreva para **ana@correo.com** | `contacto@empresa.mx` |
+| `@sys.phone` | meu número é **4421234567** | `+52 123 456 7890`, `442-123-4567` |
+| `@sys.currency` | são **100 pesos** | `$25.50`, `€50`, `25 dólares` |
+| `@sys.percentage` | um **25%** de desconto | `50 por ciento`, `10.5%` |
+| `@sys.quantity` | **2 quilos** de tortilla | `5 piezas`, `3.5 litros`, `10 metros` |
+| `@sys.temperature` | está a **25 graus** | `25°C`, `77°F`, `-10 celsius` |
+| `@sys.url` | a página é **https://ejemplo.com** | `http://www.sitio.mx`, `www.ejemplo.com` |
+| `@sys.zipcode` | o código é **76000** | `01000`, `44100`. São cinco dígitos, formato do México |
+| `@sys.coordinates` | em **19.4326, -99.1332** | latitude e longitude em decimal |
+| `@sys.ip_address` | o IP **192.168.1.1** | `8.8.8.8`, `2001:0db8::1` |
+| `@sys.sip_address` | ligue para **sip:usuario@dominio.com** | `sip:1234@192.168.1.1:5060` |
+| `@sys.any` | o comentário **que seja** | qualquer texto, até 100 caracteres |
+
+`sys.phone` e `sys.zipcode` estão afinados para o México. `sys.month` o motor reconhece mesmo que a aba não tenha o cartão. A aba mostra `sys.geo-city`, com exemplos como Querétaro, Monterrey e Cidade do México.
+
+## Treinar
+
+**Salvar alterações** deixa a árvore desatualizada. Os valores novos entram na conversa quando se treina, com o botão **Treinar** de baixo no menu.
+
+Uma entidade entra na frase quando um [padrão](./Intenciones) a cita.

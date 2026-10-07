@@ -1,0 +1,103 @@
+---
+sidebar_position: 4
+sidebar_label: Árvores
+---
+
+# Árvores
+
+Uma **árvore** é um bot. No seletor de cima se vê o nome e, debaixo, **Iniciante** ou **Avançado**. No painel, o título é **Estatísticas da árvore**.
+
+Cada árvore guarda o seu:
+
+- os [fluxos](./Flujos), a tela com os nós
+- as [intenções](./Intenciones) e as [entidades](./Entidades), o que reconhece e o que tira da frase
+- as [mensagens](./Mensajes) e as [capturas](./Capturas)
+- o treinamento, o idioma e a forma como decide uma intenção
+
+Outro cliente, ou outra equipe, é outro [workspace](/docs/Fundamentos/Empezando). Dentro do mesmo workspace pode haver várias árvores, até o limite dessa conta.
+
+## Plantar uma
+
+**Criar um bot novo**, no menu, abre **Plantar uma nova árvore**. Na lista de árvores o botão diz **Nova árvore**.
+
+![Plantar uma árvore: criar uma nova ou importar um backup](/img/empezando/plantar.png)
+
+1. **Primeira vez** deixa no [modo iniciante](./ModoPrincipiante), com o guia. **Experiente** deixa em avançado e carrega dados de teste.
+2. **Nome**, obrigatório. **Descrição**, se quiser.
+3. **Segmento do agente**, obrigatório. Restaurante, hotel, clínica e os demais trazem um template de intenções, entidades e fluxo. **Sem segmento** deixa o bot básico.
+4. **Idioma base**, o do treinamento e o da interface.
+5. **Plantar árvore**.
+
+Também se pode **Importar árvore** a partir de um backup `.json`. Depois de importar é preciso revisar as credenciais das ferramentas e treinar.
+
+O detalhe da partida está em [Primeiros passos](./Empezando).
+
+## Trocar, exportar e apagar
+
+O nome do bot, em cima à esquerda, abre o seletor: configurá-lo, trocar de bot ou criar outro. **Ver todos os bots** abre **Trocar de árvore**.
+
+- **Selecionar** entra nesse bot e abre o painel. O que já está aberto diz **Atual**.
+- O ícone de download exporta um backup. Você pode incluir as conversas; o arquivo fica mais pesado.
+- O ícone vermelho elimina a árvore. É preciso escrever o nome exato. Apaga-se o bot e o que tem dentro: fluxos, intenções, entidades, mensagens e o treinamento. Não dá para desfazer.
+
+## Configurar
+
+A engrenagem junto ao nome é **Configuração do bot**. A página se chama **Configurar**. As alterações se salvam com **Salvar alterações**, em cima à direita.
+
+Quem administra o workspace vê **Entendimento** e **Idiomas**. **Voz** aparece quando o serviço de voz está disponível. Uma conta que não é administradora fica em **Geral**.
+
+### Geral
+
+![Geral: nome, descrição, tutoriais e quantos cartões cabem por página](/img/arboles/general.png)
+
+- **Nome** e **descrição**.
+- **Habilitar tutoriais.** Numa árvore avançada podem ser desligados. Numa iniciante ficam ligados.
+- **Paginação web** e **paginação móvel.** Quantos cartões se veem por página em intenções, entidades, mensagens e fluxos. Cada uma se configura à parte.
+
+### Entendimento
+
+Aqui se decide como reconhece uma frase. O detalhe do treinamento e da ordem está em [Entendimento](/docs/Avanzado/Entendimiento).
+
+![Entendimento: nível, sentimento, limiares e ordem de detecção](/img/arboles/entendimiento.png)
+
+**Editar nível de inteligência.** Uma árvore nova começa em **Básico (regras rápidas)**: coincidência exata e aproximada de texto e padrões, e o treinamento é curto. **Pro (Machine Learning)** demora mais para treinar e reconhece uma intenção mesmo que a pessoa não use as mesmas palavras. Enquanto treina não se pode mudar o nível.
+
+**Análise de sentimentos.** Marca cada mensagem como positiva, neutra ou negativa, para ver frustração e poder passar a conversa a uma pessoa.
+
+**Editar limiar de confiança.** Os dois saem em 70%.
+
+- O **limiar ML** é o mínimo que o modelo precisa confiar para aceitar uma intenção. Mais alto, mais estrito.
+- O **limiar de coincidência aproximada** é o mesmo para a semelhança de texto, quando a frase não é exata.
+
+**Editar natureza da prioridade.** É a ordem em que a árvore testa as formas de reconhecer uma frase. Arrastam-se. O de cima se tenta primeiro e, se houver empate, ganha.
+
+![Natureza da prioridade em Básico: quatro métodos, o de cima tem mais peso](/img/arboles/prioridad.png)
+
+Em **Básico** são quatro. Em **Pro** aparece um quinto, o modelo, no fim da ordem de fábrica. O mesmo bot, para ver qual entra com cada frase: `saludo` tem o padrão `buenas tardes`; `pedir` tem `quiero una de @sabor`; a entidade `sabor` tem o valor `queso`.
+
+1. **Coincidência exata de entidades.** A frase traz um valor escrito na entidade. «Queso» e «una de queso» entram por aqui: `queso` está em `sabor`.
+2. **Coincidência aproximada de entidades.** Parece esse valor, sem estar escrito assim, e passa o limiar aproximado. «Keso» entra por aqui. «Tardes» pode parecer «tarde» e propor outra intenção, mas essa confiança não chega a um acerto perfeito.
+3. **Coincidência exata de padrões.** A frase é o padrão. «Buenas tardes» é o padrão de `saludo`, confiança perfeita, e ganha da semelhança de «tardes» com «tarde». «Quiero una de queso» também é o padrão de `pedir`.
+4. **Coincidência aproximada de padrões.** Parece um padrão de texto, sem `@`, e não é idêntico. «Buena tardes» entra por aqui, contra `buenas tardes`. Um padrão com `@sabor` não se compara desta forma.
+5. **Modelo de machine learning.** Só em Pro, e só se os de cima não acertaram de todo. «Ándale, lo de siempre» não traz `queso` nem encaixa num padrão: se o modelo a reconhece como `pedir` e passa o limiar, entra por aqui.
+
+Um acerto perfeito corta a lista: os de baixo já não se calculam. «Quiero una de queso» é ao mesmo tempo entidade exata e padrão exato; com a ordem de fábrica a entidade vai primeiro, acerta de todo e o padrão nem se testa. Se você subir os padrões acima das entidades, essa mesma frase é decidida pelo padrão. Se nenhum acertar de todo, ganha a confiança mais alta e, em empate, o que está mais acima.
+
+Uma mudança de nível, de limiar ou desta ordem pede outro treinamento. O raio do menu volta a laranja.
+
+### Idiomas
+
+![Idiomas suportados: o base não se tira, e podem-se somar outros](/img/arboles/idiomas.png)
+
+O **idioma base** é o que se escolheu ao plantar. Aqui não se desmarca. Podem-se somar inglês, francês, italiano, alemão e português. **Idiomas ativos** lista os que a árvore vai entender. Ao salvar, o treinamento prepara esses idiomas.
+
+### Voz
+
+Se o serviço de voz estiver ligado, esta aba tem duas partes:
+
+- **Reconhecimento de voz.** A pessoa pode mandar áudio.
+- **Respostas por voz.** O bot responde falado, com a voz e a velocidade que você escolher. **Testar voz** as escuta antes de salvar.
+
+## Depois de mexer
+
+Salve, treine se o raio pedir, e teste no [console](/docs/Fundamentos/ProbarElBot). O nome novo se vê na hora no seletor. O que mudou no entendimento não entra na conversa até o treinamento.

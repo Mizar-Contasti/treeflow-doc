@@ -1,0 +1,81 @@
+---
+sidebar_position: 10
+sidebar_label: Provare il bot
+---
+
+# Provare il bot
+
+Il pulsante arancione in basso a destra apre la **console**. È una chat con l'albero, senza pubblicarlo. Ha tre schede: **Console**, la chat di prova; **Agente**, quello che modifica l'albero con una chiave del workspace; e **Costruttore**, per comporre turni dell'utente e del bot. Questa pagina è la scheda Console e la modalità debug.
+
+L'addestramento si avvia con il fulmine del menu, **Addestra**. Se l'albero non è mai stato addestrato, la console lo dice e il campo di testo resta spento. Se è già stato addestrato e poi hai cambiato intenti o entità, si può continuare a parlare: risponde con l'ultimo addestramento, finché non addestri di nuovo.
+
+![La console aperta: il flusso, il canale e il campo per scrivere](/img/testeo/consola.png)
+
+## La barra
+
+Sopra la chat c'è una barra.
+
+- **Predefinito**, il primo pulsante, è il flusso di avvio. Scegli un altro flusso e la conversazione si riavvia lì.
+- **Predefinito** o **Web**, il secondo, è il canale. Il bot manda la variante di [messaggio](./Mensajes) di quel canale. Se quella scheda è vuota, manda Default. Compaiono WhatsApp, Telegram e il resto solo se il canale è collegato.
+- La bandiera, **Esegui l'intento all'avvio**, sceglie un intento o un evento ancorato all'inizio del flusso. Ogni volta che inizi o riavvii, scatta da solo.
+- L'insetto accende la **modalità debug**.
+- L'icona di copia salva il link di questa conversazione. Si attiva quando c'è già un turno.
+- La freccia indietro annulla l'ultimo turno.
+- La freccia circolare riavvia la conversazione.
+
+In basso si scrive, o si usa il microfono. Un pulsante del messaggio del bot conta anche come turno: se il pulsante invia testo, apre un URL o fa scattare un evento, la console fa quello.
+
+## Un turno
+
+Scrivi e succede questo, in ordine:
+
+1. Il motore guarda il flusso in cui ti trovi e la frase.
+2. Sceglie un [intento](./Intenciones), o non riconosce nulla.
+3. Estrae i [parametri](/docs/Avanzado/Parametros) con le [entità](./Entidades).
+4. Se manca un dato obbligatorio, chiede con il testo del parametro o con l'[acquisizione](./Capturas), e aspetta. Quel turno non arriva ancora alla risposta finale.
+5. Quando i dati ci sono, esegue gli strumenti del nodo, se ce ne sono, e manda il messaggio di quel nodo per il canale scelto.
+
+La tua frase esce nella bolla arancione. Quella del bot è la risposta. Se hai premuto un pulsante, la bolla mostra l'etichetta, non il valore nascosto.
+
+![hola e la risposta del bot nella console](/img/testeo/turno.png)
+
+## Modalità debug
+
+L'insetto diventa giallo. Il turno smette di essere solo due bolle e mostra come è stato deciso.
+
+![Modalità debug: l'intento, la confidenza, il metodo, e il nodo segnato nel flusso](/img/testeo/debug.png)
+
+Prima della risposta del bot compare una riga:
+
+`intento · confidenza · come ha combaciato`
+
+La confidenza è una percentuale. Il terzo dato è il metodo: entità, pattern, modello, o `no_match` se non ha riconosciuto la frase. Se è `no_match`, la riga si marca. Aprendola ci sono i **parametri** e il valore di ciascuno. Un valore vuoto è un dato che non è ancora arrivato: il turno successivo dovrebbe chiederlo.
+
+Se il nodo ha chiamato uno strumento, la sua scheda compare lì, nell'ordine in cui è stato eseguito, prima del messaggio. Se la conversazione è passata a una persona, non c'è bolla del bot: in debug si vede a chi è arrivata.
+
+Un clic sulla tua bolla apre la **request**, ciò che è stato inviato. Un clic su quella del bot apre la **response**, ciò che ha risposto il motore. Il riquadro ha quattro viste. **Tutto** è quella che resta all'apertura.
+
+| Vista | Che cosa lascia |
+|---|---|
+| Tutto | il JSON completo |
+| Parameters | `parameters` e `session_parameters` |
+| Messages | il testo della persona o la risposta del bot |
+| Metadata | il resto: intento, tempi, sessione, strumenti, sentiment |
+
+La ricerca e copia usano la vista aperta. Con il riquadro aperto, Ctrl+F va a quella ricerca.
+
+![Dettagli della sessione: la response, con l'intento, i parametri e il testo](/img/testeo/detalle.png)
+
+Sul web e sul tablet, il bordo sinistro della console si trascina e si allarga. Uscendo dal debug torna alla sua larghezza. Sul telefono il pannello occupa già lo schermo.
+
+Accendere il debug apre il [flusso](./Flujos) che si sta eseguendo. La tela marca il nodo di questo turno e il percorso già fatto. Un turno nuovo continua a marcare la tela se ci sei già.
+
+La matita del turno apre quell'intento per modificarlo.
+
+## Che cosa controllare
+
+- Il nome dell'intento. Se non è quello che ti aspettavi, il pattern o l'ordine di [comprensione](./Arboles) sta decidendo un altro.
+- `no_match`. La frase non è entrata in nessun intento del flusso.
+- I parametri. Se ne manca uno e il bot non chiede, il parametro non è obbligatorio o l'acquisizione non ha una domanda.
+- La risposta. Se hai scelto Web ed esce il testo di Default, la scheda Web di quel messaggio è vuota.
+- Dopo aver cambiato intenti o entità, addestrare di nuovo. Un messaggio o un'acquisizione si leggono al momento: salvare basta.

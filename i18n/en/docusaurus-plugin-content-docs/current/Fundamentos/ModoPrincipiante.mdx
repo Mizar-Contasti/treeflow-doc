@@ -1,0 +1,128 @@
+---
+sidebar_position: 3
+sidebar_label: Beginner mode
+---
+
+# Beginner mode
+
+You choose the mode when you [plant the tree](./Empezando). **First time** leaves it in beginner and turns the guide on. **Experienced** leaves it in advanced, with the full menu and sample data.
+
+In the bot selector, under the name, it says **Beginner** or **Advanced**. Each tree has its own: one can be beginner and the one next to it advanced.
+
+![Planting a tree starts by choosing to create a new one or import](/img/empezando/plantar.png)
+
+Beginner mode is for building the conversation and testing it. The detail screens stay hidden. The pieces still exist: a new intent is created from the simple flow, with its name, its words, and its response.
+
+## What the menu shows
+
+During the guide the menu opens fully, so each entry can be pointed out.
+
+![The menu of a beginner tree: Flows, Channels, Conversations, Help desk, Diagnostics, Accounts, and Credentials](/img/principiante/menu.png)
+
+| Shown | What it is for |
+|---|---|
+| **Dashboard** | The tree summary: conversations, flows, training |
+| **Flows** | The simple editor |
+| **Channels** | Where the person talks: the widget, WhatsApp, Telegram |
+| **Conversations** | What has already been said |
+| **Help desk** | A person takes the chat and can hand it back to the bot |
+| **Accounts** | The workspace users |
+| **Credentials** | The workspace keys, and MCP access |
+
+**Diagnostics** is still for administrators only, in both modes.
+
+In beginner mode the menu does not show Intents, Entities, Messages, Captures, Tools, Tests, History, or Backups. If you open one of those addresses by hand, the app returns to the dashboard.
+
+## The simple flow
+
+**Flows** opens the list. There is a main flow, marked **Main**. **New Flow** opens the intent dialog.
+
+![The list: the main flow and the New Flow button](/img/principiante/flujos.png)
+
+The dialog has three fields, and the guide walks through them one by one:
+
+1. **Name.** The purpose of that part of the conversation. The guide suggests `saludar`.
+2. **Keywords.** What the person writes to trigger it: `hola`, `buenos días`. Add one with Enter or with the **+** button. At least one is required.
+3. **Response.** What the bot answers when it recognizes those words.
+
+![The intent dialog, with the name, the word hello, and the response](/img/principiante/dialogo.png)
+
+When you save, that intent is on the canvas: the start node, where the bot waits, and the intent node. Opening the node again opens the same dialog, in edit mode.
+
+The industry chosen when you plant (restaurant, hotel, clinic) still brings its template. The simple editor is how you add and adjust steps without opening the other screens.
+
+## The guide
+
+If you choose **First time** when you plant, before you go in it asks whether you want the tour.
+
+![The question when the tree is created: view the tutorial or skip it](/img/principiante/pregunta.png)
+
+**View tutorial** starts it. **Skip tutorial** leaves the tree as it is and you walk through it yourself. The help button in the menu opens that tree's guide again.
+
+### 1. The dashboard
+
+It opens the dashboard and points at the cards, one by one: how many flows there are, the intents, the entities, whether training is up to date, and the day's conversations. On a freshly planted tree, training says **Not trained**.
+
+![A guide step on the dashboard, over the flows card](/img/principiante/panel.png)
+
+When this stretch ends, the guide takes you to Flows.
+
+### 2. The main flow
+
+The default flow's card is there. **Next** opens the editor on its own: you do not have to press the card.
+
+![The guide points at the main flow](/img/principiante/flujos.png)
+
+### 3. The canvas
+
+First the start node: that is where the conversation begins, and the bot waits for the person. Then the greeting intent, still empty. **Next** opens the editor so you can fill it in.
+
+![The canvas, with the start and the empty intent](/img/principiante/lienzo.png)
+
+### 4. Name, words, and response
+
+The guide asks for three things, in order:
+
+1. The name `saludar`.
+2. A word such as `hola` or `buenos días`. Without at least one, it will not let you continue.
+3. The response, for example "Hello! Welcome". **Next** saves the flow.
+
+![The guide on the response, with the name and hello already filled in](/img/principiante/dialogo.png)
+
+### 5. Train
+
+The bubble sits next to the lightning bolt in the menu. **Next** starts the same training as pressing the lightning bolt. Until it finishes, the bot does not use what you just wrote.
+
+![The guide asks you to train with the lightning bolt in the menu](/img/principiante/entrenar.png)
+
+### 6. The console
+
+When training is ready, the console opens, the panel on the right. You have to write a phrase you already configured. `hola` receives the response you saved. If you write something the bot does not recognize, the response is different.
+
+![In the console, hello receives the greeting response](/img/principiante/consola.png)
+
+### 7. The menu
+
+When you close that test, the guide walks the menu: the bot you are in, the dashboard, flows, channels, conversations, and the lightning bolt again. There, training already says **Up to date**.
+
+![The last stretch points at Flows in the menu](/img/principiante/menu.png)
+
+## Train and test
+
+The lightning bolt in the menu shows the status. **Training pending** is orange: one click trains. In green it says **AI trained**. Until you train, the bot answers with the previous training.
+
+The [console](/docs/Fundamentos/ProbarElBot) is the test chat. **Channels** is the step after that, when someone outside has to talk to the bot.
+
+## Advanced mode
+
+**Experienced**, when you plant, opens the same **Flows** in the [full editor](./Flujos): separate nodes, arrows, and on each node the Conversation and Functionality tabs.
+
+With that mode the menu also shows:
+
+- [Intents](./Intenciones) and [entities](./Entidades), for patterns, parameters, and the data in the utterance
+- [Messages](./Mensajes) and [captures](./Capturas), for reusable responses and for asking for a missing piece of data
+- [Tools](/docs/Herramientas), for calling a script, an API, or the webhook
+- [Tests](./ProbarElBot), multi-turn cases
+- History and Backups
+
+That is the mode for a bot that extracts data, calls external systems, or is tested with a saved suite.

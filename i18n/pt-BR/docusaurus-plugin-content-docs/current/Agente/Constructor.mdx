@@ -1,0 +1,99 @@
+---
+sidebar_position: 1
+sidebar_label: Agente construtor
+---
+
+# Agente construtor de IA
+
+O agente constrói o bot **conversando com você**. Você diz o que quer — «adicione um fluxo para consultar o horário» — e ele cria as intenções, os nós e as mensagens, conecta tudo e conta o que fez e onde.
+
+Trabalha sobre o **bot que estiver selecionado** no seletor do canto superior esquerdo. Abre-se a partir do console, com o ícone do robô. Para conectá-lo a um provedor, siga [Primeiro pedido](/docs/Agente/PrimerEncargo).
+
+## O que ele faz
+
+- **Cria e modifica** fluxos, nós, intenções, entidades, mensagens e ferramentas HTTP.
+- **Conecta** o que cria: uma intenção nova não serve se nenhum nó de contexto a escuta, então ele também a vincula.
+- **Consulta**: a estrutura do bot, o estado do treinamento, conversas e registros, e pode **simular uma mensagem** para ver o que responderia.
+- **Treina** o bot se você pedir, e consulta o estado e o histórico de treinamentos.
+- **Explica** ao terminar: o fluxo afetado, os nós e intenções alterados e frases para testar o resultado.
+
+A lista completa está em [O que ele pode alterar](/docs/Agente/GenAITools).
+
+## Como pedir
+
+Fale com ele como com uma pessoa que já conhece o seu bot. Quanto mais concreto, melhor sai.
+
+| Em vez de | Tente |
+|---|---|
+| «Melhore o bot» | «Adicione uma intenção para consultar o horário, com 8 frases de exemplo, e que responda com o horário de segunda a sexta» |
+| «Arrume a saudação» | «A saudação responde duas vezes. Revise o nó da intenção `saludo` e me diga o que você vê antes de mudá-lo» |
+| «Crie um fluxo de reservas» | «Crie um fluxo `reservas` com uma intenção `reservar_mesa` que peça data e número de pessoas» |
+
+Ele pode **perguntar** o que faltar. Não inventa endereços, chaves nem tokens de ferramentas HTTP: pede a você.
+
+## Como trabalha
+
+1. **Olha antes de criar.** Lista o que já existe — intenções, entidades, fluxos, nós, mensagens, ferramentas — para não duplicar.
+2. **Escolhe o fluxo.** Por padrão, o principal; se você quiser outro, diga.
+3. **Cria e conecta.** A intenção, o nó com a resposta e a referência no nó de contexto que a escuta.
+4. **Conta.** O que mudou, onde e com quais frases testar.
+
+Escreve no **idioma principal do bot** — espanhol, inglês, francês, italiano, português ou alemão —: as intenções, as frases de treinamento, as respostas e os sinônimos saem nesse idioma. Nos nomes, tira os acentos e troca os espaços por sublinhado (`consultar_horario`).
+
+## O que você vê no chat
+
+Cada resposta do agente traz abaixo a lista de **ações** que executou, com uma marca verde se deu certo e vermelha se a ferramenta devolveu um erro. Dá para abrir cada uma para ver a ferramenta, os argumentos e o que devolveu. Se o agente propôs alterações que esperam o seu aval, no lugar você verá o cartão de confirmação.
+
+Quando o agente muda algo, o painel se atualiza sozinho. Se algo não aparecer, recarregue a página.
+
+As conversas são **salvas por bot**: você pode abrir uma anterior pelo histórico, começar outra ou apagar uma.
+
+## Antes de pedir mudanças grandes {#antes-de-pedirle-cambios-grandes}
+
+Por padrão, o agente **pergunta antes de mudar qualquer coisa**. Quando decide criar, modificar ou excluir algo, não executa: mostra um cartão **Confirmar alterações propostas** com cada ação (qual ferramenta e sobre o quê), e nada acontece até você clicar em **Confirmar**. Com **Recusar**, tudo é descartado. Você pode abrir cada ação do cartão para ver os argumentos completos antes de decidir.
+
+As consultas — listar, ver a estrutura, simular uma mensagem — não mudam nada e são executadas sempre sem perguntar.
+
+### As três caixas
+
+Na configuração do agente há três caixas, **ativas por padrão**, e cada uma governa um grupo de ações:
+
+| Caixa | O que detém |
+|---|---|
+| **Pedir confirmação para criar** | Criar fluxos, nós, intenções, entidades, modelos de mensagem, ferramentas, usuários e backups |
+| **Pedir confirmação para modificar** | Modificar o bot, fluxos, nós, intenções, entidades, modelos, ferramentas, usuários, canais e a voz; também **treinar** o bot |
+| **Pedir confirmação para excluir** | Excluir fluxos, nós, intenções, entidades, modelos, ferramentas e usuários |
+
+Se você desligar uma, as ações desse grupo são executadas na hora, como antes. É a credencial que guarda as caixas, então cada credencial pode ter as suas.
+
+:::tip O que acontece ao confirmar
+O cartão aplica as ações **em ordem**. Se uma falhar, para nela: as anteriores já ficaram feitas (e saem do cartão, para que tentar de novo não as repita) e o motivo é mostrado.
+:::
+
+### Mesmo assim, antes de uma mudança grande
+
+- **Peça um backup antes.** Ele tem uma ferramenta para criá-lo, e [Importar e exportar](/docs/Avanzado/ImportarExportar) explica como restaurar um. Criar um backup também pede confirmação enquanto a caixa de criar estiver ativa.
+- **Peça primeiro o plano.** «Diga o que você vai mudar, sem mudar ainda» ajuda o agente a descrever antes de propor.
+- Se você desligou as caixas, revise a lista de **ações** de cada resposta: elas já foram executadas.
+- As criações, alterações e exclusões de **fluxos, entidades e intenções** ficam no histórico de alterações do bot, que o agente também pode consultar. As de nós e mensagens não são registradas ali.
+
+## O que ele não faz
+
+- **Não responde aos seus usuários.** Constrói o bot; a conversa fica com o motor, a partir do que foi construído. Ver [A IA no TreeFlow](/docs/Agente/Introduccion).
+- **Não mexe em outros bots nem em outros workspaces.** Só o selecionado, e isso o servidor define, não o modelo.
+- **Não cria nem modifica administradores.** Pode gerenciar usuários de outros papéis, mas não administradores.
+- **Não vê as suas chaves.** Quando lista credenciais, a configuração secreta não lhe é devolvida.
+- **Lembra pouco.** Trabalha com as últimas 14 mensagens da conversa, então em uma conversa muito longa convém lembrar o contexto.
+
+## Se algo falhar
+
+| Mensagem | O que aconteceu |
+|---|---|
+| *API Key obrigatória* | Não há nenhuma credencial de IA no workspace |
+| Erro **401** | A chave não é válida ou venceu |
+| Erro **404** | O modelo escolhido não existe nesse provedor |
+| Erro **429** | Você chegou ao limite de requisições, o do próprio agente (20 mensagens por minuto por usuário) ou o do seu provedor: espere um momento |
+| Erro **503** | O serviço do provedor não está disponível: tente de novo |
+| *Limite de iterações atingido sem resposta final* | O pedido precisou de mais de 8 rodadas de ferramentas: peça em passos menores |
+
+Se a mensagem não chegou, o chat deixa **reenviá-la** ou **editá-la**.

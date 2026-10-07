@@ -1,0 +1,40 @@
+---
+sidebar_position: 1
+---
+
+# ElevenLabs
+
+Turns reply text into **audio** with voices from [ElevenLabs](https://elevenlabs.io/). It lives on the **Voice** tab of Channels and is a **Stable** channel.
+
+![The ElevenLabs screen in Channels: API Key, voice, and model](/img/canales/elevenlabs.png)
+
+## What you need
+
+An ElevenLabs account and its **API Key**: Profile Settings → API Keys.
+
+| Field in TreeFlow | What it is |
+|---|---|
+| **ElevenLabs API Key** | Your account key (`xi-api-key`) |
+| **Default voice** | The voice used for synthesis. The default is *Rachel* |
+| **TTS model ID** | The synthesis model, for example `eleven_multilingual_v2` or `eleven_turbo_v2` |
+
+## Turn it on
+
+1. Choose your bot in the selector at the top left.
+2. Open **Integration → Channels**, the **Voice** tab, and open **ElevenLabs Audio AI**.
+3. Paste the **API Key**, choose the **voice**, and keep or change the **model**.
+4. Click **Save and Integrate ElevenLabs**. The channel is turned on.
+
+The **ON/OFF** switch at the top turns it off and on without deleting what is saved.
+
+## Where you see it
+
+With ElevenLabs on, the message editor adds an **ElevenLabs** tab to each reply. It is the same mechanism as [any channel](/docs/Canales/CanalesDeComunicacion#una-respuesta-distinta-por-canal): that is where you write what will be spoken.
+
+The audio is **MP3**.
+
+## If it does not work
+
+- The switch is **ON**.
+- The **API Key** is valid and has credit on ElevenLabs.
+- The **model ID** exists on your account.

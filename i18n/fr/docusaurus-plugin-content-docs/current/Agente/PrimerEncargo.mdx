@@ -1,0 +1,68 @@
+---
+sidebar_position: 2
+sidebar_label: Première tâche
+---
+
+# Première tâche
+
+De zéro jusqu'à demander quelque chose à l'agent : connecter un fournisseur de modèles et faire un premier petit changement.
+
+## Ce qu'il vous faut
+
+- Un bot créé, et sélectionné en haut à gauche.
+- La **clé d'API** d'un fournisseur de modèles, ou un serveur local comme Ollama. Lequel choisir est dans [Fournisseurs et modèles](/docs/Agente/ModelosGenerativos).
+
+## 1. Ouvrez l'agent
+
+Le bouton orange en bas à droite ouvre la console. Cliquez sur l'icône du robot, en haut à droite du panneau.
+
+![La console ouverte, avec l'icône de l'agent en haut à droite](/img/agente/abrir.png)
+
+## 2. Connectez un fournisseur
+
+Si le workspace n'a encore aucun identifiant d'IA, l'agent vous en demande un : **Ajouter un identifiant**.
+
+![La configuration de l'agent : fournisseur, nom, API Key, modèle et les trois cases de confirmation](/img/agente/configuracion.png)
+
+1. Choisissez le **fournisseur**. En le changeant, l'URL de base et le modèle recommandé se remplissent.
+2. Donnez un **nom** à l'identifiant, pour le reconnaître si vous en avez plusieurs ensuite.
+3. Collez l'**API Key**. L'œil l'affiche pendant que vous l'écrivez.
+4. Choisissez le **modèle** dans la liste déroulante. Pour un modèle qui n'est pas dans la liste, choisissez l'option de modèle personnalisé et écrivez son nom.
+5. Cliquez sur **Tester la connexion**.
+6. Si ça s'est bien passé, cliquez sur **Appliquer et continuer**.
+
+![La liste déroulante avec les dix fournisseurs](/img/agente/proveedores.png)
+
+:::note Il faut tester avant d'enregistrer
+**Appliquer et continuer** n'enregistre pas tant que **Tester la connexion** n'a pas réussi. En cas d'échec, le message dit pourquoi.
+:::
+
+La clé est nécessaire chez tous les fournisseurs sauf **Ollama** et **Custom / Local LLM**. Ces deux-là demandent à la place l'**URL de base** du serveur.
+
+L'identifiant est celui du **workspace**, pas du bot : tous les bots et toutes les personnes du workspace l'utilisent. On l'enregistre une fois.
+
+## 3. Demandez quelque chose de petit
+
+Vous êtes dans le chat de l'agent. Commencez par quelque chose que vous pouvez vérifier à l'œil :
+
+> Ajoute une intention `consultar_horario` avec 6 phrases d'exemple, et qu'elle réponde « Nous sommes ouverts du lundi au vendredi, de 9 h à 18 h ».
+
+Pendant qu'il travaille, vous voyez « l'agent est en train de traiter ». À la fin, il vous raconte **ce qui a changé et où**, et sous sa réponse apparaît la liste des actions qu'il a exécutées.
+
+## 4. Relisez ce qu'il a fait
+
+- Ouvrez chaque **action** pour voir l'outil et ce qu'il a renvoyé.
+- Entrez dans **Flux** : la nouvelle intention doit avoir son nœud, relié depuis le nœud de contexte. Si elle n'apparaît pas, rechargez la page.
+- Dans **Intentions**, regardez les phrases qu'il a écrites.
+
+## 5. Essayez-le
+
+Revenez à l'onglet **Console** (l'icône de chat, en haut à droite du panneau) et écrivez l'une des phrases d'exemple. Si le bot ne la comprend pas, **entraînez-le** : les intentions nouvelles ne sont pas reconnues tant qu'on n'a pas entraîné. L'agent peut l'entraîner pour vous : « entraîne le bot et dis-moi quand c'est terminé ».
+
+## Avant de lui demander quelque chose de grand
+
+Par défaut, l'agent **vous demande confirmation** avant de créer, modifier ou supprimer : vous verrez une carte avec les changements proposés et il les applique quand vous cliquez sur **Confirmer**. Si vous désactivez les cases « Demander une confirmation… » de la configuration, il exécute sur le moment. Dans ce cas, demandez-lui d'abord une sauvegarde. Plus dans [Avant de lui demander de grands changements](/docs/Agente/Constructor#antes-de-pedirle-cambios-grandes).
+
+## Quand vous avez plusieurs identifiants
+
+Au-dessus du chat, vous pouvez **changer d'identifiant** et de **modèle** sans sortir, **en ajouter** un autre, **modifier** l'actuel, commencer une **nouvelle conversation** et ouvrir l'**historique**. Utile pour essayer la même tâche avec un autre modèle.

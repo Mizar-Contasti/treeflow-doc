@@ -1,0 +1,54 @@
+---
+sidebar_position: 1
+---
+
+# E-mail (Resend)
+
+O seu bot responde aos e-mails que chegam a um endereço seu. O envio e o recebimento passam pelo [Resend](https://resend.com). É um canal **Estável**.
+
+![A tela de E-mail em Canais: webhook de entrada e credenciais do Resend](/img/canales/email.png)
+
+## Como funciona
+
+1. Alguém escreve para o seu endereço, por exemplo `hola@tudominio.com`.
+2. O Resend avisa o TreeFlow por um **webhook**.
+3. O bot lê o texto do e-mail e responde a quem o enviou, com o assunto `Re: …`.
+
+Se o bot tiver respostas com blocos (botões, cartões…), o e-mail sai em **HTML**; se não, em texto.
+
+O bot **não responde ao próprio endereço**. Assim, duas respostas automáticas não se respondem sem fim.
+
+## O que você precisa no Resend
+
+Uma conta, um **domínio verificado** e recebimento de e-mail (*Inbound*) para o endereço que o bot vai usar.
+
+| Campo no TreeFlow | De onde vem |
+|---|---|
+| **E-mail do remetente (From Email)** | O endereço do bot. Precisa ser de um domínio verificado no Resend |
+| **Nome do remetente (From Name)** | Como o remetente aparece. Por padrão, *Treeflow Assistant* |
+| **Resend API Key** | Uma chave com permissão para enviar e-mails |
+| **Signing Secret do webhook** | Resend → Webhooks → seu webhook → Signing Secret |
+
+O **Signing Secret** permite conferir que cada e-mail recebido é enviado pelo Resend. Sem ele, o TreeFlow não responde.
+
+## Ativá-lo
+
+1. Escolha seu bot no seletor do canto superior esquerdo.
+2. Abra **Integração → Canais → Email (Resend)**.
+3. Copie o **Webhook de entrada**. É o endereço para o qual o Resend avisa de cada e-mail.
+4. No Resend, crie um webhook com essa URL para os e-mails recebidos e copie o **Signing Secret**.
+5. Preencha E-mail do remetente, Nome do remetente, Resend API Key e Signing Secret.
+6. Clique em **Salvar e integrar Email**. O canal fica ligado.
+
+O interruptor **ON/OFF** de cima desliga e liga o canal sem apagar o que foi salvo.
+
+:::note Um endereço, um bot
+O bot que responde é o que estava selecionado ao salvar. O mesmo endereço não pode ser cadastrado em dois workspaces.
+:::
+
+## Se não responder
+
+- O interruptor precisa estar em **ON**.
+- O e-mail precisa chegar ao endereço que você colocou em **From Email**: é ele que identifica o bot.
+- O **Signing Secret** precisa ser o do webhook que aponta para o TreeFlow.
+- O domínio precisa estar verificado no Resend.

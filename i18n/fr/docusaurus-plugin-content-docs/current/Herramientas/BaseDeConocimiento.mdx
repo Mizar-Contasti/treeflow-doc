@@ -1,0 +1,31 @@
+---
+sidebar_position: 6
+sidebar_label: Base de connaissances
+description: Un CSV de deux colonnes qui crée un flux, une intention et un message par ligne, sans modèle.
+---
+
+# Base de connaissances
+
+L'onglet **Base de connaissances** construit un flux à partir d'un fichier, sans modèle. L'écran l'appelle **Base de connaissances déterministe (CSV 1:1)** et le marque **Sans IA (gratuit et exact)**.
+
+![Base de connaissances : le nom du flux, les deux cases et la zone où déposer le CSV](/img/herramientas/base-conocimiento.png)
+
+## Le fichier
+
+CSV ou TSV. Deux colonnes.
+
+| Colonne 1 | Colonne 2 |
+|---|---|
+| La phrase, qui devient l'intention | Le message par lequel le bot répond |
+
+**Ignorer la première ligne (en-tête de colonnes)** est activé d'usine : la première ligne n'est pas importée. **Supprimer les accents dans les phrases et les réponses** normalise le texte avant de créer les intentions. Désactivé, les accents restent.
+
+**Nom du flux (Branch) à créer dans le bot** est le nouveau parcours. L'exemple du champ est « Questions fréquentes Livraisons ». Chaque ligne devient une intention de ce flux, avec son message ancré. Le sous-titre de l'écran le dit : la colonne 1 est la phrase et la colonne 2 est le message.
+
+## Importer
+
+On fait glisser le fichier dans la zone en pointillés ou on clique pour le chercher. Le bouton **Créer le flux et importer les feuilles (CSV)** s'active quand il y a un fichier. Il traite les lignes et dessine le flux.
+
+**Entraîner le bot maintenant** lance l'entraînement pour que ces phrases entrent dans la console. Sans entraînement, le flux est créé et le moteur continue avec l'entraînement précédent.
+
+En bas, **Intentions de connaissance enregistrées** liste ce qui a déjà été importé dans cet arbre. S'il n'y a encore rien, l'avis demande de sélectionner un fichier. On peut en envoyer un autre, avec un autre nom de flux : il n'écrase pas le précédent.

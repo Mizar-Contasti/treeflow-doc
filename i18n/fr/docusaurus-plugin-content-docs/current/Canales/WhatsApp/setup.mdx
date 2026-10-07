@@ -1,0 +1,49 @@
+---
+sidebar_position: 1
+---
+
+# WhatsApp
+
+Connectez votre bot à WhatsApp via la **Cloud API de Meta**. C'est un canal **Bêta**.
+
+![L'écran WhatsApp dans Canaux : état, URL pour Meta et identifiants](/img/canales/whatsapp.png)
+
+## Ce qu'il vous faut chez Meta
+
+Une application sur [Meta for Developers](https://developers.facebook.com/) avec le produit **WhatsApp** et un numéro de téléphone. Vous en tirez ces données :
+
+| Champ dans TreeFlow | D'où ça vient |
+|---|---|
+| **Phone Number ID** | L'identifiant du numéro, dans WhatsApp de votre application Meta |
+| **WABA ID** | Celui de votre compte WhatsApp Business. Il est facultatif |
+| **Verify Token** | Vous l'inventez : n'importe quel texte |
+| **Meta Access Token** | Un jeton **permanent**, généré dans Meta Business Manager |
+| **App Secret** | Votre application → Configuration → De base → Clé secrète de l'application |
+
+L'**App Secret** permet de vérifier que chaque message vient bien de Meta. Sans lui, TreeFlow ne répond pas.
+
+## L'activer
+
+1. Choisissez votre bot dans le sélecteur en haut à gauche.
+2. Ouvrez **Intégration → Canaux → WhatsApp**.
+3. **Étape 1.** Copiez la **Callback URL** et collez-la dans Meta Developers → WhatsApp → Configuration → Webhook. Dans **Verify token** de Meta, saisissez le même que celui que vous mettrez dans TreeFlow.
+4. Dans Meta, abonnez le webhook au champ **messages**.
+5. **Étape 2.** Renseignez Phone Number ID, Verify Token, Meta Access Token et App Secret (le WABA ID est facultatif).
+6. Cliquez sur **Enregistrer et intégrer WhatsApp**. Le canal est activé.
+
+L'interrupteur **ON/OFF** du haut le désactive et l'active sans effacer ce qui est enregistré.
+
+## Ce que le bot envoie
+
+Du texte, et les blocs que WhatsApp sait afficher : **boutons**, **listes** et fichiers (image, vidéo, document).
+
+:::info Dans la fenêtre de 24 heures
+WhatsApp laisse le bot répondre librement pendant les 24 heures qui suivent le dernier message de la personne. Passé ce délai, un modèle approuvé par Meta est nécessaire, et TreeFlow n'envoie pas de modèles.
+:::
+
+## S'il ne répond pas
+
+- Vérifiez que l'interrupteur est sur **ON**.
+- Vérifiez que le **Verify Token** de Meta est identique à celui de TreeFlow.
+- Vérifiez que l'**App Secret** est celui de la même application qui envoie les messages.
+- Vérifiez que le webhook est abonné à **messages**.

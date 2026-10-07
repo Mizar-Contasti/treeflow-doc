@@ -1,0 +1,121 @@
+---
+sidebar_position: 5
+sidebar_label: Flux
+---
+
+# Flux
+
+Un **flux** est un parcours : des nœuds et des flèches. L'arbre peut en avoir plusieurs. L'un est marqué **Principal** : c'est celui qui démarre la conversation.
+
+En [mode débutant](./ModoPrincipiante), ce même écran est l'éditeur simple, celui à trois champs. En avancé, c'est le canevas complet. La direction est la même ; ce qui change, c'est le mode de l'arbre.
+
+## La liste
+
+**Flux** ouvre les cartes. On peut chercher par nom.
+
+![La liste des flux : le principal, dupliquer et Nouveau flux](/img/flujos/lista.png)
+
+- **Nouveau flux** en crée un autre, vide.
+- **Principal** est celui du démarrage. Il y en a toujours un. On ne le supprime pas.
+- L'icône de copie duplique le flux, avec un autre nom.
+- L'icône de corbeille le supprime, s'il n'est pas le principal.
+- **Modèles** applique un modèle de secteur sur l'arbre : intentions, entités et dessin. Réappliquer n'écrase pas les questions d'un paramètre qui existait déjà.
+
+En entrant dans une carte, l'éditeur s'ouvre. En haut, il y a deux onglets : **Conception**, le canevas, et **Configuration**, le nom du flux et s'il est le principal.
+
+## Le canevas
+
+![Le canevas : le début, une intention, un événement et un saut vers un autre flux](/img/flujos/lienzo.png)
+
+Chaque nœud se fait glisser. En bas à gauche se trouvent le zoom, centrer et **Tidy Up**, qui range les nœuds.
+
+Le **+** orange crée le nœud qui convient selon l'endroit d'où vous partez :
+
+- Depuis un **contexte**, il propose **Intention** ou **Événement**.
+- Depuis une intention ou un événement, il propose **Contexte**.
+
+La flèche marron, sous le +, se fait glisser jusqu'à un autre nœud pour les relier. La ligne continue est le chemin de la conversation. La ligne pointillée est un événement.
+
+| Nœud | Ce que c'est |
+|---|---|
+| **Contexte** (vert) | Là où le bot attend. Dans le flux Restaurante, il s'appelle **Inicio**. Les intentions de ce tronçon y sont disponibles. |
+| **Intention** (orange) | Un pas qui s'active lorsque le moteur reconnaît cette intention. Le texte de l'intention s'édite dans [Intentions](./Intenciones) ; le nœud la place dans le parcours. |
+| **Événement** (éclair) | Ce qui n'est pas une intention : il n'a pas compris (`sys.no-match`) ou rien n'est arrivé (`sys.no-input`). |
+
+Une pastille avec le nom d'un autre flux, comme `flujo_principal`, est un lien : depuis ce dessin, on peut aussi sauter vers celui-là. Le parcours avec les captures est dans [Flux](/docs/Avanzado/FlujosConversacionales).
+
+## Ce qu'ils partagent
+
+Un clic ouvre la colonne de droite. En haut vont le **nom du nœud** et **Nœud actif**. Éteint, le nœud reste dessiné et ne participe pas. C'est là aussi que l'on ferme l'éditeur et que l'on supprime le bloc.
+
+Les trois ont **Conversation** et **Fonctionnalité**. L'onglet reste là où vous l'avez laissé en passant d'un nœud à l'autre.
+
+Dans Fonctionnalité, les trois peuvent porter des scripts, des outils et **Appeler le webhook sur ce nœud**. Le webhook de l'agent est appelé en passant par ici, avant les outils. S'il n'y en a pas d'actif, il ne se passe rien. Ces pièces se créent dans [Outils](/docs/Herramientas).
+
+## Contexte
+
+Le contexte ne dit pas une phrase. Il dit ce que l'on peut faire tant que la conversation est là.
+
+![Le contexte Start : intentions, événements et flux liés](/img/flujos/contexto.png)
+
+**Conversation**
+
+- **Intentions.** Celles que le moteur peut reconnaître dans ce tronçon. On choisit un nœud d'intention qui existe déjà, ou **Créer un nouveau nœud d'intention**. Retirer le lien ne supprime pas le nœud.
+- **Événements.** La même chose avec les nœuds d'événement : il n'a pas compris, silence, ou un autre. **Créer un nouveau nœud d'événement** l'ajoute et le lie.
+- **Flux liés.** Un autre flux, et le contexte de ce flux. Depuis ici, on peut aussi utiliser les intentions et les événements de là-bas. Si les deux ont la même intention, lorsqu'on est dans l'un, c'est le nœud de ce flux qui s'exécute.
+
+**Fonctionnalité**
+
+Scripts, outils et le webhook. Le contexte n'a pas de réponse ni de « termine une capture » : cela vit dans l'intention.
+
+## Intention
+
+Le nœud orange n'entraîne pas l'intention. Il la pointe. Le texte, les motifs et les paramètres s'éditent dans [Intentions](./Intenciones).
+
+![L'intention : laquelle la déclenche, quel message elle envoie et vers quel contexte elle continue](/img/flujos/conversacion.png)
+
+**Conversation**
+
+- **Intention qui active le nœud.** Si elle est déjà dans ce flux, ou dans un flux lié, le sélecteur la marque **En cours d'utilisation**.
+- **Réponse.** Un modèle de [message](./Mensajes), **+ Créer un modèle**, ou **Message personnalisé**. Il est envoyé lorsque l'intention est déjà capturée, après avoir demandé les données qui manquaient et après les outils de ce nœud.
+- **Transition.** Où l'on continue, une fois la réponse envoyée :
+  - **Aucun.**
+  - **Créer un nouveau contexte**, ou un contexte déjà sur le canevas.
+  - **Changer de flux**, au début d'un autre.
+  - **Redémarrer le flux actuel.**
+  - **Transférer à un humain.** Passe la conversation au [service d'assistance](/docs/Avanzado/MesaDeAyuda). On y choisit le transfert.
+
+**Fonctionnalité**
+
+Tant qu'aucune intention n'est choisie, cet onglet demande de revenir à Conversation.
+
+![Fonctionnalité de l'intention : scripts, outils, la capture et le webhook](/img/flujos/funcionalidad.png)
+
+- **Scripts** et **outils.** Ce que ce pas appelle à l'extérieur.
+- **Termine une capture en cours.** Si la personne dit cela *pendant* que le bot lui demande des données. Activé, la capture est considérée comme terminée : annuler ou prendre congé. Désactivé, ce qui est le réglage d'usine, elle est seulement mise en pause : le bot répond et reprend la question, avec ce qui est déjà écrit. Demander l'horaire au milieu d'une commande ne devrait pas lui coûter la commande ; dire « annule » oui.
+- **Appeler le webhook sur ce nœud.**
+
+## Événement
+
+L'éclair est ce qui se passe sans qu'une intention ait correspondu.
+
+![L'événement No_entiendo : sys.no-match, son message et le contexte auquel il revient](/img/flujos/evento.png)
+
+**Conversation**
+
+- **Événement qui active le nœud.** On le choisit ou on l'écrit. Ceux que le moteur déclenche seul sont :
+  - `sys.no-match`, lorsque dans ce contexte il n'a pas reconnu la phrase.
+  - `sys.no-input`, lorsque rien n'est arrivé.
+  - Un nom propre, si un autre pas le déclenche. Si ce nom est déjà dans un autre nœud d'événement du flux, il reste **En cours d'utilisation**.
+- **Réponse.** Le message de ce cas. Il est envoyé après les outils du nœud. `sys.no-match` porte d'habitude le « je n'ai pas compris ». Dans ce message, la phrase qui n'a pas correspondu est dans `{$last_no_match}`, et la dernière chose écrite par la personne, dans `{$last_utterance}`. Il n'y a pas à les activer. Voir [Variables du système](/docs/Avanzado/Funciones#variables-del-sistema).
+- **Transition.** Comme pour l'intention : un contexte, un autre flux, redémarrer celui-ci, ou une personne. L'habitude est de revenir au contexte où l'on peut continuer à parler.
+
+**Fonctionnalité**
+
+Scripts, outils et le webhook. Tant qu'aucun événement n'est choisi, cet onglet ne se configure pas. L'événement n'a pas de « termine une capture » : cela appartient à l'intention.
+
+## Enregistrer
+
+**Enregistrer les modifications**, en haut à droite, s'allume lorsqu'il y a quelque chose de non enregistré : un nœud déplacé, une flèche, une réponse. Fermer l'éditeur ne publie pas tout seul.
+
+Si en plus vous avez changé ce que le moteur reconnaît — l'intention, ses motifs, une entité —, l'éclair du menu redevient orange et il faut entraîner. Déplacer un nœud ne change pas ce que le bot répond ; changer l'intention, si.

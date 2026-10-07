@@ -1,0 +1,50 @@
+{
+  "futureFeature.title": {
+    "message": "Funcionalidade em desenvolvimento",
+    "description": "Title of the notice for a feature that is not released yet"
+  },
+  "futureFeature.body": {
+    "message": "Esta funcionalidade estará disponível na próxima versão ({version}). Esta documentação é preliminar e pode mudar.",
+    "description": "Body of the notice for a feature that is not released yet"
+  },
+  "homepage.tagline": {
+    "message": "Conversas que geram negócio",
+    "description": "Homepage hero subtitle"
+  },
+  "homepage.cta": {
+    "message": "Vamos começar a plantar 🍂",
+    "description": "Homepage call to action button"
+  },
+  "homepage.layoutTitle": {
+    "message": "TreeFlow | Conversas que geram negócio",
+    "description": "The HTML title of the homepage"
+  },
+  "homepage.layoutDescription": {
+    "message": "Fluxos de conversa determinísticos na era da IA generativa",
+    "description": "The meta description of the homepage"
+  },
+  "homepage.features.plan.title": {
+    "message": "Planeje",
+    "description": "Homepage feature title: plan"
+  },
+  "homepage.features.plan.description": {
+    "message": "Desenhe seu fluxo conversacional, trate exceções e defina o que você precisa.",
+    "description": "Homepage feature description: plan"
+  },
+  "homepage.features.plant.title": {
+    "message": "Plante",
+    "description": "Homepage feature title: plant"
+  },
+  "homepage.features.plant.description": {
+    "message": "Plante a primeira árvore da floresta, a partir do seu fluxo conversacional determinístico.",
+    "description": "Homepage feature description: plant"
+  },
+  "homepage.features.scale.title": {
+    "message": "Escale",
+    "description": "Homepage feature title: scale"
+  },
+  "homepage.features.scale.description": {
+    "message": "Escale suas árvores com as ferramentas generativas, que ampliam a abordagem determinística e cobrem seus pontos cegos.",
+    "description": "Homepage feature description: scale"
+  }
+}

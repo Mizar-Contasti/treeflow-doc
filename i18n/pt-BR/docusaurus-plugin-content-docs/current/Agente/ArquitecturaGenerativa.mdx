@@ -1,0 +1,56 @@
+---
+sidebar_position: 5
+sidebar_label: Como funciona por dentro
+---
+
+# Como funciona por dentro
+
+Para quem integra, depura ou quer saber o que acontece entre escrever um pedido e o bot mudar.
+
+O agente vive **dentro do backend principal** (`backend/core/builder_agent/`). Não há um serviço à parte: o serviço generativo independente da porta 8001 foi retirado. Usa-se pela API `/api/builder-agent`.
+
+## O que acontece com cada mensagem
+
+1. **O console envia** o bot, o histórico da conversa e, se o usuário escolheu, a credencial e o modelo.
+2. **O servidor confere** que o bot seja do workspace de quem pergunta.
+3. **Escolhe a credencial**: a indicada (precisa ser do workspace) ou, se não for indicada, a primeira credencial de IA do workspace. Sem nenhuma, responde que é preciso uma chave.
+4. **Monta as instruções** do modelo no **idioma principal do bot**: o identificador, o nome e o propósito do bot, a lista dos fluxos, as regras de nomes, onde aplicar as alterações e o protocolo de **olhar antes de criar**.
+5. **Recorta o histórico** para as **últimas 14 mensagens**.
+6. **Chama o modelo** com as instruções, o histórico e as **46 ferramentas**, descritas no idioma do bot. Cada chamada espera até 60 segundos.
+7. **Se o modelo pedir ferramentas**, o servidor as executa e devolve o resultado. Repete até **8 rodadas**.
+8. **Se o modelo responder sem pedir mais**, esse texto é a resposta. A conversa é salva com as ações executadas e volta ao console.
+
+Se chegar às 8 rodadas sem resposta final, devolve *Limite de iterações atingido sem resposta final*, com as ações que chegou a executar.
+
+## Como uma ferramenta é executada
+
+O servidor chama a ferramenta com os argumentos que o modelo deu **mais o contexto da sessão**: o bot, o workspace e o usuário. O contexto da sessão **prevalece** sobre o que o modelo tenha escrito. Um modelo que se engane — ou que receba uma instrução maliciosa dentro de um texto — não pode sair do bot nem do workspace.
+
+Se uma ferramenta falhar, o erro volta ao modelo como resultado para que ele explique ou tente de outra forma.
+
+## Como fala com os provedores
+
+Com a **Anthropic** usa a API nativa (`/messages`): as instruções vão à parte, as ferramentas são descritas com o esquema de entrada, e o resultado de cada ferramenta volta como um bloco `tool_result`. Com **todos os demais provedores** usa o **formato de chat da OpenAI** (`/chat/completions`, com as ferramentas como funções): Gemini e os demais expõem uma rota compatível; com Ollama ou um servidor próprio, você informa a URL base. O ciclo é o mesmo nos dois casos; só muda como a requisição e a resposta são convertidas. Ver [Provedores e modelos](/docs/Agente/ModelosGenerativos).
+
+## Endpoints
+
+Todos exigem sessão iniciada e trabalham sobre um bot do workspace.
+
+| Método e rota | Para quê |
+|---|---|
+| `POST /api/builder-agent/chat` | Um turno do agente: devolve o texto, as ações e o `session_id` |
+| `POST /api/builder-agent/confirm` | Executa uma ferramenta já decidida, após o aval do usuário |
+| `GET /api/builder-agent/sessions` | As conversas salvas de um bot, a mais recente primeiro |
+| `GET /api/builder-agent/sessions/{id}` | Uma conversa inteira |
+| `PUT /api/builder-agent/sessions/{id}/messages` | Substitui as mensagens salvas de uma conversa |
+| `DELETE /api/builder-agent/sessions/{id}` | Apaga uma conversa |
+
+Se não houver credencial, `chat` responde `400` com `key_required: true`; o console abre então a configuração.
+
+`chat` chama um modelo pago, então tem um limite de **20 mensagens por minuto por usuário**: passado esse limite, responde `429` com um aviso, sem chamar o provedor.
+
+## O que é salvo
+
+Cada conversa fica na tabela de sessões do agente, com o bot, o workspace, o usuário, um **título** (os primeiros 60 caracteres da primeira mensagem), as mensagens e as ações. Listam-se por bot, e por isso o histórico é por bot.
+
+As **credenciais de IA** são salvas na mesma tabela de credenciais do workspace que as dos canais, com o tipo do provedor e a configuração: a chave, a URL base e o modelo.

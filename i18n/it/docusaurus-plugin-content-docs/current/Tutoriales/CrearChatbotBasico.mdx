@@ -1,0 +1,62 @@
+---
+sidebar_position: 1
+sidebar_label: Creare un albero
+---
+
+# Creare un albero
+
+Questo percorso costruisce un bot da ristorante: saluta, prende un ordine e, se serve, chiede il dato che mancava. L'albero delle schermate si chiama **Cafetería** ed è stato piantato con il settore Ristorante.
+
+## Entrare
+
+Prima il workspace, poi l'utente.
+
+![Accesso: il workspace](/img/intro/login.png)
+
+## Piantare
+
+Il **+** in alto apre **Pianta un nuovo albero**. Lì si sceglie se crearne uno o importare un backup.
+
+![Piantare: crearne uno nuovo o importare](/img/empezando/plantar.png)
+
+Alla creazione si chiedono il nome, il settore e la lingua. Il settore **Ristorante** lascia già disegnati intenti, entità, messaggi e il flusso. **Esperto** lo lascia in modalità avanzata, quella di queste schermate. **Prima volta** lo lascia in [modalità principiante](/docs/Fundamentos/ModoPrincipiante).
+
+Il pannello resta sull'albero scelto. Il fulmine del menu addestra. In verde, l'addestramento è aggiornato.
+
+![Pannello di Cafetería, con l'addestramento aggiornato](/img/intro/panel.png)
+
+## Quello che contiene già
+
+Gli **Intenti** sono gli scenari: saluto, menu, ordine, prenotazione.
+
+![Elenco degli intenti del ristorante](/img/intenciones/lista.png)
+
+`hacer_pedido` conserva le frasi e il parametro `orden`.
+
+![Editor di hacer_pedido](/img/intenciones/editor.png)
+
+Le **Entità** sono i dati. `sabor_producto` è carne, pollo, formaggio e il resto.
+
+![sabor_producto, con chiavi e sinonimi](/img/entidades/simple.png)
+
+I **Messaggi** sono quello che il bot ripete. Il saluto dice a che cosa serve.
+
+![Il saluto nella scheda Default](/img/mensajes/editor.png)
+
+## Il percorso
+
+**Flussi** apre il disegno. **Restaurante** ha il contesto **Inicio**, un intento per scenario e l'evento di quando nessuno corrisponde.
+
+![La tela di Restaurante](/img/flujos/lienzo.png)
+
+`saludo` invia il messaggio e torna a Inicio. `reservar_mesa` chiede le persone se non erano nella frase. `hablar_con_asesor` passa a una persona.
+
+![saludo: intento, messaggio e ritorno a Inicio](/img/flujos/conversacion.png)
+
+## Provarlo
+
+La console è il pulsante arancione. Il primo pulsante sceglie il flusso. Per questa mappa, **Restaurante**. `hola` risponde con il benvenuto.
+
+![hola nel flusso Restaurante](/img/diseno/recorrido.png)
+
+Se cambi intenti o entità, addestra di nuovo. Un messaggio o un'acquisizione si leggono al salvataggio. Il dettaglio è in [Provare il bot](/docs/Fundamentos/ProbarElBot).

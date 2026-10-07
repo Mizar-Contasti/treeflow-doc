@@ -1,0 +1,70 @@
+---
+sidebar_position: 4
+sidebar_label: Compréhension
+---
+
+# Compréhension
+
+L'écran est dans la configuration de l'arbre, onglet **Compréhension**. On y choisit le mode, l'analyse de sentiment, les seuils et l'ordre. Cette page est ce que fait chacun.
+
+![Compréhension : le mode, le sentiment, les seuils et l'ordre](/img/arboles/entendimiento.png)
+
+## Basique ou Pro
+
+Un arbre neuf démarre en **Basique**. On utilise aussi Basique lorsque le mode n'est pas défini.
+
+En Basique, l'entraînement est court. Il reconnaît par correspondance de texte et de motifs, exacte et approximative. Le modèle n'entre pas dans la liste : il n'y en a pas à consulter.
+
+**Pro** entraîne un classifieur. C'est une régression logistique de scikit-learn sur le texte des phrases, pas un réseau de neurones. Cela sert lorsque la personne n'écrit pas les mêmes mots que le motif. Cela prend plus de temps. Pendant l'entraînement, on ne change pas de niveau.
+
+Commencez en Basique pendant que vous assemblez le flux. Passez à Pro lorsque l'arbre va parler à des gens qui n'utilisent pas vos phrases.
+
+## Masquer la phrase
+
+Avant de comparer, le moteur remplace ce qu'il a déjà reconnu comme entité par son nom :
+
+```
+Usuario:      hola quiero dos pizzas de pepperoni para llevar
+Enmascarado:  hola quiero @sys.number @categoria_producto de @sabor_producto @tipo_servicio
+```
+
+Un motif `quiero @sys.number @categoria_producto` correspond à « je veux deux pizzas » et à « je veux cinq empanadas » sans écrire chaque combinaison. En Pro, le classifieur s'entraîne et se consulte aussi sur ce texte masqué : il apprend la forme de la phrase, pas chaque valeur.
+
+Si plusieurs correspondances se chevauchent, la plus longue gagne. Les entités se lisent par mots complets. `sys.number` comprend aussi le nombre écrit en toutes lettres.
+
+## À l'entraînement
+
+L'éclair du menu lance l'entraînement. Une fois terminé, l'état reste sur **à jour**. S'il échoue, il reste sur **erreur** et le bot continue avec le modèle précédent jusqu'à ce qu'un entraînement se termine bien.
+
+Deux entraînements ne tournent pas en même temps sur le même arbre. Un qui dure plus de 20 minutes est considéré comme échoué, pour ne pas bloquer le suivant. Si le bouton dit qu'il n'y a pas de changements et que vous voulez quand même réentraîner, on peut forcer.
+
+Appliquer un modèle, ou remplacer des intentions en bloc, laisse l'arbre **obsolète**. Il faut entraîner de nouveau pour que le moteur utilise le nouveau. Un message ou une capture ne passent pas par ici : ils se lisent au moment de répondre.
+
+## Ordre
+
+L'arbre essaie plusieurs méthodes et garde la première qui correspond bien. L'ordre se fait glisser dans **Nature de priorité**. Celui du haut passe en premier.
+
+![L'ordre : la méthode du haut pèse davantage](/img/arboles/prioridad.png)
+
+| Méthode | Ce qu'elle regarde |
+|---|---|
+| Correspondance exacte d'entités | Une valeur ou un synonyme écrit dans l'entité |
+| Correspondance approximative d'entités | La même chose, en tolérant les fautes |
+| Correspondance exacte de motifs | La phrase contre les phrases d'entraînement |
+| Correspondance approximative de motifs | La même chose, en tolérant les différences |
+| Modèle | Le classifieur de Pro. En Basique, cette ligne n'est pas là |
+
+D'usine, ils vont du plus littéral au plus lâche. Monter l'approximatif au-dessus de l'exact fait qu'une phrase semblable l'emporte sur une identique. « hola » ressemble assez à « hora » pour que « à quelle heure vous ouvrez » tombe dans le salut. Si vous déplacez l'ordre, testez les phrases habituelles avant de le laisser.
+
+### Seuils
+
+Les deux sortent à 70 %.
+
+- **Seuil ML.** Le minimum de confiance que le modèle doit avoir pour accepter l'intention. Plus il est haut, moins il y a de réussites par hasard et plus il y a de `no_match`.
+- **Seuil de correspondance approximative.** La ressemblance minimale lorsque la phrase n'est pas exacte.
+
+## Sentiment
+
+L'interrupteur **Analyse des sentiments** marque chaque message comme positif, neutre ou négatif. Il sert à voir la frustration dans le tableau de bord et à suggérer que la conversation passe à une personne. Ce n'est pas une condition que l'on écrit dans le flux.
+
+Les entités composées, la regex et celles du système sont dans [Entités](/docs/Fundamentos/Entidades).

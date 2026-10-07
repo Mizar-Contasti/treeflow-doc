@@ -1,0 +1,50 @@
+---
+sidebar_position: 1
+---
+
+# Slack
+
+Il tuo bot risponde su Slack, nei canali e nei messaggi diretti, con i blocchi nativi di Slack. È un canale **Stabile**.
+
+![La schermata di Slack in Canali: Request URL e credenziali dell'app](/img/canales/slack.png)
+
+## Che cosa ti serve su Slack
+
+Un'app creata in [api.slack.com/apps](https://api.slack.com/apps) e installata nel tuo workspace.
+
+| Campo in TreeFlow | Da dove esce |
+|---|---|
+| **Bot User OAuth Token** | OAuth & Permissions → *Bot User OAuth Token*. Inizia con `xoxb-` |
+| **Signing Secret** | Basic Information → App Credentials |
+
+Il **Signing Secret** permette di verificare che ogni evento arrivi davvero da Slack. Senza di esso, TreeFlow non risponde.
+
+Il bot ha bisogno del permesso `chat:write` per poter rispondere.
+
+## Attivarlo
+
+L'URL che incolli su Slack si verifica con il tuo Signing Secret, quindi prima si salvano le credenziali in TreeFlow e poi si incolla l'URL su Slack.
+
+1. Scegli il tuo bot nel selettore in alto a sinistra.
+2. Apri **Integrazione → Canali → Slack**.
+3. Compila **Bot User OAuth Token** e **Signing Secret**, e premi **Salva e integra Slack**. Il canale resta acceso.
+4. Copia la **Request URL** di quella stessa schermata.
+5. Nella tua app di Slack → **Event Subscriptions**, attiva *Enable Events* e incolla l'URL in **Request URL**. Slack la verifica subito.
+6. In *Subscribe to bot events* aggiungi `message.channels`, `message.im` e `app_mention`.
+7. Perché i **pulsanti** funzionino, in **Interactivity & Shortcuts** attiva *Interactivity* e incolla lo stesso URL.
+
+L'interruttore **ON/OFF** in alto lo spegne e lo accende senza cancellare quello che è salvato.
+
+## Che cosa fa il bot
+
+- Risponde ai **messaggi** delle persone e alle **menzioni** (`@tubot`). Ignora i messaggi dei bot, le modifiche e le cancellazioni.
+- Risponde **nel thread** del messaggio.
+- Manda blocchi di Slack: paragrafi, immagini e pulsanti.
+- Quando qualcuno preme un pulsante, il bot riceve il valore di quel pulsante come se la persona l'avesse scritto.
+
+## Se non risponde
+
+- Che l'interruttore sia su **ON**.
+- Che il **Signing Secret** sia quello della stessa app che manda gli eventi.
+- Che il bot sia **invitato nel canale** dove gli scrivi.
+- Che gli eventi del passo 6 siano iscritti.

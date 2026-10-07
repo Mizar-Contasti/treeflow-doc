@@ -1,0 +1,141 @@
+---
+sidebar_position: 7
+sidebar_label: Entités
+---
+
+# Entités
+
+Dans le menu, elles s'appellent **Entités**. Ce sont les données que le moteur extrait d'une phrase : un produit, une date, un nombre. L'[intention](./Intenciones) décide ce que la personne a voulu dire. L'entité décide quel morceau de la phrase est conservé.
+
+## La liste
+
+**Entités** ouvre les cartes. En haut, on cherche par nom. Il y a quatre onglets.
+
+![Liste d'entités simples, avec recherche et Nouvelle entité](/img/entidades/lista.png)
+
+| Onglet | Ce qu'il garde |
+|---|---|
+| **Simple** | Une valeur et les façons de la dire |
+| **Composée** | Plusieurs entités ensemble dans une seule phrase |
+| **Regex** | Un format fixe, avec une expression régulière |
+| **Système** | Celles que TreeFlow apporte déjà (`sys.number`, `sys.date`…) |
+
+- **Nouvelle entité** ouvre le formulaire. Si vous êtes dans Composée ou Regex, le type est déjà choisi.
+- Un clic sur le nom ouvre l'éditeur.
+- La bande orange demande une confirmation pour la supprimer. Si une intention l'utilise, la suppression le signale.
+- **Système** ne se supprime pas et ne s'édite pas.
+
+## Le formulaire
+
+En haut, **Nom de l'entité** et **Type**. **Enregistrer les modifications** écrit l'entité. **Tout effacer** vide les valeurs et demande une confirmation.
+
+Le nom est un identifiant. Les espaces deviennent `_`. À l'enregistrement, il reste en minuscules et sans accents. Le `ñ` est conservé.
+
+Si l'arbre a plus d'une langue, à côté du nom se trouvent les langues : chacune édite ses synonymes.
+
+En bas se trouve le **Testeur d'entité**. Il sert à voir si une phrase tombe dans une valeur, sans entraîner l'arbre.
+
+## Simple
+
+Une simple est une liste de valeurs. Chaque valeur a une **clé** — ce qui est conservé — et des **synonymes** — d'autres façons de le dire.
+
+![sabor_producto : viande, poulet, fromage et le reste, chaque clé avec ses synonymes](/img/entidades/simple.png)
+
+- La clé s'écrit en bas et se confirme avec **Entrée**. Plusieurs clés séparées par une virgule entrent d'un coup : `pizza, hamburguesa`.
+- Dans **Ajouter un synonyme**, c'est la même chose : Entrée, ou plusieurs séparés par une virgule.
+- La clé compte aussi comme façon de le dire. `pizza` entre même si elle n'est pas répétée dans les synonymes.
+- Un clic sur la clé ou sur un synonyme l'édite. La croix du synonyme le retire. La corbeille retire la valeur entière.
+
+`quiero de queso` tombe dans la clé `queso`, parce que `queso` est l'une des façons de le dire.
+
+Si dans une simple vous écrivez `@` pour citer une autre entité, le formulaire demande si vous la convertissez en **Composée**.
+
+## Composées {#2-entidades-compuestas}
+
+Une composée lit **plusieurs entités à la fois**. `2 pizzas` est un nombre et un produit, et c'est une seule ligne.
+
+Chaque ligne est une façon valable de le dire. On écrit le motif et on confirme avec Entrée.
+
+![orden : verbe, action, quantité, catégorie, saveur et service sur la même ligne](/img/entidades/compuesta.png)
+
+```
+@sys.number @producto
+@sys.number @producto de @sabor
+@producto
+```
+
+- `@producto` cite l'entité `producto`.
+- Les mots entre les deux, comme `de`, doivent être dans la phrase.
+- Le moteur garde la ligne qui remplit le plus de trous.
+
+Le nom qui suit les deux-points, comme `@producto:producto_pedido`, est celui du [paramètre](/docs/Avanzado/Parametros).
+
+Dans la ligne, chaque `@` est coloré. La corbeille retire cette ligne.
+
+## Regex {#3-entidades-regex}
+
+Une regex reconnaît un format, pas une liste de mots. Elle sert pour un CURP, une fiche, un code.
+
+![contacto : un téléphone et un e-mail, les deux marqués comme motif valide](/img/entidades/regex.png)
+
+Le champ **Motif regex** signale si l'expression est valide. **Ajouter une variante** ajoute un autre motif : il suffit qu'un seul corresponde. Entrée dans le champ ouvre la variante suivante.
+
+Dans `contacto`, il y a deux variantes : un téléphone et un e-mail. Il suffit que la phrase corresponde à l'une d'elles.
+
+Dans le testeur d'une regex, ce que vous écrivez est passé en majuscules et les espaces sont retirés, pour tester le format propre.
+
+## Testeur
+
+Le testeur est dans le même formulaire. Vous écrivez une phrase et il dit si elle est tombée dans une valeur.
+
+![quiero de queso : le testeur marque une correspondance trouvée](/img/entidades/probador.png)
+
+- **Valeur capturée** est la clé qui est conservée.
+- **Type** dit si c'était exact, normalisé (sans accents, semblable) ou par le motif.
+- S'il n'y a pas encore de valeurs, le champ demande de les ajouter d'abord.
+- Celles de **Système** ne se testent pas ici : le moteur les détecte.
+
+Le testeur ne remplace pas l'entraînement. Pour voir la phrase à l'intérieur d'une conversation, on enregistre, on entraîne et on teste dans la [console](/docs/Fundamentos/ProbarElBot).
+
+## Système
+
+L'onglet **Système** regroupe celles que le moteur apporte déjà. On ne les crée pas, on ne les édite pas et on ne les supprime pas. Dans un motif d'[intention](./Intenciones), on les cite avec l'arobase.
+
+Une réservation tient dans une phrase :
+
+```
+quiero mesa para @sys.number el @sys.date a las @sys.time
+```
+
+`quiero mesa para 4 el martes a las 10:30` remplit trois données : le nombre `4`, la date du mardi et l'heure `10:30`.
+
+![Les cartes de Système : chacune dit ce qu'elle reconnaît](/img/entidades/sistema.png)
+
+L'icône de la carte ouvre les exemples et le format dans lequel sort la valeur. Le testeur de cette page ne les teste pas : le moteur les détecte à l'entraînement.
+
+| On la cite | Une phrase | Reconnaît aussi |
+|---|---|---|
+| `@sys.number` | je veux **3** pizzas | `45`, `3.14`, `tres`, `mil doscientos`. Le nombre sort : `3` |
+| `@sys.date` | le rendez-vous est **demain** | `10 de mayo`, `martes`, `ayer`, `2024-05-10`. Sort en `AAAA-MM-DD` |
+| `@sys.time` | à **10:30** | `10`, `3pm`, `15:45`, `a las 3`. Sort en `HH:MM` |
+| `@sys.month` | en **janvier** | `febrero`, `marzo`, … `diciembre`. Le mois sort de `01` à `12` |
+| `@sys.email` | écrivez-moi à **ana@correo.com** | `contacto@empresa.mx` |
+| `@sys.phone` | mon numéro est **4421234567** | `+52 123 456 7890`, `442-123-4567` |
+| `@sys.currency` | cela fait **100 pesos** | `$25.50`, `€50`, `25 dólares` |
+| `@sys.percentage` | **25 %** de réduction | `50 por ciento`, `10.5%` |
+| `@sys.quantity` | **2 kilos** de tortilla | `5 piezas`, `3.5 litros`, `10 metros` |
+| `@sys.temperature` | il fait **25 degrés** | `25°C`, `77°F`, `-10 celsius` |
+| `@sys.url` | la page est **https://ejemplo.com** | `http://www.sitio.mx`, `www.ejemplo.com` |
+| `@sys.zipcode` | le code est **76000** | `01000`, `44100`. Cinq chiffres, format du Mexique |
+| `@sys.coordinates` | à **19.4326, -99.1332** | latitude et longitude en décimal |
+| `@sys.ip_address` | l'IP **192.168.1.1** | `8.8.8.8`, `2001:0db8::1` |
+| `@sys.sip_address` | appelez **sip:usuario@dominio.com** | `sip:1234@192.168.1.1:5060` |
+| `@sys.any` | le commentaire **n'importe lequel** | n'importe quel texte, jusqu'à 100 caractères |
+
+`sys.phone` et `sys.zipcode` sont ajustés au Mexique. Le moteur reconnaît `sys.month` même si l'onglet n'a pas sa carte. L'onglet montre bien `sys.geo-city`, avec des exemples comme Querétaro, Monterrey et Mexico.
+
+## Entraîner
+
+**Enregistrer les modifications** laisse l'arbre obsolète. Les nouvelles valeurs entrent dans la conversation lorsqu'on entraîne, avec le bouton **Entraîner** en bas du menu.
+
+Une entité entre dans la phrase lorsqu'un [motif](./Intenciones) la cite.

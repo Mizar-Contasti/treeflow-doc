@@ -1,0 +1,51 @@
+---
+sidebar_position: 1
+---
+
+# Telegram (Official)
+
+Connect your conversational tree to Telegram to reach millions of users on one of the most popular messaging platforms in the world. TreeFlow has a **native, official** Telegram integration, with no middleware and no third-party bridges.
+
+## Supported features
+
+- **Direct communication**: A native connection through the official Telegram API.
+- **Native reply rendering**: The engine's conversational nodes are parsed straight into Telegram formats.
+
+### 14 rich visual blocks (end-to-end support)
+
+TreeFlow automatically turns the visual blocks you set up on your canvas into interactive components in Telegram:
+
+1. **Paragraph**: Plain text messages with Markdown support.
+2. **Image**: Native images and photos.
+3. **Video**: Native inline video.
+4. **Audio**: Voice notes and audio clips.
+5. **Files**: Transfer of large documents (PDFs, docx, and so on).
+6. **Inline buttons**: Action buttons embedded under the messages.
+7. **Quick replies**: Custom keyboards at the bottom of the chat.
+8. **Accordion**: Logical grouping of long text (compound text parsing).
+9. **Dropdown**: Parsed into multi-select button sets.
+10. **Share location**: Static maps (latitude/longitude).
+11. **Request location**: A special button that reads the GPS location from the user's phone.
+12. **Divider**: Visual separators.
+13. **Card**: A compound message with a title, a subtitle, and buttons.
+14. **Carousel**: A horizontal list of cards (optimized sequential rendering).
+
+:::tip Automated tests
+The Telegram integration is backed by a solid end-to-end test suite (with Playwright). All 14 rich blocks work with exact parity with the web version.
+:::
+
+## Setup and activation
+
+It is the shortest channel to turn on: there is no URL to copy and no app to create, only a token.
+
+![The Telegram screen: the BotFather steps, the token field, and the switch](/img/canales/telegram.png)
+
+1. Choose your bot in the selector at the top left.
+2. In Telegram, open **@BotFather** and send `/newbot`. Follow the instructions to give it a name and a *username*.
+3. Copy the **HTTP API Token** BotFather gives you. It looks like this: `123456789:ABC…`
+4. In TreeFlow, open **Integration → Channels → Telegram**.
+5. Paste the token into **Telegram Bot Token** and click **Save and Connect Telegram**.
+
+When you save, TreeFlow registers the webhook with Telegram on its own and the channel is **turned on**. Write to your bot on Telegram to try it.
+
+The **ON/OFF** switch at the top turns it off and on without deleting the token.

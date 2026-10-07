@@ -1,0 +1,46 @@
+---
+sidebar_position: 1
+---
+
+# Instagram Direct
+
+Connect your bot to the **direct messages** of a professional Instagram account. It is a **Beta** channel.
+
+![The Instagram Direct screen in Channels: the URL for Meta and the account credentials](/img/canales/instagram.png)
+
+## What you need from Meta
+
+A **professional** Instagram account (Business or Creator) and an app in [Meta for Developers](https://developers.facebook.com/) with access to Instagram messaging.
+
+| Field in TreeFlow | Where it comes from |
+|---|---|
+| **Instagram Account ID** | The ID of the Instagram business account |
+| **Verify Token** | You choose it: any text |
+| **Instagram Access Token** | A token with the `instagram_manage_messages` permission |
+| **App Secret** | Your app → Settings → Basic → App secret |
+
+The **App Secret** lets TreeFlow check that each message really comes from Meta. Without it, TreeFlow does not reply.
+
+## Turn it on
+
+1. Choose your bot in the selector at the top left.
+2. Open **Integration → Channels → Instagram Direct**.
+3. **Step 1.** Copy the **Callback URL** and paste it in Meta Developers → Instagram → Webhook. In Meta's **Verify token** field, enter the same value you will put in TreeFlow.
+4. In Meta, subscribe the webhook to the **messages** field.
+5. **Step 2.** Fill in Instagram Account ID, Verify Token, Instagram Access Token, and App Secret.
+6. Click **Save and Integrate Instagram**. The channel is turned on.
+
+The **ON/OFF** switch at the top turns it off and on without deleting what is saved.
+
+## What it receives and what it sends
+
+The bot reads text messages, quick replies, and the buttons the person taps.
+
+It replies with **text** (up to 1000 characters). Buttons in the reply appear as **quick replies**, up to 13. Link buttons do not.
+
+## If it does not reply
+
+- The switch is **ON**.
+- Meta's **Verify Token** is identical to the one in TreeFlow.
+- The **Account ID** is the account that receives the messages.
+- The **App Secret** belongs to the same app that sends the messages.

@@ -1,0 +1,38 @@
+---
+sidebar_position: 4
+sidebar_label: Webhook
+description: L'unico URL dell'albero. Si modifica come un'API e un nodo lo chiede con un interruttore.
+---
+
+# Webhook
+
+La scheda **Webhook** non ha ricerca né pulsante di creazione. C'è una sola card, **Webhook**. Non si cancella e non si duplica. Non compare in **Aggiungi strumento…**: il nodo lo chiede a parte.
+
+![La scheda Webhook, con una sola card](/img/herramientas/webhook-lista.png)
+
+## L'editor
+
+Si apre come un'API. Il **nome** è fisso su Webhook. La descrizione di fabbrica è «Webhook principale del sistema». Il metodo è **POST** e il timeout di fabbrica è **30000** ms. L'autenticazione può restare su nessuna, oppure passare a Basic o Bearer.
+
+![Webhook: POST, 30000 ms, corpo vuoto e l'avviso di {$variable}](/img/herramientas/webhook-editor.png)
+
+L'**URL** deve iniziare con `http://` o `https://`. Vuoto, o con l'interruttore spento, il motore non chiama nulla. L'interruttore è nell'intestazione dell'editor, accanto a **Salva modifiche**.
+
+Il corpo è un JSON. L'avviso di quella casella dice come inserire i dati:
+
+```
+{$variable}
+{ $valor ? 'Sí' : 'No' }
+```
+
+**Ingresso** e **Uscita** funzionano come in un'[API](./Apis): quello che il corpo leggerà, e quello che vuoi conservare della risposta. **Test** fa la chiamata. **Distribuzione** la segna. Perché il nodo la usi bastano l'interruttore acceso e un URL http(s): lo stato della schermata non sostituisce questo.
+
+**Messaggio se fallisce** è quello che vede la persona se quell'URL non risponde e non c'è un valore di riserva.
+
+## Quando gira
+
+Nel nodo, scheda **Funzionalità**, **Chiama webhook in questo nodo**. Se è acceso, il motore chiama questo URL passando di lì, dopo gli script e prima delle API di quel nodo. Se l'albero non ha un webhook attivo, l'interruttore non fa nulla.
+
+Lo portano il contesto, l'intento e l'evento. Se il nodo di origine e quello di destinazione lo chiedono entrambi, si chiama una volta e conta quello di destinazione.
+
+Non è il webhook di un canale. Quello lo configura la piattaforma (Meta, Slack, Discord) per consegnare i messaggi a TreeFlow, e sta in [Canali](/docs/Canales/CanalesDeComunicacion).

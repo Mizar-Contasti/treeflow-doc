@@ -1,0 +1,86 @@
+---
+sidebar_position: 2
+sidebar_label: Getting started
+---
+
+import AppUrl from '@site/src/components/AppUrl';
+
+# Getting Started
+
+You sign in, plant a tree, and test it. The name of each piece is in the [terminology](/docs/Fundamentos/Terminologia).
+
+## Sign in
+
+![Sign-in: the workspace first, then the user](/img/intro/login.png)
+
+1. Open <AppUrl>TreeFlow</AppUrl>.
+2. Enter the **workspace** and press **Continue**.
+3. Enter the user and the password, and press **Sign in**.
+
+If you do not have an account yet, choose **Register your workspace**. It asks for the workspace name, the email, the administrator user, and the password. A six-digit code arrives; once you verify it, the account is created and you can download the credentials.
+
+**Forgot your workspace?** and **Forgot your password?** use that same email.
+
+In the header, once you are in, the workspace name is shown. Users, keys, and trees live there. Another customer is another workspace: you sign in again with its name.
+
+## Plant the first tree
+
+An empty workspace says **There are no trees in your forest**. The button is **Plant First Tree**.
+
+If there are already trees, the menu has **Create a new bot**. In the list, **New Tree** opens the same screen, **Plant a New Tree**. You can also **Import Tree** from a backup.
+
+![Plant a New Tree: create one or import a backup](/img/empezando/plantar.png)
+
+The dialog has two parts.
+
+**How you want to start.**
+
+- **First time** turns on the tutorials and leaves the tree in [beginner mode](./ModoPrincipiante): the menu shows the canvas and hides intents, entities, messages, and captures. When you finish you can view the guide or skip it.
+- **Experienced** loads sample data and leaves the full menu. In the tree selector that mode is called **Advanced**.
+
+**The tree's details.**
+
+- **Name**, required.
+- **Description**, if you want one.
+- **Agent industry**, required. Restaurant, hotel, clinic, and the rest bring a template of intents, entities, and a flow. **No industry** leaves the basic bot.
+- **Base language**, the one used for training and for the interface.
+
+**Plant Tree** creates it and opens the dashboard.
+
+![The dashboard, with the tree already selected](/img/intro/panel.png)
+
+At the top you choose the tree and the range. **Last Day** is the one selected when you open it.
+
+| Card | What it counts |
+|---|---|
+| Conversations | How many there were in the range |
+| Failure rate | What portion was not resolved |
+| User sentiment | Whether sentiment analysis is on |
+| Escalation to a human | How many were handed to a person |
+| Flows, intents, entities | How many the tree has |
+| Channels | How many are connected |
+| Training | Whether it is up to date. Green means yes |
+
+## Try it
+
+1. The path is drawn in [Flows](./Flujos). Each step on the canvas is a node.
+
+![A flow on the canvas](/img/intro/flujo.png)
+
+2. If you would rather describe the design and let the app build it, use the **Agent** tab in the [console](/docs/Fundamentos/ProbarElBot).
+3. At the bottom of the menu, the lightning bolt shows the training status. **Training pending** is orange: one click trains it. In green it says **AI trained**. Until you train, the bot answers with the previous training.
+4. The console, the panel on the right, is the test chat. Write the way the person would.
+
+![The console open to the right of the dashboard](/img/empezando/consola.png)
+
+Every change to intents or entities asks for another training. The lightning bolt turns orange again when something is pending.
+
+## Continue here
+
+1. [Beginner mode](./ModoPrincipiante), if the tree hides part of the menu
+2. [Trees](./Arboles), to create another one or switch bots
+3. [Flows](./Flujos), the canvas
+4. [Intents](./Intenciones) and [entities](./Entidades), what the engine recognizes
+5. [Messages](./Mensajes) and [captures](./Capturas), what the bot says and how it asks for a piece of data
+6. [Test the bot](./ProbarElBot), multi-turn cases
+7. [Channels](/docs/Canales/CanalesDeComunicacion), when someone outside has to talk to it

@@ -1,0 +1,90 @@
+---
+sidebar_position: 6
+sidebar_label: MCP
+description: Conectar o Claude Desktop, o Claude Code ou o Cursor ao workspace com uma chave MCP.
+---
+
+# MCP
+
+MCP (Model Context Protocol) é a forma de um assistente de fora — Claude Desktop, Claude Code ou Cursor — construir o bot sem abrir o console. Entra no workspace com uma chave, a URL da API e o id do workspace.
+
+Não é o [agente do console](./Constructor). Esse usa a chave de um provedor de modelos e roda dentro do TreeFlow. O MCP usa uma chave que **você** dá ao Claude, e o Claude chama o TreeFlow.
+
+![Credenciais, aba Chaves de API. MCP é a aba ao lado](/img/gestion/credenciales.png)
+
+## Criar a conexão
+
+Só um administrador pode criar a chave.
+
+1. **Gestão → Credenciais**.
+2. Aba **MCP**.
+3. **Nova conexão MCP**. Dê um nome, por exemplo «Claude Desktop», e atribua a um usuário do workspace.
+4. Ao criá-la, a chave completa é mostrada **uma vez**. Copie-a. Depois só fica o identificador.
+5. No mesmo quadro, a aba **Claude Desktop (MCP Config)** traz o JSON já preenchido: a URL desta instalação, a chave e o id do workspace. **Copiar JSON**.
+
+O fragmento tem esta forma. Os três valores o app coloca; não é preciso inventá-los.
+
+```json
+{
+  "mcpServers": {
+    "treeflow": {
+      "command": "npx",
+      "args": ["-y", "github:Mizar-Contasti/tree-flow-mcp"],
+      "env": {
+        "TREEFLOW_URL": "https://tu-servidor",
+        "TREEFLOW_API_KEY": "tf_live_…",
+        "TREEFLOW_WORKSPACE_ID": "botsmexico"
+      }
+    }
+  }
+}
+```
+
+| Variável | O que é |
+|---|---|
+| `TREEFLOW_URL` | A API desta instalação, sem barra no final. No ambiente local costuma ser `http://localhost:8000` |
+| `TREEFLOW_API_KEY` | A chave `tf_live_…` que você acabou de criar. Dela saem o workspace e o papel |
+| `TREEFLOW_WORKSPACE_ID` | O mesmo workspace com o qual você entra. Precisa ser o dono da chave |
+
+É preciso Node.js na máquina onde o Claude roda: o cliente é baixado com `npx` a partir de `github:Mizar-Contasti/tree-flow-mcp`.
+
+## Colar no Claude Desktop
+
+O arquivo se chama `claude_desktop_config.json`.
+
+- No Windows: `%APPDATA%\Claude\claude_desktop_config.json`
+- No Mac: `~/Library/Application Support/Claude/claude_desktop_config.json`
+
+Se o arquivo já tiver outros servidores, coloque `treeflow` dentro de `mcpServers`, sem substituir o arquivo inteiro. Salve, feche o Claude Desktop e abra de novo. O ícone do martelo indica que o TreeFlow ficou conectado.
+
+O Claude Code e o Cursor usam o mesmo JSON de servidor MCP. No Cursor, cola-se na configuração de MCP do projeto ou do usuário.
+
+## O que pode fazer
+
+As ferramentas se chamam `treeflow_…`. O Claude as vê ao conectar. Agrupadas:
+
+| Área | O que faz |
+|---|---|
+| Bots | Lista, lê, cria e altera árvores. Não pode apagar um bot |
+| Fluxos e nós | `treeflow_list_branches`, `treeflow_create_branch`, `treeflow_update_branch`, `treeflow_delete_branch`, e o mesmo para nós (`treeflow_list_leafs`, `treeflow_create_leaf`, `treeflow_update_leaf`, `treeflow_delete_leaf`) |
+| Intenções e entidades | Criar, alterar e apagar, com frases, parâmetros e sinônimos |
+| Mensagens | Modelos, também com blocos enriquecidos |
+| APIs e scripts | Criar, alterar, apagar e **testar** uma API ou um script. As senhas saem mascaradas |
+| Capturas | A pergunta reutilizável de um parâmetro. Não é preciso treinar para que tenha efeito |
+| Transferências | A configuração de passar para uma pessoa, e um teste do endpoint |
+| Testes | Suítes, o CSV, executar uma rodada e comparar duas |
+| Mesa de ajuda | Só leitura: a fila, o histórico e uma sessão |
+| Canais | Ver o estado e ligar ou desligar |
+| Voz | STT e TTS |
+| Treinamento | Dispará-lo, ver se terminou e o histórico |
+| Conversas | Simular uma mensagem e ler sessões |
+| Backups | Listar, criar, restaurar (exige `confirm: true` e antes salva outro backup), exportar e importar um bot novo |
+| Usuários | Listar, convidar e mudar o papel. Não apaga usuários |
+
+Apagar um bot ou um usuário não está entre as ferramentas: isso se faz no painel.
+
+## Revogá-la
+
+Na mesma tabela, o ícone de apagar **revoga** a chave. O Claude deixa de entrar naquele momento. Não dá para ver a chave de novo: cria-se outra conexão e cola-se o JSON novo.
+
+Não confunda esta chave com a do [provedor de modelos](./ModelosGenerativos). Essa o agente do console usa para pensar. Esta o Claude usa para entrar no TreeFlow.

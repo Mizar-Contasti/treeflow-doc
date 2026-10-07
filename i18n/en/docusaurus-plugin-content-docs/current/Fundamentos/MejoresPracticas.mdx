@@ -1,0 +1,64 @@
+---
+sidebar_position: 12
+sidebar_label: Best practices
+---
+
+# Best practices
+
+This is what keeps a tree from answering something else. The example is the **Restaurant** flow in Cafetería.
+
+## Several utterances, one intent
+
+An intent is a scenario, not a wording. `hacer_pedido` has many ways of asking for the same thing.
+
+![hacer_pedido: the same order said in several ways](/img/intenciones/editor.png)
+
+An utterance that is too short swallows others. `saludo` should not carry a pattern so loose that "what time do you open" falls in there. If two intents can read the same utterance, the one that fills more data wins, and in a tie the one higher up in the [understanding](./Arboles) order.
+
+## The data is asked for, not drawn
+
+A reservation is not a node for each piece of data. The [entity](./Entidades) pulls the value out of the utterance. If it is missing and the parameter is **Required**, the bot asks for it.
+
+![numero, required, with the question and the attempt limit](/img/intenciones/ajustes.png)
+
+The question names what was already captured, so the person can see how it was understood. If that question is going to be used on several intents, it goes in a [capture](./Capturas).
+
+## Only what is in the context is heard
+
+The green node waits. The intents linked there are the only ones the engine tries in that stretch.
+
+![Start, with the intents for that stretch](/img/flujos/contexto.png)
+
+An intent that exists on the tree and is not linked does not fire. After answering, almost every node returns to Start: that way the next utterance is heard again.
+
+![saludo returns to Start](/img/flujos/conversacion.png)
+
+The one that hands off to a person does not return. `hablar_con_asesor` transfers and closes the question that was in progress.
+
+## When it does not match
+
+Each context has its own `sys.no-match`. The message says it did not understand and asks to repeat. The usual transition is to return to the same context.
+
+![The sys.no-match event](/img/flujos/evento.png)
+
+The parameter's attempt limit does the same thing with a piece of data: it insists, and once it is exceeded it continues with the next one or lets go of the capture. Do not leave a required parameter without a question or without a cap.
+
+## The name is an identifier
+
+Intents, entities, messages, and captures are stored in lowercase, with `_` instead of spaces. `Consulta de precio` becomes `consulta_de_precio`. The `ñ` is kept.
+
+That name is the one the flow, the parameter, and the `{$nombre}` template cite. Changing it later breaks those citations.
+
+## Train what the engine memorizes
+
+Intents and entities go into training. A message or a capture is read when answering: saving is enough. The lightning bolt in the menu is **Train**. The dashboard marks it in green when it is up to date.
+
+![The dashboard, with training up to date](/img/intro/panel.png)
+
+## Test the flow you are designing
+
+The console starts on the **Main** flow if the first button says **Default**. The Restaurant map is another flow: you have to choose it. Otherwise, `hola` answers with the main flow's greeting.
+
+![Console on Restaurant: hello and this turn's node](/img/diseno/recorrido.png)
+
+With debug mode you see the intent, the confidence, and the path on the canvas. The details are in [Test the bot](./ProbarElBot).

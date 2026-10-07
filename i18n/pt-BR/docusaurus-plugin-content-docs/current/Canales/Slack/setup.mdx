@@ -1,0 +1,50 @@
+---
+sidebar_position: 1
+---
+
+# Slack
+
+O seu bot responde no Slack, em canais e em mensagens diretas, com os blocos nativos do Slack. É um canal **Estável**.
+
+![A tela do Slack em Canais: Request URL e credenciais do app](/img/canales/slack.png)
+
+## O que você precisa no Slack
+
+Um app criado em [api.slack.com/apps](https://api.slack.com/apps) e instalado no seu workspace.
+
+| Campo no TreeFlow | De onde vem |
+|---|---|
+| **Bot User OAuth Token** | OAuth & Permissions → *Bot User OAuth Token*. Começa com `xoxb-` |
+| **Signing Secret** | Basic Information → App Credentials |
+
+O **Signing Secret** permite conferir que cada evento vem mesmo do Slack. Sem ele, o TreeFlow não responde.
+
+O bot precisa da permissão `chat:write` para poder responder.
+
+## Ativá-lo
+
+A URL que você cola no Slack é verificada com o seu Signing Secret, então primeiro as credenciais são salvas no TreeFlow e depois a URL é colada no Slack.
+
+1. Escolha seu bot no seletor do canto superior esquerdo.
+2. Abra **Integração → Canais → Slack**.
+3. Preencha **Bot User OAuth Token** e **Signing Secret** e clique em **Salvar e integrar Slack**. O canal fica ligado.
+4. Copie a **Request URL** dessa mesma tela.
+5. No seu app do Slack → **Event Subscriptions**, ative *Enable Events* e cole a URL em **Request URL**. O Slack a verifica na hora.
+6. Em *Subscribe to bot events*, adicione `message.channels`, `message.im` e `app_mention`.
+7. Para os **botões** funcionarem, em **Interactivity & Shortcuts** ative *Interactivity* e cole a mesma URL.
+
+O interruptor **ON/OFF** de cima desliga e liga o canal sem apagar o que foi salvo.
+
+## O que o bot faz
+
+- Responde às **mensagens** de pessoas e às **menções** (`@tubot`). Ignora as mensagens de bots, as edições e as exclusões.
+- Responde **no fio** da mensagem.
+- Envia blocos do Slack: parágrafos, imagens e botões.
+- Quando alguém toca um botão, o bot recebe o valor desse botão como se a pessoa o tivesse escrito.
+
+## Se não responder
+
+- O interruptor precisa estar em **ON**.
+- O **Signing Secret** precisa ser o do mesmo app que envia os eventos.
+- O bot precisa estar **convidado para o canal** em que você escreve.
+- Os eventos do passo 6 precisam estar inscritos.

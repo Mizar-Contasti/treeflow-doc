@@ -1,0 +1,65 @@
+---
+sidebar_position: 4
+sidebar_label: A message with a function
+---
+
+# A message with a function
+
+What the bot says can include a gap. You write it between braces, and the `$` marks the variable. Without `$`, it is fixed text.
+
+```
+{$nombre}     el valor de la variable nombre
+{nombre}      la palabra "nombre"
+```
+
+## The Cafetería order
+
+**Messages** opens the list. Go into `restaurante_hacer_pedido_response`. On the **Default** tab, the text names what was written down if there is already an order and, if not, asks what to prepare.
+
+![restaurante_hacer_pedido_response: the function with $pedido](/img/funciones/mensaje.png)
+
+```
+{("¡Listo! Anoté " + $pedido + ". Te lo preparamos enseguida.") if $pedido else "¡Con gusto! ¿Qué te preparo?"}
+```
+
+| What arrived | What comes out |
+|---|---|
+| `$pedido` = `2 empanadas de queso` | Done! I wrote down 2 cheese empanadas. We'll have it ready right away. |
+| `$pedido` empty | Happy to help! What can I prepare for you? |
+
+**Save changes**. The text is read when replying: training is not required.
+
+The same syntax fits in a parameter question or a capture question.
+
+![Quantity question: {$categoria_producto} and {$sabor_producto}](/img/funciones/pregunta.png)
+
+```
+¿Cuántas {$categoria_producto}s de {$sabor_producto} te preparo?
+```
+
+## The ones that are already there
+
+You do not need to create them. In any message the engine leaves two:
+
+| Variable | What it contains |
+|---|---|
+| `{$last_utterance}` | The last thing the person wrote |
+| `{$last_no_match}` | The last phrase the bot did not understand |
+
+```
+No entendí "{$last_no_match}", ¿puedes decirlo de otra forma?
+```
+
+When you type `{$` they appear in the picker, marked as *System*. When each one changes is covered in [System variables](/docs/Avanzado/Funciones#variables-del-sistema).
+
+## Check it
+
+Open the console, **Restaurante** flow, **Default** channel. Complete the order. The reply should name what was captured.
+
+![The console already substituted the category in the question](/img/funciones/consola.png)
+
+If a loose brace shows up in the bubble, the `$` is missing or the expression did not close with `}`. A variable that does not exist comes out blank and does not break the message.
+
+`{$nombre.original_value}` is how the person wrote it. `{$nombre.key_value}` is the normalized value.
+
+The full list — conditions, arithmetic, `len`, lists — is in [Functions](/docs/Avanzado/Funciones).

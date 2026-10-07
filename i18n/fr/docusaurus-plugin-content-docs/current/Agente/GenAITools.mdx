@@ -1,0 +1,52 @@
+---
+sidebar_position: 4
+sidebar_label: Ce qu'il peut toucher
+---
+
+# Ce que l'agent peut toucher
+
+L'agent n'a pas d'accès libre à la base de données : il travaille avec **46 outils**, et chacun fait une chose précise. Si quelque chose n'est pas ici, il ne peut pas le faire.
+
+Chaque action qu'il exécute apparaît dans le chat avec le nom de l'outil, donc ce tableau sert à comprendre ce que vous voyez.
+
+## Les outils
+
+**Consulte** veut dire qu'il lit seulement. **Modifie** veut dire qu'il change le bot.
+
+| Domaine | Outils | Ce qu'ils permettent |
+|---|---|---|
+| **Arbre** | `get_tree_data` · `update_tree` | Consulte la structure complète : flux, nœuds, intentions, entités. Change le nom, la description, l'objet, le webhook, le mode du bot et la configuration de [Compréhension](/docs/Avanzado/Entendimiento) : mode, analyse de sentiment et seuils |
+| **Flux** | `list_branches` · `create_branch` · `update_branch` · `delete_branch` | Consulte les flux. En crée un avec son nœud de départ. Change ses propriétés, pas ses nœuds. Supprime un flux **avec tous ses nœuds** |
+| **Nœuds** | `list_leafs` · `create_leaf` · `update_leaf` · `delete_leaf` | Consulte les nœuds d'un flux. Crée, modifie et supprime des nœuds |
+| **Intentions** | `list_intents` · `create_intent` · `update_intent` · `delete_intent` | Consulte les intentions. En crée une avec ses phrases d'entraînement et ses paramètres. Modifie et supprime |
+| **Entités** | `list_entities` · `create_entity` · `update_entity` · `delete_entity` | Consulte les entités. Crée, modifie et supprime |
+| **Messages** | `list_message_templates` · `create_message_template` · `update_message_template` · `delete_message_template` | Consulte les modèles de message. En crée un pour des réponses structurées ou enrichies, le met à jour ou le supprime |
+| **Outils HTTP** | `list_fertilizers` · `create_fertilizer` · `update_fertilizer` · `delete_fertilizer` | Consulte, crée, modifie et supprime les [outils](/docs/Herramientas) du bot qui appellent une API. Les secrets d'authentification ne lui sont pas montrés |
+| **Entraînement** | `get_bot_training_status` · `trigger_bot_training` · `list_training_history` | Consulte l'état et l'historique des entraînements, avec leurs erreurs. Lance un entraînement |
+| **Essayer et observer** | `simulate_chat_message` · `list_conversations` · `get_conversation` · `list_logs` · `get_log` | Envoie un message d'essai et rapporte la réponse. Consulte les conversations et les journaux du système pour dépanner |
+| **Canaux** | `list_integrations` · `configure_integration` | Consulte les [canaux](/docs/Canales/CanalesDeComunicacion) et les **active ou les désactive**. N'enregistre pas les identifiants d'un canal |
+| **Voix** | `get_voice_config` · `update_voice_config` | Consulte et change la configuration vocale (reconnaissance et synthèse) |
+| **Utilisateurs** | `list_users` · `create_user` · `update_user` · `delete_user` | Consulte, crée ou invite, change le rôle ou l'activité et supprime des utilisateurs du workspace |
+| **Sauvegardes et historique** | `list_backups` · `create_backup` · `list_change_history` | Consulte les sauvegardes. En crée une. Lit l'historique des changements du bot |
+| **Identifiants** | `list_credentials` | Consulte quels identifiants il y a dans le workspace, **sans leurs clés** |
+
+## Ce qu'il consulte et ce qu'il change
+
+- **Changent le bot :** tout ce qui commence par `create_`, `update_` ou `delete_`, plus `trigger_bot_training` et `configure_integration`.
+- **Consultent seulement :** `get_`, `list_` et `simulate_chat_message` (ce dernier ne change pas le bot, mais laisse une conversation d'essai).
+
+Les **sept** qui suppriment sont `delete_branch`, `delete_leaf`, `delete_intent`, `delete_entity`, `delete_message_template`, `delete_fertilizer` et `delete_user`.
+
+Par défaut, l'agent **ne les exécute pas tout seul** : si la case de création, de modification ou de suppression est active, il montre d'abord la carte de confirmation. Voir [Avant de lui demander de grands changements](/docs/Agente/Constructor#antes-de-pedirle-cambios-grandes). Si vous désactivez la case, celles de ce groupe s'exécutent bien sur le moment.
+
+## Les limites d'usine
+
+Ces règles sont posées par le serveur, pas par le modèle. Elles ne dépendent pas de ce que l'agent « comprend » ni de ce que vous lui dites :
+
+- **Seulement le bot sélectionné.** Le serveur vérifie que le bot est de votre workspace et fixe lui-même le bot, le workspace et l'utilisateur dans chaque outil. Un modèle qui invente un autre identificateur n'obtient rien.
+- **Sans administrateurs.** `create_user`, `update_user` et `delete_user` refusent les administrateurs : il ne les crée pas, ne les change pas et ne les supprime pas.
+- **Sans clés.** `list_credentials` et `list_fertilizers` ne renvoient pas de secrets.
+
+## Ce qui n'y est pas
+
+Il n'y a pas d'outil pour enregistrer les **identifiants** d'un canal (seulement l'activer ou le désactiver), pour envoyer des fichiers, ni pour toucher d'autres bots ou workspaces. Pas non plus pour lire des clés.

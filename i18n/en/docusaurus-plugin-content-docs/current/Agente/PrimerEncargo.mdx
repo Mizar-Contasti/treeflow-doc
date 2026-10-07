@@ -1,0 +1,68 @@
+---
+sidebar_position: 2
+sidebar_label: First task
+---
+
+# First task
+
+From zero to asking the agent for something: connect a model provider and make a first small change.
+
+## What you need
+
+- A bot created, and selected at the top left.
+- The **API key** of a model provider, or a local server such as Ollama. Which one to choose is in [Providers and models](/docs/Agente/ModelosGenerativos).
+
+## 1. Open the agent
+
+The orange button at the bottom right opens the console. Press the robot icon, at the top right of the panel.
+
+![The console open, with the agent icon at the top right](/img/agente/abrir.png)
+
+## 2. Connect a provider
+
+If the workspace does not have any AI credential yet, the agent asks you for one: **Add a Credential**.
+
+![The agent settings: provider, name, API Key, model, and the three confirmation checkboxes](/img/agente/configuracion.png)
+
+1. Choose the **provider**. Changing it fills in the base URL and the recommended model.
+2. Give the credential a **name**, so you can recognize it if you have several later.
+3. Paste the **API Key**. The eye shows it while you type.
+4. Choose the **model** in the dropdown. For one that is not in the list, choose the custom model option and type its name.
+5. Press **Test Connection**.
+6. If it went well, press **Apply and Continue**.
+
+![The dropdown with the ten providers](/img/agente/proveedores.png)
+
+:::note You have to test before saving
+**Apply and Continue** does not let you save until **Test Connection** has succeeded. If it fails, the message says why.
+:::
+
+The key is required for every provider except **Ollama** and **Custom / Local LLM**; those two ask for the server's **base URL** instead.
+
+The credential belongs to the **workspace**, not to the bot: every bot and every person in the workspace uses it. It is saved once.
+
+## 3. Ask for something small
+
+You are now in the agent's chat. Start with something you can check at a glance:
+
+> Add an intent `consultar_horario` with 6 example phrases, and have it reply "We're open Monday to Friday, from 9 a.m. to 6 p.m.".
+
+While it works you see "the agent is processing". When it finishes it tells you **what changed and where**, and below its reply the list of actions it ran appears.
+
+## 4. Review what it did
+
+- Open each **action** to see the tool and what it returned.
+- Go into **Flows**: the new intent should have its node, linked from the context node. If it does not appear, reload the page.
+- In **Intents**, look at the phrases it wrote.
+
+## 5. Try it
+
+Go back to the **Console** tab (the chat icon, at the top right of the panel) and type one of the example phrases. If the bot does not understand it, **train it**: new intents are not recognized until you train. The agent can train it for you: "train the bot and tell me when it finishes".
+
+## Before you ask for something large
+
+By default the agent **asks you to confirm** before creating, modifying, or deleting: you will see a card with the proposed changes, and it applies them when you press **Confirm**. If you turn off the "Ask for confirmation…" checkboxes in the settings, it runs immediately; in that case ask it for a backup first. More in [Before you ask for large changes](/docs/Agente/Constructor#antes-de-pedirle-cambios-grandes).
+
+## When you have several credentials
+
+Above the chat you can **switch credential** and **model** without leaving, **add** another, **edit** the current one, start a **new conversation**, and open the **history**. Useful for trying the same task with another model.

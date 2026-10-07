@@ -1,0 +1,32 @@
+---
+sidebar_position: 3
+sidebar_label: Functionality
+---
+
+# Functionality
+
+The **Functionality** tab of [Web Chatbot Widget](./setup) decides what happens when the chat opens. It is not configured in the site's HTML.
+
+![Functionality: the intent at start, open on load, files, the delay, and the microphone](/img/canales/web.png)
+
+## Run an intent at start
+
+When the chat opens, the bot can say something before the person types. The selector lists the intents and the events attached to a context in the main flow, and in linked flows. The person does not see a message of their own. They see that node's reply.
+
+If the selector says there are no anchored intents, the main flow has no context with intents. In Cafetería that context is called **Inicio**. Pick one, for example `saludo`, and save.
+
+It is the same selector as the flag in the [console](/docs/Fundamentos/ProbarElBot).
+
+## The other switches
+
+**Open on start.** On, the window opens by itself when the page loads. Off, the corner circle stays.
+
+**Attach files.** The person can upload images, videos, PDF, Word, and Excel: up to 1 MB and 5 files.
+
+**Reply delay.** Before the reply, the "typing" animation is shown. The delay runs from 500 to 10000 milliseconds. 1500 is typical.
+
+**Audio recording with STT.** The switch stays off until the bot has STT in its voice settings. On, the microphone transcribes and sends the text.
+
+**Default language** appears only if the tree has more than one language. It is the language the widget starts in.
+
+Each change requires **Save Changes**. The [test page](./setup#probarlo) reads what is saved; **Try Now** reads what is on screen.

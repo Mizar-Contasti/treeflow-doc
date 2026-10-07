@@ -1,0 +1,70 @@
+---
+sidebar_position: 4
+sidebar_label: Comprensione
+---
+
+# Comprensione
+
+La schermata sta nella configurazione dell'albero, scheda **Comprensione**. Lì si sceglie la modalità, l'analisi del sentiment, le soglie e l'ordine. Questa pagina spiega che cosa fa ciascuna.
+
+![Comprensione: la modalità, il sentiment, le soglie e l'ordine](/img/arboles/entendimiento.png)
+
+## Base o Pro
+
+Un albero nuovo parte in **Base**. Si usa Base anche quando la modalità non è definita.
+
+In Base l'addestramento è breve. Riconosce per corrispondenza di testo e di pattern, esatta e approssimativa. Il modello non entra nell'elenco: non ce n'è uno da consultare.
+
+**Pro** addestra un classificatore. È una regressione logistica di scikit-learn sul testo delle frasi, non una rete neurale. Serve quando la persona non scrive le stesse parole del pattern. Impiega più tempo. Durante l'addestramento non si cambia il livello.
+
+Parti da Base mentre costruisci il flusso. Passa a Pro quando l'albero parlerà con persone che non usano le tue frasi.
+
+## Mascherare la frase
+
+Prima di confrontare, il motore sostituisce ciò che ha già riconosciuto come entità con il suo nome:
+
+```
+Usuario:      hola quiero dos pizzas de pepperoni para llevar
+Enmascarado:  hola quiero @sys.number @categoria_producto de @sabor_producto @tipo_servicio
+```
+
+Un pattern `quiero @sys.number @categoria_producto` combacia con «quiero dos pizzas» e con «quiero cinco empanadas» senza scrivere ogni combinazione. In Pro, anche il classificatore si addestra e si consulta su quel testo mascherato: impara la forma della frase, non ogni valore.
+
+Se più corrispondenze si sovrappongono, vince la più lunga. Le entità si leggono per parole intere. `sys.number` capisce anche il numero scritto in lettere.
+
+## Durante l'addestramento
+
+Il fulmine del menu avvia l'addestramento. Al termine, lo stato resta su **aggiornato**. Se fallisce, resta su **errore** e il bot continua con il modello precedente finché uno non termina bene.
+
+Non partono due addestramenti insieme sullo stesso albero. Uno che dura più di 20 minuti si dà per fallito, per non bloccare il successivo. Se il pulsante dice che non ci sono modifiche e vuoi comunque riaddestrare, si può forzare.
+
+Applicare un modello, o sostituire intenti in blocco, lascia l'albero **non aggiornato**. Bisogna addestrare di nuovo perché il motore usi il nuovo. Un messaggio o un'acquisizione non passano di qui: si leggono al momento della risposta.
+
+## Ordine
+
+L'albero prova diversi metodi e tiene il primo che combacia bene. L'ordine si trascina in **Natura della priorità**. Quello in alto va per primo.
+
+![L'ordine: il metodo in alto ha più peso](/img/arboles/prioridad.png)
+
+| Metodo | Che cosa guarda |
+|---|---|
+| Corrispondenza esatta delle entità | Un valore o un sinonimo scritto nell'entità |
+| Corrispondenza approssimativa delle entità | Lo stesso, tollerando refusi |
+| Corrispondenza esatta dei pattern | La frase contro le frasi di addestramento |
+| Corrispondenza approssimativa dei pattern | Lo stesso, tollerando differenze |
+| Modello | Il classificatore di Pro. In Base questa riga non c'è |
+
+Di fabbrica vanno dal più letterale al più libero. Portare l'approssimativo sopra l'esatto fa sì che una frase simile batta una identica. «hola» somiglia abbastanza a «hora» perché «a qué hora abren» finisca nel saluto. Se sposti l'ordine, prova le frasi di sempre prima di lasciarlo così.
+
+### Soglie
+
+Entrambe partono al 70%.
+
+- **Soglia ML.** Il minimo di cui deve fidarsi il modello per accettare l'intento. Più alta, meno successi casuali e più `no_match`.
+- **Soglia di corrispondenza approssimativa.** La somiglianza minima quando la frase non è esatta.
+
+## Sentiment
+
+L'interruttore **Analisi del sentiment** marca ogni messaggio come positivo, neutro o negativo. Serve per vedere la frustrazione nel pannello e per suggerire che la conversazione passi a una persona. Non è una condizione che si scrive nel flusso.
+
+Le entità composte, la regex e quelle di sistema sono in [Entità](/docs/Fundamentos/Entidades).

@@ -1,0 +1,45 @@
+---
+sidebar_position: 10
+sidebar_label: Import and export
+description: The tree JSON, the conversations checkbox, and Management backups.
+---
+
+# Import and export
+
+A tree moves as a JSON file: the settings, the flows, the nodes, the intents, the entities, the messages, the scripts, and the APIs. Channel keys do not travel with it.
+
+## Export
+
+In the tree list, the download icon on a card opens **Export tree**.
+
+The **Include conversations** checkbox is off. That way the file is for cloning or saving the design, without the history of who wrote in. Turned on, the file grows: on a bot with traffic that is thousands of turns.
+
+That history can include names, phone numbers, and addresses. Treat it as customer data.
+
+The notice on the screen says the file carries the settings, the flows, the entities, and the tools, without credentials. Translations go too: the phrases, the values, and the replies for each language. Without them, those columns are blank when you restore.
+
+## Import
+
+**Import tree**, at the top of the list, creates a new tree from the JSON.
+
+The restore icon on a card, **Restore and overwrite this tree**, replaces the chosen tree with the file. It is not a merge: the file's contents replace what was there.
+
+You can also plant by importing, from the **+** at the top, under **Plant a new tree**.
+
+## Backups
+
+**Management → Backups** stores copies inside TreeFlow, without downloading a file.
+
+The **Basic** tab lists the copies: type (automatic or manual), label, date, size, and who generated it. Twenty at a time. Restore applies that copy onto the current tree. If there are none, the screen says so and offers to create one by hand.
+
+**Backup settings** has the **Enable automatic backups** switch and the frequency: every hour, every day, or every week. There you see the last backup and the next run.
+
+Each automatic copy carries the conversations that started since the previous one, not the whole history again. A conversation that is open across two copies is stored in full in the first one. A tree's first backup does include whatever is already there. The full series covers the history without repeating the same turn in every file.
+
+## Other downloads
+
+- **Conversations** downloads a CSV of the list you are looking at, with the filter applied.
+- **Tests** imports and exports the CSV of a [suite](/docs/Avanzado/Pruebas).
+- The [knowledge base](/docs/Herramientas/BaseDeConocimiento) reads a two-column CSV and creates a flow. That is not this JSON.
+
+There is no export of a single flow, and no Dialogflow or Rasa importer.

@@ -1,0 +1,73 @@
+---
+sidebar_position: 1
+---
+
+# Canais
+
+Um **canal** é por onde as pessoas falam com o seu bot: a web, o Telegram, o WhatsApp… No menu, fica em **Integração → Canais**.
+
+![A lista de canais de chat: o widget web ligado e os demais desligados](/img/canales/lista.png)
+
+A tela tem duas abas:
+
+- **Chat**: os canais em que a pessoa escreve.
+- **Voz**: o que dá voz ou rosto ao bot.
+
+Cada cartão indica se o canal está **Ligado** ou **Desligado** para o bot selecionado no canto superior esquerdo.
+
+![A aba Voz: ElevenLabs e Avatares IA](/img/canales/voz.png)
+
+## Os canais
+
+| Canal | Aba | Estado | O que a pessoa recebe |
+|---|---|---|---|
+| [Widget web](/docs/Canales/Web/setup) | Chat | Estável | Os elementos enriquecidos da aba Web |
+| [Telegram](/docs/Canales/Telegram) | Chat | Estável | Botões, teclados e multimídia nativos |
+| [Slack](/docs/Canales/Slack/setup) | Chat | Estável | Blocos do Slack, em canais e mensagens diretas |
+| [Discord](/docs/Canales/Discord/setup) | Chat | Estável | Respostas a comandos e botões, com cartões |
+| [E-mail (Resend)](/docs/Canales/Email) | Chat | Estável | E-mail de resposta, em texto e HTML |
+| [WhatsApp](/docs/Canales/WhatsApp/setup) | Chat | Beta | Texto, botões, listas e multimídia |
+| [Facebook Messenger](/docs/Canales/Facebook) | Chat | Beta | Texto, cartões e respostas rápidas |
+| [Instagram Direct](/docs/Canales/Instagram/setup) | Chat | Beta | Mensagens diretas |
+| [ElevenLabs](/docs/Canales/ElevenLabs/setup) | Voz | Estável | A resposta em áudio |
+| [Avatares IA](/docs/Canales/Avatares/setup) | Voz | Beta | Um avatar que fala a resposta |
+
+**Estável** e **Beta** são os rótulos que o app atribui a cada canal.
+
+:::note O que você verá na lista e não está aqui
+O app também mostra **SMS** e **BYOC** (telefonia própria), com o aviso de que chegam em breve. Ainda não há nada por trás, então não têm guia.
+:::
+
+## Como um canal é ativado
+
+Todos seguem o mesmo caminho. O que muda é de onde você obtém as credenciais.
+
+1. **Escolha o bot.** O seletor no canto superior esquerdo. O canal responde com o bot que estiver selecionado ao salvar.
+2. **Abra o canal** pelo cartão dele.
+3. **Copie a URL** que a tela mostra (nos que a têm) e cole na plataforma do canal.
+4. **Cole as credenciais** que essa plataforma fornece.
+5. Clique em **Salvar e integrar**. Elas são salvas e o canal **fica ligado**.
+
+![A tela do WhatsApp: o interruptor de estado, a URL para a Meta e os campos de credenciais](/img/canales/whatsapp.png)
+
+O **interruptor** de cima (ON/OFF) desliga ou liga o canal sem alterar o que foi salvo. Para pausá-lo, não é preciso apagar nada.
+
+:::info Os segredos não voltam a ser exibidos
+Tokens e chaves são salvos e não são mostrados de novo. Ao salvar outra vez, um segredo deixado em branco é mantido; escreva um novo só se quiser trocá-lo.
+:::
+
+## A URL que se copia
+
+No WhatsApp, no Facebook, no Instagram, no Slack, no Discord e no E-mail, a tela mostra uma URL de **webhook**: o endereço para o qual a plataforma envia as mensagens ao TreeFlow. Cada um verifica a assinatura da plataforma em cada mensagem; sem uma assinatura válida, o TreeFlow não responde.
+
+O Telegram é a exceção: o TreeFlow registra o webhook sozinho, ao salvar o token.
+
+## Uma resposta diferente por canal {#una-respuesta-distinta-por-canal}
+
+Quando um canal está ligado, o editor de mensagens acrescenta uma **aba** a cada resposta. **Geral** é a de sempre e vale para todos; se você quiser que no Telegram, no WhatsApp ou no e-mail o bot diga outra coisa, escreva na aba desse canal. Os canais desligados não têm aba.
+
+As abas possíveis são Geral, Web, Telegram, WhatsApp, Facebook, Email, Instagram, Slack, Discord, ElevenLabs e Avatares IA.
+
+## Testar
+
+Com o canal ligado, escreva para o bot a partir da plataforma e acompanhe em **Conversas**. O widget web ainda traz **Testar agora** e **Abrir página de teste** no canto superior direito.
